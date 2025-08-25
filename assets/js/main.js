@@ -3,8 +3,6 @@
  * 初始化所有组件和全局事件
  */
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('个人主页加载完成');
-  
   // 图片懒加载初始化
   const initLazyLoading = function() {
     const lazyImages = document.querySelectorAll('img');

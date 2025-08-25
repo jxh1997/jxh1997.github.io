@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>所有项目 | 荆学辉的个人主页</title>
+  <!-- 外部资源 -->
+  <link rel="stylesheet" href="./vendor/font-awesome.css">
+  <link rel="stylesheet" href="./assets/css/css2.css">
+  <link rel="stylesheet" href="./assets/css/main.css">
+
+  <!-- Tailwind 配置 -->
+  <script src="./vendor/tailwind.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#165DFF',
+            secondary: '#FF7D00',
+            light: '#F5F7FA',
+            dark: '#1D2939'
+          },
+          fontFamily: {
+            inter: ['Inter', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .card-hover {
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+      .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+      /* 加载中样式 */
+      .loader {
+        width: 48px;
+        height: 48px;
+        border: 5px solid #165DFF;
+        border-bottom-color: transparent;
+        border-radius: 50%;
+        animation: rotation 1s linear infinite;
+      }
+      @keyframes rotation {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      /* 分页按钮样式 */
+      .pagination-btn {
+        @apply w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors;
+      }
+      .pagination-btn.active {
+        @apply bg-primary text-white border-primary;
+      }
+      .pagination-btn.disabled {
+        @apply opacity-50 cursor-not-allowed hover:bg-transparent;
+      }
+    }
+  </style>
+</head>
+
+<body class="font-inter bg-light text-dark antialiased">
+  <!-- 导航栏 -->
+  <header id="navbar-placeholder"></header>
+
+  <!-- 页面标题区 -->
+  <section class="pt-32 pb-16 bg-gradient-to-br from-light to-blue-50">
+    <div class="container mx-auto px-4 md:px-6">
+      <div class="text-center">
+        <h1 class="text-[clamp(2rem,5vw,3rem)] font-bold mb-4">我的项目</h1>
+        <p class="text-gray-600 max-w-2xl mx-auto">
+          包含职业工作中的代表项目与独立开发的副业项目，展示不同场景下的技术应用与解决方案
+        </p>
+        <p class="text-gray-600 max-w-2xl mx-auto mt-2">备注：独立开发项目不占用工作时间！</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 项目筛选与列表 -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-4 md:px-6">
+      <!-- 项目筛选 -->
+      <div class="flex flex-wrap justify-center gap-3 mb-12">
+        <button class="project-filter active px-5 py-2 rounded-full bg-primary text-white font-medium"
+          data-filter="all">全部</button>
+        <button
+          class="project-filter px-5 py-2 rounded-full bg-gray-100 hover:bg-gray-200 font-medium transition-colors"
+          data-filter="career">主业项目</button>
+        <button
+          class="project-filter px-5 py-2 rounded-full bg-gray-100 hover:bg-gray-200 font-medium transition-colors"
+          data-filter="side">副业项目</button>
+      </div>
+
+      <!-- 项目统计信息 -->
+      <div class="mb-6 flex justify-between items-center">
+        <p class="text-gray-600 text-sm">共 <span id="project-count">0</span> 个项目</p>
+        <div class="text-sm text-gray-600">
+          每页显示 <select id="items-per-page"
+            class="border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-primary">
+            <option value="6">6</option>
+            <option value="9" selected>9</option>
+            <option value="12">12</option>
+          </select> 个项目
+        </div>
+      </div>
+
+      <!-- 项目网格（JS 渲染容器 + 加载中状态） -->
+      <div id="project-container" class="flex flex-col items-center">
+        <!-- 加载中动画（初始显示） -->
+        <div id="loader" class="loader mb-8"></div>
+        <!-- 项目网格（加载成功后渲染） -->
+        <div id="project-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full hidden"></div>
+        <!-- 空状态（无项目时显示） -->
+        <div id="empty-state" class="hidden py-16 text-center">
+          <i class="fa fa-folder-open-o text-5xl text-gray-300 mb-4"></i>
+          <p class="text-gray-500">没有找到匹配的项目</p>
+        </div>
+        <!-- 加载失败提示（错误时显示） -->
+        <div id="load-error" class="text-red-500 text-lg font-medium hidden">
+          项目数据加载失败，请刷新页面重试
+        </div>
+      </div>
+
+      <!-- 分页容器（动态生成页码） -->
+      <div id="pagination-container" class="mt-16 flex justify-center hidden">
+        <nav class="flex items-center gap-1" id="pagination-nav">
+          <!-- 分页按钮由JS动态生成 -->
+        </nav>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer id="footer-placeholder"></footer>
+
+  <!-- 返回顶部按钮 -->
+  <button id="back-to-top"
+    class="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-primary text-white shadow-lg flex items-center justify-center opacity-0 invisible transition-all z-50">
+    <i class="fa fa-arrow-up"></i>
+  </button>
+
+  <!-- 基础组件脚本 -->
+  <script src="./assets/js/utils.js"></script>
+  <script src="./assets/js/components/nav.js"></script>
+  <script src="./assets/js/load-components.js"></script>
+  <script src="./assets/js/components/scroll.js"></script>
+
+  <!-- 核心：JSON 加载、项目渲染与动态分页脚本 -->
+  <script>
+    // 全局状态管理
+    const state = {
+      allProjects: [], // 所有项目数据
+      filteredProjects: [], // 筛选后的项目数据
+      currentPage: 1, // 当前页码
+      itemsPerPage: 9, // 每页显示数量
+      currentFilter: 'all' // 当前筛选条件
+    };
+
+    // DOM 元素缓存
+    const loader = document.getElementById('loader');
+    const projectGrid = document.getElementById('project-grid');
+    const loadError = document.getElementById('load-error');
+    const emptyState = document.getElementById('empty-state');
+    const paginationContainer = document.getElementById('pagination-container');
+    const paginationNav = document.getElementById('pagination-nav');
+    const projectCountEl = document.getElementById('project-count');
+    const itemsPerPageSelect = document.getElementById('items-per-page');
+
+    // 1. 加载 JSON 数据（使用 fetch API）
+    async function loadProjectData() {
+      try {
+        // 发起请求加载 JSON 文件
+        const response = await fetch('./data/projects.json');
+        if (!response.ok) {
+          throw new Error(`请求失败：${response.status}`);
+        }
+
+        // 保存所有项目数据并初始化页面
+        state.allProjects = await response.json();
+        state.filteredProjects = [...state.allProjects];
+
+        // 初始化页面
+        updateProjectCount();
+        renderCurrentPageProjects();
+        renderPagination();
+
+        // 更新UI状态
+        loader.classList.add('hidden');
+        projectGrid.classList.remove('hidden');
+        paginationContainer.classList.remove('hidden');
+
+        // 初始化筛选功能
+        initProjectFilter();
+
+      } catch (error) {
+        console.error('JSON 数据加载错误：', error);
+        loader.classList.add('hidden');
+        loadError.classList.remove('hidden');
+      }
+    }
+
+    // 2. 渲染单个项目卡片
+    function renderProjectCard(project) {
+      // 生成技术栈标签 HTML
+      const tagHtml = project.tags.map(tag => `
+        <span class="px-2 py-1 bg-gray-200 text-gray-700 text-xs rounded">${tag}</span>
+      `).join('');
+
+      // 分类标签样式适配
+      const categoryConfig = {
+        career: {
+          text: '主业项目',
+          bg: 'bg-primary'
+        },
+        side: {
+          text: '副业项目',
+          bg: 'bg-secondary'
+        }
+      };
+      const {
+        text: categoryText,
+        bg: categoryBg
+      } = categoryConfig[project.category];
+
+      // 外部链接属性
+      const externalAttr = project.isExternal ?
+        'target="_blank" rel="noopener noreferrer"' :
+        '';
+
+      // 返回项目卡片 HTML 字符串
+      return `
+        <div class="project-card card-hover rounded-xl overflow-hidden shadow-sm bg-light border border-gray-100"
+          data-category="${project.category}" data-id="${project.id}">
+          <div class="relative">
+            <img src="${project.coverImage}" alt="${project.title}" class="w-full h-48 object-cover">
+            <span class="absolute top-3 left-3 ${categoryBg} text-white text-xs font-medium px-3 py-1 rounded-full">
+              ${categoryText}
+            </span>
+          </div>
+          <div class="p-6">
+            <h3 class="text-lg font-semibold mb-2">${project.title}</h3>
+            <p class="text-gray-600 text-sm mb-4">${project.description}</p>
+            <div class="flex flex-wrap gap-2 mb-4">
+              ${tagHtml}
+            </div>
+            <a href="${project.detailUrl}" 
+               class="inline-flex items-center text-primary font-medium text-sm hover:underline"
+               ${externalAttr}>
+              查看详情 <i class="fa fa-arrow-right ml-1"></i>
+            </a>
+          </div>
+        </div>
+      `;
+    }
+
+    // 3. 渲染当前页的项目
+    function renderCurrentPageProjects() {
+      // 计算当前页项目的起始和结束索引
+      const startIndex = (state.currentPage - 1) * state.itemsPerPage;
+      const endIndex = startIndex + state.itemsPerPage;
+      const currentProjects = state.filteredProjects.slice(startIndex, endIndex);
+
+      // 清空网格容器
+      projectGrid.innerHTML = '';
+
+      // 显示空状态或渲染项目
+      if (currentProjects.length === 0) {
+        projectGrid.classList.add('hidden');
+        emptyState.classList.remove('hidden');
+        paginationContainer.classList.add('hidden');
+      } else {
+        projectGrid.classList.remove('hidden');
+        emptyState.classList.add('hidden');
+        paginationContainer.classList.remove('hidden');
+
+        // 循环渲染当前页的项目
+        currentProjects.forEach(project => {
+          const cardHtml = renderProjectCard(project);
+          projectGrid.insertAdjacentHTML('beforeend', cardHtml);
+        });
+      }
+    }
+
+    // 4. 计算总页数
+    function getTotalPages() {
+      return Math.ceil(state.filteredProjects.length / state.itemsPerPage);
+    }
+
+    // 5. 渲染分页控件
+    function renderPagination() {
+      const totalPages = getTotalPages();
+      paginationNav.innerHTML = '';
+
+      // 如果只有一页，不显示分页
+      if (totalPages <= 1) {
+        paginationContainer.classList.add('hidden');
+        return;
+      }
+
+      paginationContainer.classList.remove('hidden');
+
+      // 上一页按钮
+      const prevBtn = document.createElement('a');
+      prevBtn.href = '#';
+      prevBtn.className = `pagination-btn ${state.currentPage === 1 ? 'disabled' : ''}`;
+      prevBtn.innerHTML = '<i class="fa fa-angle-left"></i>';
+      prevBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (state.currentPage > 1) {
+          state.currentPage--;
+          renderCurrentPageProjects();
+          renderPagination();
+          scrollToProjectsTop();
+        }
+      });
+      paginationNav.appendChild(prevBtn);
+
+      // 页码按钮 - 最多显示5个页码
+      const maxVisiblePages = 5;
+      let startPage = Math.max(1, state.currentPage - Math.floor(maxVisiblePages / 2));
+      let endPage = startPage + maxVisiblePages - 1;
+
+      // 调整结束页
+      if (endPage > totalPages) {
+        endPage = totalPages;
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+      }
+
+      // 显示第一页（如果当前范围不包含第一页）
+      if (startPage > 1) {
+        addPageButton(1);
+        if (startPage > 2) {
+          addEllipsis();
+        }
+      }
+
+      // 显示中间页码
+      for (let i = startPage; i <= endPage; i++) {
+        addPageButton(i);
+      }
+
+      // 显示最后一页（如果当前范围不包含最后一页）
+      if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+          addEllipsis();
+        }
+        addPageButton(totalPages);
+      }
+
+      // 下一页按钮
+      const nextBtn = document.createElement('a');
+      nextBtn.href = '#';
+      nextBtn.className = `pagination-btn ${state.currentPage === totalPages ? 'disabled' : ''}`;
+      nextBtn.innerHTML = '<i class="fa fa-angle-right"></i>';
+      nextBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (state.currentPage < totalPages) {
+          state.currentPage++;
+          renderCurrentPageProjects();
+          renderPagination();
+          scrollToProjectsTop();
+        }
+      });
+      paginationNav.appendChild(nextBtn);
+    }
+
+    // 添加页码按钮
+    function addPageButton(pageNum) {
+      const pageBtn = document.createElement('a');
+      pageBtn.href = '#';
+      pageBtn.className = `pagination-btn ${state.currentPage === pageNum ? 'active' : ''}`;
+      pageBtn.textContent = pageNum;
+      pageBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (state.currentPage !== pageNum) {
+          state.currentPage = pageNum;
+          renderCurrentPageProjects();
+          renderPagination();
+          scrollToProjectsTop();
+        }
+      });
+      paginationNav.appendChild(pageBtn);
+    }
+
+    // 添加省略号
+    function addEllipsis() {
+      const ellipsis = document.createElement('span');
+      ellipsis.className = 'w-10 h-10 flex items-center justify-center';
+      ellipsis.textContent = '...';
+      paginationNav.appendChild(ellipsis);
+    }
+
+    // 滚动到项目列表顶部
+    function scrollToProjectsTop() {
+      projectGrid.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+
+    // 更新项目计数
+    function updateProjectCount() {
+      projectCountEl.textContent = state.filteredProjects.length;
+    }
+
+    // 初始化项目筛选功能
+    function initProjectFilter() {
+      const filters = document.querySelectorAll('.project-filter');
+
+      filters.forEach(filter => {
+        filter.addEventListener('click', function () {
+          // 更新筛选按钮活跃状态
+          filters.forEach(btn => {
+            btn.classList.remove('active', 'bg-primary', 'text-white');
+            btn.classList.add('bg-gray-100');
+          });
+          this.classList.add('active', 'bg-primary', 'text-white');
+          this.classList.remove('bg-gray-100');
+
+          // 获取筛选类别并更新状态
+          state.currentFilter = this.getAttribute('data-filter');
+          state.currentPage = 1; // 重置到第一页
+
+          // 筛选项目
+          if (state.currentFilter === 'all') {
+            state.filteredProjects = [...state.allProjects];
+          } else {
+            state.filteredProjects = state.allProjects.filter(
+              project => project.category === state.currentFilter
+            );
+          }
+
+          // 更新UI
+          updateProjectCount();
+          renderCurrentPageProjects();
+          renderPagination();
+        });
+      });
+    }
+
+    // 初始化每页显示数量选择器
+    function initItemsPerPage() {
+      itemsPerPageSelect.value = state.itemsPerPage;
+
+      itemsPerPageSelect.addEventListener('change', () => {
+        state.itemsPerPage = parseInt(itemsPerPageSelect.value);
+        state.currentPage = 1; // 重置到第一页
+        renderCurrentPageProjects();
+        renderPagination();
+      });
+    }
+
+    // 页面加载完成后执行
+    document.addEventListener('DOMContentLoaded', function () {
+      // 加载 JSON 项目数据
+      loadProjectData();
+
+      // 初始化每页显示数量选择器
+      initItemsPerPage();
+
+      // 平滑滚动功能
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+
+          // 关闭移动菜单
+          const mobileMenu = document.getElementById('mobile-menu');
+          const menuToggle = document.getElementById('menu-toggle');
+          if (mobileMenu && !mobileMenu.classList.contains('hidden') && menuToggle) {
+            mobileMenu.classList.add('hidden');
+            const icon = menuToggle.querySelector('i');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+          }
+
+          // 平滑滚动到目标位置
+          const targetId = this.getAttribute('href');
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop - 80,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+    });
+  </script>
+
+  <script src="./assets/js/main.js"></script>
+</body>
+
+</html>
