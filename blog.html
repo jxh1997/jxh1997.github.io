@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>博客 | 荆学辉的个人主页</title>
+  <!-- 外部资源：修正CDN路径，避免本地依赖缺失 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../assets/css/css2.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+
+  <!-- Tailwind 配置：保留原有配置，确保样式一致性 -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#165DFF',
+            secondary: '#FF7D00',
+            light: '#F5F7FA',
+            dark: '#1D2939'
+          },
+          fontFamily: {
+            inter: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .blog-card-hover {
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+      .blog-card-hover:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+      }
+      .loader {
+        width: 48px;
+        height: 48px;
+        border: 5px solid #165DFF;
+        border-bottom-color: transparent;
+        border-radius: 50%;
+        animation: rotation 1s linear infinite;
+      }
+      @keyframes rotation {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      .pagination-btn {
+        @apply w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors;
+      }
+      .pagination-btn.active {
+        @apply bg-primary text-white border-primary;
+      }
+      .pagination-btn.disabled {
+        @apply opacity-50 cursor-not-allowed hover:bg-transparent;
+      }
+      /* 图片加载失败样式 */
+      .blog-cover-fallback {
+        @apply bg-gray-100 flex items-center justify-center text-gray-400;
+      }
+    }
+  </style>
+</head>
+
+<body class="font-inter bg-light text-dark antialiased">
+  <!-- 导航栏：保留原有占位符，确保组件加载 -->
+  <header id="navbar-placeholder"></header>
+
+  <!-- 页面标题区：优化移动端文字大小 -->
+  <section class="pt-24 pb-12 md:pt-32 md:pb-16 bg-gradient-to-br from-light to-blue-50">
+    <div class="container mx-auto px-4 md:px-6">
+      <div class="text-center">
+        <h1 class="text-[clamp(1.8rem,5vw,3rem)] font-bold mb-4">技术博客</h1>
+        <p class="text-gray-600 max-w-2xl mx-auto text-sm md:text-base">
+          愿代码之火永不熄灭，技术之光照耀前行！
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 博客列表区：优化筛选栏移动端换行逻辑 -->
+  <section class="py-12 md:py-16 bg-white">
+    <div class="container mx-auto px-4 md:px-6">
+      <!-- 博客筛选：增加移动端滚动容器，避免溢出 -->
+      <div class="flex flex-wrap justify-center gap-2 md:gap-3 mb-8 md:mb-12 overflow-x-auto pb-2">
+        <button class="blog-filter active px-4 py-2 md:px-5 md:py-2 rounded-full bg-primary text-white font-medium whitespace-nowrap"
+          data-filter="all">全部</button>
+        <button class="blog-filter px-4 py-2 md:px-5 md:py-2 rounded-full bg-gray-100 hover:bg-gray-200 font-medium transition-colors whitespace-nowrap"
+          data-filter="frontend">前端开发</button>
+        <button class="blog-filter px-4 py-2 md:px-5 md:py-2 rounded-full bg-gray-100 hover:bg-gray-200 font-medium transition-colors whitespace-nowrap"
+          data-filter="backend">后端开发</button>
+        <button class="blog-filter px-4 py-2 md:px-5 md:py-2 rounded-full bg-gray-100 hover:bg-gray-200 font-medium transition-colors whitespace-nowrap"
+          data-filter="devops">DevOps</button>
+        <button class="blog-filter px-4 py-2 md:px-5 md:py-2 rounded-full bg-gray-100 hover:bg-gray-200 font-medium transition-colors whitespace-nowrap"
+          data-filter="career">职业发展</button>
+      </div>
+
+      <!-- 博客统计信息：优化移动端布局 -->
+      <div class="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+        <p class="text-gray-600 text-sm"><span id="blog-count">0</span> 篇文章</p>
+        <div class="text-sm text-gray-600 flex items-center gap-2">
+          <span>每页显示</span>
+          <select id="items-per-page"
+            class="border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-primary text-sm">
+            <option value="5">5</option>
+            <option value="10" selected>10</option>
+            <option value="15">15</option>
+          </select>
+          <span>篇文章</span>
+        </div>
+      </div>
+
+      <!-- 博客列表容器：保留原有结构，增加图片加载失败处理 -->
+      <div id="blog-container" class="flex flex-col items-center">
+        <!-- 加载中动画 -->
+        <div id="loader" class="loader mb-8"></div>
+        <!-- 博客列表 -->
+        <div id="blog-list" class="w-full hidden space-y-6 md:space-y-8"></div>
+        <!-- 空状态 -->
+        <div id="empty-state" class="hidden py-16 text-center">
+          <i class="fa fa-file-text-o text-5xl text-gray-300 mb-4"></i>
+          <p class="text-gray-500">没有找到匹配的文章</p>
+        </div>
+        <!-- 加载失败提示：增加重试按钮 -->
+        <div id="load-error" class="text-red-500 text-lg font-medium hidden flex flex-col items-center gap-4">
+          <i class="fa fa-exclamation-circle text-2xl"></i>
+          <p>博客数据加载失败</p>
+          <button id="retry-load" class="px-4 py-2 bg-primary text-white rounded-lg text-sm hover:bg-primary/90 transition-colors">
+            重试加载
+          </button>
+        </div>
+      </div>
+
+      <!-- 分页容器：保留原有结构 -->
+      <div id="pagination-container" class="mt-12 md:mt-16 flex justify-center hidden">
+        <nav class="flex items-center gap-1" id="pagination-nav">
+          <!-- 分页按钮由JS动态生成 -->
+        </nav>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚：保留原有占位符 -->
+  <footer id="footer-placeholder"></footer>
+
+  <!-- 返回顶部按钮：保留原有功能 -->
+  <button id="back-to-top"
+    class="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-primary text-white shadow-lg flex items-center justify-center opacity-0 invisible transition-all z-50">
+    <i class="fa fa-arrow-up"></i>
+  </button>
+
+  <!-- 基础组件脚本：调整加载顺序，确保依赖正确 -->
+  <script src="../assets/js/utils.js"></script>
+  <script src="../assets/js/components/nav.js"></script>
+  <script src="../assets/js/load-components.js"></script>
+  <script src="../assets/js/components/scroll.js"></script>
+
+  <!-- 博客列表脚本：核心修正 -->
+  <script>
+    // 全局状态管理：保留原有结构
+    const state = {
+      allBlogs: [], // 所有博客数据
+      filteredBlogs: [], // 筛选后的博客数据
+      currentPage: 1, // 当前页码
+      itemsPerPage: 10, // 每页显示数量
+      currentFilter: 'all', // 当前筛选条件
+      currentTag: '' // 新增：当前标签筛选（从URL参数读取）
+    };
+
+    // DOM 元素缓存：新增重试按钮
+    const loader = document.getElementById('loader');
+    const blogList = document.getElementById('blog-list');
+    const loadError = document.getElementById('load-error');
+    const emptyState = document.getElementById('empty-state');
+    const paginationContainer = document.getElementById('pagination-container');
+    const paginationNav = document.getElementById('pagination-nav');
+    const blogCountEl = document.getElementById('blog-count');
+    const itemsPerPageSelect = document.getElementById('items-per-page');
+    const retryLoadBtn = document.getElementById('retry-load');
+
+    // 新增：从URL参数获取标签筛选条件（如 ?tag=React）
+    function getTagFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('tag') || '';
+    }
+
+    // 1. 加载博客数据：修正fetch路径，适配GitHub Pages
+    async function loadBlogData() {
+      try {
+        // 显示加载中，隐藏其他状态
+        loader.classList.remove('hidden');
+        blogList.classList.add('hidden');
+        loadError.classList.add('hidden');
+        emptyState.classList.add('hidden');
+
+        // 修正路径：GitHub Pages中静态资源需从根目录加载（根据实际部署路径调整）
+        const response = await fetch('../data/blog-meta.json');
+        if (!response.ok) {
+          throw new Error(`请求失败：${response.status}`);
+        }
+
+        // 保存所有博客数据
+        state.allBlogs = await response.json();
+        // 优先处理标签筛选，再处理分类筛选
+        state.currentTag = getTagFromUrl();
+        if (state.currentTag) {
+          state.filteredBlogs = state.allBlogs.filter(blog => 
+            blog.tags && blog.tags.includes(state.currentTag)
+          );
+          // 更新筛选按钮状态（标签筛选时，分类显示为"全部"）
+          document.querySelector('.blog-filter[data-filter="all"]').click();
+        } else {
+          state.filteredBlogs = [...state.allBlogs];
+        }
+
+        // 初始化页面
+        updateBlogCount();
+        renderCurrentPageBlogs();
+        renderPagination();
+
+        // 更新UI状态
+        loader.classList.add('hidden');
+        blogList.classList.remove('hidden');
+        paginationContainer.classList.remove('hidden');
+
+        // 初始化筛选功能
+        initBlogFilter();
+
+      } catch (error) {
+        console.error('博客数据加载错误：', error);
+        loader.classList.add('hidden');
+        loadError.classList.remove('hidden');
+      }
+    }
+
+    // 2. 渲染单篇博客预览：增加图片加载失败降级
+    function renderBlogPreview(blog) {
+      // 格式化日期
+      const formattedDate = new Date(blog.publishDate).toLocaleDateString('zh-CN', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+
+      // 截取摘要（如果摘要过长）
+      const excerpt = blog.excerpt?.length > 150 ?
+        blog.excerpt.substring(0, 150) + '...' :
+        blog.excerpt || '暂无摘要';
+
+      // 修正详情页链接：若使用静态生成的MD页面，需替换为 slug 路径（如 ../blog/posts/react-18-features.html）
+      // 此处保留原有ID模式，若后续改为静态生成，可替换为 blog.slug
+      const detailUrl = blog.slug ? 
+        `/public/blog/posts/${blog.slug}.html` : 
+        `blog-detail.html?id=${blog.id}`;
+
+      return `
+        <article class="blog-card-hover bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100"
+          data-category="${blog.category}" data-id="${blog.id}">
+          <div class="md:flex flex-col md:flex-row">
+            <div class="md:w-1/3">
+              <!-- 图片加载失败降级：显示默认图标和文字 -->
+              <img src="${blog.coverImage || '../assets/images/blog-covers/default.jpg'}" 
+                   alt="${blog.title}" 
+                   class="w-full h-48 md:h-full object-cover"
+                   onError="this.classList.add('hidden'); this.nextElementSibling.classList.remove('hidden')">
+              <div class="blog-cover-fallback w-full h-48 md:h-full hidden">
+                <i class="fa fa-image text-3xl"></i>
+              </div>
+            </div>
+            <div class="p-4 md:p-6 md:w-2/3">
+              <div class="flex flex-wrap items-center gap-2 mb-3">
+                <span class="inline-block px-2 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full">
+                  ${getCategoryName(blog.category)}
+                </span>
+                <time class="text-gray-500 text-xs md:text-sm" datetime="${blog.publishDate}">
+                  <i class="fa fa-calendar-o mr-1"></i>${formattedDate}
+                </time>
+                <span class="text-gray-500 text-xs md:text-sm">
+                  <i class="fa fa-eye mr-1"></i>${blog.views || 0}
+                </span>
+              </div>
+              <h2 class="text-lg md:text-xl font-semibold mb-3 hover:text-primary transition-colors">
+                <a href="${detailUrl}">${blog.title}</a>
+              </h2>
+              <p class="text-gray-600 text-sm mb-4 line-clamp-3">${excerpt}</p>
+              <!-- 标签显示：新增标签列表 -->
+              ${blog.tags && blog.tags.length > 0 ? `
+                <div class="flex flex-wrap gap-2 mb-4">
+                  ${blog.tags.map(tag => `
+                    <a href="index.html?tag=${encodeURIComponent(tag)}" 
+                       class="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded hover:bg-gray-200 transition-colors">
+                      ${tag}
+                    </a>
+                  `).join('')}
+                </div>
+              ` : ''}
+              <a href="${detailUrl}" 
+                 class="inline-flex items-center text-primary font-medium hover:underline text-sm">
+                阅读全文 <i class="fa fa-long-arrow-right ml-2"></i>
+              </a>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    // 获取分类名称（中文）：保留原有逻辑
+    function getCategoryName(category) {
+      const categories = {
+        'frontend': '前端开发',
+        'backend': '后端开发',
+        'devops': 'DevOps',
+        'career': '职业发展'
+      };
+      return categories[category] || '未分类';
+    }
+
+    // 3. 渲染当前页的博客：保留原有逻辑
+    function renderCurrentPageBlogs() {
+      const startIndex = (state.currentPage - 1) * state.itemsPerPage;
+      const endIndex = startIndex + state.itemsPerPage;
+      const currentBlogs = state.filteredBlogs.slice(startIndex, endIndex);
+
+      blogList.innerHTML = '';
+
+      if (currentBlogs.length === 0) {
+        blogList.classList.add('hidden');
+        emptyState.classList.remove('hidden');
+        paginationContainer.classList.add('hidden');
+      } else {
+        blogList.classList.remove('hidden');
+        emptyState.classList.add('hidden');
+        paginationContainer.classList.remove('hidden');
+
+        currentBlogs.forEach(blog => {
+          const blogHtml = renderBlogPreview(blog);
+          blogList.insertAdjacentHTML('beforeend', blogHtml);
+        });
+      }
+    }
+
+    // 4. 计算总页数：保留原有逻辑
+    function getTotalPages() {
+      return Math.ceil(state.filteredBlogs.length / state.itemsPerPage);
+    }
+
+    // 5. 渲染分页控件：保留原有逻辑
+    function renderPagination() {
+      const totalPages = getTotalPages();
+      paginationNav.innerHTML = '';
+
+      if (totalPages <= 1) {
+        paginationContainer.classList.add('hidden');
+        return;
+      }
+
+      paginationContainer.classList.remove('hidden');
+
+      // 上一页按钮
+      const prevBtn = document.createElement('a');
+      prevBtn.href = '#';
+      prevBtn.className = `pagination-btn ${state.currentPage === 1 ? 'disabled' : ''}`;
+      prevBtn.innerHTML = '<i class="fa fa-angle-left"></i>';
+      prevBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (state.currentPage > 1) {
+          state.currentPage--;
+          renderCurrentPageBlogs();
+          renderPagination();
+          scrollToBlogsTop();
+        }
+      });
+      paginationNav.appendChild(prevBtn);
+
+      // 页码按钮
+      const maxVisiblePages = 5;
+      let startPage = Math.max(1, state.currentPage - Math.floor(maxVisiblePages / 2));
+      let endPage = startPage + maxVisiblePages - 1;
+
+      if (endPage > totalPages) {
+        endPage = totalPages;
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+      }
+
+      if (startPage > 1) {
+        addPageButton(1);
+        if (startPage > 2) {
+          addEllipsis();
+        }
+      }
+
+      for (let i = startPage; i <= endPage; i++) {
+        addPageButton(i);
+      }
+
+      if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+          addEllipsis();
+        }
+        addPageButton(totalPages);
+      }
+
+      // 下一页按钮
+      const nextBtn = document.createElement('a');
+      nextBtn.href = '#';
+      nextBtn.className = `pagination-btn ${state.currentPage === totalPages ? 'disabled' : ''}`;
+      nextBtn.innerHTML = '<i class="fa fa-angle-right"></i>';
+      nextBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (state.currentPage < totalPages) {
+          state.currentPage++;
+          renderCurrentPageBlogs();
+          renderPagination();
+          scrollToBlogsTop();
+        }
+      });
+      paginationNav.appendChild(nextBtn);
+    }
+
+    // 添加页码按钮：保留原有逻辑
+    function addPageButton(pageNum) {
+      const pageBtn = document.createElement('a');
+      pageBtn.href = '#';
+      pageBtn.className = `pagination-btn ${state.currentPage === pageNum ? 'active' : ''}`;
+      pageBtn.textContent = pageNum;
+      pageBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (state.currentPage !== pageNum) {
+          state.currentPage = pageNum;
+          renderCurrentPageBlogs();
+          renderPagination();
+          scrollToBlogsTop();
+        }
+      });
+      paginationNav.appendChild(pageBtn);
+    }
+
+    // 添加省略号：保留原有逻辑
+    function addEllipsis() {
+      const ellipsis = document.createElement('span');
+      ellipsis.className = 'w-10 h-10 flex items-center justify-center';
+      ellipsis.textContent = '...';
+      paginationNav.appendChild(ellipsis);
+    }
+
+    // 滚动到博客列表顶部：保留原有逻辑
+    function scrollToBlogsTop() {
+      blogList.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+
+    // 更新博客计数：保留原有逻辑
+    function updateBlogCount() {
+      blogCountEl.textContent = state.filteredBlogs.length;
+    }
+
+    // 初始化博客筛选功能：保留原有逻辑，兼容标签筛选
+    function initBlogFilter() {
+      const filters = document.querySelectorAll('.blog-filter');
+
+      filters.forEach(filter => {
+        filter.addEventListener('click', function () {
+          // 更新筛选按钮状态
+          filters.forEach(btn => {
+            btn.classList.remove('active', 'bg-primary', 'text-white');
+            btn.classList.add('bg-gray-100');
+          });
+          this.classList.add('active', 'bg-primary', 'text-white');
+          this.classList.remove('bg-gray-100');
+
+          // 更新筛选状态
+          state.currentFilter = this.getAttribute('data-filter');
+          state.currentPage = 1;
+
+          // 结合标签筛选：若有标签筛选，同时满足分类和标签
+          if (state.currentTag) {
+            state.filteredBlogs = state.allBlogs.filter(blog => 
+              (state.currentFilter === 'all' || blog.category === state.currentFilter) &&
+              (blog.tags && blog.tags.includes(state.currentTag))
+            );
+          } else {
+            state.filteredBlogs = state.currentFilter === 'all' 
+              ? [...state.allBlogs] 
+              : state.allBlogs.filter(blog => blog.category === state.currentFilter);
+          }
+
+          // 更新UI
+          updateBlogCount();
+          renderCurrentPageBlogs();
+          renderPagination();
+        });
+      });
+    }
+
+    // 初始化每页显示数量选择器：保留原有逻辑
+    function initItemsPerPage() {
+      itemsPerPageSelect.value = state.itemsPerPage;
+
+      itemsPerPageSelect.addEventListener('change', () => {
+        state.itemsPerPage = parseInt(itemsPerPageSelect.value);
+        state.currentPage = 1;
+        renderCurrentPageBlogs();
+        renderPagination();
+      });
+    }
+
+    // 页面加载完成后执行：新增重试按钮事件
+    document.addEventListener('DOMContentLoaded', function () {
+      // 加载博客数据
+      loadBlogData();
+
+      // 初始化每页显示数量选择器
+      initItemsPerPage();
+
+      // 重试加载按钮事件
+      retryLoadBtn.addEventListener('click', loadBlogData);
+
+      // 平滑滚动功能：保留原有逻辑，修正移动菜单ID判断
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+
+          // 关闭移动菜单（兼容导航栏组件，若不存在则不执行）
+          const mobileMenu = document.getElementById('mobile-menu');
+          const menuToggle = document.getElementById('menu-toggle');
+          if (mobileMenu && menuToggle && !mobileMenu.classList.contains('hidden')) {
+            mobileMenu.classList.add('hidden');
+            const icon = menuToggle.querySelector('i');
+            if (icon) {
+              icon.classList.remove('fa-times');
+              icon.classList.add('fa-bars');
+            }
+          }
+
+          // 平滑滚动到目标位置
+          const targetId = this.getAttribute('href');
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop - 80,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+    });
+  </script>
+
+  <script src="/assets/js/main.js"></script>
+</body>
+
+</html>
