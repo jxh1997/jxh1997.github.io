@@ -59,7 +59,6 @@ class FooterComponent {
 // DOM 加载完成后初始化组件
 document.addEventListener("DOMContentLoaded", () => {
   const footer = new FooterComponent();
-  console.log(2222);
   setTimeout(() => {
     footer.init();
   }, 5000);

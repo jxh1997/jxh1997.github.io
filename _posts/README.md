@@ -1,3 +1,13 @@
+---
+  title: "blog核心实现方案"
+  publishDate: 2025-08-26
+  category: "frontend"
+  tags: ["JavaScript", "前端"]
+  coverImage: "/assets/images/blog/blog-covers/前端性能优化.png"
+  excerpt: "前端性能优化一直是开发过程中不可忽视的重要环节，尤其是随着前端技术的不断进化，性能的提升不仅仅是让页面“快一点”，更是让用户在各种网络环境下都能获得流畅的体验。作为一名高级前端开发工程师，我将从理论和实践结合的角度，详细阐述性能优化的各个方向。"
+---
+
+
 # blog核心实现方案
 
 ## 文件结构（GitHub Pages 兼容）
@@ -33,7 +43,7 @@ your-repo/
   ```markdown
   ---
   title: "React 18 新特性详解"
-  date: 2025-06-15
+  publishDate: 2025-06-15
   category: "frontend"
   tags: ["React", "前端"]
   coverImage: "/assets/images/blog-covers/react18.jpg"

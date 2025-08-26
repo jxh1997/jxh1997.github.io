@@ -25,7 +25,7 @@
   <script src="https://cdn.jsdelivr.net/npm/marked@12.0.1/lib/marked.umd.min.js"></script>
 
   <!-- Tailwind 配置：与列表页保持一致 -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/vendor/tailwind.js"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -46,6 +46,52 @@
   </script>
   <style type="text/tailwindcss">
     @layer utilities {
+      /* 相关文章容器样式 */
+      .related-blog-item {
+        @apply flex gap-3 w-full items-start; /* 确保占满容器，垂直对齐顶部 */
+        @apply p-2 rounded-lg hover:bg-white hover:shadow-sm transition-all; /* 增加hover背景和阴影 */
+      }
+
+      /* 相关文章图片样式（保持比例，避免拉伸） */
+      .related-blog-img {
+        @apply w-16 h-16 md:w-18 md:h-18 object-cover rounded-lg flex-shrink-0; /* 固定宽高比 */
+        @apply transition-transform group-hover:scale-105; /* 增加hover缩放效果 */
+      }
+
+      /* 相关文章文字容器样式（控制换行和溢出） */
+      .related-blog-text {
+        @apply flex-1 min-w-0; /* flex-1 占满剩余空间，min-w-0 解决文字溢出问题 */
+      }
+
+      /* 相关文章标题样式 */
+      .related-blog-title {
+        @apply text-sm md:text-base font-medium text-gray-800 group-hover:text-primary transition-colors;
+        @apply line-clamp-2; /* 强制2行溢出隐藏，避免高度混乱 */
+      }
+
+      /* 相关文章日期样式 */
+      .related-blog-date {
+        @apply text-gray-500 text-xs md:text-sm mt-1;
+      }
+      /* 相关文章容器：统一间距 */
+      #related-blogs {
+        @apply space-y-4;
+      }
+
+      /* 单个文章项：hover 阴影 */
+      .related-blog-item {
+        @apply bg-white border transition-shadow;
+      }
+
+      /* 封面图容器：固定宽高比 */
+      .related-blog-img-wrap {
+        @apply overflow-hidden;
+      }
+
+      /* 标题截断：确保1行显示 */
+      .related-blog-text .line-clamp-1 {
+        @apply overflow-hidden text-ellipsis whitespace-nowrap;
+      }
       .content-auto {
         content-visibility: auto;
       }
@@ -280,7 +326,7 @@
           <!-- 相关文章：优化样式 -->
           <div class="bg-light rounded-xl p-5 mb-6">
             <h3 class="font-semibold text-lg mb-4 flex items-center">
-              <i class="fa fa-files-o text-primary mr-2"></i>相关文章
+              <i class="fa fa-files-o text-primary mr-2"></i>相关推荐🔥
             </h3>
             <div id="related-blogs" class="space-y-3">
               <!-- 相关文章将由JS填充 -->
@@ -397,7 +443,10 @@
         content = mdContent.trim(); // 无 Front Matter 时，全部作为正文
       }
 
-      return { data: data, content: content }; // 与原 gray-matter 返回格式兼容
+      return {
+        data: data,
+        content: content
+      }; // 与原 gray-matter 返回格式兼容
     }
     // -------------------------- 自定义解析函数结束 --------------------------
 
@@ -414,7 +463,8 @@
         const pathSegments = pathname.split('/');
         const fileName = pathSegments[pathSegments.length - 1]; // 取最后一段（如 "性能优化.html"）
         const slug = fileName.replace(/\.html$/, ''); // 去除 .html 后缀
-        if (slug && slug !== '') return decodeURIComponent(slug); // 解码URL编码的中文（如 %E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96 → 性能优化）
+        if (slug && slug !== '') return decodeURIComponent(
+          slug); // 解码URL编码的中文（如 %E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96 → 性能优化）
       } catch (error) {
         console.error('从路径提取slug失败：', error);
       }
@@ -442,7 +492,7 @@
     // 3. 加载并解析 Markdown 文章内容（核心逻辑：使用自定义解析函数）
     async function loadBlogContent() {
       const identifier = getBlogIdentifier();
-      
+
       if (!identifier) {
         showError('未指定博客文章（无法从URL提取slug或id）');
         return;
@@ -461,7 +511,7 @@
 
         // 查找当前博客的元数据（匹配 id 或 slug）
         const blogMeta = state.allBlogs.find(blog =>
-          blog.id?.toString() === identifier || blog.slug === identifier
+          blog.id ? .toString() === identifier || blog.slug === identifier
         );
         if (!blogMeta) {
           throw new Error(`未找到该博客文章（在 blog-meta.json 中未匹配到 slug: ${identifier} 或 id: ${identifier}）`);
@@ -481,9 +531,15 @@
         const mdContent = await mdResponse.text();
 
         // 使用自定义函数解析 Front Matter
-        const { data: frontMatter, content: mdBody } = parseFrontMatter(mdContent);
+        const {
+          data: frontMatter,
+          content: mdBody
+        } = parseFrontMatter(mdContent);
         // 合并元数据（Front Matter 优先级高于 blog-meta.json）
-        const blogData = { ...blogMeta, ...frontMatter };
+        const blogData = {
+          ...blogMeta,
+          ...frontMatter
+        };
 
         // 渲染博客内容
         renderBlogContent(blogData, mdBody);
@@ -521,11 +577,11 @@
         `<i class="fa fa-calendar-o mr-1"></i>${formatDate(blogData.publishDate || blogData.date)}`;
       document.getElementById('blog-views').textContent += ` ${blogData.views || 1}`;
       document.getElementById('blog-read-time').textContent += ` ${calculateReadTime(mdBody)}`;
-      
+
       // 封面图（处理路径：如果是相对路径，补充根路径）
-      const coverImage = blogData.coverImage 
-        ? (blogData.coverImage.startsWith('/') ? blogData.coverImage : `/${blogData.coverImage}`)
-        : '/assets/images/blog-covers/default.jpg';
+      const coverImage = blogData.coverImage ?
+        (blogData.coverImage.startsWith('/') ? blogData.coverImage : `/${blogData.coverImage}`) :
+        '/assets/images/blog-covers/default.jpg';
       document.getElementById('blog-cover').src = coverImage;
       document.getElementById('blog-cover').alt = blogData.title || '博客封面';
 
@@ -534,10 +590,14 @@
         highlight: (code, lang) => {
           // 修复：处理无语言指定的代码块（默认使用 plaintext）
           if (lang && hljs.getLanguage(lang)) {
-            return hljs.highlight(code, { language: lang }).value;
+            return hljs.highlight(code, {
+              language: lang
+            }).value;
           }
           // 无语言时，使用 plaintext 避免高亮失败
-          return hljs.highlight(code, { language: 'plaintext' }).value;
+          return hljs.highlight(code, {
+            language: 'plaintext'
+          }).value;
         },
         breaks: true, // 支持换行符
         gfm: true, // 支持 GitHub Flavored Markdown（必须开启，否则代码块不生效）
@@ -560,7 +620,8 @@
         blogData.tags.forEach(tag => {
           const tagEl = document.createElement('a');
           tagEl.href = `/blog.html?tag=${encodeURIComponent(tag)}`;
-          tagEl.className = 'px-2 py-1 bg-gray-200 text-gray-700 text-xs rounded hover:bg-gray-300 transition-colors';
+          tagEl.className =
+            'px-2 py-1 bg-gray-200 text-gray-700 text-xs rounded hover:bg-gray-300 transition-colors';
           tagEl.textContent = tag;
           tagsContainer.appendChild(tagEl);
         });
@@ -570,6 +631,7 @@
     }
 
     // 5. 渲染相关文章（原有逻辑不变）
+    // 5. 渲染相关文章（修复样式和链接逻辑）
     function renderRelatedBlogs() {
       const relatedContainer = document.getElementById('related-blogs');
       relatedContainer.innerHTML = '';
@@ -582,24 +644,53 @@
         .slice(0, 3);
 
       if (relatedBlogs.length === 0) {
-        relatedContainer.innerHTML = '<p class="text-gray-500 text-sm">暂无相关文章</p>';
+        relatedContainer.innerHTML = `
+      <p class="text-gray-500 text-sm py-3">暂无相关文章</p>
+    `;
         return;
       }
 
+      // 循环生成相关文章项，使用新样式类
       relatedBlogs.forEach(blog => {
+        // 统一详情页链接格式（适配静态路径）
+        const detailUrl = `/public/blog/posts/${blog.slug}.html`
+
         const blogEl = document.createElement('a');
-        const detailUrl = blog.slug ? `./${blog.slug}.html` : `../blog-detail.html?id=${blog.id}`;
         blogEl.href = detailUrl;
-        blogEl.className = 'flex gap-3 group';
+        blogEl.className =
+          'related-blog-item flex flex-col md:flex-row items-start md:items-center gap-4 p-3 rounded-lg hover:shadow transition-colors';
+
+        // 图片使用固定宽高比，添加默认图降级
+        const imgSrc = blog.coverImage ?
+          (blog.coverImage.startsWith('/') ? blog.coverImage : `/${blog.coverImage}`) :
+          '/assets/images/blog-covers/default.jpg';
+
         blogEl.innerHTML = `
-          <img src="${blog.coverImage || '/assets/images/blog-covers/default.jpg'}" 
-               alt="${blog.title}" 
-               class="w-18 h-18 object-cover rounded-lg flex-shrink-0">
-          <div>
-            <h4 class="text-sm font-medium group-hover:text-primary transition-colors line-clamp-2">${blog.title}</h4>
-            <p class="text-gray-500 text-xs mt-1">${formatDate(blog.publishDate)}</p>
-          </div>
-        `;
+      <!-- 封面图容器：固定宽高，避免拉伸 -->
+      <div class="related-blog-img-wrap w-30 h-14 md:w-38 md:h-20 flex-shrink-0">
+        <img 
+          src="${imgSrc}" 
+          alt="${blog.title}" 
+          class="w-full h-full object-cover rounded-lg"
+          onerror="this.src='/assets/images/blog-covers/default.jpg'"
+        >
+      </div>
+      <!-- 文字内容容器：占满剩余空间 -->
+      <div class="related-blog-text flex-1 min-w-0">
+        <!-- 标题：强制1行，超出省略 -->
+        <h4 class="text-base md:font-semibold text-gray-800 line-clamp-1">
+          ${blog.title}
+        </h4>
+        <!-- 日期 + 分类：辅助信息 -->
+        <div class="flex items-center gap-2 mt-2 text-sm text-gray-600">
+          <span class="flex items-center gap-1">
+            <i class="fa fa-tag text-primary"></i>
+            ${blog.category || '未分类'}
+          </span>
+        </div>
+      </div>
+    `;
+
         relatedContainer.appendChild(blogEl);
       });
     }
@@ -627,7 +718,8 @@
         const tagEl = document.createElement('a');
         tagEl.href = `/blog.html?tag=${encodeURIComponent(tag)}`;
         const sizeClass = count > 5 ? 'text-sm px-3 py-1.5' : count > 2 ? 'text-xs px-3 py-1' : 'text-xs px-2 py-1';
-        tagEl.className = `${sizeClass} bg-gray-200 text-gray-700 rounded hover:bg-primary hover:text-white transition-colors`;
+        tagEl.className =
+          `${sizeClass} bg-gray-200 text-gray-700 rounded hover:bg-primary hover:text-white transition-colors`;
         tagEl.textContent = tag;
         tagsContainer.appendChild(tagEl);
       });
@@ -639,7 +731,8 @@
 
       // 按发布日期排序（最新在前）
       const sortedBlogs = [...state.allBlogs].sort((a, b) => new Date(b.publishDate) - new Date(a.publishDate));
-      const currentIndex = sortedBlogs.findIndex(blog => blog.id === state.currentBlog.id || blog.slug === state.currentBlog.slug);
+      const currentIndex = sortedBlogs.findIndex(blog => blog.id === state.currentBlog.id || blog.slug === state
+        .currentBlog.slug);
 
       // 上一篇（更早的文章）
       const prevContainer = document.getElementById('prev-blog');
@@ -674,8 +767,6 @@
 
     // 辅助函数：格式化日期
     function formatDate(dateString) {
-      console.log(2222, dateString);
-      
       return new Date(dateString).toLocaleDateString('zh-CN', {
         year: 'numeric',
         month: 'long',
@@ -771,4 +862,5 @@
 
   <script src="/assets/js/main.js"></script>
 </body>
+
 </html>

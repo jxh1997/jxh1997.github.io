@@ -1,7 +1,5 @@
 // 确保DOM加载完成后执行
 document.addEventListener('DOMContentLoaded', function () {
-  console.log('✅ DOM加载完成，开始执行导航逻辑');
-
   // 配置项与全局变量
   const CONFIG = {
     MAX_RETRY: 5,          // 最多重试次数
