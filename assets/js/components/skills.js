@@ -1,16 +1,16 @@
 /**
  * 技能栈组件逻辑
  */
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   // 初始化技能雷达图
-  const initSkillsChart = function() {
+  const initSkillsChart = function () {
     const ctx = document.getElementById('skillsRadarChart');
-    
+
     // 检查Chart是否已存在，如果存在则销毁
     if (window.skillsChartInstance) {
       window.skillsChartInstance.destroy();
     }
-    
+
     // 创建新图表
     window.skillsChartInstance = new Chart(ctx, {
       type: 'radar',
@@ -24,8 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
           '产品设计',
           '项目管理'
         ],
-        datasets: [
-          {
+        datasets: [{
             label: '主业技能',
             data: [90, 60, 50, 70, 80, 40, 75],
             backgroundColor: 'rgba(22, 93, 255, 0.2)',
@@ -67,10 +66,10 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   };
-  
+
   // 初始化图表
   initSkillsChart();
-  
+
   // 窗口大小改变时重新初始化图表
   window.addEventListener('resize', utils.debounce(initSkillsChart, 300));
 });

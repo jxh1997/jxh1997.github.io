@@ -1,65 +1,108 @@
-// footer.js - Footer 组件动态逻辑
-class FooterComponent {
-  constructor() {
-    // 配置：替换为你的 GitHub 用户名和仓库名（关键！）
-    this.githubConfig = {
-      owner: "jxh1997", // 如 "jingxuehui"
-      repo: "jxh1997.github.io" // 如 "jxh1997.github.io"
+document.addEventListener('DOMContentLoaded', function () {
+  const qrTrigger = document.getElementById('wechat-qr-trigger');
+  const qrCode = document.getElementById('wechat-qr-code');
+
+  if (!qrTrigger || !qrCode) return;
+
+
+  // 点击微信图标弹出大尺寸二维码
+  qrTrigger.querySelector('a').addEventListener('click', function (e) {
+    e.preventDefault();
+
+    // 创建弹出层（全屏半透明背景）
+    const qrModal = document.createElement('div');
+    qrModal.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.9);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      cursor: zoom-out;
+      padding: 20px;
+    `;
+
+    // 弹出层标题
+    const modalTitle = document.createElement('p');
+    modalTitle.innerText = '微信扫码联系';
+    modalTitle.style.cssText = `
+      color: white;
+      font-size: 18px;
+      margin-bottom: 20px;
+      font-weight: 500;
+    `;
+
+    // 弹出的大尺寸二维码
+    const qrModalImg = document.createElement('img');
+    qrModalImg.src = qrCode.src;
+    qrModalImg.alt = qrCode.alt;
+    qrModalImg.style.cssText = `
+      width: 280px;
+      height: 280px;
+      border: 8px solid white;
+      border-radius: 12px;
+      cursor: default;
+      margin-bottom: 20px;
+    `;
+
+    // 关闭按钮
+    const closeBtn = document.createElement('button');
+    closeBtn.innerText = '关闭';
+    closeBtn.style.cssText = `
+      padding: 10px 24px;
+      background: #165DFF;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+    `;
+    closeBtn.addEventListener('mouseover', () => closeBtn.style.background = '#0E4BDB');
+    closeBtn.addEventListener('mouseout', () => closeBtn.style.background = '#165DFF');
+
+    // 组装弹出层
+    qrModal.appendChild(modalTitle);
+    qrModal.appendChild(qrModalImg);
+    qrModal.appendChild(closeBtn);
+    document.body.appendChild(qrModal);
+
+    // 关闭弹出层逻辑
+    const closeModal = () => {
+      document.body.removeChild(qrModal);
+      document.body.style.overflow = 'auto'; // 恢复页面滚动
     };
-    // DOM 元素
-    this.footerContainer = document.getElementById("footer-container");
-    this.yearElement = document.getElementById("footer-year");
-    this.lastUpdateElement = document.getElementById("footer-last-update");
-  }
+    // 点击背景/按钮关闭，点击二维码不关闭
+    qrModal.addEventListener('click', closeModal);
+    closeBtn.addEventListener('click', closeModal);
+    qrModalImg.addEventListener('click', (e) => e.stopPropagation());
+    // 按ESC键关闭
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
 
-  // 1. 初始化：执行所有逻辑
-  init() {
-    console.log(3333, this.footerContainer);
-    
-    if (!this.footerContainer) return; // 组件未加载则终止
-    this.fillCurrentYear(); // 填充当前年份
-    this.fetchGithubLastUpdate(); // 获取 GitHub 最后更新时间
-  }
+    // 禁止页面滚动（避免弹出层后背景滚动）
+    document.body.style.overflow = 'hidden';
+  });
 
-  // 2. 自动填充当前年份（避免每年手动修改）
-  fillCurrentYear() {
-    if (this.yearElement) {
-      const currentYear = new Date().getFullYear();
-      this.yearElement.textContent = currentYear;
-    }
-  }
-
-  // 3. 从 GitHub API 获取最后更新时间（复用之前的逻辑）
-  async fetchGithubLastUpdate() {
-    if (!this.lastUpdateElement) return;
-    const apiUrl = `https://api.github.com/repos/${this.githubConfig.owner}/${this.githubConfig.repo}`;
-
-    try {
-      const response = await fetch(apiUrl);
-      if (!response.ok) throw new Error(`API 请求失败: ${response.status}`);
-
-      const repoData = await response.json();
-      const lastPushTime = new Date(repoData.pushed_at);
-
-      // 格式化时间为 "2024-05-20" 格式（可自定义）
-      const formattedTime = lastPushTime.toLocaleDateString("zh-CN", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit"
-      }).replace(/\//g, "-"); // 把 "2024/05/20" 转为 "2024-05-20"
-
-      this.lastUpdateElement.textContent = formattedTime;
-    } catch (error) {
-      this.lastUpdateElement.textContent = "2025-08-22"; // 失败时显示默认时间
-      console.warn("Footer 组件：获取 GitHub 更新时间失败：", error);
-    }
-  }
-}
-
-// DOM 加载完成后初始化组件
-document.addEventListener("DOMContentLoaded", () => {
-  const footer = new FooterComponent();
-  setTimeout(() => {
-    footer.init();
-  }, 5000);
+  // 可选：处理极端情况（二维码超出视口顶部）
+  qrTrigger.addEventListener('mouseenter', function () {
+    setTimeout(() => {
+      const qrRect = qrCode.getBoundingClientRect();
+      if (qrRect.top < 0) {
+        // 若二维码顶部超出视口，强制向下显示
+        qrCode.style.bottom = 'auto';
+        qrCode.style.top = 'calc(100% + 10px)';
+      } else {
+        // 正常情况下向上显示
+        qrCode.style.bottom = 'calc(100% + 10px)';
+        qrCode.style.top = 'auto';
+      }
+    }, 10);
+  });
 });
