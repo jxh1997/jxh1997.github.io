@@ -1,75 +1,91 @@
-/**
- * 技能栈组件逻辑
- */
 document.addEventListener('DOMContentLoaded', function () {
-  // 初始化技能雷达图
-  const initSkillsChart = function () {
-    const ctx = document.getElementById('skillsRadarChart');
-
-    // 检查Chart是否已存在，如果存在则销毁
-    if (window.skillsChartInstance) {
-      window.skillsChartInstance.destroy();
-    }
-
-    // 创建新图表
-    window.skillsChartInstance = new Chart(ctx, {
-      type: 'radar',
-      data: {
-        labels: [
-          '前端开发',
-          '后端开发',
-          '移动端开发',
-          '数据库',
-          '系统设计',
-          '产品设计',
-          '项目管理'
-        ],
-        datasets: [{
-            label: '主业技能',
-            data: [90, 60, 50, 70, 80, 40, 75],
-            backgroundColor: 'rgba(22, 93, 255, 0.2)',
-            borderColor: 'rgba(22, 93, 255, 1)',
-            pointBackgroundColor: 'rgba(22, 93, 255, 1)',
-            pointBorderColor: '#fff',
-            pointHoverBackgroundColor: '#fff',
-            pointHoverBorderColor: 'rgba(22, 93, 255, 1)'
+  const ctx = document.getElementById('skillsRadarChart').getContext('2d');
+  const skillsRadarChart = new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: [
+        'HTML5/CSS3',
+        'JavaScript',
+        'Vue/React',
+        'TypeScript',
+        '跨端开发',
+        '工程化',
+        '服务端(NodeJS)',
+        '数据库',
+        '性能优化'
+      ],
+      datasets: [{
+        label: '技能熟练度',
+        data: [95, 90, 92, 85, 75, 88, 80, 72, 85],
+        backgroundColor: 'rgba(22, 93, 255, 0.2)',
+        borderColor: 'rgba(22, 93, 255, 1)',
+        borderWidth: 2,
+        pointBackgroundColor: 'rgba(22, 93, 255, 1)',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: 'rgba(22, 93, 255, 1)'
+      }]
+    },
+    options: {
+      scales: {
+        r: {
+          angleLines: {
+            color: 'rgba(0, 0, 0, 0.1)'
           },
-          {
-            label: '副业技能',
-            data: [75, 70, 80, 65, 60, 75, 50],
-            backgroundColor: 'rgba(255, 125, 0, 0.2)',
-            borderColor: 'rgba(255, 125, 0, 1)',
-            pointBackgroundColor: 'rgba(255, 125, 0, 1)',
-            pointBorderColor: '#fff',
-            pointHoverBackgroundColor: '#fff',
-            pointHoverBorderColor: 'rgba(255, 125, 0, 1)'
-          }
-        ]
-      },
-      options: {
-        scales: {
-          r: {
-            angleLines: {
-              display: true
+          grid: {
+            color: 'rgba(0, 0, 0, 0.1)'
+          },
+          pointLabels: {
+            font: {
+              size: 12,
+              family: 'Inter, sans-serif'
             },
-            suggestedMin: 0,
-            suggestedMax: 100
+            color: '#1D2939'
+          },
+          ticks: {
+            backdropColor: 'transparent',
+            color: '#666',
+            stepSize: 20,
+            max: 100,
+            min: 0
           }
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
         },
-        plugins: {
-          legend: {
-            position: 'bottom'
+        tooltip: {
+          backgroundColor: '#1D2939',
+          titleFont: {
+            size: 14,
+            family: 'Inter, sans-serif'
+          },
+          bodyFont: {
+            size: 12,
+            family: 'Inter, sans-serif'
+          },
+          padding: 12,
+          cornerRadius: 8,
+          callbacks: {
+            label: function (context) {
+              const value = context.raw;
+              let level = '';
+              if (value >= 90) level = '精通';
+              else if (value >= 80) level = '熟练';
+              else if (value >= 70) level = '掌握';
+              else level = '了解';
+              return `${context.label}: ${level} (${value}分)`;
+            }
           }
-        },
-        responsive: true,
-        maintainAspectRatio: false
-      }
-    });
-  };
-
-  // 初始化图表
-  initSkillsChart();
-
-  // 窗口大小改变时重新初始化图表
-  window.addEventListener('resize', utils.debounce(initSkillsChart, 300));
+        }
+      },
+      elements: {
+        line: {
+          tension: 0.2
+        }
+      },
+      maintainAspectRatio: false
+    }
+  });
 });
