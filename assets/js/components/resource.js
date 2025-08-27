@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // 拼接完整分类HTML（修复闭合逻辑）
       resourceContainer.innerHTML = `
-      <div id="${categoryId}" class="resource-section">
+      <div class="resource-section">
       <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
         <div>
           <h2 class="text-2xl font-bold mb-2 flex items-center gap-2">
@@ -429,7 +429,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 生成匹配资源HTML（修复模板语法+闭合）
             const matchedHtml = `
-            <div id="${category.id}" class="resource-section mb-10">
+            <div class="resource-section mb-10">
               <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
                 <div class="${category.color}-text">${categoryIcon}</div>
                 <span>${escapeHtml(category.name)}（匹配 ${matchedResources.length} 个）</span>
