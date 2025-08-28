@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!data.categories) throw new Error('JSON格式错误，无categories字段');
 
       // 处理SVG图标 + 校准统计数据
-      const processedData = processSvgIcons(data.categories);
+      const processedData = processIcons(data.categories);
       allResourceData = calibrateCategoryStats(processedData);
       activeCategoryId = initActiveCategory();
 
@@ -68,33 +68,97 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 保留原样式的SVG图标处理（仅补全闭合标签+添加统一类，不删除任何属性）
-  function processSvgIcons(categories) {
-    return categories.map(category => {
-      const processedCategory = {...category};
+  /**
+   * 多类型图标统一处理函数
+   * 支持：Font Awesome图标、SVG图标、本地图片、网络图片
+   * 核心：保留原样式，仅添加统一控制类，不删除任何原有属性
+   * @param {Array} categories - 含图标信息的分类数组
+   * @returns {Array} 处理后的分类数组
+   */
+  function processIcons(categories) {
+    // 防御性处理：确保输入是数组，避免非数组输入导致报错
+    if (!Array.isArray(categories)) return [];
 
-      // 仅处理内嵌SVG（外部SVG文件建议通过img标签加载）
-      if (processedCategory.icon && processedCategory.icon.includes('<svg')) {
-        // 1. 仅补全SVG闭合标签（避免破坏HTML结构，不删除任何原属性）
-        if (!processedCategory.icon.includes('</svg>')) {
-          processedCategory.icon += '</svg>';
-        }
+    // 图标类型识别与处理核心逻辑（抽离为工具函数，便于复用）
+    const processSingleIcon = (icon, color = '') => {
+      // 非字符串类型直接返回（避免非文本图标场景）
+      if (typeof icon !== 'string') return icon;
 
-        // 2. 仅添加统一容器类（svg-icon）和分类颜色父类（不覆盖原样式）
-        // 注意：不删除width/height/fill/stroke等任何原有属性
-        processedCategory.icon = processedCategory.icon.replace('<svg', `<svg class="svg-icon ${processedCategory.color}-icon"`);
+      console.log(1111, icon);
+      
+      // 1. 处理Font Awesome图标（特征：以"fa-"开头，或包含"fa "前缀）
+      if (icon.startsWith('fa-') || icon.includes('fa ')) {
+        // 补全FA基础类（确保样式生效，如"fa-code" → "fa fa-code"）
+        const faClass = icon.startsWith('fa-') ? `fa ${icon}` : icon;
+        // 添加统一控制类，保留color属性（支持通过color字段控制FA图标颜色）
+        return `<i class="icon icon--fa ${faClass}" ${color ? `style="color: ${color}"` : ''}></i>`;
       }
 
-      // 4. 资源图标处理（同样保留原样式）
-      if (processedCategory.resources) {
+      // 2. 处理SVG图标（特征：包含"<svg"标签）
+      if (icon.includes('<svg')) {
+        let processedSvg = icon;
+        // 补全未闭合的SVG标签（避免浏览器渲染异常）
+        if (!processedSvg.includes('</svg>')) {
+          processedSvg += '</svg>';
+        }
+        // 添加统一控制类（不覆盖原有class，仅追加）
+        // 若有color字段，通过父类传递颜色控制能力（不直接修改SVG内部fill/stroke）
+        const colorClass = color ? `icon--color-${color.replace('#', 'hex-')}` : '';
+        return processedSvg.replace(
+          '<svg', 
+          `<svg class="icon icon--svg ${colorClass}"`
+        );
+      }
+
+      // 3. 处理图片类图标（特征：以http/https开头的网络图片，或含./../的本地图片）
+      if (icon.startsWith('http://') || icon.startsWith('https://') || 
+          icon.startsWith('./') || icon.startsWith('../') || icon.includes('/images/')) {
+        // 提取图片名称作为alt文本（提升可访问性）
+        const imgAlt = icon.split('/').pop().split('.')[0] || 'icon';
+        // 添加统一控制类，保留原图片路径，支持自定义尺寸（通过style属性传递）
+        return `<img 
+          class="icon icon--img" 
+          src="${icon}" 
+          alt="${imgAlt}" 
+          ${color ? `style="object-fit: contain;"` : ''}
+        >`;
+      }
+
+      // 4. 未知类型图标：直接返回原内容（避免破坏自定义图标场景）
+      return icon;
+    };
+
+    // 处理分类自身的图标
+    return categories.map(category => {
+      const processedCategory = { ...category };
+
+      // 处理分类级图标（支持color字段控制颜色）
+      if (processedCategory.icon) {
+        processedCategory.icon = processSingleIcon(processedCategory.icon, processedCategory.color);
+      }
+
+      // 处理分类下的resources子项图标（递归复用核心逻辑）
+      if (processedCategory.resources && Array.isArray(processedCategory.resources)) {
         processedCategory.resources = processedCategory.resources.map(resource => {
-          if (resource.icon && resource.icon.includes('<svg')) {
-            // 仅补全闭合标签+添加统一类，不修改原样式
-            let processedIcon = resource.icon;
-            if (!processedIcon.includes('</svg>')) processedIcon += '</svg>';
-            resource.icon = processedIcon.replace('<svg', `<svg class="svg-icon"`);
+          const processedResource = { ...resource };
+          // 子项图标优先用自身color，无则继承分类color
+          const resourceColor = processedResource.color || processedCategory.color;
+          if (processedResource.icon) {
+            processedResource.icon = processSingleIcon(processedResource.icon, resourceColor);
           }
-          return resource;
+          return processedResource;
+        });
+      }
+
+      // 处理分类下的skills子项图标（兼容多层级结构）
+      if (processedCategory.skills && Array.isArray(processedCategory.skills)) {
+        processedCategory.skills = processedCategory.skills.map(skill => {
+          const processedSkill = { ...skill };
+          const skillColor = processedSkill.color || processedCategory.color;
+          if (processedSkill.icon) {
+            processedSkill.icon = processSingleIcon(processedSkill.icon, skillColor);
+          }
+          return processedSkill;
         });
       }
 
