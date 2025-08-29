@@ -1,12 +1,12 @@
-// 首页资源模块脚本：从 JSON 同步数据并渲染（兼容SVG图标）
+// 首页资源模块脚本：从 JSON 同步数据并渲染（SVG直接渲染版）
 document.addEventListener('DOMContentLoaded', () => {
   const resourceContainer = document.getElementById('home-resource-container');
   // 分类主题色映射（与详情页、首页原有样式统一）
   const categoryColors = {
-    toolbox: 'blue', // 百宝箱-蓝色
+    toolbox: 'blue',    // 百宝箱-蓝色
     bookmark: 'purple', // 收藏夹-紫色
-    site: 'green', // 热门站点-绿色
-    ai: 'orange' // AI相关-橙色
+    site: 'green',      // 热门站点-绿色
+    ai: 'orange'        // AI相关-橙色
   };
 
   // 加载 JSON 数据（与详情页共用同一文件，确保路径正确）
@@ -75,21 +75,30 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 🔥 新增：渲染图标（兼容Font Awesome和SVG）
-  function renderIcon(icon, color) {
-    // 判断是否为SVG图标（假设SVG图标以.svg结尾或包含<svg>标签）
-    if (icon.endsWith('.svg')) {
-      // 外部SVG文件：使用img标签加载
-      return `<img src="${icon}" alt="分类图标" class="w-10 h-10 ${color}-color" />`;
-    } else if (icon.includes('<svg')) {
-      // 内嵌SVG代码：直接使用并添加颜色类
-      return icon.replace('<svg', `<svg class="${color}-color"`)
-        .replace('width="', 'width="40"')
-        .replace('height="', 'height="40"');
-    } else {
-      // 默认视为Font Awesome图标
-      return `<i class="fa ${icon} text-2xl text-${color}-500"></i>`;
+  // 核心优化：渲染图标（SVG直接原样式渲染，FA图标适配颜色）
+  function renderIcon(iconContent, color) {
+    // 1. SVG图标：直接渲染原始内容（不修改尺寸、颜色、路径属性）
+    if (iconContent.includes('<svg')) {
+      return iconContent;
     }
+
+    // 2. Font Awesome图标（处理完整<i>标签或简写）
+    // 情况1：完整FA标签（如<i class="fa fa-wrench"></i>）
+    if (iconContent.includes('<i class="fa')) {
+      return iconContent.replace('class="', `class="text-${color}-500 `);
+    }
+    // 情况2：FA简写（如"fa-wrench"，兼容原始简写格式）
+    else if (iconContent.startsWith('fa-')) {
+      return `<i class="fa ${iconContent} text-2xl text-${color}-500"></i>`;
+    }
+
+    // 3. 图片格式图标（如外部SVG/PNG链接）
+    if (iconContent.endsWith('.svg') || iconContent.endsWith('.png') || iconContent.endsWith('.jpg')) {
+      return `<img src="${iconContent}" alt="分类图标" class="w-10 h-10 object-contain" />`;
+    }
+
+    // 4. 异常情况：默认图标 fallback
+    return `<i class="fa fa-th-large text-2xl text-${color}-500"></i>`;
   }
 
   // 辅助函数：根据分类ID生成“查看更多”文本（与首页原有文案一致）
