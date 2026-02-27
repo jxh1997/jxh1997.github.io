@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>养殖财务管控系统 - 收支管理</title>
+    <script src="./assets/3.4.17.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="./assets/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2E7D32',
+                        secondary: '#1976D2',
+                        success: '#2E7D32',
+                        sky: { 500: '#1976D2' },
+                        warning: '#F57F17',
+                        orange: { 500: '#FF9800', 50: '#FFF3E0', 100: '#FFE0B2' },
+                        purple: { 500: '#7B1FA2', 50: '#F3E5F5', 100: '#E1BEE7' },
+                        danger: '#D32F2F',
+                        surface: '#f8fafc',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans SC', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body { 
+            background-color: #f1f5f9; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            min-h-screen; 
+            font-family: 'Noto Sans SC', sans-serif; 
+        }
+        
+        .iphone-canvas {
+            width: 375px;
+            height: 812px;
+            background: #ffffff;
+            position: relative;
+            overflow: hidden;
+            border-radius: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
+            border: 8px solid #1e293b;
+        }
+        
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .glass-header { backdrop-filter: blur(10px); background: rgba(255,255,255,0.8); }
+        .batch-card { transition: transform 0.1s, box-shadow 0.1s; }
+        .batch-card:active { transform: scale(0.98); }
+        .tab-active { 
+            color: #2E7D32; 
+            border-bottom: 2px solid #2E7D32; 
+            font-weight: 600;
+        }
+        .sub-tab-active {
+            color: #2E7D32; 
+            background-color: rgba(46, 125, 50, 0.1);
+        }
+        /* 单选按钮样式 */
+        .radio-label {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .radio-input:checked + .radio-label {
+            background-color: rgba(46, 125, 50, 0.1);
+            color: #2E7D32;
+            font-weight: 600;
+        }
+        /* 底部导航样式 */
+        .nav-item.active { 
+            color: #2E7D32; 
+        }
+        /* 凭证预览弹窗 */
+        .voucher-modal {
+            z-index: 100;
+        }
+        /* 下拉刷新样式 */
+        .pull-refresh {
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            font-size: 12px;
+        }
+        /* 状态标签样式 */
+        .status-tag {
+            padding: 0.1rem 0.5rem;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 500;
+        }
+        .status-paid {
+            background-color: rgba(46, 125, 50, 0.1);
+            color: #2E7D32;
+        }
+        .status-unpaid {
+            background-color: rgba(211, 47, 47, 0.1);
+            color: #D32F2F;
+        }
+    </style>
+</head>
+<body>
+    <div class="iphone-canvas flex flex-col">
+        <!-- 顶部状态栏 -->
+        <header class="glass-header sticky top-0 z-10 px-6 pt-12 pb-4 flex justify-between items-center border-b border-slate-50">
+            <button class="text-slate-800" onclick="goBackToHome()">
+                <i data-lucide="arrow-left" class="w-5 h-5"></i>
+            </button>
+            <div class="flex flex-1 items-center gap-2 ml-2">
+                <h1 id="pageTitle" class="text-lg font-bold text-slate-800">支出登记</h1>
+            </div>
+            <button id="exportBtn" class="hidden bg-primary text-white px-3 py-1.5 rounded-xl text-xs font-medium hover:bg-primary/90 transition-colors" onclick="exportFinanceData()">
+				<i data-lucide="download" class="w-3 h-3 inline-block mr-1"></i>导出数据
+			</button>
+        </header>
+
+        <!-- 收支管理子标签切换 -->
+        <div class="flex border-b border-slate-100 overflow-x-auto hide-scroll">
+            <button id="expenseTab" class="flex-1 py-3 text-sm tab-active whitespace-nowrap" onclick="switchFinanceTab('expense')">
+                支出登记
+            </button>
+            <button id="ledgerTab" class="flex-1 py-3 text-sm text-slate-500 whitespace-nowrap" onclick="switchFinanceTab('ledger')">
+                收支台账
+            </button>
+            <button id="analysisTab" class="flex-1 py-3 text-sm text-slate-500 whitespace-nowrap" onclick="switchFinanceTab('analysis')">
+                收支汇总分析
+            </button>
+        </div>
+
+        <!-- 主内容区 -->
+        <main class="flex-1 overflow-y-auto hide-scroll pb-24" id="mainContent">
+            <!-- 下拉刷新提示 -->
+            <div id="pullRefresh" class="pull-refresh hidden">
+                <i data-lucide="refresh-cw" class="w-4 h-4 mr-2"></i>
+                <span>下拉刷新数据...</span>
+            </div>
+            
+            <!-- 1. 支出登记页面 -->
+            <section id="expenseModule" class="px-6">
+                <div class="mt-6 bg-white rounded-2xl p-5 border border-slate-100 shadow-sm mb-6">
+                    <div class="space-y-4">
+                        <!-- 支出日期 -->
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">支出日期 <span class="text-danger">*</span></label>
+                            <input type="date" id="expenseDate" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm" value="">
+                        </div>
+                        
+                        <!-- 养殖批次 -->
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">养殖批次 <span class="text-danger">*</span></label>
+                            <select id="breedingBatch" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm" onchange="toggleBatchAllocation()">
+                                <option value="">请选择养殖批次</option>
+                                <option value="202405">202405批次 (在养)</option>
+                                <option value="202404">202404批次 (待出栏)</option>
+                                <option value="202403">202403批次 (已出栏)</option>
+                                <option value="multiple">多批次分摊</option>
+                            </select>
+                        </div>
+                        
+                        <!-- 多批次分摊模块 (默认隐藏) -->
+                        <div id="batchAllocationModule" class="hidden bg-slate-50 rounded-xl p-4 border border-slate-100">
+                            <h3 class="text-sm font-bold text-slate-800 mb-3">多批次分摊设置</h3>
+                            <div id="allocationList" class="space-y-3 mb-3">
+                                <!-- 默认行 -->
+                                <div class="grid grid-cols-4 gap-2 items-center allocation-row">
+                                    <div class="col-span-2">
+                                        <select class="allocation-batch w-full px-2 py-1.5 border border-slate-200 rounded-lg text-xs">
+                                            <option value="202405">202405批次 (在养)</option>
+                                            <option value="202404">202404批次 (待出栏)</option>
+                                            <option value="202403">202403批次 (已出栏)</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <input type="number" class="allocation-percent w-full px-2 py-1.5 border border-slate-200 rounded-lg text-xs" min="0" max="100" placeholder="0" oninput="calculateAllocationAmount(this)">
+                                    </div>
+                                    <div class="text-xs text-slate-500 allocation-amount">¥ 0.00</div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center mb-2">
+                                <button class="text-primary text-xs px-3 py-1 border border-primary/30 rounded-lg hover:bg-green-50 transition-colors" onclick="addAllocationRow()">
+                                    <i data-lucide="plus" class="w-3 h-3 inline-block mr-1"></i>添加批次
+                                </button>
+                                <span id="totalPercent" class="text-xs text-slate-600">合计比例：0%</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2 bg-white rounded-lg">
+                                <span class="text-xs text-slate-500">总分摊金额：</span>
+                                <span id="totalAllocationAmount" class="text-sm font-bold text-primary">¥ 0.00</span>
+                            </div>
+                        </div>
+                        
+                        <!-- 支出类别 -->
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">支出类别 <span class="text-danger">*</span></label>
+                            <select id="expenseCategory" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm">
+                                <option value="">请选择支出类别</option>
+                                <option value="chickenSeed">鸡苗费用</option>
+                                <option value="breedingCost">育雏费用</option>
+                                <option value="feedCost">饲料费用</option>
+                                <option value="medicineCost">药品费用</option>
+                                <option value="vaccineCost">疫苗费用</option>
+                                <option value="waterElectricity">水电费用</option>
+                                <option value="laborCost">人工费用</option>
+                                <option value="equipmentCost">设备购置</option>
+                                <option value="maintenanceCost">维修费用</option>
+                                <option value="otherCost">其他费用</option>
+                            </select>
+                        </div>
+                        
+                        <!-- 支出金额 -->
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">支出金额 (元) <span class="text-danger">*</span></label>
+                            <input type="number" id="expenseAmount" step="0.01" min="0.01" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm" placeholder="保留2位小数" oninput="calculateAllAllocationAmounts()">
+                        </div>
+                        
+                        <!-- 付款状态 -->
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">付款状态</label>
+                            <div class="flex gap-3 mt-2">
+                                <div class="flex-1">
+                                    <input type="radio" id="paidStatus" name="paymentStatus" value="paid" class="radio-input hidden" checked>
+                                    <label for="paidStatus" class="radio-label block text-center py-2 border border-slate-200 rounded-lg text-sm">
+                                        已付款
+                                    </label>
+                                </div>
+                                <div class="flex-1">
+                                    <input type="radio" id="unpaidStatus" name="paymentStatus" value="unpaid" class="radio-input hidden">
+                                    <label for="unpaidStatus" class="radio-label block text-center py-2 border border-slate-200 rounded-lg text-sm">
+                                        未付款
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 备注 -->
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">备注</label>
+                            <textarea id="expenseRemark" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm h-16 resize-none" placeholder="可输入供应商信息、付款备注"></textarea>
+                        </div>
+                        
+                        <!-- 凭证上传 -->
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">凭证上传</label>
+                            <div class="flex items-center gap-3 mt-2">
+                                <label for="voucherUpload" class="cursor-pointer bg-slate-50 border border-slate-200 rounded-lg px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 transition-colors">
+                                    <i data-lucide="upload" class="w-4 h-4 inline-block mr-1"></i>上传凭证
+                                </label>
+                                <input type="file" id="voucherUpload" accept="image/*,.pdf" multiple class="hidden" onchange="updateVoucherCount()">
+                                <span id="voucherCount" class="text-xs text-slate-500">0/5</span>
+                            </div>
+                            <p class="text-xs text-slate-400 mt-1">支持图片/PDF格式，最多上传5张</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-3 mt-6">
+                        <button class="flex-1 py-2 border border-slate-200 rounded-lg text-sm text-slate-600 hover:bg-slate-50 transition-colors" onclick="resetExpenseForm()">
+                            取消
+                        </button>
+                        <button class="flex-1 py-2 bg-primary text-white rounded-lg text-sm hover:bg-primary/90 transition-colors" onclick="saveExpense()">
+                            保存
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. 收支台账页面 -->
+            <section id="ledgerModule" class="px-6 hidden">
+                <!-- 筛选栏 -->
+                <div class="mt-6 bg-white rounded-2xl p-4 border border-slate-100 shadow-sm mb-4">
+                    <div class="grid grid-cols-2 gap-2 mb-3">
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">开始日期</label>
+                            <input type="date" id="ledgerStartDate" class="w-full px-2 py-1.5 border border-slate-200 rounded-lg text-xs">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">结束日期</label>
+                            <input type="date" id="ledgerEndDate" class="w-full px-2 py-1.5 border border-slate-200 rounded-lg text-xs">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 mb-3">
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">养殖批次</label>
+                            <select id="ledgerBreedingBatch" class="w-full px-2 py-1.5 border border-slate-200 rounded-lg text-xs">
+                                <option value="">全部批次</option>
+                                <option value="202405">202405批次</option>
+                                <option value="202404">202404批次</option>
+                                <option value="202403">202403批次</option>
+                                <option value="multiple">多批次分摊</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">收付款状态</label>
+                            <select id="ledgerPaymentStatus" class="w-full px-2 py-1.5 border border-slate-200 rounded-lg text-xs">
+                                <option value="">全部状态</option>
+                                <option value="paid">已收/已付</option>
+                                <option value="unpaid">未收/未付</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">收支类型</label>
+                            <select id="ledgerFinanceType" class="w-full px-2 py-1.5 border border-slate-200 rounded-lg text-xs">
+                                <option value="">全部类型</option>
+                                <option value="income">收入</option>
+                                <option value="expense">支出</option>
+                            </select>
+                        </div>
+                        <div class="flex items-end">
+                            <button class="w-full px-2 py-1.5 bg-primary text-white text-xs rounded-lg" onclick="filterLedgerData()">筛选</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 收支台账列表 -->
+                <div class="bg-white rounded-2xl border border-slate-100 shadow-sm mb-6">
+                    <!-- 表头 -->
+                    <div class="grid grid-cols-12 gap-1 text-xs text-slate-500 font-medium py-3 px-3 border-b border-slate-100">
+                        <div class="col-span-3">日期</div>
+                        <div class="col-span-1">类型</div>
+                        <div class="col-span-2">类别</div>
+                        <div class="col-span-2">金额</div>
+                        <div class="col-span-2">批次</div>
+                        <div class="col-span-1">状态</div>
+                        <div class="col-span-1">操作</div>
+                    </div>
+                    
+                    <!-- 数据行 -->
+                    <div class="overflow-y-auto max-h-[400px] hide-scroll">
+                        <!-- 收入记录 -->
+                        <div class="grid grid-cols-12 gap-1 text-xs py-3 px-3 border-b border-slate-100 hover:bg-slate-50 ledger-item" onclick="showLedgerDetail(this, 'income')">
+                            <div class="col-span-3 font-medium">2024-05-20</div>
+                            <div class="col-span-1 text-primary font-medium">收入</div>
+                            <div class="col-span-2">鲜蛋批发</div>
+                            <div class="col-span-2 text-green-600 font-medium">+¥8,600.00</div>
+                            <div class="col-span-2">202405</div>
+                            <div class="col-span-1">
+                                <span class="status-tag status-paid">
+                                    <i data-lucide="check" class="w-3 h-3 inline-block mr-1"></i>已收
+                                </span>
+                            </div>
+                            <div class="col-span-1">
+                                <button class="text-secondary text-xs" onclick="viewVoucher(event, 'income-20240520')">
+                                    <i data-lucide="file-text" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- 支出记录 (单批次) -->
+                        <div class="grid grid-cols-12 gap-1 text-xs py-3 px-3 border-b border-slate-100 hover:bg-slate-50 ledger-item" onclick="showLedgerDetail(this, 'expense')">
+                            <div class="col-span-3 font-medium">2024-05-19</div>
+                            <div class="col-span-1 text-red-600 font-medium">支出</div>
+                            <div class="col-span-2">饲料费用</div>
+                            <div class="col-span-2 text-red-600 font-medium">-¥5,200.00</div>
+                            <div class="col-span-2">202405</div>
+                            <div class="col-span-1">
+                                <span class="status-tag status-paid">
+                                    <i data-lucide="check" class="w-3 h-3 inline-block mr-1"></i>已付
+                                </span>
+                            </div>
+                            <div class="col-span-1">
+                                <button class="text-secondary text-xs" onclick="viewVoucher(event, 'expense-20240519')">
+                                    <i data-lucide="file-text" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- 支出记录 (多批次分摊) -->
+                        <div class="grid grid-cols-12 gap-1 text-xs py-3 px-3 border-b border-slate-100 hover:bg-slate-50 ledger-item" onclick="showLedgerDetail(this, 'expense-multiple')">
+                            <div class="col-span-3 font-medium">2024-05-18</div>
+                            <div class="col-span-1 text-red-600 font-medium">支出</div>
+                            <div class="col-span-2">人工费用</div>
+                            <div class="col-span-2 text-red-600 font-medium">-¥10,000.00</div>
+                            <div class="col-span-2 text-primary">多批次分摊</div>
+                            <div class="col-span-1">
+                                <span class="status-tag status-unpaid">
+                                    <i data-lucide="alert-circle" class="w-3 h-3 inline-block mr-1"></i>未付
+                                </span>
+                            </div>
+                            <div class="col-span-1">
+                                <button class="text-secondary text-xs" onclick="viewVoucher(event, 'expense-20240518')">
+                                    <i data-lucide="file-text" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- 收入记录 (未收款) -->
+                        <div class="grid grid-cols-12 gap-1 text-xs py-3 px-3 border-b border-slate-100 hover:bg-slate-50 ledger-item" onclick="showLedgerDetail(this, 'income')">
+                            <div class="col-span-3 font-medium">2024-05-17</div>
+                            <div class="col-span-1 text-primary font-medium">收入</div>
+                            <div class="col-span-2">鲜蛋零售</div>
+                            <div class="col-span-2 text-green-600 font-medium">+¥3,960.00</div>
+                            <div class="col-span-2">202405</div>
+                            <div class="col-span-1">
+                                <span class="status-tag status-unpaid">
+                                    <i data-lucide="alert-circle" class="w-3 h-3 inline-block mr-1"></i>未收
+                                </span>
+                            </div>
+                            <div class="col-span-1">
+                                <button class="text-secondary text-xs" onclick="viewVoucher(event, 'income-20240517')">
+                                    <i data-lucide="file-text" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- 支出记录 -->
+                        <div class="grid grid-cols-12 gap-1 text-xs py-3 px-3 border-b border-slate-100 hover:bg-slate-50 ledger-item" onclick="showLedgerDetail(this, 'expense')">
+                            <div class="col-span-3 font-medium">2024-05-16</div>
+                            <div class="col-span-1 text-red-600 font-medium">支出</div>
+                            <div class="col-span-2">疫苗费用</div>
+                            <div class="col-span-2 text-red-600 font-medium">-¥1,500.00</div>
+                            <div class="col-span-2">202404</div>
+                            <div class="col-span-1">
+                                <span class="status-tag status-paid">
+                                    <i data-lucide="check" class="w-3 h-3 inline-block mr-1"></i>已付
+                                </span>
+                            </div>
+                            <div class="col-span-1">
+                                <button class="text-secondary text-xs" onclick="viewVoucher(event, 'expense-20240516')">
+                                    <i data-lucide="file-text" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. 收支汇总分析页面 -->
+            <section id="analysisModule" class="px-6 hidden">
+                <!-- 筛选栏 -->
+                <div class="mt-6 bg-white rounded-2xl p-4 border border-slate-100 shadow-sm mb-4">
+                    <div class="grid grid-cols-2 gap-2 mb-3">
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">开始日期</label>
+                            <input type="date" id="analysisStartDate" class="w-full px-2 py-1.5 border border-slate-200 rounded-lg text-xs">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">结束日期</label>
+                            <input type="date" id="analysisEndDate" class="w-full px-2 py-1.5 border border-slate-200 rounded-lg text-xs">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">养殖批次</label>
+                            <select id="analysisBreedingBatch" class="w-full px-2 py-1.5 border border-slate-200 rounded-lg text-xs">
+                                <option value="">全部批次</option>
+                                <option value="202405">202405批次</option>
+                                <option value="202404">202404批次</option>
+                                <option value="202403">202403批次</option>
+                            </select>
+                        </div>
+                        <div class="flex items-end">
+                            <button class="w-full px-2 py-1.5 bg-primary text-white text-xs rounded-lg" onclick="filterAnalysisData()">筛选</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 汇总数据 -->
+                <div class="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm mb-4">
+                    <h3 class="text-sm font-bold text-slate-800 mb-3">收支汇总</h3>
+                    <div class="grid grid-cols-3 gap-3">
+                        <div class="bg-green-50 rounded-xl p-3">
+                            <p class="text-xs text-slate-500">总收入</p>
+                            <p class="text-lg font-bold text-green-600">¥12,560.00</p>
+                        </div>
+                        <div class="bg-red-50 rounded-xl p-3">
+                            <p class="text-xs text-slate-500">总支出</p>
+                            <p class="text-lg font-bold text-red-600">¥16,700.00</p>
+                        </div>
+                        <div class="bg-blue-50 rounded-xl p-3">
+                            <p class="text-xs text-slate-500">收支差额</p>
+                            <p class="text-lg font-bold text-blue-600">-¥4,140.00</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 支出结构饼图 -->
+                <div class="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm mb-4">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="text-sm font-bold text-slate-800">支出结构分析</h3>
+                        <button class="text-xs px-2 py-1 bg-primary/10 text-primary rounded-lg" onclick="downloadExpenseChart()">
+                            <i data-lucide="download" class="w-3 h-3 inline-block mr-1"></i>下载图表
+                        </button>
+                    </div>
+                    <div class="h-64">
+                        <canvas id="expensePieChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- 收支趋势图 -->
+                <div class="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm mb-6">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="text-sm font-bold text-slate-800">收支趋势分析</h3>
+                        <div class="flex gap-2">
+                            <button class="text-xs px-2 py-1 bg-primary/10 text-primary rounded-lg" onclick="switchTrendPeriod('week')">按周</button>
+                            <button class="text-xs px-2 py-1 bg-slate-100 text-slate-500 rounded-lg" onclick="switchTrendPeriod('month')">按月</button>
+                        </div>
+                    </div>
+                    <div class="h-64">
+                        <canvas id="financeTrendChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- 导出按钮 -->
+                <div class="px-6 pb-6">
+                    <button class="w-full py-3 bg-primary text-white rounded-xl text-sm font-medium hover:bg-primary/90 transition-colors" onclick="exportAnalysisData()">
+                        <i data-lucide="download" class="w-4 h-4 inline-block mr-2"></i>导出汇总数据
+                    </button>
+                </div>
+            </section>
+
+            <!-- 凭证预览弹窗 -->
+            <div id="voucherModal" class="fixed inset-0 bg-black/80 voucher-modal flex items-center justify-center hidden">
+                <div class="bg-white rounded-2xl p-4 w-72 max-h-[70vh] overflow-y-auto">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="text-sm font-bold text-slate-800">凭证预览</h3>
+                        <button class="text-slate-500" onclick="closeVoucherModal()">
+                            <i data-lucide="x" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                    <div id="voucherContent" class="space-y-3">
+                        <img src="https://picsum.photos/300/200" alt="财务凭证" class="w-full rounded-lg">
+                        <p class="text-xs text-slate-500 text-center">财务凭证-20240520</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 台账详情弹窗 -->
+            <div id="ledgerDetailModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+                <div class="bg-white rounded-3xl p-6 w-80 max-h-[80vh] overflow-y-auto">
+                    <h2 class="text-lg font-bold text-slate-800 mb-4" id="ledgerDetailTitle">收支详情</h2>
+                    
+                    <div class="space-y-3 text-sm mb-4" id="ledgerDetailContent">
+                        <!-- 内容将通过JS动态填充 -->
+                    </div>
+                    
+                    <!-- 多批次分摊详情 (默认隐藏) -->
+                    <div id="allocationDetailModule" class="hidden bg-slate-50 rounded-xl p-3 mb-4">
+                        <h4 class="text-xs font-bold text-slate-800 mb-2">多批次分摊明细</h4>
+                        <div class="space-y-2">
+                            <div class="grid grid-cols-3 gap-2 text-xs text-slate-500 font-medium py-1">
+                                <div>批次</div>
+                                <div class="text-right">分摊比例</div>
+                                <div class="text-right">分摊金额</div>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2 text-xs py-1">
+                                <div>202405批次</div>
+                                <div class="text-right">60%</div>
+                                <div class="text-right font-medium">¥6,000.00</div>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2 text-xs py-1">
+                                <div>202404批次</div>
+                                <div class="text-right">30%</div>
+                                <div class="text-right font-medium">¥3,000.00</div>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2 text-xs py-1">
+                                <div>202403批次</div>
+                                <div class="text-right">10%</div>
+                                <div class="text-right font-medium">¥1,000.00</div>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2 text-xs py-1 border-t border-slate-200 mt-1 pt-1">
+                                <div class="font-medium">合计</div>
+                                <div class="text-right font-medium">100%</div>
+                                <div class="text-right font-bold text-primary">¥10,000.00</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 标记状态按钮 (根据状态显示/隐藏) -->
+                    <button id="markPaidBtn" class="w-full py-2 bg-primary text-white rounded-lg text-sm hover:bg-primary/90 transition-colors mb-3 hidden" onclick="markAsPaid()">
+                        <i data-lucide="check-circle" class="w-4 h-4 inline-block mr-2"></i>标记为已收/已付
+                    </button>
+                    
+                    <button class="w-full py-2 border border-slate-200 rounded-lg text-sm text-slate-600 hover:bg-slate-50 transition-colors" onclick="closeLedgerDetailModal()">
+                        关闭
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // 全局变量
+        let voucherCount = 0;
+        let startY = 0;
+        let isRefreshing = false;
+        let expensePieChart = null;
+        let financeTrendChart = null;
+        let currentTrendPeriod = 'week';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+            
+            // 初始化日期
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('expenseDate').value = today;
+            
+            // 初始化筛选日期
+            const lastMonth = new Date();
+            lastMonth.setMonth(lastMonth.getMonth() - 1);
+            document.getElementById('ledgerStartDate').value = lastMonth.toISOString().split('T')[0];
+            document.getElementById('ledgerEndDate').value = today;
+            document.getElementById('analysisStartDate').value = lastMonth.toISOString().split('T')[0];
+            document.getElementById('analysisEndDate').value = today;
+            
+            // 设置按钮点击事件
+            const settingsBtn = document.getElementById('btn-settings');
+            settingsBtn.addEventListener('click', () => {
+                alert('正在跳转至设置页面...\n包含：密码修改、手动备份、账号管理');
+            });
+
+            // 初始化图表
+            initExpensePieChart();
+            initFinanceTrendChart();
+            
+            // 初始化下拉刷新功能
+            initPullToRefresh();
+        });
+
+        // 返回首页
+        function goBackToHome() {
+            window.location.href = 'index.html';
+        }
+
+        // ===================== 收支管理子标签切换 =====================
+        function switchFinanceTab(tabType) {
+            // 重置所有子标签状态
+            document.querySelectorAll('#expenseTab, #ledgerTab, #analysisTab').forEach(tab => {
+                tab.classList.remove('tab-active');
+                tab.classList.add('text-slate-500');
+            });
+            
+            // 隐藏所有模块
+            document.getElementById('expenseModule').classList.add('hidden');
+            document.getElementById('ledgerModule').classList.add('hidden');
+            document.getElementById('analysisModule').classList.add('hidden');
+            
+            // 隐藏/显示导出按钮
+            const exportBtn = document.getElementById('exportBtn');
+            const pageTitle = document.getElementById('pageTitle');
+            
+            // 激活对应标签和模块
+            if (tabType === 'expense') {
+                document.getElementById('expenseTab').classList.add('tab-active');
+                document.getElementById('expenseTab').classList.remove('text-slate-500');
+                document.getElementById('expenseModule').classList.remove('hidden');
+                pageTitle.textContent = '支出登记';
+                exportBtn.classList.add('hidden');
+            } else if (tabType === 'ledger') {
+                document.getElementById('ledgerTab').classList.add('tab-active');
+                document.getElementById('ledgerTab').classList.remove('text-slate-500');
+                document.getElementById('ledgerModule').classList.remove('hidden');
+                pageTitle.textContent = '收支台账';
+                exportBtn.classList.add('hidden');
+            } else if (tabType === 'analysis') {
+                document.getElementById('analysisTab').classList.add('tab-active');
+                document.getElementById('analysisTab').classList.remove('text-slate-500');
+                document.getElementById('analysisModule').classList.remove('hidden');
+                pageTitle.textContent = '收支汇总分析';
+                exportBtn.classList.remove('hidden');
+            }
+        }
+
+        // ===================== 支出登记逻辑 =====================
+        // 切换多批次分摊模块显示/隐藏
+        function toggleBatchAllocation() {
+            const batchSelect = document.getElementById('breedingBatch');
+            const allocationModule = document.getElementById('batchAllocationModule');
+            
+            if (batchSelect.value === 'multiple') {
+                allocationModule.classList.remove('hidden');
+                // 初始化分摊比例
+                calculateAllAllocationAmounts();
+            } else {
+                allocationModule.classList.add('hidden');
+            }
+        }
+        
+        // 添加分摊批次行
+        function addAllocationRow() {
+            const allocationList = document.getElementById('allocationList');
+            const newRow = document.createElement('div');
+            newRow.className = 'grid grid-cols-4 gap-2 items-center allocation-row';
+            newRow.innerHTML = `
+                <div class="col-span-2">
+                    <select class="allocation-batch w-full px-2 py-1.5 border border-slate-200 rounded-lg text-xs">
+                        <option value="202405">202405批次 (在养)</option>
+                        <option value="202404">202404批次 (待出栏)</option>
+                        <option value="202403">202403批次 (已出栏)</option>
+                    </select>
+                </div>
+                <div>
+                    <input type="number" class="allocation-percent w-full px-2 py-1.5 border border-slate-200 rounded-lg text-xs" min="0" max="100" placeholder="0" oninput="calculateAllocationAmount(this)">
+                </div>
+                <div class="text-xs text-slate-500 allocation-amount">¥ 0.00</div>
+            `;
+            allocationList.appendChild(newRow);
+            calculateTotalPercent();
+        }
+        
+        // 计算单行分摊金额
+        function calculateAllocationAmount(input) {
+            const expenseAmount = parseFloat(document.getElementById('expenseAmount').value) || 0;
+            const percent = parseFloat(input.value) || 0;
+            const amount = (expenseAmount * percent / 100).toFixed(2);
+            
+            // 更新该行的分摊金额
+            const amountElement = input.closest('.allocation-row').querySelector('.allocation-amount');
+            amountElement.textContent = `¥ ${amount}`;
+            
+            // 更新总比例和总金额
+            calculateTotalPercent();
+        }
+        
+        // 计算所有行的分摊金额
+        function calculateAllAllocationAmounts() {
+            document.querySelectorAll('.allocation-percent').forEach(input => {
+                calculateAllocationAmount(input);
+            });
+        }
+        
+        // 计算总分摊比例
+        function calculateTotalPercent() {
+            let totalPercent = 0;
+            let totalAmount = 0;
+            
+            document.querySelectorAll('.allocation-percent').forEach(input => {
+                const percent = parseFloat(input.value) || 0;
+                totalPercent += percent;
+                
+                // 计算该行金额
+                const amountElement = input.closest('.allocation-row').querySelector('.allocation-amount');
+                const amount = parseFloat(amountElement.textContent.replace('¥ ', '')) || 0;
+                totalAmount += amount;
+            });
+            
+            // 更新显示
+            document.getElementById('totalPercent').textContent = `合计比例：${totalPercent}%`;
+            document.getElementById('totalAllocationAmount').textContent = `¥ ${totalAmount.toFixed(2)}`;
+            
+            return totalPercent;
+        }
+        
+        // 更新凭证上传数量
+        function updateVoucherCount() {
+            const files = document.getElementById('voucherUpload').files;
+            voucherCount = files.length;
+            document.getElementById('voucherCount').textContent = `${voucherCount}/5`;
+        }
+        
+        // 保存支出记录
+        function saveExpense() {
+            // 表单验证
+            const expenseDate = document.getElementById('expenseDate').value;
+            const breedingBatch = document.getElementById('breedingBatch').value;
+            const expenseCategory = document.getElementById('expenseCategory').value;
+            const expenseAmount = document.getElementById('expenseAmount').value;
+            
+            if (!expenseDate) {
+                alert('请选择支出日期');
+                return;
+            }
+            
+            if (!breedingBatch) {
+                alert('请选择养殖批次');
+                return;
+            }
+            
+            if (!expenseCategory) {
+                alert('请选择支出类别');
+                return;
+            }
+            
+            if (!expenseAmount || parseFloat(expenseAmount) <= 0) {
+                alert('请输入有效的支出金额');
+                return;
+            }
+            
+            // 多批次分摊验证
+            if (breedingBatch === 'multiple') {
+                const totalPercent = calculateTotalPercent();
+                if (totalPercent !== 100) {
+                    alert('分摊比例总和需为100%');
+                    return;
+                }
+            }
+            
+            alert('支出登记成功！已同步至收支台账');
+            resetExpenseForm();
+        }
+        
+        // 重置支出表单
+        function resetExpenseForm() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('expenseDate').value = today;
+            document.getElementById('breedingBatch').value = '';
+            document.getElementById('batchAllocationModule').classList.add('hidden');
+            document.getElementById('expenseCategory').value = '';
+            document.getElementById('expenseAmount').value = '';
+            document.getElementById('paidStatus').checked = true;
+            document.getElementById('expenseRemark').value = '';
+            document.getElementById('voucherUpload').value = '';
+            document.getElementById('voucherCount').textContent = '0/5';
+            voucherCount = 0;
+            
+            // 重置分摊表格
+            const allocationList = document.getElementById('allocationList');
+            // 保留第一行并清空
+            const rows = allocationList.querySelectorAll('.allocation-row');
+            rows.forEach((row, index) => {
+                if (index === 0) {
+                    row.querySelector('.allocation-percent').value = '';
+                    row.querySelector('.allocation-amount').textContent = '¥ 0.00';
+                } else {
+                    row.remove();
+                }
+            });
+            document.getElementById('totalPercent').textContent = '合计比例：0%';
+            document.getElementById('totalAllocationAmount').textContent = '¥ 0.00';
+        }
+
+        // ===================== 收支台账逻辑 =====================
+        // 筛选台账数据
+        function filterLedgerData() {
+            // 获取筛选条件
+            const startDate = document.getElementById('ledgerStartDate').value;
+            const endDate = document.getElementById('ledgerEndDate').value;
+            const batch = document.getElementById('ledgerBreedingBatch').value;
+            const paymentStatus = document.getElementById('ledgerPaymentStatus').value;
+            const financeType = document.getElementById('ledgerFinanceType').value;
+            
+            // 简单验证
+            if (startDate && endDate && startDate > endDate) {
+                alert('开始日期不能晚于结束日期');
+                return;
+            }
+            
+            // 模拟筛选效果
+            alert(`筛选条件：
+开始日期：${startDate || '未选择'}
+结束日期：${endDate || '未选择'}
+养殖批次：${batch || '全部批次'}
+收付款状态：${paymentStatus === 'paid' ? '已收/已付' : paymentStatus === 'unpaid' ? '未收/未付' : '全部状态'}
+收支类型：${financeType === 'income' ? '收入' : financeType === 'expense' ? '支出' : '全部类型'}
+
+数据筛选完成！`);
+        }
+        
+        // 显示台账详情
+        function showLedgerDetail(element, type) {
+            const modal = document.getElementById('ledgerDetailModal');
+            const title = document.getElementById('ledgerDetailTitle');
+            const content = document.getElementById('ledgerDetailContent');
+            const allocationModule = document.getElementById('allocationDetailModule');
+            const markPaidBtn = document.getElementById('markPaidBtn');
+            
+            // 清空原有内容
+            content.innerHTML = '';
+            
+            // 根据类型填充不同内容
+            if (type === 'income') {
+                title.textContent = '收入详情';
+                content.innerHTML = `
+                    <div class="flex justify-between">
+                        <span class="text-slate-500">收入日期：</span>
+                        <span class="font-medium">2024-05-20</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-500">收入类型：</span>
+                        <span class="font-medium">鲜蛋批发</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-500">养殖批次：</span>
+                        <span class="font-medium">202405批次</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-500">收入金额：</span>
+                        <span class="font-medium text-green-600">¥8,600.00</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-500">收款状态：</span>
+                        <span class="font-medium">
+                            <span class="status-tag status-paid">
+                                <i data-lucide="check" class="w-3 h-3 inline-block mr-1"></i>已收款
+                            </span>
+                        </span>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <span class="text-slate-500">备注：</span>
+                        <span class="font-medium text-right">大客户批量采购，优惠0.1元/斤</span>
+                    </div>
+                `;
+                allocationModule.classList.add('hidden');
+                markPaidBtn.classList.add('hidden');
+            } else if (type === 'expense') {
+                title.textContent = '支出详情';
+                content.innerHTML = `
+                    <div class="flex justify-between">
+                        <span class="text-slate-500">支出日期：</span>
+                        <span class="font-medium">2024-05-19</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-500">支出类型：</span>
+                        <span class="font-medium">饲料费用</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-500">养殖批次：</span>
+                        <span class="font-medium">202405批次</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-500">支出金额：</span>
+                        <span class="font-medium text-red-600">¥5,200.00</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-500">付款状态：</span>
+                        <span class="font-medium">
+                            <span class="status-tag status-paid">
+                                <i data-lucide="check" class="w-3 h-3 inline-block mr-1"></i>已付款
+                            </span>
+                        </span>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <span class="text-slate-500">备注：</span>
+                        <span class="font-medium text-right">正大饲料，月结付款，供应商：张三</span>
+                    </div>
+                `;
+                allocationModule.classList.add('hidden');
+                markPaidBtn.classList.add('hidden');
+            } else if (type === 'expense-multiple') {
+                title.textContent = '支出详情';
+                content.innerHTML = `
+                    <div class="flex justify-between">
+                        <span class="text-slate-500">支出日期：</span>
+                        <span class="font-medium">2024-05-18</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-500">支出类型：</span>
+                        <span class="font-medium">人工费用</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-500">养殖批次：</span>
+                        <span class="font-medium text-primary">多批次分摊</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-500">支出金额：</span>
+                        <span class="font-medium text-red-600">¥10,000.00</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-500">付款状态：</span>
+                        <span class="font-medium">
+                            <span class="status-tag status-unpaid">
+                                <i data-lucide="alert-circle" class="w-3 h-3 inline-block mr-1"></i>未付款
+                            </span>
+                        </span>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <span class="text-slate-500">备注：</span>
+                        <span class="font-medium text-right">5月份工人工资，月底统一发放</span>
+                    </div>
+                `;
+                allocationModule.classList.remove('hidden');
+                markPaidBtn.classList.remove('hidden');
+                markPaidBtn.textContent = '标记为已付款';
+            }
+            
+            modal.classList.remove('hidden');
+        }
+        
+        // 关闭台账详情弹窗
+        function closeLedgerDetailModal() {
+            document.getElementById('ledgerDetailModal').classList.add('hidden');
+        }
+        
+        // 标记为已收/已付
+        function markAsPaid() {
+            alert('已标记为已付款！状态已更新至收支台账');
+            closeLedgerDetailModal();
+        }
+        
+        // 查看凭证
+        function viewVoucher(event, voucherId) {
+            // 阻止事件冒泡，避免触发台账详情弹窗
+            event.stopPropagation();
+            document.getElementById('voucherModal').classList.remove('hidden');
+            // 可以根据voucherId加载不同的凭证内容
+            console.log('查看凭证:', voucherId);
+        }
+        
+        // 关闭凭证弹窗
+        function closeVoucherModal() {
+            document.getElementById('voucherModal').classList.add('hidden');
+        }
+        
+        // 初始化下拉刷新功能
+        function initPullToRefresh() {
+            const mainContent = document.getElementById('mainContent');
+            
+            mainContent.addEventListener('touchstart', function(e) {
+                startY = e.touches[0].clientY;
+                isRefreshing = false;
+            }, { passive: true });
+            
+            mainContent.addEventListener('touchmove', function(e) {
+                if (mainContent.scrollTop <= 0 && !isRefreshing) {
+                    const currentY = e.touches[0].clientY;
+                    const diff = currentY - startY;
+                    
+                    if (diff > 50) {
+                        document.getElementById('pullRefresh').classList.remove('hidden');
+                        document.getElementById('pullRefresh').innerHTML = '<i data-lucide="refresh-cw" class="w-4 h-4 mr-2"></i><span>松开刷新...</span>';
+                    } else if (diff > 0) {
+                        document.getElementById('pullRefresh').classList.remove('hidden');
+                        document.getElementById('pullRefresh').innerHTML = '<i data-lucide="arrow-down" class="w-4 h-4 mr-2"></i><span>下拉刷新数据...</span>';
+                    }
+                }
+            }, { passive: true });
+            
+            mainContent.addEventListener('touchend', function() {
+                const refreshEl = document.getElementById('pullRefresh');
+                if (!refreshEl.classList.contains('hidden')) {
+                    isRefreshing = true;
+                    refreshEl.innerHTML = '<i data-lucide="loader" class="w-4 h-4 mr-2 animate-spin"></i><span>刷新中...</span>';
+                    
+                    // 模拟数据刷新
+                    setTimeout(() => {
+                        refreshEl.classList.add('hidden');
+                        alert('数据已刷新！');
+                        isRefreshing = false;
+                    }, 1500);
+                }
+            }, { passive: true });
+        }
+
+        // ===================== 收支汇总分析逻辑 =====================
+        // 初始化支出结构饼图
+        function initExpensePieChart() {
+            const ctx = document.getElementById('expensePieChart').getContext('2d');
+            
+            // 图表数据
+            const labels = ['饲料费用', '人工费用', '疫苗费用', '鸡苗费用', '水电费用', '其他费用'];
+            const data = [5200, 10000, 1500, 3000, 800, 200];
+            
+            // 创建图表
+            expensePieChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: [
+                            'rgba(46, 125, 50, 0.7)',
+                            'rgba(25, 118, 210, 0.7)',
+                            'rgba(123, 31, 162, 0.7)',
+                            'rgba(245, 127, 23, 0.7)',
+                            'rgba(255, 152, 0, 0.7)',
+                            'rgba(100, 116, 139, 0.7)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                font: {
+                                    size: 10
+                                },
+                                padding: 10
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.raw || 0;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((value / total) * 100).toFixed(1);
+                                    return `${label}: ¥${value} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // 初始化收支趋势图
+        function initFinanceTrendChart() {
+            const ctx = document.getElementById('financeTrendChart').getContext('2d');
+            
+            // 周数据
+            const weekLabels = ['第1周', '第2周', '第3周', '第4周'];
+            const weekIncomeData = [2500, 3800, 4200, 2060];
+            const weekExpenseData = [4200, 3800, 4500, 4200];
+            
+            // 月数据
+            const monthLabels = ['1月', '2月', '3月', '4月', '5月'];
+            const monthIncomeData = [8500, 9200, 10500, 11800, 12560];
+            const monthExpenseData = [9800, 10500, 12800, 15200, 16700];
+            
+            // 选择当前周期数据
+            const labels = currentTrendPeriod === 'week' ? weekLabels : monthLabels;
+            const incomeData = currentTrendPeriod === 'week' ? weekIncomeData : monthIncomeData;
+            const expenseData = currentTrendPeriod === 'week' ? weekExpenseData : monthExpenseData;
+            
+            // 创建图表
+            financeTrendChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: '收入 (元)',
+                            data: incomeData,
+                            borderColor: 'rgba(46, 125, 50, 1)',
+                            backgroundColor: 'rgba(46, 125, 50, 0.1)',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            fill: true
+                        },
+                        {
+                            label: '支出 (元)',
+                            data: expenseData,
+                            borderColor: 'rgba(211, 47, 47, 1)',
+                            backgroundColor: 'rgba(211, 47, 47, 0.1)',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            fill: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                font: {
+                                    size: 10
+                                }
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: {
+                                    size: 10
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    size: 10
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // 切换趋势图周期
+        function switchTrendPeriod(period) {
+            if (currentTrendPeriod === period) return;
+            
+            currentTrendPeriod = period;
+            
+            // 更新按钮样式
+            document.querySelectorAll('[onclick^="switchTrendPeriod"]').forEach(btn => {
+                btn.classList.remove('bg-primary/10', 'text-primary');
+                btn.classList.add('bg-slate-100', 'text-slate-500');
+            });
+            event.target.classList.remove('bg-slate-100', 'text-slate-500');
+            event.target.classList.add('bg-primary/10', 'text-primary');
+            
+            // 销毁旧图表并创建新图表
+            if (financeTrendChart) {
+                financeTrendChart.destroy();
+            }
+            initFinanceTrendChart();
+        }
+        
+        // 筛选分析数据
+        function filterAnalysisData() {
+            // 获取筛选条件
+            const startDate = document.getElementById('analysisStartDate').value;
+            const endDate = document.getElementById('analysisEndDate').value;
+            const batch = document.getElementById('analysisBreedingBatch').value;
+            
+            // 简单验证
+            if (startDate && endDate && startDate > endDate) {
+                alert('开始日期不能晚于结束日期');
+                return;
+            }
+            
+            // 模拟筛选效果
+            alert(`筛选条件：
+开始日期：${startDate || '未选择'}
+结束日期：${endDate || '未选择'}
+养殖批次：${batch || '全部批次'}
+
+数据筛选完成！图表已更新`);
+            
+            // 模拟更新图表数据
+            if (expensePieChart) {
+                expensePieChart.destroy();
+            }
+            initExpensePieChart();
+            
+            if (financeTrendChart) {
+                financeTrendChart.destroy();
+            }
+            initFinanceTrendChart();
+        }
+        
+        // 下载支出结构图表
+        function downloadExpenseChart() {
+            alert('支出结构图表已下载为PNG图片！');
+            // 实际项目中可以使用以下代码下载图表
+            // const link = document.createElement('a');
+            // link.download = '支出结构分析_' + new Date().toISOString().split('T')[0] + '.png';
+            // link.href = document.getElementById('expensePieChart').toDataURL('image/png');
+            // link.click();
+        }
+        
+        // 导出汇总数据
+        function exportAnalysisData() {
+            alert('收支汇总数据已导出为Excel文件！\n文件名：收支汇总分析_' + new Date().toISOString().split('T')[0] + '.xlsx');
+        }
+        
+        // 导出财务数据
+        function exportFinanceData() {
+            alert('财务数据已导出为Excel文件！\n文件名：收支台账_' + new Date().toISOString().split('T')[0] + '.xlsx');
+        }
+    </script>
+</body>
+</html>

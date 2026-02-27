@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>养殖管理系统 - 成本利润核算</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2E7D32',
+                        secondary: '#1976D2',
+                        success: '#2E7D32',
+                        warning: '#F57F17',
+                        danger: '#D32F2F',
+                        surface: '#f8fafc',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans SC', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body { 
+            background-color: #f1f5f9; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            min-h-screen; 
+            font-family: 'Noto Sans SC', sans-serif; 
+        }
+        
+        .iphone-canvas {
+            width: 375px;
+            height: 812px;
+            background: #ffffff;
+            position: relative;
+            overflow: hidden;
+            border-radius: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
+            border: 8px solid #1e293b;
+        }
+        
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .glass-header { backdrop-filter: blur(10px); background: rgba(255,255,255,0.8); }
+        .tab-active { 
+            color: #2E7D32; 
+            border-bottom: 2px solid #2E7D32; 
+            font-weight: 600;
+        }
+        .nav-item.active { 
+            color: #2E7D32; 
+        }
+        
+        /* 状态标签样式 */
+        .status-tag {
+            padding: 0.1rem 0.5rem;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 500;
+        }
+        .status-raising {
+            background-color: rgba(25, 118, 210, 0.1);
+            color: #1976D2;
+        }
+        .status-finished {
+            background-color: rgba(46, 125, 50, 0.1);
+            color: #2E7D32;
+        }
+        .status-locked {
+            background-color: rgba(107, 114, 128, 0.1);
+            color: #6b7280;
+        }
+        
+        /* 成本利润标签样式 */
+        .cost-tag {
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            font-size: 9px;
+            font-weight: 600;
+        }
+        .cost-tag-chicken {
+            background-color: rgba(249, 115, 22, 0.1);
+            color: #f97316;
+        }
+        .cost-tag-breeding {
+            background-color: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+        }
+        
+        /* 利润亏损样式 */
+        .profit-positive {
+            color: #2E7D32;
+        }
+        .profit-negative {
+            color: #D32F2F;
+        }
+        
+        /* 确认签字弹窗 */
+        .signature-modal {
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <div class="iphone-canvas flex flex-col">
+        <!-- 顶部状态栏 -->
+        <header class="glass-header sticky top-0 z-10 px-6 pt-12 pb-4 flex justify-between items-center border-b border-slate-50">
+            <button class="text-slate-800" onclick="goBackToHome()">
+                <i data-lucide="arrow-left" class="w-5 h-5"></i>
+            </button>
+            <div class="flex flex-1 items-center gap-2 ml-2">
+                <h1 id="" class="text-lg font-bold text-slate-800">成本利润核算</h1>
+            </div>
+        </header>
+
+        <!-- 页面标题栏 -->
+        <div class="px-6 py-4 border-b border-slate-100">
+            <!-- 成本/利润标签切换 -->
+            <div class="flex border-b border-slate-100 overflow-x-auto hide-scroll mb-4">
+                <button id="costTab" class="flex-1 py-3 text-sm tab-active whitespace-nowrap" onclick="switchCalcTab(1)">
+                    批次成本核算
+                </button>
+                <button id="profitTab" class="flex-1 py-3 text-sm text-slate-500 whitespace-nowrap" onclick="switchCalcTab(2)">
+                    利润核算
+                </button>
+            </div>
+            
+            <!-- 筛选栏 -->
+            <div id="costFilter" class="flex justify-between items-center">
+                <h1 class="text-lg font-bold text-slate-800">批次成本核算</h1>
+                <div class="relative">
+                    <select id="batchSelect" class="appearance-none bg-slate-50 border border-slate-200 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20" onchange="changeBatch()">
+                        <option value="1">202602批次（白羽鸡）</option>
+                        <option value="2">202601批次（土鸡）</option>
+                        <option value="3">202512批次（已出栏）</option>
+                    </select>
+                    <i data-lucide="chevron-down" class="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none"></i>
+                </div>
+            </div>
+            
+            <div id="profitFilter" class="flex justify-between items-center hidden">
+                <h1 class="text-lg font-bold text-slate-800">利润核算</h1>
+                <div class="flex gap-2">
+                    <div class="relative">
+                        <select id="profitBatchSelect" class="appearance-none bg-slate-50 border border-slate-200 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20">
+                            <option value="all">全部批次</option>
+                            <option value="1">202602批次（白羽鸡）</option>
+                            <option value="2">202601批次（土鸡）</option>
+                            <option value="3">202512批次（已出栏）</option>
+                        </select>
+                        <i data-lucide="chevron-down" class="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none"></i>
+                    </div>
+                    <div class="relative">
+                        <select id="profitDateSelect" class="appearance-none bg-slate-50 border border-slate-200 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20">
+                            <option value="month">本月</option>
+                            <option value="quarter">本季度</option>
+                            <option value="year">本年</option>
+                            <option value="custom">自定义</option>
+                        </select>
+                        <i data-lucide="chevron-down" class="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 主内容区 -->
+        <main class="flex-1 overflow-y-auto hide-scroll pb-24 px-6">
+            <!-- 批次成本核算页面 -->
+            <div id="costCalculation" class="space-y-6">
+                <!-- 批次基础信息 -->
+                <div class="bg-white rounded-lg p-4 shadow-sm">
+                    <h2 class="text-sm font-semibold text-slate-800 mb-3">批次基础信息</h2>
+                    <div class="grid grid-cols-2 gap-3 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">进鸡时间：</span>
+                            <span class="font-medium">2026-02-01</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">预计出栏：</span>
+                            <span class="font-medium">2026-08-15</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">当前存栏：</span>
+                            <span class="font-medium">12000只</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">批次状态：</span>
+                            <span class="font-medium">
+                                <span class="status-tag status-raising" id="batchStatus">在养中</span>
+                                <span id="costStatusTag" class="text-xs text-secondary ml-1">动态更新</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 成本汇总 -->
+                <div class="bg-white rounded-lg p-4 shadow-sm">
+                    <h2 class="text-sm font-semibold text-slate-800 mb-3">成本汇总</h2>
+                    <div class="grid grid-cols-3 gap-2 text-center text-sm">
+                        <div class="bg-slate-50 p-2 rounded-lg">
+                            <div class="text-gray-500 text-xs">总成本</div>
+                            <div class="font-bold text-lg" id="totalCost">¥246,800</div>
+                        </div>
+                        <div class="bg-slate-50 p-2 rounded-lg">
+                            <div class="text-gray-500 text-xs">每斤鸡蛋成本</div>
+                            <div class="font-bold text-lg">¥3.28</div>
+                        </div>
+                        <div class="bg-slate-50 p-2 rounded-lg">
+                            <div class="text-gray-500 text-xs">每枚鸡蛋成本</div>
+                            <div class="font-bold text-lg">¥0.45</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 成本明细列表 -->
+                <div class="bg-white rounded-lg shadow-sm">
+                    <div class="p-4 border-b border-slate-100">
+                        <h2 class="text-sm font-semibold text-slate-800">成本明细</h2>
+                    </div>
+                    <div class="divide-y divide-slate-100" id="costDetailList">
+                        <!-- 鸡苗成本（优先展示） -->
+                        <div class="p-3 flex flex-col">
+                            <div class="flex justify-between items-center mb-1">
+                                <div class="flex items-center gap-2">
+                                    <span class="font-medium text-sm">鸡苗成本</span>
+                                    <span class="cost-tag cost-tag-chicken">鸡苗</span>
+                                </div>
+                                <span class="font-bold text-sm">¥60,000</span>
+                            </div>
+                            <div class="flex justify-between text-xs text-gray-500">
+                                <span>占比：24.3% | 录入时间：2026-02-01</span>
+                                <button class="text-secondary hover:text-secondary/80" onclick="viewVoucher('chicken')">
+                                    <i data-lucide="file-text" class="w-3 h-3 mr-1 inline"></i>查看凭证
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- 育雏费用（优先展示） -->
+                        <div class="p-3 flex flex-col">
+                            <div class="flex justify-between items-center mb-1">
+                                <div class="flex items-center gap-2">
+                                    <span class="font-medium text-sm">育雏费用</span>
+                                    <span class="cost-tag cost-tag-breeding">育雏</span>
+                                </div>
+                                <span class="font-bold text-sm">¥24,000</span>
+                            </div>
+                            <div class="flex justify-between text-xs text-gray-500">
+                                <span>占比：9.7% | 录入时间：2026-02-05</span>
+                                <button class="text-secondary hover:text-secondary/80" onclick="viewVoucher('breeding')">
+                                    <i data-lucide="file-text" class="w-3 h-3 mr-1 inline"></i>查看凭证
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- 饲料成本 -->
+                        <div class="p-3 flex flex-col">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-medium text-sm">饲料成本</span>
+                                <span class="font-bold text-sm">¥120,000</span>
+                            </div>
+                            <div class="flex justify-between text-xs text-gray-500">
+                                <span>占比：48.6% | 录入时间：2026-02-20</span>
+                                <button class="text-secondary hover:text-secondary/80" onclick="viewVoucher('feed')">
+                                    <i data-lucide="file-text" class="w-3 h-3 mr-1 inline"></i>查看凭证
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- 疫苗药品 -->
+                        <div class="p-3 flex flex-col">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-medium text-sm">疫苗药品</span>
+                                <span class="font-bold text-sm">¥18,000</span>
+                            </div>
+                            <div class="flex justify-between text-xs text-gray-500">
+                                <span>占比：7.3% | 录入时间：2026-02-15</span>
+                                <button class="text-secondary hover:text-secondary/80" onclick="viewVoucher('medicine')">
+                                    <i data-lucide="file-text" class="w-3 h-3 mr-1 inline"></i>查看凭证
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- 人工成本 -->
+                        <div class="p-3 flex flex-col">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-medium text-sm">人工成本</span>
+                                <span class="font-bold text-sm">¥16,800</span>
+                            </div>
+                            <div class="flex justify-between text-xs text-gray-500">
+                                <span>占比：6.8% | 录入时间：2026-02-28</span>
+                                <button class="text-secondary hover:text-secondary/80" onclick="viewVoucher('labor')">
+                                    <i data-lucide="file-text" class="w-3 h-3 mr-1 inline"></i>查看凭证
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- 水电费用 -->
+                        <div class="p-3 flex flex-col">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-medium text-sm">水电费用</span>
+                                <span class="font-bold text-sm">¥8,000</span>
+                            </div>
+                            <div class="flex justify-between text-xs text-gray-500">
+                                <span>占比：3.2% | 录入时间：2026-02-28</span>
+                                <button class="text-secondary hover:text-secondary/80" onclick="viewVoucher('utility')">
+                                    <i data-lucide="file-text" class="w-3 h-3 mr-1 inline"></i>查看凭证
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 底部操作按钮 -->
+                <div id="costActionButtons" class="fixed bottom-20 left-0 right-0 flex gap-3 px-6 max-w-xs mx-auto">
+                    <button id="refreshCostBtn" class="flex-1 py-3 bg-secondary text-white rounded-lg text-sm hover:bg-secondary/90 transition-colors">
+                        <i data-lucide="refresh-cw" class="w-4 h-4 mr-1 inline"></i>刷新成本
+                    </button>
+                    <button id="lockCostBtn" class="flex-1 py-3 bg-gray-400 text-white rounded-lg text-sm disabled:opacity-70" disabled>
+                        <i data-lucide="lock" class="w-4 h-4 mr-1 inline"></i>锁定成本
+                    </button>
+                    <button id="exportCostBtn" class="flex-1 py-3 bg-primary text-white rounded-lg text-sm hover:bg-primary/90 transition-colors">
+                        <i data-lucide="download" class="w-4 h-4 mr-1 inline"></i>导出明细表
+                    </button>
+                </div>
+            </div>
+
+            <!-- 利润核算页面 -->
+            <div id="profitCalculation" class="space-y-6 hidden">
+                <!-- 核算汇总 -->
+                <div class="bg-white rounded-lg p-4 shadow-sm">
+                    <h2 class="text-sm font-semibold text-slate-800 mb-3">核算汇总</h2>
+                    <div class="grid grid-cols-3 gap-2 text-center text-sm mb-2">
+                        <div class="bg-slate-50 p-2 rounded-lg">
+                            <div class="text-gray-500 text-xs">总收入</div>
+                            <div class="font-bold text-lg">¥328,500</div>
+                        </div>
+                        <div class="bg-slate-50 p-2 rounded-lg">
+                            <div class="text-gray-500 text-xs">总支出</div>
+                            <div class="font-bold text-lg">¥246,800</div>
+                        </div>
+                        <div class="bg-slate-50 p-2 rounded-lg">
+                            <div class="text-gray-500 text-xs">利润/亏损</div>
+                            <div class="font-bold text-lg profit-positive" id="profitAmount">¥81,700</div>
+                        </div>
+                    </div>
+                    <div class="text-xs text-center text-gray-500" id="profitRatio">
+                        利润率：24.9% 
+                        <span id="profitStatusTag" class="text-xs text-secondary ml-1">动态利润预估</span>
+                    </div>
+                </div>
+
+                <!-- 明细拆分 -->
+                <div class="bg-white rounded-lg shadow-sm">
+                    <div class="p-4 border-b border-slate-100">
+                        <h2 class="text-sm font-semibold text-slate-800">明细拆分</h2>
+                    </div>
+                    <div class="divide-y divide-slate-100">
+                        <!-- 收入部分 -->
+                        <div class="p-3">
+                            <h3 class="text-xs font-semibold text-slate-500 mb-2">收入部分</h3>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-medium text-sm">鸡蛋销售收入</span>
+                                <span class="font-bold text-sm">¥315,000</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="font-medium text-sm">其他收入（淘汰鸡）</span>
+                                <span class="font-bold text-sm">¥13,500</span>
+                            </div>
+                        </div>
+                        
+                        <!-- 支出部分 -->
+                        <div class="p-3">
+                            <h3 class="text-xs font-semibold text-slate-500 mb-2">支出部分</h3>
+                            <div class="flex justify-between items-center mb-1">
+                                <div class="flex items-center gap-2">
+                                    <span class="font-medium text-sm">鸡苗成本</span>
+                                    <span class="cost-tag cost-tag-chicken">鸡苗</span>
+                                </div>
+                                <span class="font-bold text-sm">¥60,000</span>
+                            </div>
+                            <div class="flex justify-between items-center mb-1">
+                                <div class="flex items-center gap-2">
+                                    <span class="font-medium text-sm">育雏费用</span>
+                                    <span class="cost-tag cost-tag-breeding">育雏</span>
+                                </div>
+                                <span class="font-bold text-sm">¥24,000</span>
+                            </div>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-medium text-sm">饲料成本</span>
+                                <span class="font-bold text-sm">¥120,000</span>
+                            </div>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-medium text-sm">疫苗药品</span>
+                                <span class="font-bold text-sm">¥18,000</span>
+                            </div>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-medium text-sm">人工成本</span>
+                                <span class="font-bold text-sm">¥16,800</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="font-medium text-sm">水电费用</span>
+                                <span class="font-bold text-sm">¥8,000</span>
+                            </div>
+                        </div>
+                        
+                        <!-- 备注提示 -->
+                        <div class="p-3 bg-amber-50 rounded-b-lg">
+                            <p class="text-xs text-amber-700">
+                                <i data-lucide="alert-triangle" class="w-3 h-3 mr-1 inline"></i>
+                                <span id="profitNote">未回款金额¥28,500未计入利润，实际到账后将更新利润数据</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 底部操作按钮 -->
+                <div class="fixed bottom-20 left-0 right-0 flex gap-3 px-6 max-w-xs mx-auto">
+                    <button id="signProfitBtn" class="flex-1 py-3 bg-gray-400 text-white rounded-lg text-sm disabled:opacity-70" disabled>
+                        <i data-lucide="signature" class="w-4 h-4 mr-1 inline"></i>电子签字确认
+                    </button>
+                    <button id="exportProfitBtn" class="flex-1 py-3 bg-primary text-white rounded-lg text-sm hover:bg-primary/90 transition-colors">
+                        <i data-lucide="download" class="w-4 h-4 mr-1 inline"></i>导出利润报表
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- 凭证查看弹窗 -->
+        <div id="voucherModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-80 hidden">
+            <div class="bg-white rounded-3xl p-6 w-80 max-h-[80vh] overflow-y-auto">
+                <h2 class="text-lg font-bold text-slate-800 mb-4" id="voucherTitle">鸡苗成本凭证</h2>
+                
+                <div class="space-y-4 mb-6" id="voucherContent">
+                    <div class="bg-slate-100 rounded-lg p-3 text-sm">
+                        <div class="flex justify-between mb-1">
+                            <span class="text-slate-500">凭证编号：</span>
+                            <span class="font-medium">PZ20260201001</span>
+                        </div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-slate-500">金额：</span>
+                            <span class="font-medium">¥60,000.00</span>
+                        </div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-slate-500">供应商：</span>
+                            <span class="font-medium">正大禽业</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">录入时间：</span>
+                            <span class="font-medium">2026-02-01 10:25</span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <span class="text-sm text-slate-600 block mb-2">凭证图片：</span>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="bg-slate-100 rounded-lg overflow-hidden">
+                                <img src="https://picsum.photos/150/100?random=1" alt="凭证图片1" class="w-full h-auto">
+                            </div>
+                            <div class="bg-slate-100 rounded-lg overflow-hidden">
+                                <img src="https://picsum.photos/150/100?random=2" alt="凭证图片2" class="w-full h-auto">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="w-full py-2 border border-slate-200 rounded-lg text-sm text-slate-600 hover:bg-slate-50 transition-colors" onclick="closeVoucherModal()">
+                    关闭
+                </button>
+            </div>
+        </div>
+
+        <!-- 电子签字确认弹窗 -->
+        <div id="signatureModal" class="fixed inset-0 bg-black/50 signature-modal flex items-center justify-center z-100 hidden">
+            <div class="bg-white rounded-3xl p-6 w-80">
+                <h2 class="text-lg font-bold text-slate-800 mb-4">电子签字确认</h2>
+                
+                <p class="text-sm text-slate-600 mb-4">
+                    确认该批次最终利润数据无误，签字后报表将锁定，不可修改。
+                </p>
+                
+                <div class="border border-slate-200 rounded-lg p-4 mb-4">
+                    <canvas id="signatureCanvas" width="300" height="100" class="border border-dashed border-slate-300 rounded-lg bg-white"></canvas>
+                    <button class="text-xs text-secondary mt-2" onclick="clearSignature()">清空签字</button>
+                </div>
+                
+                <div class="flex gap-3">
+                    <button class="flex-1 py-2 border border-slate-200 rounded-lg text-sm text-slate-600 hover:bg-slate-50 transition-colors" onclick="closeSignatureModal()">
+                        取消
+                    </button>
+                    <button class="flex-1 py-2 bg-primary text-white rounded-lg text-sm hover:bg-primary/90 transition-colors" onclick="confirmSignature()">
+                        确认提交
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 全局变量
+        let currentCalcTab = 1;
+        let signaturePad = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+            
+            // 初始化签字画布
+            initSignatureCanvas();
+            
+            // 设置按钮点击事件
+            document.getElementById('btn-settings').addEventListener('click', () => {
+                alert('正在跳转至设置页面...\n包含：密码修改、手动备份、账号管理');
+            });
+            
+            // 绑定按钮事件
+            document.getElementById('refreshCostBtn').addEventListener('click', refreshCost);
+            document.getElementById('exportCostBtn').addEventListener('click', exportCostReport);
+            document.getElementById('exportProfitBtn').addEventListener('click', exportProfitReport);
+            document.getElementById('signProfitBtn').addEventListener('click', openSignatureModal);
+        });
+
+        // 初始化签字画布
+        function initSignatureCanvas() {
+            const canvas = document.getElementById('signatureCanvas');
+            const ctx = canvas.getContext('2d');
+            let isDrawing = false;
+            
+            canvas.addEventListener('mousedown', (e) => {
+                isDrawing = true;
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+            });
+            
+            canvas.addEventListener('mousemove', (e) => {
+                if (isDrawing) {
+                    const rect = canvas.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    ctx.lineTo(x, y);
+                    ctx.strokeStyle = '#2E7D32';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                }
+            });
+            
+            canvas.addEventListener('mouseup', () => {
+                isDrawing = false;
+            });
+            
+            canvas.addEventListener('mouseleave', () => {
+                isDrawing = false;
+            });
+            
+            // 移动端支持
+            canvas.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                isDrawing = true;
+                const rect = canvas.getBoundingClientRect();
+                const x = e.touches[0].clientX - rect.left;
+                const y = e.touches[0].clientY - rect.top;
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+            });
+            
+            canvas.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                if (isDrawing) {
+                    const rect = canvas.getBoundingClientRect();
+                    const x = e.touches[0].clientX - rect.left;
+                    const y = e.touches[0].clientY - rect.top;
+                    ctx.lineTo(x, y);
+                    ctx.strokeStyle = '#2E7D32';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                }
+            });
+            
+            canvas.addEventListener('touchend', () => {
+                isDrawing = false;
+            });
+        }
+
+        // 返回首页
+        function goBackToHome() {
+            window.location.href = 'index.html';
+        }
+
+        // 切换成本/利润标签
+        function switchCalcTab(n) {
+            currentCalcTab = n;
+            
+            // 更新标签样式
+            document.getElementById('costTab').classList.remove('tab-active');
+            document.getElementById('profitTab').classList.remove('tab-active');
+            document.getElementById('costTab').classList.add('text-slate-500');
+            document.getElementById('profitTab').classList.add('text-slate-500');
+            
+            // 切换筛选栏和内容显示
+            document.getElementById('costFilter').classList.add('hidden');
+            document.getElementById('profitFilter').classList.add('hidden');
+            document.getElementById('costCalculation').classList.add('hidden');
+            document.getElementById('profitCalculation').classList.add('hidden');
+            
+            if (n === 1) {
+                document.getElementById('costTab').classList.add('tab-active');
+                document.getElementById('costTab').classList.remove('text-slate-500');
+                document.getElementById('costFilter').classList.remove('hidden');
+                document.getElementById('costCalculation').classList.remove('hidden');
+            } else {
+                document.getElementById('profitTab').classList.add('tab-active');
+                document.getElementById('profitTab').classList.remove('text-slate-500');
+                document.getElementById('profitFilter').classList.remove('hidden');
+                document.getElementById('profitCalculation').classList.remove('hidden');
+            }
+        }
+
+        // 切换批次
+        function changeBatch() {
+            const batchSelect = document.getElementById('batchSelect');
+            const batchValue = batchSelect.value;
+            
+            if (batchValue === '1') {
+                // 202602批次（白羽鸡）- 在养
+                document.getElementById('batchStatus').className = 'status-tag status-raising';
+                document.getElementById('batchStatus').textContent = '在养中';
+                document.getElementById('costStatusTag').textContent = '动态更新';
+                document.getElementById('costStatusTag').className = 'text-xs text-secondary ml-1';
+                document.getElementById('totalCost').textContent = '¥246,800';
+                document.getElementById('refreshCostBtn').disabled = false;
+                document.getElementById('refreshCostBtn').className = 'flex-1 py-3 bg-secondary text-white rounded-lg text-sm hover:bg-secondary/90 transition-colors';
+                document.getElementById('lockCostBtn').disabled = true;
+                document.getElementById('lockCostBtn').className = 'flex-1 py-3 bg-gray-400 text-white rounded-lg text-sm disabled:opacity-70';
+                
+                // 更新利润状态
+                document.getElementById('profitAmount').className = 'font-bold text-lg profit-positive';
+                document.getElementById('profitAmount').textContent = '¥81,700';
+                document.getElementById('profitRatio').innerHTML = '利润率：24.9% <span id="profitStatusTag" class="text-xs text-secondary ml-1">动态利润预估</span>';
+                document.getElementById('profitNote').textContent = '未回款金额¥28,500未计入利润，实际到账后将更新利润数据';
+                document.getElementById('signProfitBtn').disabled = true;
+                document.getElementById('signProfitBtn').className = 'flex-1 py-3 bg-gray-400 text-white rounded-lg text-sm disabled:opacity-70';
+            } else if (batchValue === '2') {
+                // 202601批次（土鸡）- 在养
+                document.getElementById('batchStatus').className = 'status-tag status-raising';
+                document.getElementById('batchStatus').textContent = '在养中';
+                document.getElementById('costStatusTag').textContent = '动态更新';
+                document.getElementById('costStatusTag').className = 'text-xs text-secondary ml-1';
+                document.getElementById('totalCost').textContent = '¥189,500';
+                document.getElementById('refreshCostBtn').disabled = false;
+                document.getElementById('refreshCostBtn').className = 'flex-1 py-3 bg-secondary text-white rounded-lg text-sm hover:bg-secondary/90 transition-colors';
+                document.getElementById('lockCostBtn').disabled = true;
+                document.getElementById('lockCostBtn').className = 'flex-1 py-3 bg-gray-400 text-white rounded-lg text-sm disabled:opacity-70';
+                
+                // 更新利润状态
+                document.getElementById('profitAmount').className = 'font-bold text-lg profit-positive';
+                document.getElementById('profitAmount').textContent = '¥45,200';
+                document.getElementById('profitRatio').innerHTML = '利润率：19.2% <span id="profitStatusTag" class="text-xs text-secondary ml-1">动态利润预估</span>';
+                document.getElementById('profitNote').textContent = '未回款金额¥15,800未计入利润，实际到账后将更新利润数据';
+                document.getElementById('signProfitBtn').disabled = true;
+                document.getElementById('signProfitBtn').className = 'flex-1 py-3 bg-gray-400 text-white rounded-lg text-sm disabled:opacity-70';
+            } else if (batchValue === '3') {
+                // 202512批次 - 已出栏
+                document.getElementById('batchStatus').className = 'status-tag status-finished';
+                document.getElementById('batchStatus').textContent = '已出栏';
+                document.getElementById('costStatusTag').textContent = '已锁定';
+                document.getElementById('costStatusTag').className = 'text-xs text-slate-500 ml-1';
+                document.getElementById('totalCost').textContent = '¥215,600';
+                document.getElementById('refreshCostBtn').disabled = true;
+                document.getElementById('refreshCostBtn').className = 'flex-1 py-3 bg-gray-400 text-white rounded-lg text-sm disabled:opacity-70';
+                document.getElementById('lockCostBtn').disabled = false;
+                document.getElementById('lockCostBtn').className = 'flex-1 py-3 bg-primary text-white rounded-lg text-sm hover:bg-primary/90 transition-colors';
+                
+                // 更新利润状态
+                document.getElementById('profitAmount').className = 'font-bold text-lg profit-negative';
+                document.getElementById('profitAmount').textContent = '¥-12,800';
+                document.getElementById('profitRatio').innerHTML = '亏损率：5.9% <span id="profitStatusTag" class="text-xs text-slate-500 ml-1">最终利润</span>';
+                document.getElementById('profitNote').textContent = '所有款项已结清，该批次最终亏损¥12,800';
+                document.getElementById('signProfitBtn').disabled = false;
+                document.getElementById('signProfitBtn').className = 'flex-1 py-3 bg-primary text-white rounded-lg text-sm hover:bg-primary/90 transition-colors';
+            }
+        }
+
+        // 刷新成本
+        function refreshCost() {
+            alert('成本数据已刷新！\n最新总成本：¥248,950\n每斤鸡蛋成本：¥3.31\n每枚鸡蛋成本：¥0.46');
+            document.getElementById('totalCost').textContent = '¥248,950';
+        }
+
+        // 查看凭证
+        function viewVoucher(type) {
+            const modal = document.getElementById('voucherModal');
+            const title = document.getElementById('voucherTitle');
+            
+            if (type === 'chicken') {
+                title.textContent = '鸡苗成本凭证';
+            } else if (type === 'breeding') {
+                title.textContent = '育雏费用凭证';
+            } else if (type === 'feed') {
+                title.textContent = '饲料成本凭证';
+            } else if (type === 'medicine') {
+                title.textContent = '疫苗药品凭证';
+            } else if (type === 'labor') {
+                title.textContent = '人工成本凭证';
+            } else if (type === 'utility') {
+                title.textContent = '水电费用凭证';
+            }
+            
+            modal.classList.remove('hidden');
+        }
+
+        // 关闭凭证弹窗
+        function closeVoucherModal() {
+            document.getElementById('voucherModal').classList.add('hidden');
+        }
+
+        // 打开签字弹窗
+        function openSignatureModal() {
+            document.getElementById('signatureModal').classList.remove('hidden');
+        }
+
+        // 关闭签字弹窗
+        function closeSignatureModal() {
+            document.getElementById('signatureModal').classList.add('hidden');
+            clearSignature();
+        }
+
+        // 清空签字
+        function clearSignature() {
+            const canvas = document.getElementById('signatureCanvas');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // 确认签字
+        function confirmSignature() {
+            alert('电子签字确认成功！\n利润报表已锁定，数据不可修改。');
+            closeSignatureModal();
+            
+            // 更新状态为已锁定
+            document.getElementById('profitRatio').innerHTML = '亏损率：5.9% <span id="profitStatusTag" class="text-xs text-slate-500 ml-1">已锁定</span>';
+            document.getElementById('signProfitBtn').disabled = true;
+            document.getElementById('signProfitBtn').className = 'flex-1 py-3 bg-gray-400 text-white rounded-lg text-sm disabled:opacity-70';
+        }
+
+        // 导出成本报表
+        function exportCostReport() {
+            alert('成本明细表导出成功！\n文件格式：Excel\n包含：批次信息、成本汇总、明细列表、凭证附件');
+        }
+
+        // 导出利润报表
+        function exportProfitReport() {
+            alert('利润报表导出成功！\n文件格式：Excel\n包含：核算汇总、收入支出明细、利润计算依据');
+        }
+    </script>
+</body>
+</html>

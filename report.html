@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>养殖管理系统 - 报表导出</title>
+    <script src="./assets/3.4.17.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2E7D32',
+                        secondary: '#1976D2',
+                        success: '#2E7D32',
+                        warning: '#F57F17',
+                        danger: '#D32F2F',
+                        surface: '#f8fafc',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans SC', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body { 
+            background-color: #f1f5f9; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            min-h-screen; 
+            font-family: 'Noto Sans SC', sans-serif; 
+        }
+        
+        .iphone-canvas {
+            width: 375px;
+            height: 812px;
+            background: #ffffff;
+            position: relative;
+            overflow: hidden;
+            border-radius: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
+            border: 8px solid #1e293b;
+        }
+        
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .glass-header { backdrop-filter: blur(10px); background: rgba(255,255,255,0.8); }
+        .tab-active { 
+            color: #2E7D32; 
+            border-bottom: 2px solid #2E7D32; 
+            font-weight: 600;
+        }
+        .nav-item.active { 
+            color: #2E7D32; 
+        }
+        
+        /* 加载提示样式 */
+        .loading-toast {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            z-index: 9999;
+            display: none;
+        }
+        
+        /* 成功提示样式 */
+        .success-toast {
+            position: fixed;
+            bottom: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(46, 125, 50, 0.9);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            z-index: 9999;
+            display: none;
+            animation: fadeInOut 2s ease-in-out;
+        }
+        
+        @keyframes fadeInOut {
+            0% { opacity: 0; bottom: 15%; }
+            20% { opacity: 1; bottom: 20%; }
+            80% { opacity: 1; bottom: 20%; }
+            100% { opacity: 0; bottom: 15%; }
+        }
+        
+        /* 自定义日期选择模态框 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 340px;
+            padding: 1.5rem;
+        }
+        
+        /* 底部导航栏样式 */
+        .app-nav {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: white/90;
+            backdrop-blur-md: blur(10px);
+            border-top: 1px solid #e2e8f0;
+            padding: 1rem 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            border-radius: 32px 32px 0 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="iphone-canvas flex flex-col">
+        <!-- 顶部状态栏 -->
+        <header class="glass-header sticky top-0 z-10 px-6 pt-12 pb-4 flex justify-between items-center border-b border-slate-50">
+			<button class="text-slate-800" onclick="goBackToHome()">
+				<i data-lucide="arrow-left" class="w-5 h-5"></i>
+			</button>
+			<div class="flex flex-1 items-center gap-2 ml-2">
+				<h1 id="pageTitle" class="text-lg font-bold text-slate-800">报表导出</h1>
+			</div>
+            <!-- 补充占位元素，保持布局平衡 -->
+            <div class="w-5 h-5"></div>
+		</header>
+
+        <!-- 报表类型标签切换 -->
+        <div class="flex border-b border-slate-100 overflow-x-auto hide-scroll">
+            <button id="dailyTab" class="flex-1 py-3 text-sm tab-active whitespace-nowrap" onclick="switchTab(1)">
+                日常导出
+            </button>
+            <button id="monthlyTab" class="flex-1 py-3 text-sm text-slate-500 whitespace-nowrap" onclick="switchTab(2)">
+                月度导出
+            </button>
+            <button id="batchTab" class="flex-1 py-3 text-sm text-slate-500 whitespace-nowrap" onclick="switchTab(3)">
+                批次导出
+            </button>
+        </div>
+
+        <!-- 筛选栏 -->
+        <div class="px-6 py-3 border-b border-slate-100 bg-white">
+            <div id="dailyFilter" class="flex justify-between items-center">
+                <button id="batchExportBtn" class="py-1.5 px-3 bg-primary text-white text-sm rounded-lg hover:bg-primary/90 transition-colors" onclick="batchExport('daily')">
+                    <i data-lucide="download" class="w-4 h-4 mr-1 inline"></i>批量导出
+                </button>
+                <div class="relative">
+                    <select id="dailyDateSelect" class="appearance-none bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20" onchange="handleDateSelect()">
+                        <option value="today">今日</option>
+                        <option value="yesterday">昨日</option>
+                        <option value="custom">自定义日期</option>
+                    </select>
+                    <i data-lucide="chevron-down" class="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none"></i>
+                </div>
+            </div>
+            
+            <div id="monthlyFilter" class="flex justify-between items-center hidden">
+                <button id="monthlyBatchExportBtn" class="py-1.5 px-3 bg-primary text-white text-sm rounded-lg hover:bg-primary/90 transition-colors" onclick="batchExport('monthly')">
+                    <i data-lucide="download" class="w-4 h-4 mr-1 inline"></i>批量导出
+                </button>
+                <div class="relative">
+                    <select id="monthSelect" class="appearance-none bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20">
+                        <option value="202602">2026年02月</option>
+                        <option value="202601">2026年01月</option>
+                        <option value="202512">2025年12月</option>
+                    </select>
+                    <i data-lucide="chevron-down" class="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none"></i>
+                </div>
+            </div>
+            
+            <div id="batchFilter" class="flex justify-between items-center hidden">
+                <button id="batchTypeExportBtn" class="py-1.5 px-3 bg-primary text-white text-sm rounded-lg hover:bg-primary/90 transition-colors" onclick="batchExport('batch')">
+                    <i data-lucide="download" class="w-4 h-4 mr-1 inline"></i>批量导出
+                </button>
+                <div class="relative">
+                    <select id="batchSelect" class="appearance-none bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20">
+                        <option value="1">202602批次（白羽鸡）</option>
+                        <option value="2">202601批次（土鸡）</option>
+                        <option value="3">202512批次（已出栏）</option>
+                    </select>
+                    <i data-lucide="chevron-down" class="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- 主内容区 -->
+        <main class="flex-1 overflow-y-auto hide-scroll pb-24 px-6">
+            <!-- 日常导出报表列表 -->
+            <div id="dailyReports" class="mt-4 space-y-3">
+                <!-- 销售日报 -->
+                <div class="bg-white rounded-lg shadow-sm p-4 flex justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary" id="report1" name="dailyReport">
+                        <label for="report1" class="text-sm font-medium">销售日报</label>
+                    </div>
+                    <button class="bg-secondary text-white text-xs px-3 py-1.5 rounded hover:bg-secondary/90 transition-colors" onclick="exportReport('销售日报', 'daily', getCurrentDate())">
+                        <i data-lucide="download" class="w-3 h-3 mr-1 inline"></i>导出
+                    </button>
+                </div>
+                
+                <!-- 收支日报 -->
+                <div class="bg-white rounded-lg shadow-sm p-4 flex justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary" id="report2" name="dailyReport">
+                        <label for="report2" class="text-sm font-medium">收支日报</label>
+                    </div>
+                    <button class="bg-secondary text-white text-xs px-3 py-1.5 rounded hover:bg-secondary/90 transition-colors" onclick="exportReport('收支日报', 'daily', getCurrentDate())">
+                        <i data-lucide="download" class="w-3 h-3 mr-1 inline"></i>导出
+                    </button>
+                </div>
+                
+                <!-- 存栏日报 -->
+                <div class="bg-white rounded-lg shadow-sm p-4 flex justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary" id="report3" name="dailyReport">
+                        <label for="report3" class="text-sm font-medium">存栏日报</label>
+                    </div>
+                    <button class="bg-secondary text-white text-xs px-3 py-1.5 rounded hover:bg-secondary/90 transition-colors" onclick="exportReport('存栏日报', 'daily', getCurrentDate())">
+                        <i data-lucide="download" class="w-3 h-3 mr-1 inline"></i>导出
+                    </button>
+                </div>
+                
+                <!-- 饲料消耗日报 -->
+                <div class="bg-white rounded-lg shadow-sm p-4 flex justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary" id="report4" name="dailyReport">
+                        <label for="report4" class="text-sm font-medium">饲料消耗日报</label>
+                    </div>
+                    <button class="bg-secondary text-white text-xs px-3 py-1.5 rounded hover:bg-secondary/90 transition-colors" onclick="exportReport('饲料消耗日报', 'daily', getCurrentDate())">
+                        <i data-lucide="download" class="w-3 h-3 mr-1 inline"></i>导出
+                    </button>
+                </div>
+                
+                <!-- 应收应付日报 -->
+                <div class="bg-white rounded-lg shadow-sm p-4 flex justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary" id="report5" name="dailyReport">
+                        <label for="report5" class="text-sm font-medium">应收应付日报</label>
+                    </div>
+                    <button class="bg-secondary text-white text-xs px-3 py-1.5 rounded hover:bg-secondary/90 transition-colors" onclick="exportReport('应收应付日报', 'daily', getCurrentDate())">
+                        <i data-lucide="download" class="w-3 h-3 mr-1 inline"></i>导出
+                    </button>
+                </div>
+            </div>
+
+            <!-- 月度导出报表列表 -->
+            <div id="monthlyReports" class="mt-4 space-y-3 hidden">
+                <!-- 销售月报 -->
+                <div class="bg-white rounded-lg shadow-sm p-4 flex justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary" id="mreport1" name="monthlyReport">
+                        <label for="mreport1" class="text-sm font-medium">销售月报</label>
+                    </div>
+                    <button class="bg-secondary text-white text-xs px-3 py-1.5 rounded hover:bg-secondary/90 transition-colors" onclick="exportReport('销售月报', 'monthly', getSelectedMonth())">
+                        <i data-lucide="download" class="w-3 h-3 mr-1 inline"></i>导出
+                    </button>
+                </div>
+                
+                <!-- 收支月报 -->
+                <div class="bg-white rounded-lg shadow-sm p-4 flex justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary" id="mreport2" name="monthlyReport">
+                        <label for="mreport2" class="text-sm font-medium">收支月报</label>
+                    </div>
+                    <button class="bg-secondary text-white text-xs px-3 py-1.5 rounded hover:bg-secondary/90 transition-colors" onclick="exportReport('收支月报', 'monthly', getSelectedMonth())">
+                        <i data-lucide="download" class="w-3 h-3 mr-1 inline"></i>导出
+                    </button>
+                </div>
+                
+                <!-- 成本月报 -->
+                <div class="bg-white rounded-lg shadow-sm p-4 flex justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary" id="mreport3" name="monthlyReport">
+                        <label for="mreport3" class="text-sm font-medium">成本月报</label>
+                    </div>
+                    <button class="bg-secondary text-white text-xs px-3 py-1.5 rounded hover:bg-secondary/90 transition-colors" onclick="exportReport('成本月报', 'monthly', getSelectedMonth())">
+                        <i data-lucide="download" class="w-3 h-3 mr-1 inline"></i>导出
+                    </button>
+                </div>
+                
+                <!-- 利润月报 -->
+                <div class="bg-white rounded-lg shadow-sm p-4 flex justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary" id="mreport4" name="monthlyReport">
+                        <label for="mreport4" class="text-sm font-medium">利润月报</label>
+                    </div>
+                    <button class="bg-secondary text-white text-xs px-3 py-1.5 rounded hover:bg-secondary/90 transition-colors" onclick="exportReport('利润月报', 'monthly', getSelectedMonth())">
+                        <i data-lucide="download" class="w-3 h-3 mr-1 inline"></i>导出
+                    </button>
+                </div>
+                
+                <!-- 养殖月报 -->
+                <div class="bg-white rounded-lg shadow-sm p-4 flex justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary" id="mreport5" name="monthlyReport">
+                        <label for="mreport5" class="text-sm font-medium">养殖月报</label>
+                    </div>
+                    <button class="bg-secondary text-white text-xs px-3 py-1.5 rounded hover:bg-secondary/90 transition-colors" onclick="exportReport('养殖月报', 'monthly', getSelectedMonth())">
+                        <i data-lucide="download" class="w-3 h-3 mr-1 inline"></i>导出
+                    </button>
+                </div>
+            </div>
+
+            <!-- 批次导出报表列表 -->
+            <div id="batchReports" class="mt-4 space-y-3 hidden">
+                <!-- 批次成本核算表 -->
+                <div class="bg-white rounded-lg shadow-sm p-4 flex justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary" id="breport1" name="batchReport">
+                        <label for="breport1" class="text-sm font-medium">批次成本核算表</label>
+                    </div>
+                    <button class="bg-secondary text-white text-xs px-3 py-1.5 rounded hover:bg-secondary/90 transition-colors" onclick="exportReport('批次成本核算表', 'batch', getSelectedBatch())">
+                        <i data-lucide="download" class="w-3 h-3 mr-1 inline"></i>导出
+                    </button>
+                </div>
+                
+                <!-- 批次利润核算表 -->
+                <div class="bg-white rounded-lg shadow-sm p-4 flex justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary" id="breport2" name="batchReport">
+                        <label for="breport2" class="text-sm font-medium">批次利润核算表</label>
+                    </div>
+                    <button class="bg-secondary text-white text-xs px-3 py-1.5 rounded hover:bg-secondary/90 transition-colors" onclick="exportReport('批次利润核算表', 'batch', getSelectedBatch())">
+                        <i data-lucide="download" class="w-3 h-3 mr-1 inline"></i>导出
+                    </button>
+                </div>
+                
+                <!-- 批次收支明细表 -->
+                <div class="bg-white rounded-lg shadow-sm p-4 flex justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary" id="breport3" name="batchReport">
+                        <label for="breport3" class="text-sm font-medium">批次收支明细表</label>
+                    </div>
+                    <button class="bg-secondary text-white text-xs px-3 py-1.5 rounded hover:bg-secondary/90 transition-colors" onclick="exportReport('批次收支明细表', 'batch', getSelectedBatch())">
+                        <i data-lucide="download" class="w-3 h-3 mr-1 inline"></i>导出
+                    </button>
+                </div>
+                
+                <!-- 批次养殖记录表 -->
+                <div class="bg-white rounded-lg shadow-sm p-4 flex justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary" id="breport4" name="batchReport">
+                        <label for="breport4" class="text-sm font-medium">批次养殖记录表</label>
+                    </div>
+                    <button class="bg-secondary text-white text-xs px-3 py-1.5 rounded hover:bg-secondary/90 transition-colors" onclick="exportReport('批次养殖记录表', 'batch', getSelectedBatch())">
+                        <i data-lucide="download" class="w-3 h-3 mr-1 inline"></i>导出
+                    </button>
+                </div>
+                
+                <!-- 批次销售统计表 -->
+                <div class="bg-white rounded-lg shadow-sm p-4 flex justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-primary" id="breport5" name="batchReport">
+                        <label for="breport5" class="text-sm font-medium">批次销售统计表</label>
+                    </div>
+                    <button class="bg-secondary text-white text-xs px-3 py-1.5 rounded hover:bg-secondary/90 transition-colors" onclick="exportReport('批次销售统计表', 'batch', getSelectedBatch())">
+                        <i data-lucide="download" class="w-3 h-3 mr-1 inline"></i>导出
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- 加载提示 -->
+        <div id="loadingToast" class="loading-toast">
+            <i data-lucide="loader-circle" class="w-6 h-6 animate-spin mr-2 inline"></i>
+            正在导出，请稍候
+        </div>
+        
+        <!-- 成功提示 -->
+        <div id="successToast" class="success-toast">
+            <i data-lucide="check-circle" class="w-4 h-4 mr-2 inline"></i>
+            <span id="successText">导出成功</span>
+        </div>
+        
+        <!-- 自定义日期选择模态框 -->
+        <div id="dateModal" class="modal-overlay">
+            <div class="modal-content">
+                <h2 class="text-lg font-bold text-slate-800 mb-4">选择日期</h2>
+                <div class="mb-4">
+                    <input type="date" id="customDate" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/20">
+                </div>
+                <div class="flex gap-3">
+                    <button class="flex-1 py-2 border border-slate-200 rounded-lg text-sm text-slate-600 hover:bg-slate-50 transition-colors" onclick="closeDateModal()">
+                        取消
+                    </button>
+                    <button class="flex-1 py-2 bg-primary text-white rounded-lg text-sm hover:bg-primary/90 transition-colors" onclick="confirmDate()">
+                        确认选择
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 初始化Lucide图标
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+            // 设置默认日期为今天
+            document.getElementById('customDate').value = getCurrentDate();
+        });
+
+        // 全局变量
+        let currentTab = 1;
+        let customSelectedDate = '';
+
+        // 返回首页
+        function goBackToHome() {
+            window.location.href = 'index.html';
+        }
+
+        // 切换标签页
+        function switchTab(tabId) {
+            // 重置所有标签样式
+            document.getElementById('dailyTab').classList.remove('tab-active');
+            document.getElementById('monthlyTab').classList.remove('tab-active');
+            document.getElementById('batchTab').classList.remove('tab-active');
+            
+            // 隐藏所有内容区域
+            document.getElementById('dailyFilter').classList.add('hidden');
+            document.getElementById('monthlyFilter').classList.add('hidden');
+            document.getElementById('batchFilter').classList.add('hidden');
+            document.getElementById('dailyReports').classList.add('hidden');
+            document.getElementById('monthlyReports').classList.add('hidden');
+            document.getElementById('batchReports').classList.add('hidden');
+            
+            // 根据选中的标签显示对应内容
+            currentTab = tabId;
+            if (tabId === 1) {
+                document.getElementById('dailyTab').classList.add('tab-active');
+                document.getElementById('dailyFilter').classList.remove('hidden');
+                document.getElementById('dailyReports').classList.remove('hidden');
+            } else if (tabId === 2) {
+                document.getElementById('monthlyTab').classList.add('tab-active');
+                document.getElementById('monthlyFilter').classList.remove('hidden');
+                document.getElementById('monthlyReports').classList.remove('hidden');
+            } else if (tabId === 3) {
+                document.getElementById('batchTab').classList.add('tab-active');
+                document.getElementById('batchFilter').classList.remove('hidden');
+                document.getElementById('batchReports').classList.remove('hidden');
+            }
+        }
+
+        // 处理日期选择
+        function handleDateSelect() {
+            const select = document.getElementById('dailyDateSelect');
+            if (select.value === 'custom') {
+                openDateModal();
+            }
+        }
+
+        // 打开日期选择模态框
+        function openDateModal() {
+            document.getElementById('dateModal').style.display = 'flex';
+        }
+
+        // 关闭日期选择模态框
+        function closeDateModal() {
+            document.getElementById('dateModal').style.display = 'none';
+            // 恢复为今日选项
+            document.getElementById('dailyDateSelect').value = 'today';
+        }
+
+        // 确认日期选择
+        function confirmDate() {
+            customSelectedDate = document.getElementById('customDate').value;
+            if (!customSelectedDate) {
+                alert('请选择有效的日期');
+                return;
+            }
+            document.getElementById('dateModal').style.display = 'none';
+            // 提示用户日期已选择
+            showSuccessToast(`已选择日期：${formatDate(customSelectedDate)}`);
+        }
+
+        // 获取当前日期（YYYY-MM-DD格式）
+        function getCurrentDate() {
+            const today = new Date();
+            return today.toISOString().split('T')[0];
+        }
+
+        // 获取选中的月份
+        function getSelectedMonth() {
+            return document.getElementById('monthSelect').value;
+        }
+
+        // 获取选中的批次
+        function getSelectedBatch() {
+            const select = document.getElementById('batchSelect');
+            return select.options[select.selectedIndex].text.split('（')[0];
+        }
+
+        // 格式化日期显示
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`;
+        }
+
+        // 导出单个报表
+        function exportReport(reportName, reportType, dateInfo) {
+            // 显示加载提示
+            document.getElementById('loadingToast').style.display = 'block';
+            
+            // 模拟导出过程（实际项目中这里会调用后端接口）
+            setTimeout(() => {
+                document.getElementById('loadingToast').style.display = 'none';
+                
+                // 生成文件名
+                let fileName = '';
+                if (reportType === 'daily') {
+                    fileName = `${reportName}_${dateInfo.replace(/-/g, '')}.xlsx`;
+                } else if (reportType === 'monthly') {
+                    fileName = `${reportName}_${dateInfo}.xlsx`;
+                } else if (reportType === 'batch') {
+                    fileName = `${reportName}_${dateInfo.replace(/年|月/g, '')}.xlsx`;
+                }
+                
+                // 显示成功提示
+                document.getElementById('successText').textContent = `${reportName}导出成功`;
+                document.getElementById('successToast').style.display = 'block';
+                
+                // 模拟文件下载（实际项目中会触发文件下载）
+                console.log(`文件已下载：${fileName}`);
+                
+                // 2秒后隐藏提示
+                setTimeout(() => {
+                    document.getElementById('successToast').style.display = 'none';
+                }, 2000);
+                
+            }, 1500);
+        }
+
+        // 批量导出报表
+        function batchExport(reportType) {
+            // 获取选中的报表
+            let checkboxes = [];
+            if (reportType === 'daily') {
+                checkboxes = document.querySelectorAll('input[name="dailyReport"]:checked');
+            } else if (reportType === 'monthly') {
+                checkboxes = document.querySelectorAll('input[name="monthlyReport"]:checked');
+            } else if (reportType === 'batch') {
+                checkboxes = document.querySelectorAll('input[name="batchReport"]:checked');
+            }
+            
+            // 检查是否选择了报表
+            if (checkboxes.length === 0) {
+                alert('请至少选择一个报表进行导出');
+                return;
+            }
+            
+            // 显示加载提示
+            document.getElementById('loadingToast').style.display = 'block';
+            
+            // 模拟批量导出过程
+            setTimeout(() => {
+                document.getElementById('loadingToast').style.display = 'none';
+                
+                // 显示成功提示
+                document.getElementById('successText').textContent = `成功导出${checkboxes.length}个报表`;
+                document.getElementById('successToast').style.display = 'block';
+                
+                // 2秒后隐藏提示
+                setTimeout(() => {
+                    document.getElementById('successToast').style.display = 'none';
+                    // 取消所有选中状态
+                    checkboxes.forEach(checkbox => {
+                        checkbox.checked = false;
+                    });
+                }, 2000);
+                
+            }, 2000);
+        }
+
+        // 显示成功提示
+        function showSuccessToast(message) {
+            document.getElementById('successText').textContent = message;
+            document.getElementById('successToast').style.display = 'block';
+            
+            setTimeout(() => {
+                document.getElementById('successToast').style.display = 'none';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

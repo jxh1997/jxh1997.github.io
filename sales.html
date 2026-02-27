@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>养殖财务管控系统 - 销售管理</title>
+    <script src="./assets/3.4.17.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="./assets/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2E7D32',
+                        secondary: '#1976D2',
+                        success: '#2E7D32',
+                        sky: { 500: '#1976D2' },
+                        warning: '#F57F17',
+                        orange: { 500: '#FF9800', 50: '#FFF3E0', 100: '#FFE0B2' },
+                        purple: { 500: '#7B1FA2', 50: '#F3E5F5', 100: '#E1BEE7' },
+                        danger: '#D32F2F',
+                        surface: '#f8fafc',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans SC', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body { 
+            background-color: #f1f5f9; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            min-h-screen; 
+            font-family: 'Noto Sans SC', sans-serif; 
+        }
+        
+        .iphone-canvas {
+            width: 375px;
+            height: 812px;
+            background: #ffffff;
+            position: relative;
+            overflow: hidden;
+            border-radius: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
+            border: 8px solid #1e293b;
+        }
+        
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .glass-header { backdrop-filter: blur(10px); background: rgba(255,255,255,0.8); }
+        .batch-card { transition: transform 0.1s, box-shadow 0.1s; }
+        .batch-card:active { transform: scale(0.98); }
+        .tab-active { 
+            color: #2E7D32; 
+            border-bottom: 2px solid #2E7D32; 
+            font-weight: 600;
+        }
+        .sub-tab-active {
+            color: #2E7D32; 
+            background-color: rgba(46, 125, 50, 0.1);
+        }
+        /* 单选按钮样式 */
+        .radio-label {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .radio-input:checked + .radio-label {
+            background-color: rgba(46, 125, 50, 0.1);
+            color: #2E7D32;
+            font-weight: 600;
+        }
+        /* 底部导航样式 */
+        .nav-item.active { 
+            color: #2E7D32; 
+        }
+        /* 凭证预览弹窗 */
+        .voucher-modal {
+            z-index: 100;
+        }
+        /* 下拉刷新样式 */
+        .pull-refresh {
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="iphone-canvas flex flex-col">
+        <!-- 顶部状态栏 -->
+        <header class="glass-header sticky top-0 z-10 px-6 pt-12 pb-4 flex justify-between items-center border-b border-slate-50">
+            <button class="text-slate-800" onclick="goBackToHome()">
+                <i data-lucide="arrow-left" class="w-5 h-5"></i>
+            </button>
+            <div class="flex flex-1 items-center gap-2 ml-2">
+                <h1 id="pageTitle" class="text-lg font-bold text-slate-800">鲜蛋销售登记</h1>
+            </div>
+            <button id="batchImportBtn" class="bg-primary text-white px-3 py-1.5 rounded-xl text-xs font-medium hover:bg-primary/90 transition-colors" onclick="goToBatchSales()">
+				<i data-lucide="file-plus" class="w-3 h-3 inline-block mr-1"></i>批量录入
+			</button>
+        </header>
+
+        <!-- 销售管理子标签切换 -->
+        <div class="flex border-b border-slate-100 overflow-x-auto hide-scroll">
+            <button id="eggSalesTab" class="flex-1 py-3 text-sm tab-active whitespace-nowrap" onclick="switchSalesTab('eggSales')">
+                鲜蛋销售登记
+            </button>
+            <button id="salesDataTab" class="flex-1 py-3 text-sm text-slate-500 whitespace-nowrap" onclick="switchSalesTab('salesData')">
+                销售数据查看
+            </button>
+            <button id="otherIncomeTab" class="flex-1 py-3 text-sm text-slate-500 whitespace-nowrap" onclick="switchSalesTab('otherIncome')">
+                其他收入登记
+            </button>
+        </div>
+
+        <!-- 主内容区 -->
+        <main class="flex-1 overflow-y-auto hide-scroll pb-24" id="mainContent">
+            <!-- 下拉刷新提示 -->
+            <div id="pullRefresh" class="pull-refresh hidden">
+                <i data-lucide="refresh-cw" class="w-4 h-4 mr-2"></i>
+                <span>下拉刷新数据...</span>
+            </div>
+            
+            <!-- 1. 鲜蛋销售登记页面 -->
+            <section id="eggSalesModule" class="px-6">
+                <div class="mt-6 bg-white rounded-2xl p-5 border border-slate-100 shadow-sm mb-6">
+                    <div class="space-y-4">
+                        <!-- 销售日期 -->
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">销售日期 <span class="text-danger">*</span></label>
+                            <input type="date" id="salesDate" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm" value="">
+                        </div>
+                        
+                        <!-- 养殖批次 -->
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">养殖批次 <span class="text-danger">*</span></label>
+                            <select id="breedingBatch" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm">
+                                <option value="">请选择养殖批次</option>
+                                <option value="202405">202405批次 (在养)</option>
+                                <option value="202404">202404批次 (待出栏)</option>
+                                <option value="202403">202403批次 (已出栏)</option>
+                            </select>
+                        </div>
+                        
+                        <!-- 销售类型 -->
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">销售类型 <span class="text-danger">*</span></label>
+                            <div class="flex gap-3 mt-2">
+                                <div class="flex-1">
+                                    <input type="radio" id="wholesaleType" name="salesType" value="wholesale" class="radio-input hidden" checked>
+                                    <label for="wholesaleType" class="radio-label block text-center py-2 border border-slate-200 rounded-lg text-sm">
+                                        批发
+                                    </label>
+                                </div>
+                                <div class="flex-1">
+                                    <input type="radio" id="retailType" name="salesType" value="retail" class="radio-input hidden">
+                                    <label for="retailType" class="radio-label block text-center py-2 border border-slate-200 rounded-lg text-sm">
+                                        零售
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 单价 (自动匹配) -->
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">单价 (元/斤)</label>
+                            <input type="number" id="unitPrice" step="0.01" min="0" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-slate-50" placeholder="自动匹配协会价" readonly>
+                        </div>
+                        
+                        <!-- 销售数量 -->
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">销售数量 (斤) <span class="text-danger">*</span></label>
+                            <input type="number" id="salesQuantity" step="0.1" min="0.1" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm" placeholder="保留1位小数">
+                        </div>
+                        
+                        <!-- 总金额 (自动计算) -->
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">总金额 (元)</label>
+                            <input type="number" id="totalAmount" step="0.01" min="0" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-slate-50 text-slate-500" placeholder="自动计算" readonly>
+                        </div>
+                        
+                        <!-- 收款状态 -->
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">收款状态</label>
+                            <div class="flex gap-3 mt-2">
+                                <div class="flex-1">
+                                    <input type="radio" id="paidStatus" name="paymentStatus" value="paid" class="radio-input hidden" checked>
+                                    <label for="paidStatus" class="radio-label block text-center py-2 border border-slate-200 rounded-lg text-sm">
+                                        已收款
+                                    </label>
+                                </div>
+                                <div class="flex-1">
+                                    <input type="radio" id="unpaidStatus" name="paymentStatus" value="unpaid" class="radio-input hidden">
+                                    <label for="unpaidStatus" class="radio-label block text-center py-2 border border-slate-200 rounded-lg text-sm">
+                                        未收款
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 备注 -->
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">备注</label>
+                            <textarea id="salesRemark" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm h-16 resize-none" placeholder="可输入客户信息、交易备注"></textarea>
+                        </div>
+                        
+                        <!-- 凭证上传 -->
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">凭证上传</label>
+                            <div class="flex items-center gap-3 mt-2">
+                                <label for="voucherUpload" class="cursor-pointer bg-slate-50 border border-slate-200 rounded-lg px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 transition-colors">
+                                    <i data-lucide="upload" class="w-4 h-4 inline-block mr-1"></i>上传凭证
+                                </label>
+                                <input type="file" id="voucherUpload" accept="image/*,.pdf" multiple class="hidden" onchange="updateVoucherCount()">
+                                <span id="voucherCount" class="text-xs text-slate-500">0/5</span>
+                            </div>
+                            <p class="text-xs text-slate-400 mt-1">支持图片/PDF格式，最多上传5张</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-3 mt-6">
+                        <button class="flex-1 py-2 border border-slate-200 rounded-lg text-sm text-slate-600 hover:bg-slate-50 transition-colors" onclick="resetEggSalesForm()">
+                            取消
+                        </button>
+                        <button class="flex-1 py-2 bg-primary text-white rounded-lg text-sm hover:bg-primary/90 transition-colors" onclick="saveEggSales()">
+                            保存
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. 批量销售登记页面 (弹窗形式) -->
+            <div id="batchSalesPage" class="fixed inset-0 bg-white z-50 flex flex-col hide-scroll hidden">
+                <header class="sticky top-0 z-10 px-6 pt-12 pb-4 flex justify-between items-center border-b border-slate-50 bg-white">
+                    <button class="text-slate-800" onclick="backToEggSalesPage()">
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                    </button>
+                    <h1 class="text-lg font-bold text-slate-800">批量销售登记</h1>
+                    <div></div>
+                </header>
+
+                <main class="flex-1 overflow-y-auto hide-scroll px-6 py-4">
+                    <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm mb-6">
+                        <p class="text-xs text-slate-500 mb-4">批量录入同批次、同销售类型数据，统一匹配当日协会价</p>
+                        
+                        <div class="space-y-4 mb-6">
+                            <!-- 销售日期 -->
+                            <div>
+                                <label class="block text-xs text-slate-600 mb-1">销售日期 <span class="text-danger">*</span></label>
+                                <input type="date" id="batchSalesDate" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm" value="">
+                            </div>
+                            
+                            <!-- 养殖批次 -->
+                            <div>
+                                <label class="block text-xs text-slate-600 mb-1">养殖批次 <span class="text-danger">*</span></label>
+                                <select id="batchBreedingBatch" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm">
+                                    <option value="">请选择养殖批次</option>
+                                    <option value="202405">202405批次 (在养)</option>
+                                    <option value="202404">202404批次 (待出栏)</option>
+                                    <option value="202403">202403批次 (已出栏)</option>
+                                </select>
+                            </div>
+                            
+                            <!-- 销售类型 -->
+                            <div>
+                                <label class="block text-xs text-slate-600 mb-1">销售类型 <span class="text-danger">*</span></label>
+                                <div class="flex gap-3 mt-2">
+                                    <div class="flex-1">
+                                        <input type="radio" id="batchWholesaleType" name="batchSalesType" value="wholesale" class="radio-input hidden" checked>
+                                        <label for="batchWholesaleType" class="radio-label block text-center py-2 border border-slate-200 rounded-lg text-sm">
+                                            批发
+                                        </label>
+                                    </div>
+                                    <div class="flex-1">
+                                        <input type="radio" id="batchRetailType" name="batchSalesType" value="retail" class="radio-input hidden">
+                                        <label for="batchRetailType" class="radio-label block text-center py-2 border border-slate-200 rounded-lg text-sm">
+                                            零售
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 单价 (自动匹配) -->
+                            <div>
+                                <label class="block text-xs text-slate-600 mb-1">单价 (元/斤)</label>
+                                <input type="number" id="batchUnitPrice" step="0.01" min="0" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-slate-50" placeholder="自动匹配协会价" readonly>
+                            </div>
+                        </div>
+                        
+                        <!-- 批量数据列表 -->
+                        <div class="mb-4">
+                            <div class="flex justify-between items-center mb-3">
+                                <h3 class="text-sm font-bold text-slate-800">销售数据列表</h3>
+                                <button class="text-primary text-xs px-3 py-1 border border-primary/30 rounded-lg hover:bg-green-50 transition-colors" onclick="addBatchRow()">
+                                    <i data-lucide="plus" class="w-3 h-3 inline-block mr-1"></i>添加一行
+                                </button>
+                            </div>
+                            
+                            <div id="batchDataList" class="space-y-3">
+                                <!-- 表头 -->
+                                <div class="grid grid-cols-3 gap-2 text-xs text-slate-500 font-medium py-2 px-2 bg-slate-50 rounded-lg">
+                                    <div>销售数量 (斤)</div>
+                                    <div>总金额 (元)</div>
+                                    <div>操作</div>
+                                </div>
+                                
+                                <!-- 默认行 -->
+                                <div class="grid grid-cols-3 gap-2 text-xs py-2 items-center border-b border-slate-100 batch-row">
+                                    <div>
+                                        <input type="number" class="batch-quantity w-full px-2 py-1 border border-slate-200 rounded-lg text-xs" step="0.1" min="0.1" placeholder="0.0" oninput="calculateBatchRow(this)">
+                                    </div>
+                                    <div class="batch-total text-slate-500">¥ 0.00</div>
+                                    <div>
+                                        <button class="text-danger text-xs px-2 py-1 border border-danger/30 rounded-lg hover:bg-red-50 transition-colors" onclick="deleteBatchRow(this)">
+                                            删除
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 收款状态 -->
+                        <div class="mb-6">
+                            <label class="block text-xs text-slate-600 mb-1">收款状态</label>
+                            <div class="flex gap-3 mt-2">
+                                <div class="flex-1">
+                                    <input type="radio" id="batchPaidStatus" name="batchPaymentStatus" value="paid" class="radio-input hidden" checked>
+                                    <label for="batchPaidStatus" class="radio-label block text-center py-2 border border-slate-200 rounded-lg text-sm">
+                                        已收款
+                                    </label>
+                                </div>
+                                <div class="flex-1">
+                                    <input type="radio" id="batchUnpaidStatus" name="batchPaymentStatus" value="unpaid" class="radio-input hidden">
+                                    <label for="batchUnpaidStatus" class="radio-label block text-center py-2 border border-slate-200 rounded-lg text-sm">
+                                        未收款
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 备注 -->
+                        <div class="mb-6">
+                            <label class="block text-xs text-slate-600 mb-1">备注</label>
+                            <textarea id="batchSalesRemark" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm h-12 resize-none" placeholder="可输入客户信息、交易备注"></textarea>
+                        </div>
+                        
+                        <!-- 合计金额 -->
+                        <div class="flex justify-between items-center mb-6 p-3 bg-slate-50 rounded-lg">
+                            <span class="text-sm font-medium text-slate-800">合计金额：</span>
+                            <span id="batchTotalAmount" class="text-lg font-bold text-primary">¥ 0.00</span>
+                        </div>
+                        
+                        <div class="flex gap-3">
+                            <button class="flex-1 py-2 border border-slate-200 rounded-lg text-sm text-slate-600 hover:bg-slate-50 transition-colors" onclick="backToEggSalesPage()">
+                                取消
+                            </button>
+                            <button class="flex-1 py-2 bg-primary text-white rounded-lg text-sm hover:bg-primary/90 transition-colors" onclick="saveBatchSales()">
+                                保存全部
+                            </button>
+                        </div>
+                    </div>
+                </main>
+            </div>
+
+            <!-- 3. 销售数据查看页面 -->
+            <section id="salesDataModule" class="px-6 hidden">
+                <!-- 筛选栏 -->
+                <div class="mt-6 bg-white rounded-2xl p-4 border border-slate-100 shadow-sm mb-4">
+                    <div class="grid grid-cols-3 gap-2">
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">开始日期</label>
+                            <input type="date" id="dataStartDate" class="w-full px-2 py-1.5 border border-slate-200 rounded-lg text-xs">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">结束日期</label>
+                            <input type="date" id="dataEndDate" class="w-full px-2 py-1.5 border border-slate-200 rounded-lg text-xs">
+                        </div>
+                        <div class="flex items-end">
+                            <button class="w-full px-2 py-1.5 bg-primary text-white text-xs rounded-lg" onclick="filterSalesData()">筛选</button>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 mt-3">
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">养殖批次</label>
+                            <select id="dataBreedingBatch" class="w-full px-2 py-1.5 border border-slate-200 rounded-lg text-xs">
+                                <option value="">全部批次</option>
+                                <option value="202405">202405批次</option>
+                                <option value="202404">202404批次</option>
+                                <option value="202403">202403批次</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">销售类型</label>
+                            <select id="dataSalesType" class="w-full px-2 py-1.5 border border-slate-200 rounded-lg text-xs">
+                                <option value="">全部类型</option>
+                                <option value="wholesale">批发</option>
+                                <option value="retail">零售</option>
+                                <option value="other">其他收入</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 汇总数据 -->
+                <div class="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm mb-4">
+                    <h3 class="text-sm font-bold text-slate-800 mb-3">销售汇总</h3>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="bg-green-50 rounded-xl p-3">
+                            <p class="text-xs text-slate-500">批发销量/额</p>
+                            <p class="text-lg font-bold text-primary">1250斤 / ¥21,500</p>
+                        </div>
+                        <div class="bg-blue-50 rounded-xl p-3">
+                            <p class="text-xs text-slate-500">零售销量/额</p>
+                            <p class="text-lg font-bold text-secondary">480斤 / ¥9,504</p>
+                        </div>
+                        <div class="bg-purple-50 rounded-xl p-3 col-span-2">
+                            <p class="text-xs text-slate-500">总销量/额</p>
+                            <p class="text-lg font-bold text-purple-500">1730斤 / ¥31,004</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 图表展示 -->
+                <div class="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm mb-4">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="text-sm font-bold text-slate-800">销售趋势</h3>
+                        <div class="flex gap-2">
+                            <button class="text-xs px-2 py-1 bg-primary/10 text-primary rounded-lg" onclick="switchChartType('bar')">柱状图</button>
+                            <button class="text-xs px-2 py-1 bg-slate-100 text-slate-500 rounded-lg" onclick="switchChartType('line')">折线图</button>
+                        </div>
+                    </div>
+                    <div class="h-64">
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- 销售明细列表 -->
+                <div class="bg-white rounded-2xl border border-slate-100 shadow-sm mb-6">
+                    <!-- 表头 -->
+                    <div class="grid grid-cols-8 gap-1 text-xs text-slate-500 font-medium py-3 px-3 border-b border-slate-100">
+                        <div class="col-span-2">日期</div>
+                        <div class="col-span-1">批次</div>
+                        <div class="col-span-1">类型</div>
+                        <div class="col-span-1">数量</div>
+                        <div class="col-span-1">单价</div>
+                        <div class="col-span-1">金额</div>
+                        <div class="col-span-1">操作</div>
+                    </div>
+                    
+                    <!-- 数据行 -->
+                    <div class="overflow-y-auto max-h-[300px] hide-scroll">
+                        <!-- 鲜蛋销售记录 -->
+                        <div class="grid grid-cols-8 gap-1 text-xs py-3 px-3 border-b border-slate-100 hover:bg-slate-50 sales-item" onclick="showSalesDetail(this)">
+                            <div class="col-span-2 font-medium">2024-05-20</div>
+                            <div class="col-span-1">202405</div>
+                            <div class="col-span-1">批发</div>
+                            <div class="col-span-1">500.0斤</div>
+                            <div class="col-span-1">¥17.20</div>
+                            <div class="col-span-1">¥8,600</div>
+                            <div class="col-span-1">
+                                <button class="text-secondary text-xs" onclick="viewVoucher(event, 'wholesale-20240520')">
+                                    <i data-lucide="file-text" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-8 gap-1 text-xs py-3 px-3 border-b border-slate-100 hover:bg-slate-50 sales-item" onclick="showSalesDetail(this)">
+                            <div class="col-span-2 font-medium">2024-05-19</div>
+                            <div class="col-span-1">202405</div>
+                            <div class="col-span-1">零售</div>
+                            <div class="col-span-1">200.0斤</div>
+                            <div class="col-span-1">¥19.80</div>
+                            <div class="col-span-1">¥3,960</div>
+                            <div class="col-span-1">
+                                <button class="text-secondary text-xs" onclick="viewVoucher(event, 'retail-20240519')">
+                                    <i data-lucide="file-text" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- 其他收入记录 -->
+                        <div class="grid grid-cols-8 gap-1 text-xs py-3 px-3 border-b border-slate-100 hover:bg-slate-50 sales-item" onclick="showSalesDetail(this)">
+                            <div class="col-span-2 font-medium">2024-05-18</div>
+                            <div class="col-span-1">202403</div>
+                            <div class="col-span-1">其他</div>
+                            <div class="col-span-1">-</div>
+                            <div class="col-span-1">-</div>
+                            <div class="col-span-1">¥2,500</div>
+                            <div class="col-span-1">
+                                <button class="text-secondary text-xs" onclick="viewVoucher(event, 'other-20240518')">
+                                    <i data-lucide="file-text" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-8 gap-1 text-xs py-3 px-3 border-b border-slate-100 hover:bg-slate-50 sales-item" onclick="showSalesDetail(this)">
+                            <div class="col-span-2 font-medium">2024-05-17</div>
+                            <div class="col-span-1">202405</div>
+                            <div class="col-span-1">批发</div>
+                            <div class="col-span-1">750.0斤</div>
+                            <div class="col-span-1">¥17.20</div>
+                            <div class="col-span-1">¥12,900</div>
+                            <div class="col-span-1">
+                                <button class="text-secondary text-xs" onclick="viewVoucher(event, 'wholesale-20240517')">
+                                    <i data-lucide="file-text" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. 其他收入登记页面 -->
+            <section id="otherIncomeModule" class="px-6 hidden">
+                <div class="mt-6 bg-white rounded-2xl p-5 border border-slate-100 shadow-sm mb-6">
+                    <div class="space-y-4">
+                        <!-- 收入日期 -->
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">收入日期 <span class="text-danger">*</span></label>
+                            <input type="date" id="incomeDate" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm" value="">
+                        </div>
+                        
+                        <!-- 收入类别 -->
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">收入类别 <span class="text-danger">*</span></label>
+                            <select id="incomeCategory" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm">
+                                <option value="">请选择收入类别</option>
+                                <option value="chickenElimination">蛋鸡淘汰销售</option>
+                                <option value="wasteSales">废料销售</option>
+                                <option value="subsidy">政府补贴</option>
+                                <option value="other">其他收入</option>
+                            </select>
+                        </div>
+                        
+                        <!-- 养殖批次 -->
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">养殖批次</label>
+                            <select id="otherIncomeBatch" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm">
+                                <option value="">无关联批次</option>
+                                <option value="202405">202405批次 (在养)</option>
+                                <option value="202404">202404批次 (待出栏)</option>
+                                <option value="202403">202403批次 (已出栏)</option>
+                            </select>
+                        </div>
+                        
+                        <!-- 收入金额 -->
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">收入金额 (元) <span class="text-danger">*</span></label>
+                            <input type="number" id="incomeAmount" step="0.01" min="0.01" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm" placeholder="请输入收入金额">
+                        </div>
+                        
+                        <!-- 收款状态 -->
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">收款状态</label>
+                            <div class="flex gap-3 mt-2">
+                                <div class="flex-1">
+                                    <input type="radio" id="incomePaidStatus" name="incomePaymentStatus" value="paid" class="radio-input hidden" checked>
+                                    <label for="incomePaidStatus" class="radio-label block text-center py-2 border border-slate-200 rounded-lg text-sm">
+                                        已收款
+                                    </label>
+                                </div>
+                                <div class="flex-1">
+                                    <input type="radio" id="incomeUnpaidStatus" name="incomePaymentStatus" value="unpaid" class="radio-input hidden">
+                                    <label for="incomeUnpaidStatus" class="radio-label block text-center py-2 border border-slate-200 rounded-lg text-sm">
+                                        未收款
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 备注 -->
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">备注</label>
+                            <textarea id="incomeRemark" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm h-16 resize-none" placeholder="可输入收入相关备注信息"></textarea>
+                        </div>
+                        
+                        <!-- 凭证上传 -->
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">凭证上传</label>
+                            <div class="flex items-center gap-3 mt-2">
+                                <label for="incomeVoucherUpload" class="cursor-pointer bg-slate-50 border border-slate-200 rounded-lg px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 transition-colors">
+                                    <i data-lucide="upload" class="w-4 h-4 inline-block mr-1"></i>上传凭证
+                                </label>
+                                <input type="file" id="incomeVoucherUpload" accept="image/*,.pdf" multiple class="hidden" onchange="updateIncomeVoucherCount()">
+                                <span id="incomeVoucherCount" class="text-xs text-slate-500">0/5</span>
+                            </div>
+                            <p class="text-xs text-slate-400 mt-1">支持图片/PDF格式，最多上传5张</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-3 mt-6">
+                        <button class="flex-1 py-2 border border-slate-200 rounded-lg text-sm text-slate-600 hover:bg-slate-50 transition-colors" onclick="resetOtherIncomeForm()">
+                            取消
+                        </button>
+                        <button class="flex-1 py-2 bg-primary text-white rounded-lg text-sm hover:bg-primary/90 transition-colors" onclick="saveOtherIncome()">
+                            保存
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 凭证预览弹窗 -->
+            <div id="voucherModal" class="fixed inset-0 bg-black/80 voucher-modal flex items-center justify-center hidden">
+                <div class="bg-white rounded-2xl p-4 w-72 max-h-[70vh] overflow-y-auto">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="text-sm font-bold text-slate-800">凭证预览</h3>
+                        <button class="text-slate-500" onclick="closeVoucherModal()">
+                            <i data-lucide="x" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                    <div id="voucherContent" class="space-y-3">
+                        <img src="https://picsum.photos/300/200" alt="销售凭证" class="w-full rounded-lg">
+                        <p class="text-xs text-slate-500 text-center">销售凭证-20240520</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 销售详情弹窗 -->
+            <div id="salesDetailModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+                <div class="bg-white rounded-3xl p-6 w-80">
+                    <h2 class="text-lg font-bold text-slate-800 mb-4">销售详情</h2>
+                    
+                    <div class="space-y-3 text-sm mb-6">
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">销售日期：</span>
+                            <span class="font-medium">2024-05-20</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">养殖批次：</span>
+                            <span class="font-medium">202405批次</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">销售类型：</span>
+                            <span class="font-medium">批发</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">销售数量：</span>
+                            <span class="font-medium">500.0斤</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">单价：</span>
+                            <span class="font-medium">¥17.20/斤</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">总金额：</span>
+                            <span class="font-medium text-primary">¥8,600.00</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">收款状态：</span>
+                            <span class="font-medium">已收款</span>
+                        </div>
+                        <div class="flex justify-between items-start">
+                            <span class="text-slate-500">备注：</span>
+                            <span class="font-medium text-right">大客户批量采购，优惠0.1元/斤</span>
+                        </div>
+                    </div>
+                    
+                    <button class="w-full py-2 border border-slate-200 rounded-lg text-sm text-slate-600 hover:bg-slate-50 transition-colors" onclick="closeSalesDetailModal()">
+                        关闭
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // 全局变量
+        let currentChartType = 'bar';
+        let salesChart = null;
+        let voucherCount = 0;
+        let incomeVoucherCount = 0;
+        let startY = 0;
+        let isRefreshing = false;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+            
+            // 初始化日期
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('salesDate').value = today;
+            document.getElementById('batchSalesDate').value = today;
+            document.getElementById('incomeDate').value = today;
+            
+            // 初始化筛选日期
+            const lastWeek = new Date();
+            lastWeek.setDate(lastWeek.getDate() - 7);
+            document.getElementById('dataStartDate').value = lastWeek.toISOString().split('T')[0];
+            document.getElementById('dataEndDate').value = today;
+            
+            // 初始化单价（默认批发价）
+            document.getElementById('unitPrice').value = 17.20;
+            document.getElementById('batchUnitPrice').value = 17.20;
+            
+            // 监听销售类型变化
+            document.querySelectorAll('input[name="salesType"]').forEach(radio => {
+                radio.addEventListener('change', updateUnitPrice);
+            });
+            
+            // 监听批量销售类型变化
+            document.querySelectorAll('input[name="batchSalesType"]').forEach(radio => {
+                radio.addEventListener('change', updateBatchUnitPrice);
+            });
+            
+            // 监听销售数量变化
+            document.getElementById('salesQuantity').addEventListener('input', calculateTotalAmount);
+            
+            // 初始化销售图表
+            initSalesChart();
+            
+            // 设置按钮点击事件
+            const settingsBtn = document.getElementById('btn-settings');
+            settingsBtn.addEventListener('click', () => {
+                alert('正在跳转至设置页面...\n包含：密码修改、手动备份、账号管理');
+            });
+
+            // 检查URL哈希，跳转到指定标签页
+            if (window.location.hash === '#salesData') {
+                switchSalesTab('salesData');
+            }
+            
+            // 初始化下拉刷新功能
+            initPullToRefresh();
+        });
+
+        // 返回首页
+        function goBackToHome() {
+            window.location.href = 'index.html';
+        }
+
+        // ===================== 销售管理子标签切换 =====================
+        function switchSalesTab(tabType) {
+            // 重置所有子标签状态
+            document.querySelectorAll('#eggSalesTab, #salesDataTab, #otherIncomeTab').forEach(tab => {
+                tab.classList.remove('tab-active');
+                tab.classList.add('text-slate-500');
+            });
+            
+            // 隐藏所有模块
+            document.getElementById('eggSalesModule').classList.add('hidden');
+            document.getElementById('salesDataModule').classList.add('hidden');
+            document.getElementById('otherIncomeModule').classList.add('hidden');
+            
+            // 更新页面标题和批量录入按钮显示
+            const pageTitle = document.getElementById('pageTitle');
+            const batchImportBtn = document.getElementById('batchImportBtn');
+            
+            // 激活对应标签和模块
+            if (tabType === 'eggSales') {
+                document.getElementById('eggSalesTab').classList.add('tab-active');
+                document.getElementById('eggSalesTab').classList.remove('text-slate-500');
+                document.getElementById('eggSalesModule').classList.remove('hidden');
+                pageTitle.textContent = '鲜蛋销售登记';
+                batchImportBtn.classList.remove('hidden');
+            } else if (tabType === 'salesData') {
+                document.getElementById('salesDataTab').classList.add('tab-active');
+                document.getElementById('salesDataTab').classList.remove('text-slate-500');
+                document.getElementById('salesDataModule').classList.remove('hidden');
+                pageTitle.textContent = '销售数据查看';
+                batchImportBtn.classList.add('hidden');
+            } else if (tabType === 'otherIncome') {
+                document.getElementById('otherIncomeTab').classList.add('tab-active');
+                document.getElementById('otherIncomeTab').classList.remove('text-slate-500');
+                document.getElementById('otherIncomeModule').classList.remove('hidden');
+                pageTitle.textContent = '其他收入登记';
+                batchImportBtn.classList.add('hidden');
+            }
+        }
+
+        // ===================== 鲜蛋销售登记逻辑 =====================
+        function updateUnitPrice() {
+            const wholesaleChecked = document.getElementById('wholesaleType').checked;
+            document.getElementById('unitPrice').value = wholesaleChecked ? 17.20 : 19.80;
+            calculateTotalAmount();
+        }
+        
+        function calculateTotalAmount() {
+            const quantity = parseFloat(document.getElementById('salesQuantity').value) || 0;
+            const price = parseFloat(document.getElementById('unitPrice').value) || 0;
+            const total = (quantity * price).toFixed(2);
+            document.getElementById('totalAmount').value = total;
+        }
+        
+        function updateVoucherCount() {
+            const files = document.getElementById('voucherUpload').files;
+            voucherCount = files.length;
+            document.getElementById('voucherCount').textContent = `${voucherCount}/5`;
+        }
+        
+        function saveEggSales() {
+            // 表单验证
+            const salesDate = document.getElementById('salesDate').value;
+            const breedingBatch = document.getElementById('breedingBatch').value;
+            const salesQuantity = document.getElementById('salesQuantity').value;
+            
+            if (!salesDate) {
+                alert('请选择销售日期');
+                return;
+            }
+            
+            if (!breedingBatch) {
+                alert('请选择养殖批次');
+                return;
+            }
+            
+            if (!salesQuantity || parseFloat(salesQuantity) <= 0) {
+                alert('请输入有效的销售数量');
+                return;
+            }
+            
+            alert('鲜蛋销售登记成功！已同步至销售台账');
+            resetEggSalesForm();
+        }
+        
+        function resetEggSalesForm() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('salesDate').value = today;
+            document.getElementById('breedingBatch').value = '';
+            document.getElementById('wholesaleType').checked = true;
+            document.getElementById('unitPrice').value = 17.20;
+            document.getElementById('salesQuantity').value = '';
+            document.getElementById('totalAmount').value = '';
+            document.getElementById('paidStatus').checked = true;
+            document.getElementById('salesRemark').value = '';
+            document.getElementById('voucherUpload').value = '';
+            document.getElementById('voucherCount').textContent = '0/5';
+            voucherCount = 0;
+        }
+
+        // ===================== 批量销售登记逻辑 =====================
+        function goToBatchSales() {
+            document.getElementById('batchSalesPage').classList.remove('hidden');
+        }
+        
+        function backToEggSalesPage() {
+            document.getElementById('batchSalesPage').classList.add('hidden');
+        }
+        
+        function updateBatchUnitPrice() {
+            const wholesaleChecked = document.getElementById('batchWholesaleType').checked;
+            document.getElementById('batchUnitPrice').value = wholesaleChecked ? 17.20 : 19.80;
+            // 重新计算所有行
+            document.querySelectorAll('.batch-quantity').forEach(input => {
+                calculateBatchRow(input);
+            });
+            calculateBatchTotal();
+        }
+        
+        function addBatchRow() {
+            const batchDataList = document.getElementById('batchDataList');
+            const newRow = document.createElement('div');
+            newRow.className = 'grid grid-cols-3 gap-2 text-xs py-2 items-center border-b border-slate-100 batch-row';
+            newRow.innerHTML = `
+                <div>
+                    <input type="number" class="batch-quantity w-full px-2 py-1 border border-slate-200 rounded-lg text-xs" step="0.1" min="0.1" placeholder="0.0" oninput="calculateBatchRow(this)">
+                </div>
+                <div class="batch-total text-slate-500">¥ 0.00</div>
+                <div>
+                    <button class="text-danger text-xs px-2 py-1 border border-danger/30 rounded-lg hover:bg-red-50 transition-colors" onclick="deleteBatchRow(this)">
+                        删除
+                    </button>
+                </div>
+            `;
+            batchDataList.appendChild(newRow);
+        }
+        
+        function deleteBatchRow(btn) {
+            const row = btn.closest('.batch-row');
+            // 至少保留一行
+            if (document.querySelectorAll('.batch-row').length > 1) {
+                row.remove();
+                calculateBatchTotal();
+            } else {
+                alert('至少需要保留一行数据');
+            }
+        }
+        
+        function calculateBatchRow(input) {
+            const quantity = parseFloat(input.value) || 0;
+            const price = parseFloat(document.getElementById('batchUnitPrice').value) || 0;
+            const total = (quantity * price).toFixed(2);
+            const totalElement = input.closest('.batch-row').querySelector('.batch-total');
+            totalElement.textContent = `¥ ${total}`;
+            calculateBatchTotal();
+        }
+        
+        function calculateBatchTotal() {
+            let total = 0;
+            document.querySelectorAll('.batch-total').forEach(el => {
+                const value = parseFloat(el.textContent.replace('¥ ', '')) || 0;
+                total += value;
+            });
+            document.getElementById('batchTotalAmount').textContent = `¥ ${total.toFixed(2)}`;
+        }
+        
+        function saveBatchSales() {
+            // 表单验证
+            const salesDate = document.getElementById('batchSalesDate').value;
+            const breedingBatch = document.getElementById('batchBreedingBatch').value;
+            
+            if (!salesDate) {
+                alert('请选择销售日期');
+                return;
+            }
+            
+            if (!breedingBatch) {
+                alert('请选择养殖批次');
+                return;
+            }
+            
+            // 检查是否有有效数据
+            let hasValidData = false;
+            document.querySelectorAll('.batch-quantity').forEach(input => {
+                if (input.value && parseFloat(input.value) > 0) {
+                    hasValidData = true;
+                }
+            });
+            
+            if (!hasValidData) {
+                alert('请输入有效的销售数量');
+                return;
+            }
+            
+            alert('批量销售登记成功！已同步至销售台账');
+            backToEggSalesPage();
+        }
+
+        // ===================== 销售数据查看逻辑 =====================
+        function initSalesChart() {
+            const ctx = document.getElementById('salesChart').getContext('2d');
+            
+            // 图表数据
+            const labels = ['5/16', '5/17', '5/18', '5/19', '5/20'];
+            const quantityData = [300, 750, 150, 200, 500];
+            const amountData = [5160, 12900, 2500, 3960, 8600];
+            
+            // 创建图表
+            salesChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: '销量 (斤)',
+                            data: quantityData,
+                            backgroundColor: 'rgba(46, 125, 50, 0.6)',
+                            borderColor: 'rgba(46, 125, 50, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: '销售额 (元)',
+                            data: amountData,
+                            backgroundColor: 'rgba(25, 118, 210, 0.6)',
+                            borderColor: 'rgba(25, 118, 210, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                font: {
+                                    size: 10
+                                }
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: {
+                                    size: 10
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    size: 10
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function switchChartType(type) {
+            if (salesChart) {
+                salesChart.destroy();
+            }
+            
+            currentChartType = type;
+            const ctx = document.getElementById('salesChart').getContext('2d');
+            
+            // 图表数据
+            const labels = ['5/16', '5/17', '5/18', '5/19', '5/20'];
+            const quantityData = [300, 750, 150, 200, 500];
+            const amountData = [5160, 12900, 2500, 3960, 8600];
+            
+            // 更新按钮样式
+            document.querySelectorAll('[onclick^="switchChartType"]').forEach(btn => {
+                btn.classList.remove('bg-primary/10', 'text-primary');
+                btn.classList.add('bg-slate-100', 'text-slate-500');
+            });
+            event.target.classList.remove('bg-slate-100', 'text-slate-500');
+            event.target.classList.add('bg-primary/10', 'text-primary');
+            
+            // 创建新图表
+            salesChart = new Chart(ctx, {
+                type: type,
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: '销量 (斤)',
+                            data: quantityData,
+                            backgroundColor: type === 'bar' ? 'rgba(46, 125, 50, 0.6)' : 'rgba(46, 125, 50, 0.2)',
+                            borderColor: 'rgba(46, 125, 50, 1)',
+                            borderWidth: 2,
+                            tension: 0.4
+                        },
+                        {
+                            label: '销售额 (元)',
+                            data: amountData,
+                            backgroundColor: type === 'bar' ? 'rgba(25, 118, 210, 0.6)' : 'rgba(25, 118, 210, 0.2)',
+                            borderColor: 'rgba(25, 118, 210, 1)',
+                            borderWidth: 2,
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                font: {
+                                    size: 10
+                                }
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: {
+                                    size: 10
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    size: 10
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function filterSalesData() {
+            // 获取筛选条件
+            const startDate = document.getElementById('dataStartDate').value;
+            const endDate = document.getElementById('dataEndDate').value;
+            const batch = document.getElementById('dataBreedingBatch').value;
+            const type = document.getElementById('dataSalesType').value;
+            
+            // 简单验证
+            if (startDate && endDate && startDate > endDate) {
+                alert('开始日期不能晚于结束日期');
+                return;
+            }
+            
+            // 模拟筛选效果
+            alert(`筛选条件：
+开始日期：${startDate || '未选择'}
+结束日期：${endDate || '未选择'}
+养殖批次：${batch || '全部批次'}
+销售类型：${type || '全部类型'}
+
+数据筛选完成！`);
+        }
+        
+        function showSalesDetail(element) {
+            document.getElementById('salesDetailModal').classList.remove('hidden');
+        }
+        
+        function closeSalesDetailModal() {
+            document.getElementById('salesDetailModal').classList.add('hidden');
+        }
+        
+        function viewVoucher(event, voucherId) {
+            // 阻止事件冒泡，避免触发销售详情弹窗
+            event.stopPropagation();
+            document.getElementById('voucherModal').classList.remove('hidden');
+            // 可以根据voucherId加载不同的凭证内容
+            console.log('查看凭证:', voucherId);
+        }
+        
+        function closeVoucherModal() {
+            document.getElementById('voucherModal').classList.add('hidden');
+        }
+        
+        // 初始化下拉刷新功能
+        function initPullToRefresh() {
+            const mainContent = document.getElementById('mainContent');
+            
+            mainContent.addEventListener('touchstart', function(e) {
+                startY = e.touches[0].clientY;
+                isRefreshing = false;
+            }, { passive: true });
+            
+            mainContent.addEventListener('touchmove', function(e) {
+                if (mainContent.scrollTop <= 0 && !isRefreshing) {
+                    const currentY = e.touches[0].clientY;
+                    const diff = currentY - startY;
+                    
+                    if (diff > 50) {
+                        document.getElementById('pullRefresh').classList.remove('hidden');
+                        document.getElementById('pullRefresh').innerHTML = '<i data-lucide="refresh-cw" class="w-4 h-4 mr-2"></i><span>松开刷新...</span>';
+                    } else if (diff > 0) {
+                        document.getElementById('pullRefresh').classList.remove('hidden');
+                        document.getElementById('pullRefresh').innerHTML = '<i data-lucide="arrow-down" class="w-4 h-4 mr-2"></i><span>下拉刷新数据...</span>';
+                    }
+                }
+            }, { passive: true });
+            
+            mainContent.addEventListener('touchend', function() {
+                const refreshEl = document.getElementById('pullRefresh');
+                if (!refreshEl.classList.contains('hidden')) {
+                    isRefreshing = true;
+                    refreshEl.innerHTML = '<i data-lucide="loader" class="w-4 h-4 mr-2 animate-spin"></i><span>刷新中...</span>';
+                    
+                    // 模拟数据刷新
+                    setTimeout(() => {
+                        refreshEl.classList.add('hidden');
+                        alert('数据已刷新！');
+                        isRefreshing = false;
+                    }, 1500);
+                }
+            }, { passive: true });
+        }
+
+        // ===================== 其他收入登记逻辑 =====================
+        function updateIncomeVoucherCount() {
+            const files = document.getElementById('incomeVoucherUpload').files;
+            incomeVoucherCount = files.length;
+            document.getElementById('incomeVoucherCount').textContent = `${incomeVoucherCount}/5`;
+        }
+        
+        function saveOtherIncome() {
+            // 表单验证
+            const incomeDate = document.getElementById('incomeDate').value;
+            const incomeCategory = document.getElementById('incomeCategory').value;
+            const incomeAmount = document.getElementById('incomeAmount').value;
+            
+            if (!incomeDate) {
+                alert('请选择收入日期');
+                return;
+            }
+            
+            if (!incomeCategory) {
+                alert('请选择收入类别');
+                return;
+            }
+            
+            if (!incomeAmount || parseFloat(incomeAmount) <= 0) {
+                alert('请输入有效的收入金额');
+                return;
+            }
+            
+            alert('其他收入登记成功！已同步至总收入台账');
+            resetOtherIncomeForm();
+        }
+        
+        function resetOtherIncomeForm() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('incomeDate').value = today;
+            document.getElementById('incomeCategory').value = '';
+            document.getElementById('otherIncomeBatch').value = '';
+            document.getElementById('incomeAmount').value = '';
+            document.getElementById('incomePaidStatus').checked = true;
+            document.getElementById('incomeRemark').value = '';
+            document.getElementById('incomeVoucherUpload').value = '';
+            document.getElementById('incomeVoucherCount').textContent = '0/5';
+            incomeVoucherCount = 0;
+        }
+    </script>
+</body>
+</html>
