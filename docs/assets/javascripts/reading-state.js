@@ -17,7 +17,7 @@
 
   function isColumnLanding(pathname = window.location.pathname) {
     const path = normalizePath(pathname);
-    return path.endsWith("/columns") || path.endsWith("/columns/product");
+    return /\/columns(\/(product|growth|ai|iot))?$/.test(path);
   }
 
   function isColumnArticlePath(pathname = window.location.pathname) {

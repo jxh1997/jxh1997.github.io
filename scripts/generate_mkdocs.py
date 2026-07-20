@@ -47,15 +47,27 @@ def normalize_course_nav(course_dir: Path) -> list:
     return normalized
 
 
-def product_columns_nav() -> list:
-    product_root = DOCS / "columns" / "product"
-    nav = [{"产品专栏首页": "columns/product/index.md"}]
-    if not product_root.exists():
+def category_columns_nav(slug: str, title: str) -> list:
+    category_root = DOCS / "columns" / slug
+    nav = [{f"{title}专栏首页": f"columns/{slug}/index.md"}]
+    if not category_root.exists():
         return nav
 
-    for course_dir in sorted(p for p in product_root.iterdir() if p.is_dir()):
+    for course_dir in sorted(p for p in category_root.iterdir() if p.is_dir()):
         nav.append({course_dir.name: normalize_course_nav(course_dir)})
     return nav
+
+
+def product_columns_nav() -> list:
+    return category_columns_nav("product", "产品")
+
+
+def growth_columns_nav() -> list:
+    return category_columns_nav("growth", "成长")
+
+
+def ai_bigdata_columns_nav() -> list:
+    return category_columns_nav("ai", "AI-大数据")
 
 
 def add_image_referrer_policy() -> None:
@@ -147,7 +159,8 @@ def build_config() -> dict:
                 "专栏": [
                     {"专栏首页": "columns/index.md"},
                     {"产品": product_columns_nav()},
-                    {"AI": "columns/ai/index.md"},
+                    {"成长": growth_columns_nav()},
+                    {"AI-大数据": ai_bigdata_columns_nav()},
                     {"IoT": "columns/iot/index.md"},
                 ]
             },
@@ -279,7 +292,8 @@ def main() -> None:
     )
     ensure_page(DOCS / "columns/index.md", "专栏", "外部输入。这里按照领域和课程归档，尽量保留原始章节顺序。")
     ensure_page(DOCS / "columns/product/index.md", "产品专栏", "这里收纳产品经理相关专栏。")
-    ensure_page(DOCS / "columns/ai/index.md", "AI 专栏", "这里可以继续收纳 AI 相关专栏。")
+    ensure_page(DOCS / "columns/growth/index.md", "成长专栏", "这里收纳成长、管理、职业发展、思维方式相关专栏。")
+    ensure_page(DOCS / "columns/ai/index.md", "AI-大数据专栏", "这里收纳 AI、大模型、RAG、数据分析和大数据相关专栏。")
     ensure_page(DOCS / "columns/iot/index.md", "IoT 专栏", "这里可以继续收纳 IoT 相关专栏。")
     ensure_page(DOCS / "learning-notes/index.md", "学习库", "问答备份。这里收纳你通过 ChatGPT 学习和追问得到的内容。")
     ensure_page(
