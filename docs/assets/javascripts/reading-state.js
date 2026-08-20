@@ -37,7 +37,7 @@
   }
 
   function saveState(state) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    // localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   }
 
   function currentTitle() {
@@ -57,7 +57,7 @@
     activeKey = normalizePath();
     activePath = window.location.pathname;
     activeTitle = currentTitle();
-    localStorage.setItem(LAST_COLUMN_KEY, activePath);
+    // localStorage.setItem(LAST_COLUMN_KEY, activePath);
   }
 
   function persistProgress(force = false) {
@@ -100,13 +100,13 @@
   function initPage() {
     persistProgress(true);
 
-    if (isColumnLanding()) {
-      const lastColumnPage = localStorage.getItem(LAST_COLUMN_KEY);
-      if (lastColumnPage && normalizePath(lastColumnPage) !== normalizePath()) {
-        window.location.assign(lastColumnPage);
-        return;
-      }
-    }
+    // if (isColumnLanding()) {
+    //   const lastColumnPage = localStorage.getItem(LAST_COLUMN_KEY);
+    //   if (lastColumnPage && normalizePath(lastColumnPage) !== normalizePath()) {
+    //     window.location.assign(lastColumnPage);
+    //     return;
+    //   }
+    // }
 
     if (!isColumnArticlePath()) {
       activeKey = null;
@@ -139,7 +139,7 @@
         persistProgress(true);
 
         const url = new URL(link.href, window.location.href);
-        const lastColumnPage = localStorage.getItem(LAST_COLUMN_KEY);
+        // const lastColumnPage = localStorage.getItem(LAST_COLUMN_KEY);
         if (
           lastColumnPage
           && url.origin === window.location.origin

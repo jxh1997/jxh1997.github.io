@@ -91,7 +91,7 @@ def add_image_referrer_policy() -> None:
 
 def build_config() -> dict:
     return {
-        "site_name": "美少女的成长之路",
+        "site_name": "个人知识库",
         "site_description": "专栏、学习库与我的笔记",
         "site_url": "https://jxh1997.github.io/",
         "docs_dir": "docs",
@@ -218,28 +218,6 @@ def build_config() -> dict:
                     },
                 ]
             },
-            {
-                "我的笔记": [
-                    {"笔记首页": "my-notes/index.md"},
-                    {
-                        "专栏笔记": [
-                            {"索引": "my-notes/column-notes/index.md"},
-                        ]
-                    },
-                    {
-                        "工作复盘": [
-                            {"索引": "my-notes/work-notes/index.md"},
-                            {"OTA平台设计复盘": "my-notes/work-notes/OTA平台设计复盘.md"},
-                            {"权限系统设计复盘": "my-notes/work-notes/权限系统设计复盘.md"},
-                        ]
-                    },
-                    {
-                        "每日笔记": [
-                            {"索引": "my-notes/daily/index.md"},
-                        ]
-                    },
-                ]
-            },
         ],
     }
 
@@ -247,11 +225,11 @@ def build_config() -> dict:
 def main() -> None:
     ensure_page(
         DOCS / "index.md",
-        "美少女的成长之路",
+        "个人知识库",
         """<section class="home-stage">
   <div class="home-copy">
     <p class="home-kicker">A little study room, made only for you</p>
-    <h2>美少女的成长之路</h2>
+    <h2>个人知识库</h2>
     <p class="home-lead">这里不是任务清单，也不是冷冰冰的资料库。这里放你正在变厉害的证据：读过的专栏、问过的问题、想通的瞬间，还有以后会越来越清楚的自己。</p>
     <div class="home-actions">
       <a href="learning-notes/">继续学习</a>

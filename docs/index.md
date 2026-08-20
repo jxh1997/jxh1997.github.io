@@ -1,7 +1,7 @@
 <section class="home-stage">
   <div class="home-copy">
     <p class="home-kicker">A little study room, made only for you</p>
-    <h2>美少女的成长之路</h2>
+    <h2>个人知识库</h2>
     <p class="home-lead">这里不是任务清单，也不是冷冰冰的资料库。这里放你正在变厉害的证据：读过的专栏、问过的问题、想通的瞬间，还有以后会越来越清楚的自己。</p>
     <div class="home-actions">
       <a href="learning-notes/">继续学习</a>
