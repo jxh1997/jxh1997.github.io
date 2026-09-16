@@ -47,27 +47,23 @@ def normalize_course_nav(course_dir: Path) -> list:
     return normalized
 
 
-def category_columns_nav(slug: str, title: str) -> list:
-    category_root = DOCS / "columns" / slug
-    nav = [{f"{title}专栏首页": f"columns/{slug}/index.md"}]
-    if not category_root.exists():
-        return nav
+def category_columns_nav(category_root: Path) -> list:
+    relative_root = category_root.relative_to(DOCS)
+    nav = []
+    if (category_root / "index.md").exists():
+        nav.append({"分类首页": str(relative_root / "index.md")})
 
     for course_dir in sorted(p for p in category_root.iterdir() if p.is_dir()):
         nav.append({course_dir.name: normalize_course_nav(course_dir)})
     return nav
 
 
-def product_columns_nav() -> list:
-    return category_columns_nav("product", "产品")
-
-
-def growth_columns_nav() -> list:
-    return category_columns_nav("growth", "成长")
-
-
-def ai_bigdata_columns_nav() -> list:
-    return category_columns_nav("ai", "AI-大数据")
+def columns_nav() -> list:
+    columns_root = DOCS / "columns"
+    nav = [{"专栏首页": "columns/index.md"}]
+    for category_root in sorted(p for p in columns_root.iterdir() if p.is_dir()):
+        nav.append({category_root.name: category_columns_nav(category_root)})
+    return nav
 
 
 def add_image_referrer_policy() -> None:
@@ -105,6 +101,7 @@ def build_config() -> dict:
                 "navigation.tabs.sticky",
                 "navigation.top",
                 "navigation.indexes",
+                "navigation.prune",
                 "navigation.instant",
                 "navigation.instant.progress",
                 "navigation.tracking",
@@ -138,7 +135,6 @@ def build_config() -> dict:
         "extra_css": ["assets/stylesheets/extra.css"],
         "extra_javascript": [
             "assets/javascripts/referrerpolicy.js",
-            "assets/javascripts/reading-state.js",
         ],
         "markdown_extensions": [
             "admonition",
@@ -154,16 +150,7 @@ def build_config() -> dict:
         ],
         "plugins": ["search"],
         "nav": [
-            {"首页": "index.md"},
-            {
-                "专栏": [
-                    {"专栏首页": "columns/index.md"},
-                    {"产品": product_columns_nav()},
-                    {"成长": growth_columns_nav()},
-                    {"AI-大数据": ai_bigdata_columns_nav()},
-                    {"IoT": "columns/iot/index.md"},
-                ]
-            },
+            {"专栏": columns_nav()},
             {
                 "学习库": [
                     {"学习库首页": "learning-notes/index.md"},
@@ -223,56 +210,7 @@ def build_config() -> dict:
 
 
 def main() -> None:
-    ensure_page(
-        DOCS / "index.md",
-        "个人知识库",
-        """<section class="home-stage">
-  <div class="home-copy">
-    <p class="home-kicker">A little study room, made only for you</p>
-    <h2>个人知识库</h2>
-    <p class="home-lead">这里不是任务清单，也不是冷冰冰的资料库。这里放你正在变厉害的证据：读过的专栏、问过的问题、想通的瞬间，还有以后会越来越清楚的自己。</p>
-    <div class="home-actions">
-      <a href="learning-notes/">继续学习</a>
-      <a href="my-notes/">写点想法</a>
-    </div>
-  </div>
-
-  <aside class="home-note">
-    <p class="note-label">给今天的你</p>
-    <p>不用一下子什么都懂。产品经理的厉害，是一次次把模糊的问题问清楚，把复杂的事情讲明白。</p>
-    <p>这个网站负责替你收好那些认真。</p>
-  </aside>
-</section>
-
-<section class="home-shelves" aria-label="内容入口">
-  <a class="shelf-card shelf-card-a" href="columns/">
-    <span class="shelf-index">01</span>
-    <span class="shelf-label">专栏</span>
-    <strong>外部输入</strong>
-    <p>系统课程、专栏文章、成体系的内容都先放在这里。想补基础、找方法、搭框架，就从这里开始。</p>
-  </a>
-
-  <a class="shelf-card shelf-card-b" href="learning-notes/">
-    <span class="shelf-index">02</span>
-    <span class="shelf-label">学习库</span>
-    <strong>问答备份</strong>
-    <p>那些你向ChatGpt追问过的内容，都按主题放好。忘了没关系，回来就能接上。</p>
-  </a>
-
-  <a class="shelf-card shelf-card-c" href="my-notes/">
-    <span class="shelf-index">03</span>
-    <span class="shelf-label">我的笔记</span>
-    <strong>自己消化</strong>
-    <p>真正属于你的理解写在这里。工作复盘、判断依据、下次可以复用的方法，都会慢慢长出来。</p>
-  </a>
-</section>
-""",
-    )
     ensure_page(DOCS / "columns/index.md", "专栏", "外部输入。这里按照领域和课程归档，尽量保留原始章节顺序。")
-    ensure_page(DOCS / "columns/product/index.md", "产品专栏", "这里收纳产品经理相关专栏。")
-    ensure_page(DOCS / "columns/growth/index.md", "成长专栏", "这里收纳成长、管理、职业发展、思维方式相关专栏。")
-    ensure_page(DOCS / "columns/ai/index.md", "AI-大数据专栏", "这里收纳 AI、大模型、RAG、数据分析和大数据相关专栏。")
-    ensure_page(DOCS / "columns/iot/index.md", "IoT 专栏", "这里可以继续收纳 IoT 相关专栏。")
     ensure_page(DOCS / "learning-notes/index.md", "学习库", "问答备份。这里收纳你通过 ChatGPT 学习和追问得到的内容。")
     ensure_page(
         DOCS / "my-notes/index.md",
