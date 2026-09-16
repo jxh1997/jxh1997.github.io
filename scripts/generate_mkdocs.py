@@ -148,7 +148,7 @@ def build_config() -> dict:
             {"pymdownx.highlight": {"anchor_linenums": True}},
             {"pymdownx.tabbed": {"alternate_style": True}},
         ],
-        "plugins": ["search"],
+        "plugins": [],
         "nav": [
             {"专栏": columns_nav()},
             {
