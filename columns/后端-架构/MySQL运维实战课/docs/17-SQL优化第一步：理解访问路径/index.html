@@ -1,0 +1,9208 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="专栏、学习库与我的笔记">
+      
+      
+      
+        <link rel="canonical" href="https://jxh1997.github.io/columns/%E5%90%8E%E7%AB%AF-%E6%9E%B6%E6%9E%84/MySQL%E8%BF%90%E7%BB%B4%E5%AE%9E%E6%88%98%E8%AF%BE/docs/17-SQL%E4%BC%98%E5%8C%96%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E7%90%86%E8%A7%A3%E8%AE%BF%E9%97%AE%E8%B7%AF%E5%BE%84/">
+      
+      
+        <link rel="prev" href="../16-%E5%A6%82%E4%BD%95%E5%9C%A8%E4%B8%8D%E5%BD%B1%E5%93%8D%E4%B8%9A%E5%8A%A1%E7%9A%84%E6%83%85%E5%86%B5%E4%B8%8B%E5%B9%B3%E6%BB%91%E5%8D%87%E7%BA%A7MySQL%EF%BC%9F/">
+      
+      
+        <link rel="next" href="../18-%E8%AF%BB%E6%87%82MySQL%E4%B8%AD%E7%9A%84%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92%EF%BC%88%E4%B8%8A%EF%BC%89/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>17-SQL优化第一步：理解访问路径 - 个人知识库</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="deep-orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../../../.." title="个人知识库" class="md-header__button md-logo" aria-label="个人知识库" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            个人知识库
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              17-SQL优化第一步：理解访问路径
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="deep-orange"  aria-label="切换到深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="amber"  aria-label="切换到浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  专栏
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../../learning-notes/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  学习库
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="个人知识库" class="md-nav__button md-logo" aria-label="个人知识库" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    个人知识库
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    专栏
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    专栏
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../AI-%E5%A4%A7%E6%95%B0%E6%8D%AE/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI-大数据
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../IoT-%E7%89%A9%E8%81%94%E7%BD%91/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IoT-物联网
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../%E4%BA%A7%E5%93%81-%E8%BF%90%E8%90%A5/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    产品-运营
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    
+  
+  
+  
+    <a href="../../../../%E5%89%8D%E7%AB%AF/Flutter%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/docs/Flutter%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    前端
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1_6" id="__nav_1_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    后端-架构
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    后端-架构
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../Kafka%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/docs/Kafka%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kafka核心技术与实战
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../MySQL%E5%AE%9E%E6%88%9845%E8%AE%B2/docs/MySQL%E5%AE%9E%E6%88%9845%E8%AE%B2/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MySQL实战45讲
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_6_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1_6_3" id="__nav_1_6_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MySQL运维实战课
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_1_6_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MySQL运维实战课
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MySQL%E8%BF%90%E7%BB%B4%E5%AE%9E%E6%88%98%E8%AF%BE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MySQL运维实战课
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E5%BC%80%E7%AF%87%E8%AF%8D-%E7%90%86%E8%AE%BA%2B%E5%AE%9E%E8%B7%B5%EF%BC%8C%E5%B8%A6%E4%BD%A0%E8%A7%A3%E5%86%B390%25%E4%BB%A5%E4%B8%8A%E7%9A%84MySQL%E8%BF%90%E7%BB%B4%E9%97%AE%E9%A2%98/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    开篇词-理论+实践，带你解决90%以上的MySQL运维问题
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01-快速上手数据库安装部署
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-MySQL%E8%B4%A6%E5%8F%B7%E5%92%8C%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02-MySQL账号和权限管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E9%97%AE%E9%A2%98%E8%AF%8A%E6%96%AD%E5%88%86%E6%9E%90/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03-数据库连接问题诊断分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-MySQL%E4%B8%AD%E4%B8%8D%E5%90%8C%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%8F%82%E6%95%B0%E4%B8%8E%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04-MySQL中不同类型的参数与参数配置
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-%E4%BD%A0%E7%94%A8%E5%AF%B9%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%BA%86%E5%90%97%EF%BC%9F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05-你用对数据类型了吗？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-SQL%20Mode%E5%AF%B9%E7%A8%8B%E5%BA%8F%E6%9C%89%E6%80%8E%E6%A0%B7%E7%9A%84%E5%BD%B1%E5%93%8D%EF%BC%9F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06-SQL Mode对程序有怎样的影响？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-%E4%B9%B1%E7%A0%81%E6%98%AF%E6%80%8E%E4%B9%88%E4%BA%A7%E7%94%9F%E7%9A%84%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8D%EF%BC%9F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07-乱码是怎么产生的，以及如何避免？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-%E7%A8%8B%E5%BA%8F%E8%AE%BF%E9%97%AE%E6%95%B0%E6%8D%AE%E5%BA%93%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%EF%BC%9F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08-程序访问数据库内存溢出怎么解决？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-MySQL%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%EF%BC%9F%EF%BC%88%E4%B8%8A%EF%BC%89/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09-MySQL如何快速导入导出数据？（上）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10-MySQL%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%EF%BC%9F%EF%BC%88%E4%B8%8B%EF%BC%89/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10-MySQL如何快速导入导出数据？（下）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11-%E8%A1%A8%E5%A4%AA%E5%A4%A7%E4%BA%86%EF%BC%8C%E4%BF%AE%E6%94%B9%E8%A1%A8%E7%BB%93%E6%9E%84%E5%A4%AA%E6%85%A2%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%EF%BC%9F%EF%BC%88%E4%B8%8A%EF%BC%89/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11-表太大了，修改表结构太慢怎么解决？（上）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12-%E8%A1%A8%E5%A4%AA%E5%A4%A7%E4%BA%86%EF%BC%8C%E4%BF%AE%E6%94%B9%E8%A1%A8%E7%BB%93%E6%9E%84%E5%A4%AA%E6%85%A2%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%EF%BC%9F%EF%BC%88%E4%B8%8B%EF%BC%89/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12-表太大了，修改表结构太慢怎么解决？（下）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13-%E5%AE%9A%E4%BD%8DMySQL%E9%97%AE%E9%A2%98%E7%9A%84%E6%80%9D%E8%B7%AF%EF%BC%9A%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%BA%E4%BB%80%E4%B9%88%E6%85%A2%E4%BA%86%EF%BC%9F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13-定位MySQL问题的思路：数据库为什么慢了？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14-Linux%E9%97%AE%E9%A2%98%E8%AF%8A%E6%96%AD%E5%85%A5%E9%97%A8%EF%BC%9A%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8%E7%93%B6%E9%A2%88%EF%BC%9F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14-Linux问题诊断入门：操作系统是否存在瓶颈？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../15-%E9%9D%9E%E5%85%B8%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%85%E9%9A%9C%E8%A7%A3%E6%9E%90%EF%BC%9A%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%85%E9%9A%9C%E4%B8%80%E5%AE%9A%E6%98%AF%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E9%94%85%E5%90%97%EF%BC%9F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15-非典型数据库故障解析：数据库故障一定是数据库的锅吗？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../16-%E5%A6%82%E4%BD%95%E5%9C%A8%E4%B8%8D%E5%BD%B1%E5%93%8D%E4%B8%9A%E5%8A%A1%E7%9A%84%E6%83%85%E5%86%B5%E4%B8%8B%E5%B9%B3%E6%BB%91%E5%8D%87%E7%BA%A7MySQL%EF%BC%9F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    16-如何在不影响业务的情况下平滑升级MySQL？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    17-SQL优化第一步：理解访问路径
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    17-SQL优化第一步：理解访问路径
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        表的物理存储
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="表的物理存储">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        数据页
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        数据段
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        索引
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="索引">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        聚簇索引
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二级索引
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        索引结构详解
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="索引结构详解">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        组合索引
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        访问路径
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="访问路径">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        全表扫描
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        索引访问
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="索引访问">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        索引字段等值匹配
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#index-range-scan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        索引范围扫描（Index Range Scan）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        索引逆序扫描
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        无法使用索引的一些情况
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        索引的其他作用
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        表连接
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="表连接">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        嵌套循环连接
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        哈希连接
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        合并排序连接
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        总结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        思考题
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../18-%E8%AF%BB%E6%87%82MySQL%E4%B8%AD%E7%9A%84%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92%EF%BC%88%E4%B8%8A%EF%BC%89/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    18-读懂MySQL中的执行计划（上）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../18-%E8%AF%BB%E6%87%82MySQL%E4%B8%AD%E7%9A%84%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92%EF%BC%88%E4%B8%8B%EF%BC%89/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    18-读懂MySQL中的执行计划（下）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../19-%E4%BC%98%E5%8C%96%E5%99%A8%E6%88%90%E6%9C%AC%E6%A8%A1%E5%9E%8B%EF%BC%9A%E4%BC%98%E5%8C%96%E5%99%A8%E4%B8%BA%E4%BB%80%E4%B9%88%E9%80%89%E6%8B%A9%E8%BF%99%E4%B8%AA%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92%EF%BC%9F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    19-优化器成本模型：优化器为什么选择这个执行计划？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../20-%E5%8D%95%E8%A1%A8%E6%9F%A5%E8%AF%A2%EF%BC%9A%E5%A6%82%E4%BD%95%E8%AF%84%E4%BC%B0%E5%8D%95%E8%A1%A8%E8%AE%BF%E9%97%AE%E6%88%90%E6%9C%AC%EF%BC%9F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    20-单表查询：如何评估单表访问成本？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../21-%E8%A1%A8%E8%BF%9E%E6%8E%A5%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%EF%BC%9F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    21-表连接如何执行？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../22-MySQL%E5%AD%90%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96%E7%AD%96%E7%95%A5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    22-MySQL子查询优化策略
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../23-10%2B%20SQL%E6%89%A7%E8%A1%8C%E6%80%A7%E8%83%BD%E4%B8%8D%E4%BD%B3%E7%9A%84%E7%9C%9F%E5%AE%9E%E6%A1%88%E4%BE%8B%EF%BC%88%E4%B8%8A%EF%BC%89/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    23-10+ SQL执行性能不佳的真实案例（上）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../24-10%2B%20SQL%E6%89%A7%E8%A1%8C%E6%80%A7%E8%83%BD%E4%B8%8D%E4%BD%B3%E7%9A%84%E7%9C%9F%E5%AE%9E%E6%A1%88%E4%BE%8B%EF%BC%88%E4%B8%8B%EF%BC%89/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    24-10+ SQL执行性能不佳的真实案例（下）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%EF%BC%8C%E5%A6%82%E4%BD%95%E8%AF%BB%E5%8F%96InnoDB%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%EF%BC%9F%EF%BC%88%E4%B8%8A%EF%BC%89/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    25-数据库无法启动，如何读取InnoDB文件中的数据？（上）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../26-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%EF%BC%8C%E5%A6%82%E4%BD%95%E8%AF%BB%E5%8F%96InnoDB%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%EF%BC%9F%EF%BC%88%E4%B8%8B%EF%BC%89/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    26-数据库无法启动，如何读取InnoDB文件中的数据？（下）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../27-InnoDB%20Buffer%20Pool%20%E5%A6%82%E4%BD%95%E6%8F%90%E9%AB%98%E6%95%B0%E6%8D%AE%E5%BA%93%E6%80%A7%E8%83%BD%EF%BC%9F%28%E4%B8%8A%EF%BC%89/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    27-InnoDB Buffer Pool 如何提高数据库性能？(上）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../28-InnoDB%20Buffer%20Pool%E5%A6%82%E4%BD%95%E6%8F%90%E9%AB%98%E6%95%B0%E6%8D%AE%E5%BA%93%E6%80%A7%E8%83%BD%EF%BC%9F%28%E4%B8%8B%EF%BC%89/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    28-InnoDB Buffer Pool如何提高数据库性能？(下）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../29-%E6%95%B0%E6%8D%AE%E9%83%BD%E5%9C%A8%E5%86%85%E5%AD%98%E9%87%8C%E4%BF%AE%E6%94%B9%EF%BC%8C%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%88%96%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%95%E6%9C%BA%E4%BC%9A%E4%B8%A2%E6%95%B0%E6%8D%AE%E5%90%97%EF%BC%9F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    29-数据都在内存里修改，服务器或数据库宕机会丢数据吗？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../30-%E4%BA%8B%E5%8A%A1%E6%80%8E%E4%B9%88%E5%9B%9E%E6%BB%9A%EF%BC%9F%EF%BC%88%E4%B8%8A%EF%BC%89/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    30-事务怎么回滚？（上）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../31-%E4%BA%8B%E5%8A%A1%E6%80%8E%E4%B9%88%E5%9B%9E%E6%BB%9A%EF%BC%9F%EF%BC%88%E4%B8%8B%EF%BC%89/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    31-事务怎么回滚？（下）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../32-%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB%E5%AF%B9%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E6%9C%89%E4%BB%80%E4%B9%88%E5%BD%B1%E5%93%8D%EF%BC%9F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    32-隔离级别对应用程序有什么影响？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../33-%20InnoDB%E9%94%81%E5%AE%9A%E5%92%8C%E6%AD%BB%E9%94%81%E9%97%AE%E9%A2%98%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88%E6%88%91%E7%9A%84SQL%E9%94%81%E8%B6%85%E6%97%B6%E4%BA%86%EF%BC%9F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    33- InnoDB锁定和死锁问题：为什么我的SQL锁超时了？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../34-MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E9%AB%98%E5%8F%AF%E7%94%A8%E6%9E%B6%E6%9E%84%E9%83%A8%E7%BD%B2%E5%92%8C%E7%BB%B4%E6%8A%A4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    34-MySQL数据库高可用架构部署和维护
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../35-MySQL%E5%8D%8A%E5%90%8C%E6%AD%A5%E8%83%BD%E6%8F%90%E9%AB%98%E4%B8%BB%E5%A4%87%E6%95%B0%E6%8D%AE%E7%9A%84%E4%B8%80%E8%87%B4%E6%80%A7%E5%90%97%EF%BC%9F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    35-MySQL半同步能提高主备数据的一致性吗？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../36-%E5%A4%87%E5%BA%93%E6%9C%89%E5%BB%B6%E8%BF%9F%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    36-备库有延迟怎么办？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../37-%E5%A4%87%E5%BA%93%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BC%82%E5%B8%B8%E9%87%8D%E5%90%AF%EF%BC%8C%E5%A4%87%E5%BA%93%E6%8D%9F%E5%9D%8F%E4%BA%86%E8%AF%A5%E5%A6%82%E4%BD%95%E4%BF%AE%E5%A4%8D%EF%BC%9F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    37-备库服务器异常重启，备库损坏了该如何修复？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../38-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%9C%89%E4%BA%86%E5%A4%87%E5%BA%93%E8%BF%98%E8%A6%81%E5%81%9A%E5%A4%87%E4%BB%BD%EF%BC%9F%E5%85%BC%E8%B0%88%20Xtrabackup%20%E7%9A%84%E4%BD%BF%E7%94%A8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    38-为什么有了备库还要做备份？兼谈 Xtrabackup 的使用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../39-%E6%95%B0%E6%8D%AE%E8%AF%AF%E6%93%8D%E4%BD%9C%E4%BA%86%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E6%81%A2%E5%A4%8D%EF%BC%9F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    39-数据误操作了如何快速恢复？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../40-MySQL%208.0%20Clone%20%E6%8F%92%E4%BB%B6%E7%9A%84%E5%BA%94%E7%94%A8%E5%92%8C%E5%86%85%E9%83%A8%E5%8E%9F%E7%90%86/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    40-MySQL 8.0 Clone 插件的应用和内部原理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../41-MySQL%208.0%20%E7%BB%84%E5%A4%8D%E5%88%B6%E6%8A%80%E6%9C%AF%E7%9A%84%E5%BA%94%E7%94%A8%EF%BC%88%E4%B8%8A%EF%BC%89/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    41-MySQL 8.0 组复制技术的应用（上）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../42-MySQL%208.0%20%E7%BB%84%E5%A4%8D%E5%88%B6%E6%8A%80%E6%9C%AF%E7%9A%84%E5%BA%94%E7%94%A8%EF%BC%88%E4%B8%8B%EF%BC%89/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    42-MySQL 8.0 组复制技术的应用（下）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../43-ProxySQL%EF%BC%9A%E6%95%B0%E6%8D%AE%E5%BA%93%E9%AB%98%E5%8F%AF%E7%94%A8%E4%BA%86%EF%BC%8C%E5%BA%94%E7%94%A8%E9%AB%98%E5%8F%AF%E7%94%A8%E6%80%8E%E4%B9%88%E5%81%9A%EF%BC%9F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    43-ProxySQL：数据库高可用了，应用高可用怎么做？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../44-%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%20MySQL%20%E7%9B%91%E6%8E%A7%E5%B9%B3%E5%8F%B0%EF%BC%9F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    44-如何搭建一个 MySQL 监控平台？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../45-MySQL%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E5%92%8CGDB%E8%B0%83%E8%AF%95%E5%99%A8%E7%9A%84%E5%BA%94%E7%94%A8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    45-MySQL源码分析和GDB调试器的应用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E7%BB%93%E6%9D%9F%E8%AF%AD-%E5%A6%82%E4%BD%95%E7%B3%BB%E7%BB%9F%E5%9C%B0%E6%8E%8C%E6%8F%A1%E4%B8%80%E9%97%A8%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8A%80%E6%9C%AF%EF%BC%9F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    结束语-如何系统地掌握一门数据库技术？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E7%BB%93%E8%AF%BE%E6%B5%8B%E8%AF%95-%E6%9D%A5%E8%B5%B4%E4%B8%80%E5%9C%BA%E6%BB%A1%E5%88%86%E4%B9%8B%E7%BA%A6%E5%90%A7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    结课测试-来赴一场满分之约吧
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E5%9F%BA%E7%A1%80%E7%AF%87-%E8%AF%BE%E5%90%8E%E9%A2%98%E7%AD%94%E7%96%91/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    基础篇-课后题答疑
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SQL%E4%BC%98%E5%8C%96%E7%AF%87-%E8%AF%BE%E5%90%8E%E9%A2%98%E7%AD%94%E7%96%91/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL优化篇-课后题答疑
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../InnoDB%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E7%AF%87-%E8%AF%BE%E5%90%8E%E9%A2%98%E7%AD%94%E7%96%91/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    InnoDB存储引擎篇-课后题答疑
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E9%AB%98%E5%8F%AF%E7%94%A8%E7%AF%87-%E8%AF%BE%E5%90%8E%E9%A2%98%E7%AD%94%E7%96%91/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    高可用篇-课后题答疑
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../OAuth%202.0%E5%AE%9E%E6%88%98%E8%AF%BE/docs/OAuth%202.0%E5%AE%9E%E6%88%98%E8%AF%BE/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OAuth 2.0实战课
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../Python%E5%AE%9E%E6%88%98%20%C2%B7%20%E4%BB%8E0%E5%88%B01%E6%90%AD%E5%BB%BA%E7%9B%B4%E6%92%AD%E8%A7%86%E9%A2%91%E5%B9%B3%E5%8F%B0/docs/Python%E5%AE%9E%E6%88%98%20%C2%B7%20%E4%BB%8E0%E5%88%B01%E6%90%AD%E5%BB%BA%E7%9B%B4%E6%92%AD%E8%A7%86%E9%A2%91%E5%B9%B3%E5%8F%B0/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python实战 · 从0到1搭建直播视频平台
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../Python%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/docs/Python%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python核心技术与实战
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../Redis%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/docs/Redis%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Redis核心技术与实战
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../Redis%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90%E4%B8%8E%E5%AE%9E%E6%88%98/docs/Redis%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90%E4%B8%8E%E5%AE%9E%E6%88%98/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Redis源码剖析与实战
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../SQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/docs/SQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL必知必会
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/docs/%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%AE%9E%E6%88%98/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    中间件核心技术与实战
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../%E4%BB%8E0%E5%BC%80%E5%A7%8B%E5%AD%A6%E5%BE%AE%E6%9C%8D%E5%8A%A1/docs/%E4%BB%8E0%E5%BC%80%E5%A7%8B%E5%AD%A6%E5%BE%AE%E6%9C%8D%E5%8A%A1/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    从0开始学微服务
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../%E4%BB%8E0%E5%BC%80%E5%A7%8B%E5%AD%A6%E6%9E%B6%E6%9E%84/docs/%E4%BB%8E0%E5%BC%80%E5%A7%8B%E5%AD%A6%E6%9E%B6%E6%9E%84/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    从0开始学架构
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../%E5%88%86%E5%B8%83%E5%BC%8F%E5%8D%8F%E8%AE%AE%E4%B8%8E%E7%AE%97%E6%B3%95%E5%AE%9E%E6%88%98/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E5%8D%8F%E8%AE%AE%E4%B8%8E%E7%AE%97%E6%B3%95%E5%AE%9E%E6%88%98/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    分布式协议与算法实战
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../%E5%88%86%E5%B8%83%E5%BC%8F%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86%E4%B8%8E%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86%E4%B8%8E%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    分布式技术原理与算法解析
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%9330%E8%AE%B2/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%9330%E8%AE%B2/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    分布式数据库30讲
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E5%AE%9E%E6%88%98/docs/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E5%AE%9E%E6%88%98/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    分布式数据库从入门到实战
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../%E5%8D%B3%E6%97%B6%E6%B6%88%E6%81%AF%E6%8A%80%E6%9C%AF%E5%89%96%E6%9E%90%E4%B8%8E%E5%AE%9E%E6%88%98/docs/%E5%8D%B3%E6%97%B6%E6%B6%88%E6%81%AF%E6%8A%80%E6%9C%AF%E5%89%96%E6%9E%90%E4%B8%8E%E5%AE%9E%E6%88%98/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    即时消息技术剖析与实战
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../%E5%90%8E%E7%AB%AF%E5%AD%98%E5%82%A8%E5%AE%9E%E6%88%98%E8%AF%BE/docs/%E5%90%8E%E7%AB%AF%E5%AD%98%E5%82%A8%E5%AE%9E%E6%88%98%E8%AF%BE/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    后端存储实战课
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../%E5%90%8E%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%9A%84%E9%AB%98%E9%98%B6%E9%9D%A2%E7%BB%8F/docs/%E5%90%8E%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%9A%84%E9%AB%98%E9%98%B6%E9%9D%A2%E7%BB%8F/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    后端工程师的高阶面经
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E9%9D%A2%E8%AF%95%2038%20%E8%AE%B2/docs/%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E9%9D%A2%E8%AF%95%2038%20%E8%AE%B2/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    后端技术面试 38 讲
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../%E5%A6%82%E4%BD%95%E8%90%BD%E5%9C%B0%E4%B8%9A%E5%8A%A1%E5%BB%BA%E6%A8%A1/docs/%E5%A6%82%E4%BD%95%E8%90%BD%E5%9C%B0%E4%B8%9A%E5%8A%A1%E5%BB%BA%E6%A8%A1/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    如何落地业务建模
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/docs/%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    如何设计一个秒杀系统
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../%E5%BE%90%E6%98%8A%20%C2%B7%20AI%E6%97%B6%E4%BB%A3%E7%9A%84%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/docs/%E5%BE%90%E6%98%8A%20%C2%B7%20AI%E6%97%B6%E4%BB%A3%E7%9A%84%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    徐昊 · AI时代的软件工程
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../%E5%BE%90%E6%98%8A%20%C2%B7%20TDD%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%9870%E8%AE%B2/docs/%E5%BE%90%E6%98%8A%20%C2%B7%20TDD%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%9870%E8%AE%B2/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    徐昊 · TDD项目实战70讲
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../%E6%80%A7%E8%83%BD%E5%B7%A5%E7%A8%8B%E9%AB%98%E6%89%8B%E8%AF%BE/docs/%E6%80%A7%E8%83%BD%E5%B7%A5%E7%A8%8B%E9%AB%98%E6%89%8B%E8%AF%BE/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    性能工程高手课
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../%E6%9D%8E%E6%99%BA%E6%85%A7%20%C2%B7%20%E9%AB%98%E5%B9%B6%E5%8F%91%E6%9E%B6%E6%9E%84%E5%AE%9E%E6%88%98%E8%AF%BE/docs/%E6%9D%8E%E6%99%BA%E6%85%A7%20%C2%B7%20%E9%AB%98%E5%B9%B6%E5%8F%91%E6%9E%B6%E6%9E%84%E5%AE%9E%E6%88%98%E8%AF%BE/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    李智慧 · 高并发架构实战课
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../%E6%9E%B6%E6%9E%84%E5%AE%9E%E6%88%98%E6%A1%88%E4%BE%8B%E8%A7%A3%E6%9E%90/docs/%E6%9E%B6%E6%9E%84%E5%AE%9E%E6%88%98%E6%A1%88%E4%BE%8B%E8%A7%A3%E6%9E%90/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    架构实战案例解析
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%AB%98%E6%89%8B%E8%AF%BE/docs/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%AB%98%E6%89%8B%E8%AF%BE/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    消息队列高手课
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%9747%E8%AE%B2/docs/%E6%B7%B1%E5%85%A5%E6%8B%86%E8%A7%A3%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%9747%E8%AE%B2/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    深入拆解消息队列47讲
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../%E7%B3%BB%E7%BB%9F%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/docs/%E7%B3%BB%E7%BB%9F%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    系统性能调优必知必会
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84%E5%AE%9E%E6%88%98%E8%AF%BE/docs/%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84%E5%AE%9E%E6%88%98%E8%AF%BE/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    网络架构实战课
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../%E8%AE%B8%E5%BC%8F%E4%BC%9F%E7%9A%84%E6%9E%B6%E6%9E%84%E8%AF%BE/docs/%E8%AE%B8%E5%BC%8F%E4%BC%9F%E7%9A%84%E6%9E%B6%E6%9E%84%E8%AF%BE/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    许式伟的架构课
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E/docs/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计模式之美
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../%E8%AF%B4%E9%80%8F%E4%B8%AD%E5%8F%B0/docs/%E8%AF%B4%E9%80%8F%E4%B8%AD%E5%8F%B0/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    说透中台
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../%E8%AF%B4%E9%80%8F%E6%95%B0%E5%AD%97%E5%8C%96%E8%BD%AC%E5%9E%8B/docs/%E8%AF%B4%E9%80%8F%E6%95%B0%E5%AD%97%E5%8C%96%E8%BD%AC%E5%9E%8B/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    说透数字化转型
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../%E9%83%AD%E4%B8%9C%E7%99%BD%E7%9A%84%E6%9E%B6%E6%9E%84%E8%AF%BE/docs/%E9%83%AD%E4%B8%9C%E7%99%BD%E7%9A%84%E6%9E%B6%E6%9E%84%E8%AF%BE/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    郭东白的架构课
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../%E9%AB%98%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F%E5%AE%9E%E6%88%98%E8%AF%BE/docs/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F%E5%AE%9E%E6%88%98%E8%AF%BE/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    高并发系统实战课
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../%E9%AB%98%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A140%E9%97%AE/docs/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A140%E9%97%AE/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    高并发系统设计40问
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../%E7%AE%A1%E7%90%86-%E6%88%90%E9%95%BF/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    管理-成长
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    
+  
+  
+  
+    <a href="../../../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E8%B6%A3%E8%B0%88%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/docs/%E8%B6%A3%E8%B0%88%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机基础
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    
+  
+  
+  
+    <a href="../../../../%E8%BF%90%E7%BB%B4-%E6%B5%8B%E8%AF%95/AI%E9%87%8D%E5%A1%91%E4%BA%91%E5%8E%9F%E7%94%9F%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98/docs/AI%E9%87%8D%E5%A1%91%E4%BA%91%E5%8E%9F%E7%94%9F%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    运维-测试
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../../../learning-notes/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    学习库
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        表的物理存储
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="表的物理存储">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        数据页
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        数据段
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        索引
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="索引">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        聚簇索引
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二级索引
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        索引结构详解
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="索引结构详解">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        组合索引
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        访问路径
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="访问路径">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        全表扫描
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        索引访问
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="索引访问">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        索引字段等值匹配
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#index-range-scan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        索引范围扫描（Index Range Scan）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        索引逆序扫描
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        无法使用索引的一些情况
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        索引的其他作用
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        表连接
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="表连接">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        嵌套循环连接
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        哈希连接
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        合并排序连接
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        总结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        思考题
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>17-SQL优化第一步：理解访问路径</h1>
+
+<p>你好，我是俊达。</p>
+<p>大家都知道，我们使用SQL来访问数据库，而优化 SQL 对于保证数据库系统的高效、稳定运行，以及满足业务需求和降低成本都具有至关重要的意义。从这一讲开始，我们来系统地学习SQL优化。一条SQL语句，在数据库内部是怎么执行的呢？SQL的性能，又会受哪些因素影响呢？</p>
+<p>关系型数据库中，SQL语句的执行主要分为几个大的步骤。</p>
+<ol>
+<li>对SQL文本进行解析，生成SQL语法树。</li>
+<li>优化器根据SQL语法树、表和索引的结构和统计信息，生成执行计划。</li>
+<li>SQL执行引擎根据执行计划，按一定的步骤，调用存储引擎接口获取数据，执行表连接、排序等操作，生成结果集。</li>
+<li>将结果集发送给客户端。</li>
+</ol>
+<p><img alt="图片" referrerpolicy="no-referrer" src="https://static001.geekbang.org/resource/image/74/78/748d265eb3b0e5b737eb9fa9aa473d78.jpg?wh=1602x766" /></p>
+<p>在这一讲和接下来的几讲中，我将围绕<strong>优化器、执行计划、SQL执行引擎</strong>，把SQL优化讲透。</p>
+<p>我们先从访问路径（Access path）开始。访问路径是指根据表的物理存储结构，以及给定的查询条件，从表中获取数据的方法。访问路径包括表扫描和索引访问，还包括表连接的算法，如嵌套循环连接（Nested Loop Join）、哈希连接（Hash Join）、排序合并连接（Sort Merge Join）。</p>
+<h2 id="_1">表的物理存储</h2>
+<h3 id="_2">数据页</h3>
+<p>数据页是数据表中数据存储的基本单位。一个数据页的大小通常可能为4K、8K、16K、32K。在InnoDB中，默认的页面大小为16K。记录以行的形式存储在数据页中，每行记录在数据页中占用一段连续的空间。通常1行记录可能占用几十字节到几百或几千字节。每个数据页能容纳的记录数一般在几行到几百行之间。</p>
+<p>InnoDB对行的长度有一定的限制，每行记录的长度不能超过页面大小的一半。对于16K的页面大小，1行记录最长大概在8000字节多一点。如果1行记录平均长度为200字节，那么一个页面最多可以容纳八十多行记录。</p>
+<p>下面是数据页的一个示意图。</p>
+<p><img alt="图片" referrerpolicy="no-referrer" src="https://static001.geekbang.org/resource/image/72/72/72a4feaf9698db6a9579cc86af1bc872.jpg?wh=1236x743" /></p>
+<h3 id="_3">数据段</h3>
+<p>每个表由一系列的数据页组成。一个表的数据页数量主要由表中的记录数决定。如果记录平均长度为200字节，每个数据页存80行记录，那么存储1000万行记录，大致需要12.5万个数据页。</p>
+<p>InnoDB中，表的数据以聚簇索引的方式，存储在一个数据段（Segment）中，一个数据段由一系列区块（Extent）组成。每个区块由64个16K的连续的页面组成。</p>
+<p><img alt="图片" referrerpolicy="no-referrer" src="https://static001.geekbang.org/resource/image/58/4a/5807fc6962f4fde46b8c43f0d938d04a.jpg?wh=1282x431" /></p>
+<h3 id="_4">索引</h3>
+<p><strong>索引是用来快速检索数据的一种结构。</strong>InnoDB支持的索引类型包括B+树索引、全文索引、空间索引、Hash索引。我们课程中，说索引的时候，一般默认是指 <strong>B+ 树结构的索引</strong>。全文索引、空间索引、Hash索引不做过多介绍。</p>
+<p>B+树索引是一种Key-Value结构，通过Key可以快速查找到对应的Value。B+树索引由根页面（Root）、分支页面（Branch）和叶子页面（Leaf）组成一棵树的结构。InnoDB中，索引页面的大小由参数innodb_page_size控制，默认为16K。<br />
+<img alt="图片" src="https://static001.geekbang.org/resource/image/fd/42/fd11b330fc90b2fbe0b7ec821665a942.jpg?wh=1442x826" />  {: referrerpolicy="no-referrer" }
+每个索引页面内存储了一系列索引条目，格式为（Key，Value），这些记录按Key的顺序排列。每个索引页面里可容纳的条目数量跟条目的长度相关。一个索引页内最少存储2行记录，因为如果索引页内只有1行记录，就无法构成树的结构了，这也是InnoDB限制一行记录最大长度的根本原因。</p>
+<p>索引中Key包含了哪些字段呢？这是由索引的定义决定的。比如对于下面的这个表，索引idx_a中，Key就包括字段了a、b、id。Value中存了什么呢？在分支页面中，Value存了下一层索引页面的编号（Page No），页面编号就是页面在数据文件中的地址。而在叶子页面中，Value又是什么呢？对于InnoDB的二级索引，你可以认为叶子页面中不存Value，而对于聚簇索引，Value是表里面的所有字段。聚簇索引的含义后面会具体介绍。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>create table t_index(
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    id int not null primary key,
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    a int,
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    b int,
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    c varchar(100),
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    key idx_a(a,b)
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>) engine=innodb;
+</code></pre></div>
+<p>索引页面内的n条记录（k1, v1)，（k2, v2），…（kn, vn），将Key的取值划分为n+1个区间。</p>
+<p>注：在InnoDB的实现上，每一层最左侧页面中的第一个索引条目有一点特殊，Key值比k(1)小的记录，也要到这个索引条目指向的下一层页面中查找。</p>
+<p><img alt="图片" src="https://static001.geekbang.org/resource/image/55/48/5545fe8fc75656f9b938a5afb2f70948.jpg?wh=1400x808" />  {: referrerpolicy="no-referrer" }
+而下一层的索引页面中，每个页面中的索引条目，又将区间划分为更小的范围。假设我们需要查找Key为Kx的记录。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>select * from tab where key = Kx
+</code></pre></div>
+<p>先在根页面内查找，找到包含值Kx的那个区间，k(i) &lt;= Kx &lt; k(i+1)。而索引条目(ki, vi）中的vi是下一层索引页面的地址。递归到下一层页面中按相同的方法查找，最终会定位到某个叶子页面。叶子页面中的记录也是按 (key, value) 的方式存储。如果叶子页面中不存在Key为Kx的记录，则说明表中不存在这条记录。如果在叶子页面中找到了对应的索引条目，那么就可以根据索引条中的主键值，到聚簇索引中查找完整的记录。</p>
+<h4 id="_5">聚簇索引</h4>
+<p>InnoDB中，表里的数据按聚簇索引的形式存储。聚簇索引的Key字段为表结构定义中Primary Key指定的字段。如果不指定Primay Key，则会以非空的唯一索引作为Primary Key，或者InnoDB自动生成一个隐藏字段作为Primary Key。</p>
+<p>下面这个例子中，t_user表的主键为id。聚簇索引的Key字段为ID，其他字段作为Value，存储在索引的叶子页面中。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>create table t_user(
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    id int not null,
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    username varchar(30),
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    email varchar(128),
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    phone varchar(15),
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    login_time datetime,
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    key idx_username(username),
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    primary key(id)
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>);
+</code></pre></div>
+<p>下面是聚簇索引的一个示意图，分支页面中的索引条目为 (id, page num)，叶子页面中，索引条目为 (id, db_trx_id, db_roll_ptr, user_name, …）。这里的 db_trx_id、db_roll_ptr 是InnoDB中的隐藏字段，后续的课程中还会详细介绍。</p>
+<p><img alt="图片" referrerpolicy="no-referrer" src="https://static001.geekbang.org/resource/image/7e/6f/7ee87b17ba7bb96b4fe00a46b564dd6f.jpg?wh=1796x833" /></p>
+<h4 id="_6">二级索引</h4>
+<p>下面是索引idx_username的一个示意图，分支页面中，索引条目为 (username, id, page num），叶子页面中，索引条目为 (username, id）。</p>
+<p><img alt="图片" referrerpolicy="no-referrer" src="https://static001.geekbang.org/resource/image/09/54/09dea79a57325beff273bae8ea508754.jpg?wh=1782x829" /></p>
+<p>虽然索引idx_username的定义中只有username字段，但是我们把username和id拼在一起看作是Key字段。username可能有重复值，但是username和id拼在一起，就不会重复了。</p>
+<h3 id="_7">索引结构详解</h3>
+<p>我们来看一下B+树索引的结构，索引记录在页面中有序存放，每个索引页通过Next和Prev指针指向相邻的页面。</p>
+<p><img alt="图片" referrerpolicy="no-referrer" src="https://static001.geekbang.org/resource/image/ef/6d/ef9be3b9c91a39ab3c9fa782dfdf476d.jpg?wh=1580x895" /></p>
+<p>在上图展示的3个相邻的叶子页面中，Page i中的记录总是小于Page j中的记录，Page j中的记录总是小于Page k中的记录，依次扫描i、j、k这3个页面得到的记录（Ki1，Ki2，…，Kj1，Kj2，…，Kk1，Kk2，…）已经是有序的。</p>
+<p>如果我们要查询的记录，K介于Kpj和Kpk之间，最终会定位到叶子页面Page j，使用二分查找法，就能找到这条记录，或者发现这条记录不存在。这里我们假设K的值没有重复。对K的值有重复的情况，可以参考接下来对组合索引的描述。</p>
+<h4 id="_8">组合索引</h4>
+<p>组合索引是指定义中包含多个字段的索引，下面这个例子中的idx_abc就是一个组合索引。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>create table tab(
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    id int not null,
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    a int,
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    b int,
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    c int,
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    ......,
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    primary key(id),
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    key idx_abc(a,b,c)
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>) engine=innodb;
+</code></pre></div>
+<p>组合索引的结构实际上和单列索引是一样的，只不过索引条目由更多的字段组成。我们来看一下组合索引idx_abc局部结构的示意图。</p>
+<p><img alt="图片" src="https://static001.geekbang.org/resource/image/0a/60/0aa8102417f9e606bf12b6a72a22d960.jpg?wh=1814x1066" />  {: referrerpolicy="no-referrer" }
+组合索引中，索引条目也是按顺序存放的。</p>
+<p>我们来考虑组合索引idx_abc的两条索引记录：记录1（A1，B1，C1，ID1）和记录2（A2，B2，C2，ID2），如何比较这两条记录的大小？</p>
+<p>比较规则如下：</p>
+<ol>
+<li>先比较字段A的大小，如果A1 &gt; A2，则记录1大，如果A1 &lt; A2，则记录2大。</li>
+<li>如果A1 == A2，则继续比较B1和B2。如果B1 &gt; B2，则记录1大，如果B1 &lt; B2，则记录2大。</li>
+<li>如果B1 == B2，则继续比较C1和C2。如果C1 &gt; C2，则记录1大，如果C1 &lt; C2，则记录2大。</li>
+<li>如果C1 == C2，则继续比较ID1和ID2。因为ID是主键，所以ID1和ID2一定不相等，比较ID1和ID2就能得出记录的大小。</li>
+</ol>
+<p>对于非唯一索引，索引记录中Key的值可能存在重复值。但是索引记录中还包括了主键字段，加上主键字段后，整条索引记录就不会重复了。</p>
+<h2 id="_9">访问路径</h2>
+<p>SQL语句查询数据时，通过在WHERE子句中指定字段需要满足的条件来获取的数据，不需要指定数据的物理属性。数据库引擎需要将逻辑的SQL语句转换为物理的访问路径，从表中获取数据。</p>
+<h3 id="_10">全表扫描</h3>
+<p>InnoDB中，表的数据存储在聚簇索引的叶子页面中。全表扫描时，需要依次访问每一个叶子页面。对于下面这个SQL，phone字段既不是主键，也没有建二级索引，因此需要扫描所有的叶子页面，才能获取到满足条件的数据。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>select * from t_user where phone='xxx';
+</code></pre></div>
+<p>大表的全表扫描会大量消耗CPU和IO，应当尽量避免。有些情况下可给查询字段建立合适的索引，避免全表扫描。当然有的场景下，业务可能就是需要获取整个表的所有数据，比如数据仓库需要同步整个表的数据做数据分析。可以考虑在业务低峰期执行这类全表扫描的SQL，或者建立读库，专门执行这类SQL。</p>
+<h3 id="_11">索引访问</h3>
+<h4 id="_12">索引字段等值匹配</h4>
+<p>等值匹配是指WHERE条件中，索引字段以等于 (=) 方式匹配。对于组合索引，可以使用索引的前缀字段。刚刚例子里的组合索引 idx_abc(a,b,c)，以下查询都可以使用索引匹配：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>select * from tab where a = 'a';
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>select * from tab where a = 'a' and b = 'b'
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>select * from tab where a = 'a' and b = 'b' and c = 'c'
+</code></pre></div>
+<p>但是下面这几个查询就无法使用索引匹配了，因为缺少了字段a的等于条件。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>select * from tab where b = 'b'
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>select * from tab where c = 'c'
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>select * from tab where b = 'b' and c = 'c'
+</code></pre></div>
+<p>对于下面这个SQL，可以用到索引前缀字段A进行等值匹配，但是字段C则无法用到索引等值匹配中。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>select * from tab where a = 'a' and c = 'c'
+</code></pre></div>
+<p>我们用下面这个例子，来说明索引等值匹配的执行过程。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>select * from tab where a = 'Aj' 
+</code></pre></div>
+<p><img alt="图片" src="https://static001.geekbang.org/resource/image/46/14/466038532e7d5796ed58ff294a0d4a14.jpg?wh=1840x1072" />  {: referrerpolicy="no-referrer" }
+执行过程大致如下：</p>
+<ol>
+<li>根据where条件，定位到记录所在的最开始的那个叶子页面。</li>
+<li>在叶子页面中定位到第1条满足条件的记录。如果使用的是二级索引，则还需要根据索引记录中的主键值，到聚簇索引查找数据。获取到记录后，检查该记录是否满足WHERE子句中的其他条件。若满足条件，则将这一行记录返回给Server层处理。</li>
+<li>处理下一条的记录。如果当前页面的记录已经处理完了，则继续处理下一个相邻页面中的记录。</li>
+<li>如果获取到的记录不满足索引条件（where A = Aj），则说明没有更多的数据了，停止扫描。</li>
+</ol>
+<h4 id="index-range-scan">索引范围扫描（Index Range Scan）</h4>
+<p>索引范围扫描是很常见的一种执行方式。索引范围扫描可以分为几种情况：</p>
+<ol>
+<li>只限制了范围的最大值，没有限制最小值，如where A &lt;= Aj。</li>
+<li>只限制了范围的最小值，没有限制最大值，如where A &gt;= Aj。</li>
+<li>限制了范围的最小值和最大值，如where A &gt;= Ai and A &lt;= Aj。</li>
+</ol>
+<p>每种情况下，还要看是否包含边界值。使用大于（&gt;）和小于（&lt;）条件时，不包含边界值。</p>
+<p>索引范围扫描和索引等值匹配的执行过程比较相似，主要的区别在于如何确定扫描的边界。如果没有限制最小值，则要从索引中的第1条记录开始扫描。如果没有限制最大值，则需要一直扫描到索引的最后一个叶子页面。</p>
+<p>我们来对比下面这2个语句。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>## 语句1
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>select * from tab where A &gt;= Aj
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>## 语句2
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>select * from tab where A &gt; Aj
+</code></pre></div>
+<p>这2个语句都要根据边界值Aj来定位扫描的开始位置，语句1从记录 (Aj, B2, C1,I Di2) 开始扫描。语句2从记录 (Ak, B3, C, IDk3) 开始扫描。</p>
+<p><img alt="图片" referrerpolicy="no-referrer" src="https://static001.geekbang.org/resource/image/ae/0b/ae481f65bd4f5be735a1ef6ed7123f0b.jpg?wh=1840x936" /></p>
+<h4 id="_13">索引逆序扫描</h4>
+<p>索引还支持逆序扫描，比如下面这个SQL中，使用了order b desc。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>select * from tab where A = Aj order by B desc
+</code></pre></div>
+<p><img alt="图片" referrerpolicy="no-referrer" src="https://static001.geekbang.org/resource/image/d2/58/d2c662152c8427f66d7ea7493d09fc58.jpg?wh=1812x993" /></p>
+<p>由于索引中的条目都是有序的，在字段A的值固定的情况下，字段B是有序的，因此只需要按索引条目的顺序反向扫描就可以了。</p>
+<p>逆序扫描有几个特点：</p>
+<ol>
+<li>逆序扫描从区间的最大值处开始。如果where条件中没有限制最大值，则从索引的最后一个页面开始扫描。</li>
+<li>在InnoDB的实现上，逆序扫描比顺序扫描成本要更高一些。索引页面中，索引条目顺序组成一个单向的链表，逆序访问时，需要做更多的计算。</li>
+</ol>
+<h4 id="_14">无法使用索引的一些情况</h4>
+<ol>
+<li>组合索引中，缺少前缀字段的查询条件。考虑下面这个组合索引，索引字段为C1，C2，……，Ck。</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>alter table tab add key idx_c1tok(c1, c2, c3, ..., ck);
+</code></pre></div>
+<p>一个语句能用到这个索引需要满足这些前置条件。</p>
+<ul>
+<li>索引前缀字段以等值匹配的形式出现在where子句中。</li>
+<li>如果索引中的某个字段Ci没有出现在where子句中，或者where子句中Ci以非等值匹配的形式出现，则该字段之后的索引字段不能用来减少索引扫描的范围。</li>
+</ul>
+<p>比如下面这两个SQL中，语句1缺少了C2的查询条件，语句2中C2使用了范围条件，因此C3上的条件并不能用来限制索引的扫描范围。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>语句1: select * from tab where c1 = 'x' and c3 = 'y';
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>语句2: select * from tab where c1 = 'x' and c2 &gt;= 'p' and c2 &lt;= 'q' and c3 = 'y';
+</code></pre></div>
+<ul>
+<li>索引字段Cj可以使用范围扫描的前提条件：字段Cj是索引的第一个字段，或者索引中Cj之前的字段都以等值匹配的形式出现在where子句中。</li>
+</ul>
+<!--THE END-->
+
+<ol>
+<li>where子句中，在索引字段上进行了运算，则无法使用索引。比如下面这几个SQL，虽然字段A上建有索引，但是WHERE子句，对字段A做了运算，所以无法使用到索引。</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>select * from tab where a+0 = 1;
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>select * from tab where to_char(a) = '1';
+</code></pre></div>
+<ol>
+<li>索引字段存在隐式转换。如果索引字段和传入的参数类型不匹配，可能会在索引字段上发生类型隐式转换，这会导致索引无法使用。</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>create table tab (
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>    id int not null,
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>    b varchar(30),
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>    ......
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>    primary key(id),
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>    key idx_b(b)
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>);
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>select * from tab where b = 1;
+</code></pre></div>
+<ol>
+<li>使用了不支持的运算符。</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>select * from tab where a != 1;
+</code></pre></div>
+<h4 id="_15">索引的其他作用</h4>
+<p>除了用来快速检索数据，索引还有一些其他的作用。</p>
+<ol>
+<li><strong>利用索引的有序性消除排序</strong></li>
+</ol>
+<p>如果SQL里order by字段顺序和索引字段顺序一致，则可以利用索引的有序性避免排序。下面这个例子中，使用了Order by C2, C3，同时C1有等值匹配的条件，因此按索引条目的顺序读取的数据，已经满足了SQL的要求，MySQL就不用再额外进行排序了。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>index (C1, C2, C3, C4, ...)
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>select * from tab
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>where C1 = x
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>order by C2, C3
+</code></pre></div>
+<p>当然，利用索引来避免排序也有一些前置条件。</p>
+<ul>
+<li>查询本身能使用这个索引。</li>
+<li>order by中列的顺序和索引中字段顺序一致，并且排序方向一致。</li>
+<li>where子句中以等值匹配形式出现的索引列和order by中的列连在一起是索引的前缀。</li>
+</ul>
+<p>比如下面这些SQL都需要额外排序。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>## 少了C2
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>select * from tab where C1 = x1 order by C3, C4
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>## C2使用了范围条件
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>select * from tab where C1 = x1 and C2 &gt;= x2 order by C3
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>## C3用了逆序
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>select * from tab where C1 = x1 order by C2, C3 desc
+<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>
+<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>
+<a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>## order by中字段顺序和索引不一致
+<a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>select * from tab where C1 = x1 order by C3, C2
+</code></pre></div>
+<ol>
+<li><strong>覆盖索引</strong></li>
+</ol>
+<p>如果一个查询涉及到的字段全都包含在一个索引中，则可以使用索引来满足查询，不需要回表。</p>
+<p>下面这个语句中，所有涉及到的字段都包含在同一个索引中，因此可以使用覆盖索引来满足查询。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>index(C1, C2, C3, C4, C5)
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>select C1,C2 
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>from tab
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>where C3=x
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>order by C5
+</code></pre></div>
+<p>如果索引占用的空间比聚簇索引要小很多，那么扫描索引的成本也会比扫描整个表要低，使用覆盖索引可以提升查询的性能。当然，由于MySQL MVCC的实现机制，即便是用到了覆盖索引，也有可能需要回表，以构建记录的历史版本，关于这一点我们在第三章再详细介绍。</p>
+<ol>
+<li><strong>索引条件下推</strong></li>
+</ol>
+<p>对于下面这样的SQL，虽然字段C3的条件不能用来限制索引扫描的范围，但是MySQL可以将这个条件下推给InnoDB，InnoDB可以利用索引中C3字段的值来过滤掉一些不满足条件的记录，减少回表的次数。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>index(C1, C2, C3)
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>select * from tab where C1 = x and C3 = y
+</code></pre></div>
+<p>我们可以利用这个特点，在创建索引时冗余一些常用的查询字段，来提升性能。</p>
+<h3 id="_16">表连接</h3>
+<p>最后我们来简单介绍下表连接的几种算法。</p>
+<h4 id="_17">嵌套循环连接</h4>
+<p>嵌套循环连接是MySQL中最早支持的连接算法。</p>
+<p><img alt="图片" src="https://static001.geekbang.org/resource/image/bd/db/bd0230cb1152498f7e81250705484bdb.jpg?wh=1442x836" />  {: referrerpolicy="no-referrer" }
+上面这个就是嵌套循环连接的一个示意图，执行步骤大致是：</p>
+<ol>
+<li>使用驱动表Tab_1的条件定位到满足条件的记录。</li>
+<li>每次从步骤1获取到一行记录后，查询Tab_2表。</li>
+<li>查询Tab_2时，使用从Tab_1表带过来的关联条件，以及Tab_2原先的条件，来获取数据。</li>
+</ol>
+<p>嵌套查询连接的性能，取决于3个因素。</p>
+<ol>
+<li>从驱动表获取数据的效率如何。</li>
+<li>驱动表中满足条件的记录数，这决定了被驱动表需要查询多少次。</li>
+<li>从被驱动表中获取数据的效率如何。</li>
+</ol>
+<h4 id="_18">哈希连接</h4>
+<p>在嵌套循环连接算法下，如果被驱动表没有合适的索引可以使用，那么从驱动表每获取一行记录，都要全表扫描一次被驱动表。这种情况下，MySQL使用了块嵌套循环（BNL）策略，先将驱动表中的一批数据缓存到Join Buffer中，然后再全表扫描被驱动表，和Join Buffer中的记录进行匹配。MySQL 8.0在块嵌套循环的基础上，支持了哈希连接算法。</p>
+<p><img alt="图片" referrerpolicy="no-referrer" src="https://static001.geekbang.org/resource/image/fe/e9/feb076d58yy1a2e3fd0f26bfc621c4e9.jpg?wh=1650x864" /></p>
+<p>哈希连接算法的执行步骤大致为：</p>
+<ol>
+<li>扫描驱动表Tab_1，并构建哈希表；</li>
+<li>扫描被驱动表Tab_2；</li>
+<li>使用从Tab_2中获取到的记录，到步骤1构建的哈希表中匹配数据。</li>
+</ol>
+<p>如果驱动表满足条件的记录数较多，无法一次性加载到Join Buffer中，则需要分批处理。</p>
+<h4 id="_19">合并排序连接</h4>
+<p>实际上，到8.0版本为止，MySQL并不支持排序合并连接。</p>
+<p><img alt="图片" referrerpolicy="no-referrer" src="https://static001.geekbang.org/resource/image/5c/69/5cf786f5fd77c39608423cc1c4061469.jpg?wh=1664x830" /></p>
+<p>合并排序连接算法的执行步骤大致为：</p>
+<ol>
+<li>获取Tab_1表满足条件的记录，按连接键排序。</li>
+<li>获取Tab_2表满足条件的记录，按连接键排序。</li>
+<li>读取步骤1、2生成的有序数据，执行合并连接。</li>
+</ol>
+<h2 id="_20">总结</h2>
+<p>这一讲中，我们学习了数据库中最重要的几种访问路径：全表扫描、索引访问、表连接。理解这些内容，能帮你更好地掌握SQL优化。</p>
+<p>当然，一个SQL语句，并不是说用了索引性能就一定好，不用索引性能就一定不好。优化器会根据具体的情况来进行评估要不要使用索引、使用哪些索引，对于表连接，优化器还需要确定连接的顺序和连接的算法，这些内容在接下来的几讲中揭秘。</p>
+<h2 id="_21">思考题</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>create table t_n(a int not null, primary key(a));
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>insert into t_n values(1),(2),(3),(4),(5),(6),(7),(8),(9),(10),
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>  (11),(12),(13),(14),(15),(16),(17),(18),(19),(20);
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>create table t_abc(
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>    id int not null auto_increment,
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>    a int not null,
+<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>    b int not null,
+<a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a>    c int not null,
+<a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a>    d int not null,
+<a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a>    padding varchar(200),
+<a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a>    primary key(id),
+<a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a>    key idx_abc(a,b,c)
+<a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a>) engine=innodb;
+<a id="__codelineno-20-16" name="__codelineno-20-16" href="#__codelineno-20-16"></a>
+<a id="__codelineno-20-17" name="__codelineno-20-17" href="#__codelineno-20-17"></a>insert into t_abc(a,b,c,d, padding)
+<a id="__codelineno-20-18" name="__codelineno-20-18" href="#__codelineno-20-18"></a>select t1.a, t2.a, t3.a, t3.a, rpad('', 200, 'ABC DEF G XYZ')
+<a id="__codelineno-20-19" name="__codelineno-20-19" href="#__codelineno-20-19"></a>from t_n t1, t_n t2, t_n t3;
+</code></pre></div>
+<p>根据测试表t_abc的结构，分析下面这几个SQL语句的执行路径，有哪些区别？</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>select * from t_abc where a = 10 and b = 10;
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>select * from t_abc where a = 10 and c = 10;
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>select * from t_abc where a = 10 and d = 10;
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>select * from t_abc where a = 10 order by a,c;
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>select * from t_abc where a = 10 order by b,c;
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>select id, a, b, c from t_abc where a = 10;
+<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>select id, a, b, c from t_abc where b = 10;
+<a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a>select id, a, b, c, d from t_abc where b = 10;
+</code></pre></div>
+<p>期待你的思考，欢迎在留言区中与我交流。如果今天的课程让你有所收获，也欢迎转发给有需要的朋友。我们下节课再见！</p>
+<div><strong>精选留言（4）</strong></div>
+<ul>
+<li><span>123</span> 👍（1） 💬（1）<p>思考题：
+以下测验均在mysql8.0.29版本中：
+
+#符合idx_abc索引的顺序条件，可以通过a,b进行条件筛选，但是需要回表
+select * from t_abc where a = 10 and b = 10;
+
+#符合idx_abc索引的最左匹配原则，c=10未能使用索引匹配，但可以使用索引条件下推，过滤一些索引行
+select * from t_abc where a = 10 and c = 10;
+
+#符合idx_abc索引最左匹配，但只能利用a字段过滤，需要回表，再判断d的值，若改成or则不走索引
+select * from t_abc where a = 10 and d = 10;
+
+上述三条语句全部走索引，区别在于能利用索引提升的速度不同；
+
+#无法利用索引有序性消除排序，因为字段顺序不连续(Using filesort)
+select * from t_abc where a = 10 order by a,c;
+
+#无需额外排序
+select * from t_abc where a = 10 order by b,c;
+
+#完美匹配idx_abc，走覆盖索引
+select id, a, b, c from t_abc where a = 10;
+
+上述两条sql语句区别在于能否通过索引原有的顺序而消除排序；
+
+#因为不符合最左匹配原则，应该不走二级索引，但是由于所需字段均在idx_abc中，mysql认为走索引的扫描成本会更低，所以走了索引，扫描行数和下面的全表扫描的行数是一致的，走了覆盖索引(Using index)
+select id, a, b, c from t_abc where b = 10;
+
+#和select * 无异，因为b上面建索引且不符合最左匹配原则，走全表扫描
+select id, a, b, c, d from t_abc where b = 10;
+
+上述三条sql区别在于是否可以利用覆盖索引，根据语句的内容选择扫描成本低的方案</p>2024-09-25</li><br/><li><span>山河已无恙</span> 👍（0） 💬（1）<p>老师覆盖索引哪里 Where 条件不满足最左匹配原则么，也会走覆盖索引么
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="k">index</span><span class="p">(</span><span class="n">C1</span><span class="p">,</span><span class="w"> </span><span class="n">C2</span><span class="p">,</span><span class="w"> </span><span class="n">C3</span><span class="p">,</span><span class="w"> </span><span class="n">C4</span><span class="p">,</span><span class="w"> </span><span class="n">C5</span><span class="p">)</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="k">select</span><span class="w"> </span><span class="n">C1</span><span class="p">,</span><span class="n">C2</span><span class="w"> </span>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="k">from</span><span class="w"> </span><span class="n">tab</span>
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="k">where</span><span class="w"> </span><span class="n">C3</span><span class="o">=</span><span class="n">x</span>
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">C5</span>
+</code></pre></div>
+</p>2025-01-11</li><br/><li><span>山河已无恙</span> 👍（0） 💬（2）<p>测试用的表，用于模拟业务表
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="k">SET</span><span class="w"> </span><span class="n">profiling</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="n">ams_accounts_order</span><span class="p">;</span>
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="o">&amp;#</span><span class="mi">47</span><span class="p">;</span><span class="o">*</span><span class="w"> </span><span class="err">受影响记录行数</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">  </span><span class="err">已找到记录行</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">  </span><span class="err">警告</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">  </span><span class="err">持续时间</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="err">查询</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">.</span><span class="mi">469</span><span class="w"> </span><span class="err">秒</span><span class="p">.</span><span class="w"> </span><span class="o">*&amp;#</span><span class="mi">47</span><span class="p">;</span>
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="k">SHOW</span><span class="w"> </span><span class="n">PROFILE</span><span class="p">;</span>
+</code></pre></div>
+数据量
+
+ams_accounts_order
+---
+| COUNT(*) | 
+| ---: | 
+| 6202700 | 
+
+默认情况下只有主键，两个查询条件的查询时间
+
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="k">SET</span><span class="w"> </span><span class="n">profiling</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">ams_accounts_order</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">hotel_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10029</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">room_order_no</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;#</span><span class="mi">39</span><span class="p">;</span><span class="n">UDDH807015895560880128</span><span class="o">&amp;#</span><span class="mi">39</span><span class="p">;</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">accounts_id</span><span class="w"> </span><span class="k">DESC</span><span class="w"> </span>
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="p">;</span>
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a><span class="o">&amp;#</span><span class="mi">47</span><span class="p">;</span><span class="o">*</span><span class="w"> </span><span class="err">受影响记录行数</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">  </span><span class="err">已找到记录行</span><span class="p">:</span><span class="w"> </span><span class="mi">18</span><span class="w">  </span><span class="err">警告</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">  </span><span class="err">持续时间</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="err">查询</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">.</span><span class="mi">250</span><span class="w"> </span><span class="err">秒</span><span class="p">.</span><span class="w"> </span><span class="o">*&amp;#</span><span class="mi">47</span><span class="p">;</span>
+<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a><span class="k">SHOW</span><span class="w"> </span><span class="n">PROFILE</span><span class="p">;</span>
+<a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a><span class="k">SET</span><span class="w"> </span><span class="n">profiling</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</code></pre></div>
+
+对其中一个查询条件添加索引
+
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="o">`</span><span class="n">ams_accounts_order</span><span class="o">`</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="w">    </span><span class="k">DROP</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="o">`</span><span class="n">hotel_id</span><span class="o">`</span><span class="p">,</span>
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="w">    </span><span class="k">ADD</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="o">`</span><span class="n">hotel_id</span><span class="o">`</span><span class="w"> </span><span class="p">(</span><span class="o">`</span><span class="n">hotel_id</span><span class="o">`</span><span class="p">);</span>
+</code></pre></div>
+
+再次查询
+
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="k">SET</span><span class="w"> </span><span class="n">profiling</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">ams_accounts_order</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">hotel_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10029</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">room_order_no</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;#</span><span class="mi">39</span><span class="p">;</span><span class="n">UDDH807015895560880128</span><span class="o">&amp;#</span><span class="mi">39</span><span class="p">;</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">accounts_id</span><span class="w"> </span><span class="k">DESC</span><span class="w"> </span><span class="p">;</span>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="o">&amp;#</span><span class="mi">47</span><span class="p">;</span><span class="o">*</span><span class="w"> </span><span class="err">受影响记录行数</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">  </span><span class="err">已找到记录行</span><span class="p">:</span><span class="w"> </span><span class="mi">18</span><span class="w">  </span><span class="err">警告</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">  </span><span class="err">持续时间</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="err">查询</span><span class="p">:</span><span class="w"> </span><span class="mi">18</span><span class="p">.</span><span class="mi">547</span><span class="w"> </span><span class="err">秒</span><span class="p">.</span><span class="w"> </span><span class="o">*&amp;#</span><span class="mi">47</span><span class="p">;</span>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="k">SHOW</span><span class="w"> </span><span class="n">PROFILE</span><span class="p">;</span>
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="k">SET</span><span class="w"> </span><span class="n">profiling</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</code></pre></div>
+发现加了不如不加，时间是原来的 3 倍多
+
+查看 `EXPLAIN` 结果中的 `key` 和 `Extra` 字段,确认使用了创建的索引
+
+
+EXPLAIN
+| id | select_type | table | partitions | type | possible_keys | key | key_len | ref | rows | filtered | Extra | 
+| ---: | --- | --- | --- | --- | --- | --- | --- | --- | ---: | ---: | --- | 
+| 1 | SIMPLE | ams_accounts_order | \N | ref | hotel_id | hotel_id | 4 | const | 3069172 | 10.00 | Using where | 
+
+老师这种情况为什么加了不如不加</p>2024-10-26</li><br/><li><span>123</span> 👍（0） 💬（1）<p>老师，请教两个问题：
+1、“在分支页面中，Value 存了下一层索引页面的编号（Page No），页面编号就是页面在数据文件中的地址”，其中页面编号就是页面在数据文件中地址，这个数据文件应该就是.ibd文件吧，存储了数据信息，并且一二级索引的数据都在这个文件里面，所在在ibd文件中哪里可以看到页编号，老师后面会讲数据的物理存储结构吗？
+
+2、表数据存储在页中，页中存储行数据，当行数据变大之后，例如可变长VARCHAR字段，则就会进行页的新增，老师文中提到，每个区块由连续的64个数据页组成，这里应该是物理连续吧？那么行内数据增加后务必会造成数据页的分裂，也就是说原来一页能存100条，现在只能存储50条了，同时为了保证连续，多出的页面会造成后续页面在空间上移动，进而造成在磁盘空间中数据的移动，不知道怎么理解对不对，那么为了防止大量的数据移动，区块或者段数据之间应该是逻辑连续而不是物理连续，也就是说使用链表的形式连接？</p>2024-09-25</li><br/>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.indexes", "navigation.prune", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow", "content.code.copy", "content.tooltips"], "search": "../../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../../../../assets/javascripts/referrerpolicy.js"></script>
+      
+    
+  </body>
+</html>
