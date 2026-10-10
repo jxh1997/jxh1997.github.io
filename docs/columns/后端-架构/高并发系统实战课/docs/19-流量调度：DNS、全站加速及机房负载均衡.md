@@ -16,7 +16,7 @@
 
 那DNS为什么会有刷新缓慢的情况呢？这需要我们先了解DNS的解析过程，你可以对照下图听我分析：
 
-![图片](https://static001.geekbang.org/resource/image/a4/23/a40cfbf0e9ef60f16e75b273dd111823.jpg?wh=1920x1028 "DNS 查找过程")
+![图片](https://static001.geekbang.org/resource/image/a4/23/a40cfbf0e9ef60f16e75b273dd111823.jpg?wh=1920x1028 "DNS 查找过程"){: referrerpolicy="no-referrer" }
 
 客户端或浏览器发起请求时，第一个要请求的服务就是DNS，域名解析过程可以分成下面三个步骤：
 
@@ -62,7 +62,7 @@ DNS刷新缓慢这个问题，给我们带来了很多困扰，如果我们做�
 
 在讲如何实现CDN加速之前，我们先了解下CDN和它的网站加速技术是怎么回事。网站加速对于读多写多的系统很重要，一般来说，常见的CDN提供了静态文件加速功能，如下图：
 
-![图片](https://static001.geekbang.org/resource/image/1b/83/1bdcef8301b71e034d79360eaa9c8c83.jpg?wh=1920x581 "静态缓存")
+![图片](https://static001.geekbang.org/resource/image/1b/83/1bdcef8301b71e034d79360eaa9c8c83.jpg?wh=1920x581 "静态缓存"){: referrerpolicy="no-referrer" }
 
 当用户请求CDN服务时，CDN服务会优先返回本地缓存的静态资源。
 
@@ -70,7 +70,7 @@ DNS刷新缓慢这个问题，给我们带来了很多困扰，如果我们做�
 
 除了加速静态资源外，CDN还做了区域化的本地CDN网络加速服务，具体如下图：
 
-![图片](https://static001.geekbang.org/resource/image/63/98/630373b0d81d61f013fb7919682d0298.jpg?wh=1920x1237 "本地域名解析 + 本地机房")
+![图片](https://static001.geekbang.org/resource/image/63/98/630373b0d81d61f013fb7919682d0298.jpg?wh=1920x1237 "本地域名解析 + 本地机房"){: referrerpolicy="no-referrer" }
 
 CDN会在各大主要省市中部署加速服务机房，而且机房之间会通过高速专线实现互通。
 
@@ -78,7 +78,7 @@ CDN会在各大主要省市中部署加速服务机房，而且机房之间会�
 
 客户端请求服务的路径效果如下图所示：
 
-![图片](https://static001.geekbang.org/resource/image/c9/ca/c96df54d75cb670bd2c7ea5840fd51ca.jpg?wh=1920x608 "全站加速网站 动态接口 CDN 网络链路优化")
+![图片](https://static001.geekbang.org/resource/image/c9/ca/c96df54d75cb670bd2c7ea5840fd51ca.jpg?wh=1920x608 "全站加速网站 动态接口 CDN 网络链路优化"){: referrerpolicy="no-referrer" }
 
 如果用户请求的是**全站加速网站**的**动态接口**，CDN节点会通过 **CDN内网**用最短最快的网络链路，将用户请求转发到我们的机房服务器。
 
@@ -100,7 +100,7 @@ CDN会在各大主要省市中部署加速服务机房，而且机房之间会�
 
 GTM是全局流量管理系统的简称。我画了一张工作原理图帮你加深理解：
 
-![图片](https://static001.geekbang.org/resource/image/22/38/2244f0760cff0b97015607c4ec526338.jpg?wh=1920x1415 "GTM 智能 DNS 解析")
+![图片](https://static001.geekbang.org/resource/image/22/38/2244f0760cff0b97015607c4ec526338.jpg?wh=1920x1415 "GTM 智能 DNS 解析"){: referrerpolicy="no-referrer" }
 
 当客户端请求服务域名时，客户端先会请求DNS服务解析请求的域名。而客户端请求主域名DNS服务来解析域名时，会请求到 **GTM服务**的智能解析DNS。
 
@@ -114,7 +114,7 @@ GTM还提供了流量负载均衡功能，即根据监控服务的流量及请�
 
 当**GTM和CDN网站加速结合**后会有更好的效果，具体组合方式如下图所示：
 
-![图片](https://static001.geekbang.org/resource/image/73/a8/738fb308a6c5b1d137256fff40afb3a8.jpg?wh=1920x844 "CDN + GTM 网络加速及故障转移")
+![图片](https://static001.geekbang.org/resource/image/73/a8/738fb308a6c5b1d137256fff40afb3a8.jpg?wh=1920x844 "CDN + GTM 网络加速及故障转移"){: referrerpolicy="no-referrer" }
 
 由于GTM和CDN加速都是用了CNAME做转发，我们可以先将域名指向CDN，通过CDN的GSLB和内网为客户端提供网络加速服务。而在CDN**回源**时请求会转发到GTM解析，经过GTM解析DNS后，将CDN的流量转发到各个机房做负载均衡。
 
@@ -164,7 +164,7 @@ HttpDNS服务只能解决DNS污染的问题，但是它无法参与到我们的�
 
 ## 总结
 
-![图片](https://static001.geekbang.org/resource/image/28/b9/2828db01a5b1850dc41c899bd8d39eb9.jpg?wh=1920x1051 "多机房故障切换知识图谱")
+![图片](https://static001.geekbang.org/resource/image/28/b9/2828db01a5b1850dc41c899bd8d39eb9.jpg?wh=1920x1051 "多机房故障切换知识图谱"){: referrerpolicy="no-referrer" }
 
 域名是我们的服务的主要入口，请求一个域名时，首先需要通过DNS将域名解析成IP。但是太频繁请求DNS的话，会影响服务响应速度，所以很多客户端、ISP服务商都会对DNS做缓存，不过这种多层级缓存，直接导致了刷新域名解析变得很难。
 

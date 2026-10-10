@@ -50,7 +50,7 @@ Producer的所有测试用例都在同一个测试类"org.apache.rocketmq.client
 
 RockectMQ的Producer入口类为“org.apache.rocketmq.client.producer.DefaultMQProducer”，大致浏览一下代码和类的继承关系，我整理出Producer相关的几个核心类和接口如下：
 
-![](https://static001.geekbang.org/resource/image/ee/09/ee719ca65c6fb1d43c10c60512913209.png?wh=1834%2A824)
+![](https://static001.geekbang.org/resource/image/ee/09/ee719ca65c6fb1d43c10c60512913209.png?wh=1834%2A824){: referrerpolicy="no-referrer" }
 
 这里面RocketMQ使用了一个设计模式：门面模式（Facade Pattern）。
 

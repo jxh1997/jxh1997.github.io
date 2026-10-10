@@ -18,7 +18,7 @@
 
 不过我们今天把重心放到界面开发这个视角。**从作为界面开发框架的角度看，浏览器带来的最重大变化又是哪些？**
 
-![](https://static001.geekbang.org/resource/image/b8/c5/b8063e7ac32e854676b640c86d4628c5.png?wh=1841%2A1172)
+![](https://static001.geekbang.org/resource/image/b8/c5/b8063e7ac32e854676b640c86d4628c5.png?wh=1841%2A1172){: referrerpolicy="no-referrer" }
 
 **其一，操作系统的窗口系统被颠覆。**一个网页只是一个窗口，不再有父子窗口。所有网页中的界面元素，都是一个虚拟视图（Virtual View），无论是大家耳熟能详的通用控件（比如 input，image，div 等等），还是自绘窗口（canvas）都一样。
 

@@ -149,7 +149,7 @@ MySQL自身就提供了主从复制的功能，通过配置就可以让一主一
 
 我把上面这三种典型的HA方案总结成下面这个表格，便于你对比选择：
 
-![](https://static001.geekbang.org/resource/image/04/ac/04ff6bce8f5b607950fc469a606433ac.jpg?wh=1142%2A345)
+![](https://static001.geekbang.org/resource/image/04/ac/04ff6bce8f5b607950fc469a606433ac.jpg?wh=1142%2A345){: referrerpolicy="no-referrer" }
 
 ## 小结
 

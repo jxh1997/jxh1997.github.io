@@ -27,16 +27,16 @@ OLE的英文是Object Link and Embedding，中文意思是对象连接与嵌入�
 
 第一步，选择指定的文件。方法是通过“数据” → “现有连接”按钮选择连接。这里选择“浏览更多”，然后选择指定的xls文件。
 
-![](https://static001.geekbang.org/resource/image/b5/81/b53c4acda1cf19a1943cf0123f5a2481.png?wh=865%2A867)  
+![](https://static001.geekbang.org/resource/image/b5/81/b53c4acda1cf19a1943cf0123f5a2481.png?wh=865%2A867)  {: referrerpolicy="no-referrer" }
 第二步，选择指定的表格，勾选数据首行包含列标题，目的是将第一行的列名也加载进来。
 
-![](https://static001.geekbang.org/resource/image/85/f9/8594b603410c1b7872de9d7ef38e7df9.png?wh=848%2A418)  
+![](https://static001.geekbang.org/resource/image/85/f9/8594b603410c1b7872de9d7ef38e7df9.png?wh=848%2A418)  {: referrerpolicy="no-referrer" }
 第三步，通过“属性” → “定义”中的命令文本来使用SQL查询，选择我们想要的数据，也可以将整张表直接导入到指定的位置。
 
-![](https://static001.geekbang.org/resource/image/1d/f2/1df9b6d9ab9d4a854ab532f1f98ed1f2.png?wh=721%2A820)  
+![](https://static001.geekbang.org/resource/image/1d/f2/1df9b6d9ab9d4a854ab532f1f98ed1f2.png?wh=721%2A820)  {: referrerpolicy="no-referrer" }
 如果我们显示方式为“表”，导入全部的数据到指定的$A$1（代表A1单元格），那么在Excel中就可以导入整个数据表，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/ba/ab/baeb41a95f49eb1fb76d6afe48122aab.png?wh=1730%2A601%3Fwh%3D1730%2A601)
+![](https://static001.geekbang.org/resource/image/ba/ab/baeb41a95f49eb1fb76d6afe48122aab.png?wh=1730%2A601%3Fwh%3D1730%2A601){: referrerpolicy="no-referrer" }
 
 ### 通过Microsoft Query获取外部数据源
 
@@ -44,19 +44,19 @@ OLE的英文是Object Link and Embedding，中文意思是对象连接与嵌入�
 
 第一步，选择指定的文件。方法是通过“数据” → “获取外部数据”按钮选择数据库，这里我选择了“Excel Files”，然后选择我们想要导入的xls文件。
 
-![](https://static001.geekbang.org/resource/image/c7/84/c7cb9168c77b11c0d7f90a86316c3b84.png?wh=1093%2A567)  
+![](https://static001.geekbang.org/resource/image/c7/84/c7cb9168c77b11c0d7f90a86316c3b84.png?wh=1093%2A567)  {: referrerpolicy="no-referrer" }
 第二步。选择可用的表和列，在左侧面板中勾选我们想要导入的数据表及相应的列，点击 （&gt;） 按钮导入到右侧的面板中，然后点击下一步。
 
-![](https://static001.geekbang.org/resource/image/1c/40/1ca1f6f8d11e2f0c70c0b81ff8647440.png?wh=1128%2A648)  
+![](https://static001.geekbang.org/resource/image/1c/40/1ca1f6f8d11e2f0c70c0b81ff8647440.png?wh=1128%2A648)  {: referrerpolicy="no-referrer" }
 最后我们可以选择“将数据返回Microsoft Excel”还是“在Microsoft Query中查看数据或编辑查询”。这里我们选择第一个选项。
 
-![](https://static001.geekbang.org/resource/image/75/46/753b382fa6246c4dd1d7634d703dc646.png?wh=1116%2A640)  
+![](https://static001.geekbang.org/resource/image/75/46/753b382fa6246c4dd1d7634d703dc646.png?wh=1116%2A640)  {: referrerpolicy="no-referrer" }
 当我们选择“将数据返回到Microsoft Excel”后，接下来的操作和使用OLE DB接口方式导入数据一样，可以对显示方式以及属性进行调整：
 
-![](https://static001.geekbang.org/resource/image/24/65/24c70f964bb4dbdaf388af45bc57d865.png?wh=831%2A1000)  
+![](https://static001.geekbang.org/resource/image/24/65/24c70f964bb4dbdaf388af45bc57d865.png?wh=831%2A1000)  {: referrerpolicy="no-referrer" }
 这里，我们同样选择显示方式为“表”，导入全部的数据到指定的$A$1(代表A1单元格），同样会看到如下的结果：
 
-![](https://static001.geekbang.org/resource/image/ba/ab/baeb41a95f49eb1fb76d6afe48122aab.png?wh=1730%2A601%3Fwh%3D1730%2A601)
+![](https://static001.geekbang.org/resource/image/ba/ab/baeb41a95f49eb1fb76d6afe48122aab.png?wh=1730%2A601%3Fwh%3D1730%2A601){: referrerpolicy="no-referrer" }
 
 ## 使用数据透视表和数据透视图做分析
 
@@ -80,26 +80,26 @@ SELECT role_main, avg(hp_max) AS `平均最大生命`, avg(mp_max) AS `平均最
 SELECT role_main, avg(hp_max) AS `平均最大生命`, avg(mp_max) AS `平均最大法力`, avg(attack_max) AS `平均最大攻击力`, count(*) AS num FROM [heros$] GROUP BY role_main
 ```
 
-![](https://static001.geekbang.org/resource/image/5f/0d/5ff31b9bc54a6d0c02e23775273ada0d.png?wh=842%2A1161)  
+![](https://static001.geekbang.org/resource/image/5f/0d/5ff31b9bc54a6d0c02e23775273ada0d.png?wh=842%2A1161)  {: referrerpolicy="no-referrer" }
 然后我们在右侧面板中选择“数据透视表字段”，以便对数据透视表中的字段进行管理，比如我们勾选num，role\_main，平均最大生命，平均最大法力，平均最大攻击力。
 
-![](https://static001.geekbang.org/resource/image/cf/9d/cf3e3da9ddedb2d886806ac4b490059d.png?wh=592%2A479)  
+![](https://static001.geekbang.org/resource/image/cf/9d/cf3e3da9ddedb2d886806ac4b490059d.png?wh=592%2A479)  {: referrerpolicy="no-referrer" }
 最后会在Excel中呈现如下的数据透视表：
 
-![](https://static001.geekbang.org/resource/image/c4/08/c41bd917642147b103ec3524d7a9f408.png?wh=1729%2A350)  
+![](https://static001.geekbang.org/resource/image/c4/08/c41bd917642147b103ec3524d7a9f408.png?wh=1729%2A350)  {: referrerpolicy="no-referrer" }
 操作视频如下：
 
 ### 使用SQL+数据透视图
 
 数据透视图可以呈现可视化的形式，方便我们直观地了解数据的特征。这里我们使用SQL查询，通过Microsoft Query的方式来完成数据透视图。我们在第三步的时候选择在Microsoft Query中查看数据或编辑查询，来看下Microsoft Query的界面：
 
-![](https://static001.geekbang.org/resource/image/c7/20/c7d10db98c4e2226b663bbb7baefba20.png?wh=1729%2A1106)  
+![](https://static001.geekbang.org/resource/image/c7/20/c7d10db98c4e2226b663bbb7baefba20.png?wh=1729%2A1106)  {: referrerpolicy="no-referrer" }
 然后我们点击“SQL”按钮，可以对SQL语句进行编辑，筛选我们想要的结果集，可以得到：
 
-![](https://static001.geekbang.org/resource/image/2b/7d/2b9b5f3495013b62b7ba6e3186cf257d.png?wh=1730%2A850)  
+![](https://static001.geekbang.org/resource/image/2b/7d/2b9b5f3495013b62b7ba6e3186cf257d.png?wh=1730%2A850)  {: referrerpolicy="no-referrer" }
 然后选择“将数据返回Microsoft Excel”，在返回时选择“数据透视图”，然后在右侧选择数据透视图的字段，就可以得到下面这张图：
 
-![](https://static001.geekbang.org/resource/image/46/02/46829993666745ecc578b22ffcde4802.png?wh=1045%2A630)  
+![](https://static001.geekbang.org/resource/image/46/02/46829993666745ecc578b22ffcde4802.png?wh=1045%2A630)  {: referrerpolicy="no-referrer" }
 你可以看到使用起来还是很方便。
 
 具体操作视频如下：
@@ -116,13 +116,13 @@ SELECT role_main, avg(hp_max) AS `平均最大生命`, avg(mp_max) AS `平均最
 
 第一步，连接MySQL。打开一个新的Excel文件的时候，会在“数据”面板中看到MySQL for Excel的插件，点击后可以打开MySQL的连接界面，如下：
 
-![](https://static001.geekbang.org/resource/image/ec/3c/ec96481d8517bc7b08728630d3b1aa3c.png?wh=1092%2A631)  
+![](https://static001.geekbang.org/resource/image/ec/3c/ec96481d8517bc7b08728630d3b1aa3c.png?wh=1092%2A631)  {: referrerpolicy="no-referrer" }
 第二步，导入heros数据表。输入密码后，我们在右侧选择想要的数据表heros，然后选择Import MySQL Data导入数据表的导入，结果如下：
 
-![](https://static001.geekbang.org/resource/image/33/15/333b8dc9913bcdf19d74e685f6751015.png?wh=1587%2A555)  
+![](https://static001.geekbang.org/resource/image/33/15/333b8dc9913bcdf19d74e685f6751015.png?wh=1587%2A555)  {: referrerpolicy="no-referrer" }
 第三步，创建last\_name字段，使用Excel的自动填充功能来进行姓氏的填写（Excel自带的“自动填充”可以帮我们智能填充一些数据），完成之后如下图所示：
 
-![](https://static001.geekbang.org/resource/image/80/b7/801e1ec489d650a7df244b3737346cb7.png?wh=1729%2A639)  
+![](https://static001.geekbang.org/resource/image/80/b7/801e1ec489d650a7df244b3737346cb7.png?wh=1729%2A639)  {: referrerpolicy="no-referrer" }
 第四步，将修改好的Excel表导入到MySQL中，创建一个新表heros\_xls。选中整个数据表（包括数据行及列名），然后在右侧选择“Export Excel Data to New Table”。这时在MySQL中你就能看到相应的数据表heros\_xls了，我们在MySQL中使用SQL进行查询：
 
 ```
@@ -131,7 +131,7 @@ mysql > SELECT * FROM heros_xls
 
 运行结果（69条记录）：
 
-![](https://static001.geekbang.org/resource/image/86/56/868182e27c6a4a80db0f0f7decbc7956.png?wh=1201%2A352)  
+![](https://static001.geekbang.org/resource/image/86/56/868182e27c6a4a80db0f0f7decbc7956.png?wh=1201%2A352)  {: referrerpolicy="no-referrer" }
 需要说明的是，有时候自动填充功能并不完全准确，我们还需要对某些数据行的last\_name进行修改，比如“夏侯惇”的姓氏应该改成“夏侯”，“百里守约”改成“百里”等。
 
 ## 总结

@@ -123,7 +123,7 @@ if __name__ == '__main__':
 curl -X POST -F "image=@/Users/xupeng/Downloads/CASIA-FaceV5 (000-099)/095/095_0.bmp" http://127.0.0.1:5000/recognize_file
 ```
 
-![图片](https://static001.geekbang.org/resource/image/4e/6e/4eea562a6749ba688a9b1468d9f41c6e.png?wh=1536x79)
+![图片](https://static001.geekbang.org/resource/image/4e/6e/4eea562a6749ba688a9b1468d9f41c6e.png?wh=1536x79){: referrerpolicy="no-referrer" }
 
 在数据量不大的情况下，我们的人脸服务，检索速度、内存占用等，都没什么问题。
 
@@ -152,7 +152,7 @@ curl -X POST -F "image=@/Users/xupeng/Downloads/CASIA-FaceV5 (000-099)/095/095_0
 
 ## 使用Faiss索引分片
 
-![图片](https://static001.geekbang.org/resource/image/de/f9/de8d9fe51b47db7b80f9e96117a036f9.png?wh=2044x1110 "图片源自网络")
+![图片](https://static001.geekbang.org/resource/image/de/f9/de8d9fe51b47db7b80f9e96117a036f9.png?wh=2044x1110 "图片源自网络"){: referrerpolicy="no-referrer" }
 
 Faiss索引分片的逻辑，其实是先将图片向量化，聚簇归类，那么比较相近的向量会被归类到同一个Voronoi Cell，也就是分区，类似将一个平面划分为多个不规则的多边形，每个多边形有一个“形心”。检索的时候，我们先用检索向量，找到与他最近的“形心”，然后只需要在“形心”对应的多边形内检索，找到最近的向量即可。
 

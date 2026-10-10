@@ -104,7 +104,7 @@ Broker处理完上一步发送的FindCoordinator请求之后，会返还对应�
 
 好了，今天我们补齐了Kafka Java客户端管理TCP连接的“拼图”。我们不仅详细描述了Java消费者是怎么创建和关闭TCP连接的，还对目前的设计方案提出了一些自己的思考。希望今后你能将这些知识应用到自己的业务场景中，并对实际生产环境中的Socket管理做到心中有数。
 
-![](https://static001.geekbang.org/resource/image/f1/04/f13d7008d7b251df0e6e6a89077d7604.jpg?wh=2069%2A2535)
+![](https://static001.geekbang.org/resource/image/f1/04/f13d7008d7b251df0e6e6a89077d7604.jpg?wh=2069%2A2535){: referrerpolicy="no-referrer" }
 
 ## 开放讨论
 

@@ -436,7 +436,7 @@ Query OK, 0 rows affected (0.55 sec)
 
 我们使用下面这个表格对MySQL中的一些权限做一个简单的介绍。
 
-![图片](https://static001.geekbang.org/resource/image/e9/ac/e914049f835f8c8563db560b104d78ac.jpg?wh=1920x2848)
+![图片](https://static001.geekbang.org/resource/image/e9/ac/e914049f835f8c8563db560b104d78ac.jpg?wh=1920x2848){: referrerpolicy="no-referrer" }
 
 ### 最小权限原则
 

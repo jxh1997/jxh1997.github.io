@@ -33,7 +33,7 @@ Roy Fielding将互联网定义为**分布式超媒体信息获取系统**（Dist
 
 所以无论是css、js这样的资源，还是通过超链接引用的其他页面，都是服务端返回的页面中描述的。而客户端则根据服务端提供的描述，选择恰当的时机，访问这些关联的资源，也就是整合其他系统提供的服务。这样的系统集成方式，我们称之为**由服务器指导的客户端侧集成**（Server-side guided client-side integration）。如图所示：
 
-![](https://static001.geekbang.org/resource/image/08/9c/08b4c4638580fc032d96c3b58a48cd9c.jpg?wh=8000x4500)
+![](https://static001.geekbang.org/resource/image/08/9c/08b4c4638580fc032d96c3b58a48cd9c.jpg?wh=8000x4500){: referrerpolicy="no-referrer" }
 
 由于对于关联资源的访问是由客户端发起的，并不是由服务器端强制的，那么客户端可能出于某些原因（安全、计算资源受限等）选择不去访问某些关联资源。
 
@@ -145,7 +145,7 @@ Content-Type: application/hal+json
 解决了格式问题，我们来看看怎么使用超媒体设计API中的资源。这里的关键，正如我们刚才所讲，是**如何通过超链接构成渐进式服务消费**。
 
 我们仍以极客时间专栏的模型为例：  
-![](https://static001.geekbang.org/resource/image/d4/0b/d4b29445e50e8f57495ed9047222f40b.jpg?wh=1920x1080)  
+![](https://static001.geekbang.org/resource/image/d4/0b/d4b29445e50e8f57495ed9047222f40b.jpg?wh=1920x1080)  {: referrerpolicy="no-referrer" }
 首先我们看一下聚合根的超媒体描述。对于一个User实例而言，我们可以使用如下的HAL JSON来描述它：
 
 ```
@@ -226,7 +226,7 @@ REST架构大量依赖缓存来缓解性能问题。我们甚至可以说，是�
 
 一个有效的策略是，永远不缓存`/users`页面，也就是`/users`永远表示新近注册的用户。如果它们达到分页上限时（比如50），就生成新的页面id，并缓存它，然后继续使用`/users`等待新注册的用户。如下图所示：
 
-![](https://static001.geekbang.org/resource/image/f4/79/f4f2c9120de1a3ee11d6a3df455e6179.jpg?wh=8000x4500)
+![](https://static001.geekbang.org/resource/image/f4/79/f4f2c9120de1a3ee11d6a3df455e6179.jpg?wh=8000x4500){: referrerpolicy="no-referrer" }
 
 那么前面几页的HAL JSON可能就是这样子的（如下所示）。而且你会发现缓存下来的页面，我们永远不需要修改其中的内容：
 
@@ -272,7 +272,7 @@ REST架构大量依赖缓存来缓解性能问题。我们甚至可以说，是�
 
 那么剩下的最后一步，就是将API重新映射回所需要支撑的业务流程或者用户旅程之中，与业务方一起验证这些API是否能够满足所有的需求。示意图如下：
 
-![](https://static001.geekbang.org/resource/image/53/88/531a6689579558bcf45ffd9a3fc05688.jpg?wh=8000x4500)
+![](https://static001.geekbang.org/resource/image/53/88/531a6689579558bcf45ffd9a3fc05688.jpg?wh=8000x4500){: referrerpolicy="no-referrer" }
 
 如果我们将API作为模型的另一种表现形式，那么映射会在流程中与业务方验证，也就和磋商形成统一语言的过程一致了。我想你已经有足够的了解了，就不再赘述了。
 
@@ -288,7 +288,7 @@ REST架构大量依赖缓存来缓解性能问题。我们甚至可以说，是�
 
 你是如何理解云平台的？在你看来，云平台的哪些特性会影响我们的业务模型？
 
-![](https://static001.geekbang.org/resource/image/c6/c4/c67a591e4ef68e1d42a952dea12408c4.jpg?wh=1500x1798)
+![](https://static001.geekbang.org/resource/image/c6/c4/c67a591e4ef68e1d42a952dea12408c4.jpg?wh=1500x1798){: referrerpolicy="no-referrer" }
 
 欢迎把你的思考和想法分享在留言区，我会和你交流。那么旧约部分到这里就结束了，我们新约篇章再见！
 <div><strong>精选留言（15）</strong></div><ul>

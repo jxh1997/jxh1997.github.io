@@ -10,7 +10,7 @@
 
 我们先来看一下Pulsar的架构图。
 
-![](https://static001.geekbang.org/resource/image/90/71/904fd20b6ced9af51ae9c25e1c196171.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/90/71/904fd20b6ced9af51ae9c25e1c196171.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 如上图所示，Pulsar的架构就复杂很多了，它和其他消息队列最大的区别在于 Pulsar 是基于计算存储分离的思想设计的架构，所以 Pulsar 整体架构要分为计算层和存储层两层。我们通常说的 Pulsar 是指计算层的 Broker 集群和存储层的 BookKeeper 集群两部分。
 
@@ -20,7 +20,7 @@
 
 从部署上来看，计算层和存储层其实是独立的。先部署一套存储的BookKeeper集群，然后一套或多套Pulsar集群可以将数据写入到同一套BookKeeper集群中。
 
-![](https://static001.geekbang.org/resource/image/11/6e/11b510a8bda1b220db227a6e096b176e.jpg?wh=10666x4644)
+![](https://static001.geekbang.org/resource/image/11/6e/11b510a8bda1b220db227a6e096b176e.jpg?wh=10666x4644){: referrerpolicy="no-referrer" }
 
 **在Pulsar中，你还可以看到一套或者多套ZooKeeper。**因为Pulsar 和 BookKeeper都是使用ZooKeeper来存储元数据的。在实际部署当中，为了节省资源的开销，通常Pulsar Broker集群和BookKeeper会共用一套ZooKeeper集群。
 
@@ -36,7 +36,7 @@ Pulsar会有一些自己的概念，比如Bundle、Bookie、Ledger、Entry等。
 
 如下图所示，Pulsar 的整体协议是行格式的自定义编解码，但是协议中的命令（Command）和部分元数据是用 Protobuf 组织来表示的，比如下图黄色的部分。
 
-![](https://static001.geekbang.org/resource/image/76/0e/76752aeb7e961bea75d74a1fe3641f0e.jpg?wh=10666x3213)
+![](https://static001.geekbang.org/resource/image/76/0e/76752aeb7e961bea75d74a1fe3641f0e.jpg?wh=10666x3213){: referrerpolicy="no-referrer" }
 
 从协议的结构来看，协议也是分为协议头和协议体两部分。TotalSize+CommandSize+Commnad就是协议头，Other就是协议体，协议体中包含很多请求维度需要的字段。
 
@@ -44,11 +44,11 @@ Pulsar会有一些自己的概念，比如Bundle、Bookie、Ledger、Entry等。
 
 Simple Commands 指不需要携带消息内容的简单命令，即指在交互过程中不需要携带消息内容的交互请求，如建立连接，心跳检测等等。消息结构如下所示，可以看到简单协议只携带了TotalSize、CommandSize、Command三个字段，不携带消息体。
 
-![](https://static001.geekbang.org/resource/image/fb/85/fbb75b5b96124e861f45c5830962a285.jpg?wh=10666x3160)
+![](https://static001.geekbang.org/resource/image/fb/85/fbb75b5b96124e861f45c5830962a285.jpg?wh=10666x3160){: referrerpolicy="no-referrer" }
 
 Message Commands 指需要携带消息内容的复杂命令，比如生产消息操作就需要携带消息内容、生产者信息、批量消息等等相关数据。此时就需要使用 Message Commands来进行交互，它的结构如下：
 
-![](https://static001.geekbang.org/resource/image/5c/9a/5c034716250062a85627b457091cfb9a.jpg?wh=7281x5882)
+![](https://static001.geekbang.org/resource/image/5c/9a/5c034716250062a85627b457091cfb9a.jpg?wh=7281x5882){: referrerpolicy="no-referrer" }
 
 从结构上来看，Message Commands和Simple Commands是一样的，它也包含了TotalSize、CommandSize、Command三个字段，只是在Simple Commands的基础上，多了很多个跟请求相关的字段，如 Broker Entry Metadata、Message Metadata 等等。
 
@@ -64,7 +64,7 @@ Pulsar Broker 的网络层是基于 Netty 框架开发实现的，属于业界�
 
 当前 Pulsar 元数据存储的核心是ZooKeeper。最新版本的内核支持可插拔的元数据存储框架，即支持将元数据存储到多种第三方存储引擎，比如etcd、本地内存、RocksDB等，架构如下图所示：
 
-![](https://static001.geekbang.org/resource/image/6c/2b/6c46b2a6ff02fa186828113f541e232b.jpg?wh=10666x5720)
+![](https://static001.geekbang.org/resource/image/6c/2b/6c46b2a6ff02fa186828113f541e232b.jpg?wh=10666x5720){: referrerpolicy="no-referrer" }
 
 因为架构要求，Pulsar 需要存储更多元数据，所以Pulsar对ZooKeeper造成的压力会更大。也正因为如此，Pulsar才会支持可插拔的元数据存储框架，希望通过其他的存储引擎来缓解ZooKeeper的瓶颈。
 
@@ -76,7 +76,7 @@ Pulsar Broker 的网络层是基于 Netty 框架开发实现的，属于业界�
 
 在Pulsar Broker，消息数据的存储是以分区维度组织的，即一个分区一份文件。在实际的存储中，分区的数据是以一段一段Ledger的形式组织的，不同的Ledger会存储到不同的Bookie上。每段Ledger包含一批Entry，一个Entry可以理解为一条消息。存储结构如下图所示：
 
-![](https://static001.geekbang.org/resource/image/78/05/78a924ae3908e10cf78ef1afa4d22605.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/78/05/78a924ae3908e10cf78ef1afa4d22605.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 通过图示，我们可以看到，在Broker中，消息会先以Entry的形式追加写入到Ledger中，一个分区同一时刻只有一个Ledger处于可写状态。当写入一条新数据时，会先找到当前可用的Ledger，然后写入消息。当Ledger的长度或Entry个数超过阈值时，新消息会存储到新的Ledger中。一个 Ledger会根据 Broker 指定的QW数量，存储到多个不同的Bookie中。一个Bookie可以存放多个不连续的Ledger。
 
@@ -145,7 +145,7 @@ Pulsar 支持持久化和非持久化两种订阅模式。这两种模式的核�
 
 在访问层面，Pulsar的管控操作和生产消费数据流操作是分开支持的。即数据流走的是自定义协议通信，管控走的是HTTP 协议形式的访问。从访问上就隔离了管控和数据流操作，在后续的权限管理、客户端访问等方面提供了很多便利。
 
-![](https://static001.geekbang.org/resource/image/f2/d5/f2aa5bd5f8ca5cda9a4c98a16849bfd5.jpg?wh=10666x4326)
+![](https://static001.geekbang.org/resource/image/f2/d5/f2aa5bd5f8ca5cda9a4c98a16849bfd5.jpg?wh=10666x4326){: referrerpolicy="no-referrer" }
 
 如上图所示，HTTP协议的端口和私有协议的端口是独立的，内核中启动了一个单独的HTTP Server 来提供服务。我们在代码上可以通过HTTP Rest的API 直接进行管控操作。命令行CLI的底层也是通过HTTP Client发起访问的，用HTTP的好处就是，不需要单独在二进制协议、服务端接口、客户端SDK方面单独进行管控的支持。
 
@@ -159,7 +159,7 @@ Pulsar 支持持久化和非持久化两种订阅模式。这两种模式的核�
 
 这节课我们用一张表格，针对基础篇的知识点，从4个主流消息队列出发，做一下原理概览性的总结。建议你收藏！
 
-![](https://static001.geekbang.org/resource/image/6f/50/6f5ee139b09026cdf356492c948b4750.jpg?wh=2574x3266)
+![](https://static001.geekbang.org/resource/image/6f/50/6f5ee139b09026cdf356492c948b4750.jpg?wh=2574x3266){: referrerpolicy="no-referrer" }
 
 ## 思考题
 

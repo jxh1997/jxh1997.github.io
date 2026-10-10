@@ -110,7 +110,7 @@ Producer端关闭TCP连接的方式有两种：**一种是用户主动关闭；�
 3. 如果Producer端发送消息到某台Broker时发现没有与该Broker的TCP连接，那么也会立即创建连接。
 4. 如果设置Producer端connections.max.idle.ms参数大于0，则步骤1中创建的TCP连接会被自动关闭；如果设置该参数=-1，那么步骤1中创建的TCP连接将无法被关闭，从而成为“僵尸”连接。
 
-![](https://static001.geekbang.org/resource/image/de/38/de71cc4b496a22e47b4ce079dbe99238.jpg?wh=2069%2A2560)
+![](https://static001.geekbang.org/resource/image/de/38/de71cc4b496a22e47b4ce079dbe99238.jpg?wh=2069%2A2560){: referrerpolicy="no-referrer" }
 
 ## 开放讨论
 

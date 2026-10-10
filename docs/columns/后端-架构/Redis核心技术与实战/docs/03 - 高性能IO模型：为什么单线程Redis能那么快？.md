@@ -20,13 +20,13 @@
 
 但是，请你注意，通常情况下，在我们采用多线程后，如果没有良好的系统设计，实际得到的结果，其实是右图所展示的那样。我们刚开始增加线程数时，系统吞吐率会增加，但是，再进一步增加线程时，系统吞吐率就增长迟缓了，有时甚至还会出现下降的情况。
 
-![](https://static001.geekbang.org/resource/image/cb/33/cbd394e62219cc5a6d9ae64035e51733.jpg?wh=2284%2A858 "线程数与系统吞吐率")
+![](https://static001.geekbang.org/resource/image/cb/33/cbd394e62219cc5a6d9ae64035e51733.jpg?wh=2284%2A858 "线程数与系统吞吐率"){: referrerpolicy="no-referrer" }
 
 为什么会出现这种情况呢？一个关键的瓶颈在于，系统中通常会存在被多线程同时访问的共享资源，比如一个共享的数据结构。当有多个线程要修改这个共享资源时，为了保证共享资源的正确性，就需要有额外的机制进行保证，而这个额外的机制，就会带来额外的开销。
 
 拿Redis来说，在上节课中，我提到过，Redis有List的数据类型，并提供出队（LPOP）和入队（LPUSH）操作。假设Redis采用多线程设计，如下图所示，现在有两个线程A和B，线程A对一个List做LPUSH操作，并对队列长度加1。同时，线程B对该List执行LPOP操作，并对队列长度减1。为了保证队列长度的正确性，Redis需要让线程A和B的LPUSH和LPOP串行执行，这样一来，Redis可以无误地记录它们对List长度的修改。否则，我们可能就会得到错误的长度结果。这就是**多线程编程模式面临的共享资源的并发访问控制问题**。
 
-![](https://static001.geekbang.org/resource/image/30/08/303255dcce6d0837bf7e2440df0f8e08.jpg?wh=3537%2A2250 "多线程并发访问Redis")
+![](https://static001.geekbang.org/resource/image/30/08/303255dcce6d0837bf7e2440df0f8e08.jpg?wh=3537%2A2250 "多线程并发访问Redis"){: referrerpolicy="no-referrer" }
 
 并发访问控制一直是多线程开发中的一个难点问题，如果没有精细的设计，比如说，只是简单地采用一个粗粒度互斥锁，就会出现不理想的结果：即使增加了线程，大部分线程也在等待获取访问共享资源的互斥锁，并行变串行，系统吞吐率并没有随着线程的增加而增加。
 
@@ -50,7 +50,7 @@
 
 下图显示了这一过程，其中，bind/listen、accept、recv、parse和send属于网络IO处理，而get属于键值数据操作。既然Redis是单线程，那么，最基本的一种实现是在一个线程中依次执行上面说的这些操作。
 
-![](https://static001.geekbang.org/resource/image/e1/c9/e18499ab244e4428a0e60b4da6575bc9.jpg?wh=2700%2A1493 "Redis基本IO模型")
+![](https://static001.geekbang.org/resource/image/e1/c9/e18499ab244e4428a0e60b4da6575bc9.jpg?wh=2700%2A1493 "Redis基本IO模型"){: referrerpolicy="no-referrer" }
 
 但是，在这里的网络IO操作中，有潜在的阻塞点，分别是accept()和recv()。当Redis监听到一个客户端有连接请求，但一直未能成功建立起连接时，会阻塞在accept()函数这里，导致其他客户端无法和Redis建立连接。类似的，当Redis通过recv()从一个客户端读取数据时，如果数据一直没有到达，Redis也会一直阻塞在recv()。
 
@@ -62,7 +62,7 @@ Socket网络模型的非阻塞模式设置，主要体现在三个关键的函�
 
 在socket模型中，不同操作调用后会返回不同的套接字类型。socket()方法会返回主动套接字，然后调用listen()方法，将主动套接字转化为监听套接字，此时，可以监听来自客户端的连接请求。最后，调用accept()方法接收到达的客户端连接，并返回已连接套接字。
 
-![](https://static001.geekbang.org/resource/image/1c/4a/1ccc62ab3eb2a63c4965027b4248f34a.jpg?wh=3744%2A1077 "Redis套接字类型与非阻塞设置")
+![](https://static001.geekbang.org/resource/image/1c/4a/1ccc62ab3eb2a63c4965027b4248f34a.jpg?wh=3744%2A1077 "Redis套接字类型与非阻塞设置"){: referrerpolicy="no-referrer" }
 
 针对监听套接字，我们可以设置非阻塞模式：当Redis调用accept()但一直未有连接请求到达时，Redis线程可以返回处理其他操作，而不用一直等待。但是，你要注意的是，调用accept()时，已经存在监听套接字了。
 
@@ -80,7 +80,7 @@ Linux中的IO多路复用机制是指一个线程处理多个IO流，就是我�
 
 下图就是基于多路复用的Redis IO模型。图中的多个FD就是刚才所说的多个套接字。Redis网络框架调用epoll机制，让内核监听这些套接字。此时，Redis线程不会阻塞在某一个特定的监听或已连接套接字上，也就是说，不会阻塞在某一个特定的客户端请求处理上。正因为此，Redis可以同时和多个客户端连接并处理请求，从而提升并发性。
 
-![](https://static001.geekbang.org/resource/image/00/ea/00ff790d4f6225aaeeebba34a71d8bea.jpg?wh=3472%2A2250 "基于多路复用的Redis高性能IO模型")
+![](https://static001.geekbang.org/resource/image/00/ea/00ff790d4f6225aaeeebba34a71d8bea.jpg?wh=3472%2A2250 "基于多路复用的Redis高性能IO模型"){: referrerpolicy="no-referrer" }
 
 为了在请求到达时能通知到Redis线程，select/epoll提供了**基于事件的回调机制**，即**针对不同事件的发生，调用相应的处理函数**。
 

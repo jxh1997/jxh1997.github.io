@@ -226,7 +226,7 @@ UNLOCK TABLES;
 
 下面的表格整理了mysqldump支持的部分参数，供你参考。完整的参数请参考[官方文档](https://dev.mysql.com/doc/refman/8.0/en/mysqldump.html)。
 
-![图片](https://static001.geekbang.org/resource/image/92/ab/929686b670bbff7c6ed3bbda73072cab.jpg?wh=1920x1083)
+![图片](https://static001.geekbang.org/resource/image/92/ab/929686b670bbff7c6ed3bbda73072cab.jpg?wh=1920x1083){: referrerpolicy="no-referrer" }
 
 ## MySQL Shell Dump工具
 
@@ -236,7 +236,7 @@ MySQL Shell是官方提供的新一代客户端工具，也提供了实例、库
 
 MySQL Shell需要单独安装。一般我们到官网下载对应操作系统的最新版本就可以了，比如对于Linux系统，我选择使用二进制包来安装。
 
-![图片](https://static001.geekbang.org/resource/image/e4/55/e419c153334acfe11cd0107f158d1755.png?wh=1790x844)
+![图片](https://static001.geekbang.org/resource/image/e4/55/e419c153334acfe11cd0107f158d1755.png?wh=1790x844){: referrerpolicy="no-referrer" }
 
 下载二进制包，确认文件的md5没有问题后，解压文件。
 
@@ -402,7 +402,7 @@ employees@employees@@0.tsv.zst: 13821993 bytes
 
 下面的表格记录了Dump工具支持的一部分参数，供你参考，完整的参数请参考[官方文档](https://dev.mysql.com/doc/mysql-shell/8.0/en/mysql-shell-utilities-dump-instance-schema.html)。
 
-![图片](https://static001.geekbang.org/resource/image/a0/d2/a0679bcef92167b5b8fe672a63b62bd2.jpg?wh=1920x1976)
+![图片](https://static001.geekbang.org/resource/image/a0/d2/a0679bcef92167b5b8fe672a63b62bd2.jpg?wh=1920x1976){: referrerpolicy="no-referrer" }
 
 ## 总结时刻
 

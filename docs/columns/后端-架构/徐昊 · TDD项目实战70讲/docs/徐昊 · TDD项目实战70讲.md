@@ -16,7 +16,7 @@ TDD作为敏捷开发的重要基石，就像脚手架，为代码提供保护�
 
 他会先演示一个简单的例子，让你眼见为实，对TDD形成一个感性、直观的认识。同时，他也会对TDD抽丝剥茧，消除你对单元测试的疑惑，帮你认识到TDD中测试的实质与全貌。接下来的重点是，他会带着你在复杂场景下进行实战项目的练习，帮你吃透TDD实战中的细节。
 
-![](https://static001.geekbang.org/resource/image/1y/cf/1yye9ba1e213355e1c1d7ba5a7497ccf.jpg?wh=2062x1370)
+![](https://static001.geekbang.org/resource/image/1y/cf/1yye9ba1e213355e1c1d7ba5a7497ccf.jpg?wh=2062x1370){: referrerpolicy="no-referrer" }
 
 需要特别说明的是，为了帮助你最大化学习效果，我们的内容交付形式会是这样的：以**视频展示**为主，以图文讲解为辅。其中每节课20+分钟的视频，老师会手把手带你编写测试、驱动开发。
 

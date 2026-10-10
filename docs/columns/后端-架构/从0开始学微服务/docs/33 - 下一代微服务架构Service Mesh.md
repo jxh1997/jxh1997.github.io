@@ -16,12 +16,12 @@ Service Mesh的概念最早是由Buoyant公司的CEO William Morgan在一篇[文
 
 在这种背景下，Buoyant公司开发的第一代Service Mesh产品[L](https://linkerd.io/)[inkerd](https://linkerd.io/)应运而生。从下图中你可以看到，服务A要调用服务B，经过Linkerd来代理转发，服务A和服务B的业务代码不需要关心服务框架功能的实现。为此Linkerd需要具备负载均衡、熔断、超时重试、监控统计以及服务路由等功能。这样的话，对于跨语言服务调用来说，即使服务消费者和服务提供者采用的语言不同，也不需要集成各自语言的SDK。
 
-![](https://static001.geekbang.org/resource/image/26/70/269ca9676c98e6b9ed831d38fdd67d70.png?wh=908%2A806)  
+![](https://static001.geekbang.org/resource/image/26/70/269ca9676c98e6b9ed831d38fdd67d70.png?wh=908%2A806)  {: referrerpolicy="no-referrer" }
 （图片来源：[https://linkerd.io/images/what\_it\_does@2x.png](https://linkerd.io/images/what_it_does@2x.png)）
 
 而对于云原生应用来说，可以在每个服务部署的实例上，都同等的部署一个Linkerd实例。比如下面这张图，服务A要想调用服务B，首先调用本地的Linkerd实例，经过本地的Linked实例转发给服务B所在节点上的Linkerd实例，最后再由服务B本地的Linkerd实例把请求转发给服务B。这样的话，所有的服务调用都得经过Linkerd进行代理转发，所有的Linkerd组合起来就像一个网格一样，这也是为什么我们把这项技术称为Service Mesh，也就是“服务网格”的原因。
 
-![](https://static001.geekbang.org/resource/image/f4/2b/f4b75f2f1c4c72e51f626e331f06cf2b.png?wh=1024%2A587)  
+![](https://static001.geekbang.org/resource/image/f4/2b/f4b75f2f1c4c72e51f626e331f06cf2b.png?wh=1024%2A587)  {: referrerpolicy="no-referrer" }
 （图片来源：[https://buoyant.io/wp-content/uploads/2017/04/linkerd-service-mesh-diagram-1024x587.png](https://buoyant.io/wp-content/uploads/2017/04/linkerd-service-mesh-diagram-1024x587.png)）
 
 ## Service Mesh的实现原理
@@ -32,11 +32,11 @@ Service Mesh的概念最早是由Buoyant公司的CEO William Morgan在一篇[文
 
 我们首先来看一下，在传统的微服务架构下服务调用的原理。你可以看下面这张图，服务消费者这边除了自身的业务逻辑实现外，还需要集成部分服务框架的逻辑，比如服务发现、负载均衡、熔断降级、封装调用等，而服务提供者这边除了实现服务的业务逻辑外，也要集成部分服务框架的逻辑，比如线程池、限流降级、服务注册等。
 
-![](https://static001.geekbang.org/resource/image/10/92/1070a53f237a8ef75845f49b71961292.png?wh=627%2A482)
+![](https://static001.geekbang.org/resource/image/10/92/1070a53f237a8ef75845f49b71961292.png?wh=627%2A482){: referrerpolicy="no-referrer" }
 
 而在Service Mesh架构中，服务框架的功能都集中实现在SideCar里，并在每一个服务消费者和服务提供者的本地都部署一个SideCar，服务消费者和服务提供者只管自己的业务实现，服务消费者向本地的SideCar发起请求，本地的SideCar根据请求的路径向注册中心查询，得到服务提供者的可用节点列表后，再根据负载均衡策略选择一个服务提供者节点，并向这个节点上的SideCar转发请求，服务提供者节点上的SideCar完成流量统计、限流等功能后，再把请求转发给本地部署的服务提供者进程，从而完成一次服务请求。整个流程你可以参考下面这张图。
 
-![](https://static001.geekbang.org/resource/image/da/6d/daa8dee489e51238f450b51a53c1016d.png?wh=930%2A472)
+![](https://static001.geekbang.org/resource/image/da/6d/daa8dee489e51238f450b51a53c1016d.png?wh=930%2A472){: referrerpolicy="no-referrer" }
 
 我们可以把服务消费者节点上的SideCar叫作正向代理，服务提供者节点上的SideCar叫作反向代理，那么Service Mesh架构的关键点就在于服务消费者发出的请求如何通过正向代理转发以及服务提供者收到的请求如何通过反向代理转发。从我的经验来看，主要有两种实现方案。
 
@@ -44,11 +44,11 @@ Service Mesh的概念最早是由Buoyant公司的CEO William Morgan在一篇[文
 
 <!--THE END-->
 
-![](https://static001.geekbang.org/resource/image/43/3e/438e7dbbd0fe9ba9434834837c712b3e.png?wh=1239%2A568)
+![](https://static001.geekbang.org/resource/image/43/3e/438e7dbbd0fe9ba9434834837c712b3e.png?wh=1239%2A568){: referrerpolicy="no-referrer" }
 
 - 采用协议转换的方式。这种方案请见下图，节点A上的服务消费者请求直接发给正向代理监听的端口15001，正向代理处理完成后，再把请求转发到节点B上反向代理监听的端口15001，反向代理处理完成后再发送给本机上的服务提供者监听的端口9080。
 
-![](https://static001.geekbang.org/resource/image/c7/af/c7c5785653da63d2174714f66a7f88af.png?wh=1251%2A555)
+![](https://static001.geekbang.org/resource/image/c7/af/c7c5785653da63d2174714f66a7f88af.png?wh=1251%2A555){: referrerpolicy="no-referrer" }
 
 可见，这两种方案最大的不同之处在于，一个是通过iptables网络拦截实现代理转发的，一个是靠直接把请求发送给代理来转发的。基于iptables网络拦截的方式，理论上会有一定的性能损耗，但它的优点是从网络层实现调用拦截，能做到完全的业务无感知，所以适合云原生应用。而直接把请求发送给代理的方式，要求代理层加入业务逻辑，才能把请求转发给对应的服务提供者监听的端口。
 
@@ -65,7 +65,7 @@ Service Mesh的概念最早是由Buoyant公司的CEO William Morgan在一篇[文
 - 日志记录。所有SideCar转发的日志信息，也会发送到Control Plane，再由Control Plane发送给日志系统，比如Stackdriver等。
 - 配额控制。可以在Control Plane里给服务的每个调用方配置最大调用次数，在SideCar转发请求给某个服务时，会审计调用是否超出服务对应的次数限制。
 
-![](https://static001.geekbang.org/resource/image/74/62/746ba12fff2b184157b00ac44ec2e862.png?wh=653%2A381)
+![](https://static001.geekbang.org/resource/image/74/62/746ba12fff2b184157b00ac44ec2e862.png?wh=653%2A381){: referrerpolicy="no-referrer" }
 
 ## 总结
 

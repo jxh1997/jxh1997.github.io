@@ -10,11 +10,11 @@
 
 <!--THE END-->
 
-![](https://static001.geekbang.org/resource/image/6c/8e/6c2c38a25ca4afbd6621579aaf82278e.jpg?wh=1792x1408)
+![](https://static001.geekbang.org/resource/image/6c/8e/6c2c38a25ca4afbd6621579aaf82278e.jpg?wh=1792x1408){: referrerpolicy="no-referrer" }
 
 - 产品配置表 product\_configuration
 
-![](https://static001.geekbang.org/resource/image/e4/f5/e4a7269781ec0d2ee0d71420c06701f5.jpg?wh=1792x804)
+![](https://static001.geekbang.org/resource/image/e4/f5/e4a7269781ec0d2ee0d71420c06701f5.jpg?wh=1792x804){: referrerpolicy="no-referrer" }
 
 ## **问题设定**
 

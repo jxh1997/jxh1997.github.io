@@ -8,7 +8,7 @@
 
 一般来说，压缩比越高，压缩速率越低；压缩比越低，压缩速率越高。
 
-![图片](https://static001.geekbang.org/resource/image/40/7f/408fc97ddb65b6059b83213f0402897f.png?wh=1920x825)
+![图片](https://static001.geekbang.org/resource/image/40/7f/408fc97ddb65b6059b83213f0402897f.png?wh=1920x825){: referrerpolicy="no-referrer" }
 
 所以选择压缩算法就是看自己的业务场景究竟是偏向压缩比还是偏向压缩速率。不过在真实环境下，一切都要以性能测试为准，而不能仅仅依赖于原理分析。
 
@@ -16,7 +16,7 @@
 
 在现代操作系统中，基本都支持交换区，也叫做 swap 分区。当操作系统发现可用的物理内存不足的时候，就会把物理内存里的一部分页淘汰出来，放到磁盘上，也就是放到 swap 分区。
 
-![图片](https://static001.geekbang.org/resource/image/71/e8/71475610yye35c73c46222147911b3e8.png?wh=1920x703)
+![图片](https://static001.geekbang.org/resource/image/71/e8/71475610yye35c73c46222147911b3e8.png?wh=1920x703){: referrerpolicy="no-referrer" }
 
 你也可以把 swap 分区看作是“虚拟内存”。那么你可以想到，如果触发了这种交换，性能就会显著下降。交换越频繁，下降越快。
 
@@ -82,7 +82,7 @@
 
 注意，调大批次究竟能有多大的优化效果和调整前后批次大小、消息平均大小、borker 负载有关。好的时候TPS 可以翻倍，差的时候可能也就是提升 10% 不到。所以你最好亲自动手试一试你的业务调整这个参数性能究竟能提升多少。
 
-![图片](https://static001.geekbang.org/resource/image/47/87/474edb861151efb25cacabyy352d1887.png?wh=1920x825)
+![图片](https://static001.geekbang.org/resource/image/47/87/474edb861151efb25cacabyy352d1887.png?wh=1920x825){: referrerpolicy="no-referrer" }
 
 你也要指出，**批次也不是越大越好**。
 
@@ -96,7 +96,7 @@
 
 > 发送者被阻塞也可能是因为缓冲池太小，那么只需要调大缓冲池就可以。比如说是因为 topic、分区太多，每一个分区都有一块缓冲池装着批量消息，导致缓冲池空闲缓冲区不足，这一类不是因为发送速率的问题导致的阻塞，就可以通过调大缓冲池来解决。
 
-![图片](https://static001.geekbang.org/resource/image/e2/94/e262918eba238e0349482e6603303194.png?wh=1920x649)
+![图片](https://static001.geekbang.org/resource/image/e2/94/e262918eba238e0349482e6603303194.png?wh=1920x649){: referrerpolicy="no-referrer" }
 
 最后你再总结一下，体现你对这个问题的深入思考。
 
@@ -130,7 +130,7 @@ Kafka 是一个非常依赖内存的应用，所以可以调小 vm.swappniess �
 
 > 物理内存总是有限的，所以直接禁用的话容易遇到内存不足的问题。我们只是要尽可能优化内存，如果物理内存真的不够，那么使用交换区也比系统不可用好。
 
-![图片](https://static001.geekbang.org/resource/image/01/76/0196d35ec475ace20c90df80ba56be76.png?wh=1920x704)
+![图片](https://static001.geekbang.org/resource/image/01/76/0196d35ec475ace20c90df80ba56be76.png?wh=1920x704){: referrerpolicy="no-referrer" }
 
 #### 优化网络读写缓冲区
 
@@ -167,7 +167,7 @@ Kafka 显然也是一个磁盘 IO 密集的应用。优化磁盘 IO 的两个方
 - replica.fetch.max.bytes：这个可以调大，比如说调整到 5m，但是不要小于 message.max.byte，也就是不要小于消息的最大长度。
 - replica.fetch.wait.max.ms：如果主分区没有数据或者数据不够从分区的最大等待时间，可以考虑同步调大这个值和 replica.fetch.max.bytes。
 
-![图片](https://static001.geekbang.org/resource/image/03/7e/03acaaf86507404b88300e3c0374287e.png?wh=1920x704)
+![图片](https://static001.geekbang.org/resource/image/03/7e/03acaaf86507404b88300e3c0374287e.png?wh=1920x704){: referrerpolicy="no-referrer" }
 
 这些参数都是跟机器有关的，所以在实践中你需要通过不断测试来确认这些参数的最佳值。如果你记不住细节，那就记住**都调大**。尤其是后三个，调大它们的效果，就是为了让从分区一批次同步尽可能多的数据。
 
@@ -187,11 +187,11 @@ Kafka 是运行在 JVM 上的，所以理论上来说任何优化 Java 性能的
 
 优化 JVM 首先就是考虑优化 GC，即优化垃圾回收。而优化 GC 最重要的就是避免 full GC。full GC 是指整个应用都停下来等待 GC 完成。它会带来两方面影响。一方面是发送者如果设置 acks 为 1 或者 all，都会被阻塞，Kafka 吞吐量下降。
 
-![图片](https://static001.geekbang.org/resource/image/4d/92/4dcc2931cddb53c7634d354cee9abd92.png?wh=1920x534)
+![图片](https://static001.geekbang.org/resource/image/4d/92/4dcc2931cddb53c7634d354cee9abd92.png?wh=1920x534){: referrerpolicy="no-referrer" }
 
 另一方面是如果 full GC 时间太长，那么主分区可能会被认为已经崩溃了，Kafka 会重新选择主分区；而如果是从分区，那么它会被挪出 ISR，进一步影响 acks 设置为 all 的发送者。
 
-![图片](https://static001.geekbang.org/resource/image/0d/5d/0de232063233f907b4613d64392b545d.png?wh=1920x988)
+![图片](https://static001.geekbang.org/resource/image/0d/5d/0de232063233f907b4613d64392b545d.png?wh=1920x988){: referrerpolicy="no-referrer" }
 
 基本的思路就是调大 JVM 的堆，并且在堆很大的情况下，启用 G1 垃圾回收器。
 
@@ -220,7 +220,7 @@ Kafka 是运行在 JVM 上的，所以理论上来说任何优化 Java 性能的
 
 这种套路适用于绝大多数的中间件。其中第一条和第二条，你都不需要费神，直接去问你们公司的运维就好了。如果你在小公司，没有专职的运维，那么你就问一些你在大厂工作的同学朋友，看看他们调整过哪些参数。
 
-![](https://static001.geekbang.org/resource/image/62/28/62456d32ca7bd095e7d86dc701da6e28.jpg?wh=1882x1782)
+![](https://static001.geekbang.org/resource/image/62/28/62456d32ca7bd095e7d86dc701da6e28.jpg?wh=1882x1782){: referrerpolicy="no-referrer" }
 
 ## 思考题
 

@@ -37,7 +37,7 @@ static class ResourceServlet extends HttpServlet {
 
 在这个Spike的基础上，我们可以进一步细化架构的愿景：
 
-![](https://static001.geekbang.org/resource/image/16/e1/165d9ce2d5223bf6498b9c1ceffa71e1.jpg?wh=8000x4500)
+![](https://static001.geekbang.org/resource/image/16/e1/165d9ce2d5223bf6498b9c1ceffa71e1.jpg?wh=8000x4500){: referrerpolicy="no-referrer" }
 
 通过结合JAX-RS的Application和Providers，我们大致清楚了ResourceServlet如何使用Application和Providers，以及大致在什么地方需要使用依赖注入容器。
 

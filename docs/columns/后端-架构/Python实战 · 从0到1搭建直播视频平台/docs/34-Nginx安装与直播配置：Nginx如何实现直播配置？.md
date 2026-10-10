@@ -34,11 +34,11 @@ Nginx由俄罗斯程序员Igor Sysoev开发。它有两个优势，第一个优�
 
 当我们**访问内网或受限资源**时候，可以通过Nginx正向代理服务器，把请求转发到目标服务器上，然后通过目标服务器完成认证和授权，最终返回给客户端。你可以结合文稿后面的示意图来加深理解。
 
-![](https://static001.geekbang.org/resource/image/07/e4/073845d58ddd55b41e6126yya4a550e4.jpg?wh=2441x1201)
+![](https://static001.geekbang.org/resource/image/07/e4/073845d58ddd55b41e6126yya4a550e4.jpg?wh=2441x1201){: referrerpolicy="no-referrer" }
 
 Nginx正向代理服务器还可以**实现访问加速。**比方说原先当客户端和服务器之间是通过低速链路进行访问，但如果遇到整个网络连接响应较慢的情况，就可以通过正向代理服务器提供的高速链路，提高连接响应速度。
 
-![](https://static001.geekbang.org/resource/image/5c/c7/5cce036f820c1aec70c520054d86b9c7.jpg?wh=2441x1201)
+![](https://static001.geekbang.org/resource/image/5c/c7/5cce036f820c1aec70c520054d86b9c7.jpg?wh=2441x1201){: referrerpolicy="no-referrer" }
 
 Nginx正向代理服务器还可以**实现缓存加速**，缓存从目标服务器返回的响应，这么做可以避免频繁的磁盘读写操作，有助于提高请求响应速度，并减轻目标服务器的负载压力。
 
@@ -53,13 +53,13 @@ Nginx的反向代理功能的作用是根据配置规则，将客户端的请求
 那反向代理服务器有哪些用途呢？
 
 首先，通过反向代理服务器可以实现**分布式路由**。Nginx反向代理服务器通常会配置多个上游服务器，这些上游服务器是内部网络的入口点。反向代理服务器会根据配置规则，将来自客户端的请求转发到不同的上游服务器上。这个过程你可以结合后面的流程图看一下。  
-![](https://static001.geekbang.org/resource/image/c2/1b/c2d325d12a0ce4273edaf72d0def601b.jpg?wh=2302x1201)
+![](https://static001.geekbang.org/resource/image/c2/1b/c2d325d12a0ce4273edaf72d0def601b.jpg?wh=2302x1201){: referrerpolicy="no-referrer" }
 
 其次，Nginx反向代理器可以实现**负载均衡。**负载均衡是一种常见的网络架构，它可以将网络流量分发到多个服务器上，从而避免单台服务器成为性能瓶颈，提高系统的可用性和可靠性。我们通过负载均衡可以提高服务器的性能，避免服务器单点故障，提升服务器的扩展性和安全性。
 
 后面这张图是结合我们视频平台需求梳理的示意图，描述了Nginx反向代理器的请求处理流程，你可以参考一下。
 
-![](https://static001.geekbang.org/resource/image/c2/1b/c2d325d12a0ce4273edaf72d0def601b.jpg?wh=2302x1201)
+![](https://static001.geekbang.org/resource/image/c2/1b/c2d325d12a0ce4273edaf72d0def601b.jpg?wh=2302x1201){: referrerpolicy="no-referrer" }
 
 接下来我们看看Nginx实现负载均衡的三种方式。
 
@@ -70,11 +70,11 @@ Nginx的反向代理功能的作用是根据配置规则，将客户端的请求
 第三种方法就是**配置IP Hash算法**，根据客户端的IP地址分发请求。这种负载均衡方式可以将同一客户端的请求始终分发到同一台后端服务器上。
 
 同时，我们还可以通过Nginx反向代理服务器实现缓存。这么做能够减少后端服务器的压力，提升响应效率。  
-![](https://static001.geekbang.org/resource/image/ff/37/ffd54f839747c764d265ce77ca958037.jpg?wh=2302x1201)
+![](https://static001.geekbang.org/resource/image/ff/37/ffd54f839747c764d265ce77ca958037.jpg?wh=2302x1201){: referrerpolicy="no-referrer" }
 
 说了这么多，相信你对Nginx的威力有了全新的认识。在直播系统里选用Nginx，我们看重的就是它在高并发、热部署、高可用方面的出色能力，具体功能优势我给你整理在下面，你可以参考后面的表格。
 
-![](https://static001.geekbang.org/resource/image/b7/41/b76e70ced51b254011d5f8ff48e5d941.jpg?wh=3644x1991)
+![](https://static001.geekbang.org/resource/image/b7/41/b76e70ced51b254011d5f8ff48e5d941.jpg?wh=3644x1991){: referrerpolicy="no-referrer" }
 
 ## 应用实战
 
@@ -117,7 +117,7 @@ if ($http_user_agent ~* (Baiduspider|Googlebot|Yandex|Sogou)) {
 
 之后我们还设置了防止SQL注入攻击。SQL注入攻击是一种常见的网络攻击，通过注入恶意代码来执行非法操作。在Nginx中，我们可以使用正则表达式匹配特定的请求路径，来识别并防止SQL注入攻击。相关配置的含义你可以参考后面的表格。
 
-![图片](https://static001.geekbang.org/resource/image/86/03/86602c8d997d28b2e46a35cab7138c03.jpg?wh=1920x1008)
+![图片](https://static001.geekbang.org/resource/image/86/03/86602c8d997d28b2e46a35cab7138c03.jpg?wh=1920x1008){: referrerpolicy="no-referrer" }
 
 在第19行禁止爬虫的访问设置中，我们设置来一些请求方法控制。if ($http\_user\_agent ~* (Baiduspider|Googlebot|Yandex|Sogou)) 表示如果User-Agent字段匹配BaiduSpider、Googlebot、Yandex或Sogou等爬虫标识，则返回403禁止访问。这样我们就可以防止网络爬虫抓取网站内容，保护网站数据的版权和安全性。
 
@@ -131,7 +131,7 @@ $ sudo systemctl restart nginx
 
 接下来，就是配置服务器的环节。首先，我们需要找到Nginx服务器上的nginx.conf文件，对应的目录在/etc/nginx/，你会在这个目录下面看到配置文件。
 
-![图片](https://static001.geekbang.org/resource/image/e3/b3/e39b870686502cac6d3374b8750054b3.png?wh=1678x120)
+![图片](https://static001.geekbang.org/resource/image/e3/b3/e39b870686502cac6d3374b8750054b3.png?wh=1678x120){: referrerpolicy="no-referrer" }
 
 对应的配置文件内容是后面这样，你可以先整体看看，然后再听我详细讲解，重点还是了解每个参数的含义和使用方法。
 
@@ -167,7 +167,7 @@ http {
 
 第8行代码中，http指令用于指定HTTP服务器的配置。在这里包含了 **MIME** 类型配置、文件传输和连接保持等配置。你可以参考后面的表格，了解每个参数的作用。这里不需要你死记硬背，可以课后对照表格和我提供的代码实操演练一下，这样更容易理解记忆。
 
-![](https://static001.geekbang.org/resource/image/80/5d/80a1bc9a2c1fbbe2e3a577713a42905d.jpg?wh=3733x4789)
+![](https://static001.geekbang.org/resource/image/80/5d/80a1bc9a2c1fbbe2e3a577713a42905d.jpg?wh=3733x4789){: referrerpolicy="no-referrer" }
 
 到这里我们就完成了服务器的配置，恭喜你坚持到这里。稍微总结一下，前面这段配置文件设置了一个基本的HTTP服务器，可以处理根目录下的请求，并提供默认的索引文件和错误页。
 

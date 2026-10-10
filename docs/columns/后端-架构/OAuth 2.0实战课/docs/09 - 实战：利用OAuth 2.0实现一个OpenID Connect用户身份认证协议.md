@@ -38,7 +38,7 @@ EU、RP和OP这三个角色对于OIDC非常重要，我后面也会时常使用�
 
 现在，我们就借助极客时间的例子，来看一下OAuth 2.0的4个角色和OIDC的3个角色之间的对应关系：
 
-![](https://static001.geekbang.org/resource/image/8f/e9/8f794280f949862af3ebdc61d69c5fe9.png?wh=1424%2A468 "图1 OAuth 2.0和OIDC的角色对应关系")
+![](https://static001.geekbang.org/resource/image/8f/e9/8f794280f949862af3ebdc61d69c5fe9.png?wh=1424%2A468 "图1 OAuth 2.0和OIDC的角色对应关系"){: referrerpolicy="no-referrer" }
 
 ## OIDC 和 OAuth 2.0 的关键区别
 
@@ -46,7 +46,7 @@ EU、RP和OP这三个角色对于OIDC非常重要，我后面也会时常使用�
 
 我再继续给你画一张OIDC的通信流程图，你就更清楚OIDC和OAuth 2.0的关系了：
 
-![](https://static001.geekbang.org/resource/image/23/4b/23ce63497f6734dbc6dc9c5b6399c54b.png?wh=1644%2A1032 "图2 基于授权码流程的OIDC通信流程")
+![](https://static001.geekbang.org/resource/image/23/4b/23ce63497f6734dbc6dc9c5b6399c54b.png?wh=1644%2A1032 "图2 基于授权码流程的OIDC通信流程"){: referrerpolicy="no-referrer" }
 
 可以发现，一个基于授权码流程的OIDC协议流程，跟OAuth 2.0中的授权码许可的流程几乎完全一致，唯一的区别就是多返回了一个**ID\_TOKEN**，我们称之为**ID令牌**。这个令牌是身份认证的关键。所以，接下来我就着重和你讲一下这个令牌，而不再细讲OIDC的整个流程。
 
@@ -154,7 +154,7 @@ private Map<String,String> parseJwt(String jwt){
 
 那么，可以使用OIDC协议标准来实现这样的单点登录吗？我只能说 “太可以了”。如下图所示，只需要让第三方软件（RP）重复我们OIDC的通信流程就可以了。
 
-![](https://static001.geekbang.org/resource/image/7b/48/7bf3cb13a5174f2068c916a4d1ef2748.png?wh=1624%2A1272 "图3 单点登录的通信流程")
+![](https://static001.geekbang.org/resource/image/7b/48/7bf3cb13a5174f2068c916a4d1ef2748.png?wh=1624%2A1272 "图3 单点登录的通信流程"){: referrerpolicy="no-referrer" }
 
 你看，单点登录就是OIDC的一种具体应用方式，只要掌握了OIDC框架的原理，实现单点登录就不在话下了。关于单点登录的具体实现，在GitHub上搜索“通过OIDC来实现单点登录”，你就可以看到很多相关的开源内容。
 

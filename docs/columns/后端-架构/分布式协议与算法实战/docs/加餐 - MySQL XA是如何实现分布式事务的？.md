@@ -16,7 +16,7 @@
 
 假设两个数据库A、B（位于不同的服务器节点上），我们需要实现多个数据库更新（比如，UPDATE executed\_table SET status = true WHERE id=100）和插入操作（比如，INSERT into operation\_table SET id = 100, op = ‘get-cdn-log’）的事务，那么在MySQL中如何实现呢？
 
-![](https://static001.geekbang.org/resource/image/92/e4/92164eafa6604e334b22d245d1543ce4.jpg?wh=1142%2A531)
+![](https://static001.geekbang.org/resource/image/92/e4/92164eafa6604e334b22d245d1543ce4.jpg?wh=1142%2A531){: referrerpolicy="no-referrer" }
 
 带着这个问题，我们进入今天的学习。不过因为MySQL通过XA规范实现分布式事务的，所以你有必要先来了解一下XA规范。
 
@@ -24,7 +24,7 @@
 
 提到XA规范，就不得不说DTP模型（ Distributed Transaction Processing），因为XA规范约定的是DTP模型中2个模块（事务管理器和资源管理器）的通讯方式，那DTP，就是分布式事务处理，就像下图的样子：
 
-![](https://static001.geekbang.org/resource/image/a0/93/a08794d4a09101fdc0789496a50db193.jpg?wh=1142%2A604)
+![](https://static001.geekbang.org/resource/image/a0/93/a08794d4a09101fdc0789496a50db193.jpg?wh=1142%2A604){: referrerpolicy="no-referrer" }
 
 为了帮助你更好的理解DTP模型，我来解释一下DTP各模块的作用。
 
@@ -36,7 +36,7 @@
 
 那么，XA规范是什么样子的呢？它约定了事务管理器和资源管理器之间双向通讯的接口规范，并实现了二阶段提交协议：
 
-![](https://static001.geekbang.org/resource/image/4e/ed/4e6d8e0104c4b22e58c5a400323e94ed.jpg?wh=1142%2A865)
+![](https://static001.geekbang.org/resource/image/4e/ed/4e6d8e0104c4b22e58c5a400323e94ed.jpg?wh=1142%2A865){: referrerpolicy="no-referrer" }
 
 为了帮你更好地理解这个过程，咱们一起走下流程，加深下印象：
 
@@ -64,15 +64,15 @@
 
 首先，你需要创建一个唯一的事务ID（比如xid），来唯一标识事务，并调用“XA START”和“XA END”来定义事务分支对应的操作（比如INSERT into operation\_table SET id = 100, op = ‘get-cdn-log’）。
 
-![](https://static001.geekbang.org/resource/image/76/ca/76c1110506c7409c748f20e17ea23bca.jpg?wh=1142%2A627)
+![](https://static001.geekbang.org/resource/image/76/ca/76c1110506c7409c748f20e17ea23bca.jpg?wh=1142%2A627){: referrerpolicy="no-referrer" }
 
 接着，你需要执行“XA PREPARE”命令，来执行二阶段提交协议的提交请求阶段。
 
-![](https://static001.geekbang.org/resource/image/28/30/285e440ff3bee6b6c74eeaaa2b37c430.jpg?wh=1142%2A546)
+![](https://static001.geekbang.org/resource/image/28/30/285e440ff3bee6b6c74eeaaa2b37c430.jpg?wh=1142%2A546){: referrerpolicy="no-referrer" }
 
 最后，你需要调用“XA COMMIT”来提交事务（或者“XA ROLLBACK”回滚事务）。这样你就实现了全局事务的一致性了。
 
-![](https://static001.geekbang.org/resource/image/16/93/169ae090f2b55c6e520ecf7424c0f293.jpg?wh=1142%2A520)
+![](https://static001.geekbang.org/resource/image/16/93/169ae090f2b55c6e520ecf7424c0f293.jpg?wh=1142%2A520){: referrerpolicy="no-referrer" }
 
 从上面的流程中，你可以看到，客户端在扮演事务管理器的角色，而MySQL数据库就在扮演资源管理器的角色。另外，你要注意，上面流程中的xid必须是唯一值。
 

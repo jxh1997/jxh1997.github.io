@@ -64,7 +64,7 @@ Radix Tree是属于前缀树的一种类型。前缀树也称为Trie Tree，它�
 
 下面这张图展示了一个简单的前缀树，你可以看下。图中的前缀树有两个叶子节点，将根节点到这两个叶子节点的路径上，对应的字符拼接起来后，就得到了两个key：read和real。
 
-![](https://static001.geekbang.org/resource/image/04/56/04f86e94817aca643a8d2c05c580c856.jpg?wh=2000x1125)
+![](https://static001.geekbang.org/resource/image/04/56/04f86e94817aca643a8d2c05c580c856.jpg?wh=2000x1125){: referrerpolicy="no-referrer" }
 
 另外从图中，我们还可以看到，前缀树是把保存的key的公共前缀（即r、e、a）独立出来共享使用的。这样一来，就可以避免在树中对相同的字符做重复存储。
 
@@ -76,7 +76,7 @@ Radix Tree是属于前缀树的一种类型。前缀树也称为Trie Tree，它�
 
 我来给你举个例子，假设有5个key，分别是radix、race、read、real和redis，它们在前缀树上的布局如下图所示。
 
-![](https://static001.geekbang.org/resource/image/f4/50/f44c4bc26d2d4b09a1701d09697c5550.jpg?wh=2000x1125)
+![](https://static001.geekbang.org/resource/image/f4/50/f44c4bc26d2d4b09a1701d09697c5550.jpg?wh=2000x1125){: referrerpolicy="no-referrer" }
 
 对于“redis”来说，因为它和“read”“real”共享“r”和“e”，和“radix”“race”共享“r”，也就是说“r”和“e”节点都分别指向多个子节点。类似的，“real”和“read”共享了“r”“e”和“a”前缀，“a”节点也指向了多个子节点。所以，在前缀树的节点中单独保存“r”“e”“a”是很有必要的。
 
@@ -90,7 +90,7 @@ Radix Tree是属于前缀树的一种类型。前缀树也称为Trie Tree，它�
 
 我画了下面这张图，展示了刚才介绍的前缀树上的5个key（radix、race、read、real和redis），在Radix Tree上的布局，你可以对照着看下它们在前缀树布局上的不同之处。
 
-![](https://static001.geekbang.org/resource/image/52/84/5235453fd27d1f97fcc42abd22d04084.jpg?wh=2000x950)
+![](https://static001.geekbang.org/resource/image/52/84/5235453fd27d1f97fcc42abd22d04084.jpg?wh=2000x950){: referrerpolicy="no-referrer" }
 
 ### Radix Tree数据结构
 
@@ -100,13 +100,13 @@ Radix Tree是属于前缀树的一种类型。前缀树也称为Trie Tree，它�
 
 比如，下面这张图就显示了刚才例子中的节点r，它是一个非压缩节点，指向了两个子节点，这两个子节点对应的字符分别是“a”和“e”，这个非压缩节点包含了指向子节点a和e的指针。此外，非压缩节点头部保存的HDR，是Radix Tree节点数据结构中的元数据，我一会儿会给你具体介绍它。
 
-![](https://static001.geekbang.org/resource/image/61/62/61016426c97acb2b9465b2df5befb662.jpg?wh=2000x813)
+![](https://static001.geekbang.org/resource/image/61/62/61016426c97acb2b9465b2df5befb662.jpg?wh=2000x813){: referrerpolicy="no-referrer" }
 
 **第二类节点是压缩节点**，这类节点会包含一个指向子节点的指针，以及子节点所代表的合并的字符串。比如前面Radix Tree例子中的节点e，这个节点指向的子节点包含的字符串就是合并的字符串“dis”。和非压缩节点类似，如果从根节点到一个压缩节点的路径上的字符串，已经对应了Radix Tree中保存的一个key，那么，这个压缩节点中还包含指向这个key对应的value的指针。
 
 下图展示的就是一个压缩节点，它包含一个指向子节点的指针，这个子节点表示的合并字符串是“is”，所以在当前这个压缩节点中，保存了合并字符“is”。而和非压缩节点类似，压缩节点的头部HDR，保存的也是Radix Tree节点结构中的元数据。
 
-![](https://static001.geekbang.org/resource/image/82/d0/822ebedaf35cb59c8be7ecd2c90b3dd0.jpg?wh=2000x735)
+![](https://static001.geekbang.org/resource/image/82/d0/822ebedaf35cb59c8be7ecd2c90b3dd0.jpg?wh=2000x735){: referrerpolicy="no-referrer" }
 
 既然，这两类节点的头部HDR中都保存了元数据，下面我们就来看看，这些元数据都包括了什么内容。
 
@@ -149,13 +149,13 @@ typedef struct raxNode {
 
 所以，在实际使用raxNode结构保存数据时，节点dix会被拆为节点d和ix，节点ce会被拆为节点c和e，节点dis会被拆为节点d和is，如下图的右半部分所示。这样一来，节点r的子节点a和e，就可以用非压缩节点的结构来保存了。
 
-![](https://static001.geekbang.org/resource/image/09/dd/09bd522df6dbaa3216acd20b0248a2dd.jpg?wh=2000x1003)
+![](https://static001.geekbang.org/resource/image/09/dd/09bd522df6dbaa3216acd20b0248a2dd.jpg?wh=2000x1003){: referrerpolicy="no-referrer" }
 
 我们再来看另一方面，对于Radix Tree的叶子节点来说，因为它没有子节点了，所以，**Redis会用一个不包含子节点指针的raxNode节点来表示叶子节点**，也就是说，叶子节点的raxNode元数据size为0，没有子节点指针。如果叶子节点代表了一个key，那么它的raxNode中是会保存这个key的value指针的。
 
 为了便于你理解非压缩节点、压缩节点和叶子节点的raxNode结构内容，我画了下面这张图，你可以看下。
 
-![](https://static001.geekbang.org/resource/image/7c/cd/7c6b7d2a809178c80405bb5e667b21cd.jpg?wh=2000x1104)
+![](https://static001.geekbang.org/resource/image/7c/cd/7c6b7d2a809178c80405bb5e667b21cd.jpg?wh=2000x1104){: referrerpolicy="no-referrer" }
 
 这张图上显示了Radix Tree最右侧分支的4个节点r、e、d、is和它们各自的raxNode内容。其中，节点r、e和d都不代表key，所以它们的iskey值为0，isnull值为1，没有为value指针分配空间。
 
@@ -230,7 +230,7 @@ void raxSetData(raxNode *n, void *data)
 
 这里我放了一张图，展示了Stream结构、rax、raxNode以及listpack相互之间的关系。注意，在这张图中，我们假设就只有一个streamID作为key。
 
-![](https://static001.geekbang.org/resource/image/1e/0d/1e5aa7509b25bb94d53c183130d3460d.jpg?wh=2000x1125)
+![](https://static001.geekbang.org/resource/image/1e/0d/1e5aa7509b25bb94d53c183130d3460d.jpg?wh=2000x1125){: referrerpolicy="no-referrer" }
 
 我们可以看到，stream结构体中的rax指针，指向了Radix Tree的头节点，也就是rax结构体。rax结构体中的头指针进一步指向了第一个raxNode。因为我们假设就只有一个streamID，暂时没有其他streamID和该streamID共享前缀，所以，当前这个streamID就可以用压缩节点保存。
 

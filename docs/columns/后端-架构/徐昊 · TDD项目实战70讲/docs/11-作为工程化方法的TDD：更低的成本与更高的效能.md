@@ -6,7 +6,7 @@
 
 那么在学习了什么是TDD中的测试，和什么是TDD中的驱动之后，我们将会怎么描述TDD的流程呢？
 
-![](https://static001.geekbang.org/resource/image/a5/9c/a5a74d26cf9581064420d81cff7da89c.jpg?wh=2284x1285)
+![](https://static001.geekbang.org/resource/image/a5/9c/a5a74d26cf9581064420d81cff7da89c.jpg?wh=2284x1285){: referrerpolicy="no-referrer" }
 
 如上图所示，使用TDD的核心流程为：
 
@@ -46,7 +46,7 @@ TDD可以通过是否可以在规定时间内写出测试加以判断。因而�
 
 比如MVC（Model/View/Controller）架构，表明系统组件按职责应该分成三种：管理数据的模型（Model），负责展示的视图（View），以及处理事件交互逻辑的控制器（Controller）。它们的交互模式为：视图渲染模型中的数据，视图中触发的事件则交由控制器处理，控制器可以通过修改模型，或是更新视图。如下图所示：
 
-![](https://static001.geekbang.org/resource/image/4a/f3/4a730318c45ab75316e1e7e8a04330f3.jpg?wh=2284x1448)
+![](https://static001.geekbang.org/resource/image/4a/f3/4a730318c45ab75316e1e7e8a04330f3.jpg?wh=2284x1448){: referrerpolicy="no-referrer" }
 
 想要破坏MVC的架构愿景很容易，比如把控制逻辑写到模型中，或者在视图中直接修改模型，都会破坏MVC的架构愿景。
 
@@ -62,7 +62,7 @@ TDD则可以通过**功能上下文以及任务项拆分的情况**，判断架�
 
 顺便说一句，就算发现了“当前架构愿景不容易实现的需求”，也可以直接进入经典模式，通过重构抽取架构要素，演进式调整当前架构，不会影响项目进度。如下图所示：
 
-![](https://static001.geekbang.org/resource/image/e5/ac/e5c4d4c0b8f6490252320829286ffaac.jpg?wh=2284x1285)
+![](https://static001.geekbang.org/resource/image/e5/ac/e5c4d4c0b8f6490252320829286ffaac.jpg?wh=2284x1285){: referrerpolicy="no-referrer" }
 
 不难发现，TDD要求先写测试，实际是以**可工作的软件**的形态，验证对于需求的理解；而任务分解，则是在确定单元粒度的过程中，验证对于架构的共识。只要我们承认，“理解需求，明白架构”是一切工程化软件开发的前提，那么TDD就是目前已知的**效能最高的方法**。
 

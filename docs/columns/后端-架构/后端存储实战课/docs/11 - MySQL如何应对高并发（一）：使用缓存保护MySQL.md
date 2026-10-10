@@ -31,7 +31,7 @@ Redis之所以能这么流行，非常重要的一个原因是，它的API非常
 
 然后我们来说，缓存中的数据要怎么来更新的问题。我见过很多同学都是这么用缓存的：在查询订单数据的时候，先去缓存中查询，如果命中缓存那就直接返回订单数据。如果没有命中，那就去数据库中查询，得到查询结果之后把订单数据写入缓存，然后返回。在更新订单数据的时候，先去更新数据库中的订单表，如果更新成功，再去更新缓存中的数据。
 
-![](https://static001.geekbang.org/resource/image/c7/5e/c76155eaf8c6ac1e231d9bfb0e22ba5e.png?wh=1142%2A422)
+![](https://static001.geekbang.org/resource/image/c7/5e/c76155eaf8c6ac1e231d9bfb0e22ba5e.png?wh=1142%2A422){: referrerpolicy="no-referrer" }
 
 这其实是一种经典的缓存更新策略: **Read/Write Through**。这样使用缓存的方式有没有问题？绝大多数情况下可能都没问题。但是，在并发的情况下，有一定的概率会出现“脏数据”问题，缓存中的数据可能会被错误地更新成了旧数据。
 
@@ -43,7 +43,7 @@ Redis之所以能这么流行，非常重要的一个原因是，它的API非常
 
 Cache Aside模式和上面的Read/Write Through模式非常像，它们处理读请求的逻辑是完全一样的，唯一的一个小差别就是，Cache Aside模式在更新数据的时候，并不去尝试更新缓存，而是去删除缓存。
 
-![](https://static001.geekbang.org/resource/image/0b/31/0b9c9cb74f017c632136280a63015931.png?wh=1142%2A161)
+![](https://static001.geekbang.org/resource/image/0b/31/0b9c9cb74f017c632136280a63015931.png?wh=1142%2A161){: referrerpolicy="no-referrer" }
 
 订单服务收到更新数据请求之后，先更新数据库，如果更新成功了，再尝试去删除缓存中订单，如果缓存中存在这条订单就删除它，如果不存在就什么都不做，然后返回更新成功。这条更新后的订单数据将在下次被访问的时候加载到缓存中。使用Cache Aside模式来更新缓存，可以非常有效地避免并发读写导致的脏数据问题。
 

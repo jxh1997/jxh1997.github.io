@@ -30,7 +30,7 @@ LFU算法的实现可以分成三部分内容，分别是键值对访问频率�
 
 具体来说，当lru变量用来记录LFU算法的所需信息时，它会用24 bits中的低8 bits作为计数器，来记录键值对的访问次数，同时它会用24 bits中的高16 bits，记录访问的时间戳。下图就展示了用来记录访问频率时的lru变量内容，你可以看下。
 
-![](https://static001.geekbang.org/resource/image/1c/dc/1cfd742c59f0c2447ac9af0f9160a4dc.jpg?wh=1920x430)
+![](https://static001.geekbang.org/resource/image/1c/dc/1cfd742c59f0c2447ac9af0f9160a4dc.jpg?wh=1920x430){: referrerpolicy="no-referrer" }
 
 好，了解了LFU算法所需的访问频率是如何记录的，接下来，我们再来看下键值对的访问频率是如何初始化和更新的。
 
@@ -38,7 +38,7 @@ LFU算法的实现可以分成三部分内容，分别是键值对访问频率�
 
 首先，我们要知道，LFU算法和LRU算法的基本步骤，实际上是**在相同的入口函数中执行**的。上节课围绕LRU算法的实现，我们已经了解到这些基本步骤包括数据访问信息的初始化、访问信息更新，以及实际淘汰数据。这些步骤对应的入口函数如下表所示，你也可以再去回顾下上节课的内容。
 
-![](https://static001.geekbang.org/resource/image/09/c4/0915155b20fee28776252f3b0c247ac4.jpg?wh=2000x783)
+![](https://static001.geekbang.org/resource/image/09/c4/0915155b20fee28776252f3b0c247ac4.jpg?wh=2000x783){: referrerpolicy="no-referrer" }
 
 了解了这些入口函数后，我们再去分析LFU算法的实现，就容易找到对应的函数了。
 

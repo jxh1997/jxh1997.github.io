@@ -14,13 +14,13 @@
 
 CPU缓存的材质SRAM比内存使用的DRAM贵许多，所以不同于内存动辄以GB计算，它的大小是以MB来计算的。比如，在我的Linux系统上，离CPU最近的一级缓存是32KB，二级缓存是256KB，最大的三级缓存则是20MB（Windows系统查看缓存大小可以用wmic cpu指令，或者用[CPU-Z](https://www.cpuid.com/softwares/cpu-z.html)这个工具）。
 
-![](https://static001.geekbang.org/resource/image/de/87/deff13454dcb6b15e1ac4f6f538c4987.png?wh=1379%2A352)
+![](https://static001.geekbang.org/resource/image/de/87/deff13454dcb6b15e1ac4f6f538c4987.png?wh=1379%2A352){: referrerpolicy="no-referrer" }
 
 你可能注意到，三级缓存要比一、二级缓存大许多倍，这是因为当下的CPU都是多核心的，每个核心都有自己的一、二级缓存，但三级缓存却是一颗CPU上所有核心共享的。
 
 程序执行时，会先将内存中的数据载入到共享的三级缓存中，再进入每颗核心独有的二级缓存，最后进入最快的一级缓存，之后才会被CPU使用，就像下面这张图。
 
-![](https://static001.geekbang.org/resource/image/92/0c/9277d79155cd7f925c27f9c37e0b240c.jpg?wh=3749%2A2433)
+![](https://static001.geekbang.org/resource/image/92/0c/9277d79155cd7f925c27f9c37e0b240c.jpg?wh=3749%2A2433){: referrerpolicy="no-referrer" }
 
 缓存要比内存快很多。CPU访问一次内存通常需要100个时钟周期以上，而访问一级缓存只需要4~5个时钟周期，二级缓存大约12个时钟周期，三级缓存大约30个时钟周期（对于2GHZ主频的CPU来说，一个时钟周期是0.5纳秒。你可以在LZMA的[Benchmark](https://www.7-cpu.com/)中找到几种典型CPU缓存的访问速度）。
 
@@ -71,7 +71,7 @@ array[0][0]，array[1][0]，array[0][1]，array[1][1]
 
 其实这两个问题的答案都与CPU Cache Line相关，它定义了缓存一次载入数据的大小，Linux上你可以通过coherency\_line\_size配置查看它，通常是64字节。
 
-![](https://static001.geekbang.org/resource/image/7d/de/7dc8d0c5a1461d9aed086e7a112c01de.png?wh=1226%2A64)
+![](https://static001.geekbang.org/resource/image/7d/de/7dc8d0c5a1461d9aed086e7a112c01de.png?wh=1226%2A64){: referrerpolicy="no-referrer" }
 
 因此，我测试的服务器一次会载入64字节至缓存中。当载入array\[0]\[0]时，若它们占用的内存不足64字节，CPU就会顺序地补足后续元素。顺序访问的array\[i]\[j]因为利用了这一特点，所以就会比array\[j]\[i]要快。也正因为这样，当元素类型是4个字节的整数时，性能就会比8个字节的高精度浮点数时速度更快，因为缓存一次载入的元素会更多。
 
@@ -81,7 +81,7 @@ array[0][0]，array[1][0]，array[0][1]，array[1][1]
 
 关于CPU Cache Line的应用其实非常广泛，如果你用过Nginx，会发现它是用哈希表来存放域名、HTTP头部等数据的，这样访问速度非常快，而哈希表里桶的大小如server\_names\_hash\_bucket\_size，它默认就等于CPU Cache Line的值。由于所存放的字符串长度不能大于桶的大小，所以当需要存放更长的字符串时，就需要修改桶大小，但Nginx官网上明确建议它应该是CPU Cache Line的整数倍。
 
-![](https://static001.geekbang.org/resource/image/4f/2b/4fa0080e0f688bd484fe701686e6262b.png?wh=1124%2A211)
+![](https://static001.geekbang.org/resource/image/4f/2b/4fa0080e0f688bd484fe701686e6262b.png?wh=1124%2A211){: referrerpolicy="no-referrer" }
 
 为什么要做这样的要求呢？就是因为按照cpu cache line（比如64字节）来访问内存时，不会出现多核CPU下的伪共享问题，可以**尽量减少访问内存的次数**。比如，若桶大小为64字节，那么根据地址获取字符串时只需要访问一次内存，而桶大小为50字节，会导致最坏2次访问内存，而70字节最坏会有3次访问内存。
 
@@ -91,8 +91,8 @@ array[0][0]，array[1][0]，array[0][1]，array[1][1]
 
 当然，perf stat还可以通过指令执行速度反映出两种访问方式的优劣，如下图所示（instructions事件指明了进程执行的总指令数，而cycles事件指明了运行的时钟周期，二者相除就可以得到每时钟周期所执行的指令数，缩写为IPC。如果缓存未命中，则CPU要等待内存的慢速读取，因此IPC就会很低。array\[i]\[j]的IPC值也比array\[j]\[i]要高得多）：
 
-![](https://static001.geekbang.org/resource/image/29/1c/29d4a9fa5b8ad4515d7129d71987b01c.png?wh=1662%2A235)  
-![](https://static001.geekbang.org/resource/image/94/3d/9476f52cfc63825e7ec836580e12c53d.png?wh=1646%2A242)
+![](https://static001.geekbang.org/resource/image/29/1c/29d4a9fa5b8ad4515d7129d71987b01c.png?wh=1662%2A235)  {: referrerpolicy="no-referrer" }
+![](https://static001.geekbang.org/resource/image/94/3d/9476f52cfc63825e7ec836580e12c53d.png?wh=1646%2A242){: referrerpolicy="no-referrer" }
 
 ## 提升指令缓存的命中率
 
@@ -122,9 +122,9 @@ sort(array, array +N);
 
 下图是我在GitHub上为你准备的验证程序执行的perf分支预测统计数据（代码见[这里](https://github.com/russelltao/geektime_distrib_perf/tree/master/1-cpu_cache/branch_predict)），你可以看到，先排序的话分支预测的成功率非常高，而且一级指令缓存的未命中率也有大幅下降。
 
-![](https://static001.geekbang.org/resource/image/29/72/2902b3e08edbd1015b1e9ecfe08c4472.png?wh=554%2A90)
+![](https://static001.geekbang.org/resource/image/29/72/2902b3e08edbd1015b1e9ecfe08c4472.png?wh=554%2A90){: referrerpolicy="no-referrer" }
 
-![](https://static001.geekbang.org/resource/image/95/60/9503d2c8f7deb3647eebb8d68d317e60.png?wh=554%2A96)
+![](https://static001.geekbang.org/resource/image/95/60/9503d2c8f7deb3647eebb8d68d317e60.png?wh=554%2A96){: referrerpolicy="no-referrer" }
 
 C/C++语言中编译器还给应用程序员提供了显式预测分支概率的工具，如果if中的条件表达式判断为“真”的概率非常高，我们可以用likely宏把它括在里面，反之则可以用unlikely宏。当然，CPU自身的条件预测已经非常准了，仅当我们确信CPU条件预测不会准，且我们能够知晓实际概率时，才需要加入这两个宏。
 

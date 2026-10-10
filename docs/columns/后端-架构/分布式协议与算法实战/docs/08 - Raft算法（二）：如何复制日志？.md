@@ -14,7 +14,7 @@
 
 其实，日志项是一种数据格式，它主要包含用户指定的数据，也就是指令（Command），还包含一些附加信息，比如索引值（Log index）、任期编号（Term）。那你该怎么理解这些信息呢？
 
-![](https://static001.geekbang.org/resource/image/d5/6d/d5c7b0b95b4289c10c9e0817c71f036d.jpg?wh=1142%2A750)
+![](https://static001.geekbang.org/resource/image/d5/6d/d5c7b0b95b4289c10c9e0817c71f036d.jpg?wh=1142%2A750){: referrerpolicy="no-referrer" }
 
 - 指令：一条由客户端请求指定的、状态机需要执行的指令。你可以将指令理解成客户端指定的数据。
 - 索引值：日志项对应的整数索引值。它其实就是用来标识日志项的，是一个连续的、单调递增的整数号码。
@@ -40,7 +40,7 @@
 
 为了帮你理解，我画了一张过程图，然后再带你走一遍这个过程，这样你可以更加全面地掌握日志复制。
 
-![](https://static001.geekbang.org/resource/image/b8/29/b863dc8546a78c272c965d6e05afde29.jpg?wh=1142%2A475)
+![](https://static001.geekbang.org/resource/image/b8/29/b863dc8546a78c272c965d6e05afde29.jpg?wh=1142%2A475){: referrerpolicy="no-referrer" }
 
 1. 接收到客户端请求后，领导者基于客户端请求中的指令，创建一个新日志项，并附加到本地日志中。
 2. 领导者通过日志复制RPC，将新的日志项复制到其他的服务器。
@@ -64,7 +64,7 @@
 
 <!--THE END-->
 
-![](https://static001.geekbang.org/resource/image/e5/f4/e5b5a644c5a0878d26bc4a4a0448c3f4.jpg?wh=1142%2A1072)
+![](https://static001.geekbang.org/resource/image/e5/f4/e5b5a644c5a0878d26bc4a4a0448c3f4.jpg?wh=1142%2A1072){: referrerpolicy="no-referrer" }
 
 1. 领导者通过日志复制RPC消息，发送当前最新日志项到跟随者（为了演示方便，假设当前需要复制的日志项是最新的），这个消息的PrevLogEntry值为7，PrevLogTerm值为4。
 2. 如果跟随者在它的日志中，找不到与PrevLogEntry值为7、PrevLogTerm值为4的日志项，也就是说它的日志和领导者的不一致了，那么跟随者就会拒绝接收新的日志项，并返回失败信息给领导者。

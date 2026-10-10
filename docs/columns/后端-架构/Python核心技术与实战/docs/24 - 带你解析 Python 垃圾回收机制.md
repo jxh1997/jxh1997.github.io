@@ -293,7 +293,7 @@ b.append(a)
 objgraph.show_refs([a])
 ```
 
-![](https://static001.geekbang.org/resource/image/fc/ae/fc3b0355ecfdbac5a7b48aa014208aae.png?wh=1039%2A547)
+![](https://static001.geekbang.org/resource/image/fc/ae/fc3b0355ecfdbac5a7b48aa014208aae.png?wh=1039%2A547){: referrerpolicy="no-referrer" }
 
 而另一个非常有用的函数，是 show\_backrefs()。下面同样为示例代码和生成图，你可以自己先阅读一下：
 
@@ -309,7 +309,7 @@ b.append(a)
 objgraph.show_backrefs([a])
 ```
 
-![](https://static001.geekbang.org/resource/image/92/27/9228289bac4976cfa9b11e08c05a7a27.png?wh=2011%2A1277)
+![](https://static001.geekbang.org/resource/image/92/27/9228289bac4976cfa9b11e08c05a7a27.png?wh=2011%2A1277){: referrerpolicy="no-referrer" }
 
 相比刚才的引用调用图，这张图显得稍微复杂一些。不过，我仍旧推荐你掌握它，因为这个 API 有很多有用的参数，比如层数限制（max\_depth）、宽度限制（too\_many）、输出格式控制（filename output）、节点过滤（filter, extra\_ignore）等。所以，建议你使用之前，先认真看一下[文档](https://mg.pov.lt/objgraph/)。
 

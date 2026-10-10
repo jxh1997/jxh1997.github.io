@@ -12,19 +12,19 @@
 
 使用默认的异步复制时，主库上的事务提交时，Binlog会异步发送到备库上。由于是异步发送Binlog，因此在主库故障切换时，无法保证备库的数据和主库是完全一致的。
 
-![图片](https://static001.geekbang.org/resource/image/b4/29/b4199759dce8e0846a542aa7c487e529.png?wh=1516x646)
+![图片](https://static001.geekbang.org/resource/image/b4/29/b4199759dce8e0846a542aa7c487e529.png?wh=1516x646){: referrerpolicy="no-referrer" }
 
 - 半同步复制
 
 使用半同步复制时，主库提交事务时，会先等待Binlog发送给备库。但是这里等待可能会超时，半同步复制会退化成异步复制。
 
-![图片](https://static001.geekbang.org/resource/image/ce/0a/ce8dfd4fa8eeee43a3c3c883793c8b0a.png?wh=1532x652)
+![图片](https://static001.geekbang.org/resource/image/ce/0a/ce8dfd4fa8eeee43a3c3c883793c8b0a.png?wh=1532x652){: referrerpolicy="no-referrer" }
 
 - 组复制（Group Replication）
 
 使用组复制时，主库的事务在提交之前，要先将Binlog发送到集群中的每个成员。由于使用了Paxos 协议，各个成员节点看到的事务提交消息的顺序是一致的。MGR支持多主，每个成员都可以独立提交事务。不同节点发起的事务可能会有冲突（比如修改了同一行数据），节点成员需要对事务消息进行冲突检测（certification），没有冲突的事务才能提交，如果事务有冲突，会回滚后执行的事务。
 
-![图片](https://static001.geekbang.org/resource/image/4e/3a/4ef17c352f38467f2231a49784747c3a.png?wh=1506x694)
+![图片](https://static001.geekbang.org/resource/image/4e/3a/4ef17c352f38467f2231a49784747c3a.png?wh=1506x694){: referrerpolicy="no-referrer" }
 
 ## 创建MRG集群
 
@@ -42,7 +42,7 @@ MGR集群中的节点，使用Binlog来将事务中修改的数据发送给其�
 
 下面这个表格里总结了MGR需要的一些参数。
 
-![图片](https://static001.geekbang.org/resource/image/yy/87/yy036e2329f90d732162df6b4c6da887.jpg?wh=1920x1654)
+![图片](https://static001.geekbang.org/resource/image/yy/87/yy036e2329f90d732162df6b4c6da887.jpg?wh=1920x1654){: referrerpolicy="no-referrer" }
 
 下面这个样例配置文件中，提供了组复制需要的基础参数，你可以看一下。
 
@@ -523,19 +523,19 @@ mysql> SELECT * FROM performance_schema.replication_group_members;
 
 <!--THE END-->
 
-![图片](https://static001.geekbang.org/resource/image/04/c2/0486cffdba5df09f08f08d3baf6d81c2.jpg?wh=1724x1434)
+![图片](https://static001.geekbang.org/resource/image/04/c2/0486cffdba5df09f08f08d3baf6d81c2.jpg?wh=1724x1434){: referrerpolicy="no-referrer" }
 
 - replication\_group\_member\_stats表记录集群中各个节点事务相关的统计信息，包括检查队列中的事务数、应用队列中的事务数等。
 
 <!--THE END-->
 
-![图片](https://static001.geekbang.org/resource/image/2c/d4/2c7f213cb3f74b921230a340a46f62d4.jpg?wh=1920x1091)
+![图片](https://static001.geekbang.org/resource/image/2c/d4/2c7f213cb3f74b921230a340a46f62d4.jpg?wh=1920x1091){: referrerpolicy="no-referrer" }
 
 - replication\_connection\_status
 
 replication\_connection\_status记录了复制通道的状态。MGR中会使用到group\_replication\_applier和group\_replication\_recovery这两个通道。
 
-![图片](https://static001.geekbang.org/resource/image/86/46/8645a6be8a3505bc17cb784afc539f46.jpg?wh=1920x1174)
+![图片](https://static001.geekbang.org/resource/image/86/46/8645a6be8a3505bc17cb784afc539f46.jpg?wh=1920x1174){: referrerpolicy="no-referrer" }
 
 - replication\_applier\_status
 - replication\_applier\_status\_by\_coordinator

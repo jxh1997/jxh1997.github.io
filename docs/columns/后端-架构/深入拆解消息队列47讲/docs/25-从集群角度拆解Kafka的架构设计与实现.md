@@ -10,7 +10,7 @@
 
 **ISR协议的核心思想是：**通过副本拉取Leader数据、动态维护可用副本集合、控制Leader切换和数据截断3个方面，来提高性能和可用性。
 
-![](https://static001.geekbang.org/resource/image/7e/ed/7e4cf5f54694b1624f91b31f2a2c7ced.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/7e/ed/7e4cf5f54694b1624f91b31f2a2c7ced.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 参考图示，这是一个包含1个Leader、2个Follower的分区。如果是基于Raft协议或者多数原则实现的一致性算法，那么当Leader接收到数据后，就会直接分发给部分或全部副本。我们在前面两节课说到的 RabbitMQ的镜像队列、仲裁队列和 RocketMQ 的 Master/Slave、Dledger 都是这么实现的。
 
@@ -23,13 +23,13 @@
 
 为了提高数据分发性能，主要的解决思路就是**数据批量分发**。所以在实现上看，Kakfa 是通过Follower 批量从Leader拉取数据来完成主从副本间的数据同步，并提高性能的。
 
-![](https://static001.geekbang.org/resource/image/68/fe/6818b32b368215f3451402b1ff7d79fe.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/68/fe/6818b32b368215f3451402b1ff7d79fe.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 如上图所示，Follower 会维护一批线程来从 Leader 拉取数据。此时，比如当 Leader 接收到1000 次数据，在 Leader 主动分发的场景中，就需要往两个 Follower 分别发起1000次请求。而在 ISR 模型下，假设 Follower 每批次拉取50条数据，此时每个Follower 和 Leader间的网络交互次数就减少到了20次，从而极大地提高了一致性的性能。
 
 这里你可能就会有一个疑问：**如果是 Follower 来服务端拉取数据，那么当数据写入 Leader 后是直接告诉客户端写入成功吗？**回答这个问题之前，我们先来看一张图。
 
-![](https://static001.geekbang.org/resource/image/d0/f5/d0408914e4fa9961ea544b297ef5f7f5.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/d0/f5/d0408914e4fa9961ea544b297ef5f7f5.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 从实现的角度看，当配置最终一致（ACK=1）或者强一致（ACK=-1）时，Leader接收到数据后不会立即告诉客户端写入成功。而是请求会进入一个本地的队列进行等待，等待 Follower 完成数据同步。当数据被副本同步后，Leader 才会告诉客户端写入成功。
 
@@ -64,7 +64,7 @@
 
 那什么情况下会出现数据丢失和截断呢？
 
-![](https://static001.geekbang.org/resource/image/e5/dc/e5198a7def400ba3486d8365ebcf72dc.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/e5/dc/e5198a7def400ba3486d8365ebcf72dc.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 如上图所示，按照最终一致和多数原则，如果有2个副本A和B写入成功后，就会告诉客户端数据写入成功。此时，如果这两台节点同时挂掉，**就会有C节点成为Leader和C节点不成为 Leader两种场景。**
 
@@ -150,7 +150,7 @@ batchProcessingTimeHist.update(1)
 
 在实际运营中，主要有3种通过指标监控 Broker 的方式。
 
-![](https://static001.geekbang.org/resource/image/be/70/beb3yy6f1cd58e453b8f5c7a6df99a70.jpg?wh=10666x4377)
+![](https://static001.geekbang.org/resource/image/be/70/beb3yy6f1cd58e453b8f5c7a6df99a70.jpg?wh=10666x4377){: referrerpolicy="no-referrer" }
 
 如上图所示，可以通过代码使用 JMX Client 直接去采集Broker中的指标数据，然后自定义处理。也可以通过 JMX Export 采集指标，然后和 Prometheus 集成展示。从实现来看，JMX Export 底层也是通过JMX Client 去Broker采集数据的。另外社区提供了Kafka Export 通过Kafka Protocol 去获取消费进度、Topic信息等相关信息，然后再和 Prometheus 集成展示。
 

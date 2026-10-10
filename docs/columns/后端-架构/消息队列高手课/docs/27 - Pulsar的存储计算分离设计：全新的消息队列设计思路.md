@@ -14,7 +14,7 @@ Pulsar也是一个开源的分布式消息队列产品，最早是由Yahoo开发
 
 Pulsar与其他消息队列在架构上，最大的不同在于，它的Broker是无状态的（Stateless）。也就是说，**在Pulsar的Broker中既不保存元数据，也不存储消息**。那Pulsar的消息存储在哪儿呢？我们来看一下Pulsar的架构是什么样的。
 
-![](https://static001.geekbang.org/resource/image/c6/39/c6d87dbd3ef911f3581b8e51681d3339.png?wh=1181%2A781)
+![](https://static001.geekbang.org/resource/image/c6/39/c6d87dbd3ef911f3581b8e51681d3339.png?wh=1181%2A781){: referrerpolicy="no-referrer" }
 
 这张Pulsar的架构图来自Pulsar的官方文档，如果你想了解这张架构图的细节，可以去看官方文档中的[Architecture Overview](https://pulsar.apache.org/docs/en/concepts-architecture-overview/)。我来给你解读一下这张图中我们感兴趣的重点内容。
 

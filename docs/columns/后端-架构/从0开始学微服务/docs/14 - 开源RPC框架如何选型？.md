@@ -26,7 +26,7 @@
 
 先来聊聊Dubbo，Dubbo可以说是国内开源最早的RPC框架了，目前只支持Java语言，它的架构可以用下面这张图展示。
 
-![](https://static001.geekbang.org/resource/image/71/f3/7114e779d5e8a20ad9986b8ebc52f2f3.jpg?wh=500%2A330)  
+![](https://static001.geekbang.org/resource/image/71/f3/7114e779d5e8a20ad9986b8ebc52f2f3.jpg?wh=500%2A330)  {: referrerpolicy="no-referrer" }
 （图片来源：[https://dubbo.incubator.apache.org/docs/zh-cn/dev/sources/images/dubbo-relation.jpg](https://dubbo.incubator.apache.org/docs/zh-cn/dev/sources/images/dubbo-relation.jpg)）
 
 从图中你能看到，Dubbo的架构主要包含四个角色，其中Consumer是服务消费者，Provider是服务提供者，Registry是注册中心，Monitor是监控系统。
@@ -45,7 +45,7 @@
 
 Motan是国内另外一个比较有名的开源的RPC框架，同样也只支持Java语言实现，它的架构可以用下面这张图描述。
 
-![](https://static001.geekbang.org/resource/image/08/19/08044dcbdbaaedb30222695be29bc119.jpg?wh=482%2A355)  
+![](https://static001.geekbang.org/resource/image/08/19/08044dcbdbaaedb30222695be29bc119.jpg?wh=482%2A355)  {: referrerpolicy="no-referrer" }
 （图片来源：[https://github.com/weibocom/motan/wiki/media/14612352579675.jpg](https://github.com/weibocom/motan/wiki/media/14612352579675.jpg)）
 
 Motan与Dubbo的架构类似，都需要在Client端（服务消费者）和Server端（服务提供者）引入SDK，其中Motan框架主要包含下面几个功能模块。
@@ -60,7 +60,7 @@ Motan与Dubbo的架构类似，都需要在Client端（服务消费者）和Serv
 
 Tars是腾讯根据内部多年使用微服务架构的实践，总结而成的开源项目，仅支持C++语言，它的架构图如下。
 
-![](https://static001.geekbang.org/resource/image/e2/98/e207486467e03ded669380f39aadf098.png?wh=602%2A373)  
+![](https://static001.geekbang.org/resource/image/e2/98/e207486467e03ded669380f39aadf098.png?wh=602%2A373)  {: referrerpolicy="no-referrer" }
 （图片来源：[https://github.com/TarsCloud/Tars/blob/master/docs/images/tars\_jiaohu.png](https://github.com/TarsCloud/Tars/blob/master/docs/images/tars_jiaohu.png)）
 
 Tars的架构交互主要包括以下几个流程：
@@ -75,7 +75,7 @@ Tars的架构交互主要包括以下几个流程：
 
 Spring Cloud是为了解决微服务架构中服务治理而提供的一系列功能的开发框架，它是完全基于Spring Boot进行开发的，Spring Cloud利用Spring Boot特性整合了开源行业中优秀的组件，整体对外提供了一套在微服务架构中服务治理的解决方案。因为Spring Boot是用Java语言编写的，所以目前Spring Cloud也只支持Java语言平台，它的架构图可以用下面这张图来描述。
 
-![](https://static001.geekbang.org/resource/image/d7/01/d71df127a2c40acf06b3fba6deb42501.png?wh=1280%2A720)  
+![](https://static001.geekbang.org/resource/image/d7/01/d71df127a2c40acf06b3fba6deb42501.png?wh=1280%2A720)  {: referrerpolicy="no-referrer" }
 （图片来源：[http://www.hyhblog.cn/wp-content/uploads/2018/07/Arch-Design-Spring-Cloud-1024x576.png](http://www.hyhblog.cn/wp-content/uploads/2018/07/Arch-Design-Spring-Cloud-1024x576.png)）
 
 由此可见，Spring Cloud微服务架构是由多个组件一起组成的，各个组件的交互流程如下。
@@ -101,7 +101,7 @@ Spring Cloud是为了解决微服务架构中服务治理而提供的一系列�
 
 先来看下gRPC，它的原理是通过IDL（Interface Definition Language）文件定义服务接口的参数和返回值类型，然后通过代码生成程序生成服务端和客户端的具体实现代码，这样在gRPC里，客户端应用可以像调用本地对象一样调用另一台服务器上对应的方法。
 
-![](https://static001.geekbang.org/resource/image/d9/f9/d9acfb00d5e98adbd65306e6a4e761f9.png?wh=499%2A310)  
+![](https://static001.geekbang.org/resource/image/d9/f9/d9acfb00d5e98adbd65306e6a4e761f9.png?wh=499%2A310)  {: referrerpolicy="no-referrer" }
 （图片来源：[https://grpc.io/img/landing-2.svg](https://grpc.io/img/landing-2.svg)）
 
 它的主要特性包括三个方面。
@@ -114,7 +114,7 @@ Spring Cloud是为了解决微服务架构中服务治理而提供的一系列�
 
 再来看下Thrift，Thrift是一种轻量级的跨语言RPC通信方案，支持多达25种编程语言。为了支持多种语言，跟gRPC一样，Thrift也有一套自己的接口定义语言IDL，可以通过代码生成器，生成各种编程语言的Client端和Server端的SDK代码，这样就保证了不同语言之间可以相互通信。它的架构图可以用下图来描述。
 
-![](https://static001.geekbang.org/resource/image/d5/62/d5c959122758f1915d6ae4f89247e062.png?wh=817%2A417)  
+![](https://static001.geekbang.org/resource/image/d5/62/d5c959122758f1915d6ae4f89247e062.png?wh=817%2A417)  {: referrerpolicy="no-referrer" }
 （图片来源：[https://github.com/apache/thrift/raw/master/doc/images/thrift-layers.png](https://github.com/apache/thrift/raw/master/doc/images/thrift-layers.png)）
 
 从这张图上可以看出Thrift RPC框架的特性。

@@ -30,14 +30,14 @@
 
 记录所有登录过App的用户ID还是比较简单的，我们可以直接使用Set类型，把key设置为user:id，表示记录的是用户ID，value就是一个Set集合，里面是所有登录过App的用户ID，我们可以把这个Set叫作累计用户Set，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/99/ca/990e56babf199d9a7fa4c7343167ecca.jpg?wh=1774%2A1286)
+![](https://static001.geekbang.org/resource/image/99/ca/990e56babf199d9a7fa4c7343167ecca.jpg?wh=1774%2A1286){: referrerpolicy="no-referrer" }
 
 需要注意的是，累计用户Set中没有日期信息，我们是不能直接统计每天的新增用户的。所以，我们还需要把每一天登录的用户ID，记录到一个新集合中，我们把这个集合叫作每日用户Set，它有两个特点：
 
 1. key是 user:id 以及当天日期，例如 user:id:20200803；
 2. value是Set集合，记录当天登录的用户ID。
 
-![](https://static001.geekbang.org/resource/image/a6/9e/a63dd95d5e44bf538fe960e67761b59e.jpg?wh=1931%2A1327)
+![](https://static001.geekbang.org/resource/image/a6/9e/a63dd95d5e44bf538fe960e67761b59e.jpg?wh=1931%2A1327){: referrerpolicy="no-referrer" }
 
 在统计每天的新增用户时，我们只用计算每日用户Set和累计用户Set的差集就行。
 
@@ -164,7 +164,7 @@ BITCOUNT uid:sign:3000:202008
 
 我以按位“与”操作为例来具体解释一下。从下图中，可以看到，三个Bitmap bm1、bm2和bm3，对应bit位做“与”操作，结果保存到了一个新的Bitmap中（示例中，这个结果Bitmap的key被设为“resmap”）。
 
-![](https://static001.geekbang.org/resource/image/41/7a/4151af42513cf5f7996fe86c6064f97a.jpg?wh=2923%2A1016)
+![](https://static001.geekbang.org/resource/image/41/7a/4151af42513cf5f7996fe86c6064f97a.jpg?wh=2923%2A1016){: referrerpolicy="no-referrer" }
 
 回到刚刚的问题，在统计1亿个用户连续10天的签到情况时，你可以把每天的日期作为key，每个key对应一个1亿位的Bitmap，每一个bit对应一个用户当天的签到情况。
 
@@ -230,7 +230,7 @@ PFCOUNT page1:uv
 
 这节课，我们结合统计新增用户数和留存用户数、最新评论列表、用户签到数以及网页独立访客量这4种典型场景，学习了集合类型的4种统计模式，分别是聚合统计、排序统计、二值状态统计和基数统计。为了方便你掌握，我把Set、Sorted Set、Hash、List、Bitmap、HyperLogLog的支持情况和优缺点汇总在了下面的表格里，希望你把这张表格保存下来，时不时地复习一下。
 
-![](https://static001.geekbang.org/resource/image/c0/6e/c0bb35d0d91a62ef4ca1bd939a9b136e.jpg?wh=2866%2A1739)
+![](https://static001.geekbang.org/resource/image/c0/6e/c0bb35d0d91a62ef4ca1bd939a9b136e.jpg?wh=2866%2A1739){: referrerpolicy="no-referrer" }
 
 可以看到，Set和Sorted Set都支持多种聚合统计，不过，对于差集计算来说，只有Set支持。Bitmap也能做多个Bitmap间的聚合计算，包括与、或和异或操作。
 

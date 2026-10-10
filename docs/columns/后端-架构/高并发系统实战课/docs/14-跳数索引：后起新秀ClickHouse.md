@@ -46,7 +46,7 @@ MergeTree采用了批量写入磁盘、定期合并方式（batch write-merge）
 
 两种情况数据量不同，那优化方式自然也不同，具体ClickHouse是怎么对这这两种方式做优化的呢？我们结合后面的图片继续分析：
 
-![图片](https://static001.geekbang.org/resource/image/68/51/68680bc0f8dbe6a3943db6161c5ec251.jpg?wh=1920x1234)
+![图片](https://static001.geekbang.org/resource/image/68/51/68680bc0f8dbe6a3943db6161c5ec251.jpg?wh=1920x1234){: referrerpolicy="no-referrer" }
 
 当我们批量输入的数据量小于min\_bytes\_for\_wide\_part设置时，会按compact part方式落盘。这种方式会将落盘的数据放到一个data.bin文件中，merge时会有很好的写效率，这种方式适合于小量业务数据筛选使用。
 
@@ -64,7 +64,7 @@ MergeTree采用了批量写入磁盘、定期合并方式（batch write-merge）
 
 一般来说，data part的文件夹名格式为 partition（分区）\_min\_block\_max\_block\_level，并且为了提高查询效率，ClickHouse会对data part定期做merge合并。
 
-![图片](https://static001.geekbang.org/resource/image/ab/c9/ab1055933daff33152c3c91bcce1fdc9.jpg?wh=1920x1234 "data part 同分区 merge 合并")
+![图片](https://static001.geekbang.org/resource/image/ab/c9/ab1055933daff33152c3c91bcce1fdc9.jpg?wh=1920x1234 "data part 同分区 merge 合并"){: referrerpolicy="no-referrer" }
 
 如上图所示，merge操作会分层进行，期间会减少要扫描的文件夹个数，对数据进行整理、删除、合并操作。你还需要注意，不同分区无法合并，所以如果我们想提高一个表的写性能，多分几个分区会有帮助。
 
@@ -84,7 +84,7 @@ ClickHouse的表使用主键索引，才能让数据查询有更好的性能，�
 
 那么ClickHouse如何进行数据检索？这需要我们先了解下data parts文件夹内的主要数据组成，如下图：
 
-![图片](https://static001.geekbang.org/resource/image/0c/7f/0cbe8731b547c088cfc3b51240af317f.jpg?wh=1920x1234 "data part 目录结构")
+![图片](https://static001.geekbang.org/resource/image/0c/7f/0cbe8731b547c088cfc3b51240af317f.jpg?wh=1920x1234 "data part 目录结构"){: referrerpolicy="no-referrer" }
 
 结合图示，我们按从大到小的顺序看看data part的目录结构。
 
@@ -94,7 +94,7 @@ ClickHouse的表使用主键索引，才能让数据查询有更好的性能，�
 
 为了加快查询的速度，data parts内的主键索引（即稀疏索引）会被加载在内存中，并且为了配合快速查找数据在磁盘的位置，ClickHouse在data part文件夹中，会保存多个按字段名命名的mark文件，这个文件保存的是bin文件中压缩后的block的offset，以及granularity在解压后block中的offset，整体查询效果如下图：
 
-![图片](https://static001.geekbang.org/resource/image/57/82/579cbfe4421622f7ccfd4423eaf1d682.jpg?wh=1920x1234)
+![图片](https://static001.geekbang.org/resource/image/57/82/579cbfe4421622f7ccfd4423eaf1d682.jpg?wh=1920x1234){: referrerpolicy="no-referrer" }
 
 具体查询过程是这样的，我们先用二分法查找内存里的主键索引，定位到特定的mark文件，再根据mark查找到对应的block，将其加载到内存，之后在block里找到指定的granule开始遍历加工，直到查到需要的数据。
 
@@ -218,7 +218,7 @@ ClickHouse作为OLAP的新秀代表，拥有很多独特的设计，它引起了
 
 我还特意为你整理了一张评估表格，贴在了文稿里。
 
-![图片](https://static001.geekbang.org/resource/image/e5/43/e5831f077fd1c70f3793c7a94e36f743.jpg?wh=1920x1128)
+![图片](https://static001.geekbang.org/resource/image/e5/43/e5831f077fd1c70f3793c7a94e36f743.jpg?wh=1920x1128){: referrerpolicy="no-referrer" }
 
 ## 思考题
 

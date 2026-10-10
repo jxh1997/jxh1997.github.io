@@ -69,7 +69,7 @@
 
 下图显示了在秒杀场景中需要Redis参与的两个环节：
 
-![](https://static001.geekbang.org/resource/image/7c/1b/7c3e5def912d7c8c45bca00f955d751b.jpg?wh=2176%2A1582)
+![](https://static001.geekbang.org/resource/image/7c/1b/7c3e5def912d7c8c45bca00f955d751b.jpg?wh=2176%2A1582){: referrerpolicy="no-referrer" }
 
 了解需求后，我们使用Redis来支撑秒杀场景的方法就比较清晰了。接下来，我向你介绍两种方法。
 

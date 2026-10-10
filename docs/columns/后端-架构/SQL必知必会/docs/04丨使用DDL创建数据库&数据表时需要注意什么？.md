@@ -46,15 +46,15 @@ CREATE TABLE player  (
 
 假如还是针对player这张表，我们想设计以下的字段：
 
-![](https://static001.geekbang.org/resource/image/49/dd/4925e0c2a1342f4b19d29f0d665afbdd.png?wh=627%2A162)  
+![](https://static001.geekbang.org/resource/image/49/dd/4925e0c2a1342f4b19d29f0d665afbdd.png?wh=627%2A162)  {: referrerpolicy="no-referrer" }
 其中player\_id是数据表player的主键，且自动增长，也就是player\_id会从1开始，然后每次加1。player\_id、team\_id、player\_name 这三个字段均不为空，height字段可以为空。
 
 按照上面的设计需求，我们可以使用Navicat软件进行设计，如下所示：
 
-![](https://static001.geekbang.org/resource/image/cc/ef/cca134810dee3f5de5413482103367ef.png?wh=1589%2A384)  
+![](https://static001.geekbang.org/resource/image/cc/ef/cca134810dee3f5de5413482103367ef.png?wh=1589%2A384)  {: referrerpolicy="no-referrer" }
 然后，我们还可以对player\_name字段进行索引，索引类型为`Unique`。使用Navicat设置如下：
 
-![](https://static001.geekbang.org/resource/image/9a/5b/9a806e7be2f61c64a034ee8a422ea55b.png?wh=1266%2A211)  
+![](https://static001.geekbang.org/resource/image/9a/5b/9a806e7be2f61c64a034ee8a422ea55b.png?wh=1266%2A211)  {: referrerpolicy="no-referrer" }
 这样一张player表就通过可视化工具设计好了。我们可以把这张表导出来，可以看看这张表对应的SQL语句是怎样的。方法是在Navicat左侧用右键选中player这张表，然后选择“转储SQL文件”→“仅结构”，这样就可以看到导出的SQL文件了，代码如下：
 
 ```
@@ -175,7 +175,7 @@ RDBMS的核心在于对实体和联系的定义，也就是E-R图（Entity Relat
 
 当然，了解了如何操作创建数据表之后，你还需要动脑思考，怎样才能设计出一个好的数据表？设计的原则都有哪些？针对这个，我整理出了“三少一多”原则，在实际使用过程中，你需要灵活掌握，因为这个原则并不是绝对的，有时候我们需要牺牲数据的冗余度来换取数据处理的效率。
 
-![](https://static001.geekbang.org/resource/image/80/c1/80aecedfad59aad06cc08bb9bca721c1.jpg?wh=3296%2A2313)  
+![](https://static001.geekbang.org/resource/image/80/c1/80aecedfad59aad06cc08bb9bca721c1.jpg?wh=3296%2A2313)  {: referrerpolicy="no-referrer" }
 我们在创建数据表的时候，会对数据表设置主键、外键和索引。你能说下这三者的作用和区别吗？
 
 欢迎你在评论区写下你的答案，我会和你一起交流，也欢迎把这篇文章分享给你的朋友或者同事。

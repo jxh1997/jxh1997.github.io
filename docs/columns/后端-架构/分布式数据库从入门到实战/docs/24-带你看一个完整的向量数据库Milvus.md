@@ -20,7 +20,7 @@ Milvus支持数据分片、动态Schema、单向量检索、多向量检索、�
 
 ## Milvus架构
 
-![图片](https://static001.geekbang.org/resource/image/7d/fa/7d8a3f8201fd61b7b5d6b7105c1755fa.png?wh=2280x1280 "图片源自网络")
+![图片](https://static001.geekbang.org/resource/image/7d/fa/7d8a3f8201fd61b7b5d6b7105c1755fa.png?wh=2280x1280 "图片源自网络"){: referrerpolicy="no-referrer" }
 
 从架构上来看，Milvus服务包括四层：访问层、协调服务层、工作节点和存储。这几个分层在弹性伸缩与故障恢复上可以相互独立。
 
@@ -196,7 +196,7 @@ res = client.insert(
 
 上面的代码片段，为两个用户随机准备了1000条记录，然后插入了我们之前创建的以user\_id作为partition key的collection。从下面的图可以看到，这两个用户的数据，就是分布到了两个partition。
 
-![图片](https://static001.geekbang.org/resource/image/32/3a/32c7bde103dec57654eb7bf830dac33a.png?wh=2260x1872)
+![图片](https://static001.geekbang.org/resource/image/32/3a/32c7bde103dec57654eb7bf830dac33a.png?wh=2260x1872){: referrerpolicy="no-referrer" }
 
 接下来就可以开始检索数据了，在Milvus中，基于标量字段的查询被称为Query，基于向量字段的查询被称为Search。
 
@@ -249,7 +249,7 @@ Milvus支持给向量字段、标量字段创建索引。具体怎么索引呢�
 
 **In-Memory Index是最常用的向量索引方式，向量索引基于内存存储**。其实跟Faiss类似，支持多种ANNS算法索引与度量方式，两者组合就形成了一个索引类型。以浮点数向量索引为列，你可以参考下表：
 
-![图片](https://static001.geekbang.org/resource/image/82/89/82efe05c26fb2b9e9f660d1d7eef6389.png?wh=2916x1516)
+![图片](https://static001.geekbang.org/resource/image/82/89/82efe05c26fb2b9e9f660d1d7eef6389.png?wh=2916x1516){: referrerpolicy="no-referrer" }
 
 ```shell
 index_params.add_index(
@@ -276,7 +276,7 @@ index_params.add_index(
 
 同样你可以参考下表GPU索引支持的索引类型与度量方式**。**
 
-![图片](https://static001.geekbang.org/resource/image/b2/a4/b20c5cbe11c6fbc129af3821e5a320a4.png?wh=2916x1316)
+![图片](https://static001.geekbang.org/resource/image/b2/a4/b20c5cbe11c6fbc129af3821e5a320a4.png?wh=2916x1316){: referrerpolicy="no-referrer" }
 
 你可以在[这里](https://github.com/ZHAMoonlight/referencebook/tree/master/python/ls24)找到完整的代码清单，帮你理解、测试Milvus。
 

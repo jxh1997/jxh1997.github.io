@@ -13,7 +13,7 @@
 
 ### 选择题
 
-[![](https://static001.geekbang.org/resource/image/28/a4/28d1be62669b4f3cc01c36466bf811a4.png)](http://time.geekbang.org/quiz/intro?act_id=926&exam_id=2699)
+[![](https://static001.geekbang.org/resource/image/28/a4/28d1be62669b4f3cc01c36466bf811a4.png)](http://time.geekbang.org/quiz/intro?act_id=926&exam_id=2699){: referrerpolicy="no-referrer" }
 
 ### 问答题
 

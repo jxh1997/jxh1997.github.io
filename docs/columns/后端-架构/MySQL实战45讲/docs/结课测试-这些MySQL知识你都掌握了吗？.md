@@ -6,7 +6,7 @@
 
 还等什么，点击下面按钮开始测试吧！
 
-[![](https://static001.geekbang.org/resource/image/28/a4/28d1be62669b4f3cc01c36466bf811a4.png?wh=1142%2A201)](http://time.geekbang.org/quiz/intro?act_id=109&exam_id=232)
+[![](https://static001.geekbang.org/resource/image/28/a4/28d1be62669b4f3cc01c36466bf811a4.png?wh=1142%2A201)](http://time.geekbang.org/quiz/intro?act_id=109&exam_id=232){: referrerpolicy="no-referrer" }
 <div><strong>精选留言（15）</strong></div><ul>
 <li><span>Miles Shuai</span> 👍（5） 💬（2）<p>第三题中 D选项 为啥不对？
 如果是阻塞等待超时，会根据innodb_rollback_on_timeout配置判断是否回滚。

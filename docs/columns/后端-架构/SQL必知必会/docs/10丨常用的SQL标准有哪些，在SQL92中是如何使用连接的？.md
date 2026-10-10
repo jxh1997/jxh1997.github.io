@@ -26,10 +26,10 @@ SQL有两个主要的标准，分别是SQL92和SQL99。92和99代表了标准提
 
 其中player表为球员表，一共有37个球员，如下所示：
 
-![](https://static001.geekbang.org/resource/image/e3/1b/e327a3eeeb7a7195a7ae0703ebd8e51b.png?wh=879%2A387)  
+![](https://static001.geekbang.org/resource/image/e3/1b/e327a3eeeb7a7195a7ae0703ebd8e51b.png?wh=879%2A387)  {: referrerpolicy="no-referrer" }
 team表为球队表，一共有3支球队，如下所示：
 
-![](https://static001.geekbang.org/resource/image/b5/39/b5228a60a4ccffa5b2848fe82d575239.png?wh=820%2A225)  
+![](https://static001.geekbang.org/resource/image/b5/39/b5228a60a4ccffa5b2848fe82d575239.png?wh=820%2A225)  {: referrerpolicy="no-referrer" }
 有了这两个数据表之后，我们再来看下SQL92中的5种连接方式，它们分别是笛卡尔积、等值连接、非等值连接、外连接（左连接、右连接）和自连接。
 
 ### 笛卡尔积
@@ -58,7 +58,7 @@ SQL: SELECT * FROM player, team
 
 运行结果（一共37\*3=111条记录）：
 
-![](https://static001.geekbang.org/resource/image/2e/37/2e66048cba86811a740a85f68d81c537.png?wh=874%2A264)  
+![](https://static001.geekbang.org/resource/image/2e/37/2e66048cba86811a740a85f68d81c537.png?wh=874%2A264)  {: referrerpolicy="no-referrer" }
 笛卡尔积也称为交叉连接，英文是CROSS JOIN，它的作用就是可以把任意表进行连接，即使这两张表不相关。但我们通常进行连接还是需要筛选的，因此你需要在连接后面加上WHERE子句，也就是作为过滤条件对连接数据进行筛选。比如后面要讲到的等值连接。
 
 ### 等值连接
@@ -73,7 +73,7 @@ SQL: SELECT player_id, player.team_id, player_name, height, team_name FROM playe
 
 运行结果（一共37条记录）：
 
-![](https://static001.geekbang.org/resource/image/28/d9/282aa15e7d02c60e9ebba8a0cc9134d9.png?wh=1104%2A400)  
+![](https://static001.geekbang.org/resource/image/28/d9/282aa15e7d02c60e9ebba8a0cc9134d9.png?wh=1104%2A400)  {: referrerpolicy="no-referrer" }
 我们在进行等值连接的时候，可以使用表的别名，这样会让SQL语句更简洁：
 
 ```
@@ -92,7 +92,7 @@ SELECT player_id, player.team_id, player_name, height, team_name FROM player AS 
 
 这里我创建一个身高级别表height\_grades，如下所示：
 
-![](https://static001.geekbang.org/resource/image/cf/68/cf5ea984ba0c4501c5a4e1eec19e5b68.png?wh=849%2A278)  
+![](https://static001.geekbang.org/resource/image/cf/68/cf5ea984ba0c4501c5a4e1eec19e5b68.png?wh=849%2A278)  {: referrerpolicy="no-referrer" }
 我们知道player表中有身高height字段，如果想要知道每个球员的身高的级别，可以采用非等值连接查询。
 
 ```
@@ -103,7 +103,7 @@ WHERE p.height BETWEEN h.height_lowest AND h.height_highest
 
 运行结果（37条记录）：
 
-![](https://static001.geekbang.org/resource/image/fa/84/fa049e7e186978e7086eb8e157fdc284.png?wh=876%2A342)
+![](https://static001.geekbang.org/resource/image/fa/84/fa049e7e186978e7086eb8e157fdc284.png?wh=876%2A342){: referrerpolicy="no-referrer" }
 
 ### 外连接
 
@@ -149,7 +149,7 @@ SQL：SELECT b.player_name, b.height FROM player as a , player as b WHERE a.play
 
 运行结果（6条记录）：
 
-![](https://static001.geekbang.org/resource/image/05/94/05e4bf92df00e243601ca2d763fabb94.png?wh=820%2A385)  
+![](https://static001.geekbang.org/resource/image/05/94/05e4bf92df00e243601ca2d763fabb94.png?wh=820%2A385)  {: referrerpolicy="no-referrer" }
 如果不用自连接的话，需要采用两次SQL查询。首先需要查询布雷克·格里芬的身高。
 
 ```
@@ -174,7 +174,7 @@ SQL：SELECT player_name, height FROM player WHERE height > 2.08
 
 当然我们也要注意到SQL标准的变化，以及不同数据库管理系统使用时的差别，比如Oracle对SQL92支持较好，而MySQL则不支持SQL92的外连接。
 
-![](https://static001.geekbang.org/resource/image/e4/0d/e473b216f11cfa7696371bfeadba220d.jpg?wh=3341%2A1410)  
+![](https://static001.geekbang.org/resource/image/e4/0d/e473b216f11cfa7696371bfeadba220d.jpg?wh=3341%2A1410)  {: referrerpolicy="no-referrer" }
 我今天讲解了SQL的连接操作，你能说说内连接、外连接和自连接指的是什么吗？另外，你不妨拿案例中的team表做一道动手题，表格中一共有3支球队，现在这3支球队需要进行比赛，请用一条SQL语句显示出所有可能的比赛组合。
 
 欢迎你在评论区写下你的答案，也欢迎把这篇文章分享给你的朋友或者同事，与他们一起交流一下。

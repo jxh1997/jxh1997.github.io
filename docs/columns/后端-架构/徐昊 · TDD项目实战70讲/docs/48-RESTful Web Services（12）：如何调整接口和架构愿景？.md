@@ -33,7 +33,7 @@ static class Router implements ResourceRouter {
 
 构想中的架构愿景是这样的：
 
-![](https://static001.geekbang.org/resource/image/a2/cb/a2e9416a553cea8a5ab079a716eb30cb.jpg?wh=2072x1215)
+![](https://static001.geekbang.org/resource/image/a2/cb/a2e9416a553cea8a5ab079a716eb30cb.jpg?wh=2072x1215){: referrerpolicy="no-referrer" }
 
 ## 视频演示
 

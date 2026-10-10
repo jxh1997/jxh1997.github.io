@@ -6,7 +6,7 @@
 
 那为什么要先做这件事情呢？这里多说一句，其实D4的前两部分Discovery和Define合起来，就是一个在企业级先发散再收敛的过程。我们公司内部对这个过程有一个称呼，叫作Portfolio Discovery，简称为PD。实际实施时，PD是一个4～8周的头脑风暴工作坊，下图为你展示了一个完整的PD工作坊路线图，帮助你理解。
 
-![](https://static001.geekbang.org/resource/image/9e/48/9e1d2d060ffba969f9b482b1681f3a48.jpeg?wh=1920%2A1080)
+![](https://static001.geekbang.org/resource/image/9e/48/9e1d2d060ffba969f9b482b1681f3a48.jpeg?wh=1920%2A1080){: referrerpolicy="no-referrer" }
 
 对于中台的整体规划，也就是回答要不要建中台、建哪些中台、谁先建谁后建这些问题，我们现在也是通过PD这样一个过程来评估和判断的。那你可能会有疑问，为什么PD这样一个方法，可以帮助我们做中台的规划判断呢？这里我们先简单来说明一下。
 
@@ -23,7 +23,7 @@ Portfolio Discovery翻译成中文就是投资组合规划，应用在企业里�
 
 而建中台只不过是其中的一个潜在选项而已，潜在的解决方案之一，即基于企业的战略和现状，我们需要在应用架构中添加一个中台层来解决目前企业遇到的问题。
 
-![](https://static001.geekbang.org/resource/image/7e/f0/7e3a9824ed3b3c413e372517116f64f0.jpg?wh=1359%2A675)
+![](https://static001.geekbang.org/resource/image/7e/f0/7e3a9824ed3b3c413e372517116f64f0.jpg?wh=1359%2A675){: referrerpolicy="no-referrer" }
 
 中台这种解决方案到底适合不适合企业，仍然是需要调研和判断的。所以，如果我们一开始就把中台作为一个确定的既定方向，难免会限制住我们的视野，有可能会错过比中台更好、更简单、更有效的解决方案，或是过早地进行过度设计，在根本不需要中台的场景下，大张旗鼓地开展中台建设，劳民伤财。
 
@@ -64,7 +64,7 @@ Portfolio Discovery翻译成中文就是投资组合规划，应用在企业里�
 
 下面是我们经常用到的战略平衡三角形，可以帮助你理解战略这个相对较虚的概念。
 
-![](https://static001.geekbang.org/resource/image/bf/72/bfb25666ac33363d5ce70507483d0e72.jpg?wh=1920%2A714)
+![](https://static001.geekbang.org/resource/image/bf/72/bfb25666ac33363d5ce70507483d0e72.jpg?wh=1920%2A714){: referrerpolicy="no-referrer" }
 
 通过这个战略平衡三角形，我们简单地做一些数学变换，就可以解释“企业战略分解”到底是什么了。下面这个推导过程，可能有些烧脑，如果一时理解不了可以多看几遍，相信会对你理解战略这个词有很大的帮助。
 
@@ -77,7 +77,7 @@ Portfolio Discovery翻译成中文就是投资组合规划，应用在企业里�
 
 精益价值树是一种以价值成效为导向，用于分析和沟通业务愿景、战略与投资的工具。它的核心是建立从愿景、目标到投资举措自上而下的对齐，因此采用一种逐层分解的树形结构，如下示意图：
 
-![](https://static001.geekbang.org/resource/image/84/6c/84e4ea6c74157c2246f10a6c895f776c.jpeg?wh=1920%2A1080)
+![](https://static001.geekbang.org/resource/image/84/6c/84e4ea6c74157c2246f10a6c895f776c.jpeg?wh=1920%2A1080){: referrerpolicy="no-referrer" }
 
 这个过程，就是我说的自上而下的战略分解过程。而某一个中台，它可能只是最终推导出的一个具体的举措而已，向上还是要能追溯到对于企业愿景和目标的关联性和价值上，匹配和对应企业的愿景目标。
 
@@ -112,7 +112,7 @@ Portfolio Discovery翻译成中文就是投资组合规划，应用在企业里�
 
 整个PD的过程（包括下一讲要讲到的Define过程）我们都是以工作坊的方式进行的，相关角色在一起头脑风暴、充分讨论，产生最后的成果，整个过程非常轻量高效。
 
-![](https://static001.geekbang.org/resource/image/71/cc/71fafa04595e38a4857ccefd9e63d0cc.png?wh=478%2A210)
+![](https://static001.geekbang.org/resource/image/71/cc/71fafa04595e38a4857ccefd9e63d0cc.png?wh=478%2A210){: referrerpolicy="no-referrer" }
 
 而完成了PD中的前半部分Discovery后，下一步就是要根据这些收集到的原料信息，进行信息的分析整合，收敛形成具体的中台建设规划，也就是PD的后半部分，Define的过程，我将在下一讲中为你介绍。
 

@@ -61,13 +61,13 @@ XA是一个分布式事务协议，规定了事务管理器和资源管理器接
 
 第一阶段：订单系统中将与用户A有关的订单数据库锁住，准备好增加一条关于用户A购买100件T恤的信息，并将同意消息“Yes”回复给协调者。而库存系统由于T恤库存不足，出货失败，因此向协调者回复了一个终止消息“No”。
 
-![](https://static001.geekbang.org/resource/image/8a/6a/8a880c358c5f1a1fe9c8cc8179d6b56a.png?wh=471%2A444)
+![](https://static001.geekbang.org/resource/image/8a/6a/8a880c358c5f1a1fe9c8cc8179d6b56a.png?wh=471%2A444){: referrerpolicy="no-referrer" }
 
 第二阶段：由于库存系统操作不成功，因此，协调者就会向订单系统和库存系统发送“DoAbort”消息。订单系统接收到“DoAbort”消息后，将系统内的数据退回到没有用户A购买100件T恤的版本，并释放锁住的数据库资源。订单系统和库存系统完成操作后，向协调者发送“HaveCommitted”消息，表示完成了事务的撤销操作。
 
 至此，用户A购买100件T恤这一事务已经结束，用户A购买失败。
 
-![](https://static001.geekbang.org/resource/image/bd/5c/bd73d10eb000ee554a448d169344f95c.png?wh=552%2A495)
+![](https://static001.geekbang.org/resource/image/bd/5c/bd73d10eb000ee554a448d169344f95c.png?wh=552%2A495){: referrerpolicy="no-referrer" }
 
 由上述流程可以看出，**二阶段提交的算法思路可以概括为**：协调者向参与者下发请求事务操作，参与者接收到请求后，进行相关操作并将操作结果通知协调者，协调者根据所有参与者的反馈结果决定各参与者是要提交操作还是撤销操作。
 
@@ -97,7 +97,7 @@ XA是一个分布式事务协议，规定了事务管理器和资源管理器接
 
 CanCommit阶段不同节点之间的事务请求成功和失败的流程，如下所示。
 
-![](https://static001.geekbang.org/resource/image/56/7c/56fe63b378ed63d24e318af22419bb7c.png?wh=752%2A458)
+![](https://static001.geekbang.org/resource/image/56/7c/56fe63b378ed63d24e318af22419bb7c.png?wh=752%2A458){: referrerpolicy="no-referrer" }
 
 当协调者接收到所有参与者回复的消息后，进入预提交阶段（PreCommit阶段）。
 
@@ -115,7 +115,7 @@ CanCommit阶段不同节点之间的事务请求成功和失败的流程，如�
 
 预提交阶段，不同节点上事务执行成功和失败的流程，如下所示。
 
-![](https://static001.geekbang.org/resource/image/4e/45/4edc9b1a1248825d62db5b9107b09045.png?wh=754%2A458)
+![](https://static001.geekbang.org/resource/image/4e/45/4edc9b1a1248825d62db5b9107b09045.png?wh=754%2A458){: referrerpolicy="no-referrer" }
 
 预提交阶段保证了在最后提交阶段（DoCmmit阶段）之前所有参与者的状态是一致的。
 
@@ -134,7 +134,7 @@ DoCmmit阶段进行真正的事务提交，根据PreCommit阶段协调者发送�
 
 执行阶段不同节点上事务执行成功和失败(事务中断)的流程，如下所示。
 
-![](https://static001.geekbang.org/resource/image/7e/0f/7e332feee4fb6b6fd67689b66cc2610f.png?wh=797%2A487)
+![](https://static001.geekbang.org/resource/image/7e/0f/7e332feee4fb6b6fd67689b66cc2610f.png?wh=797%2A487){: referrerpolicy="no-referrer" }
 
 3PC协议在协调者和参与者均引入了超时机制。即当参与者在预提交阶段向协调者发送 Ack消息后，如果长时间没有得到协调者的响应，在默认情况下，参与者会自动将超时的事务进行提交，从而减少整个集群的阻塞时间，在一定程度上减少或减弱了2PC中出现的同步阻塞问题。
 
@@ -150,17 +150,17 @@ DoCmmit阶段进行真正的事务提交，根据PreCommit阶段协调者发送�
 
 基于消息中间件协商多个节点分布式事务执行操作的示意图，如下所示。
 
-![](https://static001.geekbang.org/resource/image/9c/30/9c48c611124574c64806f45f62f8b130.png?wh=771%2A591)
+![](https://static001.geekbang.org/resource/image/9c/30/9c48c611124574c64806f45f62f8b130.png?wh=771%2A591){: referrerpolicy="no-referrer" }
 
 仍然以网上购物为例。假设用户A在某电商平台下了一个订单，需要支付50元，发现自己的账户余额共150元，就使用余额支付，支付成功之后，订单状态修改为支付成功，然后通知仓库发货。
 
 在该事件中，涉及到了订单系统、支付系统、仓库系统，这三个系统是相互独立的应用，通过远程服务进行调用。
 
-![](https://static001.geekbang.org/resource/image/f6/45/f687a6a05dac8e974a4dac04e1ce1a45.png?wh=901%2A543)
+![](https://static001.geekbang.org/resource/image/f6/45/f687a6a05dac8e974a4dac04e1ce1a45.png?wh=901%2A543){: referrerpolicy="no-referrer" }
 
 根据基于分布式消息的最终一致性方案，用户A通过终端手机首先在订单系统上操作，通过消息队列完成整个购物流程。然后整个购物的流程如下所示。
 
-![](https://static001.geekbang.org/resource/image/d9/a4/d9b2d32660e49a4ea613871337b570a4.png?wh=919%2A502)
+![](https://static001.geekbang.org/resource/image/d9/a4/d9b2d32660e49a4ea613871337b570a4.png?wh=919%2A502){: referrerpolicy="no-referrer" }
 
 1. 订单系统把订单消息发给消息中间件，消息状态标记为“待确认”。
 2. 消息中间件收到消息后，进行消息持久化操作，即在消息存储系统中新增一条状态为“待发送”的消息。
@@ -186,7 +186,7 @@ DoCmmit阶段进行真正的事务提交，根据PreCommit阶段协调者发送�
 
 现在，为了方便你理解并记忆这三种方法，我总结了一张表格，从算法一致性、执行方式、性能等角度进行了对比：
 
-![](https://static001.geekbang.org/resource/image/9c/2b/9c789a486aa8df6d9d12182b953a862b.jpg?wh=3826%2A2049)
+![](https://static001.geekbang.org/resource/image/9c/2b/9c789a486aa8df6d9d12182b953a862b.jpg?wh=3826%2A2049){: referrerpolicy="no-referrer" }
 
 ## 知识扩展：刚性事务与柔性事务
 
@@ -219,7 +219,7 @@ BASE理论为了支持大型分布式系统，通过牺牲强一致性，保证�
 
 我将实现分布式事务常用的三个算法整理为了一张思维导图，以帮助你加深理解与记忆。
 
-![](https://static001.geekbang.org/resource/image/3d/13/3dabbddf3eab0297c2d154245ccb3c13.png?wh=795%2A777)
+![](https://static001.geekbang.org/resource/image/3d/13/3dabbddf3eab0297c2d154245ccb3c13.png?wh=795%2A777){: referrerpolicy="no-referrer" }
 
 ## 思考题
 

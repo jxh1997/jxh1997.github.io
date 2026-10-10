@@ -10,7 +10,7 @@
 
 首先来看一下Kafka的架构图。
 
-![](https://static001.geekbang.org/resource/image/39/5a/39d54678ca944b19d2470521dfbec15a.jpg?wh=10666x5048)
+![](https://static001.geekbang.org/resource/image/39/5a/39d54678ca944b19d2470521dfbec15a.jpg?wh=10666x5048){: referrerpolicy="no-referrer" }
 
 如上图所示，Kafka 由 Producer、Broker、ZooKeeper、Consumer 四个模块组成。其中，ZooKeeper 用来存储元数据信息，集群中所有元数据都持久化存储在ZooKeeper 当中。
 
@@ -44,13 +44,13 @@ Kafka 服务端的网络层是基于 Java NIO和Reactor 来开发的，通过多
 
 ZooKeeper是一个单独的开源项目，它自带了集群组网、数据一致性、持久化存储、监听机制等等完整的能力。它的底层是基于Zab协议组件集群，有Leader节点和Slave节点的概念，数据写入全部在Leader节点完成，Slave负责数据的读取工作。
 
-![](https://static001.geekbang.org/resource/image/5e/78/5ed6a93804949915ebf406e7d76a7e78.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/5e/78/5ed6a93804949915ebf406e7d76a7e78.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 从ZooKeeper的角度来看，**Kafka只是它的一个使用者**，Kafka用ZooKeeper的标准使用方式向ZooKeeper集群上写入、删除、更新数据，以完成Kafka的元数据管理、集群构建等工作。所以每台Broker启动时，都会在ZooKeeper注册、监听一些节点信息，从而感知集群的变化。
 
 另外，Kakfa 集群中的一些如消费进度信息、事务信息，分层存储元数据，以及3.0后的Raft架构相关的元数据信息，都是基于内置Topic来完成存储的。把数据存储在内置Topic中，算是一个比较巧妙的思路了，也是一个值得借鉴的技巧。Kafka 中存储不同功能的元数据信息的Topic列表如下所示：
 
-![](https://static001.geekbang.org/resource/image/62/46/6260ced9bbb35d3c9fc9185314df2d46.jpg?wh=10666x3829)
+![](https://static001.geekbang.org/resource/image/62/46/6260ced9bbb35d3c9fc9185314df2d46.jpg?wh=10666x3829){: referrerpolicy="no-referrer" }
 
 ### 消息数据
 
@@ -58,7 +58,7 @@ ZooKeeper是一个单独的开源项目，它自带了集群组网、数据一�
 
 如下图所示，当Broker收到数据后，是直接将数据写入到不同的分区文件中的。所以在消费的时候，消费者也是直接从每个分区读取数据。这个存储模型和RocketMQ、RabbitMQ都不像，这里的选择考虑和优劣势可以回顾[第05讲](https://time.geekbang.org/column/article/671725)。
 
-![](https://static001.geekbang.org/resource/image/ff/82/ffd5d608f6ffc0a2f506d098ba7f7782.jpg?wh=10666x3689)
+![](https://static001.geekbang.org/resource/image/ff/82/ffd5d608f6ffc0a2f506d098ba7f7782.jpg?wh=10666x3689){: referrerpolicy="no-referrer" }
 
 在底层数据存储中，Kafka的存储结构是以Topic和分区维度来组织的。一个分区一个目录，目录名称是TopicName + 分区号，结构如下图所示：
 
@@ -101,7 +101,7 @@ Kafka 客户端在连接 Broker 之前需要经过客户端寻址，找到目标
 
 所以在新版本的Kafka中，客户端是通过直连Broker完成寻址操作的，不会跟ZooKeeper交互。即Broker跟ZooKeeper交互，在本地缓存全量的元数据信息，然后客户端通过连接Broker拿到元数据信息，从而避免对ZooKeeper造成太大负载。
 
-![](https://static001.geekbang.org/resource/image/49/49/49ca389c31ccd15cb11e3yyb31b3d449.jpg?wh=10666x4859)
+![](https://static001.geekbang.org/resource/image/49/49/49ca389c31ccd15cb11e3yyb31b3d449.jpg?wh=10666x4859){: referrerpolicy="no-referrer" }
 
 我们知道 RocketMQ 一直是通过 NameServer 完成寻址操作的，这就是我们说的虽然RocketMQ和Kafka架构很像，但是实际的实现相差很大。
 
@@ -115,7 +115,7 @@ Kafka 客户端在连接 Broker 之前需要经过客户端寻址，找到目标
 
 Kafka 协议提供了批量（Batch）发送的语义。所以生产端会在本地先缓存数据，根据不同的分区聚合数据后，再根据一定的策略批量将数据写入到Broker。因为这个Batch机制的存在，客户端和服务端的吞吐性能会提高很多。
 
-![](https://static001.geekbang.org/resource/image/92/2b/92ce44f04a794c072c74de7dc2e48a2b.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/92/2b/92ce44f04a794c072c74de7dc2e48a2b.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 这里多讲一点，客户端批量往服务端写有两种形式：**一种是协议和内核就提供了Batch语义，一种是在业务层将一批数据聚合成一次数据发送。**这两种虽然都是批量发送，但是它们的区别在于：
 
@@ -140,7 +140,7 @@ Kafka内核是不支持HTTP协议的，如果需要支持，则需要在Broker�
 
 在早期很多管控操作都是通过操作ZooKeeper完成的。后来为了避免对ZooKeeper造成压力，所有的管控操作都会通过 Broker 再封装一次，即客户端SDK 通过Kafka Protocol调用Broker，Broker再去和ZooKeeper 交互。
 
-![](https://static001.geekbang.org/resource/image/87/69/87e542e15283f885e1ebb58dca636369.jpg?wh=10666x4478)
+![](https://static001.geekbang.org/resource/image/87/69/87e542e15283f885e1ebb58dca636369.jpg?wh=10666x4478){: referrerpolicy="no-referrer" }
 
 Kafka 命令行提供了管控、生产、消费、压测等功能，其底层就是通过客户端SDK和Broker进行交互的。我们在代码里面也可以通过客户端SDK完成相应的操作，**不用必须通过命令行**。
 

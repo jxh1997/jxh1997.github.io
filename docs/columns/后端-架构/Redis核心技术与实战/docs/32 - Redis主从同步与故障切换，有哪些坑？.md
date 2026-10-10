@@ -36,7 +36,7 @@ Redis的主从同步机制不仅可以让从库服务更多的读请求，分担
 
 我们在应用Redis时，可以周期性地运行这个流程来监测主从库间的不一致情况。为了帮助你更好地理解这个方法，我画了一张流程图，你可以看下。
 
-![](https://static001.geekbang.org/resource/image/3a/05/3a89935297fb5b76bfc4808128aaf905.jpg?wh=3000%2A2048)
+![](https://static001.geekbang.org/resource/image/3a/05/3a89935297fb5b76bfc4808128aaf905.jpg?wh=3000%2A2048){: referrerpolicy="no-referrer" }
 
 当然，监控程序可以一直监控着从库的复制进度，当从库的复制进度又赶上主库时，我们就允许客户端再次跟这些从库连接。
 
@@ -75,7 +75,7 @@ Redis的主从同步机制不仅可以让从库服务更多的读请求，分担
 
 这4个命令的参数和含义如下表所示：
 
-![](https://static001.geekbang.org/resource/image/06/e1/06e8cb2f1af320d450a29326a876f4e1.jpg?wh=2967%2A920)
+![](https://static001.geekbang.org/resource/image/06/e1/06e8cb2f1af320d450a29326a876f4e1.jpg?wh=2967%2A920){: referrerpolicy="no-referrer" }
 
 为了方便你理解，我给你举两个例子。
 
@@ -143,7 +143,7 @@ bind 192.168.10.3 192.168.10.4 192.168.10.5
 
 为了方便你掌握，我把这些坑的成因和解决方法汇总在下面的这张表中，你可以再回顾下。
 
-![](https://static001.geekbang.org/resource/image/9f/93/9fb7a033987c7b5edc661f4de58ef093.jpg?wh=2788%2A1155)
+![](https://static001.geekbang.org/resource/image/9f/93/9fb7a033987c7b5edc661f4de58ef093.jpg?wh=2788%2A1155){: referrerpolicy="no-referrer" }
 
 最后，关于主从库数据不一致的问题，我还想再给你提一个小建议：Redis中的slave-serve-stale-data配置项设置了从库能否处理数据读写命令，你可以把它设置为no。这样一来，从库只能服务INFO、SLAVEOF命令，这就可以避免在从库中读到不一致的数据了。
 

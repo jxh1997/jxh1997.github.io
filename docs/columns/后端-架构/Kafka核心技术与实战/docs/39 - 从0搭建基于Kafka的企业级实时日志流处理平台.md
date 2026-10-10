@@ -12,7 +12,7 @@
 
 下面这张图展示了基于Kafka的实时日志流处理平台的流程。
 
-![](https://static001.geekbang.org/resource/image/09/51/09e4dc28ea338ee69b5662596c0b8751.jpg?wh=2625%2A1083)
+![](https://static001.geekbang.org/resource/image/09/51/09e4dc28ea338ee69b5662596c0b8751.jpg?wh=2625%2A1083){: referrerpolicy="no-referrer" }
 
 从图中我们可以看到，日志先从Web服务器被不断地生产出来，随后被实时送入到Kafka Connect组件，Kafka Connect组件对日志进行处理后，将其灌入Kafka的某个主题上，接着发送到Kafka Streams组件，进行实时分析。最后，Kafka Streams将分析结果发送到Kafka的另一个主题上。
 
@@ -102,7 +102,7 @@ $ curl http://localhost:8083/connectors
 
 下面这张来自Kafka官网的图片，形象地展示了多个Kafka Streams应用程序组合在一起，共同实现流处理的场景。图中清晰地展示了3个Kafka Streams应用程序实例。一方面，它们形成一个组，共同参与并执行流处理逻辑的计算；另一方面，它们又都是独立的实体，彼此之间毫无关联，完全依靠Kafka Streams帮助它们发现彼此并进行协作。
 
-![](https://static001.geekbang.org/resource/image/6f/67/6fc7c835c993b48b1ef1558e02f24f67.png?wh=1950%2A1291)
+![](https://static001.geekbang.org/resource/image/6f/67/6fc7c835c993b48b1ef1558e02f24f67.png?wh=1950%2A1291){: referrerpolicy="no-referrer" }
 
 关于Kafka Streams的原理，我会在专栏后面进行详细介绍。今天，我们只要能够学会利用它提供的API编写流处理应用，帮我们找到刚刚提到的请求日志中ios端和android端发送请求数量的占比数据就行了。
 
@@ -255,7 +255,7 @@ $ bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic os-che
 
 其实，Kafka Streams提供的功能远不止做计数这么简单。今天，我只是为你展示了Kafka Streams的冰山一角。在专栏的后几讲中，我会重点向你介绍Kafka Streams组件的使用和管理，敬请期待。
 
-![](https://static001.geekbang.org/resource/image/fd/9f/fdb79f35b43cab31edb945b977cc609f.jpg?wh=2069%2A2560)
+![](https://static001.geekbang.org/resource/image/fd/9f/fdb79f35b43cab31edb945b977cc609f.jpg?wh=2069%2A2560){: referrerpolicy="no-referrer" }
 
 ## 开放讨论
 

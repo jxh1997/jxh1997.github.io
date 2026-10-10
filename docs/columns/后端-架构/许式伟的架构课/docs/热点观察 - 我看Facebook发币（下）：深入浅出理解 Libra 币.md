@@ -62,7 +62,7 @@
 
 Libra 协会总部位于瑞士日内瓦，协会成员包括分布在不同地理区域的各种企业、非营利组织、多边组织和学术机构。初始协会成员共有28家（如下图），未来计划达到100家。
 
-![](https://static001.geekbang.org/resource/image/f6/36/f609ac75b5fbff59d1cdef49990c6736.png?wh=960%2A685)  
+![](https://static001.geekbang.org/resource/image/f6/36/f609ac75b5fbff59d1cdef49990c6736.png?wh=960%2A685)  {: referrerpolicy="no-referrer" }
 加入 Libra 协会，需要支付不低于 1000 万美元来购买 Libra 投资代币，注意，它并不能简单理解为 Libra 币，两者有很大不同，它有很多特殊的权益。
 
 **其一，整个 “Libra 储备” 的处置权。**比如， Libra 储备到底放在哪里会比较安全靠谱？这是由Libra 协会决定的。但是每个成员是不是都是一票？并不是，票数是由这个成员持有的 Libra 投资代币数量决定的。具体规则，我在下面会讨论。
@@ -91,7 +91,7 @@ Libra 协会致力于尽可能减少协会的干预权。比如完全通过市�
 
 Libra 的影响面绝对超乎大部分人的想象。我们先看看一些具备技术背景的知名互联网公司 CEO 是怎么看的。具体参见下面的截图。
 
-![](https://static001.geekbang.org/resource/image/78/aa/78b46d87ae9809f58ebe40fab3056faa.png?wh=502%2A414)![](https://static001.geekbang.org/resource/image/ce/f4/ce25963fa9847dab74240a63c2967bf4.png?wh=370%2A212)
+![](https://static001.geekbang.org/resource/image/78/aa/78b46d87ae9809f58ebe40fab3056faa.png?wh=502%2A414)![](https://static001.geekbang.org/resource/image/ce/f4/ce25963fa9847dab74240a63c2967bf4.png?wh=370%2A212){: referrerpolicy="no-referrer" }
 
 显然无论王兴还是王小川，都高度重视并反复评估 Libra 带来的影响和自己应该采取的行动。
 

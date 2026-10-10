@@ -18,7 +18,7 @@
 
 这里我们可以模拟王者荣耀的英雄等级，具体等级标准如下：
 
-![](https://static001.geekbang.org/resource/image/f1/4d/f10fb49dde602525a65270c6b2af884d.png?wh=931%2A444)  
+![](https://static001.geekbang.org/resource/image/f1/4d/f10fb49dde602525a65270c6b2af884d.png?wh=931%2A444)  {: referrerpolicy="no-referrer" }
 如果想要英雄要达到最强王者的段位，那么之前需要积累112颗（9+12+16+25+25+25）星星，而达到最强王者之后还可以继续积累无上限的星星。在随机数模拟上，我们也分成两个阶段，第一个阶段模拟英雄的段位，我们使用随机数来模拟score（数值范围是1-112之间），当score=112的时候，再模拟最强王者等级中的星星个数。如果我们只用一个随机数进行模拟，会出现最强王者的比例变大的情况，显然不符合实际情况。
 
 ### 使用存储过程模拟10万名玩家数据
@@ -59,16 +59,16 @@ END
 
 然后我们使用`call insert_many_user_scores(10000,100000);`模拟生成10万名玩家的得分数据。注意在insert之前，需要先设置`autocommit=0`，也就是关闭了自动提交，然后在批量插入结束之后再手动进行COMMIT，这样做的好处是可以进行批量提交，提升插入效率。你可以看到整体的用时为5.2秒。
 
-![](https://static001.geekbang.org/resource/image/2d/5f/2d0a227b72da92e0ab79da59be28915f.png?wh=1288%2A106)
+![](https://static001.geekbang.org/resource/image/2d/5f/2d0a227b72da92e0ab79da59be28915f.png?wh=1288%2A106){: referrerpolicy="no-referrer" }
 
 如上代码所示，我用score来模拟第一阶段的星星数，如果score达到了112再来模拟score2的分数，这里我限定最强王者阶段的星星个数上限为100。同时我们还模拟了用户注册的时间，这是因为排行榜可以有两种表示方式，第二种方式需要用到这个时间。
 
 第一种表示方式为并列排行榜，也就是分数相同的情况下，允许排名并列，如下所示：
 
-![](https://static001.geekbang.org/resource/image/6e/2e/6edf318c5f4cbe7b48f6da3b65d2982e.png?wh=937%2A355)  
+![](https://static001.geekbang.org/resource/image/6e/2e/6edf318c5f4cbe7b48f6da3b65d2982e.png?wh=937%2A355)  {: referrerpolicy="no-referrer" }
 第二种为严格排行榜。当分数相同的时候，会按照第二条件来进行排序，比如按照注册时间的长短，注册时间越长的排名越靠前。这样的话，上面那个排行榜就会变成如下所示的严格排行榜。
 
-![](https://static001.geekbang.org/resource/image/6e/7e/6ec6befb0ffbc2a7a8682d309f96217e.png?wh=966%2A391)  
+![](https://static001.geekbang.org/resource/image/6e/7e/6ec6befb0ffbc2a7a8682d309f96217e.png?wh=966%2A391)  {: referrerpolicy="no-referrer" }
 你能看到当10013和10015得分相同的时候，如果按照注册时间来进行排名的话，会将10013排到10015前面。
 
 上面的数据仅仅为示意，下面我们用实际的10万条数据做一个严格排行榜（你可以点击[下载地址](https://github.com/cystanford/mysql_user_scores)下载这10万条数据， 也可以自己使用上面的存储过程来进行模拟）首先使用SQL语句进行查询：
@@ -81,7 +81,7 @@ ORDER BY score DESC, create_time ASC
 
 运行结果如下（10万条数据，用时0.17s）：
 
-![](https://static001.geekbang.org/resource/image/14/f8/14d88fd5293ac312e585ec05529473f8.png?wh=1066%2A439)  
+![](https://static001.geekbang.org/resource/image/14/f8/14d88fd5293ac312e585ec05529473f8.png?wh=1066%2A439)  {: referrerpolicy="no-referrer" }
 这里有几点需要说明。
 
 MySQL不像Oracle一样自带rownum统计行编号的功能，所以这里我们需要自己来实现rownum功能，也就是设置MySQL的变量`@rownum`，初始化为`@rownum :=0`，然后每次SELECT一条数据的时候都自动加1。
@@ -122,7 +122,7 @@ EVAL script numkeys key [key ...] arg [arg ...]
 
 下面我们通过2个例子来体会下，比如我们使用eval `"return {ARGV[1], ARGV[2]}" 0 cy 123`，代表的是传入的key的个数为0，后面有两个arg，分别为cy和123。在Lua脚本中，我们直接返回这两个参数`ARGV[1]`, `ARGV[2]`，执行结果如下：
 
-![](https://static001.geekbang.org/resource/image/f8/76/f8b92089f5eed056fdf49eae53c2d576.png?wh=1453%2A159)  
+![](https://static001.geekbang.org/resource/image/f8/76/f8b92089f5eed056fdf49eae53c2d576.png?wh=1453%2A159)  {: referrerpolicy="no-referrer" }
 比如我们要用这一条语句：
 
 ```
@@ -131,7 +131,7 @@ eval "math.randomseed(ARGV[1]); local temp = math.random(1,112); redis.call('SET
 
 这条语句代表的意思是，我们传入KEY的个数为1，参数是score，arg参数为30。在Lua脚本中使用`ARGV[1]`，也就是30作为随机数的种子，然后创建本地变量temp等于1到112之间的随机数，再使用SET方法对KEY，也就是用刚才创建的随机数对score这个字段进行赋值，结果如下：
 
-![](https://static001.geekbang.org/resource/image/b5/be/b569fe5c81ae82bd8e38cc2a93df72be.png?wh=1730%2A233)  
+![](https://static001.geekbang.org/resource/image/b5/be/b569fe5c81ae82bd8e38cc2a93df72be.png?wh=1730%2A233)  {: referrerpolicy="no-referrer" }
 然后我们在Redis中使用`GET score`对刚才设置的随机数进行读取，结果为34。
 
 另外我们还可以在命令中调用Lua脚本，使用的命令格式：
@@ -177,7 +177,7 @@ return 'Generation Completed'
 redis-cli -h localhost -p 6379 --eval insert_user_scores.lua user_score , 30 100000 10000
 ```
 
-![](https://static001.geekbang.org/resource/image/ba/94/ba8fcef75a2ea951dd31d9f7e266d094.png?wh=1729%2A159)
+![](https://static001.geekbang.org/resource/image/ba/94/ba8fcef75a2ea951dd31d9f7e266d094.png?wh=1729%2A159){: referrerpolicy="no-referrer" }
 
 ### 使用Redis实现玩家排行榜
 
@@ -211,7 +211,7 @@ ZREVRANGE user_score 0 -1 WITHSCORES
 
 同样我们可以使用`ZREVRANGE`完成前N名玩家的排名，比如我们想要统计前10名玩家，可以使用：`ZREVRANGE user_score 0 9`。
 
-![](https://static001.geekbang.org/resource/image/2e/3c/2e87be9528653b388f8a3dabedfcf23c.png?wh=1016%2A566)
+![](https://static001.geekbang.org/resource/image/2e/3c/2e87be9528653b388f8a3dabedfcf23c.png?wh=1016%2A566){: referrerpolicy="no-referrer" }
 
 ### 查询某个玩家的分数
 
@@ -221,7 +221,7 @@ ZREVRANGE user_score 0 -1 WITHSCORES
 
 如果我们想要查询玩家10001的分数可以使用：`ZSCORE user_score 10001`。
 
-![](https://static001.geekbang.org/resource/image/74/95/742b794aa98bb9cf100cce8070a8f295.png?wh=1000%2A106)
+![](https://static001.geekbang.org/resource/image/74/95/742b794aa98bb9cf100cce8070a8f295.png?wh=1000%2A106){: referrerpolicy="no-referrer" }
 
 ### 查询某个玩家的排名
 
@@ -231,7 +231,7 @@ ZREVRANGE user_score 0 -1 WITHSCORES
 
 如果我们想要查询玩家10001的排名可以使用：`ZREVRANK user_score 10001`。
 
-![](https://static001.geekbang.org/resource/image/c8/1f/c8a13f56fc4e151dd9804a9e317da91f.png?wh=1044%2A106)
+![](https://static001.geekbang.org/resource/image/c8/1f/c8a13f56fc4e151dd9804a9e317da91f.png?wh=1044%2A106){: referrerpolicy="no-referrer" }
 
 ### 对玩家的分数进行更新，同时排名进行更新
 
@@ -241,17 +241,17 @@ ZREVRANGE user_score 0 -1 WITHSCORES
 
 比如我们想对玩家10001的分数减1，可以使用：`ZINCRBY user_score -1 10001`。
 
-![](https://static001.geekbang.org/resource/image/a6/14/a644a5aa7019b1cb3b7602bca4749614.png?wh=1091%2A113)  
+![](https://static001.geekbang.org/resource/image/a6/14/a644a5aa7019b1cb3b7602bca4749614.png?wh=1091%2A113)  {: referrerpolicy="no-referrer" }
 然后我们再来查看下玩家10001的排名，使用：`ZREVRANK user_score 10001`。
 
-![](https://static001.geekbang.org/resource/image/51/54/51256aa0c27547ae508fc05049b2d554.png?wh=1034%2A109)  
+![](https://static001.geekbang.org/resource/image/51/54/51256aa0c27547ae508fc05049b2d554.png?wh=1034%2A109)  {: referrerpolicy="no-referrer" }
 你能看到排名由17153降到了18036名。
 
 ### 查询指定玩家前后M名的玩家
 
 比如我们想要查询玩家10001前后5名玩家都是谁，当前已知玩家10001的排名是18036，那么可以使用：`ZREVRANGE user_score 18031 18041`。
 
-![](https://static001.geekbang.org/resource/image/54/91/54eae0a13dea61d15752469c9d42e591.png?wh=1216%2A613)  
+![](https://static001.geekbang.org/resource/image/54/91/54eae0a13dea61d15752469c9d42e591.png?wh=1216%2A613)  {: referrerpolicy="no-referrer" }
 这样就可以得到玩家10001前后5名玩家的信息。
 
 **增加或删除某个玩家，并对排名进行更新**
@@ -262,10 +262,10 @@ ZREVRANGE user_score 0 -1 WITHSCORES
 
 比如我们想要删除玩家10001，可以使用：`ZREM user_score 10001`。
 
-![](https://static001.geekbang.org/resource/image/fe/d4/fee0dc8d42ca239427fe136375bda0d4.png?wh=941%2A113)  
+![](https://static001.geekbang.org/resource/image/fe/d4/fee0dc8d42ca239427fe136375bda0d4.png?wh=941%2A113)  {: referrerpolicy="no-referrer" }
 这样我们再来查询下排名在18031到18041的玩家是谁，使用：`ZREVRANGE user_score 18031 18041`。
 
-![](https://static001.geekbang.org/resource/image/c0/85/c06a95d1ef82cd215698585a40d91b85.png?wh=1206%2A603)  
+![](https://static001.geekbang.org/resource/image/c0/85/c06a95d1ef82cd215698585a40d91b85.png?wh=1206%2A603)  {: referrerpolicy="no-referrer" }
 你能看到玩家10001的信息被删除，同时后面的玩家排名都向前移了一位。
 
 如果我们想要增加某个玩家的数据，命令格式为`ZADD 排行榜名称 分数 玩家标识`。
@@ -274,10 +274,10 @@ ZREVRANGE user_score 0 -1 WITHSCORES
 
 这里，我们把玩家10001的信息再增加回来，使用：`ZADD user_score 93.1504697596 10001`。
 
-![](https://static001.geekbang.org/resource/image/a3/37/a3586cd0a7819d01226e5daaf2234d37.png?wh=1297%2A106)  
+![](https://static001.geekbang.org/resource/image/a3/37/a3586cd0a7819d01226e5daaf2234d37.png?wh=1297%2A106)  {: referrerpolicy="no-referrer" }
 然后我们再来看下排名在18031到18041的玩家是谁，使用：`ZREVRANGE user_score 18031 18041`。
 
-![](https://static001.geekbang.org/resource/image/18/ec/18de0c19c2dfb777632c8d0edd6e3bec.png?wh=1216%2A606)  
+![](https://static001.geekbang.org/resource/image/18/ec/18de0c19c2dfb777632c8d0edd6e3bec.png?wh=1216%2A606)  {: referrerpolicy="no-referrer" }
 你能看到插入了玩家10001的数据之后，排名又回来了。
 
 ## 总结

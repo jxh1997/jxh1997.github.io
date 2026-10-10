@@ -24,7 +24,7 @@ Webpack 的工作原理是将源代码分割成一个个模块，然后使用 lo
 
 了解了Webpack的作用之后呢，我们还需要深入了解Webpack的核心内容，为后续在项目中应用它打好基础。当然如果你想更全面地了解这个工具，也可以在课后直接访问 [Webpack的中文官网](https://www.webpackjs.com/concepts/)。
 
-![](https://static001.geekbang.org/resource/image/b2/b1/b23208380aae146dc73bf2725c8d8eb1.jpg?wh=2896x1238)
+![](https://static001.geekbang.org/resource/image/b2/b1/b23208380aae146dc73bf2725c8d8eb1.jpg?wh=2896x1238){: referrerpolicy="no-referrer" }
 
 首先我们需要详细了解Webpack的**核心概念。**这些概念对应的官网链接我也为你做了整理，方便你课后拓展学习。
 
@@ -96,7 +96,7 @@ module.exports = {
 
 具体来说，它可以接受一个输入文件，然后对其进行解析、压缩、混淆、编译等操作，最终输出一个可以供Webpack打包的模块。常见的loader包括babel-loader、css-loader、file-loader、url-loader等，你可以参考后面这张表格来了解它们的用途。
 
-![](https://static001.geekbang.org/resource/image/3a/b5/3a518fea34634d796c3e6ea9420e38b5.jpg?wh=2452x1283)
+![](https://static001.geekbang.org/resource/image/3a/b5/3a518fea34634d796c3e6ea9420e38b5.jpg?wh=2452x1283){: referrerpolicy="no-referrer" }
 
 通过loader的支持，Webpack能够更好地处理和转换不同的模块类型，从而提升开发效率和构建质量。
 
@@ -183,7 +183,7 @@ plugins: [
 
 具体的参数用途我也给你列在了下面，你大致了解就可以。
 
-![](https://static001.geekbang.org/resource/image/4f/b8/4f169b4dcd013881fcb9206ea74167b8.jpg?wh=3408x1228)
+![](https://static001.geekbang.org/resource/image/4f/b8/4f169b4dcd013881fcb9206ea74167b8.jpg?wh=3408x1228){: referrerpolicy="no-referrer" }
 
 ### 模式（mode）
 
@@ -193,7 +193,7 @@ plugins: [
 
 Webpack中的mode是一个配置选项，主要用于指定 Webpack 的工作模式。它有三种取值：none、development 和 production。三种模式具体的应用场景是后面这样。
 
-![](https://static001.geekbang.org/resource/image/07/a9/07521dc673b054235bc03329e8204da9.jpg?wh=2963x1284)
+![](https://static001.geekbang.org/resource/image/07/a9/07521dc673b054235bc03329e8204da9.jpg?wh=2963x1284){: referrerpolicy="no-referrer" }
 
 在 Webpack 的配置中，我们可以根据需求去选择不同模式去构建应用程序，具体可以通过设置 mode 属性来实现。你可以参考后面这个例子。
 
@@ -225,11 +225,11 @@ npm run build
 
 这时候就能生成生产环境下的打包文件。这个命令会编译、压缩Vue项目，并将所有的代码和资源打包成一个或多个静态文件，用于在生产环境中运行。后面的截图展示的就是对应的执行过程。
 
-![](https://static001.geekbang.org/resource/image/72/43/726cyy84decf4bf11eb90edd91aba843.jpg?wh=1585x733)
+![](https://static001.geekbang.org/resource/image/72/43/726cyy84decf4bf11eb90edd91aba843.jpg?wh=1585x733){: referrerpolicy="no-referrer" }
 
 如果你看到这张图，就代表打包成功了。这时候，你会在你的项目目录下看到一个dist访问文件，其中包含了 Vue 项目的所有静态资源，如 HTML、CSS、JS、图片等。进行到这里，我们就成功完成了项目打包。
 
-![](https://static001.geekbang.org/resource/image/bb/c0/bbb8a405b022d0a56a0ae28099e811c0.jpg?wh=1602x353)
+![](https://static001.geekbang.org/resource/image/bb/c0/bbb8a405b022d0a56a0ae28099e811c0.jpg?wh=1602x353){: referrerpolicy="no-referrer" }
 
 接下来，我们需要将生成的打包文件dist上传到Web服务器，这里你可以使用FTP等工具。我推荐你使用**FileZilla**来完成这一步**，**它支持直接的拖拽式操作，对初学者比较友好。详细的下载说明，你可以直接参考 [FileZilla中文官网](https://www.filezilla.cn/)。
 

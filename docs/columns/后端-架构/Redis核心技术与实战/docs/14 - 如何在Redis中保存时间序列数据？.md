@@ -46,7 +46,7 @@ Hash和Sorted Set组合的方式有一个明显的好处：它们是Redis内在�
 
 可以看下用Hash集合记录设备的温度值的示意图：
 
-![](https://static001.geekbang.org/resource/image/f2/be/f2e7bc4586be59aa5e7e78a5599830be.jpg?wh=2556%2A1530)
+![](https://static001.geekbang.org/resource/image/f2/be/f2e7bc4586be59aa5e7e78a5599830be.jpg?wh=2556%2A1530){: referrerpolicy="no-referrer" }
 
 当我们想要查询某个时间点或者是多个时间点上的温度数据时，直接使用HGET命令或者HMGET命令，就可以分别获得Hash集合中的一个key和多个key的value值了。
 
@@ -70,7 +70,7 @@ HMGET device:temperature 202008030905 202008030907 202008030908
 
 我还是以保存设备温度的时间序列数据为例，进行解释。下图显示了用Sorted Set集合保存的结果。
 
-![](https://static001.geekbang.org/resource/image/9e/7a/9e1214dbd5b42c5b3452ea73efc8c67a.jpg?wh=2564%2A1530)
+![](https://static001.geekbang.org/resource/image/9e/7a/9e1214dbd5b42c5b3452ea73efc8c67a.jpg?wh=2564%2A1530){: referrerpolicy="no-referrer" }
 
 使用Sorted Set保存数据后，我们就可以使用ZRANGEBYSCORE命令，按照输入的最大时间戳和最小时间戳来查询这个时间范围内的温度值了。如下所示，我们来查询一下在2020年8月3日9点7分到9点10分间的所有温度值：
 
@@ -95,7 +95,7 @@ ZRANGEBYSCORE device:temperature 202008030907 202008030910
 
 你可以看下下面这张示意图，命令1到命令N是在MULTI命令后、EXEC命令前发送的，它们会被一起执行，保证原子性。
 
-![](https://static001.geekbang.org/resource/image/c0/62/c0e2fd5834113cef92f2f68e7462a262.jpg?wh=2326%2A1338)
+![](https://static001.geekbang.org/resource/image/c0/62/c0e2fd5834113cef92f2f68e7462a262.jpg?wh=2326%2A1338){: referrerpolicy="no-referrer" }
 
 以保存设备状态信息的需求为例，我们执行下面的代码，把设备在2020年8月3日9时5分的温度，分别用HSET命令和ZADD命令写入Hash集合和Sorted Set集合。
 

@@ -50,7 +50,7 @@
 
 举个例子说明，比如有一个用户表，包含用户ID、姓名、部门编号和状态这几个字段：
 
-![](https://static001.geekbang.org/resource/image/43/48/437d6d3fb610431cfb9044781a8faa48.png?wh=1142%2A319)
+![](https://static001.geekbang.org/resource/image/43/48/437d6d3fb610431cfb9044781a8faa48.png?wh=1142%2A319){: referrerpolicy="no-referrer" }
 
 我们希望查询某个二级部门下的所有人，查询条件就是，部门代号以00028开头的所有人。下面这两个SQL，他们的查询结果是一样的，都满足要求，但是，哪个查询性能更好呢？
 
@@ -61,7 +61,7 @@ SELECT * FROM user WHERE department_code LIKE '00028%';
 
 我们分别查看一下这两个SQL的执行计划：
 
-![](https://static001.geekbang.org/resource/image/4b/74/4b50e4e1192714379ff3a4697d02a774.png?wh=1142%2A348)
+![](https://static001.geekbang.org/resource/image/4b/74/4b50e4e1192714379ff3a4697d02a774.png?wh=1142%2A348){: referrerpolicy="no-referrer" }
 
 我带你一起来分析一下这两个SQL的执行计划。首先来看rows这一列，rows的含义就是，MySQL预估执行这个SQL可能会遍历的数据行数。第一个SQL遍历了四千多行，这就是整个User表的数据条数；第二个SQL只有8行，这8行其实就是符合条件的8条记录。显然第二个SQL查询性能要远远好于第一个SQL。
 

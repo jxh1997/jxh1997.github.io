@@ -14,7 +14,7 @@
 
 我们首先来看一下京东商家开放平台全局体系的结构，如下图所示。
 
-![](https://static001.geekbang.org/resource/image/57/56/5775b5bbc363ba2f94d9f6f8e2d05d56.png?wh=1620%2A1024 "图1 京东商家开放平台体系结构示意图")
+![](https://static001.geekbang.org/resource/image/57/56/5775b5bbc363ba2f94d9f6f8e2d05d56.png?wh=1620%2A1024 "图1 京东商家开放平台体系结构示意图"){: referrerpolicy="no-referrer" }
 
 我们可以把这个架构体系分为三部分来看：
 
@@ -26,7 +26,7 @@
 
 接下来，我们再以用户小明使用小兔打单软件为例，来看看这些系统角色之间具体又是怎样交互的？
 
-![](https://static001.geekbang.org/resource/image/30/4b/30f2b2db8c01f0fc60e2d821cd59f94b.png?wh=2086%2A846 "图2 开放平台体系交互示意图")
+![](https://static001.geekbang.org/resource/image/30/4b/30f2b2db8c01f0fc60e2d821cd59f94b.png?wh=2086%2A846 "图2 开放平台体系交互示意图"){: referrerpolicy="no-referrer" }
 
 到这里，我们可以发现，在开放平台体系中各个系统角色间的交互可以归结为：
 
@@ -48,7 +48,7 @@
 
 所以在这种情况下，授权服务就要通过MQ（消息队列）接收用户的注销和修改密码这两类消息，然后对访问令牌进行清理。
 
-![](https://static001.geekbang.org/resource/image/9d/ca/9d05fa572bccec8da5c895b49a9946ca.png?wh=1550%2A734 "图3 访问令牌的清理")
+![](https://static001.geekbang.org/resource/image/9d/ca/9d05fa572bccec8da5c895b49a9946ca.png?wh=1550%2A734 "图3 访问令牌的清理"){: referrerpolicy="no-referrer" }
 
 其实，这个案例中解决访问令牌安全问题的方式，不仅仅适用于开放平台，还可以为你在企业内构建自己的OAuth 2.0授权体系结构时提供借鉴。
 
@@ -60,15 +60,15 @@
 
 我们以[微信](https://developers.weixin.qq.com/doc/oplatform/Website_App/WeChat_Login/Wechat_Login.html)、[支付宝](https://opendocs.alipay.com/open/common/105193/)、[美团](https://open.waimai.meituan.com/openapi_docs/index.html)为例，看看它们在开放授权上是如何使用OAuth 2.0 的。我们首先看一下官方的授权流程图：
 
-![](https://static001.geekbang.org/resource/image/ab/dc/abc7611d467d45bf39d8e07e0d0267dc.png?wh=1570%2A736 "图4 微信开放平台授权流程图")
+![](https://static001.geekbang.org/resource/image/ab/dc/abc7611d467d45bf39d8e07e0d0267dc.png?wh=1570%2A736 "图4 微信开放平台授权流程图"){: referrerpolicy="no-referrer" }
 
 > 引自[微信官方文档](https://developers.weixin.qq.com/doc/oplatform/Website_App/WeChat_Login/Wechat_Login.html)
 
-![](https://static001.geekbang.org/resource/image/e2/b7/e27a6836ef686e23284f9314cc3a25b7.png?wh=1534%2A1030 "图5 支付宝开放平台授权流程图")
+![](https://static001.geekbang.org/resource/image/e2/b7/e27a6836ef686e23284f9314cc3a25b7.png?wh=1534%2A1030 "图5 支付宝开放平台授权流程图"){: referrerpolicy="no-referrer" }
 
 > 引自[支付宝开放平台文档](https://opendocs.alipay.com/open/common/105193/)
 
-![](https://static001.geekbang.org/resource/image/e9/ea/e98e9ed5e607561df173262703ca3dea.png?wh=1864%2A1300 "图6 美团开放平台授权流程图")
+![](https://static001.geekbang.org/resource/image/e9/ea/e98e9ed5e607561df173262703ca3dea.png?wh=1864%2A1300 "图6 美团开放平台授权流程图"){: referrerpolicy="no-referrer" }
 
 > 引自[美团外卖开放平台](https://open.waimai.meituan.com/openapi_docs/oauth/)
 
@@ -84,13 +84,13 @@
 
 小明在使用小兔打单软件的时候，首先被小兔通过重定向的方式引导到京东商家开放平台的授权服务上，其实就是引导到了授权服务的授权端点上。这个重定向的过程中用到的参数如下：
 
-![](https://static001.geekbang.org/resource/image/0e/03/0e8394fedd9205e38c3yyc6e7bae2303.jpg?wh=1956%2A1377 "图7 重定向过程用到的参数")
+![](https://static001.geekbang.org/resource/image/0e/03/0e8394fedd9205e38c3yyc6e7bae2303.jpg?wh=1956%2A1377 "图7 重定向过程用到的参数"){: referrerpolicy="no-referrer" }
 
 这里需要强调的是，对于state参数，现在官方都是“推荐”使用。我们在[第8讲](https://time.geekbang.org/column/article/261403)中说过，OAuth 2.0官方建议的避免CSRF攻击的方式，就是使用state参数。所以安全起见，你还是应该使用。
 
 接着，京东商家开放平台授权服务的授权端点，会向小兔软件做出响应。这个响应的过程用到的基本参数，如下：
 
-![](https://static001.geekbang.org/resource/image/b6/61/b653bc541a98920001385612f2309361.jpg?wh=1956%2A533 "图8 授权端点响应小兔软件用到的参数")
+![](https://static001.geekbang.org/resource/image/b6/61/b653bc541a98920001385612f2309361.jpg?wh=1956%2A533 "图8 授权端点响应小兔软件用到的参数"){: referrerpolicy="no-referrer" }
 
 对于授权码code的值，一般建议的最长生命周期是10分钟。另外，小兔打单软件只能被允许使用一次该授权码的值，如果使用一次之后还用同样的授权码值来请求，授权服务必须拒绝。
 
@@ -98,11 +98,11 @@
 
 在拿到授权码code的值之后，接下来就是小兔打单软件向京东商家开放平台的授权服务的令牌端点发起请求，申请访问令牌。这个过程中需要传递的基本参数，如下：
 
-![](https://static001.geekbang.org/resource/image/18/7f/18c8245e61ce14c1f7a227a6e713b37f.jpg?wh=1956%2A1205 "图9 申请访问令牌需要传递的基本参数")
+![](https://static001.geekbang.org/resource/image/18/7f/18c8245e61ce14c1f7a227a6e713b37f.jpg?wh=1956%2A1205 "图9 申请访问令牌需要传递的基本参数"){: referrerpolicy="no-referrer" }
 
 在授权服务接收到小兔打单软件申请访问令牌的请求后，像授权端点一样，令牌端点也需要向小兔打单软件做出响应。这个过程涉及到的基本参数，如下：
 
-![](https://static001.geekbang.org/resource/image/1a/b5/1ac4ded2b7131b475ac71bf4b39c72b5.jpg?wh=1956%2A1118 "图10 令牌端点响应小兔软件涉及的参数")
+![](https://static001.geekbang.org/resource/image/1a/b5/1ac4ded2b7131b475ac71bf4b39c72b5.jpg?wh=1956%2A1118 "图10 令牌端点响应小兔软件涉及的参数"){: referrerpolicy="no-referrer" }
 
 对于这里返回的scope值，我要强调下，其实就是小兔软件被允许的实际的权限范围，因为小明有可能给小兔软件授予了小于它在开放平台注册时申请的权限范围。比如，小兔打单软件申请了查询历史订单、查询当天订单两个API的权限，但小明可能只给小兔授权了查询当天订单API的权限。
 

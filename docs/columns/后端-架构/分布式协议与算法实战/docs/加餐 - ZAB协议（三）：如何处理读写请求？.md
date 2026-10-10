@@ -19,7 +19,7 @@
 首先，在ZooKeeper中，与领导者“失联”的节点，是不能处理读写请求的。比如，如果一个跟随者与领导者的连接发生了读超时，设置了自己的状态为LOOKING，那么此时它既不能转发写请求给领导者处理，也不能处理读请求，只有当它“找到”领导者后，才能处理读写请求。
 
 举个例子：当发生分区故障了，C与A（领导者）、B网络不通了，那么C将设置自己的状态为LOOKING，此时在C节点上既不能执行读操作，也不能执行写操作。  
-![](https://static001.geekbang.org/resource/image/22/ad/22dfaa624590885c4b8406deb445afad.jpg?wh=1142%2A456)
+![](https://static001.geekbang.org/resource/image/22/ad/22dfaa624590885c4b8406deb445afad.jpg?wh=1142%2A456){: referrerpolicy="no-referrer" }
 
 其次，当大多数节点进入到广播阶段的时候，领导者才能提交提案，因为提案提交，需要来自大多数节点的确认。
 
@@ -33,7 +33,7 @@
 
 我先来说一说写操作，在ZooKeeper代码中，处理写请求的核心流程就像下图一样（为了帮你更好的理解这部分内容，我来演示一下复杂的情况，也就是跟随者接收到写请求的情况）。
 
-![](https://static001.geekbang.org/resource/image/c7/8a/c77c241713b154673e15083fd063428a.jpg?wh=1142%2A948)
+![](https://static001.geekbang.org/resource/image/c7/8a/c77c241713b154673e15083fd063428a.jpg?wh=1142%2A948){: referrerpolicy="no-referrer" }
 
 接下来，咱们一起走一遍核心代码的流程，加深一下印象。
 
@@ -63,7 +63,7 @@ protected void setupRequestProcessors() {
 
 需要你注意的是，跟随者节点和领导者节点的firstProcessor是不同的，这样当firstProcessor在ZooKeeperServer.submitRequestNow()中被调用时，就分别进入了跟随者和领导者的代码流程。另外，setupRequestProcessors()创建了2条处理链，就像下图的样子。
 
-![](https://static001.geekbang.org/resource/image/d5/e7/d5dfec8e64a2d3cb6f905421d5e918e7.jpg?wh=1142%2A593)
+![](https://static001.geekbang.org/resource/image/d5/e7/d5dfec8e64a2d3cb6f905421d5e918e7.jpg?wh=1142%2A593){: referrerpolicy="no-referrer" }
 
 其中，处理链1是核心处理链，最终实现了提案提交和读请求对应的数据响应。处理链2实现了提案持久化存储，并返回确认响应给领导者。
 
@@ -117,7 +117,7 @@ protected void setupRequestProcessors() {
 
 需要你注意的是，与跟随者类似，setupRequestProcessors()给领导者也创建了2条处理链（其中处理链2是在创建proposalRequestProcessor时创建的）。
 
-![](https://static001.geekbang.org/resource/image/f7/83/f780e2d141a766579ba20c3b3d0a2283.jpg?wh=1142%2A901)
+![](https://static001.geekbang.org/resource/image/f7/83/f780e2d141a766579ba20c3b3d0a2283.jpg?wh=1142%2A901){: referrerpolicy="no-referrer" }
 
 其中，处理链1是核心处理链，最终实现了写请求处理（创建提案、广播提案、提交提案）和读请求对应的数据响应。处理链2实现了提案持久化存储，并返回确认响应给领导者自己。
 
@@ -169,7 +169,7 @@ commitProcessor.commit(request);
 
 相比写操作，读操作的处理要简单很多，因为接收到读请求的节点，只需要查询本地数据，然后响应数据给客户端就可以了。读操作的核心代码流程，如图所示。
 
-![](https://static001.geekbang.org/resource/image/f4/6d/f405d2a81f374e6e63b49c469506f26d.jpg?wh=1142%2A652)
+![](https://static001.geekbang.org/resource/image/f4/6d/f405d2a81f374e6e63b49c469506f26d.jpg?wh=1142%2A652){: referrerpolicy="no-referrer" }
 
 咱们一起走一遍核心代码的流程，加深一下印象。
 

@@ -28,7 +28,7 @@ SELECT comment_id, product_id, comment_text, comment_time, user_id FROM product_
 
 运行结果：
 
-![](https://static001.geekbang.org/resource/image/3b/25/3b79db6d310ade55958199cc60f16525.png?wh=941%2A103)  
+![](https://static001.geekbang.org/resource/image/3b/25/3b79db6d310ade55958199cc60f16525.png?wh=941%2A103)  {: referrerpolicy="no-referrer" }
 运行时间为0.699s，你能看到查询效率还是比较低的。当我们对user\_id字段创建索引之后，运行时间为0.047s，不到原来查询时间的1/10，效率提升还是明显的。
 
 **3.需要经常GROUP BY和ORDER BY的列**
@@ -45,7 +45,7 @@ SELECT user_id, count(*) as num FROM product_comment group by user_id limit 100
 
 运行结果（100条记录，运行时间1.666s）：
 
-![](https://static001.geekbang.org/resource/image/19/31/196f6848455aff7fe8b2a60b1fc81731.png?wh=434%2A245)  
+![](https://static001.geekbang.org/resource/image/19/31/196f6848455aff7fe8b2a60b1fc81731.png?wh=434%2A245)  {: referrerpolicy="no-referrer" }
 如果我们对user\_id创建索引，再执行SQL语句：
 
 ```
@@ -54,7 +54,7 @@ SELECT user_id, count(*) as num FROM product_comment group by user_id limit 100
 
 运行结果（100条记录，运行时间0.042s）：
 
-![](https://static001.geekbang.org/resource/image/61/73/616c6c2dec1e700f80815e9bf34c5a73.png?wh=437%2A245)  
+![](https://static001.geekbang.org/resource/image/61/73/616c6c2dec1e700f80815e9bf34c5a73.png?wh=437%2A245)  {: referrerpolicy="no-referrer" }
 你能看到当对user\_id创建索引后，得到的结果中user\_id字段的数值也是按照顺序展示的，运行时间却不到原来时间的1/40，效率提升很明显。
 
 同样，如果是ORDER BY，也需要对字段创建索引。我们再来看下同时有GROUP BY和ORDER BY的情况。比如我们按照user\_id进行评论分组，同时按照评论时间降序的方式进行排序，这时我们就需要同时进行GROUP BY和ORDER BY，那么是不是需要单独创建user\_id的索引和comment\_time的索引呢？
@@ -67,10 +67,10 @@ SELECT user_id, count(*) as num FROM product_comment group by user_id order by c
 
 运行结果（运行时间&gt;100s）：
 
-![](https://static001.geekbang.org/resource/image/2e/f4/2ee78c19372613d84c4b10cf27037ef4.png?wh=472%2A247)  
+![](https://static001.geekbang.org/resource/image/2e/f4/2ee78c19372613d84c4b10cf27037ef4.png?wh=472%2A247)  {: referrerpolicy="no-referrer" }
 实际上多个单列索引在多条件查询时只会生效一个索引（MySQL会选择其中一个限制最严格的作为索引），所以在多条件联合查询的时候最好创建联合索引。在这个例子中，我们创建联合索引(user\_id, comment\_time)，再来看下查询的时间，查询时间为0.775s，效率提升了很多。如果我们创建联合索引的顺序为(comment\_time, user\_id)呢？运行时间为1.990s，同样比两个单列索引要快，但是会比顺序为(user\_id, comment\_time)的索引要慢一些。这是因为在进行SELECT查询的时候，先进行GROUP BY，再对数据进行ORDER BY的操作，所以按照这个联合索引的顺序效率是最高的。
 
-![](https://static001.geekbang.org/resource/image/bd/5a/bd960478632418c1e99fc0915398425a.png?wh=699%2A227)  
+![](https://static001.geekbang.org/resource/image/bd/5a/bd960478632418c1e99fc0915398425a.png?wh=699%2A227)  {: referrerpolicy="no-referrer" }
 **4.UPDATE、DELETE的WHERE条件列，一般也需要创建索引**
 
 我们刚才说的是数据检索的情况。那么当我们对某条数据进行UPDATE或者DELETE操作的时候，是否也需要对WHERE的条件列创建索引呢？
@@ -121,7 +121,7 @@ SELECT DISTINCT(user_id) FROM `product_comment`
 
 运行结果（600637条记录，运行时间2.283s）：
 
-![](https://static001.geekbang.org/resource/image/38/d2/38f7685bc8befad4bb6e5c8d5c6f7ed2.png?wh=157%2A248)  
+![](https://static001.geekbang.org/resource/image/38/d2/38f7685bc8befad4bb6e5c8d5c6f7ed2.png?wh=157%2A248)  {: referrerpolicy="no-referrer" }
 如果我们对user\_id创建索引，再执行SQL语句，看看情况又是怎样的。
 
 ```
@@ -130,7 +130,7 @@ SELECT DISTINCT(user_id) FROM `product_comment`
 
 运行结果（600637条记录，运行时间0.627s）：
 
-![](https://static001.geekbang.org/resource/image/c2/5e/c2b42b9308735a141848c176294d0d5e.png?wh=162%2A245)  
+![](https://static001.geekbang.org/resource/image/c2/5e/c2b42b9308735a141848c176294d0d5e.png?wh=162%2A245)  {: referrerpolicy="no-referrer" }
 你能看到SQL查询效率有了提升，同时显示出来的user\_id还是按照递增的顺序进行展示的。这是因为索引会对数据按照某种顺序进行排序，所以在去重的时候也会快很多。
 
 **6.做多表JOIN连接操作时，创建索引需要注意以下的原则**
@@ -150,7 +150,7 @@ WHERE comment_text = '462eed7ac6e791292a79'
 
 运行结果（1条数据，运行时间0.810s）：
 
-![](https://static001.geekbang.org/resource/image/d8/13/d8d0804d09f264db7846209498ddb813.png?wh=845%2A107)  
+![](https://static001.geekbang.org/resource/image/d8/13/d8d0804d09f264db7846209498ddb813.png?wh=845%2A107)  {: referrerpolicy="no-referrer" }
 这里我们对comment\_text创建索引，再执行上面的SQL语句，运行时间为0.046s。
 
 如果我们不使用WHERE条件查询，而是直接采用JOIN…ON…进行连接的话，即使使用了各种优化手段，总的运行时间也会很长（&gt;100s）。
@@ -304,7 +304,7 @@ EXPLAIN SELECT comment_id, user_id, comment_text FROM product_comment WHERE comm
 
 实际工作中，查询的需求多种多样，创建的索引也会越来越多。这时还需要注意，我们要尽可能扩展索引，而不是新建索引，因为索引数量过多需要维护的成本也会变大，导致写效率变低。同时，我们还需要定期查询使用率低的索引，对于从未使用过的索引可以进行删除，这样才能让索引在SQL查询中发挥最大价值。
 
-![](https://static001.geekbang.org/resource/image/81/f4/81147e99e2533126533500a087086ef4.jpg?wh=3341%2A2220)  
+![](https://static001.geekbang.org/resource/image/81/f4/81147e99e2533126533500a087086ef4.jpg?wh=3341%2A2220)  {: referrerpolicy="no-referrer" }
 针对product\_comment数据表，其中comment\_time已经创建了普通索引。假设我想查询评论时间在2018年10月1日上午10点到2018年10月2日上午10点之间的评论，SQL语句为：
 
 ```

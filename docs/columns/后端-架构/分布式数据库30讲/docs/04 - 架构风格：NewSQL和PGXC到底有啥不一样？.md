@@ -10,7 +10,7 @@
 
 要搞清楚分布式数据库的架构风格，就要先了解“数据库”的架构。当然，我们这里说的数据库仍然默认是关系型数据库。我们先通过一张架构图看看数据库的全貌。
 
-![](https://static001.geekbang.org/resource/image/02/66/0224c515b201a42725a5ed3ce9a3c366.jpg?wh=2700%2A1939)
+![](https://static001.geekbang.org/resource/image/02/66/0224c515b201a42725a5ed3ce9a3c366.jpg?wh=2700%2A1939){: referrerpolicy="no-referrer" }
 
 这张图从约瑟夫 · 海勒斯坦(Joseph M. Hellerstein)等人的论文“[Architecture of a Database System](https://dsf.berkeley.edu/papers/fntdb07-architecture.pdf)”中翻译而来。文中将数据库从逻辑上拆分为5个部分，分别是客户端通讯管理器(Client Communications Manager)、查询处理器（Relational Query Processor）、事务存储管理器（Transactional Storage Manager）、进程管理器（Process Manager）和共享组件与工具(Shared Components and Utilities)，每个部分下面又可以拆分成一些组件。
 
@@ -30,7 +30,7 @@
 
 分库分表方案就是在多个单体数据库之前增加代理节点，本质上是增加了SQL路由功能。这样，代理节点首先解析客户端请求，再根据数据的分布情况，将请求转发到对应的单体数据库。
 
-![](https://static001.geekbang.org/resource/image/1b/91/1b2f74aa08e35b6fa326065fc5527391.jpg?wh=2700%2A1001)
+![](https://static001.geekbang.org/resource/image/1b/91/1b2f74aa08e35b6fa326065fc5527391.jpg?wh=2700%2A1001){: referrerpolicy="no-referrer" }
 
 代理节点需要实现三个主要功能，它们分别是客户端接入、简单的查询处理器和进程管理中的访问控制。
 
@@ -42,13 +42,13 @@
 
 随着分布式事务和跨节点查询等功能的加入，代理节点已经不再只是简单的路由功能，更多时候会被称为协调节点。
 
-![](https://static001.geekbang.org/resource/image/fa/2f/fa871c7ecb1b2f327e1261775a512f2f.jpg?wh=2700%2A987)
+![](https://static001.geekbang.org/resource/image/fa/2f/fa871c7ecb1b2f327e1261775a512f2f.jpg?wh=2700%2A987){: referrerpolicy="no-referrer" }
 
 很多分库分表方案会演进到这个阶段，比如MyCat。这时离分布式数据库还差重要的一步，就是全局时钟。我们在[第2讲](https://time.geekbang.org/column/article/272104)已经介绍了全局时钟的意义，它是实现数据一致性的必要条件。
 
 加上这最后一块拼图，PGXC区别于单体数据库的功能也就介绍完整了，它们是分片、分布式事务、跨节点查询和全局时钟。
 
-![](https://static001.geekbang.org/resource/image/2a/4e/2a698e380e08621a2e3b7196ebdcf54e.jpg?wh=2700%2A1000)
+![](https://static001.geekbang.org/resource/image/2a/4e/2a698e380e08621a2e3b7196ebdcf54e.jpg?wh=2700%2A1000){: referrerpolicy="no-referrer" }
 
 协调节点与数据节点，实现了一定程度上的计算与存储分离，这也是所有分布式数据库的一个架构基调。但是，因为PGXC的数据节点本身就是完整的单体数据库，所以也具备很强的计算能力。
 
@@ -68,7 +68,7 @@ NewSQL的基础是NoSQL，更具体地说，是类似BigTable的分布式键值�
 
 由于NewSQL在架构上的革新性，产品实现的难度比PGXC要大，所以产品就相对少一些。Spanner是NewSQL的开山鼻祖，这个不用说了；其他知名度比较高的产品有CockroachDB、TiDB和YugabyteDB，这三款数据库都宣称设计灵感来自Spanner；另外就是阿里自研的OceanBase，因为它有一个代理层，有时会被同行质疑，但是从整体架构风格看，我还是愿意把它归为NewSQL。
 
-![](https://static001.geekbang.org/resource/image/67/87/67b03095173a1cf570cdeec485b7aa87.jpg?wh=2700%2A1086)
+![](https://static001.geekbang.org/resource/image/67/87/67b03095173a1cf570cdeec485b7aa87.jpg?wh=2700%2A1086){: referrerpolicy="no-referrer" }
 
 从系统架构上看，我个人认为，NewSQL的设计思想更加领先，具有里程碑意义，而PGXC的架构偏于保守。但PGXC的优势则在于稳健，直接采用单机数据库作为数据节点，大幅降低了工程开发的工作量，也减少了引入风险的机会。总的来说，NewSQL的长处在架构设计，PGXC的长处则在工程实现。
 
@@ -85,7 +85,7 @@ NewSQL的基础是NoSQL，更具体地说，是类似BigTable的分布式键值�
 
 今天我们从单体数据库架构出发，简单介绍了PGXC和NewSQL两种架构。为了帮助你迅速地把握要点，在内容上，我专门挑选了那些最能体现与单体数据库差异的部分。不过，这些内容尚不足以完全解释数据库的整体运作原理，但对于你理解两种架构风格的分布式数据库产品的基本框架足够了。如果你想更彻底、更全面地了解数据库架构，我建议你仔细研读“Architecture of a Database System”和另一本非常值得阅读的经典教材《数据库系统实现》。
 
-![](https://static001.geekbang.org/resource/image/ba/77/bac0b877eb2dd6abf0f6921a28d76f77.jpg?wh=2700%2A3921)
+![](https://static001.geekbang.org/resource/image/ba/77/bac0b877eb2dd6abf0f6921a28d76f77.jpg?wh=2700%2A3921){: referrerpolicy="no-referrer" }
 
 ## 思考题
 

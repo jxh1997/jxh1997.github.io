@@ -13,7 +13,7 @@
 
 在这个提示词中，我们简要地描述了需求。因为ChatGPT的回答并不是确定的，以下是我得到的结果：
 
-![](https://static001.geekbang.org/resource/image/d3/28/d30fd6113204707983cbec9e95378828.jpg?wh=1683x6638)
+![](https://static001.geekbang.org/resource/image/d3/28/d30fd6113204707983cbec9e95378828.jpg?wh=1683x6638){: referrerpolicy="no-referrer" }
 
 比起可以使用的生产代码，这更像一份在给定上下文（产品目录）下的Spring Boot教程。离生产代码还有很大差距。我们需要在现有结果的基础上给予ChatGPT反馈，让ChatGPT做出调整。比如，告诉ChatGPT这个API不允许修改或增加目录中的产品，并要求ChatGPT补充其他功能测试。
 
@@ -92,7 +92,7 @@ LLM正在改变软件开发的面貌，它们可以自动化一些编码工作�
 
 因此在这门课中，我们主要站在知识工程的角度，阐述如何从知识管理的角度理解软件开发。在软件开发的不同阶段中，提取核心知识及关键载体，将它们表示成易于LLM理解的形式。其中编码阶段的知识提取和传递，将是个人与LLM合作的核心技能。
 
-![](https://static001.geekbang.org/resource/image/9a/85/9a1f47bede7510cd12f4aee92018e485.jpg?wh=1920x708)
+![](https://static001.geekbang.org/resource/image/9a/85/9a1f47bede7510cd12f4aee92018e485.jpg?wh=1920x708){: referrerpolicy="no-referrer" }
 
 我们首先会介绍知识工程的整体框架。从识别软件中不同知识种类开始，讨论这些知识在传递过程中带来的认知行为改变，以及不同的认知行为适合哪种LLM交互模式。
 

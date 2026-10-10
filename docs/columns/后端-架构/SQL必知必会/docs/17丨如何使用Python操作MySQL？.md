@@ -10,7 +10,7 @@
 
 Python可以支持非常多的数据库管理系统，比如MySQL、Oracle、SQL Server和PostgreSQL等。为了实现对这些DBMS的统一访问，Python需要遵守一个规范，这就是DB API规范。我在下图中列出了DB API规范的作用，这个规范给我们提供了数据库对象连接、对象交互和异常处理的方式，为各种DBMS提供了统一的访问接口。这样做的好处就是如果项目需要切换数据库，Python层的代码移植会比较简单。
 
-![](https://static001.geekbang.org/resource/image/5d/7f/5d8113fc1637d1fe951e985b22e0287f.png?wh=1729%2A839)  
+![](https://static001.geekbang.org/resource/image/5d/7f/5d8113fc1637d1fe951e985b22e0287f.png?wh=1729%2A839)  {: referrerpolicy="no-referrer" }
 我们在使用Python对DBMS进行操作的时候，需要经过下面的几个步骤：
 
 1. 引入API模块；
@@ -198,7 +198,7 @@ finally:
 
 不过如果应用数据实体少，其实没有必要使用ORM框架，针对少量对象的管理，自己实现起来也很简单，比如本篇文章中我讲到的采用官方提供的mysql-connector驱动的方式来实现CRUD。引入一个框架的学习成本很高，代码膨胀也很厉害，所以如果是相对简单的操作，完全可以自己动手来实现。
 
-![](https://static001.geekbang.org/resource/image/96/d2/96cf0463992b9843ba02bb7f65cb4ed2.jpg?wh=3341%2A1512)  
+![](https://static001.geekbang.org/resource/image/96/d2/96cf0463992b9843ba02bb7f65cb4ed2.jpg?wh=3341%2A1512)  {: referrerpolicy="no-referrer" }
 使用Python对数据库进行操作，关键在于实战，所以这里我出一个练习题。请你使用Python对heros表中最大生命值大于6000的英雄进行查询，并且输出相应的属性值。
 
 欢迎在评论区写下你的答案，我会与你一起交流。也欢迎把这篇文章分享给你的朋友或者同事，与它们一起交流一下。

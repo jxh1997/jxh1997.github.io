@@ -6,7 +6,7 @@
 
 消息发送超时的情况下，客户端的日志通常是下面这样：
 
-![图片](https://static001.geekbang.org/resource/image/97/b3/9742c5e7e8ec8d1aebdc5f76b2a8c2b3.png?wh=1079x207)
+![图片](https://static001.geekbang.org/resource/image/97/b3/9742c5e7e8ec8d1aebdc5f76b2a8c2b3.png?wh=1079x207){: referrerpolicy="no-referrer" }
 
 我们这节课就从这些日志入手，看看怎样排查RocketMQ的消息发送超时故障。
 
@@ -25,7 +25,7 @@
 
 我们可以详细探究一下这背后的原理。原来，这是使用单一长连接进行网络请求的编程范式。举个例子，一条长连接向服务端先后发送了两个请求，客户端在收到服务端响应结果时，需要判断这个响应结果对应的是哪个请求。
 
-![图片](https://static001.geekbang.org/resource/image/43/0f/435035c392ea7907b9c46e59b169420f.jpg?wh=1920x581)
+![图片](https://static001.geekbang.org/resource/image/43/0f/435035c392ea7907b9c46e59b169420f.jpg?wh=1920x581){: referrerpolicy="no-referrer" }
 
 正如上图所示，客户端多个线程通过一条连接依次发送了req1，req2两个请求，服务端解码请求后，会将请求转发到线程池中异步执行。如果请求2处理得比较快，比请求1更早将结果返回给客户端，那客户端怎么识别服务端返回的数据对应的是哪个请求呢？
 
@@ -37,7 +37,7 @@
 
 我们知道消息发送时，一个非常重要的过程就是服务端写入。如果服务端出现写入瓶颈，通常会返回各种各样的Broker Busy。我们可以简单来看一下消息发送的写入流程：
 
-![图片](https://static001.geekbang.org/resource/image/9y/6c/9yy4cd8794f51ddab23cc7847943476c.jpg?wh=1920x1093)
+![图片](https://static001.geekbang.org/resource/image/9y/6c/9yy4cd8794f51ddab23cc7847943476c.jpg?wh=1920x1093){: referrerpolicy="no-referrer" }
 
 我们首先要判断的是，是不是消息写入PageCache或者磁盘写入慢导致的问题。我们这个集群采用的是异步刷盘机制，所以写磁盘这一环可以忽略。
 
@@ -50,7 +50,7 @@ grep "PAGECACHERT" store.log
 
 执行命令后，可以得到这样的结果：
 
-![图片](https://static001.geekbang.org/resource/image/28/41/28e8dcd57b18b1db9cd562796e923341.png?wh=1077x226)
+![图片](https://static001.geekbang.org/resource/image/28/41/28e8dcd57b18b1db9cd562796e923341.png?wh=1077x226){: referrerpolicy="no-referrer" }
 
 这段日志记录了消息写入到PageCache的耗时分布。通过分析我们可以知道，写入PageCache的耗时都小于100ms，所以PageCache的写入并没有产生瓶颈。不过，**客户端可是真真切切地在3秒后才收到响应结果，难道是网络问题？**
 
@@ -62,13 +62,13 @@ grep "PAGECACHERT" store.log
 
 netstat命令的执行效果如下图所示：
 
-![图片](https://static001.geekbang.org/resource/image/b3/75/b395b317544c3961c064985027026a75.png?wh=1077x244)
+![图片](https://static001.geekbang.org/resource/image/b3/75/b395b317544c3961c064985027026a75.png?wh=1077x244){: referrerpolicy="no-referrer" }
 
 解释一下，这里的Recv-Q是TCP通道的接受缓存区；Send-Q是TCP通道的发送缓存区。
 
 在TCP中，Recv-Q和Send-Q的工作机制如下图所示：
 
-![图片](https://static001.geekbang.org/resource/image/a0/1b/a0f374d6e43cf7aaeb950fc6ec634f1b.jpg?wh=1920x736)
+![图片](https://static001.geekbang.org/resource/image/a0/1b/a0f374d6e43cf7aaeb950fc6ec634f1b.jpg?wh=1920x736){: referrerpolicy="no-referrer" }
 
 正如上图描述的那样，网络通信有下面几个关键步骤。
 
@@ -78,25 +78,25 @@ netstat命令的执行效果如下图所示：
 
 运维同事分别在客户端和MQ服务器上，在服务器上写一个脚本，每500ms采集一次netstat 。最终汇总到的采集结果如下：
 
-![图片](https://static001.geekbang.org/resource/image/d2/bc/d2663e95c03913273d319eece0baaabc.png?wh=1075x234)
+![图片](https://static001.geekbang.org/resource/image/d2/bc/d2663e95c03913273d319eece0baaabc.png?wh=1075x234){: referrerpolicy="no-referrer" }
 
 从客户端来看，客户端的Recv-Q中出现大量积压，它对应的是MQ的Send-Q中的大量积压。
 
 结合Recv-Q、Send-Q的工作机制，再次怀疑可能是客户端从网络中读取字节太慢导致的。为了验证这个观点，我修改了和RocketMQ Client相关的包，加入了Netty性能采集方面的代码：
 
-![图片](https://static001.geekbang.org/resource/image/7c/4d/7c7ac37cae929419c65f4327cfbdb14d.png?wh=856x530)
+![图片](https://static001.geekbang.org/resource/image/7c/4d/7c7ac37cae929419c65f4327cfbdb14d.png?wh=856x530){: referrerpolicy="no-referrer" }
 
 我的核心思路是，针对每一次被触发的读事件，判断客户端会对一个通道进行多少次读取操作。如果一次读事件需要触发很多次的读取，说明这个通道确实积压了很多数据，网络读存在瓶颈。
 
 部分采集数据如下：
 
-![图片](https://static001.geekbang.org/resource/image/53/95/5374ce040ff2a31e2b7ce6e565762f95.png?wh=1058x102)
+![图片](https://static001.geekbang.org/resource/image/53/95/5374ce040ff2a31e2b7ce6e565762f95.png?wh=1058x102){: referrerpolicy="no-referrer" }
 
 我们可以通过awk命令对这个数据进行分析。从结果可以看出，一次读事件触发，大部分通道只要读两次就可以成功抽取读缓存区中的数据。读数据方面并不存在瓶颈。
 
 统计分析结果如下图所示：
 
-![图片](https://static001.geekbang.org/resource/image/38/ff/38c60d07ce3ff424c69e81de77dc8eff.png?wh=673x173)
+![图片](https://static001.geekbang.org/resource/image/38/ff/38c60d07ce3ff424c69e81de77dc8eff.png?wh=673x173){: referrerpolicy="no-referrer" }
 
 如此看来，瓶颈应该不在客户端，还是需要将目光转移到服务端。
 

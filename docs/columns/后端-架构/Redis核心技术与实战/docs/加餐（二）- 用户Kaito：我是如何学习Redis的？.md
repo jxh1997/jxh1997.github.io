@@ -133,7 +133,7 @@ Redis性能涉及到了CPU、内存、网络甚至磁盘的方方面面，一旦
 
 好了，这些就是我总结的Redis学习路径了，基本上是按照从易到难逐渐递进的。在学习的过程中，可以有针对性地看一些书籍，以及相关的课程，比如咱们的专栏，这些内容可以帮助你快速地提升实战能力。
 
-![](https://static001.geekbang.org/resource/image/0e/3c/0e7b8c42d1daf631b19c7164ac4bdf3c.jpg?wh=2250%2A1363)
+![](https://static001.geekbang.org/resource/image/0e/3c/0e7b8c42d1daf631b19c7164ac4bdf3c.jpg?wh=2250%2A1363){: referrerpolicy="no-referrer" }
 
 最后，我也想请你聊一聊，你是怎么学习Redis的呢？希望你能在留言区聊聊你的学习方法，我们一起交流。
 <div><strong>精选留言（15）</strong></div><ul>

@@ -62,13 +62,13 @@ FROM t_user u , t_user_event as ue
 
 以StarRocks为例，在两个表数据量相差较大的情况下，比如t\_user表数据量在几万行级别，t\_user\_event表数据量在百万到千万以上，那么这个SQL的执行计划有一个片段就是这样的：
 
-![图片](https://static001.geekbang.org/resource/image/df/7d/df5ba3777b063322c1c96e68d234257d.png?wh=338x85)
+![图片](https://static001.geekbang.org/resource/image/df/7d/df5ba3777b063322c1c96e68d234257d.png?wh=338x85){: referrerpolicy="no-referrer" }
 
 可以看到，这里采用了一种叫做Broadcast Join的方式。
 
 当两个表的数据量相当时，这个SQL的执行计划又变成了下面这张图。此时StarRocks采用了另外一种叫做Bucket Shuffle Join的方式。
 
-![图片](https://static001.geekbang.org/resource/image/3f/86/3f3cb04d09455a1b27fba4fd82882686.png?wh=403x87)
+![图片](https://static001.geekbang.org/resource/image/3f/86/3f3cb04d09455a1b27fba4fd82882686.png?wh=403x87){: referrerpolicy="no-referrer" }
 
 总结一下，这里涉及到了Hash Join、Broadcast Join、Bucket Shuffle Join这几个概念。而实际上 “Bucket Shuffle Join” 又是 “Shuffle Join” 的一种特殊形式。好了，下面我们就一个个说说这些Join。
 
@@ -78,7 +78,7 @@ FROM t_user u , t_user_event as ue
 
 你可以看下这张图，辅助理解。
 
-![图片](https://static001.geekbang.org/resource/image/a0/6b/a034a3569203bf3dce251b378987ea6b.png?wh=2802x1380)
+![图片](https://static001.geekbang.org/resource/image/a0/6b/a034a3569203bf3dce251b378987ea6b.png?wh=2802x1380){: referrerpolicy="no-referrer" }
 
 我们例子里的SQL，Hash Join大概可以分为3步。
 
@@ -106,7 +106,7 @@ Build Table就是用来构建Hash表的数据表。构建Hash表之后，Probe T
 
 下面这个图就描述了小表t\_user与大表t\_user\_event进行广播连接的过程。t\_user表的所有数据都会复制到t\_user\_event表分区数据所在的每个节点的内存，然后与这个节点上t\_user\_event表存储的分区数据进行Hash Join。
 
-![图片](https://static001.geekbang.org/resource/image/65/yc/6580193e39b7f008573cae5c19b68yyc.png?wh=2778x1306)
+![图片](https://static001.geekbang.org/resource/image/65/yc/6580193e39b7f008573cae5c19b68yyc.png?wh=2778x1306){: referrerpolicy="no-referrer" }
 
 好，我再问一个问题。我们知道了，Broadcast Join适合小表连接大表的场景，那么如果两个分布式表都是大表呢？这时候执行引擎就会选用Shuffle Join。
 
@@ -116,7 +116,7 @@ Shuffle Join将Join的A、B表都按照Join列重新进行分区，然后将A、
 
 像下面这个图一样。
 
-![图片](https://static001.geekbang.org/resource/image/ac/b4/ac801deac943d17a82efc9f91f7558b4.png?wh=2924x1256)
+![图片](https://static001.geekbang.org/resource/image/ac/b4/ac801deac943d17a82efc9f91f7558b4.png?wh=2924x1256){: referrerpolicy="no-referrer" }
 
 Shuffle Join将原来已经分区的表数据打乱，重新按照Join列分区后，将两个表相同Join列的分区传输到同一个节点。所以，有可能出现需要将A、B表的所有数据都在集群中传输一次的情况，那可能就会影响性能。那应该怎么办呢？
 
@@ -130,7 +130,7 @@ Shuffle Join将原来已经分区的表数据打乱，重新按照Join列分区�
 
 就像下面这张图。
 
-![图片](https://static001.geekbang.org/resource/image/a2/b8/a21ab2f8553f132a324061fa41d410b8.png?wh=2476x1220)
+![图片](https://static001.geekbang.org/resource/image/a2/b8/a21ab2f8553f132a324061fa41d410b8.png?wh=2476x1220){: referrerpolicy="no-referrer" }
 
 t\_user与t\_user\_event两个表的数据由user\_id分成了3个分片，正好两个表的user\_id\[1-3]分片数据都分布在节点1，user\_id\[4-6]分片的数据都分布在节点2，user\_id\[7-9]分片的数据都分布在节点3，以此类推。
 
@@ -138,7 +138,7 @@ t\_user与t\_user\_event两个表的数据由user\_id分成了3个分片，正�
 
 好了，最后来总结一下，在分布式数据库中，这几种表Join方式的适用场景。
 
-![图片](https://static001.geekbang.org/resource/image/0a/e7/0a3b2a187e505114354c3b68f52bc5e7.png?wh=3440x1284)
+![图片](https://static001.geekbang.org/resource/image/0a/e7/0a3b2a187e505114354c3b68f52bc5e7.png?wh=3440x1284){: referrerpolicy="no-referrer" }
 
 了解了几种Join方式之后，咱们再看看课程里要讲到的几种数据库表是如何Join的。
 

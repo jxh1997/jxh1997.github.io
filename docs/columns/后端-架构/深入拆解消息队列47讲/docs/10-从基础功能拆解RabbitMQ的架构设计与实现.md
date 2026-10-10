@@ -2,13 +2,13 @@
 
 在基础篇开篇的时候，我们说过最基础的消息队列应该具备**通信协议**、**网络模块**、**存储模块**、**生产者**、**消费者**五个模块。在之前的课程中，我们详细分析了这五个模块的选型、设计和实现思路，接下来我们从消息和流的角度，用四节课的篇幅分别讲一下消息方向的消息队列RabbitMQ、RocketMQ，流方向的消息队列Kafka、Pulsar，在这五个模块的实现思路和设计思想。这节课我们先讲 RabbitMQ。
 
-![](https://static001.geekbang.org/resource/image/9b/f1/9b8b5a5fe12b677377a3497c863373f1.jpg?wh=3228x1488)
+![](https://static001.geekbang.org/resource/image/9b/f1/9b8b5a5fe12b677377a3497c863373f1.jpg?wh=3228x1488){: referrerpolicy="no-referrer" }
 
 ## RabbitMQ 系统架构
 
 在正式讲解之前，我们先来看一下RabbitMQ的系统架构。
 
-![](https://static001.geekbang.org/resource/image/f8/8d/f87175e8b0e42c14bf648dfa8f18608d.jpg?wh=10666x5157)
+![](https://static001.geekbang.org/resource/image/f8/8d/f87175e8b0e42c14bf648dfa8f18608d.jpg?wh=10666x5157){: referrerpolicy="no-referrer" }
 
 如上图所示，RabbitMQ由Producer、Broker、Consumer三个大模块组成。生产者将数据发送到Broker，Broker 接收到数据后，将数据存储到对应的Queue里面，消费者从不同的Queue消费数据。
 
@@ -34,13 +34,13 @@ AMQP 是一个应用层的通信协议，可以看作一系列结构化命令的
 
 下面是一张生产消息流程的协议命令交互图，大概包含了建立连接、发送消息、关闭连接三个步骤。
 
-![](https://static001.geekbang.org/resource/image/3a/ac/3ac2a647eef108b497489ffd4ac373ac.jpg?wh=6402x6000)
+![](https://static001.geekbang.org/resource/image/3a/ac/3ac2a647eef108b497489ffd4ac373ac.jpg?wh=6402x6000){: referrerpolicy="no-referrer" }
 
 讲完了协议，我们来看看网络模块。
 
 先来看下面这张图，在RabbitMQ的网络层有Connectoion和Channel 两个概念需要关注。
 
-![](https://static001.geekbang.org/resource/image/ea/45/ea2d2d5554a916929e2c26a3dd0aa145.jpg?wh=10666x3102)
+![](https://static001.geekbang.org/resource/image/ea/45/ea2d2d5554a916929e2c26a3dd0aa145.jpg?wh=10666x3102){: referrerpolicy="no-referrer" }
 
 Connection 是指TCP连接，Channel 是Connection中的虚拟连接。两者的关系是：一个客户端和一个Broker之间只会建立一条TCP连接，就是指 Connection。Channel（虚拟连接）的概念在这个连接中定义，一个 Connection中可以创建多个Channel。
 
@@ -48,7 +48,7 @@ Connection 是指TCP连接，Channel 是Connection中的虚拟连接。两者的
 
 从编码实现的角度，RabbitMQ 的网络模块设计会比较简单。主要包含 tcp\_listener、tcp\_acceptor、rabbit\_reader 三个进程。如下图所示，RabbitMQ 服务端通过 tcp\_listener 监听端口，tcp\_acceptor 接收请求，rabbit\_reader 处理和返回请求。本质上来看是也是一个多线程的网络模型。
 
-![](https://static001.geekbang.org/resource/image/82/62/821c6d165ab208520114b1aa4a922462.jpg?wh=10666x4972)
+![](https://static001.geekbang.org/resource/image/82/62/821c6d165ab208520114b1aa4a922462.jpg?wh=10666x4972){: referrerpolicy="no-referrer" }
 
 接下来我们看看 RabbitMQ 的存储模块。
 
@@ -56,7 +56,7 @@ Connection 是指TCP连接，Channel 是Connection中的虚拟连接。两者的
 
 RabbitMQ 的存储模块也包含元数据存储与消息数据存储两部分。如下图所示，RabbitMQ 的两类数据都是存储在 Broker 节点上的，不会依赖第三方存储引擎。我们先来看一下元数据存储。
 
-![](https://static001.geekbang.org/resource/image/04/e0/0480177d8f6c5c26d09681e193b098e0.jpg?wh=10666x4639)
+![](https://static001.geekbang.org/resource/image/04/e0/0480177d8f6c5c26d09681e193b098e0.jpg?wh=10666x4639){: referrerpolicy="no-referrer" }
 
 ### 元数据存储
 
@@ -72,7 +72,7 @@ Mnesia对RabbitMQ的作用，相当于ZooKeeper对于Kafka、NameServer对于Roc
 
 如下图所示，RabbitMQ 消息数据的最小存储单元是Queue，即消息数据是按顺序写入存储到Queue里面的。在底层的数据存储方面，所有的Queue数据是存储在同一个“文件”里面的。这个“文件”是一个虚拟的概念，表示所有的Queue数据是存储在一起的意思。
 
-![](https://static001.geekbang.org/resource/image/74/a5/74b2ac5738e07dd057f240da425bd4a5.jpg?wh=10666x4467)
+![](https://static001.geekbang.org/resource/image/74/a5/74b2ac5738e07dd057f240da425bd4a5.jpg?wh=10666x4467){: referrerpolicy="no-referrer" }
 
 这个“文件”由队列索引（rabbit\_queue\_index）和消息存储（rabbitmq\_msg\_store）两部分组成。即在节点维度，所有 Queue 数据都是存储在rabbit\_msg\_store里面的，每个节点上只有一个rabbit\_msg\_store，数据会依次顺序写入到rabbit\_msg\_store中。
 
@@ -80,7 +80,7 @@ rabbit\_msg\_store是一个逻辑概念，底层的实际存储单元分为两�
 
 msg\_store\_persistent 和 msg\_store\_transient 在操作系统上是以文件夹的形式表示的，具体的数据存储是以不同的文件段的形式存储在目录中，所有消息都会以追加的形式写入到文件中。当一个文件的大小超过了配置的单个文件的最大值，就会关闭这个文件，然后再创建一个文件来存储数据。关于RabbitMQ底层的数据存储结构，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/c6/28/c64ca1f193546d64e7628efbb3c62828.jpg?wh=10666x3441)
+![](https://static001.geekbang.org/resource/image/c6/28/c64ca1f193546d64e7628efbb3c62828.jpg?wh=10666x3441){: referrerpolicy="no-referrer" }
 
 队列索引负责存储、维护队列中落盘消息的信息，包括消息的存储位置、是否交付、是否ACK等等信息。队列索引是Queue维度的，每个Queue都有一个对应的队列索引。
 
@@ -94,7 +94,7 @@ RabbitMQ 也提供了**过期时间（TTL）机制**，用来删除集群中没�
 
 当生产者和消费者连接到Broker进行生产消费的时候，是直接和Broker交互的，不需要客户端寻址。客户端连接Broker的方式，跟我们通过HTTP服务访问Server是一样的，都是直连的。部署架构如下图所示：
 
-![](https://static001.geekbang.org/resource/image/d2/16/d24b1062887f5294e4466aac8a2c8a16.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/d2/16/d24b1062887f5294e4466aac8a2c8a16.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 RabbitMQ集群部署后，为了提高容灾能力，就需要在集群前面挂一层负载均衡来进行灾备。客户端拿到负载均衡IP后，在生产或消费时使用这个IP和服务端直接建立连接。因为Queue是具体存储数据的单元，不同的Queue 有可能分布在不同的Broker上，就有可能出现生产或消费基于负载均衡IP请求到的Broker，并不是当前Queue所在的Broker，从而导致生产消费失败。
 
@@ -102,7 +102,7 @@ RabbitMQ集群部署后，为了提高容灾能力，就需要在集群前面挂
 
 从客户端的实现来看，因为各个语言的实现机制不太一样，基础模块的连接管理、心跳管理、序列化等部分遵循各编程语言的开发规范去实现。例如网络模块的实现，如果客户端是用Java语言写的，那么可以使用Java NIO库完成网络模块的开发。客户端和服务端传输协议的内容遵循AMQP协议，底层以二进制流的形式序列化数据。即根据 AMQP 协议的格式构建内容后，然后序列化为二进制的格式，传递给 Broker 进行处理。
 
-![](https://static001.geekbang.org/resource/image/1d/4e/1d43484f7b21135639yye73a77549c4e.jpg?wh=10666x3870)
+![](https://static001.geekbang.org/resource/image/1d/4e/1d43484f7b21135639yye73a77549c4e.jpg?wh=10666x3870){: referrerpolicy="no-referrer" }
 
 生产端发送数据不是直接发送到Queue，而是直接发送到Exchange。即发送时需要指定Exchange和route\_key，服务端会根据这两个信息，将消息数据分发到具体的Queue。因为Exchange和route\_key都是一个逻辑概念，数据是直接发送到Broker的，然后在服务端根据路由绑定规则，将数据分发到不同的Queue中，所以在客户端是没有发送生产分区分配策略的逻辑。其实从某种程度来看，**Exchagne和Route的功能就是生产分区分配的过程，只是将这个逻辑从客户端移动到了服务端而已。**
 
@@ -122,7 +122,7 @@ RabbitMQ 内核本身不支持 HTTP 协议的生产、消费和集群管控等�
 
 大部分情况下，我都会建议你启用Management插件，否则集群使用就会不太方便。如下图所示，从实现上来看 Management 插件对 HTTP 协议的支持，就是在开启插件的时候，会启动一个新的 HTTP Server 来监听一个新的端口。客户端只需要访问这个端口提供的HTTP接口，就可以完成HTTP读写数据和一些集群管控的操作。如果你想了解更多细节，可以查看这个文档 [Management Plugin](https://www.rabbitmq.com/management.html#http-api)。
 
-![](https://static001.geekbang.org/resource/image/37/92/373104dcd903214547b3f08fff7f2392.jpg?wh=10666x5222)
+![](https://static001.geekbang.org/resource/image/37/92/373104dcd903214547b3f08fff7f2392.jpg?wh=10666x5222){: referrerpolicy="no-referrer" }
 
 开启插件后，就可以通过HTTP接口实现生产、消费、集群的配置、资源的创建、删除等操作。比如下面是一个查看 Vhost 列表的 curl 命令示例：
 

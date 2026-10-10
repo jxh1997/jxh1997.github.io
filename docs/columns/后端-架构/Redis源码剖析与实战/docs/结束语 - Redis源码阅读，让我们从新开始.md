@@ -56,7 +56,7 @@
 
 最后的最后，我还给你准备了一份毕业问卷，希望你能花两三分钟填写一下，我非常期待能听到你对这门课的反馈。
 
-[![](https://static001.geekbang.org/resource/image/64/bc/64c4e4174ab844d70307a87b42898abc.jpg?wh=1142x801)](https://jinshuju.net/f/vasdJg)
+[![](https://static001.geekbang.org/resource/image/64/bc/64c4e4174ab844d70307a87b42898abc.jpg?wh=1142x801)](https://jinshuju.net/f/vasdJg){: referrerpolicy="no-referrer" }
 
 好了，天长地久有时尽，学习之路绵绵无绝期，我们下一次再会！
 <div><strong>精选留言（9）</strong></div><ul>

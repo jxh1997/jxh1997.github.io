@@ -10,7 +10,7 @@
 
 假设有这样一道设计面试题：我们需要定义一个资源池配置类ResourcePoolConfig。这里的资源池，你可以简单理解为线程池、连接池、对象池等。在这个资源池配置类中，有以下几个成员变量，也就是可配置项。现在，请你编写代码实现这个ResourcePoolConfig类。
 
-![](https://static001.geekbang.org/resource/image/21/59/21f970b7c0d6b5afa6aa09ca14f55059.jpg?wh=2463%2A936)
+![](https://static001.geekbang.org/resource/image/21/59/21f970b7c0d6b5afa6aa09ca14f55059.jpg?wh=2463%2A936){: referrerpolicy="no-referrer" }
 
 只要你稍微有点开发经验，那实现这样一个类对你来说并不是件难事。最常见、最容易想到的实现思路如下代码所示。因为maxTotal、maxIdle、minIdle不是必填变量，所以在创建ResourcePoolConfig对象的时候，我们通过往构造函数中，给这几个参数传递null值，来表示使用默认值。
 

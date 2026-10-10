@@ -28,7 +28,7 @@
 
 这时候被SaaS化的，就是这个服务的沙箱环境（Sandbox Environment）。也就是说，在任何非生产环境的请求，都会在沙箱环境中获得独立的、与生产环境隔离的专有环境。如图所示：
 
-![](https://static001.geekbang.org/resource/image/4e/1c/4e1fa51c6803b18536ce2a44d12c261c.jpg?wh=1920x1080)
+![](https://static001.geekbang.org/resource/image/4e/1c/4e1fa51c6803b18536ce2a44d12c261c.jpg?wh=1920x1080){: referrerpolicy="no-referrer" }
 
 如果存在需要借助这个服务进行某种实验或创新的场合，那么都可以通过SaaS化的沙箱获得自己专用的服务实例，完成所需的实验。同样，如果存在另一个服务需要与这个服务交互，那么上线前最终的验证与测试，也可以在沙箱环境中完成。
 
@@ -62,7 +62,7 @@
 
 就以可用性为例，当我们选择不同的云平台选项时，基础可用性本身就存在差异，从多个9到不到90%都有可能。那么我们可以在不同的组网上，实现我们所需的可用性需求。然后当有流量进入时，我们可以按照不同流量的种类（比如开通的服务），在不同的组网上启动镜像即可。如下图所示：
 
-![](https://static001.geekbang.org/resource/image/5f/9d/5fdb4fdfaae8ac3477282f7b6ee5a39d.jpg?wh=1920x1080)
+![](https://static001.geekbang.org/resource/image/5f/9d/5fdb4fdfaae8ac3477282f7b6ee5a39d.jpg?wh=1920x1080){: referrerpolicy="no-referrer" }
 
 在图中的例子里，对于选项A，我们可能要求5个9的可用性，那么我们在6个9的云平台选项基础上，采用专用服务集群策略（dedicated services）实现5个9的可用性；而对于选项B，可能只需要1个9，那么我们可以在2个9的云平台选项基础上，采用共享服务策略（shared services）实现1个9的需求。
 
@@ -72,7 +72,7 @@
 
 那么你可能会问，在不同的选项中，能力可以不同吗？答案是可以的（当然这对于软件交付的策略、变化点的识别、架构的策略都提出了更高的要求。但由于不是我们这门课的主题，这里就不展开了）。于是我们可以得到一个通用的SaaS化的部署模式：
 
-![](https://static001.geekbang.org/resource/image/ae/43/ae16777222f784c42065b57fc12eee43.jpg?wh=1920x1080)
+![](https://static001.geekbang.org/resource/image/ae/43/ae16777222f784c42065b57fc12eee43.jpg?wh=1920x1080){: referrerpolicy="no-referrer" }
 
 你自然可以脑补出在K8S、Rancher上的各种具体实现，我就不多说了。我的很多客户总是对实现SaaS化的技术细节很感兴趣，所以我每次都免费送他们这个图。因为这个图完全不值钱。毕竟决定SaaS化成败的关键，在于如何正确地设计选项，否则我们又怎么会知道在不同的组网中该放什么镜像，要去实现哪些服务质量呢？
 
@@ -84,7 +84,7 @@
 2. 现金奶牛：这类客户应该覆盖大部分的用户群体，比如GitHub免费用户，或是Salesforce标准版这样的用户。对于这类客户，目标就是降低成运营成本。比如通过自动化脚本实现低成本运维。再比如，通过自助式服务来解决服务开通等问题。
 3. 尴尬客户：这类客户价值不高，成本又减不下来。食之无味弃之可惜，庙小妖风大池浅王八多，都是这类客户的真实写照。解决办法通常是将其提升为高价值客户，或者简化为现金奶牛。但也需要注意的是，这些客户是SaaS化应用持续改进的重要源头。
 
-![](https://static001.geekbang.org/resource/image/9c/yy/9ccb10cfebafe30dyy0276bcbda019yy.jpg?wh=1920x1080)
+![](https://static001.geekbang.org/resource/image/9c/yy/9ccb10cfebafe30dyy0276bcbda019yy.jpg?wh=1920x1080){: referrerpolicy="no-referrer" }
 
 这就是我发明的**魔球SaaS选项建模法**（Moneyball SaaS Offering Modeling）。从名字你也能看出来，灵感来自篮球中的魔球理论：三分价值高，上篮把握性大，中距离很尴尬。所以，要尽可能地将出手转化为上篮或者三分，避免中距离。同样的方法，可以帮助我们建模SaaS选项：**将客户尽可能地转化为现金奶牛或者高价值客户，避免尴尬客户，从而得到一个简单直接的选项设计。**
 
@@ -108,7 +108,7 @@
 
 最后一节课了，来畅想一下吧。如果进入下一章，你会怎样？
 
-![](https://static001.geekbang.org/resource/image/f6/46/f675d7fe54081b4c0eceb764fe134b46.jpg?wh=1500x1798)
+![](https://static001.geekbang.org/resource/image/f6/46/f675d7fe54081b4c0eceb764fe134b46.jpg?wh=1500x1798){: referrerpolicy="no-referrer" }
 
 到这里，我们专栏的正文内容就全部结束了，感谢你一直以来的陪伴！还有一篇“结束语”马上会和你见面，我们下一讲再见！
 <div><strong>精选留言（10）</strong></div><ul>

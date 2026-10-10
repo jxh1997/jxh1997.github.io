@@ -71,7 +71,7 @@ util.load_dump("/data/backup/backup_employees", {
 
 下面的表格整理了Load工具支持的一部分参数，供你参考。完整的选项请参考[官方文档](https://dev.mysql.com/doc/mysql-shell/8.0/en/mysql-shell-utilities-load-dump.html)。
 
-![图片](https://static001.geekbang.org/resource/image/15/8c/1594612be99cf0ed9806d24da09cc78c.jpg?wh=1920x2177)
+![图片](https://static001.geekbang.org/resource/image/15/8c/1594612be99cf0ed9806d24da09cc78c.jpg?wh=1920x2177){: referrerpolicy="no-referrer" }
 
 MySQL Shell Dump导出的文件，实际上还可以直接使用LOAD DATA命令导入，或者使用MySQL Shell的import\_table导入，接下来我会依次介绍。
 
@@ -321,7 +321,7 @@ create table emp4(
 
 emp4这个表和刚才的emp2.csv文件的字段顺序不一样，字段数量也不一样。
 
-![图片](https://static001.geekbang.org/resource/image/30/4d/3031c7c3a5ca759a82671d42810a2a4d.jpg?wh=1076x348)
+![图片](https://static001.geekbang.org/resource/image/30/4d/3031c7c3a5ca759a82671d42810a2a4d.jpg?wh=1076x348){: referrerpolicy="no-referrer" }
 
 导入数据时，以CSV文件中字段顺序为准，指定字段列表。我们的例子中，第一列对应到emp\_no字段，第二列对应到emp\_name字段，第三列对应到变量@emp\_intro。然后再使用SET，将表的grade字段设置成固定值10，将emp\_intro字段设置为文件中emp\_intro列的前缀。
 
@@ -450,7 +450,7 @@ mysql> select * from emp4;
 
 我整理了import\_table支持的部分选项，供你参考。完整的选项请参考[官方文档](https://dev.mysql.com/doc/mysql-shell/8.0/en/mysql-shell-utilities-parallel-table.html)。
 
-![图片](https://static001.geekbang.org/resource/image/e5/09/e5ffdea7316793cb8af235750223cd09.png?wh=1758x1536)
+![图片](https://static001.geekbang.org/resource/image/e5/09/e5ffdea7316793cb8af235750223cd09.png?wh=1758x1536){: referrerpolicy="no-referrer" }
 
 ## 总结
 

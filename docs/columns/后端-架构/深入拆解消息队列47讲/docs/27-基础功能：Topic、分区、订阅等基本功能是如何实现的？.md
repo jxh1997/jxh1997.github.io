@@ -11,7 +11,7 @@
 
 为了便于理解，我们假设现在的集群是基于第三方存储引擎 ZooKeeper 来实现的。具体如下图所示：
 
-![](https://static001.geekbang.org/resource/image/09/e2/093daba2b27cd1a0c397920d288b48e2.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/09/e2/093daba2b27cd1a0c397920d288b48e2.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 ## 如何实现静态和动态配置
 
@@ -25,7 +25,7 @@
 
 动态配置是指服务可以从某个地方动态加载配置信息。如下图所示，即 Broker 启动时会通过某个第三方服务，比如ZooKeeper、etcd、某个名字服务等来加载配置。当需要变更配置时，直接往第三方服务写入新的配置即可，Broker会自动监听到配置的变更。
 
-![](https://static001.geekbang.org/resource/image/16/2b/16f0027f9f76ed5458f86788674a112b.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/16/2b/16f0027f9f76ed5458f86788674a112b.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 由于动态配置在技术上的实现方式比较多，这里我们就介绍两种常用的。一种是**基于第三方组件**，另一种是**基于本地文件**。
 
@@ -35,7 +35,7 @@
 
 从实现上来看，我们可以在ZooKeeper上创建 /config 节点，在 /config 下创建Cluster、Broker、Topic 3 个节点，分别来保存集群、节点、Topic 的 3 个维度的配置信息。然后Broker监听这 3 个节点的变更来执行后续的配置变更操作。ZooKeeper的目录结构可以如下设计：
 
-![](https://static001.geekbang.org/resource/image/3c/d3/3ce624689a970535d9a8829a46b003d3.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/3c/d3/3ce624689a970535d9a8829a46b003d3.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 从运行机制上来看，Broker 监听ZooKeeper有以下两种思路：
 
@@ -67,7 +67,7 @@
 
 集群维度的元数据需要持久化存储，所以我们可以在 ZooKeeper 上创建持久化节点 /Cluster 来存储集群的的元数据。
 
-![](https://static001.geekbang.org/resource/image/ce/c1/ce2bb9fc92279d680a1507cce1749fc1.jpg?wh=10666x4628)
+![](https://static001.geekbang.org/resource/image/ce/c1/ce2bb9fc92279d680a1507cce1749fc1.jpg?wh=10666x4628){: referrerpolicy="no-referrer" }
 
 因此集群初始化的流程是：Broker 启动时检查 ZooKeeper的 /Cluster 节点是否创建，以确保集群已经经过了初始化。一般是集群中的第一台Broker节点启动时，会触发集群初始化的逻辑。初始化的逻辑会自动生成一个集群ID，然后根据配置好的集群名称，一起写入到 /Cluster 节点里面。
 
@@ -125,7 +125,7 @@
 
 所以在持久化存储方面，我们可以在ZooKeeper上创建持久化的 /brokers 节点，然后在这个节点下为每台Broker创建名称为BrokerID的临时节点，用来存储Broker的元数据。所以 Broker 在集群中的元数据的存储结构就如下图所示：
 
-![](https://static001.geekbang.org/resource/image/55/cf/55a37358eyy77d53755d36584d8b27cf.jpg?wh=10666x5306)
+![](https://static001.geekbang.org/resource/image/55/cf/55a37358eyy77d53755d36584d8b27cf.jpg?wh=10666x5306){: referrerpolicy="no-referrer" }
 
 Broker 初始化的流程是：Broker启动时会在 /Brokers 下面创建名称为自身BrokerID的临时节点，然后写入自己的元数据。Broker 异常时，会自动删除注册的节点。
 
@@ -143,7 +143,7 @@ Broker 初始化的流程是：Broker启动时会在 /Brokers 下面创建名称
 
 所以如下图所示，在消息队列中 **Topic和分区是必须的概念，Topic是用来组织分区的逻辑概念**，**分区用来存储实体的消息数据**。
 
-![](https://static001.geekbang.org/resource/image/60/6d/60c323373e3a98f3f0848ec6bcb4856d.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/60/6d/60c323373e3a98f3f0848ec6bcb4856d.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 接下来看一下，Topic和分区的元数据都包含哪些信息呢？
 
@@ -178,7 +178,7 @@ Broker 初始化的流程是：Broker启动时会在 /Brokers 下面创建名称
 
 如下图所示，我们可以在ZooKeeper的根目录创建持久节点 /topics 存储Topic信息，然后为Topic1、Topic2、Topic3这 3 个Topic分别创建/topics/topic1、/topics/topic2、/topics/topic3 节点来存储对应Topic的元数据。
 
-![](https://static001.geekbang.org/resource/image/73/7c/73828e5c70d0a002c55b9df32116ea7c.jpg?wh=10666x3933)
+![](https://static001.geekbang.org/resource/image/73/7c/73828e5c70d0a002c55b9df32116ea7c.jpg?wh=10666x3933){: referrerpolicy="no-referrer" }
 
 在集群启动时，就会为每一个分区选举出来一个Leader，然后更新对应的Leader字段信息。当节点出现变动时，也会触发Leader节点切换流程和更新Leader节点信息的逻辑。
 
@@ -254,7 +254,7 @@ group1,topic1,0,0
 
 如下图所示，我们知道分区的数据是顺序存储的，并且消息队列的分区是没有搜索和更新的能力的。此时就有一个问题，消费进度如何读取和更新呢？
 
-![](https://static001.geekbang.org/resource/image/e9/60/e9a41c34d1bd2fb7e08e31f5ee026f60.jpg?wh=10666x3246)
+![](https://static001.geekbang.org/resource/image/e9/60/e9a41c34d1bd2fb7e08e31f5ee026f60.jpg?wh=10666x3246){: referrerpolicy="no-referrer" }
 
 从功能特性上来看，一个消费分组在一个分区维度的消费进度的值只有一个，即最新的那个值。
 

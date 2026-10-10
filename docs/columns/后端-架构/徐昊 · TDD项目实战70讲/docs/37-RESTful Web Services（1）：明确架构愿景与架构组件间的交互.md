@@ -8,11 +8,11 @@
 
 首先，我们需要明确的是，我们将以Servlet的方式来实现RESTful Web Services框架。也就是说，我们将提供一个Servlet作为主入口，在其中完成对资源对象（Resources）的派分，并根据不同的超媒体选择对应的reader和writer进行输入输出处理。大致结构如下图所示：
 
-![](https://static001.geekbang.org/resource/image/f5/6e/f531cdc180da287d25244d5ea711f36e.jpg?wh=8000x4500)
+![](https://static001.geekbang.org/resource/image/f5/6e/f531cdc180da287d25244d5ea711f36e.jpg?wh=8000x4500){: referrerpolicy="no-referrer" }
 
 然而仅仅如此，还不足以让我们顺滑地进入伦敦学派的流程（如果你足够自信，已经可以开始经典学派TDD了），我们需要进一步细化ResourceServlet中的组件与交互：
 
-![](https://static001.geekbang.org/resource/image/fe/b2/fe218e684cba33a63fa004c76f1ea3b2.jpg?wh=7493x3969)
+![](https://static001.geekbang.org/resource/image/fe/b2/fe218e684cba33a63fa004c76f1ea3b2.jpg?wh=7493x3969){: referrerpolicy="no-referrer" }
 
 如上图所示，为大致的组件划分：
 
@@ -36,7 +36,7 @@
 
 如下图所示：
 
-![](https://static001.geekbang.org/resource/image/99/fd/99aa8f2a4d53e96eefb16a3a6c1cd3fd.jpg?wh=8000x4500)
+![](https://static001.geekbang.org/resource/image/99/fd/99aa8f2a4d53e96eefb16a3a6c1cd3fd.jpg?wh=8000x4500){: referrerpolicy="no-referrer" }
 
 那么至此我们是否可以开始任务分解了呢？还不行。请回想一下[伦敦学派的流程](https://time.geekbang.org/column/article/496702)：
 

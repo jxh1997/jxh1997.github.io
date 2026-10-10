@@ -36,7 +36,7 @@
 
 最后是大模型幻觉。大模型在生成内容或进行推理等过程中，可能产生与客观事实不符、逻辑不合理或与上下文不连贯的内容。如下是ChatGPT刚推出时，广为流传的一个错误案例（现在大模型通过结合联网查询已经不会出现这个错误了）：
 
-![图片](https://static001.geekbang.org/resource/image/1b/5b/1bb6dacf581d3f3de21198799bbec55b.png?wh=1206x284 "图片来自网络")
+![图片](https://static001.geekbang.org/resource/image/1b/5b/1bb6dacf581d3f3de21198799bbec55b.png?wh=1206x284 "图片来自网络"){: referrerpolicy="no-referrer" }
 
 了解了大模型的技术本质，我们再来看架构师岗位的核心能力。
 
@@ -44,7 +44,7 @@
 
 简而言之，架构师是业务和技术之间的桥梁，架构师对综合能力要求更高，需要同时具备**业务、技术、管理**三方面的能力，下面我们分别讨论。
 
-![](https://static001.geekbang.org/resource/image/81/bb/810a868e2faf541d79228146ec99ddbb.jpg?wh=1752x486)
+![](https://static001.geekbang.org/resource/image/81/bb/810a868e2faf541d79228146ec99ddbb.jpg?wh=1752x486){: referrerpolicy="no-referrer" }
 
 **技术能力包括：**
 
@@ -78,7 +78,7 @@
 
 其次，架构师需要设计出适合团队和业务特性的系统架构，**而大模型训练后输出的结果根据概率生成，两者本质上是冲突的**。简单来说，大模型输出的架构设计要么是大而全的，要么是业界常用的方案；而架构师设计的架构方案虽然包含和业界共性的部分，但是和团队及业务相关的部分才是关键。企业为了在市场中获得竞争优势，必然会有很多的业务差异化和特殊性，这正好与大模型的技术本质是矛盾的。
 
-如下是一个大模型生成的架构设计方案：![图片](https://static001.geekbang.org/resource/image/b2/8a/b29c24c62f1ee3f87c15b982185c6f8a.png?wh=982x637 "图片来自网络")
+如下是一个大模型生成的架构设计方案：![图片](https://static001.geekbang.org/resource/image/b2/8a/b29c24c62f1ee3f87c15b982185c6f8a.png?wh=982x637 "图片来自网络"){: referrerpolicy="no-referrer" }
 
 我们可以看到，大模型输出的架构方案看似面面俱到，实际上并不能真正指导开发团队实现，很像不少人吐槽的“PPT架构师”的输出。
 

@@ -14,27 +14,27 @@
 
 分而治之的思想在分布式系统中广为使用，比如[\[第21讲\]](https://time.geekbang.org/column/article/252741) 介绍过的AKF立方体Z轴扩展，就是基于用户的请求，缩小集群中单个节点待处理的数据量，比如下图中当关系数据库中单表行数达到千万行以上时，此时不得不存放在磁盘中的索引将会严重降低SQL语句的查询速度。而执行分库分表后，由应用或者中间层的代理分解查询语句，待多个不足百万行的表快速返回查询结果后，再归并为最终的结果集。
 
-![](https://static001.geekbang.org/resource/image/71/81/712a0a73b71090abcaa7ac552f402181.png?wh=852%2A815)
+![](https://static001.geekbang.org/resource/image/71/81/712a0a73b71090abcaa7ac552f402181.png?wh=852%2A815){: referrerpolicy="no-referrer" }
 
 与上述的IO类任务不同，并非所有的计算任务都可以基于分治策略，分解为可以并发执行的子任务。比如[\[第14讲\]](https://time.geekbang.org/column/article/241632) 介绍过的基于[CBC分组模式](https://zh.wikipedia.org/zh-hans/%E5%88%86%E7%BB%84%E5%AF%86%E7%A0%81%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F)的AES加密算法就无法分解执行，如下图所示，每16个字节的块在加密时，都依赖前1个块的加密结果，这样的计算过程既无法利用多核CPU，也无法基于MapReduce思想放在多主机上并发执行。
 
-[![](https://static001.geekbang.org/resource/image/2b/3b/2b8bca7a74eb5f98125098e271d0973b.jpg?wh=4680%2A1825 "图片源自：https://zh.wikipedia.org/zh-hans/%E5%88%86%E7%BB%84%E5%AF%86%E7%A0%81%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F")](https://zh.wikipedia.org/zh-hans/%E5%88%86%E7%BB%84%E5%AF%86%E7%A0%81%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F)
+[![](https://static001.geekbang.org/resource/image/2b/3b/2b8bca7a74eb5f98125098e271d0973b.jpg?wh=4680%2A1825 "图片源自：https://zh.wikipedia.org/zh-hans/%E5%88%86%E7%BB%84%E5%AF%86%E7%A0%81%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F")](https://zh.wikipedia.org/zh-hans/%E5%88%86%E7%BB%84%E5%AF%86%E7%A0%81%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F){: referrerpolicy="no-referrer" }
 
 我们再来看可以使用MapReduce的计算任务，其中最经典的例子是排序（Google在构建倒排索引时要为大量网页排序）。当使用插入排序（不熟悉插入排序的同学，可以想象自己拿了一手乱牌，然后在手中一张张重新插入将其整理有序）在整个数据集上操作时，计算的时间复杂度是O(N2)，但快排、堆排序、归并排序等算法的时间复杂度只有O(N\*logN)，这就是通过分治策略，缩小子问题数据规模实现的。
 
 比如下图是在8个数字上使用归并排序算法进行排序的流程。我们将数组递归地进行3（log8）轮对半拆分后，每个子数组就只有2个元素。对2个元素排序只需要进行1次比较就能完成。接着，再将有序的子数组不断地合并，就可以得到完整的有序数组。
 
-![](https://static001.geekbang.org/resource/image/8e/71/8e9f75013bcb26ae2befec6ff8739971.png?wh=856%2A733)
+![](https://static001.geekbang.org/resource/image/8e/71/8e9f75013bcb26ae2befec6ff8739971.png?wh=856%2A733){: referrerpolicy="no-referrer" }
 
 其中，将两个含有N/2个元素的有序子数组（比如1、3、7、19和4、8、11、25），合并为一个有序数组时只需要做N/2到N-1次比较（图中只做了5次比较），速度非常快。因此，比较次数乘以迭代轮数就可以得出时间复杂度为O(N\*logN)。
 
 同样的道理引申到分布式系统中，就成为了MapReduce模式。其中，原始数据集要通过SPLIT步骤拆分到分布式系统中的多个节点中，而每个节点并发执行用户预定义的MAP函数，最后将MAP运算出的结果通过用户预定义的REDUCE函数，归并为最终的结果。比如上例中我们可以将8个元素拆分到2个节点中并行计算，其中每个节点究竟是继续采用归并排序，还是使用其他排序算法，这由预定义的MAP函数决定。当MAP函数生成有序的子数组后，REDUCE函数再将它们归并为完整的有序数组，具体如下图所示：
 
-![](https://static001.geekbang.org/resource/image/72/15/72bb89540bae52a46e69a5d802680715.png?wh=1258%2A698)
+![](https://static001.geekbang.org/resource/image/72/15/72bb89540bae52a46e69a5d802680715.png?wh=1258%2A698){: referrerpolicy="no-referrer" }
 
 当面对TB、PB级别的数据时，MapReduce思想就成了唯一的解决方案。当然，在实际软件工程中实现MapReduce的框架要比上面的示意图复杂许多，毕竟在大规模分布式系统中，故障每时每刻都会发生，如何分发数据、调度节点执行MAP映射、监控计算节点等，都需要精心的设计。特别是，当单个节点的磁盘无法存放下全部数据时，常常使用类似HDFS的分布式文件系统存放数据，所以MapReduce框架往往还需要对接这样的系统来获取数据，具体如下图所示：
 
-[![](https://static001.geekbang.org/resource/image/4f/39/4f3182c6334ec0c7b67e69b6ded2e839.png?wh=1431%2A1067 "图片来源：http://a4academics.com/tutorials/83-hadoop/840-map-reduce-architecture")](http://a4academics.com/tutorials/83-hadoop/840-map-reduce-architecture)
+[![](https://static001.geekbang.org/resource/image/4f/39/4f3182c6334ec0c7b67e69b6ded2e839.png?wh=1431%2A1067 "图片来源：http://a4academics.com/tutorials/83-hadoop/840-map-reduce-architecture")](http://a4academics.com/tutorials/83-hadoop/840-map-reduce-architecture){: referrerpolicy="no-referrer" }
 
 而且，生产环境中的任务远比整数排序复杂得多，所以写对Map、Reduce函数并不容易。另一方面，大部分数据分析任务又是高度相似的，所以我们没有必要总是直接编写Map、Reduce函数，实现发布式系统的离线计算。由于SQL语言支持聚合分析、表关联，还内置了许多统计函数，很适合用来做数据分析，它的学习成本又非常低，所以大部分MapReduce框架都提供了类SQL语言的接口，可以替代自行编写Map、Reduce函数。接下来我们看看，SQL语言统计数据时，Map、Reduce函数是怎样工作的。
 
@@ -48,7 +48,7 @@
 
 你可以通过正则表达式取出客户端IP地址、用户名、HTTP响应码，这样就可以生成结构化的数据表格：
 
-![](https://static001.geekbang.org/resource/image/e9/e7/e9fcf8e7529f973b1679af93333b4ee7.jpg?wh=1252%2A636)
+![](https://static001.geekbang.org/resource/image/e9/e7/e9fcf8e7529f973b1679af93333b4ee7.jpg?wh=1252%2A636){: referrerpolicy="no-referrer" }
 
 如果我们想按照客户端IP、HTTP响应码聚合统计访问次数，基于通用的SQL规则，就可以写出下面这行SQL语句：
 
@@ -58,7 +58,7 @@ select ClientIp, StatusCode, count(*) from access_log group by ClientIp, StatusC
 
 而建立在MapReduce之上的框架（比如Hive）会将它翻译成如下图所示的MapReduce流程：
 
-![](https://static001.geekbang.org/resource/image/4c/f9/4cb7443e0f9cdf2ba77fbbe230487ff9.png?wh=722%2A739)
+![](https://static001.geekbang.org/resource/image/4c/f9/4cb7443e0f9cdf2ba77fbbe230487ff9.png?wh=722%2A739){: referrerpolicy="no-referrer" }
 
 其中，我们假定5行数据被拆分到2个节点中执行Map函数，其中它们分别基于2行、3行这样小规模的数据集，生成了正确的聚合统计结果。接着，在Shuffle步骤基于key关键字排序后，再交由Reduce函数归并出正确的结果。
 

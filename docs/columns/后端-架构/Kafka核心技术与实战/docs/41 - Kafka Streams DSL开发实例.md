@@ -8,7 +8,7 @@ DSL，也就是Domain Specific Language，意思是领域特定语言。它提�
 
 一个拓扑结构本质上是一个有向无环图（DAG），它由多个处理节点（Node）和连接节点的多条边组成，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/da/22/da3db610f959e0952a76d6b06d249c22.jpg?wh=1334%2A1674)
+![](https://static001.geekbang.org/resource/image/da/22/da3db610f959e0952a76d6b06d249c22.jpg?wh=1334%2A1674){: referrerpolicy="no-referrer" }
 
 图中的节点也称为处理单元或Processor，它封装了具体的事件处理逻辑。Processor在其他流处理平台也被称为操作算子。常见的操作算子包括转换（map）、过滤（filter）、连接（join）和聚合（aggregation）等。后面我会详细介绍几种常见的操作算子。
 
@@ -46,7 +46,7 @@ movies.filter((title, movie) -> movie.getGenre().equals("动作片")).xxx()...
 
 下面这张图展示了表转换成流，流再转换成表的全过程。
 
-![](https://static001.geekbang.org/resource/image/3f/ee/3f056c4ba024d7169df804e161a37bee.jpg?wh=3544%2A2250)
+![](https://static001.geekbang.org/resource/image/3f/ee/3f056c4ba024d7169df804e161a37bee.jpg?wh=3544%2A2250){: referrerpolicy="no-referrer" }
 
 刚开始时，表中只有一条记录“张三：1”。将该条记录转成流，变成了一条事件。接着，表增加了新记录“李四：1”。针对这个变更，流中也增加了对应的新事件。之后，表中张三的对应值，从1更新为2，流也增加了相应的更新事件。最后，表中添加了新数据“王五：1”，流也增加了新记录。至此，表转换成流的工作就完成了。
 
@@ -62,7 +62,7 @@ Kafka Streams还定义了**GlobalKTable**。本质上它和KTable都表征了一
 
 常见的时间概念有两类：事件发生时间（Event Time）和事件处理时间（Processing Time）。理想情况下，我们希望这两个时间相等，即事件一旦发生就马上被处理，但在实际场景中，这是不可能的，**Processing Time永远滞后于Event Time**，而且滞后程度又是一个高度变化，无法预知，就像“Streaming Systems”一书中的这张图片所展示的那样：
 
-![](https://static001.geekbang.org/resource/image/ab/92/ab8e5206729b484b0a16f2bb9de3a792.png?wh=1179%2A1274)
+![](https://static001.geekbang.org/resource/image/ab/92/ab8e5206729b484b0a16f2bb9de3a792.png?wh=1179%2A1274){: referrerpolicy="no-referrer" }
 
 该图中的45°虚线刻画的是理想状态，即Event Time等于Processing Time，而粉色的曲线表征的是真实情况，即Processing Time落后于Event Time，而且落后的程度（Lag）不断变化，毫无规律。
 
@@ -239,7 +239,7 @@ final KTable<Integer, Integer> sumOfEvenNumbers = input
 
 好了，我们来小结一下。今天我跟你分享了Kafka Streams以及DSL的背景与概念，然后我根据实例展示了WordCount单词计数程序以及运行方法，最后，针对常见的操作算子和时间窗口，我给出了示例代码，这些内容应该可以帮你应对大部分的流处理开发。另外，我建议你经常性地查询一下[官网文档](https://kafka.apache.org/23/documentation/streams/developer-guide/dsl-api.html#aggregating)，去学习一些更深入更高级的用法，比如固定时间窗口的用法。在很多场景中，我们都想知道过去一段时间内企业某个关键指标的值是多少，如果要实现这个需求，时间窗口是必然要涉及到的。
 
-![](https://static001.geekbang.org/resource/image/dc/4d/dcc10168b7e3fdc43a47effdba45304d.jpg?wh=2069%2A2560)
+![](https://static001.geekbang.org/resource/image/dc/4d/dcc10168b7e3fdc43a47effdba45304d.jpg?wh=2069%2A2560){: referrerpolicy="no-referrer" }
 
 ## 开放讨论
 

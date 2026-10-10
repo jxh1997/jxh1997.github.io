@@ -4,8 +4,8 @@
 
 目前我们已经实现了ResourceRouter，和UriTemplate整体的架构愿景如下：
 
-![](https://static001.geekbang.org/resource/image/6c/yy/6c626153c86cd68fec66b5ce9d9cb1yy.jpg?wh=2284x1285)  
-![](https://static001.geekbang.org/resource/image/0b/36/0be0e96754f217b36d12e1edeb9ba936.jpg?wh=2284x1285)
+![](https://static001.geekbang.org/resource/image/6c/yy/6c626153c86cd68fec66b5ce9d9cb1yy.jpg?wh=2284x1285)  {: referrerpolicy="no-referrer" }
+![](https://static001.geekbang.org/resource/image/0b/36/0be0e96754f217b36d12e1edeb9ba936.jpg?wh=2284x1285){: referrerpolicy="no-referrer" }
 
 目前的任务列表：
 

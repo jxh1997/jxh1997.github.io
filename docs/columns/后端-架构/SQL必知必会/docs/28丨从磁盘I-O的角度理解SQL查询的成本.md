@@ -22,7 +22,7 @@
 
 缓存在数据库中的结构和作用如下图所示：
 
-![](https://static001.geekbang.org/resource/image/05/9b/05e1692282d25768c87bbc31a1479b9b.png?wh=1102%2A622)  
+![](https://static001.geekbang.org/resource/image/05/9b/05e1692282d25768c87bbc31a1479b9b.png?wh=1102%2A622)  {: referrerpolicy="no-referrer" }
 如果我们执行SQL语句的时候更新了缓存池中的数据，那么这些数据会马上同步到磁盘上吗？
 
 实际上，当我们对数据库中的记录进行修改的时候，首先会修改缓冲池中页里面的记录信息，然后数据库会以一定的频率刷新到磁盘上。注意并不是每次发生更新操作，都会立刻进行磁盘回写。缓冲池会采用一种叫做checkpoint的机制将数据回写到磁盘上，这样做的好处就是提升了数据库的整体性能。
@@ -41,20 +41,20 @@
 mysql > show variables like 'innodb_buffer_pool_size'
 ```
 
-![](https://static001.geekbang.org/resource/image/93/16/93b1b8acaf39f46245c6b751200e8316.png?wh=1308%2A306)  
+![](https://static001.geekbang.org/resource/image/93/16/93b1b8acaf39f46245c6b751200e8316.png?wh=1308%2A306)  {: referrerpolicy="no-referrer" }
 你能看到此时InnoDB的缓冲池大小只有8388608/1024/1024=8MB，我们可以修改缓冲池大小为128MB，方法如下：
 
-![](https://static001.geekbang.org/resource/image/78/70/78fd83a2ff4f0a10ed20ec147ffbac70.png?wh=1384%2A130)  
+![](https://static001.geekbang.org/resource/image/78/70/78fd83a2ff4f0a10ed20ec147ffbac70.png?wh=1384%2A130)  {: referrerpolicy="no-referrer" }
 然后再来看下修改后的缓冲池大小，此时已成功修改成了128MB：
 
-![](https://static001.geekbang.org/resource/image/a3/cc/a364961bda6d5c4742460620053ec1cc.png?wh=1380%2A381)  
+![](https://static001.geekbang.org/resource/image/a3/cc/a364961bda6d5c4742460620053ec1cc.png?wh=1380%2A381)  {: referrerpolicy="no-referrer" }
 在InnoDB存储引擎中，我们可以同时开启多个缓冲池，这里我们看下如何查看缓冲池的个数，使用命令：
 
 ```
 mysql > show variables like 'innodb_buffer_pool_instances'
 ```
 
-![](https://static001.geekbang.org/resource/image/d1/27/d1f7896087c58bfef202f9a21e96ed27.png?wh=1509%2A367)
+![](https://static001.geekbang.org/resource/image/d1/27/d1f7896087c58bfef202f9a21e96ed27.png?wh=1509%2A367){: referrerpolicy="no-referrer" }
 
 你能看到当前只有一个缓冲池。实际上`innodb_buffer_pool_instances`默认情况下为8，为什么只显示只有一个呢？这里需要说明的是，如果想要开启多个缓冲池，你首先需要将`innodb_buffer_pool_size`参数设置为大于等于1GB，这时`innodb_buffer_pool_instances`才会大于1。你可以在MySQL的配置文件中对`innodb_buffer_pool_size`进行设置，大于等于1GB，然后再针对`innodb_buffer_pool_instances`参数进行修改。
 
@@ -68,12 +68,12 @@ mysql > show variables like 'innodb_buffer_pool_instances'
 
 如果该数据存在于内存中，基本上执行时间在1ms左右，效率还是很高的。
 
-![](https://static001.geekbang.org/resource/image/a5/4f/a5d16af8d34ebdcfe327ef7b4841ad4f.png?wh=838%2A430)  
+![](https://static001.geekbang.org/resource/image/a5/4f/a5d16af8d34ebdcfe327ef7b4841ad4f.png?wh=838%2A430)  {: referrerpolicy="no-referrer" }
 **2. 随机读取**
 
 如果数据没有在内存中，就需要在磁盘上对该页进行查找，整体时间预估在10ms左右，这10ms中有6ms是磁盘的实际繁忙时间（包括了寻道和半圈旋转时间），有3ms是对可能发生的排队时间的估计值，另外还有1ms的传输时间，将页从磁盘服务器缓冲区传输到数据库缓冲区中。这10ms看起来很快，但实际上对于数据库来说消耗的时间已经非常长了，因为这还只是一个页的读取时间。
 
-![](https://static001.geekbang.org/resource/image/50/49/50fb2657341103548a76fce6f7769149.png?wh=1225%2A432)  
+![](https://static001.geekbang.org/resource/image/50/49/50fb2657341103548a76fce6f7769149.png?wh=1225%2A432)  {: referrerpolicy="no-referrer" }
 **3. 顺序读取**
 
 顺序读取其实是一种批量读取的方式，因为我们请求的数据在磁盘上往往都是相邻存储的，顺序读取可以帮我们批量读取页面，这样的话，一次性加载到缓冲池中就不需要再对其他页面单独进行磁盘I/O操作了。如果一个磁盘的吞吐量是40MB/S，那么对于一个16KB大小的页来说，一次可以顺序读取2560（40MB/16KB）个页，相当于一个页的读取时间为0.4ms。采用批量读取的方式，即使是从磁盘上进行读取，效率也比从内存中只单独读取一个页的效率要高。
@@ -92,14 +92,14 @@ mysql> SELECT comment_id, product_id, comment_text, user_id FROM product_comment
 
 运行结果（1条记录，运行时间为0.042s）：
 
-![](https://static001.geekbang.org/resource/image/da/fd/da50c6f039b431fbab963be16f16b5fd.png?wh=1152%2A145)  
+![](https://static001.geekbang.org/resource/image/da/fd/da50c6f039b431fbab963be16f16b5fd.png?wh=1152%2A145)  {: referrerpolicy="no-referrer" }
 然后再看下查询优化器的成本，实际上我们只需要检索一个页即可：
 
 ```
 mysql> SHOW STATUS LIKE 'last_query_cost';
 ```
 
-![](https://static001.geekbang.org/resource/image/cd/43/cde712f5d9fc42f31310511677811543.png?wh=1113%2A319)  
+![](https://static001.geekbang.org/resource/image/cd/43/cde712f5d9fc42f31310511677811543.png?wh=1113%2A319)  {: referrerpolicy="no-referrer" }
 如果我们想要查询comment\_id在900001到9000100之间的评论记录呢？
 
 ```
@@ -108,14 +108,14 @@ mysql> SELECT comment_id, product_id, comment_text, user_id FROM product_comment
 
 运行结果（100条记录，运行时间为0.046s）：
 
-![](https://static001.geekbang.org/resource/image/be/a0/be4d6cd476fd0c9898df5f785aa0c0a0.png?wh=1048%2A313)  
+![](https://static001.geekbang.org/resource/image/be/a0/be4d6cd476fd0c9898df5f785aa0c0a0.png?wh=1048%2A313)  {: referrerpolicy="no-referrer" }
 然后再看下查询优化器的成本，这时我们大概需要进行20个页的查询。
 
 ```
 mysql> SHOW STATUS LIKE 'last_query_cost';
 ```
 
-![](https://static001.geekbang.org/resource/image/62/fe/628138aa22d3244f8d08dc701a1f61fe.png?wh=1075%2A317)  
+![](https://static001.geekbang.org/resource/image/62/fe/628138aa22d3244f8d08dc701a1f61fe.png?wh=1075%2A317)  {: referrerpolicy="no-referrer" }
 你能看到页的数量是刚才的20倍，但是查询的效率并没有明显的变化，实际上这两个SQL查询的时间基本上一样，就是因为采用了顺序读取的方式将页面一次性加载到缓冲池中，然后再进行查找。虽然页数量（last\_query\_cost）增加了不少，但是通过缓冲池的机制，并没有增加多少查询时间。
 
 ## 总结
@@ -127,7 +127,7 @@ mysql> SHOW STATUS LIKE 'last_query_cost';
 
 所以说，遇到I/O并不用担心，方法找对了，效率还是很高的。我们首先要考虑数据存放的位置，如果是经常使用的数据就要尽量放到缓冲池中，其次我们可以充分利用磁盘的吞吐能力，一次性批量读取数据，这样单个页的读取效率也就得到了提升。
 
-![](https://static001.geekbang.org/resource/image/f2/77/f254372aac175d6ac571ebe9ec024777.jpg?wh=3341%2A1887)  
+![](https://static001.geekbang.org/resource/image/f2/77/f254372aac175d6ac571ebe9ec024777.jpg?wh=3341%2A1887)  {: referrerpolicy="no-referrer" }
 最后给你留两道思考题吧。你能解释下相比于单个页面的随机读，为什么顺序读取时平均一个页面的加载效率会提高吗？另外，对于今天学习的缓冲池机制和数据页加载的方式，你有什么心得体会吗？
 
 欢迎在评论区写下你的答案，如果你觉得这篇文章有帮助，不妨把它分享给你的朋友或者同事吧。

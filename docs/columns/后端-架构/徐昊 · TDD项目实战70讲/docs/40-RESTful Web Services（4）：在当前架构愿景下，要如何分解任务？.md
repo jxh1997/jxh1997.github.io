@@ -2,12 +2,12 @@
 
 现在请回想一下TDD的流程（参看[第11讲](https://time.geekbang.org/column/article/496703)）：
 
-![](https://static001.geekbang.org/resource/image/d0/3a/d0f2ee19dba1881d14013930de7c173a.jpg?wh=8000x4500)
+![](https://static001.geekbang.org/resource/image/d0/3a/d0f2ee19dba1881d14013930de7c173a.jpg?wh=8000x4500){: referrerpolicy="no-referrer" }
 
 目前的架构愿景如下：
 
-![](https://static001.geekbang.org/resource/image/b8/c4/b889c031c6dff9254522928cc50856c4.jpg?wh=2284x1315)  
-![](https://static001.geekbang.org/resource/image/cc/97/cc54561589ff2ab51df4150fed195997.jpg?wh=8000x4500)
+![](https://static001.geekbang.org/resource/image/b8/c4/b889c031c6dff9254522928cc50856c4.jpg?wh=2284x1315)  {: referrerpolicy="no-referrer" }
+![](https://static001.geekbang.org/resource/image/cc/97/cc54561589ff2ab51df4150fed195997.jpg?wh=8000x4500){: referrerpolicy="no-referrer" }
 
 ## 将需求分解为任务列表
 

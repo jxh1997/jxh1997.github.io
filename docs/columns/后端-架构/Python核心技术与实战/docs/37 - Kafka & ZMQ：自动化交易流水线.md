@@ -20,7 +20,7 @@
 
 它们之间的逻辑关系，你可以参照下面我画的这张图。我习惯性把中间件的作用调侃为：没有什么事情是加一层解决不了的；如果有，那就加两层。
 
-![](https://static001.geekbang.org/resource/image/f4/50/f49f221a8191d8fa95eeea146bbbf550.png?wh=968%2A628)
+![](https://static001.geekbang.org/resource/image/f4/50/f49f221a8191d8fa95eeea146bbbf550.png?wh=968%2A628){: referrerpolicy="no-referrer" }
 
 当然，这只是其中一个例子，也只是中间件的一种形式。事实上，比如在阿里，中间件主要有分布式关系型数据库 DRDS、消息队列和分布式服务这么三种形式。而我们今天，主要会用到消息队列，因为它非常符合量化交易系统的应用场景，即事件驱动模型。
 
@@ -42,7 +42,7 @@
 
 不过，很重要的一点，消息队列是如何降低系统复杂度，起到中间件的解耦作用呢？我们来看下面这张图。
 
-![](https://static001.geekbang.org/resource/image/f6/f0/f6a5e84033070f5ee7746ca85680aef0.png?wh=749%2A527)
+![](https://static001.geekbang.org/resource/image/f6/f0/f6a5e84033070f5ee7746ca85680aef0.png?wh=749%2A527){: referrerpolicy="no-referrer" }
 
 消息队列的模式是发布和订阅，一个或多个消息发布者可以发布消息，一个或多个消息接受者可以订阅消息。 从图中你可以看到，消息发布者和消息接受者之间没有直接耦合，其中，
 
@@ -191,7 +191,7 @@ socket.setsockopt_string(zmq.SUBSCRIBE, '')
 
 Kafka的代码实现，和ZMQ大同小异，这里我就不专门讲解了。关于Kafka的更多内容，极客时间平台也有对 Kafka 的专门详细的介绍，对此有兴趣的同学，可以在极客时间中搜索“[Kafka核心技术与实战](https://time.geekbang.org/column/intro/191)”，这个专栏里，胡夕老师用详实的篇幅，讲解了 Kafka 的实战和内核，你可以加以学习和使用。
 
-![](https://static001.geekbang.org/resource/image/d4/27/d401e91a10826773067857e3c9974a27.png?wh=1804%2A1132)
+![](https://static001.geekbang.org/resource/image/d4/27/d401e91a10826773067857e3c9974a27.png?wh=1804%2A1132){: referrerpolicy="no-referrer" }
 
 来自极客时间专栏“Kafka核心技术与实战”
 
@@ -205,7 +205,7 @@ Kafka的代码实现，和ZMQ大同小异，这里我就不专门讲解了。关
 
 于是，一个很自然的想法就是，我们可以在不同地区放置不同的机器，使用不同的网络同时连接到交易所，然后将这些机器收集到的信息汇总、去重，最后生成我们需要的准确数据。相应的拓扑图如下：
 
-![](https://static001.geekbang.org/resource/image/ab/dc/ab08e31f805d1f7ea596ae4ccdea48dc.png?wh=760%2A837)
+![](https://static001.geekbang.org/resource/image/ab/dc/ab08e31f805d1f7ea596ae4ccdea48dc.png?wh=760%2A837){: referrerpolicy="no-referrer" }
 
 当然，这种做法也有很明显的缺点：因为要同时等待多个数据服务器的数据，再加上消息队列的潜在处理延迟和网络延迟，对策略服务器而言，可能要增加几十到数百毫秒的延迟。如果是一些高频或者滑点要求比较高的策略，这种做法需要谨慎考虑。
 

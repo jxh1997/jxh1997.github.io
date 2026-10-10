@@ -94,7 +94,7 @@ export class LineEditor extends Konva.Group {
 
 所以这个课是我最新尝试的一个总结，希望你能为我提供一些反馈和建议，这也是我开设这门课的一个初心。就到这里了，我们再会！
 
-![](https://static001.geekbang.org/resource/image/1f/fa/1f49dd0ca82ab7a4c8ea2c3f1102c3fa.jpg?wh=1142x801)
+![](https://static001.geekbang.org/resource/image/1f/fa/1f49dd0ca82ab7a4c8ea2c3f1102c3fa.jpg?wh=1142x801){: referrerpolicy="no-referrer" }
 <div><strong>精选留言（2）</strong></div><ul>
 <li><span>aoe</span> 👍（5） 💬（0）<p>原来真实的 TDD 开发中是首选简单快速的方法实现，见机行事</p>2022-09-13</li><br/><li><span>王鸿轩</span> 👍（2） 💬（0）<p>期待与徐昊老师再会，听徐昊老师分享和写代码是一种非常愉悦的享受。</p>2023-12-30</li><br/>
 </ul>

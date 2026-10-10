@@ -90,7 +90,7 @@ Redis在解析字符串时，不会像C语言那样，使用“`\0`”判定一�
 
 举个例子，对于“Redis\\0Cluster\\0”这个字符串来说，C语言会解析为“Redis”，而Redis会解析为“Redis Cluster”，并用len属性表示字符串的真实长度是14字节，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/b4/7a/b4e98e2ecf00b42098a790cec363fc7a.jpg?wh=2472%2A1380)
+![](https://static001.geekbang.org/resource/image/b4/7a/b4e98e2ecf00b42098a790cec363fc7a.jpg?wh=2472%2A1380){: referrerpolicy="no-referrer" }
 
 这样一来，字符串中即使存储了“`\0`”字符，也不会导致Redis解析到“`\0`”时，就认为字符串结束了从而停止解析，这就保证了数据的安全性。和长字符串类型相比，简单字符串就是非二进制安全的。
 
@@ -142,7 +142,7 @@ $9 testvalue\r\n
 
 好了，到这里，你了解了RESP 2协议的5种编码类型和相应的开头字符，我在下面的表格里做了小结，你可以看下。
 
-![](https://static001.geekbang.org/resource/image/46/ce/4658d36cdb64a846fe1732a29c45b3ce.jpg?wh=2565%2A288)
+![](https://static001.geekbang.org/resource/image/46/ce/4658d36cdb64a846fe1732a29c45b3ce.jpg?wh=2565%2A288){: referrerpolicy="no-referrer" }
 
 Redis 6.0中使用了RESP 3协议，对RESP 2.0做了改进，我们来学习下具体都有哪些改进。
 

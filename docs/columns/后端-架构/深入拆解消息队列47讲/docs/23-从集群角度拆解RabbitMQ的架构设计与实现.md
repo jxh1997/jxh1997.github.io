@@ -12,7 +12,7 @@
 
 在节点发现方面，RabbitMQ 通过插件化的方式支持了多种发现方式，用来满足不同场景下的集群构建需求。如下图所示，主要分为**固定配置发现**、**类广播机制发现**、**第三方组件发现**、**手动管理**等4种类型，以及固定配置、DNS、AWS（EC2）、Kubernetes、Consule、etcd、手动管理等7种发现方式。
 
-![](https://static001.geekbang.org/resource/image/78/da/78ceyy4c08aaf07bea5494ebcb42afda.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/78/da/78ceyy4c08aaf07bea5494ebcb42afda.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 - **固定配置发现：**是指通过在RabbitMQ的配置文件中配置集群中所有节点的信息，从而发现集群所有节点的方式。和ZooKeeper的节点发现机制是一个思路。
 - **类广播机制发现：**是指通过DNS本身的机制解析出所有可用IP列表，从而发现集群中的所有节点。和 Elasticsearch 通过多播来动态发现集群节点是类似的思路。
@@ -31,7 +31,7 @@ RabbitMQ 集群维度数据可靠性的核心是**副本和数据一致性协议
 
 比较特殊的是，RabbitMQ 在创建 Queue 时没有副本概念，即创建出来的Queue都是单副本的。如果要支持多副本，在 3.8.0 之前需要通过配置镜像队列来实现，在 3.8.0 后可以使用Quorum Queue（仲裁队列）来实现。
 
-![](https://static001.geekbang.org/resource/image/01/39/017875b42452f9dffbd72fdf67cf7339.jpg?wh=10666x3146)
+![](https://static001.geekbang.org/resource/image/01/39/017875b42452f9dffbd72fdf67cf7339.jpg?wh=10666x3146){: referrerpolicy="no-referrer" }
 
 所以从集群维度看，RabbitMQ 的数据可靠性是由镜像队列和仲裁队列来保证的。因为在RabbitMQ 3.8.0之前，这是数据可靠的唯一手段。
 
@@ -45,7 +45,7 @@ RabbitMQ 集群维度数据可靠性的核心是**副本和数据一致性协议
 - Exactly 是指Queue的副本分布在几个节点上，可以理解成Queue的副本数。
 - Nodes 是指这个Queue的副本具体分布在哪几个节点上。
 
-![](https://static001.geekbang.org/resource/image/bc/13/bc0252d52e36a063b41e48f1ce51a713.jpg?wh=10666x5244)
+![](https://static001.geekbang.org/resource/image/bc/13/bc0252d52e36a063b41e48f1ce51a713.jpg?wh=10666x5244){: referrerpolicy="no-referrer" }
 
 通过指定这三个策略，用户可以控制副本数量和副本的分布。在其他队列的实现中，一般会在创建队列时指定副本数，然后内核根据当前的分区和副本信息，以节点之间的负载均衡为目标，自动算出副本的分布，然后创建副本。而 RabbitMQ 把这个过程，通过策略的形式让用户来选择，更加灵活的同时，用户的使用成本也会更高。
 
@@ -65,7 +65,7 @@ RabbitMQ 的镜像队列是通过内核中的GM模块将数据分发到从副本
 
 从实现的角度看，仲裁队列是基于 Raft 算法来设计的，依赖 Raft 共识协议来确保数据的一致性和可靠性。
 
-![](https://static001.geekbang.org/resource/image/47/2d/47d4c6b6d445ced517be56454954ed2d.jpg?wh=10666x5186)
+![](https://static001.geekbang.org/resource/image/47/2d/47d4c6b6d445ced517be56454954ed2d.jpg?wh=10666x5186){: referrerpolicy="no-referrer" }
 
 如上图所示，仲裁队列是主从模型，至少得有三个副本。通过主副本和多个从副本之间的数据同步，来实现数据的高可靠。队列会选举出主副本来实现数据的读写，当主副本不可用，会根据算法从副本中选举出新的主副本。
 
@@ -96,7 +96,7 @@ RabbitMQ 的镜像队列是通过内核中的GM模块将数据分发到从副本
 - **直接配置RabbitMQ支持TLS。**
 - **在代理或者负载均衡（如HAProxy）上配置支持TLS。**
 
-![](https://static001.geekbang.org/resource/image/c7/c3/c7d7ea9c5fb07ff866702feb8faaecc3.jpg?wh=10666x4764)
+![](https://static001.geekbang.org/resource/image/c7/c3/c7d7ea9c5fb07ff866702feb8faaecc3.jpg?wh=10666x4764){: referrerpolicy="no-referrer" }
 
 从安全的角度来看，两种选择并没有太明显的优劣势。在RabbitMQ Broker中，当启动TLS后，服务端需要指定一个新的端口来支持TLS。即支持TLS和不支持TLS的服务端口是不一样的。
 
@@ -113,7 +113,7 @@ RabbitMQ 的镜像队列是通过内核中的GM模块将数据分发到从副本
 
 **在认证配置上，RabbitMQ 支持链式认证。**即同时支持多种认证方式，比如在某些高安全要求的场景，需要完成多重身份认证才算认证成功，就可以用到链式认证。
 
-![](https://static001.geekbang.org/resource/image/6a/03/6aa89a963246c66edecdb93bf334b103.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/6a/03/6aa89a963246c66edecdb93bf334b103.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 如上图所示，需要同时完成IP来源认证、LDAP认证、用户名密码认证三重认证才算认证通过。这种链式的认证方式的好处是，可以满足多种场景，一般主流消息队列同时只能支持其中的一种认证方式，所以在认证配置的实现上，RabbitMQ做得蛮好的。
 
@@ -125,13 +125,13 @@ RabbitMQ的鉴权分为管理页面和数据流两个方面。
 
 管理页面指启用Management 插件后的 Manager 页面。这个页面可以执行查看监控、创建资源、删除资源等操作，权限很大。所以为了保证集群的安全，需要对这个页面的访问进行权限控制。管理页面的UI如下所示：
 
-![](https://static001.geekbang.org/resource/image/83/42/8387d7f7c521fc39fd0fab41c4bde542.png?wh=2913x1286)
+![](https://static001.geekbang.org/resource/image/83/42/8387d7f7c521fc39fd0fab41c4bde542.png?wh=2913x1286){: referrerpolicy="no-referrer" }
 
 Manager 页面权限控制的方式是，在创建用户时通过指定不同用户的访问角色类型，从而控制不同用户在管理页面上的操作权限。Manager 页面支持 management、policymaker、monitoring、administrator 四种角色类型，分别表示不同的权限粒度，算是一个比较常规的管控页面的权限控制实现方式。
 
 数据流的权限控制，主要包括资源操作（如创建、创建等）、写入、读取三种类型，分别对应Configure、Write、Read 三种权限。主要支持对 Vhost 和 Exchange 两种资源进行鉴权。资源配置页面如下所示：
 
-![](https://static001.geekbang.org/resource/image/8c/ee/8c3a211395d12ed750bb4dcd3c3a60ee.png?wh=1063x401)
+![](https://static001.geekbang.org/resource/image/8c/ee/8c3a211395d12ed750bb4dcd3c3a60ee.png?wh=1063x401){: referrerpolicy="no-referrer" }
 
 接下来，我们来看看RabbitMQ的可观测性。
 
@@ -141,7 +141,7 @@ RabbitMQ 的可观测性主要由监控、健康检查、日志和消息轨迹�
 
 整体来看，RabbitMQ 的监控指标非常丰富且立体，如下图所示，主要可以分为集群、节点、队列、应用程序四个维度。
 
-![](https://static001.geekbang.org/resource/image/92/a0/92865318050b53d2da31513e6a1212a0.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/92/a0/92865318050b53d2da31513e6a1212a0.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 - **集群维度：**主要包含集群的监控指标，比如Exchange数、Queue数、Channel数、生产者数、消费者数等等。
 - **应用程序维度：**主要包含进程级的监控信息，比如Socket 连接打开率、Channel打开率等等。
@@ -154,7 +154,7 @@ RabbitMQ 的可观测性主要由监控、健康检查、日志和消息轨迹�
 
 在某些和内部监控系统或者运营系统集成的场景中，通过HTTP API获取监控指标也是常用的方式。在现网排查问题时，直接使用命令行工具rabbitmq-diagnostics或rabbitmq-top来查看负载，也是非常常用的。下图就是通过rabbitmq-top命令行来查看进程监控的结果，非常齐全。
 
-![](https://static001.geekbang.org/resource/image/8e/ca/8e756488b86ccbedb4843a95fb12ecca.png?wh=1960x1266 "图片来源：https://www.rabbitmq.com/monitoring.html#rabbitmq-metrics")
+![](https://static001.geekbang.org/resource/image/8e/ca/8e756488b86ccbedb4843a95fb12ecca.png?wh=1960x1266 "图片来源：https://www.rabbitmq.com/monitoring.html#rabbitmq-metrics"){: referrerpolicy="no-referrer" }
 
 同时，RabbitMQ 因为其历史悠久、应用广泛，很多商业化或者开源的监控组件都天然支持和它集成，比如Zabbix、DataDog、AWS CloudWatch等。所以，从指标的暴露方式来看，RabbitMQ做得非常好、非常完整，能满足各个环境下的部署和监控运维需求。
 

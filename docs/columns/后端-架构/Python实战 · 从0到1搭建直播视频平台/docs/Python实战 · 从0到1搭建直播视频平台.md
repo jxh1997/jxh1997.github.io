@@ -4,7 +4,7 @@ Python的功能非常强大，除了应用在AI技术领域，在数据采集、
 
 然而，单纯学习语言无法快速提高技术实力。在项目开发工程师的求职面试过程中，企业尤其会关注面试者的项目经验和技术开发能力。针对这两方面痛点，本课程给出了体系化解决方案，手把手带你开发一个类似B站的在线视频直播平台，带你高效掌握前后端主流技术，迅速提升核心竞争力。
 
-![](https://static001.geekbang.org/resource/image/bd/c6/bdcf94b3799f88322c76f65b535c08c6.jpg)
+![](https://static001.geekbang.org/resource/image/bd/c6/bdcf94b3799f88322c76f65b535c08c6.jpg){: referrerpolicy="no-referrer" }
 
 本课程主要有三大亮点。
 
@@ -14,7 +14,7 @@ Python的功能非常强大，除了应用在AI技术领域，在数据采集、
 
 3.**面试导向。**技术研发总监的独家面试与项目经验指导，精准锁定面试热门核心技术点，带你锻炼硬技能和软技能，轻松应对面试挑战，向企业展示自己更优秀的一面。
 
-![](https://static001.geekbang.org/resource/image/e1/76/e1f6d018f9e42bcf07107f545e7e0a76.jpg)
+![](https://static001.geekbang.org/resource/image/e1/76/e1f6d018f9e42bcf07107f545e7e0a76.jpg){: referrerpolicy="no-referrer" }
 
 ## 技术框架版本
 

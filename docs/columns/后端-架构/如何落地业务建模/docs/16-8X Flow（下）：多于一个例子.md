@@ -16,11 +16,11 @@
 
 其中合同签约是最重要的时间点，合同是最重要的业务产出。如下图所示：
 
-![](https://static001.geekbang.org/resource/image/ba/0e/bae069de059734aac91fc73ea9471f0e.jpg?wh=2000x1125)
+![](https://static001.geekbang.org/resource/image/ba/0e/bae069de059734aac91fc73ea9471f0e.jpg?wh=2000x1125){: referrerpolicy="no-referrer" }
 
 让我们用一个最简单的场景理解一下业务从邀请投标到履约的全生命周期。假设你现在去菜市场买菜，看到菜摊上的朝鲜蓟（Artichoke）妖艳诡异。
 
-![](https://static001.geekbang.org/resource/image/5a/c9/5a77abaaf88d57158b06e115d4677bc9.jpg?wh=1142x640 "朝鲜蓟，一种高营养的保健蔬菜，具有良好的减肥功效，在法国菜中较为常见")
+![](https://static001.geekbang.org/resource/image/5a/c9/5a77abaaf88d57158b06e115d4677bc9.jpg?wh=1142x640 "朝鲜蓟，一种高营养的保健蔬菜，具有良好的减肥功效，在法国菜中较为常见"){: referrerpolicy="no-referrer" }
 
 - 于是就问摊主这个东西怎么卖。这就是你作为买菜的甲方，对卖菜的乙方提出的**邀请投标**。
 - 摊主回答你说，一个20块，这就是**投标**。
@@ -35,7 +35,7 @@
 
 比如上面买菜的例子，我们可以通过头脑风暴得到如下的结果：
 
-![](https://static001.geekbang.org/resource/image/2f/d2/2f0e9a5c090b64cecc8718f4e8186fd2.jpg?wh=2000x1125)
+![](https://static001.geekbang.org/resource/image/2f/d2/2f0e9a5c090b64cecc8718f4e8186fd2.jpg?wh=2000x1125){: referrerpolicy="no-referrer" }
 
 接下来，我们只需要在履约凭证中引入不同的履约请求，形成履约项。再根据凭证，寻找对应的参与方与标的物。然后再寻找违约补偿，就可以自然地进入8X Flow的建模流程了。
 
@@ -43,7 +43,7 @@
 
 回到上面这张图。如果再配合上投标邀请和投标，我们就可以在全生命周期上对8X Flow的元模型有一个更全面的视图。如下图所示，合同之前的上下文（也就是投标上下文）和合同上下文是完全分离的：
 
-![](https://static001.geekbang.org/resource/image/fc/44/fc468ea28bc62416222e983b7b90af44.jpg?wh=2000x1125)
+![](https://static001.geekbang.org/resource/image/fc/44/fc468ea28bc62416222e983b7b90af44.jpg?wh=2000x1125){: referrerpolicy="no-referrer" }
 
 通过这个视图我们至少可以明白三点。第一，**合同之前的上下文和合同上下文应该具有不同的弹性边界**。
 
@@ -75,7 +75,7 @@
 
 所以我们仍然可以用履约框架对其进行建模，而且只需要将元模型稍作修改即可：
 
-![](https://static001.geekbang.org/resource/image/77/58/77b30yy0603ac6yyba64bcafc6f00658.jpg?wh=2000x1125)
+![](https://static001.geekbang.org/resource/image/77/58/77b30yy0603ac6yyba64bcafc6f00658.jpg?wh=2000x1125){: referrerpolicy="no-referrer" }
 
 可以看到，在这种情况下，我们仍然是以合同履约的形式来分解的业务逻辑。毕竟说到底，我们日常用人仍然在《劳动法》的框架之下。而《劳动法》规定，如果用人方要开除某个员工的话，需要通过举证来证明员工不符合用工标准，并且是持续的。因而我们把绩效约定和进度检查作为日常的管理框架，也就不足为奇了。说到底，都是攒证据，以保证管理活动不违法！
 
@@ -129,7 +129,7 @@
 
 在这里的例子中，我们可以假设，如果出现这样的情况，就直接打官司。那么我们可以对这个合同上下文进行建模：
 
-![](https://static001.geekbang.org/resource/image/ef/c9/ef71831667b9bd2c39de8ac71ea908c9.jpg?wh=2000x1125)
+![](https://static001.geekbang.org/resource/image/ef/c9/ef71831667b9bd2c39de8ac71ea908c9.jpg?wh=2000x1125){: referrerpolicy="no-referrer" }
 
 看完了极客时间和作者之间的协议，然后我们再来看极客时间和编辑之间的绩效约定。
 
@@ -157,13 +157,13 @@
 
 言归正传，经过我侧面调查，极客时间还是很鼓励自主性的，因而目标设定的权利方是编辑，义务方是极客时间。那么我们可以对这个合同上下文建模：
 
-![](https://static001.geekbang.org/resource/image/7f/0b/7f2ae3964921c737840633fc63511a0b.jpg?wh=2000x1125)
+![](https://static001.geekbang.org/resource/image/7f/0b/7f2ae3964921c737840633fc63511a0b.jpg?wh=2000x1125){: referrerpolicy="no-referrer" }
 
 在上节课里，我们大致描述了读者部分的内容，因为这部分功能你也比较熟悉了，我就不再做介绍了。
 
 那么如果我们将这三个合同上下文放在一起，就可以看到凭证是如何在不同的合同上下文间，完成了业务的串联与整合。如下图所示：
 
-![](https://static001.geekbang.org/resource/image/21/64/2194516e12905ebeb6a0fyy2a3a83a64.jpg?wh=8000x4500)
+![](https://static001.geekbang.org/resource/image/21/64/2194516e12905ebeb6a0fyy2a3a83a64.jpg?wh=8000x4500){: referrerpolicy="no-referrer" }
 
 在这个全视图中，我们可以看到：
 
@@ -194,7 +194,7 @@
 
 我们讲了系统中的变化点，那么通过这些变化点，我们可以怎样来建模中台系统？
 
-![](https://static001.geekbang.org/resource/image/bc/31/bc6c7d3cdbf21a3a098c929dcacbfd31.jpg?wh=1500x1798)
+![](https://static001.geekbang.org/resource/image/bc/31/bc6c7d3cdbf21a3a098c929dcacbfd31.jpg?wh=1500x1798){: referrerpolicy="no-referrer" }
 
 很期待你能把自己对这节课的总结，对思考题的想法，或者任何疑问，分享在留言区，我在这里等你。我们下节课再见！
 <div><strong>精选留言（15）</strong></div><ul>

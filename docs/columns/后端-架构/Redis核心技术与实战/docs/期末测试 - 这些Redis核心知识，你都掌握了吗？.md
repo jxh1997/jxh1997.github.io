@@ -2,7 +2,7 @@
 
 在课程的最后，我给你出了一份结课测试题，满分100分，10道单选题，10道多选题，快来测试下你的掌握程度吧。
 
-[![](https://static001.geekbang.org/resource/image/28/a4/28d1be62669b4f3cc01c36466bf811a4.png?wh=1142%2A201)](http://time.geekbang.org/quiz/intro?act_id=236&exam_id=815)
+[![](https://static001.geekbang.org/resource/image/28/a4/28d1be62669b4f3cc01c36466bf811a4.png?wh=1142%2A201)](http://time.geekbang.org/quiz/intro?act_id=236&exam_id=815){: referrerpolicy="no-referrer" }
 <div><strong>精选留言（15）</strong></div><ul>
 <li><span>linlinschatz</span> 👍（5） 💬（1）<p>我最近才发现这套好课程，可惜没有早一些发现，努力学习，争取早日来做期末测试题。</p>2020-12-03</li><br/><li><span>老大不小</span> 👍（2） 💬（0）<p>第一次做期末测试题，60分，只做对了12题，还要再重点看一遍。</p>2021-05-08</li><br/><li><span>escray</span> 👍（2） 💬（0）<p>期末测试，做对了不到一半，我得重修了。
 

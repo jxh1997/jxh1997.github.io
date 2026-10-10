@@ -27,7 +27,7 @@ B+ 树是一种多叉树，一棵m阶的B+树定义如下：
 - **叶子存放了数据**，而非叶子节点只是存放了关键字。
 - **叶子节点被链表串联起来了。**
 
-![图片](https://static001.geekbang.org/resource/image/4f/2d/4f847baca3d0791yy3f09e3c63yy602d.png?wh=1920x618)
+![图片](https://static001.geekbang.org/resource/image/4f/2d/4f847baca3d0791yy3f09e3c63yy602d.png?wh=1920x618){: referrerpolicy="no-referrer" }
 
 前面 B+ 树的定义你记不住没关系，但是这两个特征你一定要记住。为了帮助你理解和记忆，我给你打个比方。
 
@@ -43,7 +43,7 @@ B+ 树用于数据库索引有3大优势。
 
 很多人都能记住 B+ 树的前两个优势，但是很容易忽略第三个优势。事实上，我们在讨论使用索引提高查询性能的时候，一个默认的前提就是索引本身会全部装进内存中，只有真实的数据行会放在磁盘上。否则，索引也放在磁盘上的话，使用索引的效果也就不明显了。
 
-![图片](https://static001.geekbang.org/resource/image/8b/25/8be51ff8f95900e1a1597431b5e6a025.png?wh=1920x919)
+![图片](https://static001.geekbang.org/resource/image/8b/25/8be51ff8f95900e1a1597431b5e6a025.png?wh=1920x919){: referrerpolicy="no-referrer" }
 
 ## 索引分类
 
@@ -65,11 +65,11 @@ B+ 树用于数据库索引有3大优势。
 
 简单来说，某个数据表本身你就可以看作是一棵使用主键搭建起来 B+ 树，这棵树的叶子节点放着表的所有行。而其他索引也是 B+ 树，不同的是它们的叶子节点存放的是主键。
 
-![图片](https://static001.geekbang.org/resource/image/b6/c0/b678418551507cf9a91519b524fed0c0.png?wh=1920x1037)
+![图片](https://static001.geekbang.org/resource/image/b6/c0/b678418551507cf9a91519b524fed0c0.png?wh=1920x1037){: referrerpolicy="no-referrer" }
 
 有了这种区分，你就能理解所谓的**回表**了。如果你查询一张表，用到了索引，那么数据库就会先在索引里面找到主键，然后再根据主键去聚簇索引中查找，最终找出数据。
 
-![图片](https://static001.geekbang.org/resource/image/ea/63/ea5f8fe7644f030bbe4ef1f03348yy63.png?wh=1920x1037)
+![图片](https://static001.geekbang.org/resource/image/ea/63/ea5f8fe7644f030bbe4ef1f03348yy63.png?wh=1920x1037){: referrerpolicy="no-referrer" }
 
 如图所示，查询的时候先沿着绿色的线条在非聚簇索引中找到主键。然后拿着主键再去下面沿着黄色的线条找到数据行。这个数据行存放在磁盘里，所以触发磁盘 IO 之后能够读取出来。磁盘 IO 是非常慢的，因此回表性能极差，你在实践中要尽可能避免回表。
 
@@ -79,7 +79,7 @@ B+ 树用于数据库索引有3大优势。
 
 比如说你有一个用户表 user\_tab，在上面的 id 和 name 两列上创建了一个组合索引 `<id, name>`，那么对于这个查询来说 `SELECT id, name FROM user_tab WHERE id = 123`, SELECT 关键字后面的 id 和 name 两列都在这个索引里，那么就可以直接用索引的数据，不必回表查询了。
 
-![图片](https://static001.geekbang.org/resource/image/ef/7b/ef6b9fbf89221a8d069e6cac5cb9f87b.png?wh=1920x788)
+![图片](https://static001.geekbang.org/resource/image/ef/7b/ef6b9fbf89221a8d069e6cac5cb9f87b.png?wh=1920x788){: referrerpolicy="no-referrer" }
 
 那么，**这个索引在这个查询下就是一个覆盖索引**。所以覆盖索引并不是一个独立的索引，而是某个索引相对于某个查询而言的。
 
@@ -94,7 +94,7 @@ B+ 树用于数据库索引有3大优势。
 
 索引在查询中是按照最左匹配原则来使用的，细究起来这个原则还是有点难以理解。我用一个例子来给你解释最左匹配原则的运行机制。比如说你创建了一个在 A、B、C 三个列上的组合索引 `<A, B, C>`。我用一个表格来展示一下索引列的值的关系。
 
-![图片](https://static001.geekbang.org/resource/image/47/9d/47eb1d5a892461ac54ee312937293c9d.png?wh=1920x701)
+![图片](https://static001.geekbang.org/resource/image/47/9d/47eb1d5a892461ac54ee312937293c9d.png?wh=1920x701){: referrerpolicy="no-referrer" }
 
 我们可以看到：A 是绝对有序的；在 A 确定的情况下，B 是有序的；在 A 和 B 都确定的情况下，C 是有序的。
 
@@ -185,7 +185,7 @@ for a in A {
 2. 在运行的时候，索引会被加载到内存里面，消耗内存空间。
 3. 在增删改的时候，数据库还需要同步维护索引，引入额外的消耗。
 
-![图片](https://static001.geekbang.org/resource/image/7c/cf/7c55f215a48235fba933b87b591d38cf.png?wh=1920x889)
+![图片](https://static001.geekbang.org/resource/image/7c/cf/7c55f215a48235fba933b87b591d38cf.png?wh=1920x889){: referrerpolicy="no-referrer" }
 
 这部分内容你也需要记住，因为现在有一些面试官的套路就是突然问你违反直觉的问题。例如正常我们都认为索引非常好，有很多优点，那么面试官就可能突然问你“使用索引有什么问题”“索引有什么坏处”等问题。
 
@@ -239,12 +239,12 @@ for a in A {
 
 <!--THE END-->
 
-![图片](https://static001.geekbang.org/resource/image/98/b3/98e3c18b24a864cd47c500553d01e9b3.png?wh=1920x1030)
+![图片](https://static001.geekbang.org/resource/image/98/b3/98e3c18b24a864cd47c500553d01e9b3.png?wh=1920x1030){: referrerpolicy="no-referrer" }
 
 - 与B+ 树相比，跳表在极端情况下会退化为链表，**平衡性差**，而数据库查询需要一个可预期的查询时间，并且跳表需要更多的内存。
 - 与B+ 树相比，B 树的数据存储在全部节点中，**对范围查询不友好。**非叶子节点存储了数据，**导致内存中难以放下全部非叶子节点**。如果内存放不下非叶子节点，那么就意味着查询非叶子节点的时候都需要磁盘 IO。
 
-![图片](https://static001.geekbang.org/resource/image/4a/2b/4aae0280d5c58035e387e9027577e92b.png?wh=1920x794)
+![图片](https://static001.geekbang.org/resource/image/4a/2b/4aae0280d5c58035e387e9027577e92b.png?wh=1920x794){: referrerpolicy="no-referrer" }
 
 因此一个数据结构是否适合数据库索引，取决于这种数据结构的增删改查性能。并且在关系型数据库里面，还额外要求对范围查询友好，减少内存消耗。
 
@@ -299,7 +299,7 @@ MySQL 的索引对 NULL 的支持稍微有点与众不同。首先 MySQL 本身�
 
 如果面试官不告诉你，让你考虑。或者你自己不打算问，那么你可以采用防御性的面试策略，在回答具体方案的时候先自己交代清楚这个方案的约束。
 
-![](https://static001.geekbang.org/resource/image/cc/yb/cc086d6a776dfe5d72f7bfc94d70eyyb.jpg?wh=1924x1779)
+![](https://static001.geekbang.org/resource/image/cc/yb/cc086d6a776dfe5d72f7bfc94d70eyyb.jpg?wh=1924x1779){: referrerpolicy="no-referrer" }
 
 # 思考题
 

@@ -106,14 +106,14 @@ python3 manage.py runserver
 
 最后，打开浏览器输入：`http://127.0.0.1:8000`。如果你能看到下面这个画面，就说明 Django 已经部署成功了。
 
-![](https://static001.geekbang.org/resource/image/6d/02/6d8244a8016c97139b3de4680ae2e802.png?wh=1109%2A946)
+![](https://static001.geekbang.org/resource/image/6d/02/6d8244a8016c97139b3de4680ae2e802.png?wh=1109%2A946){: referrerpolicy="no-referrer" }
 
 Django 的安装是不是非常简单呢？这其实也是 Python 一贯的理念，简洁，并简化入门的门槛。
 
 OK，现在我们再定位到 `http://127.0.0.1:8000/admin`，你会看到 Django 的后台管理网页，这里我就不过多介绍了。
 
-![](https://static001.geekbang.org/resource/image/ef/93/ef29a801bd367263aa4792131eeae093.png?wh=528%2A388)  
-![](https://static001.geekbang.org/resource/image/31/25/311b3ebf2b0801e84de60d36a81c6925.png?wh=871%2A423)
+![](https://static001.geekbang.org/resource/image/ef/93/ef29a801bd367263aa4792131eeae093.png?wh=528%2A388)  {: referrerpolicy="no-referrer" }
+![](https://static001.geekbang.org/resource/image/31/25/311b3ebf2b0801e84de60d36a81c6925.png?wh=871%2A423){: referrerpolicy="no-referrer" }
 
 到此，Django 就已经成功安装，并且正常启动啦。
 
@@ -327,11 +327,11 @@ Running migrations:
 这几步的具体操作，我都用代码和注释表示了出来，你完全可以同步进行操作。操作完成后，现在，我们的数据结构就已经被成功同步到数据库中了。
 
 最后，输入 `python manage.py runserver`，然后打开浏览器输入`http://127.0.0.1:8000/positions/btc`，你就能看到效果啦。  
-![](https://static001.geekbang.org/resource/image/ab/4a/abb5a9aaf8016f485d38552f4291784a.png?wh=542%2A339)
+![](https://static001.geekbang.org/resource/image/ab/4a/abb5a9aaf8016f485d38552f4291784a.png?wh=542%2A339){: referrerpolicy="no-referrer" }
 
 现在，我们再回过头来看一下 MVC 模式，通过我画的这张图，你可以看到，M、V、C这三者，以一种插件似的、松耦合的方式连接在一起：
 
-![](https://static001.geekbang.org/resource/image/c7/bc/c7ff058064e869d6da652805c29263bc.png?wh=628%2A333)
+![](https://static001.geekbang.org/resource/image/c7/bc/c7ff058064e869d6da652805c29263bc.png?wh=628%2A333){: referrerpolicy="no-referrer" }
 
 当然，我带你写的只是一个简单的 Django 应用程序，对于真正的量化平台监控系统而言，这还只是一个简单的开始。
 

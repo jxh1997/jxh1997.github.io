@@ -52,16 +52,16 @@ EXEC
 
 你能看到在MULTI和EXEC之间的COMMAND命令都会被放到COMMAND队列中，并返回排队的状态，只有当EXEC调用时才会一次性全部执行。
 
-![](https://static001.geekbang.org/resource/image/4a/06/4aa62797167f41599b9e514d77fc0a06.png?wh=1730%2A868)  
+![](https://static001.geekbang.org/resource/image/4a/06/4aa62797167f41599b9e514d77fc0a06.png?wh=1730%2A868)  {: referrerpolicy="no-referrer" }
 我们经常使用Redis的WATCH和MULTI命令来处理共享资源的并发操作，比如秒杀，抢票等。实际上WATCH+MULTI实现的是乐观锁。下面我们用两个Redis客户端来模拟下抢票的流程。
 
-![](https://static001.geekbang.org/resource/image/95/41/95e294bfb6843ef65beff61ca0bc3a41.png?wh=829%2A388)  
+![](https://static001.geekbang.org/resource/image/95/41/95e294bfb6843ef65beff61ca0bc3a41.png?wh=829%2A388)  {: referrerpolicy="no-referrer" }
 我们启动Redis客户端1，执行上面的语句，然后在执行EXEC前，等待客户端2先完成上面的执行，客户端2的结果如下：
 
-![](https://static001.geekbang.org/resource/image/eb/1b/ebbadb4698e80d81dbf7c62a21dbec1b.png?wh=775%2A478)  
+![](https://static001.geekbang.org/resource/image/eb/1b/ebbadb4698e80d81dbf7c62a21dbec1b.png?wh=775%2A478)  {: referrerpolicy="no-referrer" }
 然后客户端1执行EXEC，结果如下：
 
-![](https://static001.geekbang.org/resource/image/6b/f8/6b23c9efcdbe1f349299fc32d41ab0f8.png?wh=766%2A506)  
+![](https://static001.geekbang.org/resource/image/6b/f8/6b23c9efcdbe1f349299fc32d41ab0f8.png?wh=766%2A506)  {: referrerpolicy="no-referrer" }
 你能看到实际上最后一张票被客户端2抢到了，这是因为客户端1WATCH的票的变量在EXEC之前发生了变化，整个事务就被打断，返回空回复（nil）。
 
 需要说明的是MULTI后不能再执行WATCH命令，否则会返回WATCH inside MULTI is not allowed错误（因为WATCH代表的就是在执行事务前观察变量是否发生了改变，如果变量改变了就将事务打断，所以在事务执行之前，也就是MULTI之前，使用WATCH）。同时，如果在执行命令过程中有语法错误，Redis也会报错，整个事务也不会被执行，Redis会忽略运行时发生的错误，不会影响到后面的执行。
@@ -158,7 +158,7 @@ if __name__ == "__main__":
 
 我们在进行抢票模拟的时候，列举了两个Redis客户端的例子，当WATCH的键ticket发生改变的时候，事务就会被打断。这里我将客户端2的SET ticket设置为1，也就是ticket的数值没有发生变化，请问此时客户端1和客户端2的执行结果是怎样的，为什么？
 
-![](https://static001.geekbang.org/resource/image/d4/44/d4bb30f5d415ea93980c465e4f110544.png?wh=899%2A421)
+![](https://static001.geekbang.org/resource/image/d4/44/d4bb30f5d415ea93980c465e4f110544.png?wh=899%2A421){: referrerpolicy="no-referrer" }
 
 欢迎你在评论区写下你的思考，我会和你一起交流，也欢迎你把这篇文章分享给你的朋友或者同事，一起交流一下。
 <div><strong>精选留言（15）</strong></div><ul>

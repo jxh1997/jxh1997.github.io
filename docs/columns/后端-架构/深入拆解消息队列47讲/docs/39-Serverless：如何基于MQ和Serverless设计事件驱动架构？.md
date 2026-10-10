@@ -13,7 +13,7 @@
 
 事件驱动架构，英文是 Event Driven Architecture，简称 EDA。我们通过下面这张图来认识一下它。
 
-![](https://static001.geekbang.org/resource/image/3d/df/3d3dd08aabb4349a661f86ac4b0c80df.jpg?wh=10666x4971)
+![](https://static001.geekbang.org/resource/image/3d/df/3d3dd08aabb4349a661f86ac4b0c80df.jpg?wh=10666x4971){: referrerpolicy="no-referrer" }
 
 如上图所示，这是从事件驱动架构抽象出来的架构图，图中包含了**事件源**、**事件处理平台（事件总线）**、**事件目标**三个部分。
 
@@ -53,7 +53,7 @@ CloudEvents 是一个开源项目，它的目的是**定义通用的、标准化
 
 如下图所示，CloudEvents 规范包括事件上下文、事件数据、传输协议三个部分。
 
-![](https://static001.geekbang.org/resource/image/fc/c5/fca17093f74881dcdc0ddd9ff18be5c5.jpg?wh=10666x2736)
+![](https://static001.geekbang.org/resource/image/fc/c5/fca17093f74881dcdc0ddd9ff18be5c5.jpg?wh=10666x2736){: referrerpolicy="no-referrer" }
 
 1. **事件上下文**：包含事件的元数据，如事件类型、事件源、事件ID等。
 2. **事件数据**：包含事件的有效负载，即与事件相关的具体信息。
@@ -75,7 +75,7 @@ CloudEvents 是一个开源项目，它的目的是**定义通用的、标准化
 
 而为了达到这个效果，我们就需要进行一些代码开发和系统对接的工作。如果引入事件总线，就可以省去这部分的工作量。
 
-![](https://static001.geekbang.org/resource/image/df/4e/df8e54da4f441f1fe53d3869f5589f4e.jpg?wh=10666x4787)
+![](https://static001.geekbang.org/resource/image/df/4e/df8e54da4f441f1fe53d3869f5589f4e.jpg?wh=10666x4787){: referrerpolicy="no-referrer" }
 
 如上图所示，业务采集异常指标后，可以通过事件处理平台开放的 API（比如 CloudEvent API ）进行上报。事件处理平台接收、存储事件数据，将这些数据聚合、过滤、处理，然后根据预先设置的规则，完成消息的推送与自动化处理。
 
@@ -91,7 +91,7 @@ CloudEvents 是一个开源项目，它的目的是**定义通用的、标准化
 
 为了解决这个问题，我们可以引入事件处理平台。
 
-![](https://static001.geekbang.org/resource/image/55/02/55bc853ba1bf0f2e7888cb871e59fc02.jpg?wh=10666x4459)
+![](https://static001.geekbang.org/resource/image/55/02/55bc853ba1bf0f2e7888cb871e59fc02.jpg?wh=10666x4459){: referrerpolicy="no-referrer" }
 
 如上图所示，邮件系统对接事件中心，将有风险的邮件数据上报到事件处理平台。事件处理平台会根据事先设定的规则，自动化调用对应系统的接口进行投递。
 
@@ -103,7 +103,7 @@ CloudEvents 是一个开源项目，它的目的是**定义通用的、标准化
 
 当前不少企业都会通过ERP、CRM等内部系统来实现企业数字化。此时就会出现多项系统彼此闭环，数据难以统一管理的问题。为了解决它，我们就需要拥有一套数据连接聚合系统，把数据汇总起来。如果全部自定义开发，成本就很高，此时我们就可以引入事件驱动架构。
 
-![](https://static001.geekbang.org/resource/image/5c/ba/5c110ee9145131105a1fff74d66e02ba.jpg?wh=10666x3993)
+![](https://static001.geekbang.org/resource/image/5c/ba/5c110ee9145131105a1fff74d66e02ba.jpg?wh=10666x3993){: referrerpolicy="no-referrer" }
 
 如上图所示，事件处理平台提供了统一的事件投递规范。业务方产生的不同类型事件（如用户下单、商品入库、订单更新等），通过 CloudEvent API 以相同规范进行投递。由事件处理平台进行事件的过滤、提取后，根据配置的不同路由规则，将对应事件投递给相应的处理目标，完成事件的自动化处理。
 
@@ -115,13 +115,13 @@ CloudEvents 是一个开源项目，它的目的是**定义通用的、标准化
 
 先来看一张整体的架构图。事件处理平台分为接入层、缓存层、运行层、分发层四个部分。
 
-![](https://static001.geekbang.org/resource/image/e5/d8/e582a225a9yy4aa3edba2e71f2e57cd8.jpg?wh=10666x4812)
+![](https://static001.geekbang.org/resource/image/e5/d8/e582a225a9yy4aa3edba2e71f2e57cd8.jpg?wh=10666x4812){: referrerpolicy="no-referrer" }
 
 ### 接入层
 
 接入层顾名思义就是用来接收事件数据的。从功能来看，有被动接收和主动拉取两种形态。
 
-![](https://static001.geekbang.org/resource/image/67/a7/6752e3e9aa2cbd9e11b1d743fb0166a7.jpg?wh=10666x3196)
+![](https://static001.geekbang.org/resource/image/67/a7/6752e3e9aa2cbd9e11b1d743fb0166a7.jpg?wh=10666x3196){: referrerpolicy="no-referrer" }
 
 **被动接收**是指开发部署维护支持 HTTP、CloudEvent 等协议的 Server，并设计上报协议。客户端会根据 Server 规定的协议组织数据并完成上报。
 
@@ -141,7 +141,7 @@ CloudEvents 是一个开源项目，它的目的是**定义通用的、标准化
 
 如下图所示，假设我们有7个事件源（以不同颜色区分）。此时如果所有的事件都存储在一个分区或 Topic 里面，当某个事件源数据量太大导致消费堆积时，同一个分区里面其他事件源的事件处理就会受到影响。
 
-![](https://static001.geekbang.org/resource/image/cd/62/cd946fe51f5f45840489aaff22a73862.jpg?wh=10666x3697)
+![](https://static001.geekbang.org/resource/image/cd/62/cd946fe51f5f45840489aaff22a73862.jpg?wh=10666x3697){: referrerpolicy="no-referrer" }
 
 此时就得考虑事件数据存储方式。**所有的事件源存储在一起，还是每个事件源都进行独立的分区或Topic存储**。使用哪种方案更合理呢？它们各自存在什么问题？又如何解决？你可以先想想，我们留在思考题中解决。
 
@@ -155,7 +155,7 @@ CloudEvents 是一个开源项目，它的目的是**定义通用的、标准化
 
 运行层需要关注它底层的运行时是什么？如下图所示，从技术上来看，有内置固定规则运行时和Serverless 运行时两种形态。
 
-![](https://static001.geekbang.org/resource/image/90/3f/900d69eac4d42d46945407548003f03f.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/90/3f/900d69eac4d42d46945407548003f03f.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 **内置固定规则运行时**，是指我们通过编码实现固定的业务处理、分发逻辑。然后用户通过一些配置项来配置事件处理规则或分发策略，从而触发固定的逻辑处理。
 
@@ -171,7 +171,7 @@ CloudEvents 是一个开源项目，它的目的是**定义通用的、标准化
 
 分发层的核心功能就是对接各种下游系统。如下图所示，即集成各种下游系统的 SDK，比如 HTTP SDK、ES SDK、JDBC SDK等，然后供运行层调用。每种下游系统，在运行层只需要对接一次即可。
 
-![](https://static001.geekbang.org/resource/image/6b/4a/6bf05dc9b6edb4723112b06e37bd254a.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/6b/4a/6bf05dc9b6edb4723112b06e37bd254a.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 从使用上看，运行层执行完计算、处理、过滤的逻辑后，就会调用分发层触发具体的操作，比如调用 HTTP API、将数据写入到 DB 等等。
 
@@ -186,7 +186,7 @@ CloudEvents 是一个开源项目，它的目的是**定义通用的、标准化
 1. 接入层接收成功的事件数据不能丢失。
 2. 对事件数据的处理必须有结果。
 
-![](https://static001.geekbang.org/resource/image/a0/49/a0ed79686971aedbafb388a15410db49.jpg?wh=10666x2798)
+![](https://static001.geekbang.org/resource/image/a0/49/a0ed79686971aedbafb388a15410db49.jpg?wh=10666x2798){: referrerpolicy="no-referrer" }
 
 第一点比较好理解，即接入层收到数据后，需要写入缓存层成功后，才能返回成功。还得在缓存系统异常时，保证数据不能丢失。这块依赖的就是编码技巧，以及缓存引擎的选择和使用方式。
 
@@ -200,7 +200,7 @@ CloudEvents 是一个开源项目，它的目的是**定义通用的、标准化
 
 先来看下图，事件数据在事件处理平台可能是链式的处理，此时一个事件就有可能被传递多次。那如何保证事件不会被重复投递呢？
 
-![](https://static001.geekbang.org/resource/image/46/0e/46e16ef2053b45f8b028c8ecf6fab40e.jpg?wh=10666x2270)
+![](https://static001.geekbang.org/resource/image/46/0e/46e16ef2053b45f8b028c8ecf6fab40e.jpg?wh=10666x2270){: referrerpolicy="no-referrer" }
 
 这个问题就是事件处理平台中数据一致性语义，它分为最多投递一次、最少投递一次、精确投递一次三种情况。
 
@@ -218,7 +218,7 @@ CloudEvents 是一个开源项目，它的目的是**定义通用的、标准化
 
 先来看一下整体的架构图。
 
-![](https://static001.geekbang.org/resource/image/0a/61/0aa9b13c2044a642ed6f1a99da8a6661.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/0a/61/0aa9b13c2044a642ed6f1a99da8a6661.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 如上图所示，整个架构分为数据源、事件总线、数据目标三个部分。这里我们主要需要完成的是事件总线部分，由接入层、缓存层、运行层、分发层四部分组成。
 
@@ -280,7 +280,7 @@ CloudEvents 是一个开源项目，它的目的是**定义通用的、标准化
 
 这里的数据转换不是简单的数据格式化和清洗，还需要和第三方系统交互，渲染数据，并且还需要多个库、多个表之间的数据进行关联，聚合成一个大列，另外还有一些业务的特殊逻辑。
 
-![](https://static001.geekbang.org/resource/image/bb/e6/bb9351839ea563f3d8c59d0ab28da8e6.jpg?wh=10666x3795)
+![](https://static001.geekbang.org/resource/image/bb/e6/bb9351839ea563f3d8c59d0ab28da8e6.jpg?wh=10666x3795){: referrerpolicy="no-referrer" }
 
 我们的解决思路依旧是通过 Serverless Function来实现。首先编写一段函数逻辑，逻辑如下：
 

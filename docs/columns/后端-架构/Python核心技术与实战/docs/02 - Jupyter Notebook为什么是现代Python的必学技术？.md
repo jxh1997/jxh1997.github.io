@@ -2,7 +2,7 @@
 
 Stack Overflow 曾在2017年底，发布了在该站上各种语言的提问流量。其中，Python已经超过了JavaScript成为了流量最高的语言，预测在2020年前会远远甩开JavaScript。
 
-![](https://static001.geekbang.org/resource/image/5c/2d/5c3daf49453370c3aa7ddf3bb36cab2d.png?wh=1400%2A1200)
+![](https://static001.geekbang.org/resource/image/5c/2d/5c3daf49453370c3aa7ddf3bb36cab2d.png?wh=1400%2A1200){: referrerpolicy="no-referrer" }
 
 可能你已经知道，Python在14年后的“崛起”，得益于机器学习和数学统计应用的兴起。那为什么Python如此适合数学统计和机器学习呢？作为“老司机”的我可以肯定地告诉你，Jupyter Notebook （[https://jupyter.org/](https://jupyter.org/)）功不可没。
 
@@ -16,7 +16,7 @@ Stack Overflow 曾在2017年底，发布了在该站上各种语言的提问流�
 
 英文里说一图胜千言（A picture is worth a thousand words）。看下面这个图片，你就明白什么是Jupyter Notebook了。
 
-![](https://static001.geekbang.org/resource/image/de/71/dee40d0f591d3f5e2f43839dccc24471.png?wh=1072%2A994)
+![](https://static001.geekbang.org/resource/image/de/71/dee40d0f591d3f5e2f43839dccc24471.png?wh=1072%2A994){: referrerpolicy="no-referrer" }
 
 你在一个框框中直接输入代码，运行，它立马就在下面给你输出。怎么样，是不是很酷？你可能会纳闷儿，这样一个看起来“华而不实”的玩意儿，真的就成了Python社区的颠覆者吗？说实话放在几年前我也是不信的。所以 Jupyter Notebook 的影响究竟有多大呢？
 
@@ -68,7 +68,7 @@ Jupyter Notebook如何解决这个问题呢？
 
 比如这样一个[GitHub文件](https://github.com/binder-examples/python2_with_3/blob/master/index3.ipynb)。在[Binder](https://mybinder.org/)中，你只要输入其对应的GitHub Repository的名字或者URL，就能在云端打开整个Repository，选择你需要的[notebook](https://mybinder.org/v2/gh/binder-examples/python2_with_3/master?filepath=index3.ipynb)，你就能看到下图这个界面。
 
-![](https://static001.geekbang.org/resource/image/f8/c9/f81efe2538074a3385b9ba70aced2cc9.png?wh=1298%2A994)
+![](https://static001.geekbang.org/resource/image/f8/c9/f81efe2538074a3385b9ba70aced2cc9.png?wh=1298%2A994){: referrerpolicy="no-referrer" }
 
 每一个Jupyter的运行单元都包含了In、Out的Cell。如图所示，你可以使用Run按钮，运行单独的一个Cell。当然，你也可以在此基础上加以修改，或者新建一个notebook，写成自己想要的程序。赶紧打开链接试一试吧！
 

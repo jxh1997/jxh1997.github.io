@@ -12,7 +12,7 @@
 
 InnoDB存储引擎的文件格式是.ibd文件，数据会按照表空间（tablespace）进行存储，分为共享表空间和独立表空间。如果想要查看表空间的存储方式，我们可以对`innodb_file_per_table`变量进行查询，使用`show variables like 'innodb_file_per_table';`。ON表示独立表空间，而OFF则表示共享表空间。
 
-![](https://static001.geekbang.org/resource/image/7d/0d/7dc5aae75a7d5d2c599c7cb8dd97440d.png?wh=1319%2A356)  
+![](https://static001.geekbang.org/resource/image/7d/0d/7dc5aae75a7d5d2c599c7cb8dd97440d.png?wh=1319%2A356)  {: referrerpolicy="no-referrer" }
 如果采用共享表空间的模式，InnoDB存储的表数据都会放到共享表空间中，也就是多个数据表共用一个表空间，同时表空间也会自动分成多个文件存放到磁盘上。这样做的好处在于单个数据表的大小可以突破文件系统大小的限制，最大可以达到64TB，也就是InnoDB存储引擎表空间的上限。不足也很明显，多个数据表存放到一起，结构不清晰，不利于数据的找回，同时将所有数据和索引都存放到一个文件中，也会使得共享表空间的文件很大。
 
 采用独立表空间的方式可以让每个数据表都有自己的物理文件，也就是table\_name.ibd的文件，在这个文件中保存了数据表中的数据、索引、表的内部数据字典等信息。它的优势在于每张表都相互独立，不会影响到其他数据表，存储结构清晰，利于数据恢复，同时数据表还可以在不同的数据库之间进行迁移。
@@ -31,7 +31,7 @@ InnoDB存储引擎的文件格式是.ibd文件，数据会按照表空间（tabl
 
 我们可以通过命令`show variables like 'innodb_force_recovery';`来查看当前参数的状态，你能看到默认为0，表示不进行强制恢复。如果遇到错误，比如ibd文件中的数据页发生损坏，则无法读取数据，会发生MySQL宕机的情况，此时会将错误日志记录下来。
 
-![](https://static001.geekbang.org/resource/image/6e/ba/6edf81f6402311ca7f8ee8619b656fba.png?wh=1297%2A369)  
+![](https://static001.geekbang.org/resource/image/6e/ba/6edf81f6402311ca7f8ee8619b656fba.png?wh=1297%2A369)  {: referrerpolicy="no-referrer" }
 `innodb_force_recovery`参数一共有7种状态，除了默认的0以外，还可以为1-6的取值，分别代表不同的强制恢复措施。
 
 当我们需要强制恢复的时候，可以将`innodb_force_recovery`设置为1，表示即使发现了损坏页也可以继续让服务运行，这样我们就可以读取数据表，并且对当前损坏的数据表进行分析和备份。
@@ -64,7 +64,7 @@ InnoDB存储引擎的文件格式是.ibd文件，数据会按照表空间（tabl
 
 为了简便，我们创建一个数据表t1，只有id一个字段，类型为int。使用命令`create table t1(id int);`即可。
 
-![](https://static001.geekbang.org/resource/image/0c/34/0c2790f539d4f35aec6dd0703b059134.png?wh=944%2A113)  
+![](https://static001.geekbang.org/resource/image/0c/34/0c2790f539d4f35aec6dd0703b059134.png?wh=944%2A113)  {: referrerpolicy="no-referrer" }
 然后创建一个存储过程帮我们生成一些数据：
 
 ```
@@ -92,21 +92,21 @@ END
 
 实际工作中我们可能会遇到各种各样的情况，比如.ibd文件损坏等，如果遇到了数据文件的损坏，MySQL是无法正常读取的。在模拟损坏.ibd文件之前，我们需要先关闭掉MySQL服务，然后用编辑器打开t1.ibd，类似下图所示：
 
-![](https://static001.geekbang.org/resource/image/d3/7c/d34734f6dfbf0e01cf4a40bb549e147c.png?wh=1116%2A959)  
+![](https://static001.geekbang.org/resource/image/d3/7c/d34734f6dfbf0e01cf4a40bb549e147c.png?wh=1116%2A959)  {: referrerpolicy="no-referrer" }
 文件是有二进制编码的，看不懂没有关系，我们只需要破坏其中的一些内容即可，比如我在t1.ibd文件中删除了2行内容（文件大部分内容为0，我们在文件中间部分找到一些非0的取值，然后删除其中的两行：4284行与4285行，原ibd文件和损坏后的ibd文件见[GitHub](https://github.com/cystanford/innodb_force_recovery)[地址](https://github.com/cystanford/innodb_force_recovery)。其中t1.ibd为创建的原始数据文件,t1-损坏.ibd为损坏后的数据文件，你需要自己创建t1数据表，然后将t1-损坏.ibd拷贝到本地，并改名为t1.ibd）。
 
 然后我们保存文件，这时.ibd文件发生了损坏，如果我们没有打开`innodb_force_recovery`，那么数据文件无法正常读取。为了能读取到数据表中的数据，我们需要修改MySQL的配置文件，找到`[mysqld]`的位置，然后再下面增加一行`innodb_force_recovery=1`。
 
-![](https://static001.geekbang.org/resource/image/a3/94/a3a226bbd1b435393039b75618be6e94.png?wh=1729%2A312)
+![](https://static001.geekbang.org/resource/image/a3/94/a3a226bbd1b435393039b75618be6e94.png?wh=1729%2A312){: referrerpolicy="no-referrer" }
 
 ### 备份数据表
 
 当我们设置`innodb_force_recovery`参数为1的时候，可以读取到数据表t1中的数据，但是数据不全。我们使用`SELECT * FROM t1 LIMIT 10;`读取当前前10条数据。
 
-![](https://static001.geekbang.org/resource/image/76/0a/761a5495f9769de35f60f112e4d94b0a.png?wh=881%2A803)  
+![](https://static001.geekbang.org/resource/image/76/0a/761a5495f9769de35f60f112e4d94b0a.png?wh=881%2A803)  {: referrerpolicy="no-referrer" }
 但是如果我们想要完整的数据，使用`SELECT * FROM t1 LIMIT 100;`就会发生如下错误。
 
-![](https://static001.geekbang.org/resource/image/62/93/623a6cd6987f5ac11aad432257edcc93.png?wh=1625%2A109)  
+![](https://static001.geekbang.org/resource/image/62/93/623a6cd6987f5ac11aad432257edcc93.png?wh=1625%2A109)  {: referrerpolicy="no-referrer" }
 这是因为读取的部分包含了已损坏的数据页，我们可以采用二分查找判断数据页损坏的位置。这里我们通过实验，可以得出只有最后一个记录行收到了损坏，而前99条记录都可以正确读出（具体实验过程省略）。
 
 这样我们就能判断出来有效的数据行的位置，从而将它们备份出来。首先我们创建一个相同的表结构t2，存储引擎设置为MyISAM。我刚才讲过这里使用MyISAM存储引擎是因为在`innodb_force_recovery=1`的情况下，无法对innodb数据表进行写数据。使用命令`CREATE TABLE t2(id int) ENGINE=MyISAM;`。
@@ -117,28 +117,28 @@ END
 INSERT INTO t2 SELECT * FROM t1 LIMIT 99;
 ```
 
-![](https://static001.geekbang.org/resource/image/a9/38/a91d4a2d259bba1c2aeb9a5b95619238.png?wh=1219%2A306)  
+![](https://static001.geekbang.org/resource/image/a9/38/a91d4a2d259bba1c2aeb9a5b95619238.png?wh=1219%2A306)  {: referrerpolicy="no-referrer" }
 我们刚才讲过在分析t1数据表的时候无法使用WHERE以及ORDER BY等子句，这里我们可以实验一下，如果想要查询id&lt;10的数据行都有哪些，那么会发生如下错误。原因是损坏的数据页无法进行条件判断。
 
-![](https://static001.geekbang.org/resource/image/fc/9d/fc00a89e22a301826bbdd7b37d7b7c9d.png?wh=1644%2A122)
+![](https://static001.geekbang.org/resource/image/fc/9d/fc00a89e22a301826bbdd7b37d7b7c9d.png?wh=1644%2A122){: referrerpolicy="no-referrer" }
 
 ### 删除旧表，改名新表
 
 刚才我们已经恢复了大部分的数据。虽然还有一行记录没有恢复，但是能找到绝大部分的数据也是好的。然后我们就需要把之前旧的数据表删除掉，使用`DROP TABLE t1;`。
 
-![](https://static001.geekbang.org/resource/image/f3/47/f30d79228572382810fd388ded1ff447.png?wh=925%2A125)  
+![](https://static001.geekbang.org/resource/image/f3/47/f30d79228572382810fd388ded1ff447.png?wh=925%2A125)  {: referrerpolicy="no-referrer" }
 更新表名，将数据表名称由t2改成t1，使用`RENAME TABLE t2 to t1;`。
 
-![](https://static001.geekbang.org/resource/image/23/98/23af300e09c2fd5afafe1cec849d7f98.png?wh=928%2A116)  
+![](https://static001.geekbang.org/resource/image/23/98/23af300e09c2fd5afafe1cec849d7f98.png?wh=928%2A116)  {: referrerpolicy="no-referrer" }
 将新的数据表t1存储引擎改成InnoDB，不过直接修改的话，会报如下错误：
 
-![](https://static001.geekbang.org/resource/image/d1/a6/d102e7ec02a228529b26bd070601b9a6.png?wh=1729%2A101)
+![](https://static001.geekbang.org/resource/image/d1/a6/d102e7ec02a228529b26bd070601b9a6.png?wh=1729%2A101){: referrerpolicy="no-referrer" }
 
 ### 关闭`innodb_force_recovery`，并重启数据库
 
 因为上面报错，所以我们需要将MySQL配置文件中的`innodb_force_recovery=1`删除掉，然后重启数据库。最后将t1的存储引擎改成InnoDB即可，使用`ALTER TABLE t1 engine = InnoDB;`。
 
-![](https://static001.geekbang.org/resource/image/ab/1b/abc06822471b4eb4036de1504840df1b.png?wh=1016%2A163)
+![](https://static001.geekbang.org/resource/image/ab/1b/abc06822471b4eb4036de1504840df1b.png?wh=1016%2A163){: referrerpolicy="no-referrer" }
 
 ## 总结
 

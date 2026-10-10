@@ -278,7 +278,7 @@ if (fd != -1) {
 
 为了便于你掌握从监听客户端连接请求到监听客户端常规读写请求的事件创建过程，我画了下面这张图，你可以看下。
 
-![](https://static001.geekbang.org/resource/image/52/e9/5212d6d61a9e5d8aaefc88497fd5aee9.jpg?wh=2000x1093)
+![](https://static001.geekbang.org/resource/image/52/e9/5212d6d61a9e5d8aaefc88497fd5aee9.jpg?wh=2000x1093){: referrerpolicy="no-referrer" }
 
 了解了事件驱动框架中的读事件处理之后，我们再来看下写事件的处理。
 
@@ -286,7 +286,7 @@ if (fd != -1) {
 
 Redis实例在收到客户端请求后，会在处理客户端命令后，将要返回的数据写入客户端输出缓冲区。下图就展示了这个过程的函数调用逻辑：
 
-![](https://static001.geekbang.org/resource/image/31/df/3107452361f9366189e4d4080f3153df.jpg?wh=1888x1005)
+![](https://static001.geekbang.org/resource/image/31/df/3107452361f9366189e4d4080f3153df.jpg?wh=1888x1005){: referrerpolicy="no-referrer" }
 
 而在Redis事件驱动框架每次循环进入事件处理函数前，也就是在框架主函数aeMain中调用aeProcessEvents，来处理监听到的已触发事件或是到时的时间事件之前，都会调用server.c文件中的**beforeSleep函数**，进行一些任务处理，这其中就包括了调用handleClientsWithPendingWrites函数，它会将Redis sever客户端缓冲区中的数据写回客户端。
 
@@ -307,7 +307,7 @@ void aeMain(aeEventLoop *eventLoop) {
 
 这里你要知道，beforeSleep函数调用的handleClientsWithPendingWrites函数，会遍历每一个待写回数据的客户端，然后调用writeToClient函数，将客户端输出缓冲区中的数据写回。下面这张图展示了这个流程，你可以看下。
 
-![](https://static001.geekbang.org/resource/image/18/05/18c8bfaab29a890fb15edcca3971bb05.jpg?wh=2000x1125)
+![](https://static001.geekbang.org/resource/image/18/05/18c8bfaab29a890fb15edcca3971bb05.jpg?wh=2000x1125){: referrerpolicy="no-referrer" }
 
 不过，如果输出缓冲区的数据还没有写完，此时，handleClientsWithPendingWrites函数就会**调用aeCreateFileEvent函数，创建可写事件**，并设置回调函数sendReplyToClient。sendReplyToClient函数里面会调用writeToClient函数写回数据。
 
@@ -512,7 +512,7 @@ while(te) {
 
 而当实例需要向客户端写回数据时，实例会在事件驱动框架中注册可写事件，并使用sendReplyToClient作为回调函数，将缓冲区中数据写回客户端。我总结了一张表格，以便你再回顾下IO事件和相应套接字、回调函数的对应关系。
 
-![](https://static001.geekbang.org/resource/image/4b/0c/4b354d1c4fd6eed66b58c14689018a0c.jpg?wh=2000x812)
+![](https://static001.geekbang.org/resource/image/4b/0c/4b354d1c4fd6eed66b58c14689018a0c.jpg?wh=2000x812){: referrerpolicy="no-referrer" }
 
 然后，对于时间事件来说，它主要是用于在事件驱动框架中注册一些周期性执行的任务，以便Redis server进行后台处理。时间事件的回调函数是serverCron函数，你可以做进一步阅读了解其中的具体任务。
 

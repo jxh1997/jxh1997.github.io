@@ -20,13 +20,13 @@
 
 **AES只支持3种不同的密钥长度，分别是128位、192位和256位，它们的安全性依次升高，运算时间也更长。**比如，当密钥为128比特位时，需要经过十轮操作，其中每轮要用移位法、替换法、异或操作等对明文做4次变换。而当密钥是192位时，则要经过12轮操作，密钥为256比特位时，则要经过14轮操作，如下图所示。
 
-[![](https://static001.geekbang.org/resource/image/8a/28/8ae363f2b0b8cb722533b596b9201428.png?wh=734%2A999 "AES128的10轮加密流程[br]此图由Ahmed Ghanim Wadday上传于www.researchgate.net")](http://www.researchgate.net)
+[![](https://static001.geekbang.org/resource/image/8a/28/8ae363f2b0b8cb722533b596b9201428.png?wh=734%2A999 "AES128的10轮加密流程[br]此图由Ahmed Ghanim Wadday上传于www.researchgate.net")](http://www.researchgate.net){: referrerpolicy="no-referrer" }
 
 密钥越长，虽然性能略有下降，但安全性提升很多。比如早先的DES算法只有56位密钥，在1999年便被破解。**在TLS1.2及更早的版本中，仍然允许通讯双方使用DES算法，这是非常不安全的行为，你应该在服务器上限制DES算法套件的使用**（Nginx上限制加密套件的方法，参见《Nginx 核心知识100讲》[第96课](https://time.geekbang.org/course/detail/138-75878) 和[第131课](https://time.geekbang.org/course/detail/138-79618)）。也正因为密钥长度对安全性的巨大影响，美国政府才不允许出口256位密钥的AES算法。
 
 只有数百比特的密钥，到底该如何对任意长度的明文加密呢？主流对称算法会将原始明文分成等长的多组明文，再分别用密钥生成密文，最后把它们拼接在一起形成最终密文。而AES算法是按照128比特（16字节）对明文进行分组的（最后一组不足128位时会填充0或者随机数）。为了防止分组后密文出现明显的规律，造成攻击者容易根据概率破解出原文，我们就需要对每组的密钥做一些变换，**这种分组后变换密钥的算法就叫做分组密码工作模式（下文简称为分组模式），它是影响AES性能的另一个因素。**
 
-[![](https://static001.geekbang.org/resource/image/46/d1/460d594465b9eb9a04426c6ee35da4d1.png?wh=1294%2A539 "优秀的分组密码工作模式[br]更难以从密文中发现规律，图参见wiki")](https://zh.wikipedia.org/wiki/%E5%88%86%E7%BB%84%E5%AF%86%E7%A0%81%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F)
+[![](https://static001.geekbang.org/resource/image/46/d1/460d594465b9eb9a04426c6ee35da4d1.png?wh=1294%2A539 "优秀的分组密码工作模式[br]更难以从密文中发现规律，图参见wiki")](https://zh.wikipedia.org/wiki/%E5%88%86%E7%BB%84%E5%AF%86%E7%A0%81%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F){: referrerpolicy="no-referrer" }
 
 比如，CBC分组模式中，只有第1组明文加密完成后，才能对第2组加密，因为第2组加密时会用到第1组生成的密文。因此，CBC必然无法并行计算。在材料科学出现瓶颈、单核频率不再提升的当下，CPU都在向多核方向发展，而CBC分组模式无法使用多核的并行计算能力，性能受到很大影响。**所以，通常我们应选择可以并行计算的GCM分组模式，这也是当下互联网中最常见的AES分组算法。**
 
@@ -51,7 +51,7 @@ module       : aesni_intel
 
 我们简单看下DH算法的工作流程。通讯双方各自独立生成随机的数字作为私钥，而后依据公开的算法计算出各自的公钥，并通过未加密的TLS握手发给对方。接着，根据对方的公钥和自己的私钥，双方各自独立运算后能够获得相同的数字，这就可以作为后续对称加密时使用的密钥。**即使攻击者截获到明文传递的公钥，查询到公开的DH计算公式后，在不知道私钥的情况下，也是无法计算出密钥的。**这样，DH算法就可以在握手阶段生成随机的新密钥，实现前向保密。
 
-![](https://static001.geekbang.org/resource/image/9f/1d/9f5ab0e7f64497c825a927782f58f31d.png?wh=1488%2A340)
+![](https://static001.geekbang.org/resource/image/9f/1d/9f5ab0e7f64497c825a927782f58f31d.png?wh=1488%2A340){: referrerpolicy="no-referrer" }
 
 DH算法的计算速度很慢，如上图所示，计算公钥以及最终的密钥时，需要做大量的乘法运算，而且为了保障安全性，这些数字的位数都很长。为了提升DH密钥交换算法的性能，诞生了当下广为使用的[ECDH密钥交换算法](https://zh.wikipedia.org/wiki/%E6%A9%A2%E5%9C%93%E6%9B%B2%E7%B7%9A%E8%BF%AA%E8%8F%B2-%E8%B5%AB%E7%88%BE%E6%9B%BC%E9%87%91%E9%91%B0%E4%BA%A4%E6%8F%9B)，**ECDH在DH算法的基础上利用[ECC椭圆曲线](https://zh.wikipedia.org/wiki/%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF)特性，可以用更少的计算量计算出公钥以及最终的密钥。**
 
@@ -85,7 +85,7 @@ TLS1.3（参见[RFC8446](https://tools.ietf.org/html/rfc8446)）对性能的最�
 
 在TLS1.2的握手中，先要通过Client Hello和Server Hello消息协商出后续使用的加密算法，再互相交换公钥并计算出最终密钥。**TLS1.3中把Hello消息和公钥交换合并为一步，这就减少了一半的握手时间**，如下图所示：
 
-[![](https://static001.geekbang.org/resource/image/49/20/4924f22447eaf0cc443aac9b2d483020.png?wh=1832%2A1290 "TLS1.3相对TLS1.2，减少了1个RTT的握手时间[br]图片来自www.ssl2buy.com")](https://www.ssl2buy.com/wiki/tls-1-3-protocol-released-move-ahead-to-advanced-security-and-privacy)
+[![](https://static001.geekbang.org/resource/image/49/20/4924f22447eaf0cc443aac9b2d483020.png?wh=1832%2A1290 "TLS1.3相对TLS1.2，减少了1个RTT的握手时间[br]图片来自www.ssl2buy.com")](https://www.ssl2buy.com/wiki/tls-1-3-protocol-released-move-ahead-to-advanced-security-and-privacy){: referrerpolicy="no-referrer" }
 
 那TLS1.3握手为什么只需要1个RTT就可以完成呢？因为TLS1.3支持的密钥协商算法大幅度减少了，这样，客户端尽可以把常用DH算法的公钥计算出来，并与协商加密算法的HELLO消息一起发送给服务器，服务器也作同样处理，这样仅用1个RTT就可以协商出密钥。
 
@@ -101,7 +101,7 @@ TLS1.3（参见[RFC8446](https://tools.ietf.org/html/rfc8446)）对性能的最�
 
 因此，**无论从性能还是安全角度上，你都应该尽快把TLS版本升级到1.3。**你可以用[这个网址](https://www.ssllabs.com/ssltest/index.html)测试当前站点是否支持TLS1.3。
 
-![](https://static001.geekbang.org/resource/image/a8/57/a816a361d7f47303cbfeb10035a96d57.png?wh=1051%2A794)
+![](https://static001.geekbang.org/resource/image/a8/57/a816a361d7f47303cbfeb10035a96d57.png?wh=1051%2A794){: referrerpolicy="no-referrer" }
 
 如果不支持，还可以参见[每日一课《TLS1.3原理及在Nginx上的应用》](https://time.geekbang.org/dailylesson/detail/100028440)，升级Nginx到TLS1.3版本。
 

@@ -35,7 +35,7 @@ uv:page:1024
 
 SDS结构中的字符串长度和元数据大小的对应关系如下表所示：
 
-![](https://static001.geekbang.org/resource/image/5a/0c/5afd9d57af8edd1ae69e62b1c998050c.jpg?wh=1966%2A784)
+![](https://static001.geekbang.org/resource/image/5a/0c/5afd9d57af8edd1ae69e62b1c998050c.jpg?wh=1966%2A784){: referrerpolicy="no-referrer" }
 
 为了减少key占用的内存空间，我给你一个小建议：对于业务名或业务数据名，可以使用相应的英文单词的首字母表示，（比如user用u表示，message用m），或者是用缩写表示（例如unique visitor使用uv）。
 
@@ -157,7 +157,7 @@ Redis的MONITOR命令在执行后，会持续输出监测到的各个命令操�
 
 我按照强制、推荐、建议这三个类别，把这些规范分了下类，如下表所示：
 
-![](https://static001.geekbang.org/resource/image/f2/fd/f2513c69d7757830e7f3e3c831fcdcfd.jpg?wh=2612%2A1819)
+![](https://static001.geekbang.org/resource/image/f2/fd/f2513c69d7757830e7f3e3c831fcdcfd.jpg?wh=2612%2A1819){: referrerpolicy="no-referrer" }
 
 我来解释一下这3个类别的规范。
 

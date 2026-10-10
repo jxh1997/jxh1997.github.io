@@ -30,7 +30,7 @@ int execve(const char *filename, char *const argv[], char *const envp[]))
 
 下图显示了从shell执行命令到创建Redis进程的过程，你可以看下。
 
-![](https://static001.geekbang.org/resource/image/d7/b5/d7ec5ef2698cyyd1973a6afbb0c7dfb5.jpg?wh=2000x510)
+![](https://static001.geekbang.org/resource/image/d7/b5/d7ec5ef2698cyyd1973a6afbb0c7dfb5.jpg?wh=2000x510){: referrerpolicy="no-referrer" }
 
 当我们用刚才介绍的shell命令运行Redis server后，我们会看到Redis server启动后的日志输出会打印到终端屏幕上，如下所示：
 
@@ -175,7 +175,7 @@ void daemonize(void) {
 
 下面的图展示了daemonize函数调用fork函数后的两个分支的执行逻辑，你可以再回顾下。
 
-![](https://static001.geekbang.org/resource/image/b9/11/b9fa1ea3962e18be5ca9973a2feeb111.jpg?wh=2000x947)
+![](https://static001.geekbang.org/resource/image/b9/11/b9fa1ea3962e18be5ca9973a2feeb111.jpg?wh=2000x947){: referrerpolicy="no-referrer" }
 
 事实上，Redis server启动后无论是否以守护进程形式运行，都还是一个进程在运行。对于一个进程来说，如果该进程启动后没有创建新的线程，那么这个进程的工作任务默认就是由一个线程来执行的，而这个线程我一般也称它为主线程。
 
@@ -301,7 +301,7 @@ if (!stacksize) stacksize = 1; /针对Solaris系统做处理
 
 我也画了一张图，展示了线程属性的这一操作过程，你可以看下。
 
-![](https://static001.geekbang.org/resource/image/0c/9a/0c9a1dd6f5038f05716d916c588d599a.jpg?wh=2000x1125)
+![](https://static001.geekbang.org/resource/image/0c/9a/0c9a1dd6f5038f05716d916c588d599a.jpg?wh=2000x1125){: referrerpolicy="no-referrer" }
 
 在完成线程属性的设置后，接下来，bioInit函数会通过一个for循环，来依次为每种后台任务创建一个线程。循环的次数是由BIO\_NUM\_OPS宏定义决定的，也就是3次。相应的，bioInit函数就会调用3次pthread\_create函数，并创建3个线程。bioInit函数让这3个线程执行的函数都是**bioProcessBackgroundJobs**。
 
@@ -388,7 +388,7 @@ while(1) {
 
 你可以再参考回顾下图所展示的bioInit函数和bioProcessBackgroundJobs函数的基本处理流程。
 
-![](https://static001.geekbang.org/resource/image/d8/c4/d8cb6f9f2e410e7680ef0e674b50efc4.jpg?wh=2000x1125)
+![](https://static001.geekbang.org/resource/image/d8/c4/d8cb6f9f2e410e7680ef0e674b50efc4.jpg?wh=2000x1125){: referrerpolicy="no-referrer" }
 
 不过接下来你或许还会疑惑：既然bioProcessBackgroundJobs函数是负责执行任务的，**那么哪个函数负责生成任务呢？**
 
@@ -429,7 +429,7 @@ bioCreateBackgroundJob函数在执行时，会先创建bio\_job，这是后台�
 
 下图展示的就是bioCreateBackgroundJob和bioProcessBackgroundJobs两者间的生产者-消费者模型，你可以看下。
 
-![](https://static001.geekbang.org/resource/image/f5/ab/f5a7c20b6a826cf79c0675d11ea037ab.jpg?wh=2000x850)
+![](https://static001.geekbang.org/resource/image/f5/ab/f5a7c20b6a826cf79c0675d11ea037ab.jpg?wh=2000x850){: referrerpolicy="no-referrer" }
 
 好了，到这里，我们就学习了Redis后台线程的创建和运行机制。简单来说，主要是以下三个关键点：
 

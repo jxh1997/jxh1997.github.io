@@ -12,27 +12,27 @@
 
 划分的对象是整个业务系统，划分的维度是用户交互，即将和用户交互的部分独立为一层，支撑用户交互的后台作为另外一层。例如，下面是C/S架构结构图。
 
-![](https://static001.geekbang.org/resource/image/ac/55/acae5ee24fd6e6c41edb193a88e32f55.jpg?wh=3062%2A1768 "图片来自网络")
+![](https://static001.geekbang.org/resource/image/ac/55/acae5ee24fd6e6c41edb193a88e32f55.jpg?wh=3062%2A1768 "图片来自网络"){: referrerpolicy="no-referrer" }
 
 2. MVC架构、MVP架构
 
 划分的对象是单个业务子系统，划分的维度是职责，将不同的职责划分到独立层，但各层的依赖关系比较灵活。例如，MVC架构中各层之间是两两交互的：
 
-![](https://static001.geekbang.org/resource/image/36/50/3602b5bb371ebyy597c2d6b68f83d150.jpg?wh=3038%2A1570)
+![](https://static001.geekbang.org/resource/image/36/50/3602b5bb371ebyy597c2d6b68f83d150.jpg?wh=3038%2A1570){: referrerpolicy="no-referrer" }
 
 3. 逻辑分层架构
 
 划分的对象可以是单个业务子系统，也可以是整个业务系统，划分的维度也是职责。虽然都是基于职责划分，但逻辑分层架构和MVC架构、MVP架构的不同点在于，逻辑分层架构中的层是自顶向下依赖的。典型的有操作系统内核架构、TCP/IP架构。例如，下面是Android操作系统架构图。
 
-![](https://static001.geekbang.org/resource/image/15/3a/15712073102390bede89e54ce6f2d13a.jpg?wh=3800%2A3700)
+![](https://static001.geekbang.org/resource/image/15/3a/15712073102390bede89e54ce6f2d13a.jpg?wh=3800%2A3700){: referrerpolicy="no-referrer" }
 
 典型的J2EE系统架构也是逻辑分层架构，架构图如下：
 
-![](https://static001.geekbang.org/resource/image/32/cb/3296df5420c88834493a6239d8dc62cb.jpg?wh=3148%2A2543)
+![](https://static001.geekbang.org/resource/image/32/cb/3296df5420c88834493a6239d8dc62cb.jpg?wh=3148%2A2543){: referrerpolicy="no-referrer" }
 
 针对整个业务系统进行逻辑分层的架构图如下：
 
-![](https://static001.geekbang.org/resource/image/df/e4/dfd57e17b23823926d427db57620a0e4.jpg?wh=2497%2A1938)
+![](https://static001.geekbang.org/resource/image/df/e4/dfd57e17b23823926d427db57620a0e4.jpg?wh=2497%2A1938){: referrerpolicy="no-referrer" }
 
 无论采取何种分层维度，分层架构设计最核心的一点就是**需要保证各层之间的差异足够清晰，边界足够明显，让人看到架构图后就能看懂整个架构**，这也是分层不能分太多层的原因。否则如果两个层的差异不明显，就会出现程序员小明认为某个功能应该放在A层，而程序员老王却认为同样的功能应该放在B层，这样会导致分层混乱。如果这样的架构进入实际开发落地，则A层和B层就会乱成一锅粥，也就失去了分层的意义。
 
@@ -40,7 +40,7 @@
 
 当然，并不是简单地分层就一定能够实现隔离关注点从而支撑快速扩展，分层时要保证层与层之间的依赖是稳定的，才能真正支撑快速扩展。例如，Linux内核为了支撑不同的文件系统格式，抽象了VFS文件系统接口，架构图如下：
 
-![](https://static001.geekbang.org/resource/image/f3/77/f3df4b47a3fbb3e1975a5f9ae61c1477.jpg?wh=3037%2A2496)
+![](https://static001.geekbang.org/resource/image/f3/77/f3df4b47a3fbb3e1975a5f9ae61c1477.jpg?wh=3037%2A2496){: referrerpolicy="no-referrer" }
 
 如果没有VFS，只是简单地将ext2、ext3、reiser等文件系统划为“文件系统层”，那么这个分层是达不到支撑可扩展的目的的。因为增加一个新的文件系统后，所有基于文件系统的功能都要适配新的文件系统接口；而有了VFS后，只需要VFS适配新的文件系统接口，其他基于文件系统的功能是依赖VFS的，不会受到影响。
 
@@ -48,7 +48,7 @@
 
 分层结构的另外一个特点就是层层传递，也就是说一旦分层确定，整个业务流程是按照层进行依次传递的，不能在层之间进行跳跃。最简单的C/S结构，用户必须先使用C层，然后C层再传递到S层，用户是不能直接访问S层的。传统的J2EE 4层架构，收到请求后，必须按照下面的方式传递请求：
 
-![](https://static001.geekbang.org/resource/image/b2/21/b2d9b4b5a978dd0f7ef4d4502dec5821.jpg?wh=3773%2A2762)
+![](https://static001.geekbang.org/resource/image/b2/21/b2d9b4b5a978dd0f7ef4d4502dec5821.jpg?wh=3773%2A2762){: referrerpolicy="no-referrer" }
 
 分层结构的这种约束，好处在于强制将分层依赖限定为两两依赖，降低了整体系统复杂度。例如，Business Layer被Presentation Layer依赖，自己只依赖Persistence Layer。但分层结构的代价就是冗余，也就是说，不管这个业务有多么简单，每层都必须要参与处理，甚至可能每层都写了一个简单的包装函数。我以用户管理系统最简单的一个功能“查看头像”为例。查看头像功能的实现很简单，只是显示一张图片而已，但按照分层分册架构来实现，每层都要写一个简单的函数。比如：
 
@@ -141,17 +141,17 @@ ESB的全称是Enterprise Service Bus，中文翻译为“企业服务总线”�
 
 典型的SOA架构样例如下：
 
-![](https://static001.geekbang.org/resource/image/40/40/40f125000a4f9fda00d612a2b3171740.jpg?wh=2961%2A2242)
+![](https://static001.geekbang.org/resource/image/40/40/40f125000a4f9fda00d612a2b3171740.jpg?wh=2961%2A2242){: referrerpolicy="no-referrer" }
 
 SOA架构是比较高层级的架构设计理念，一般情况下我们可以说某个企业采用了SOA的架构来构建IT系统，但不会说某个独立的系统采用了SOA架构。例如，某企业采用SOA架构，将系统分为“人力资源管理服务”“考勤服务”“财务服务”，但人力资源管理服务本身通常不会再按照SOA的架构拆分更多服务，也不会再使用独立的一套ESB，因为这些系统本身可能就是采购的，ESB本身也是采购的，如果人力资源系统本身重构为多个子服务，再部署独立的ESB系统，成本很高，也没有什么收益。
 
 SOA解决了传统IT系统重复建设和扩展效率低的问题，但其本身也引入了更多的复杂性。SOA最广为人诟病的就是ESB，ESB需要实现与各种系统间的协议转换、数据转换、透明的动态路由等功能。例如，下图中ESB将JSON转换为Java（摘自《Microservices vs. Service-Oriented Architecture》）。
 
-![](https://static001.geekbang.org/resource/image/fa/84/fa9e178249d261b1e29850f3c9dc2684.jpg?wh=3368%2A1583)
+![](https://static001.geekbang.org/resource/image/fa/84/fa9e178249d261b1e29850f3c9dc2684.jpg?wh=3368%2A1583){: referrerpolicy="no-referrer" }
 
 下图中ESB将REST协议转换为RMI和AMQP两个不同的协议：
 
-![](https://static001.geekbang.org/resource/image/b0/c8/b04b7a89e8e859d84c70e55aa05372c8.jpg?wh=3332%2A1435)
+![](https://static001.geekbang.org/resource/image/b0/c8/b04b7a89e8e859d84c70e55aa05372c8.jpg?wh=3332%2A1435){: referrerpolicy="no-referrer" }
 
 ESB虽然功能强大，但现实中的协议有很多种，如JMS、WS、HTTP、RPC等，数据格式也有很多种，如XML、JSON、二进制、HTML等。ESB要完成这么多协议和数据格式的互相转换，工作量和复杂度都很大，而且这种转换是需要耗费大量计算性能的，当ESB承载的消息太多时，ESB本身会成为整个系统的性能瓶颈。
 

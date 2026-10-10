@@ -16,7 +16,7 @@
 
 接下来，我们用一个示意图来展示一下“孔乙己赊账”的整个操作过程。假设原来孔乙己欠账10文，这次又要赊9文。
 
-![](https://static001.geekbang.org/resource/image/34/da/349cfab9e4f5d2a75e07b2132a301fda.jpeg?wh=1142%2A1522)
+![](https://static001.geekbang.org/resource/image/34/da/349cfab9e4f5d2a75e07b2132a301fda.jpeg?wh=1142%2A1522){: referrerpolicy="no-referrer" }
 
 图1 “孔乙己赊账”更新和flush过程
 
@@ -29,7 +29,7 @@
 - 第一种场景是，粉板满了，记不下了。这时候如果再有人来赊账，掌柜就只得放下手里的活儿，将粉板上的记录擦掉一些，留出空位以便继续记账。当然在擦掉之前，他必须先将正确的账目记录到账本中才行。  
   这个场景，对应的就是InnoDB的redo log写满了。这时候系统会停止所有更新操作，把checkpoint往前推进，redo log留出空间可以继续写。我在第二讲画了一个redo log的示意图，这里我改成环形，便于大家理解。
 
-![](https://static001.geekbang.org/resource/image/a2/e5/a25bdbbfc2cfc5d5e20690547fe7f2e5.jpg?wh=1142%2A856)
+![](https://static001.geekbang.org/resource/image/a2/e5/a25bdbbfc2cfc5d5e20690547fe7f2e5.jpg?wh=1142%2A856){: referrerpolicy="no-referrer" }
 
 图2 redo log状态图
 
@@ -113,7 +113,7 @@ InnoDB每次写入的日志都有一个序号，当前写入的序号跟checkpoi
 
 上述的计算流程比较抽象，不容易理解，所以我画了一个简单的流程图。图中的F1、F2就是上面我们通过脏页比例和redo log写入速度算出来的两个值。
 
-![](https://static001.geekbang.org/resource/image/cc/74/cc44c1d080141aa50df6a91067475374.png?wh=1142%2A1522)
+![](https://static001.geekbang.org/resource/image/cc/74/cc44c1d080141aa50df6a91067475374.png?wh=1142%2A1522){: referrerpolicy="no-referrer" }
 
 图3 InnoDB刷脏页速度策略
 

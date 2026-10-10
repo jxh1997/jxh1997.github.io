@@ -24,7 +24,7 @@
 
 那么，我们来假设一个场景：用户A给用户B发送一条消息。接下来我们看看哪些环节可能存在丢消息的风险？
 
-![](https://static001.geekbang.org/resource/image/5b/28/5b2ee576e22ac109121714aaaaec3528.png?wh=1024%2A768)
+![](https://static001.geekbang.org/resource/image/5b/28/5b2ee576e22ac109121714aaaaec3528.png?wh=1024%2A768){: referrerpolicy="no-referrer" }
 
 参考上面时序图，发消息大概整体上分为两部分：
 
@@ -61,7 +61,7 @@
 
 那么，业务层ACK机制也是类似，解决的是：IM服务推送后如何确认消息是否成功送达接收方。具体实现如下图：
 
-![](https://static001.geekbang.org/resource/image/a4/7e/a4e3c1cfb27aa32e1c42891f3c14eb7e.png?wh=1024%2A768)
+![](https://static001.geekbang.org/resource/image/a4/7e/a4e3c1cfb27aa32e1c42891f3c14eb7e.png?wh=1024%2A768){: referrerpolicy="no-referrer" }
 
 IM服务器在推送消息时，携带一个标识SID（安全标识符，类似TCP的sequenceId），推送出消息后会将当前消息添加到“待ACK消息列表”，客户端B成功接收完消息后，会给IM服务器回一个业务层的ACK包，包中携带有本条接收消息的SID，IM服务器接收后，会从“待ACK消息列表”记录中删除此条消息，本次推送才算真正结束。
 
@@ -101,7 +101,7 @@ IM服务器在推送消息时，携带一个标识SID（安全标识符，类似
 
 比较常见的消息完整性检查的实现机制有“时间戳比对”，具体的实现如下图：
 
-![](https://static001.geekbang.org/resource/image/14/c6/149af9b46ff04769d8957efaac84e1c6.png?wh=1024%2A768)
+![](https://static001.geekbang.org/resource/image/14/c6/149af9b46ff04769d8957efaac84e1c6.png?wh=1024%2A768){: referrerpolicy="no-referrer" }
 
 下面我们来看一下“时间戳机制”是如何对消息进行完整性检查的，我用这个例子来解释一下这个过程。
 

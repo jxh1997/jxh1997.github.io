@@ -64,7 +64,7 @@ else {
 
 你也可以参考这里我给出的示意图：
 
-![图片](https://static001.geekbang.org/resource/image/8d/c3/8d71de18442494a5301c44faf0de16c3.jpg?wh=1920x1080)
+![图片](https://static001.geekbang.org/resource/image/8d/c3/8d71de18442494a5301c44faf0de16c3.jpg?wh=1920x1080){: referrerpolicy="no-referrer" }
 
 OK，了解了AOF文件检测的基本逻辑后，我们再来看下刚才介绍的process函数。
 
@@ -107,7 +107,7 @@ int readBytes(FILE *fp, char *target, long length) {
 
 现在，我们就了解了AOF文件检测过程中的主要函数process，你也可以看下这里我给出的示意图。
 
-![图片](https://static001.geekbang.org/resource/image/03/c1/034349e8e77a5b7ae8355523ef2e4dc1.jpg?wh=1920x1080)
+![图片](https://static001.geekbang.org/resource/image/03/c1/034349e8e77a5b7ae8355523ef2e4dc1.jpg?wh=1920x1080){: referrerpolicy="no-referrer" }
 
 那么，就像我刚才给你介绍的，process函数返回已经检测的文件位置后，redis\_check\_aof\_main函数会判断是否已经完成整个AOF文件的检查。如果没有的话，那么就说明在检测AOF文件的过程中，发生了某些错误，此时redis\_check\_aof\_main函数会判断redis-check-aof命令执行时，**是否带了“–fix”选项**。
 

@@ -29,7 +29,7 @@ Flink通过CheckPoint机制来定期保存计算任务的快照，这个快照�
 
 Flink通过在数据流中插入一个Barrier（屏障）来确保CheckPoint中的位置和状态完全对应。下面这张图来自[Flink官网的说明文档](https://ci.apache.org/projects/flink/flink-docs-stable/internals/stream_checkpointing.html)。
 
-![](https://static001.geekbang.org/resource/image/0c/fa/0c301d798341dc53515611c31e9031fa.png?wh=902%2A336)
+![](https://static001.geekbang.org/resource/image/0c/fa/0c301d798341dc53515611c31e9031fa.png?wh=902%2A336){: referrerpolicy="no-referrer" }
 
 你可以把Barrier理解为一条特殊的数据。Barrier由Flink生成，并在数据进入计算集群时被插入到数据流中。这样，无限的数据流就被很多的Barrier分隔成很多段。Barrier在流经每个计算节点的时候，就会触发这个节点在CheckPoint中保存本节点的状态，如果这个节点是数据源节点，还会保存数据源的位置。
 
@@ -59,7 +59,7 @@ Kafka的这两个机制，配合Flink就可以来实现端到端的Exactly Once�
 
 整个系统的数据流向就变成下图这样：
 
-![](https://static001.geekbang.org/resource/image/b6/6d/b62a67148c0600a1814f763a70b2056d.jpg?wh=4266%2A457)
+![](https://static001.geekbang.org/resource/image/b6/6d/b62a67148c0600a1814f763a70b2056d.jpg?wh=4266%2A457){: referrerpolicy="no-referrer" }
 
 日志服务将日志数据发送到Kafka的主题ip\_count\_source，计算任务消费这个主题的数据作为数据源，计算结果会被写入到Kafka的主题ip\_count\_sink中。
 

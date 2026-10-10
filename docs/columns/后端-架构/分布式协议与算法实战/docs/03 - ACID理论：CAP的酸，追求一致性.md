@@ -12,7 +12,7 @@
 
 根据侦查情况，明天发动反攻胜算比较大。苏秦想协调赵、魏、韩，明天一起行动。**那么对苏秦来说，他面临的问题是，如何高效协同赵、魏、韩一起行动，并且保证当有一方不方便行动时，取消整个计划。**
 
-![](https://static001.geekbang.org/resource/image/09/55/0951213850cbf7a9f6db1d99511bd455.jpg?wh=1142%2A665)
+![](https://static001.geekbang.org/resource/image/09/55/0951213850cbf7a9f6db1d99511bd455.jpg?wh=1142%2A665){: referrerpolicy="no-referrer" }
 
 苏秦面对的这个新问题，就是典型的如何实现分布式事务的问题，**赵、魏、韩明天攻打秦国，这三个操作组成一个分布式事务，要么全部执行，要么全部不执行。**
 
@@ -24,11 +24,11 @@
 
 首先，苏秦发消息给赵，赵接收到消息后就扮演协调者（Coordinator）的身份，由赵联系魏和韩，发起二阶段提交：
 
-![](https://static001.geekbang.org/resource/image/c4/2b/c43a3bffad5dee2d4f465df3fc22c52b.jpg?wh=1142%2A536)
+![](https://static001.geekbang.org/resource/image/c4/2b/c43a3bffad5dee2d4f465df3fc22c52b.jpg?wh=1142%2A536){: referrerpolicy="no-referrer" }
 
 赵发起二阶段提交后，先进入**提交请求阶段（又称投票阶段）。** 为了方便演示，我们先假设赵、魏、韩明天都能去攻打秦国：
 
-![](https://static001.geekbang.org/resource/image/72/af/72f1414c2d4f2e7a66b8dd246165a8af.jpg?wh=1142%2A501)
+![](https://static001.geekbang.org/resource/image/72/af/72f1414c2d4f2e7a66b8dd246165a8af.jpg?wh=1142%2A501){: referrerpolicy="no-referrer" }
 
 也就是说，第一步，赵分别向魏、韩发送消息：“明天攻打秦国，方便吗？”
 
@@ -38,7 +38,7 @@
 
 赵收到所有回复后，进入**提交执行阶段（又称完成阶段），** 也就是具体执行操作了，大致步骤如下：
 
-![](https://static001.geekbang.org/resource/image/f5/dc/f5deb827fd03e10106ed6b6839f1d7dc.jpg?wh=1142%2A516)
+![](https://static001.geekbang.org/resource/image/f5/dc/f5deb827fd03e10106ed6b6839f1d7dc.jpg?wh=1142%2A516){: referrerpolicy="no-referrer" }
 
 首先，赵按照“要么全部执行，要么放弃”的原则，统计投票结果，因为所有的回复结果都是YES，所以赵决定执行分布式事务，明天攻打秦国。
 
@@ -76,7 +76,7 @@ TCC是Try（预留）、Confirm（确认）、Cancel（撤销） 3个操作的�
 
 首先，我们先**进入到预留阶段**，大致的步骤如下：
 
-![](https://static001.geekbang.org/resource/image/84/e2/84a56f9ef977e4bc10424f34e59140e2.jpg?wh=1142%2A620)
+![](https://static001.geekbang.org/resource/image/84/e2/84a56f9ef977e4bc10424f34e59140e2.jpg?wh=1142%2A620){: referrerpolicy="no-referrer" }
 
 第一步，苏秦分别发送消息通知赵、魏、韩，让他们预留明天的时间和相关资源。然后苏秦实现确认操作（明天攻打秦国），和撤销操作（取消明天攻打秦国）。
 
@@ -84,7 +84,7 @@ TCC是Try（预留）、Confirm（确认）、Cancel（撤销） 3个操作的�
 
 如果预留阶段的执行都没有问题，就进入**确认阶段**，大致步骤如下：
 
-![](https://static001.geekbang.org/resource/image/28/db/28d109d73b31eb750912c55e795af1db.jpg?wh=1142%2A773)
+![](https://static001.geekbang.org/resource/image/28/db/28d109d73b31eb750912c55e795af1db.jpg?wh=1142%2A773){: referrerpolicy="no-referrer" }
 
 第一步，苏秦执行确认操作，通知赵、魏、韩明天攻打秦国。
 
@@ -92,7 +92,7 @@ TCC是Try（预留）、Confirm（确认）、Cancel（撤销） 3个操作的�
 
 如果预留阶段执行出错，比如赵的一部分军队还在赶来的路上，无法出兵，那么就进入撤销**阶段**，大致步骤如下：
 
-![](https://static001.geekbang.org/resource/image/b1/8a/b10a640509628053bacb0897c741608a.jpg?wh=1142%2A776)
+![](https://static001.geekbang.org/resource/image/b1/8a/b10a640509628053bacb0897c741608a.jpg?wh=1142%2A776){: referrerpolicy="no-referrer" }
 
 第一步，苏秦执行撤销操作，通知赵、魏、韩取消明天攻打秦国的计划。
 

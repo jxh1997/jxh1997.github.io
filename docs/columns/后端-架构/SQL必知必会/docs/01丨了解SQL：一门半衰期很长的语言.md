@@ -72,7 +72,7 @@ SELECT name, hp_max FROM heros WHERE role_main = '战士'
 
 SQL的价值在于通用性强（市场需求普遍），半衰期长（一次学习终身受用），入门不难。实际上，很多事情的价值都可以按照这三点来进行判断，比如一个产品的市场价值。如果你是一名产品经理，你是喜欢通用性更强的产品，还是喜欢更个性的产品。今天的文章只是简单预热，你可能也会有一些感悟，不妨说说你对一个产品或者语言的市场价值的理解。
 
-![](https://static001.geekbang.org/resource/image/9f/d2/9f72d7f01aace4c991d9774a81d051d2.jpg?wh=2418x1708)
+![](https://static001.geekbang.org/resource/image/9f/d2/9f72d7f01aace4c991d9774a81d051d2.jpg?wh=2418x1708){: referrerpolicy="no-referrer" }
 
 欢迎你在评论区写下你的心得，也欢迎把这篇文章分享给你的朋友或者同事，让更多人了解SQL这门语言。
 <div><strong>精选留言（15）</strong></div><ul>

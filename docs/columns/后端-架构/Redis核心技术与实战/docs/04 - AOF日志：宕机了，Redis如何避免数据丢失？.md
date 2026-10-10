@@ -10,7 +10,7 @@
 
 说到日志，我们比较熟悉的是数据库的写前日志（Write Ahead Log, WAL），也就是说，在实际写数据前，先把修改的数据记到日志文件中，以便故障时进行恢复。不过，AOF日志正好相反，它是写后日志，“写后”的意思是Redis是先执行命令，把数据写入内存，然后才记录日志，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/40/1f/407f2686083afc37351cfd9107319a1f.jpg?wh=3218%2A1789 "Redis AOF操作过程")
+![](https://static001.geekbang.org/resource/image/40/1f/407f2686083afc37351cfd9107319a1f.jpg?wh=3218%2A1789 "Redis AOF操作过程"){: referrerpolicy="no-referrer" }
 
 那AOF为什么要先执行命令再记日志呢？要回答这个问题，我们要先知道AOF里记录了什么内容。
 
@@ -18,7 +18,7 @@
 
 我们以Redis收到“set testkey testvalue”命令后记录的日志为例，看看AOF日志的内容。其中，“`*3`”表示当前命令有三个部分，每部分都是由“`$+数字`”开头，后面紧跟着具体的命令、键或值。这里，“数字”表示这部分中的命令、键或值一共有多少字节。例如，“`$3 set`”表示这部分有3个字节，也就是“set”命令。
 
-![](https://static001.geekbang.org/resource/image/4d/9f/4d120bee623642e75fdf1c0700623a9f.jpg?wh=3094%2A2250 "Redis AOF日志内容")
+![](https://static001.geekbang.org/resource/image/4d/9f/4d120bee623642e75fdf1c0700623a9f.jpg?wh=3094%2A2250 "Redis AOF日志内容"){: referrerpolicy="no-referrer" }
 
 但是，为了避免额外的检查开销，Redis在向AOF里面记录日志的时候，并不会先去对这些命令进行语法检查。所以，如果先记日志再执行命令的话，日志中就有可能记录了错误的命令，Redis在使用日志恢复数据时，就可能会出错。
 
@@ -50,7 +50,7 @@
 
 我把这三种策略的写回时机，以及优缺点汇总在了一张表格里，以方便你随时查看。
 
-![](https://static001.geekbang.org/resource/image/72/f8/72f547f18dbac788c7d11yy167d7ebf8.jpg?wh=2284%2A682)
+![](https://static001.geekbang.org/resource/image/72/f8/72f547f18dbac788c7d11yy167d7ebf8.jpg?wh=2284%2A682){: referrerpolicy="no-referrer" }
 
 到这里，我们就可以根据系统对高性能和高可靠性的要求，来选择使用哪种写回策略了。总结一下就是：想要获得高性能，就选择No策略；如果想要得到高可靠性保证，就选择Always策略；如果允许数据有一点丢失，又希望性能别受太大影响的话，那么就选择Everysec策略。
 
@@ -70,7 +70,7 @@
 
 下面这张图就是一个例子：
 
-![](https://static001.geekbang.org/resource/image/65/08/6528c699fdcf40b404af57040bb8d208.jpg?wh=4000%2A1088 "AOF重写减少日志大小")
+![](https://static001.geekbang.org/resource/image/65/08/6528c699fdcf40b404af57040bb8d208.jpg?wh=4000%2A1088 "AOF重写减少日志大小"){: referrerpolicy="no-referrer" }
 
 当我们对一个列表先后做了6次修改操作后，列表的最后状态是\[“D”, “C”, “N”]，此时，只用LPUSH u:list “N”, “C”, "D"这一条命令就能实现该数据的恢复，这就节省了五条命令的空间。对于被修改过成百上千次的键值对来说，重写能节省的空间当然就更大了。
 
@@ -90,7 +90,7 @@
 
 而第二处日志，就是指新的AOF重写日志。这个操作也会被写到重写日志的缓冲区。这样，重写日志也不会丢失最新的操作。等到拷贝数据的所有操作记录重写完成后，重写日志记录的这些最新操作也会写入新的AOF文件，以保证数据库最新状态的记录。此时，我们就可以用新的AOF文件替代旧文件了。
 
-![](https://static001.geekbang.org/resource/image/6b/e8/6b054eb1aed0734bd81ddab9a31d0be8.jpg?wh=3688%2A1920 "AOF非阻塞的重写过程")
+![](https://static001.geekbang.org/resource/image/6b/e8/6b054eb1aed0734bd81ddab9a31d0be8.jpg?wh=3688%2A1920 "AOF非阻塞的重写过程"){: referrerpolicy="no-referrer" }
 
 总结来说，每次AOF重写时，Redis会先执行一个内存拷贝，用于重写；然后，使用两个日志保证在重写过程中，新写入的数据不会丢失。而且，因为Redis采用额外的线程进行数据重写，所以，这个过程并不会阻塞主线程。
 

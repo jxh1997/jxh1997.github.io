@@ -18,7 +18,7 @@ bin/kafka-run-class.sh kafka.tools.JmxTool
 
 JMXTool工具提供了很多参数，但你不必完全了解所有的参数。我把主要的参数说明列在了下面的表格里，你至少要了解一下这些参数的含义。
 
-![](https://static001.geekbang.org/resource/image/79/d3/795399a24e665c1bf744085b5344f5d3.jpg?wh=1763%2A1103)
+![](https://static001.geekbang.org/resource/image/79/d3/795399a24e665c1bf744085b5344f5d3.jpg?wh=1763%2A1103){: referrerpolicy="no-referrer" }
 
 现在，我举一个实际的例子来说明一下如何运行这个命令。
 
@@ -74,11 +74,11 @@ bin/kafka-manager -Dconfig.file=conf/application.conf -Dhttp.port=8080
 
 该命令指定了要读取的配置文件以及要启动的监听端口。现在，我们打开浏览器，输入对应的IP:8080，就可以访问Kafka Manager了。下面这张图展示了我在Kafka Manager中添加集群的主界面。
 
-![](https://static001.geekbang.org/resource/image/b4/66/b492ae08e527e295d29da65d07ad9566.png?wh=1950%2A1785)
+![](https://static001.geekbang.org/resource/image/b4/66/b492ae08e527e295d29da65d07ad9566.png?wh=1950%2A1785){: referrerpolicy="no-referrer" }
 
 注意，要勾选上Enable JMX Polling，这样你才能监控Kafka的各种JMX指标。下图就是Kafka Manager框架的主界面。
 
-![](https://static001.geekbang.org/resource/image/99/14/990944c78f22adc6f6c836d489eade14.png?wh=1950%2A1098)
+![](https://static001.geekbang.org/resource/image/99/14/990944c78f22adc6f6c836d489eade14.png?wh=1950%2A1098){: referrerpolicy="no-referrer" }
 
 从这张图中，我们可以发现，Kafka Manager清晰地列出了当前监控的Kafka集群的主题数量、Broker数量等信息。你可以点击顶部菜单栏的各个条目去探索其他功能。
 
@@ -86,7 +86,7 @@ bin/kafka-manager -Dconfig.file=conf/application.conf -Dhttp.port=8080
 
 庆幸的是，Kafka Manager提供了这样的功能。**你可以修改config下的application.conf文件，删除application.features中的值**。比如，如果我想禁掉Preferred Leader选举功能，那么我就可以删除对应KMPreferredReplicaElectionFeature项。删除完之后，我们重启Kafka Manager，再次进入到主界面，我们就可以发现之前的Preferred Leader Election菜单项已经没有了。
 
-![](https://static001.geekbang.org/resource/image/16/01/16b5ac5eeb4f32f872265ec91d130401.png?wh=1950%2A1343)
+![](https://static001.geekbang.org/resource/image/16/01/16b5ac5eeb4f32f872265ec91d130401.png?wh=1950%2A1343){: referrerpolicy="no-referrer" }
 
 总之，作为一款非常强大的Kafka开源监控框架，Kafka Manager提供了丰富的实时监控指标以及适当的管理功能，非常适合一般的Kafka集群监控，值得你一试。
 
@@ -119,7 +119,7 @@ $GOPATH/bin/Burrow --config-dir /path/containing/config
 
 我们来看一张生产环境中的监控截图。图中集中了很多监控指标，比如CPU使用率、GC收集数据、内存使用情况等。除此之外，这个仪表盘面板还囊括了很多关键的Kafka JMX指标，比如BytesIn、BytesOut和每秒消息数等。将这么多数据统一集成进一个面板上直观地呈现出来，是这套框架非常鲜明的特点。
 
-![](https://static001.geekbang.org/resource/image/22/5a/22f68c477d80919f4170da11c4fc8d5a.jpeg?wh=1950%2A925)
+![](https://static001.geekbang.org/resource/image/22/5a/22f68c477d80919f4170da11c4fc8d5a.jpeg?wh=1950%2A925){: referrerpolicy="no-referrer" }
 
 与Kafka Manager相比，这套监控框架的优势在于，你可以在一套监控框架中同时监控企业的多个关键技术组件。特别是**对于那些已经搭建了该监控组合的企业来说，直接复用这套框架可以极大地节省运维成本，不失为一个好的选择**。
 
@@ -131,7 +131,7 @@ $GOPATH/bin/Burrow --config-dir /path/containing/config
 
 下面这张图展示了Control Center的主题管理主界面。从这张图中，我们可以直观地观测到整个Kafka集群的主题数量、ISR副本数量、各个主题对应的TPS等数据。当然，Control Center提供的功能远不止这些，你能想到的所有Kafka运维管理和监控功能，Control Center几乎都能提供。
 
-![](https://static001.geekbang.org/resource/image/f0/e2/f067a91f29d24c181ddc19ace163f3e2.png?wh=1193%2A629)
+![](https://static001.geekbang.org/resource/image/f0/e2/f067a91f29d24c181ddc19ace163f3e2.png?wh=1193%2A629){: referrerpolicy="no-referrer" }
 
 不过，如果你要使用Control Center，就必须使用Confluent Kafka Platform企业版。换句话说，Control Center不是免费的，你需要付费才能使用。如果你需要一套很强大的监控框架，你可以登录Confluent公司官网，去订购这套真正意义上的企业级Kafka监控框架。
 
@@ -143,7 +143,7 @@ $GOPATH/bin/Burrow --config-dir /path/containing/config
 
 总之，每个框架都有自己的特点和价值。Kafka Manager框架适用于基本的Kafka监控，Grafana+InfluxDB+JMXTrans的组合适用于已经具有较成熟框架的企业。对于其他的几个监控框架，你可以把它们作为这两个方案的补充，加入到你的监控解决方案中。
 
-![](https://static001.geekbang.org/resource/image/51/7a/514225120dca48f08b20b09400217b7a.jpg?wh=2069%2A2560)
+![](https://static001.geekbang.org/resource/image/51/7a/514225120dca48f08b20b09400217b7a.jpg?wh=2069%2A2560){: referrerpolicy="no-referrer" }
 
 ## 开放讨论
 

@@ -12,7 +12,7 @@
 
 熟悉Basic Paxos的同学（可以回顾一下[05讲](https://time.geekbang.org/column/article/201700?utm_source=geektimeweb&utm_medium=pc&utm_term=pc_interstitial_143)）可能还记得，Basic Paxos是通过二阶段提交来达成共识的。在第一阶段，也就是准备阶段，接收到大多数准备响应的提议者，才能发起接受请求进入第二阶段（也就是接受阶段）：
 
-![](https://static001.geekbang.org/resource/image/aa/e0/aafabff1fe2a26523e9815805ccca6e0.jpg?wh=1142%2A643)
+![](https://static001.geekbang.org/resource/image/aa/e0/aafabff1fe2a26523e9815805ccca6e0.jpg?wh=1142%2A643){: referrerpolicy="no-referrer" }
 
 而如果我们直接通过多次执行Basic Paxos实例，来实现一系列值的共识，就会存在这样几个问题：
 
@@ -25,7 +25,7 @@
 
 我们可以通过引入领导者节点，也就是说，领导者节点作为唯一提议者，这样就不存在多个提议者同时提交提案的情况，也就不存在提案冲突的情况了：
 
-![](https://static001.geekbang.org/resource/image/af/f6/af3d6a291d960ace59a88898abb74ef6.jpg?wh=1142%2A653)
+![](https://static001.geekbang.org/resource/image/af/f6/af3d6a291d960ace59a88898abb74ef6.jpg?wh=1142%2A653){: referrerpolicy="no-referrer" }
 
 在这里，我补充一点：**在论文中，兰伯特没有说如何选举领导者，需要我们在实现Multi-Paxos算法的时候自己实现。** 比如在Chubby中，主节点（也就是领导者节点）是通过执行Basic Paxos算法，进行投票选举产生的。
 
@@ -35,7 +35,7 @@
 
 我们可以采用“当领导者处于稳定状态时，省掉准备阶段，直接进入接受阶段”这个优化机制，优化Basic Paxos执行。也就是说，领导者节点上，序列中的命令是最新的，不再需要通过准备请求来发现之前被大多数节点通过的提案，领导者可以独立指定提案中的值。这时，领导者在提交命令时，可以省掉准备阶段，直接进入到接受阶段：
 
-![](https://static001.geekbang.org/resource/image/3c/54/3cd72a4a138fe1cde52aedd1b897f954.jpg?wh=1142%2A637)
+![](https://static001.geekbang.org/resource/image/3c/54/3cd72a4a138fe1cde52aedd1b897f954.jpg?wh=1142%2A637){: referrerpolicy="no-referrer" }
 
 你看，和重复执行Basic Paxos相比，Multi-Paxos引入领导者节点之后，因为只有领导者节点一个提议者，只有它说了算，所以就不存在提案冲突。另外，当主节点处于稳定状态时，就省掉准备阶段，直接进入接受阶段，所以在很大程度上减少了往返的消息数，提升了性能，降低了延迟。
 
@@ -59,11 +59,11 @@
 
 <!--THE END-->
 
-![](https://static001.geekbang.org/resource/image/7e/b9/7e2c2e194d5a0fda5594c5e4e2d9ecb9.jpg?wh=1142%2A590)
+![](https://static001.geekbang.org/resource/image/7e/b9/7e2c2e194d5a0fda5594c5e4e2d9ecb9.jpg?wh=1142%2A590){: referrerpolicy="no-referrer" }
 
 - 当主节点接收到读请求后，处理就比较简单了，主节点只需要查询本地数据，然后返回给客户端就可以了：
 
-![](https://static001.geekbang.org/resource/image/07/64/07501bb8d9015af3fb34cf856fe3ec64.jpg?wh=1142%2A583)
+![](https://static001.geekbang.org/resource/image/07/64/07501bb8d9015af3fb34cf856fe3ec64.jpg?wh=1142%2A583){: referrerpolicy="no-referrer" }
 
 Chubby的Multi-Paxos实现，尽管是一个闭源的实现，但这是Multi-Paxos思想在实际场景中的真正落地，Chubby团队不仅编程实现了理论，还探索了如何补充细节。其中的思考和设计非常具有参考价值，不仅能帮助我们理解Multi-Paxos思想，还能帮助我们理解其他的Multi-Paxos算法（比如Raft算法）。
 

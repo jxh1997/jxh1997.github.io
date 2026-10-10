@@ -10,17 +10,17 @@
 
 <!--THE END-->
 
-![图片](https://static001.geekbang.org/resource/image/65/8b/651aec6416d34f6fe7f2e1efaf7d098b.jpg?wh=1332x1190)
+![图片](https://static001.geekbang.org/resource/image/65/8b/651aec6416d34f6fe7f2e1efaf7d098b.jpg?wh=1332x1190){: referrerpolicy="no-referrer" }
 
 - 产品信息表 product
 
 <!--THE END-->
 
-![图片](https://static001.geekbang.org/resource/image/ac/96/acb459a209237a10b3fdf2833e411e96.jpg?wh=1316x642)
+![图片](https://static001.geekbang.org/resource/image/ac/96/acb459a209237a10b3fdf2833e411e96.jpg?wh=1316x642){: referrerpolicy="no-referrer" }
 
 - 贷款信息表 loan
 
-## ![图片](https://static001.geekbang.org/resource/image/4c/8c/4c8f64b404c5c12b35d1f5b68becb68c.jpg?wh=1332x1464)
+## ![图片](https://static001.geekbang.org/resource/image/4c/8c/4c8f64b404c5c12b35d1f5b68becb68c.jpg?wh=1332x1464){: referrerpolicy="no-referrer" }
 
 ## 问题设定
 

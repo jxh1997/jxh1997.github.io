@@ -12,7 +12,7 @@
 
 这三个操作都需要保证事务原子性，所以，如果此时Redis的延迟增加，就会拖累App Server端整个事务的执行。这个事务一直完成不了，又会导致MySQL上写事务占用的资源无法释放，进而导致访问MySQL的其他请求被阻塞。很明显，Redis变慢会带来严重的连锁反应。
 
-![](https://static001.geekbang.org/resource/image/58/64/58555bc098b518e992136f1128430c64.jpg?wh=2572%2A1211)
+![](https://static001.geekbang.org/resource/image/58/64/58555bc098b518e992136f1128430c64.jpg?wh=2572%2A1211){: referrerpolicy="no-referrer" }
 
 我相信，不少人遇到过这个问题，那具体该怎么解决呢？
 
@@ -81,7 +81,7 @@ Max latency so far: 9871 microseconds.
 
 医生诊断一般都是有章可循的。同样，Redis的性能诊断也有章可依，这就是影响Redis的关键因素。下面这张图你应该有印象，这是我们在[第一节课](https://time.geekbang.org/column/article/268262)画的Redis架构图。你可以重点关注下我在图上新增的红色模块，也就是Redis自身的操作特性、文件系统和操作系统，它们是影响Redis性能的三大要素。
 
-![](https://static001.geekbang.org/resource/image/cd/06/cd026801924e197f5c79828c368cd706.jpg?wh=4242%2A3039)
+![](https://static001.geekbang.org/resource/image/cd/06/cd026801924e197f5c79828c368cd706.jpg?wh=4242%2A3039){: referrerpolicy="no-referrer" }
 
 接下来，我将从这三大要素入手，结合实际的应用场景，依次给你介绍从不同要素出发排查和解决问题的实践经验。这节课我先给你介绍Redis的自身操作特性的影响，下节课我们再重点研究操作系统和文件系统的影响。
 

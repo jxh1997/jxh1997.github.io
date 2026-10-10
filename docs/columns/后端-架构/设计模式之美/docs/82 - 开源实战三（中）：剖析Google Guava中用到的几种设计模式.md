@@ -69,7 +69,7 @@ private void checkWeightWithWeigher() {
 
 在Google Guava的collection包路径下，有一组以Forwarding开头命名的类。我截了这些类中的一部分贴到了下面，你可以看下。
 
-![](https://static001.geekbang.org/resource/image/ac/7d/ac5ce5f711711c0b86149f402e76177d.png?wh=259%2A420)
+![](https://static001.geekbang.org/resource/image/ac/7d/ac5ce5f711711c0b86149f402e76177d.png?wh=259%2A420){: referrerpolicy="no-referrer" }
 
 这组Forwarding类很多，但实现方式都很相似。我摘抄了其中的ForwardingCollection中的部分代码到这里，你可以下先看下代码，然后思考下这组Forwarding类是干什么用的。
 

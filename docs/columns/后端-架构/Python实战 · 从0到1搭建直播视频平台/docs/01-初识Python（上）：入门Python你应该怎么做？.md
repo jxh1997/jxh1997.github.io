@@ -10,7 +10,7 @@ Python的语法简单易学、用途广泛，可以说是当下最火的一门�
 
 Python 是由 Guido van Rossum 于八十年代末和九十年代初，在荷兰国家数学和计算机科学研究所设计出来的。Python 的设计具有很强的可读性，相比其他编程语言经常使用英文关键字，以及在编写上使用的一些标点符号，Python的语法结构更有特色。
 
-![](https://static001.geekbang.org/resource/image/05/e0/055c989c8677c4a7ff724f6cdfdedee0.jpg?wh=1201x779)
+![](https://static001.geekbang.org/resource/image/05/e0/055c989c8677c4a7ff724f6cdfdedee0.jpg?wh=1201x779){: referrerpolicy="no-referrer" }
 
 目前Python常用的版本有2.X和3.X。3在2的基础上去繁从简，做了改进。不过，目前使用Python 2 的开发人员也越来越少了，所以我们只学习Python 3就可以了。
 
@@ -60,7 +60,7 @@ print(str)
 
 字符串由多个字符组成，为了方便找到每一个字符，Python会默认给它们序号。这个序号就叫做“索引”。正序是从0开始依次+1，倒序是从最后一个字符开始，由-1开始依次递减。
 
-![](https://static001.geekbang.org/resource/image/22/b4/220e00d18985cc3a622f1f9bd9e09fb4.jpg?wh=3378x1609)
+![](https://static001.geekbang.org/resource/image/22/b4/220e00d18985cc3a622f1f9bd9e09fb4.jpg?wh=3378x1609){: referrerpolicy="no-referrer" }
 
 那么如果需要在字符串中截取一个片段要如何操作呢？
 
@@ -70,7 +70,7 @@ print(str)
 
 当开始的索引为0，结束的索引为字符串的最大索引+1时，这种情况可以直接忽略。
 
-![](https://static001.geekbang.org/resource/image/1e/6b/1ec2e7100f30b0ea4c687d7c962b0d6b.jpg?wh=2865x2331)
+![](https://static001.geekbang.org/resource/image/1e/6b/1ec2e7100f30b0ea4c687d7c962b0d6b.jpg?wh=2865x2331){: referrerpolicy="no-referrer" }
 
 我们趁热打铁，通过下面的测试输出练习一下，看看结果是什么样的。
 
@@ -103,7 +103,7 @@ list3 = ["a", "b", "c", "d"]
 ```
 
 前面我们举的彩虹那个例子里，数据结构图和代码是后面这样。  
-![](https://static001.geekbang.org/resource/image/31/56/3100371359f372893a6991b3fe3d0756.jpg?wh=1990x829)
+![](https://static001.geekbang.org/resource/image/31/56/3100371359f372893a6991b3fe3d0756.jpg?wh=1990x829){: referrerpolicy="no-referrer" }
 
 ```python
 #!/usr/bin/Python3
@@ -350,7 +350,7 @@ x, y, z = 3, 4, 5
 
 我们再来看下赋值运算符。
 
-![](https://static001.geekbang.org/resource/image/8f/cb/8fa5c0d7b40459fcf58a01dd157229cb.jpg?wh=3074x2134)
+![](https://static001.geekbang.org/resource/image/8f/cb/8fa5c0d7b40459fcf58a01dd157229cb.jpg?wh=3074x2134){: referrerpolicy="no-referrer" }
 
 示例如下，你也可以自己出题来练习。
 
@@ -379,7 +379,7 @@ print(g) #3
 ```
 
 再来看变量的比较。  
-![](https://static001.geekbang.org/resource/image/18/d0/185d221c04e84c3846d6f3c7e5d484d0.jpg?wh=3364x1727)
+![](https://static001.geekbang.org/resource/image/18/d0/185d221c04e84c3846d6f3c7e5d484d0.jpg?wh=3364x1727){: referrerpolicy="no-referrer" }
 
 示例如下，你也可以试着自己做做练习。
 
@@ -399,7 +399,7 @@ print(a >= c)
 
 二进制与位运算符的规则如下。
 
-![](https://static001.geekbang.org/resource/image/ff/37/ff12df195094686d1141dedc8c2a7037.jpg?wh=3733x1807)
+![](https://static001.geekbang.org/resource/image/ff/37/ff12df195094686d1141dedc8c2a7037.jpg?wh=3733x1807){: referrerpolicy="no-referrer" }
 
 #### 其它运算符与优先级问题
 
@@ -407,7 +407,7 @@ print(a >= c)
 
 总体顺序如下。其中，身份运算符、成员运算符和逻辑运算符等一下我们会讲到。
 
-![](https://static001.geekbang.org/resource/image/e0/17/e0b8f2b5e8283a1fe86015bc2e940017.jpg?wh=3529x2186)
+![](https://static001.geekbang.org/resource/image/e0/17/e0b8f2b5e8283a1fe86015bc2e940017.jpg?wh=3529x2186){: referrerpolicy="no-referrer" }
 
 按照这个优先级规则，我们通过下面的练习来体会一下执行过程。
 
@@ -474,7 +474,7 @@ else:
 
 除了比较大小，条件判断也很常用，我画了一张表格帮你梳理相关运算符。
 
-![](https://static001.geekbang.org/resource/image/0f/27/0fedc83859b5a2072ec0e218cbc0b227.jpg?wh=3733x1980)
+![](https://static001.geekbang.org/resource/image/0f/27/0fedc83859b5a2072ec0e218cbc0b227.jpg?wh=3733x1980){: referrerpolicy="no-referrer" }
 
 其中，and、or、not是逻辑运算符，in、not in是成员运算符，is、is not是身份运算符。下面我们看看相应的例子。
 

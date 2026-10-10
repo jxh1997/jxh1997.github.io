@@ -10,7 +10,7 @@
 
 INFO命令在使用时，可以带一个参数section，这个参数的取值有好几种，相应的，INFO命令也会返回不同类型的监控信息。我把INFO命令的返回信息分成5大类，其中，有的类别当中又包含了不同的监控内容，如下表所示：
 
-![](https://static001.geekbang.org/resource/image/8f/a8/8fb2ef487fd9b7073fd062d480b220a8.jpg?wh=2753%2A1576)
+![](https://static001.geekbang.org/resource/image/8f/a8/8fb2ef487fd9b7073fd062d480b220a8.jpg?wh=2753%2A1576){: referrerpolicy="no-referrer" }
 
 在监控Redis运行状态时，INFO命令返回的结果非常有用。如果你想了解INFO命令的所有参数返回结果的详细含义，可以查看Redis[官网](https://redis.io/commands/info)的介绍。这里，我给你提几个运维时需要重点关注的参数以及它们的重要返回结果。
 
@@ -52,7 +52,7 @@ Redis-shake的基本运行原理，是先启动Redis-shake进程，这个进程�
 
 下面这张图展示了Redis-shake进行数据迁移的过程：
 
-![](https://static001.geekbang.org/resource/image/02/5b/027f6ae0276d483650ee4d5179f19c5b.jpg?wh=3000%2A795)
+![](https://static001.geekbang.org/resource/image/02/5b/027f6ae0276d483650ee4d5179f19c5b.jpg?wh=3000%2A795){: referrerpolicy="no-referrer" }
 
 **Redis-shake的一大优势，就是支持多种类型的迁移。**
 

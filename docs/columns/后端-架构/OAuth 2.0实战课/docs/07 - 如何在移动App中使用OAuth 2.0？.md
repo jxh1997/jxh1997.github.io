@@ -10,7 +10,7 @@
 
 那总结下来呢，移动App可以分为两类，一类是没有Server端的App应用，一类是有Server端的App应用。
 
-![](https://static001.geekbang.org/resource/image/4c/99/4c034e019467aafae511f16055b57b99.png?wh=1604%2A522 "图1 两类移动App")
+![](https://static001.geekbang.org/resource/image/4c/99/4c034e019467aafae511f16055b57b99.png?wh=1604%2A522 "图1 两类移动App"){: referrerpolicy="no-referrer" }
 
 这两类App在使用 OAuth 2.0 时的最大区别，在于获取访问令牌的方式：
 
@@ -35,7 +35,7 @@
 
 在下面的流程图中，为了突出第三方软件使用PKCE协议时与授权服务之间的通信过程，我省略了受保护资源服务和资源拥有者的角色：
 
-![](https://static001.geekbang.org/resource/image/66/52/66648bff2d955b3d714ce597299fbf52.png?wh=1614%2A1002 "图2 使用PKCE协议的流程图")
+![](https://static001.geekbang.org/resource/image/66/52/66648bff2d955b3d714ce597299fbf52.png?wh=1614%2A1002 "图2 使用PKCE协议的流程图"){: referrerpolicy="no-referrer" }
 
 我来和你分析下这个流程中的重点。
 
@@ -102,13 +102,13 @@ POST https://api.authorization-server.com/token?
 
 我们仍以微信登录为例，看一下[官方的流程图](https://developers.weixin.qq.com/doc/oplatform/Website_App/WeChat_Login/Wechat_Login.html)：
 
-![](https://static001.geekbang.org/resource/image/86/b1/86d3yy8fa419c94b7e3766fe0a4e3db1.png?wh=1298%2A570 "图3 微信登录流程图")
+![](https://static001.geekbang.org/resource/image/86/b1/86d3yy8fa419c94b7e3766fe0a4e3db1.png?wh=1298%2A570 "图3 微信登录流程图"){: referrerpolicy="no-referrer" }
 
 看到这个图，你是不是觉得特别熟悉，跟普通的授权码流程没有区别，仍是两步走的策略：第一步换取授权码code，第二步通过授权码code换取访问令牌access\_token。
 
 这里的第三方应用，就是我们作为开发者来开发的应用，包含了移动App和Server端。我们将其“放大”得到下面这张图：
 
-![](https://static001.geekbang.org/resource/image/56/5e/564f5b7af360180d270e205df5f9c05e.png?wh=1950%2A1034 "图4 有Server端的App的授权流程")
+![](https://static001.geekbang.org/resource/image/56/5e/564f5b7af360180d270e205df5f9c05e.png?wh=1950%2A1034 "图4 有Server端的App的授权流程"){: referrerpolicy="no-referrer" }
 
 我们从这张“放大”的图中，就会发现有Server端的App在使用授权码流程的时候，跟普通的Web应用几乎没有任何差别。
 

@@ -23,7 +23,7 @@ MongoDB 是出现得比较早的文档型数据库，应该说早期我们谈到
 
 每个分片又由多个块（chunk）组成。在最新版本的默认情况下，一个块的大小是 128 MB。
 
-![图片](https://static001.geekbang.org/resource/image/03/39/03069bf2c07b54e8365ce5641491bd39.png?wh=1920x765)
+![图片](https://static001.geekbang.org/resource/image/03/39/03069bf2c07b54e8365ce5641491bd39.png?wh=1920x765){: referrerpolicy="no-referrer" }
 
 如果一个块满足了下面这两个条件里的任何一个，就会被拆分成两个块。
 
@@ -32,7 +32,7 @@ MongoDB 是出现得比较早的文档型数据库，应该说早期我们谈到
 
 这两个条件简单记忆就是**数据太多和文档太多。**
 
-![图片](https://static001.geekbang.org/resource/image/8d/f8/8db3edd4e61a7fbc89cc65961cc301f8.png?wh=1920x765)
+![图片](https://static001.geekbang.org/resource/image/8d/f8/8db3edd4e61a7fbc89cc65961cc301f8.png?wh=1920x765){: referrerpolicy="no-referrer" }
 
 接下来就是讨论 MongoDB 的神奇的地方了。在分库分表里面，经常会遇到的一个问题是，不同的表之间数据并不均衡，有的多有的少。所以这就要求你在设计分库分表方案的时候，要尽可能准确预估每一个物理表的数据，确保均衡。
 
@@ -40,11 +40,11 @@ MongoDB 是出现得比较早的文档型数据库，应该说早期我们谈到
 
 而发现数据不均匀之后，迁移数据的过程也叫做**再平衡**（rebalance）。再平衡过程本质上就是**挪动块**。
 
-![图片](https://static001.geekbang.org/resource/image/d2/86/d293ddbf914c37622847b22fa001d786.png?wh=1920x748)
+![图片](https://static001.geekbang.org/resource/image/d2/86/d293ddbf914c37622847b22fa001d786.png?wh=1920x748){: referrerpolicy="no-referrer" }
 
 那么什么时候才会触发再平衡过程呢？MongoDB 设定了一些阈值，超过了这个阈值就会触发再平衡的过程。你可以看一下具体的阈值表。
 
-![图片](https://static001.geekbang.org/resource/image/40/42/40126b23c62aa33034a7a047a4927942.jpg?wh=1920x649)
+![图片](https://static001.geekbang.org/resource/image/40/42/40126b23c62aa33034a7a047a4927942.jpg?wh=1920x649){: referrerpolicy="no-referrer" }
 
 举个例子，如果一个集合里面最大的分片有9个块，而最少的集合有7个块，那么就会触发再平衡过程。
 
@@ -60,13 +60,13 @@ MongoDB 是出现得比较早的文档型数据库，应该说早期我们谈到
 
 应该说，这个过程和别的中间件的数据迁移过程都差不多。
 
-![图片](https://static001.geekbang.org/resource/image/66/7d/66999320087e2f38fbe9b76378987d7d.png?wh=1920x1087)
+![图片](https://static001.geekbang.org/resource/image/66/7d/66999320087e2f38fbe9b76378987d7d.png?wh=1920x1087){: referrerpolicy="no-referrer" }
 
 ## MongoDB 的配置服务器
 
 当引入了分片机制之后，MongoDB 启用了配置服务器（config server）来存储元数据。这些元数据包括分片信息、权限控制信息，用来控制分布式锁。其中分片信息还会被负责执行查询 mongos 使用。
 
-![图片](https://static001.geekbang.org/resource/image/da/a5/da05912dcc08212e1414985b5010aaa5.png?wh=1920x745)
+![图片](https://static001.geekbang.org/resource/image/da/a5/da05912dcc08212e1414985b5010aaa5.png?wh=1920x745){: referrerpolicy="no-referrer" }
 
 MongoDB 的配置服务器有一个很大的优点，就是就算主节点崩溃了， 但是它还是可以继续提供读服务。这和别的中间件不一样，大多数中间件的主从结构都是在主节点崩溃之后完全不可用，直到选举出了一个新的主节点。
 
@@ -76,11 +76,11 @@ MongoDB 的配置服务器有一个很大的优点，就是就算主节点崩溃
 
 你也可以把MongoDB的复制机制理解成 MongoDB 的主从机制。简单来说，MongoDB 的副本也是 MongoDB 实例，它们和主实例持有一样的数据。在 MongoDB 里面，用 Primary 来代表主实例，而用 Secondary 来代表副本实例。主从实例合并在一起，也叫做一个复制集（Replica Set）。
 
-![图片](https://static001.geekbang.org/resource/image/63/11/634620780e112cfcc641227d03c22311.png?wh=1920x760)
+![图片](https://static001.geekbang.org/resource/image/63/11/634620780e112cfcc641227d03c22311.png?wh=1920x760){: referrerpolicy="no-referrer" }
 
 类似于数据库的读写分离机制，你也可以在 MongoDB 上进行读写分离。
 
-![图片](https://static001.geekbang.org/resource/image/db/7a/dbb74faeffdf39f8ed8e2eb66a2bcf7a.png?wh=1838x1376)
+![图片](https://static001.geekbang.org/resource/image/db/7a/dbb74faeffdf39f8ed8e2eb66a2bcf7a.png?wh=1838x1376){: referrerpolicy="no-referrer" }
 
 既然有主从，那么肯定也有主从集群和数据同步。在 MongoDB 里面，主从之间的数据同步是通过所谓的 oplog 来实现的，从这一点来看，这个 oplog 很像 MySQL 的binlog。
 
@@ -143,7 +143,7 @@ MongoDB 的高可用其实和别的中间件的高可用方案不能说一模一
 
 这种机制你在别的中间件里面也见过了。这一类节点的好处就在于它们只参与投票，也就是只关心主从选举，所以只需要很少的资源就可以运行起来。
 
-![图片](https://static001.geekbang.org/resource/image/ec/5a/ec78c1cdd8ec8ccdc3c29e3799223e5a.png?wh=1920x733)
+![图片](https://static001.geekbang.org/resource/image/ec/5a/ec78c1cdd8ec8ccdc3c29e3799223e5a.png?wh=1920x733){: referrerpolicy="no-referrer" }
 
 > 最开始的时候，我们公司只是部署了一主两从，两个从节点都会同步数据。后面为了进一步提高可用性，我引入了仲裁节点。这些仲裁节点被部署在轻量级的服务器上，成本非常低。在引入了这些仲裁节点之后，就算有一个从节点崩溃了，整个集群也基本没什么影响，因为这个时候还是有足够的节点可以投票。
 
@@ -157,7 +157,7 @@ MongoDB 的高可用其实和别的中间件的高可用方案不能说一模一
 
 > 我们 MongoDB 最开始部署的时候，配置服务器并没有启用主从模式，毕竟当时是想着节省资源。但是后面发现，配置服务器这个对集群的影响太大了，一旦不可用，整个集群就基本不可用了。在这种情况下，我们只好引入了主从结构的配置服务器。目前我们公司的配置服务器本身就有一主两从。
 
-![图片](https://static001.geekbang.org/resource/image/2f/d2/2fde43b07b5cec7e426def798f1485d2.png?wh=1920x800)
+![图片](https://static001.geekbang.org/resource/image/2f/d2/2fde43b07b5cec7e426def798f1485d2.png?wh=1920x800){: referrerpolicy="no-referrer" }
 
 紧接着你可以补充这个做法的好处。
 
@@ -167,13 +167,13 @@ MongoDB 的高可用其实和别的中间件的高可用方案不能说一模一
 
 在主从结构这里，再深入一些的话，就需要聊一聊**多数据中心的主从结构**。MongoDB 里面有一个推荐的架构，你可以看一下示意图。
 
-![图片](https://static001.geekbang.org/resource/image/d8/4d/d864094640ee2b74ac4db152bfb6c24d.png?wh=1920x679)
+![图片](https://static001.geekbang.org/resource/image/d8/4d/d864094640ee2b74ac4db152bfb6c24d.png?wh=1920x679){: referrerpolicy="no-referrer" }
 
 不过正常来说，大部分公司没那么多资源部署，那么一个简化版本就是用两个数据中心，部署一主三从或者一主两从。
 
 > 我们公司本身业务规模比较大，对 MongoDB 的依赖也很严重，所以我们还部署了多数据中心的主从结构。我们有两个数据中心（可以同城，可以异地），其中一个数据中心，部署了一主一从，另外一个数据中心部署了两个从节点。那么万一一个数据中心崩溃了，另外一个数据中心也还是可用的。
 
-![图片](https://static001.geekbang.org/resource/image/7c/77/7c64b8f60d6215a7f6cc49a6f3c88677.png?wh=1800x1312)
+![图片](https://static001.geekbang.org/resource/image/7c/77/7c64b8f60d6215a7f6cc49a6f3c88677.png?wh=1800x1312){: referrerpolicy="no-referrer" }
 
 然后在主从选举的时候，我们也会倾向于选择和主节点在同一个数据中心的从节点，也就是图里面深黄色的从节点。因为正常来说同一个数据中心内部的从节点，数据会比较新。
 
@@ -201,7 +201,7 @@ MongoDB 的高可用其实和别的中间件的高可用方案不能说一模一
 
 > 目前来说，支持大数据高并发的中间件基本上也有类似的分片功能。或者说，这一类的中间件明面上都是对等结构，而对等结构里面的每一个“节点”又是一个主从集群。就算是关系型数据库的分库分表，也可以看作是这种对等结构+主从结构的模式。
 
-![图片](https://static001.geekbang.org/resource/image/51/48/511b3c368275572537008e84745a0348.png?wh=1920x808)
+![图片](https://static001.geekbang.org/resource/image/51/48/511b3c368275572537008e84745a0348.png?wh=1920x808){: referrerpolicy="no-referrer" }
 
 ## 调整写入语义
 
@@ -219,7 +219,7 @@ MongoDB 的高可用其实和别的中间件的高可用方案不能说一模一
 
 在 MongoDB 的面试里面，你始终要记住一点，就是把 MongoDB 和别的中间件进行横向对比，最好的方式是自己总结出一张思维导图或者表格，更加一目了然。
 
-![](https://static001.geekbang.org/resource/image/2a/fe/2a1b3f82d35c565e20400768697df1fe.jpg?wh=2344x2084)
+![](https://static001.geekbang.org/resource/image/2a/fe/2a1b3f82d35c565e20400768697df1fe.jpg?wh=2344x2084){: referrerpolicy="no-referrer" }
 
 ## 思考题
 

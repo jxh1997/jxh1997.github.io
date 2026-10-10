@@ -90,7 +90,7 @@
 
 比如八叉老师分享的Thoughtworks小巨人项目用的书单，据说这是TWer入职一年就需要阅读完的量。书单截图如下：
 
-![图片](https://static001.geekbang.org/resource/image/eb/32/ebcbaeda8d9c0fcdb5c0e946d0a03532.png?wh=1492x1816)
+![图片](https://static001.geekbang.org/resource/image/eb/32/ebcbaeda8d9c0fcdb5c0e946d0a03532.png?wh=1492x1816){: referrerpolicy="no-referrer" }
 
 有同学问是否有技术洞察的方法论可供学习，八叉老师的回答是这样的：
 

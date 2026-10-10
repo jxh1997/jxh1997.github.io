@@ -42,7 +42,7 @@ if ((childpid = fork()) == 0) {  //子进程的代码执行分支
 
 而为了让从节点能够识别用来同步数据的RDB内容，rdbSaveToSlavesSockets函数调用**rdbSaveRioWithEOFMark函数**（在rdb.c文件中），在RDB二进制数据的前后加上了标识字符串，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/d8/25/d8b79034afb8180721b7978b0063bb25.jpg?wh=2000x412)
+![](https://static001.geekbang.org/resource/image/d8/25/d8b79034afb8180721b7978b0063bb25.jpg?wh=2000x412){: referrerpolicy="no-referrer" }
 
 以下代码也展示了rdbSaveRioWithEOFMark函数的基本执行逻辑。你可以看到，它除了写入前后标识字符串之外，还是会调用rdbSaveRio函数实际生成RDB内容。
 
@@ -69,7 +69,7 @@ if (rioWrite(rdb,eofmark,RDB_EOF_MARK_SIZE) == 0) goto werr; //再次写入40字
 
 为了便于你掌握RDB文件创建的整体情况，我画了下面这张图，展示了Redis源码中创建RDB文件的函数调用关系，你可以看下。
 
-![](https://static001.geekbang.org/resource/image/93/a9/939b3b3fb530668d7c91c94cb05510a9.jpg?wh=2000x1125)
+![](https://static001.geekbang.org/resource/image/93/a9/939b3b3fb530668d7c91c94cb05510a9.jpg?wh=2000x1125){: referrerpolicy="no-referrer" }
 
 好了，到这里，你可以看到，实际最终生成RDB文件的函数是rdbSaveRio。所以接下来，我们就来看看rdbSaveRio函数的执行过程。同时，我还会给你介绍RDB文件的格式是如何组织的。
 
@@ -85,7 +85,7 @@ if (rioWrite(rdb,eofmark,RDB_EOF_MARK_SIZE) == 0) goto werr; //再次写入40字
 
 下图就展示了RDB文件的组成，你可以看下。
 
-![](https://static001.geekbang.org/resource/image/b0/86/b031cb3c43ce9563f07f3ffb591cc486.jpg?wh=1804x1020)
+![](https://static001.geekbang.org/resource/image/b0/86/b031cb3c43ce9563f07f3ffb591cc486.jpg?wh=1804x1020){: referrerpolicy="no-referrer" }
 
 好，接下来，我们就来看看rdbSaveRio函数是如何生成RDB文件中的每一部分的。这里，为了方便你理解RDB文件格式以及文件内容，你可以先按照如下步骤准备一个RDB文件。
 
@@ -124,7 +124,7 @@ od -A x -t x1c -v dump.rdb
 
 以下代码展示的就是我用od命令，查看刚才生成的dump.rdb文件后，输出的从文件头开始的部分内容。你可以看到这四行结果中，第一和第三行是用十六进制显示的dump.rdb文件的字节内容，这里每两个十六进制数对应了一个字节。而第二和第四行是od命令生成的每个字节所对应的ASCII字符。
 
-![](https://static001.geekbang.org/resource/image/09/yy/092af3cc2dcda84307bc2e30a6fc47yy.jpg?wh=2000x775)
+![](https://static001.geekbang.org/resource/image/09/yy/092af3cc2dcda84307bc2e30a6fc47yy.jpg?wh=2000x775){: referrerpolicy="no-referrer" }
 
 这也就是说，在刚才生成的RDB文件中，如果想要转换成ASCII字符，它的文件头内容其实就已经包含了REDIS的字符串和一些数字，而这正是RDB文件头包含的内容。
 
@@ -149,7 +149,7 @@ if (rdbSaveInfoAuxFields(rdb,flags,rsi) == -1) goto werr; //写入属性信息
 
 rdbSaveInfoAuxFields函数是在rdb.c文件中实现的，它会使用键值对的形式，在RDB文件头中记录Redis server的属性信息。下表中列出了RDB文件头记录的一些主要信息，以及它们对应的键和值，你可以看下。
 
-![](https://static001.geekbang.org/resource/image/c7/01/c79a8314710d2b74483fd74d58ed5301.jpg?wh=2000x792)
+![](https://static001.geekbang.org/resource/image/c7/01/c79a8314710d2b74483fd74d58ed5301.jpg?wh=2000x792){: referrerpolicy="no-referrer" }
 
 那么，当属性值为字符串时，rdbSaveInfoAuxFields函数会调用**rdbSaveAuxFieldStrStr函数**写入属性信息；而当属性值为整数时，rdbSaveInfoAuxFields函数会调用**rdbSaveAuxFieldStrInt函数**写入属性信息，如下所示：
 
@@ -177,13 +177,13 @@ if (rdbSaveAuxFieldStrInt(rdb,"used-mem",zmalloc_used_memory()) == -1) return -1
 
 **第二步**，rdbSaveAuxField函数调用rdbSaveRawString函数（在rdb.c文件中）写入属性信息的键，而键通常是一个字符串。**rdbSaveRawString函数**是用来写入字符串的通用函数，它会先记录字符串长度，然后再记录实际字符串，如下图所示。这个长度信息是为了解析RDB文件时，程序可以基于它知道当前读取的字符串应该读取多少个字节。
 
-![](https://static001.geekbang.org/resource/image/2f/dd/2f5a8ec2219109178ca74e169d7974dd.jpg?wh=1669x334)
+![](https://static001.geekbang.org/resource/image/2f/dd/2f5a8ec2219109178ca74e169d7974dd.jpg?wh=1669x334){: referrerpolicy="no-referrer" }
 
 不过，为了节省RDB文件消耗的空间，如果字符串中记录的实际是一个整数，rdbSaveRawString函数还会**调用rdbTryIntegerEncoding函数**（在rdb.c文件中），尝试用**紧凑结构**对字符串进行编码。具体做法你可以进一步阅读rdbTryIntegerEncoding函数。
 
 下图展示了rdbSaveRawString函数的基本执行逻辑，你可以看下。其中，它调用rdbSaveLen函数写入字符串长度，调用rdbWriteRaw函数写入实际数据。
 
-![](https://static001.geekbang.org/resource/image/c3/f7/c3be595bb11ce318239eee9a3828bdf7.jpg?wh=2000x986)
+![](https://static001.geekbang.org/resource/image/c3/f7/c3be595bb11ce318239eee9a3828bdf7.jpg?wh=2000x986){: referrerpolicy="no-referrer" }
 
 **第三步**，rdbSaveAuxField函数就需要写入属性信息的值了。因为属性信息的值通常也是字符串，所以和第二步写入属性信息的键类似，rdbSaveAuxField函数会调用rdbSaveRawString函数来写入属性信息的值。
 
@@ -207,7 +207,7 @@ ssize_t rdbSaveAuxField(rio *rdb, void *key, size_t keylen, void *val, size_t va
 
 到这里，RDB文件头的内容已经写完了。我把刚才创建的RDB文件头的部分内容，画在了下图当中，并且标识了十六进制对应的ASCII字符以及一些关键信息，你可以结合图例来理解刚才介绍的代码。
 
-![](https://static001.geekbang.org/resource/image/3b/34/3b7db22a0c7276fbe24afed80a3bc234.jpg?wh=2000x1125)
+![](https://static001.geekbang.org/resource/image/3b/34/3b7db22a0c7276fbe24afed80a3bc234.jpg?wh=2000x1125){: referrerpolicy="no-referrer" }
 
 这样接下来，rdbSaveRio函数就要开始写入实际的键值对了，这也是文件中实际记录数据的部分。下面，我们就来具体看下。
 
@@ -229,7 +229,7 @@ if (rdbSaveLen(rdb,j) == -1) goto werr;  //写入当前数据库编号j
 
 下图展示了刚才我创建的RDB文件中SELECTDB操作码的信息，你可以看到，数据库编号为0。
 
-![](https://static001.geekbang.org/resource/image/3c/73/3c3a9cc720506802fa75ba10276d7d73.jpg?wh=1551x461)
+![](https://static001.geekbang.org/resource/image/3c/73/3c3a9cc720506802fa75ba10276d7d73.jpg?wh=1551x461){: referrerpolicy="no-referrer" }
 
 紧接着，rdbSaveRio函数会写入**RESIZEDB操作码**，用来标识全局哈希表和过期key哈希表中键值对数量的记录，这个过程的执行代码如下所示：
 
@@ -245,7 +245,7 @@ if (rdbSaveLen(rdb,expires_size) == -1) goto werr; //写入过期key哈希表大
 
 我也把刚才创建的RDB文件中，RESIZEDB操作码的内容画在了下图中，你可以看下。
 
-![](https://static001.geekbang.org/resource/image/15/ff/15782167d58b478ffc08a38fca093fff.jpg?wh=1904x502)
+![](https://static001.geekbang.org/resource/image/15/ff/15782167d58b478ffc08a38fca093fff.jpg?wh=1904x502){: referrerpolicy="no-referrer" }
 
 你可以看到，在RESIZEDB操作码后，紧接着记录的是全局哈希表中的键值对，它的数量是2，然后是过期key哈希表中的键值对，其数量为0。我们刚才在生成RDB文件前，只插入了两个键值对，所以，RDB文件中记录的信息和我们刚才的操作结果是一致的。
 
@@ -302,7 +302,7 @@ if (rdbSaveObject(rdb,val,key) == -1) return -1; //写入键值对的value
 
 我把刚才写入的String类型键值对“hello”“redis”在RDB文件中对应的记录内容，画在了下图中，你可以看下。
 
-![](https://static001.geekbang.org/resource/image/78/1d/786363a521ae6e3911c8c4002b53331d.jpg?wh=1920x514)
+![](https://static001.geekbang.org/resource/image/78/1d/786363a521ae6e3911c8c4002b53331d.jpg?wh=1920x514){: referrerpolicy="no-referrer" }
 
 你可以看到，这个键值对的开头类型标识就是0，和刚才介绍的RDB\_TYPE\_STRING宏定义的值是一致的。而紧接着的key和value，它们都会先记录长度信息，然后才记录实际内容。
 
@@ -332,7 +332,7 @@ if (rioWrite(rdb,&cksum,8) == 0) goto werr;
 
 下图展示了我刚才生成的RDB文件的文件尾，你可以看下。
 
-![](https://static001.geekbang.org/resource/image/15/15/158b7b6f7315e6376428f9cc3e04a515.jpg?wh=1923x452)
+![](https://static001.geekbang.org/resource/image/15/15/158b7b6f7315e6376428f9cc3e04a515.jpg?wh=1923x452){: referrerpolicy="no-referrer" }
 
 这样，我们也就整体了解了RDB文件从文件头、文件数据部分再到文件尾的整个生成过程了。
 

@@ -12,7 +12,7 @@
 
 在项目中我们借助Flask的扩展Flask-JWT来生成Token，具体就是使用JWT.encode函数将JSON对象编码为JWT Token。因此，我们有必要了解一下JWT.encode函数的参数，你可以参考后面我画的思维导图。
 
-![](https://static001.geekbang.org/resource/image/2b/da/2b08510cae1b9446918329388223edda.jpg?wh=1900x922)
+![](https://static001.geekbang.org/resource/image/2b/da/2b08510cae1b9446918329388223edda.jpg?wh=1900x922){: referrerpolicy="no-referrer" }
 
 你或许注意到了，在JWT.encode函数中只传入了payload部分。这是因为在使用JWT.encode函数时，会自动根据默认算法生成Header部分，并将Header和Payload部分进行签名生成最终的Token字符串。我们需要手动指定Payload部分。
 

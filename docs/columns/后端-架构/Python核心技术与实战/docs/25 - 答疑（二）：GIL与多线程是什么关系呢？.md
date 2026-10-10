@@ -6,7 +6,7 @@
 
 ## 问题一：列表self append无限嵌套的原理
 
-![](https://static001.geekbang.org/resource/image/9d/a0/9d6c8c7a5adc13e9119d08dc3f1052a0.png?wh=1534%2A950)
+![](https://static001.geekbang.org/resource/image/9d/a0/9d6c8c7a5adc13e9119d08dc3f1052a0.png?wh=1534%2A950){: referrerpolicy="no-referrer" }
 
 先来回答第一个问题，两个同学都问到了，下面这段代码中的x，为什么是无限嵌套的列表？
 
@@ -19,7 +19,7 @@ x
 
 我们可以将上述操作画一个图，便于你更直观地理解：
 
-![](https://static001.geekbang.org/resource/image/00/5f/001a607f3f29f68975be3e706711325f.png?wh=764%2A298)
+![](https://static001.geekbang.org/resource/image/00/5f/001a607f3f29f68975be3e706711325f.png?wh=764%2A298){: referrerpolicy="no-referrer" }
 
 这里，x指向一个列表，列表的第一个元素为1；执行了append操作后，第二个元素又反过来指向x，即指向了x所指向的列表，因此形成了一个无限嵌套的循环：\[1, \[1, \[1, \[1, …]]]]。
 
@@ -29,7 +29,7 @@ x
 
 ## 问题二：装饰器的宏观理解
 
-![](https://static001.geekbang.org/resource/image/17/6f/17fcf8a9ef8685025fb5f792bc26116f.png?wh=1498%2A384)
+![](https://static001.geekbang.org/resource/image/17/6f/17fcf8a9ef8685025fb5f792bc26116f.png?wh=1498%2A384){: referrerpolicy="no-referrer" }
 
 再来看第二个问题，胡峣同学对装饰器的疑问。事实上，装饰器的作用与意义，在于其可以通过自定义的函数或类，在不改变原函数的基础上，改变原函数的一些功能。
 
@@ -79,19 +79,19 @@ def post_moment(request, ...):
 
 ## 问题三：GIL与多线程的关系
 
-![](https://static001.geekbang.org/resource/image/34/f1/3492e32a3396872095242be23db19ef1.png?wh=1456%2A338)
+![](https://static001.geekbang.org/resource/image/34/f1/3492e32a3396872095242be23db19ef1.png?wh=1456%2A338){: referrerpolicy="no-referrer" }
 
 第三个问题，new同学疑惑的是，GIL只支持单线程，而Python支持多线程，这两者之间究竟是什么关系呢？
 
 其实，GIL的存在与Python支持多线程并不矛盾。前面我们讲过，GIL是指同一时刻，程序只能有一个线程运行；而Python中的多线程，是指多个线程交替执行，造成一个“伪并行”的结果，但是具体到某一时刻，仍然只有1个线程在运行，并不是真正的多线程并行。这个机制，我画了下面这张图来表示：
 
-![](https://static001.geekbang.org/resource/image/e0/7b/e09b09170e0d2990d2e7f4e6a0292d7b.png?wh=1648%2A528)
+![](https://static001.geekbang.org/resource/image/e0/7b/e09b09170e0d2990d2e7f4e6a0292d7b.png?wh=1648%2A528){: referrerpolicy="no-referrer" }
 
 举个例子来理解。比如，我用10个线程来爬取50个网站的内容。线程1在爬取第1个网站时，被I/O block住了，处于等待状态；这时，GIL就会释放，而线程2就会开始执行，去爬取第2个网站，依次类推。等到线程1的I/O操作完成时，主程序便又会切回线程1，让其完成剩下的操作。这样一来，从用户角度看到的，便是我们所说的多线程。
 
 ## 问题四：多进程与多线程的应用场景
 
-![](https://static001.geekbang.org/resource/image/a8/12/a853c99985472bfabc59d76839df4d12.png?wh=1142%2A214)
+![](https://static001.geekbang.org/resource/image/a8/12/a853c99985472bfabc59d76839df4d12.png?wh=1142%2A214){: referrerpolicy="no-referrer" }
 
 第四个问题，这个在文章中多次提到，不过，我还是想在这里再次强调一下。
 

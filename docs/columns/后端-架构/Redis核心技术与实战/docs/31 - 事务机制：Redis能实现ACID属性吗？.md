@@ -184,7 +184,7 @@ WATCH机制的作用是，在事务执行前，监控一个或多个键的值变
 
 WATCH机制的具体实现是由WATCH命令实现的，我给你举个例子，你可以看下下面的图，进一步理解下WATCH命令的使用。
 
-![](https://static001.geekbang.org/resource/image/4f/73/4f8589410f77df16311dd29131676373.jpg?wh=3000%2A1921)
+![](https://static001.geekbang.org/resource/image/4f/73/4f8589410f77df16311dd29131676373.jpg?wh=3000%2A1921){: referrerpolicy="no-referrer" }
 
 我来给你具体解释下图中的内容。
 
@@ -198,7 +198,7 @@ WATCH机制的具体实现是由WATCH命令实现的，我给你举个例子，�
 
 当然，如果没有使用WATCH机制，在EXEC命令前执行的并发操作是会对数据进行读写的。而且，在执行EXEC命令的时候，事务要操作的数据已经改变了，在这种情况下，Redis并没有做到让事务对其它操作隔离，隔离性也就没有得到保障。下面这张图显示了没有WATCH机制时的情况，你可以看下。
 
-![](https://static001.geekbang.org/resource/image/8c/57/8ca37debfff91282b9c62a25fd7e9a57.jpg?wh=3000%2A1562)
+![](https://static001.geekbang.org/resource/image/8c/57/8ca37debfff91282b9c62a25fd7e9a57.jpg?wh=3000%2A1562){: referrerpolicy="no-referrer" }
 
 在t2时刻，客户端X发送的EXEC命令还没有执行，但是客户端Y的DECR命令就执行了，此时，a:stock的值会被修改，这就无法保证X发起的事务的隔离性了。
 
@@ -206,7 +206,7 @@ WATCH机制的具体实现是由WATCH命令实现的，我给你举个例子，�
 
 因为Redis是用单线程执行命令，而且，EXEC命令执行后，Redis会保证先把命令队列中的所有命令执行完。所以，在这种情况下，并发操作不会破坏事务的隔离性，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/11/ae/11a1eff930920a0b423a6e46c23f44ae.jpg?wh=2958%2A1799)
+![](https://static001.geekbang.org/resource/image/11/ae/11a1eff930920a0b423a6e46c23f44ae.jpg?wh=2958%2A1799){: referrerpolicy="no-referrer" }
 
 最后，我们来分析一下Redis事务的持久性属性保证情况。
 
@@ -224,7 +224,7 @@ WATCH机制的具体实现是由WATCH命令实现的，我给你举个例子，�
 
 在这节课上，我们学习了Redis中的事务实现。Redis通过MULTI、EXEC、DISCARD和WATCH四个命令来支持事务机制，这4个命令的作用，我总结在下面的表中，你可以再看下。
 
-![](https://static001.geekbang.org/resource/image/95/50/9571308df0620214d7ccb2f2cc73a250.jpg?wh=2505%2A734)
+![](https://static001.geekbang.org/resource/image/95/50/9571308df0620214d7ccb2f2cc73a250.jpg?wh=2505%2A734){: referrerpolicy="no-referrer" }
 
 事务的ACID属性是我们使用事务进行正确操作的基本要求。通过这节课的分析，我们了解到了，Redis的事务机制可以保证一致性和隔离性，但是无法保证持久性。不过，因为Redis本身是内存数据库，持久性并不是一个必须的属性，我们更加关注的还是原子性、一致性和隔离性这三个属性。
 

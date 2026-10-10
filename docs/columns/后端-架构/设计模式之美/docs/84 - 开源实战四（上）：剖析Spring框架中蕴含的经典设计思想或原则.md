@@ -14,7 +14,7 @@
 
 在Spring全家桶中，Spring Framework是最基础、最底层的一部分。它提供了最基础、最核心的IOC和AOP功能。当然，它包含的功能还不仅如此，还有其他比如事务管理（Transactions）、MVC框架（Spring MVC）等很多功能。下面这个表格，是我从Spring官网上找的，关于Spring Framework的功能介绍，你可以大略地看下有个印象。
 
-![](https://static001.geekbang.org/resource/image/1a/41/1ab07ad6aed0f06cbce9547552281041.jpeg?wh=1963%2A1441)
+![](https://static001.geekbang.org/resource/image/1a/41/1ab07ad6aed0f06cbce9547552281041.jpeg?wh=1963%2A1441){: referrerpolicy="no-referrer" }
 
 在Spring Framework中，Spring MVC出镜率很高，经常被单独拎出来使用。它是支持Web开发的MVC框架，提供了URL路由、Session管理、模板引擎等跟Web开发相关的一系列功能。
 
@@ -74,7 +74,7 @@ Spring提供的IOC容器，在不需要Bean继承任何父类或者实现任何�
 
 这就要归功于Spring的模块化设计思想。我们先看一张图，如下所示，它是Spring Framework的模块和分层介绍图。
 
-![](https://static001.geekbang.org/resource/image/69/2c/699208dbe6b43ee397a020ea733c342c.png?wh=720%2A540)
+![](https://static001.geekbang.org/resource/image/69/2c/699208dbe6b43ee397a020ea733c342c.png?wh=720%2A540){: referrerpolicy="no-referrer" }
 
 从图中我们可以看出，Spring在分层、模块化方面做得非常好。每个模块都只负责一个相对独立的功能。模块之间关系，仅有上层对下层的依赖关系，而同层之间以及下层对上层，几乎没有依赖和耦合。除此之外，在依赖Spring的项目中，开发者可以有选择地引入某几个模块，而不会因为需要一个小的功能，就被强迫引入整个Spring框架。所以，尽管Spring Framework包含的模块很多，已经有二十几个，但每个模块都非常轻量级，都可以单独拿来使用。正因如此，到现在，Spring框架仍然可以被称为是一个轻量级的开发框架。
 

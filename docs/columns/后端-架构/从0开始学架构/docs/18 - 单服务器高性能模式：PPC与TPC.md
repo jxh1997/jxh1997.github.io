@@ -23,7 +23,7 @@
 
 PPC是Process Per Connection的缩写，其含义是指每次有新的连接就新建一个进程去专门处理这个连接的请求，这是传统的UNIX网络服务器所采用的模型。基本的流程图是：
 
-![](https://static001.geekbang.org/resource/image/53/ba/53b17d63a31c6b551d3a039a2568daba.jpg?wh=3249%2A2950)
+![](https://static001.geekbang.org/resource/image/53/ba/53b17d63a31c6b551d3a039a2568daba.jpg?wh=3249%2A2950){: referrerpolicy="no-referrer" }
 
 - 父进程接受连接（图中accept）。
 - 父进程“fork”子进程（图中fork）。
@@ -44,7 +44,7 @@ PPC模式中，当连接进来时才fork新进程来处理连接请求，由于f
 
 顾名思义，prefork就是提前创建进程（pre-fork）。系统在启动的时候就预先创建好进程，然后才开始接受用户的请求，当有新的连接进来的时候，就可以省去fork进程的操作，让用户访问更快、体验更好。prefork的基本示意图是：
 
-![](https://static001.geekbang.org/resource/image/3c/2f/3c931b04d3372ebcebe4f2c2cf59d42f.jpg?wh=3219%2A2430)
+![](https://static001.geekbang.org/resource/image/3c/2f/3c931b04d3372ebcebe4f2c2cf59d42f.jpg?wh=3219%2A2430){: referrerpolicy="no-referrer" }
 
 prefork的实现关键就是多个子进程都accept同一个socket，当有新的连接进入时，操作系统保证只有一个进程能最后accept成功。但这里也存在一个小小的问题：“惊群”现象，就是指虽然只有一个子进程能accept成功，但所有阻塞在accept上的子进程都会被唤醒，这样就导致了不必要的进程调度和上下文切换了。幸运的是，操作系统可以解决这个问题，例如Linux 2.6版本后内核已经解决了accept惊群问题。
 
@@ -56,7 +56,7 @@ TPC是Thread Per Connection的缩写，其含义是指每次有新的连接就�
 
 TPC的基本流程是：
 
-![](https://static001.geekbang.org/resource/image/25/e7/25b3910c8c5fb0055e184c5c186eece7.jpg?wh=4464%2A3285)
+![](https://static001.geekbang.org/resource/image/25/e7/25b3910c8c5fb0055e184c5c186eece7.jpg?wh=4464%2A3285){: referrerpolicy="no-referrer" }
 
 - 父进程接受连接（图中accept）。
 - 父进程创建子线程（图中pthread）。
@@ -84,7 +84,7 @@ TPC模式中，当连接进来时才创建新的线程来处理连接请求，�
 - 主进程accept，然后将连接交给某个线程处理。
 - 子线程都尝试去accept，最终只有一个线程accept成功，方案的基本示意图如下：
 
-![](https://static001.geekbang.org/resource/image/11/4d/115308f686fe0bb1c93ec4b1728eda4d.jpg?wh=4527%2A3150)
+![](https://static001.geekbang.org/resource/image/11/4d/115308f686fe0bb1c93ec4b1728eda4d.jpg?wh=4527%2A3150){: referrerpolicy="no-referrer" }
 
 Apache服务器的MPM worker模式本质上就是一种prethread方案，但稍微做了改进。Apache服务器会首先创建多个进程，每个进程里面再创建多个线程，这样做主要是为了考虑稳定性，即：即使某个子进程里面的某个线程异常导致整个子进程退出，还会有其他子进程继续提供服务，不会导致整个服务器全部挂掉。
 

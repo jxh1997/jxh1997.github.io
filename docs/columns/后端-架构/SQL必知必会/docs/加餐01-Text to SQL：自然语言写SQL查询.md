@@ -38,7 +38,7 @@ Text-to-SQL（文本转 SQL）是将自然语言问题自动转换为结构化�
 - CodeGeeX：智谱开源的代码大模型，基于GLM底座，性能卓越，在 VSCode 等编辑器中可以找到对应的插件。
 - SQLCoder：专为 SQL 生成而设计的开源模型，但是维护更新慢。
 
-![图片](https://static001.geekbang.org/resource/image/7b/f3/7b9ea61b3230329e145112223b4213f3.png?wh=1080x514)
+![图片](https://static001.geekbang.org/resource/image/7b/f3/7b9ea61b3230329e145112223b4213f3.png?wh=1080x514){: referrerpolicy="no-referrer" }
 
 如果是基于数据安全性考虑，可以在本地部署Qwen-7B/72B等开源模型，同时可以进行对话和撰写SQL。如果很重视代码质量（包括SQL），可以部署Qwen-Coder专门用于代码生成。
 
@@ -55,9 +55,9 @@ Text-to-SQL（文本转 SQL）是将自然语言问题自动转换为结构化�
 
 这里我们重点讲解下，如何通过prompt更有效地驱动LLM编写SQL。
 
-![图片](https://static001.geekbang.org/resource/image/73/98/736036b14843511b18595f321cc2b598.jpg?wh=1920x1437)
+![图片](https://static001.geekbang.org/resource/image/73/98/736036b14843511b18595f321cc2b598.jpg?wh=1920x1437){: referrerpolicy="no-referrer" }
 
-![图片](https://static001.geekbang.org/resource/image/e3/9c/e34cbda88888496d18b70f039527179c.png?wh=1272x1224)
+![图片](https://static001.geekbang.org/resource/image/e3/9c/e34cbda88888496d18b70f039527179c.png?wh=1272x1224){: referrerpolicy="no-referrer" }
 
 SQL prompt template 撰写：
 
@@ -104,13 +104,13 @@ Here is the SQL query I have generated to answer the question `{query}`:
 
 <!--THE END-->
 
-![图片](https://static001.geekbang.org/resource/image/2a/2e/2ac5d2b4a8602b0bf099d9dafa97de2e.png?wh=1920x1824)
+![图片](https://static001.geekbang.org/resource/image/2a/2e/2ac5d2b4a8602b0bf099d9dafa97de2e.png?wh=1920x1824){: referrerpolicy="no-referrer" }
 
 - create\_sql 代表建表语句
 
 <!--THE END-->
 
-![图片](https://static001.geekbang.org/resource/image/0y/7e/0yyf6f7cdffyyfa05c98f623fbcd837e.png?wh=1232x958)
+![图片](https://static001.geekbang.org/resource/image/0y/7e/0yyf6f7cdffyyfa05c98f623fbcd837e.png?wh=1232x958){: referrerpolicy="no-referrer" }
 
 - query 是用户查询的问题
 

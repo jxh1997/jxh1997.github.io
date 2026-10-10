@@ -70,7 +70,7 @@ Redis在开发时，就针对上述问题进行了合理的设计和优化。因
 
 我画了下面这张图，显示了通过阅读Redis源码，可以学习和掌握到的计算机系统设计思想，你可以看下。
 
-![](https://static001.geekbang.org/resource/image/d4/8f/d4d4dea857ee82360a0bb5f4cb847f8f.jpg?wh=2000x1125)
+![](https://static001.geekbang.org/resource/image/d4/8f/d4d4dea857ee82360a0bb5f4cb847f8f.jpg?wh=2000x1125){: referrerpolicy="no-referrer" }
 
 好了，到这里，你就可以发现，阅读和学习Redis源码，无论是对掌握Redis细节，成为Redis达人，还是养成源码阅读习惯，主动跟进Redis最新发展，或者是跟着Redis学习编程规范和设计思想，都大有裨益。
 
@@ -91,7 +91,7 @@ Redis在开发时，就针对上述问题进行了合理的设计和优化。因
 
 所以，对于阅读Redis源码来说，我们就需要先形成一幅Redis源码的全景图，如下所示。
 
-![](https://static001.geekbang.org/resource/image/59/35/5975c57d9ac404fe3a774ea28a7ac935.jpg?wh=2238x811)
+![](https://static001.geekbang.org/resource/image/59/35/5975c57d9ac404fe3a774ea28a7ac935.jpg?wh=2238x811){: referrerpolicy="no-referrer" }
 
 有了这张图以后，我们就可以根据自己的学习需求，查找到所要学习的代码文件。然后，我们再根据Redis不同的功能特性，分线条学习每个功能特性上涉及的关键技术和设计思想。
 
@@ -125,7 +125,7 @@ Redis的功能模块很多，每个功能模块的实现也比较复杂，我们
 
 并且，在学习这五类模块中的关键源码的同时，我还会给你介绍对应的计算机系统设计思想，以便你把这些设计思想应用到自己的系统开发中。最后，我还会向你介绍Redis源码中使用的一些**编程技巧**，以便你学习掌握后，应用到自己的程序开发中。
 
-![](https://static001.geekbang.org/resource/image/09/24/09677e4a46d5981241821e12988fc924.jpg?wh=1563x8278)
+![](https://static001.geekbang.org/resource/image/09/24/09677e4a46d5981241821e12988fc924.jpg?wh=1563x8278){: referrerpolicy="no-referrer" }
 
 ### 写在最后
 

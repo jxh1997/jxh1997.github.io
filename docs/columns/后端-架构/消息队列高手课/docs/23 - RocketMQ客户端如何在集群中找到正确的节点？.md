@@ -18,7 +18,7 @@ NameServer支持只部署一个节点，也支持部署多个节点组成一个�
 
 我们一起通过这个图来看一下，在RocketMQ集群中，NameServer是如何配合Broker、生产者和消费者一起工作的。这个图来自[RocketMQ的官方文档](https://github.com/apache/rocketmq/tree/master/docs)。
 
-![](https://static001.geekbang.org/resource/image/53/5e/53baeb70d388de042f7347d137b9d35e.jpeg?wh=2208%2A916)
+![](https://static001.geekbang.org/resource/image/53/5e/53baeb70d388de042f7347d137b9d35e.jpeg?wh=2208%2A916){: referrerpolicy="no-referrer" }
 
 每个Broker都需要和所有的NameServer节点进行通信。当Broker保存的Topic信息发生变化的时候，它会主动通知所有的NameServer更新路由信息，为了保证数据一致性，Broker还会定时给所有的NameServer节点上报路由信息。这个上报路由信息的RPC请求，也同时起到Broker与NameServer之间的心跳作用，NameServer依靠这个心跳来确定Broker的健康状态。
 

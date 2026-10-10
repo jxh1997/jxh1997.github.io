@@ -26,7 +26,7 @@
 
 在这里，有一份目录，你也可以先了解下整个专栏的知识结构。
 
-![](https://static001.geekbang.org/resource/image/b7/c2/b736f37014d28199c2457a67ed669bc2.jpg?wh=1646%2A6471)
+![](https://static001.geekbang.org/resource/image/b7/c2/b736f37014d28199c2457a67ed669bc2.jpg?wh=1646%2A6471){: referrerpolicy="no-referrer" }
 
 如前面说的，这几条主线上的每个知识点几乎都不是最新的，有些甚至十年前就这样，并没有改过。但我希望针对这些点的说明，可以让你在使用MySQL时心里更有底，知道怎么做选择，并且明白为什么。了解了原理，才能在实践中不断创新，提升个人的价值和工作输出。
 

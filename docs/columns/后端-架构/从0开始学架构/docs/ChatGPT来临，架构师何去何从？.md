@@ -6,7 +6,7 @@
 
 ChatGPT为什么会如此火热和流行呢？体验过的朋友应该都有类似的感觉：它的回答内容几乎和真人聊天的感觉类似，聊天的上下文有连贯的逻辑性，尤其让人震撼的是，它能够根据用户的描述直接写一段代码、写论文、写报告。例如：
 
-![](https://static001.geekbang.org/resource/image/f2/c3/f23db6a4909619d9c8c14876ed8f62c3.png?wh=793x1135)
+![](https://static001.geekbang.org/resource/image/f2/c3/f23db6a4909619d9c8c14876ed8f62c3.png?wh=793x1135){: referrerpolicy="no-referrer" }
 
 如此强大的智能能力让ChatGPT成为了现象级的人工智能产品，而上一个如此火热的人工智能产品还是围棋领域的AlphaGo。在击败人类顶尖棋手李世石后，AlphaGo直接带起了人工智能领域的热潮，这次ChatGPT的火热同样会引领人工智能领域一个新的热潮。
 
@@ -28,7 +28,7 @@ ChatGPT中的GPT是指Generative Pretrained Transformer，是**一种可利用�
 
 比如说下图，这是学员们调侃ChatGPT时的一个案例：
 
-![](https://static001.geekbang.org/resource/image/c7/b3/c7d95f66fc9de03b9d7bfde14a6640b3.jpg?wh=734x359)
+![](https://static001.geekbang.org/resource/image/c7/b3/c7d95f66fc9de03b9d7bfde14a6640b3.jpg?wh=734x359){: referrerpolicy="no-referrer" }
 
 很明显这个回答是一本正经的瞎扯，里面的内容看起来大部分是阿里云王坚博士的资料 ：）
 
@@ -36,7 +36,7 @@ ChatGPT中的GPT是指Generative Pretrained Transformer，是**一种可利用�
 
 比如说下图是关于《流浪地球2》的问题，ChatGPT的回答：
 
-![](https://static001.geekbang.org/resource/image/88/c0/882c92e9422e22f183346685b4a3c9c0.png?wh=855x242)
+![](https://static001.geekbang.org/resource/image/88/c0/882c92e9422e22f183346685b4a3c9c0.png?wh=855x242){: referrerpolicy="no-referrer" }
 
 3. **历史数据对未来影响很大**
 
@@ -76,7 +76,7 @@ ChatGPT目前还不具备理解特定场景下的人类语言，简单来说就�
 
 比如说“过五关斩六将”这个问题，ChatGPT的回答五花八门，如下是两个比较搞笑的回答：
 
-![](https://static001.geekbang.org/resource/image/21/c3/21dcce7702aa74b2a5242fb2d47be6c3.jpg?wh=815x201)![](https://static001.geekbang.org/resource/image/9c/9d/9c9015a3522f998b42c37dcd59acf59d.jpg?wh=865x199)
+![](https://static001.geekbang.org/resource/image/21/c3/21dcce7702aa74b2a5242fb2d47be6c3.jpg?wh=815x201)![](https://static001.geekbang.org/resource/image/9c/9d/9c9015a3522f998b42c37dcd59acf59d.jpg?wh=865x199){: referrerpolicy="no-referrer" }
 
 ## 技能和学习方式要升级吗？
 

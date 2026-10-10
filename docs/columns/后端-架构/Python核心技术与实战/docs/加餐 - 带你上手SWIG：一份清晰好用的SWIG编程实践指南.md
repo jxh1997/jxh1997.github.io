@@ -786,7 +786,7 @@ print(eigenvalues)
 
 最后，我们分别对纯Python实现的代码，和使用SWIG封装的版本来进行测试，各自都执行1,000,000次，然后对比执行时间。我用一张图表示了我的机器上得到的结果，你可以对比看看。
 
-![](https://static001.geekbang.org/resource/image/d4/e2/d4729298aa565d7216720f9d5ededde2.png?wh=665%2A493)
+![](https://static001.geekbang.org/resource/image/d4/e2/d4729298aa565d7216720f9d5ededde2.png?wh=665%2A493){: referrerpolicy="no-referrer" }
 
 虽然这样粗略的比较并不够严谨，比如我们没有认真考虑SWIG接口类型转换的耗时，也没有考虑在不同编程语言下实现算法的逻辑等等。但是，通过这个粗略的结果，你仍然可以看出执行类似运算时，两者性能的巨大差异。
 

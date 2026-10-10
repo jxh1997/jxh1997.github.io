@@ -10,7 +10,7 @@
 
 我们先分析分析ELK的架构长什么样，事实上，它和OLAP及OLTP的实现区别很大，我们一起来看看。Elasticsearch架构如下图：
 
-![图片](https://static001.geekbang.org/resource/image/0d/cc/0d954e660d80ae00854f29955c6168cc.jpg?wh=1920x1357 "整体的数据流向图")
+![图片](https://static001.geekbang.org/resource/image/0d/cc/0d954e660d80ae00854f29955c6168cc.jpg?wh=1920x1357 "整体的数据流向图"){: referrerpolicy="no-referrer" }
 
 我们对照架构图，梳理一下整体的数据流向，可以看到，我们项目产生的日志，会通过Filebeat或Rsyslog收集将日志推送到Kafka内。然后由LogStash消费Kafka内的日志、对日志进行整理，并推送到Elasticsearch集群内。
 
@@ -33,7 +33,7 @@ Elasticsearch集群中服务分多个角色，我带你简单了解一下：
 
 下图是Elasticsearch的索引存储具体的结构，看起来很庞大，但是别担心，我们只需要关注分片及索引部分即可：
 
-![图片](https://static001.geekbang.org/resource/image/a7/97/a70527bd3901d776edaeaa01c89df897.jpg?wh=1920x1603)
+![图片](https://static001.geekbang.org/resource/image/a7/97/a70527bd3901d776edaeaa01c89df897.jpg?wh=1920x1603){: referrerpolicy="no-referrer" }
 
 我们再持续深挖一下，Elasticsearch是如何实现分布式全文检索服务的写存储的。其底层全文检索使用的是Lucene引擎，事实上这个引擎是单机嵌入式的，并不支持分布式，分布式功能是基础分片来实现的。
 
@@ -47,7 +47,7 @@ Elasticsearch集群中服务分多个角色，我带你简单了解一下：
 
 同时官方推荐我们按天建立索引，当我们的存储数据量达到一定程度时，Elasticsearch会把一些不经常读取的索引挪到冷数据区，以此提高数据存储的性价比。而且我建议你创建索引时按天创建索引，这样查询时。我们可以通过时间范围来降低扫描数据量。
 
-![图片](https://static001.geekbang.org/resource/image/f0/0b/f0yyb81d94c46a1882cacef5ce313c0b.jpg?wh=1920x1134 "ES索引组成")
+![图片](https://static001.geekbang.org/resource/image/f0/0b/f0yyb81d94c46a1882cacef5ce313c0b.jpg?wh=1920x1134 "ES索引组成"){: referrerpolicy="no-referrer" }
 
 另外，Elasticsearch服务为了保证读写性能可扩容，Elasticsearch对数据做了分片，分片的路由规则默认是通过日志DocId做hash来保证数据分布均衡，常见分布式系统都是**通过分片来实现读写性能的线性提升**。
 
@@ -63,7 +63,7 @@ Elasticsearch集群中服务分多个角色，我带你简单了解一下：
 
 可以说，Elasticsearch通过这个方式实现了所有分片的大数据集的全文检索，但这种方式也同时加大了Elasticsearch对数据查询请求的耗时。下图是协调节点和副本的通讯过程：
 
-![图片](https://static001.geekbang.org/resource/image/0e/68/0e1c40f567d902e6yy14ecd7e02a1068.jpg?wh=1920x1138)
+![图片](https://static001.geekbang.org/resource/image/0e/68/0e1c40f567d902e6yy14ecd7e02a1068.jpg?wh=1920x1138){: referrerpolicy="no-referrer" }
 
 除了耗时，这个方式还有很多缺点，比如查询QPS低；网络吞吐性能不高；协助节点需要每次查询结果做分页；分页后，如果我们想查询靠后的页面，要等每个节点先搜索和排序好该页之前的所有数据，才能响应，而且翻页跨度越大，查询就越慢……
 
@@ -79,9 +79,9 @@ Elasticsearch集群中服务分多个角色，我带你简单了解一下：
 
 Elasticsearch支持多种查询方式不仅仅是全文检索，如数值类使用的是BKD Tree，Elasticsearch的全文检索查询是通过Lucene实现的，索引的实现原理和OLAP的LSM及OLTP的B+Tree完全不同，它使用的是倒排索引（Inverted Index）。
 
-![图片](https://static001.geekbang.org/resource/image/a4/42/a47c53ea69740a30b6e7c04545a48842.jpg?wh=1920x1440 "正排索引及倒排索引")
+![图片](https://static001.geekbang.org/resource/image/a4/42/a47c53ea69740a30b6e7c04545a48842.jpg?wh=1920x1440 "正排索引及倒排索引"){: referrerpolicy="no-referrer" }
 
-![图片](https://static001.geekbang.org/resource/image/7b/77/7b06f6c58bd676dde6429190e58d9b77.jpg?wh=1920x720 "查询时多个分词的合并交集")
+![图片](https://static001.geekbang.org/resource/image/7b/77/7b06f6c58bd676dde6429190e58d9b77.jpg?wh=1920x720 "查询时多个分词的合并交集"){: referrerpolicy="no-referrer" }
 
 一般来说，倒排索引常在搜索引擎内做全文检索使用，其不同于关系数据库中的B+Tree和B-Tree 。B+Tree和B-Tree 索引是从树根往下按左前缀方式来递减缩小查询范围，而倒排索引的过程可以大致分四个步骤：**分词、取出相关DocId、计算权重并重新排序、展示高相关度的记录**。
 
@@ -89,7 +89,7 @@ Elasticsearch支持多种查询方式不仅仅是全文检索，如数值类使�
 
 下面，我们简单看一下Lucene具体实现。
 
-![图片](https://static001.geekbang.org/resource/image/0d/16/0d643686d0511e7fca7593e624a68616.jpg?wh=1920x1440 "ES的倒排索引原理")
+![图片](https://static001.geekbang.org/resource/image/0d/16/0d643686d0511e7fca7593e624a68616.jpg?wh=1920x1440 "ES的倒排索引原理"){: referrerpolicy="no-referrer" }
 
 如上图，Elasticsearch集群的索引保存在Lucene的segment文件中，segment文件格式相关信息你可以参考 [segment格式](https://lucene.apache.org/core/3_0_3/fileformats.html#Segments%20File)，其中包括行存、列存、倒排索引。
 

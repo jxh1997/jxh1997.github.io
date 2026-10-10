@@ -110,7 +110,7 @@
 
 任务列表状态为：
 
-![](https://static001.geekbang.org/resource/image/ce/4c/cebe21e8012af25ae8b11824cd73c44c.jpg?wh=6294x10999)
+![](https://static001.geekbang.org/resource/image/ce/4c/cebe21e8012af25ae8b11824cd73c44c.jpg?wh=6294x10999){: referrerpolicy="no-referrer" }
 
 ## 视频演示
 

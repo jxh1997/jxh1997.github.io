@@ -18,7 +18,7 @@
 
 **对于像订单服务这类核心的业务，一个可行的方法是，我们启动一个更新订单缓存的服务，接收订单变更的MQ消息，然后更新Redis中缓存的订单数据。**因为这类核心的业务数据，使用方非常多，本来就需要发消息，增加一个消费订阅基本没什么成本，订单服务本身也不需要做任何更改。
 
-![](https://static001.geekbang.org/resource/image/7c/8e/7cec502808318409dbc719c0b1cbbc8e.jpg?wh=1142%2A658)
+![](https://static001.geekbang.org/resource/image/7c/8e/7cec502808318409dbc719c0b1cbbc8e.jpg?wh=1142%2A658){: referrerpolicy="no-referrer" }
 
 唯一需要担心的一个问题是，如果丢消息了怎么办？因为现在消息是缓存数据的唯一来源，一旦出现丢消息，缓存里缺失的那条数据永远不会被补上。所以，必须保证整个消息链条的可靠性，不过好在现在的MQ集群，比如像Kafka或者RocketMQ，它都有高可用和高可靠的保证机制，只要你正确配置好，是可以满足数据可靠性要求的。
 
@@ -30,7 +30,7 @@
 
 数据更新服务只负责处理业务逻辑，更新MySQL，完全不用管如何去更新缓存。负责更新缓存的服务，把自己伪装成一个MySQL的从节点，从MySQL接收Binlog，解析Binlog之后，可以得到实时的数据变更信息，然后根据这个变更信息去更新Redis缓存。
 
-![](https://static001.geekbang.org/resource/image/91/12/918380c0e43de2f4ef7ad5e8e9d5d212.jpg?wh=1142%2A639)
+![](https://static001.geekbang.org/resource/image/91/12/918380c0e43de2f4ef7ad5e8e9d5d212.jpg?wh=1142%2A639){: referrerpolicy="no-referrer" }
 
 这种收Binlog更新缓存的方案，和刚刚我们讲到的，收MQ消息更新缓存的方案，其实它们的实现思路是一样的，都是异步订阅实时数据变更信息，去更新Redis。只不过，直接读取Binlog这种方式，它的通用性更强。不要求订单服务再发订单消息了，订单更新服务也不用费劲去解决“发消息失败怎么办？”这种数据一致性问题了。
 
@@ -42,7 +42,7 @@
 
 Canal模拟MySQL 主从复制的交互协议，把自己伪装成一个MySQL的从节点，向MySQL主节点发送dump请求，MySQL收到请求后，就会开始推送Binlog给Canal，Canal解析Binlog字节流之后，转换为便于读取的结构化数据，供下游程序订阅使用。下图是Canal的工作原理：
 
-![](https://static001.geekbang.org/resource/image/45/e4/452211795717190e55c5b0ff2ab208e4.jpg?wh=1142%2A546)
+![](https://static001.geekbang.org/resource/image/45/e4/452211795717190e55c5b0ff2ab208e4.jpg?wh=1142%2A546){: referrerpolicy="no-referrer" }
 
 在我们这个示例中，MySQL和Redis都运行在本地的默认端口上，MySQL的端口为3306，Redis的端口为6379。为了便于大家操作，我们还是以《[04 | 事务：账户余额总是对不上账，怎么办？](https://time.geekbang.org/column/article/206544)》这节课中的账户余额表account\_balance作为演示数据。
 
@@ -72,7 +72,7 @@ FLUSH PRIVILEGES;
 
 重启一下MySQL，确保所有的配置生效。重启后检查一下当前的Binlog文件和位置：
 
-![](https://static001.geekbang.org/resource/image/01/8f/01293d0ccc372418f3e01c785e204b8f.png?wh=1436%2A310)
+![](https://static001.geekbang.org/resource/image/01/8f/01293d0ccc372418f3e01c785e204b8f.png?wh=1436%2A310){: referrerpolicy="no-referrer" }
 
 记录下File和Position两列的值，然后我们来配置Canal。编辑Canal的实例配置文件canal/conf/example/instance.properties，以便让Canal连接到我们的MySQL上。
 

@@ -154,7 +154,7 @@ class CommandLineParserTest {
 
 我们先忽略ChatGPT生成测试的风格问题，比如不同的场景应该构造成不同的测试，也可以暂时不考虑这些测试的完备性问题，比如缺少边界条件。先看看ChatGPT给出的代码是否能够满足这些测试。
 
-![](https://static001.geekbang.org/resource/image/00/38/0095bd8b5945270a4363939cda7c4e38.jpg?wh=2910x2072)
+![](https://static001.geekbang.org/resource/image/00/38/0095bd8b5945270a4363939cda7c4e38.jpg?wh=2910x2072){: referrerpolicy="no-referrer" }
 
 ## 第一次调试
 
@@ -201,7 +201,7 @@ private static Object parseValues(List<Object> values) {
 > at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)  
 > at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
 
-![](https://static001.geekbang.org/resource/image/45/35/45a751578ac9b6c1831c839ae195e835.jpg?wh=1404x456)
+![](https://static001.geekbang.org/resource/image/45/35/45a751578ac9b6c1831c839ae195e835.jpg?wh=1404x456){: referrerpolicy="no-referrer" }
 
 ```plain
 import java.util.ArrayList;
@@ -284,7 +284,7 @@ public class CommandLineParser {
 
 再次执行测试，依然存在错误。
 
-![](https://static001.geekbang.org/resource/image/fd/30/fdffe163b783560byy69e8e04b980430.jpg?wh=2932x2132)
+![](https://static001.geekbang.org/resource/image/fd/30/fdffe163b783560byy69e8e04b980430.jpg?wh=2932x2132){: referrerpolicy="no-referrer" }
 
 ## 第二次调试
 
@@ -317,7 +317,7 @@ public class CommandLineParser {
 > at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)  
 > at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
 
-![](https://static001.geekbang.org/resource/image/63/6a/63203311acec12805f1b8078c507d36a.jpg?wh=1372x1608)
+![](https://static001.geekbang.org/resource/image/63/6a/63203311acec12805f1b8078c507d36a.jpg?wh=1372x1608){: referrerpolicy="no-referrer" }
 
 很显然，它没发现这是个设计问题，但是它给出了一个能通过测试的最简单的办法。这种做法也蛮符合测试驱动开发对于节奏的要求。那么这时候，应该由我们给出设计上的建议和改进了。
 
@@ -330,7 +330,7 @@ public class CommandLineParser {
 
 提供建议以后，GPT返回的修改结果如下。
 
-![](https://static001.geekbang.org/resource/image/72/9e/7272e7e8cf264153cc9616f794f2529e.jpg?wh=1372x318)
+![](https://static001.geekbang.org/resource/image/72/9e/7272e7e8cf264153cc9616f794f2529e.jpg?wh=1372x318){: referrerpolicy="no-referrer" }
 
 ```plain
 import java.util.ArrayList;
@@ -455,13 +455,13 @@ public class CommandLineParser {
 
 ```
 
-![](https://static001.geekbang.org/resource/image/33/77/338b6e8c85b26ec9039ed7d538a06a77.jpg?wh=1392x298)
+![](https://static001.geekbang.org/resource/image/33/77/338b6e8c85b26ec9039ed7d538a06a77.jpg?wh=1392x298){: referrerpolicy="no-referrer" }
 
 ## 第三次调试
 
 按照ChatGPT给出的修改，我们仍然没能通过全部的测试。新的错误继续出现：
 
-![](https://static001.geekbang.org/resource/image/b4/da/b4bec30568d84f5b9958dbd9ab0e93da.jpg?wh=2888x2081)
+![](https://static001.geekbang.org/resource/image/b4/da/b4bec30568d84f5b9958dbd9ab0e93da.jpg?wh=2888x2081){: referrerpolicy="no-referrer" }
 
 现在测试失败的地方在于，ChatGPT生成的代码将-3看作了参数名，而不是参数值。现在我们可以直接告诉ChatGPT现在的问题在哪，问题出在下面这个方法中将参数类型硬编码了（hard-coded）：
 
@@ -490,7 +490,7 @@ private static ArgType determineArgType(String flag) {
 
 GPT的回复如下。
 
-![](https://static001.geekbang.org/resource/image/c3/39/c32f763bc08f7610e3886a7ff0f68839.jpg?wh=1372x288)
+![](https://static001.geekbang.org/resource/image/c3/39/c32f763bc08f7610e3886a7ff0f68839.jpg?wh=1372x288){: referrerpolicy="no-referrer" }
 
 ```plain
 import java.util.ArrayList;
@@ -620,7 +620,7 @@ public class CommandLineParser {
 }
 ```
 
-![](https://static001.geekbang.org/resource/image/yy/f6/yyf4a222257dacf4f2f35a0833c03ff6.jpg?wh=1372x284)
+![](https://static001.geekbang.org/resource/image/yy/f6/yyf4a222257dacf4f2f35a0833c03ff6.jpg?wh=1372x284){: referrerpolicy="no-referrer" }
 
 我们看到这里ChatGPT在main方法中给出了配置CommandLineParser的方式，我们需要将它改到我们的测试中。当然也可以用ChatGPT修改我们的测试，但其实没有这个必要。
 
@@ -628,7 +628,7 @@ public class CommandLineParser {
 
 按照ChatGPT给出的修改，我们仍然没能通过全部的测试。新的错误继续出现：
 
-![](https://static001.geekbang.org/resource/image/7a/1f/7a724809834fd15fa3ee36b5fb5f7a1f.jpg?wh=2911x2089)
+![](https://static001.geekbang.org/resource/image/7a/1f/7a724809834fd15fa3ee36b5fb5f7a1f.jpg?wh=2911x2089){: referrerpolicy="no-referrer" }
 
 这次是列表的结构错误。当然，这里我们可以继续告诉ChatGPT，错误发生在哪，然后让ChatGPT再重写代码。过程与前面的类似，我们就不再重复了。
 

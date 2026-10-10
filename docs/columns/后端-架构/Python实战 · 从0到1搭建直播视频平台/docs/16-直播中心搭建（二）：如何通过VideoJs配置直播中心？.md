@@ -20,13 +20,13 @@
 
 一个模块是申请中心，用户可以在该模块完成个人信息的实名认证。你可以参考后面这张表格，来了解用户需要提交的信息具体涉及的主要字段。当然，你也可以灵活添加调整，但是一定保证数据库中新增了字段。
 
-![](https://static001.geekbang.org/resource/image/28/a3/28f8db9ab79c74ba11b50d32866bd5a3.jpg?wh=2574x845)
+![](https://static001.geekbang.org/resource/image/28/a3/28f8db9ab79c74ba11b50d32866bd5a3.jpg?wh=2574x845){: referrerpolicy="no-referrer" }
 
 明确了需要哪些用户信息之后，接下来就是设计实现界面样式，这一部分我们通过折叠菜单的形式来展示。
 
 结合界面效果截图我们可以看到，这里有两个选择项，分别是申请中心和直播间。点击不同的菜单，用户就可以看到对应的功能区，用户无需跳转界面，这样反而能更高效地解决问题。
 
-![](https://static001.geekbang.org/resource/image/19/bf/192f24eecf1cb401551dbbf756cd28bf.jpg?wh=2830x1370)
+![](https://static001.geekbang.org/resource/image/19/bf/192f24eecf1cb401551dbbf756cd28bf.jpg?wh=2830x1370){: referrerpolicy="no-referrer" }
 
 ## 页面代码实战
 

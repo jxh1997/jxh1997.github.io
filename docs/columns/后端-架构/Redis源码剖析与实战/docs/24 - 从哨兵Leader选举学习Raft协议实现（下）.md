@@ -55,7 +55,7 @@ if (master->flags & SRI_S_DOWN) {
 ```
 
 另外，这里我也画了一张图，展示了该判断逻辑，你可以再来回顾下。  
-![图片](https://static001.geekbang.org/resource/image/c4/8f/c4201b2611c7e6c53604914b29b9418f.jpg?wh=1920x1080)
+![图片](https://static001.geekbang.org/resource/image/c4/8f/c4201b2611c7e6c53604914b29b9418f.jpg?wh=1920x1080){: referrerpolicy="no-referrer" }
 
 那么，一旦sentinelCheckObjectivelyDown函数判断主节点客观下线了，它就会调用sentinelEvent函数发送+odown事件消息，然后在主节点的flags变量中**设置SRI\_O\_DOWN标记**，如下所示：
 
@@ -161,7 +161,7 @@ addReplyLongLong(c, (long long)leader_epoch); //第三部分是Leader的纪元
 ```
 
 你也可以参考下图：  
-![图片](https://static001.geekbang.org/resource/image/57/fd/573b2cb64005925500d338030f61a1fd.jpg?wh=1920x1080)
+![图片](https://static001.geekbang.org/resource/image/57/fd/573b2cb64005925500d338030f61a1fd.jpg?wh=1920x1080){: referrerpolicy="no-referrer" }
 
 好了，到这里你就已经知道，哨兵会通过sentinelAskMasterStateToOtherSentinels函数，向监听同一节点的其他哨兵发送sentinel is-master-down-by-addr命令，来获取其他哨兵对主节点主观下线的判断结果。而其他哨兵是使用sentinelCommand函数，来处理sentinel is-master-down-by-addr命令，并在命令处理的返回结果中，包含自己对主节点主观下线的判断结果。
 
@@ -196,7 +196,7 @@ if (r->type == REDIS_REPLY_ARRAY && r->elements == 3 &&
 
 所以到这里，你就可以知道，一个哨兵调用sentinelCheckObjectivelyDown函数，是直接检查其他哨兵的flags是否有SRI\_MASTER\_DOWN标记，而哨兵又是通过sentinelAskMasterStateToOtherSentinels函数，向其他哨兵发送sentinel is-master-down-by-addr命令，从而询问其他哨兵对主节点主观下线的判断结果的，并且会根据命令回复结果，在结果处理函数sentinelReceiveIsMasterDownReply中，设置其他哨兵的flags为SRI\_MASTER\_DOWN。下图也展示了这个执行逻辑，你可以再来整体回顾下。
 
-![图片](https://static001.geekbang.org/resource/image/51/7f/51c98fec129byy830c8878466c95337f.jpg?wh=1920x978)
+![图片](https://static001.geekbang.org/resource/image/51/7f/51c98fec129byy830c8878466c95337f.jpg?wh=1920x978){: referrerpolicy="no-referrer" }
 
 那么，掌握了这个执行逻辑后，我们再来看下，哨兵选举是什么时候开始执行的。
 
@@ -204,7 +204,7 @@ if (r->type == REDIS_REPLY_ARRAY && r->elements == 3 &&
 
 这里，为了了解哨兵选举的触发，我们先来复习下在上节课，我讲过的sentinelHandleRedisInstance函数中针对主节点的调用关系，如下图所示：
 
-![图片](https://static001.geekbang.org/resource/image/27/f7/276ee9fb08acf2405aa24b4658387df7.jpg?wh=1920x1042)
+![图片](https://static001.geekbang.org/resource/image/27/f7/276ee9fb08acf2405aa24b4658387df7.jpg?wh=1920x1042){: referrerpolicy="no-referrer" }
 
 从图中可以看到，sentinelHandleRedisInstance会先调用sentinelCheckObjectivelyDown函数，再调用sentinelStartFailoverIfNeeded函数，判断是否要开始故障切换，如果sentinelStartFailoverIfNeeded函数的返回值为**非0值**，那么sentinelAskMasterStateToOtherSentinels函数会被调用。否则的话，sentinelHandleRedisInstance就直接调用sentinelFailoverStateMachine函数，并再次调用sentinelAskMasterStateToOtherSentinels函数。
 
@@ -301,7 +301,7 @@ winner = winner ? sdsnew(winner) : NULL;
 
 下图就展示了刚才介绍的确认哨兵Leader时的调用关系，你可以看下。
 
-![图片](https://static001.geekbang.org/resource/image/19/52/192b72d0cf77cfefee8e26952b4f1652.jpg?wh=1920x839)
+![图片](https://static001.geekbang.org/resource/image/19/52/192b72d0cf77cfefee8e26952b4f1652.jpg?wh=1920x839){: referrerpolicy="no-referrer" }
 
 好了，到这里，最终的哨兵Leader就能被确定了。
 
@@ -313,7 +313,7 @@ winner = winner ? sdsnew(winner) : NULL;
 
 首先，客观下线的判断涉及三个标记的判断，分别是主节点flags中的SRI\_S\_DOWN和SRI\_O\_DOWN，以及哨兵实例flags中的SRI\_MASTER\_DOWN，我画了下面这张表，展示了这三个标记的设置函数和条件，你可以再整体回顾下。
 
-![图片](https://static001.geekbang.org/resource/image/73/1f/738ea2375d2e302bb6742fa825650b1f.jpg?wh=1920x1027)
+![图片](https://static001.geekbang.org/resource/image/73/1f/738ea2375d2e302bb6742fa825650b1f.jpg?wh=1920x1027){: referrerpolicy="no-referrer" }
 
 而一旦哨兵判断主节点客观下线了，那么哨兵就会**调用sentinelAskMasterStateToOtherSentinels函数进行哨兵Leader选举**。这里，你需要注意的是，向其他哨兵询问主节点主观下线状态，以及向其他哨兵发起Leader投票，都是通过sentinel is-master-down-by-addr命令实现的，而Redis源码是用了同一个函数sentinelAskMasterStateToOtherSentinels来发送该命令，所以你在阅读源码时，**要注意区分sentinelAskMasterStateToOtherSentinels发送的命令是查询主节点主观下线状态还是进行投票**。
 

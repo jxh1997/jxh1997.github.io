@@ -14,7 +14,7 @@ Gossip的三板斧分别是：直接邮寄（Direct Mail）、反熵（Anti-entr
 
 直接邮寄：就是直接发送更新数据，当数据发送失败时，将数据缓存下来，然后重传。从图中你可以看到，节点A直接将更新数据发送给了节点B、D。
 
-![](https://static001.geekbang.org/resource/image/40/6e/40890515407ae099b317ebb52342e56e.jpg?wh=1142%2A719 "图1")
+![](https://static001.geekbang.org/resource/image/40/6e/40890515407ae099b317ebb52342e56e.jpg?wh=1142%2A719 "图1"){: referrerpolicy="no-referrer" }
 
 在这里我想补充一点，直接邮寄虽然实现起来比较容易，数据同步也很及时，但可能会因为缓存队列满了而丢数据。也就是说，只采用直接邮寄是无法实现最终一致性的，这一点我希望你能注意到。
 
@@ -22,25 +22,25 @@ Gossip的三板斧分别是：直接邮寄（Direct Mail）、反熵（Anti-entr
 
 反熵指的是集群中的节点，每隔段时间就随机选择某个其他节点，然后通过互相交换自己的所有数据来消除两者之间的差异，实现数据的最终一致性：
 
-![](https://static001.geekbang.org/resource/image/d9/e8/d97c70ab65d83cc3de7e1be009d225e8.jpg?wh=1142%2A397 "图2")
+![](https://static001.geekbang.org/resource/image/d9/e8/d97c70ab65d83cc3de7e1be009d225e8.jpg?wh=1142%2A397 "图2"){: referrerpolicy="no-referrer" }
 
 从图2中你可以看到，节点A通过反熵的方式，修复了节点D中缺失的数据。那具体怎么实现的呢？
 
 **其实，在实现反熵的时候，主要有推、拉和推拉三种方式。**我将以修复下图中，2个数据副本的不一致为例，具体带你了解一下。
 
-![](https://static001.geekbang.org/resource/image/89/c2/894f2b082cda09dc1dc555a67f4accc2.jpg?wh=1142%2A350 "图3")
+![](https://static001.geekbang.org/resource/image/89/c2/894f2b082cda09dc1dc555a67f4accc2.jpg?wh=1142%2A350 "图3"){: referrerpolicy="no-referrer" }
 
 推方式，就是将自己的所有副本数据，推给对方，修复对方副本中的熵：
 
-![](https://static001.geekbang.org/resource/image/49/a1/499f02776c205428849d362f5f6d52a1.jpg?wh=2993%2A856 "图4")
+![](https://static001.geekbang.org/resource/image/49/a1/499f02776c205428849d362f5f6d52a1.jpg?wh=2993%2A856 "图4"){: referrerpolicy="no-referrer" }
 
 拉方式，就是拉取对方的所有副本数据，修复自己副本中的熵：
 
-![](https://static001.geekbang.org/resource/image/9a/cd/9a9e4fee6ba67e3455e38774022645cd.jpg?wh=1142%2A339 "图5")
+![](https://static001.geekbang.org/resource/image/9a/cd/9a9e4fee6ba67e3455e38774022645cd.jpg?wh=1142%2A339 "图5"){: referrerpolicy="no-referrer" }
 
 理解了推和拉之后，推拉这个方式就很好理解了，这个方式就是同时修复自己副本和对方副本中的熵：
 
-![](https://static001.geekbang.org/resource/image/74/aa/745431244e0ca531b32d0b9821d1a8aa.jpg?wh=1142%2A288 "图6")
+![](https://static001.geekbang.org/resource/image/74/aa/745431244e0ca531b32d0b9821d1a8aa.jpg?wh=1142%2A288 "图6"){: referrerpolicy="no-referrer" }
 
 也许有很多同学，会觉得反熵是一个很奇怪的名词。其实，你可以这么来理解，反熵中的熵是指混乱程度，反熵就是指消除不同节点中数据的差异，提升节点间数据的相似度，降低熵值。
 
@@ -50,7 +50,7 @@ Gossip的三板斧分别是：直接邮寄（Direct Mail）、反熵（Anti-entr
 
 谣言传播，广泛地散播谣言，它指的是当一个节点有了新数据后，这个节点变成活跃状态，并周期性地联系其他节点向其发送新数据，直到所有的节点都存储了该新数据：
 
-![](https://static001.geekbang.org/resource/image/ea/63/ea8e882c825d8c45832300358f8eb863.jpg?wh=1142%2A731 "图7")
+![](https://static001.geekbang.org/resource/image/ea/63/ea8e882c825d8c45832300358f8eb863.jpg?wh=1142%2A731 "图7"){: referrerpolicy="no-referrer" }
 
 从图中你可以看到，节点A向节点B、D发送新数据，节点B收到新数据后，变成活跃节点，然后节点B向节点C、D发送新数据。其实，谣言传播非常具有传染性，它适合动态变化的分布式系统。
 
@@ -60,7 +60,7 @@ Gossip的三板斧分别是：直接邮寄（Direct Mail）、反熵（Anti-entr
 
 在自研InfluxDB中，一份数据副本是由多个分片组成的，也就是实现了数据分片，三节点三副本的集群，就像下图的样子：
 
-![](https://static001.geekbang.org/resource/image/8b/27/8bdbde17ab2b252ea50d9851dcafa127.jpg?wh=1142%2A658 "图8")
+![](https://static001.geekbang.org/resource/image/8b/27/8bdbde17ab2b252ea50d9851dcafa127.jpg?wh=1142%2A658 "图8"){: referrerpolicy="no-referrer" }
 
 反熵的目标是确保每个DATA节点拥有元信息指定的分片，而且不同节点上，同一分片组中的分片都没有差异。比如说，节点A要拥有分片Shard1和Shard2，而且，节点A的Shard1和Shard2，与节点B、C中的Shard1和Shard2，是一样的。
 
@@ -72,13 +72,13 @@ Gossip的三板斧分别是：直接邮寄（Direct Mail）、反熵（Anti-entr
 - 节点之间的分片不一致：也就是说，节点上分片都存在，但里面的数据不一样，有数据丢失的情况发生。  
   第一种情况修复起来不复杂，我们只需要将分片数据，通过RPC通讯，从其他节点上拷贝过来就可以了：
 
-![](https://static001.geekbang.org/resource/image/50/50/50401f9ce72cd56a86a84cf259330d50.jpg?wh=1142%2A395 "图9")
+![](https://static001.geekbang.org/resource/image/50/50/50401f9ce72cd56a86a84cf259330d50.jpg?wh=1142%2A395 "图9"){: referrerpolicy="no-referrer" }
 
 你需要注意的是第二种情况，因为第二种情况修复起来要复杂一些。我们需要设计一个闭环的流程，按照一个顺序修复，执行完流程后，也就是实现了一致性了。具体是怎么设计的呢？
 
 它是按照一定顺序来修复节点的数据差异，先随机选择一个节点，然后循环修复，每个节点生成自己节点有、下一个节点没有的差异数据，发送给下一个节点，进行修复（为了方便演示，假设Shard1、Shard2在各节点上是不一致的）：
 
-![](https://static001.geekbang.org/resource/image/39/7a/39f87f2298d8b0a303dda3b0d15c677a.jpg?wh=1142%2A707 "图10")
+![](https://static001.geekbang.org/resource/image/39/7a/39f87f2298d8b0a303dda3b0d15c677a.jpg?wh=1142%2A707 "图10"){: referrerpolicy="no-referrer" }
 
 从图中你可以看到，数据修复的起始节点为节点A，数据修复是按照顺时针顺序，循环修复的。需要你注意的是，最后节点A又对节点B的数据执行了一次数据修复操作，因为只有这样，节点C有、节点B缺失的差异数据，才会同步到节点B上。
 

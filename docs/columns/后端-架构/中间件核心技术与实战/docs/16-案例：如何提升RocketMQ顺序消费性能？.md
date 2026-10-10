@@ -10,11 +10,11 @@
 
 我们先来了解一下 RocketMQ 顺序消费的实现原理。RocketMQ支持局部顺序消息消费，可以保证同一个消费队列上的消息顺序消费。例如，消息发送者向主题为ORDER\_TOPIC的4个队列共发送12条消息， RocketMQ 可以保证1、4、8这三条按顺序消费，但无法保证消息4和消息2的先后顺序。
 
-![图片](https://static001.geekbang.org/resource/image/c4/04/c483d9fcfd0948938395e89c83cf4704.jpg?wh=1690x641)
+![图片](https://static001.geekbang.org/resource/image/c4/04/c483d9fcfd0948938395e89c83cf4704.jpg?wh=1690x641){: referrerpolicy="no-referrer" }
 
 那RocketMQ是怎么做到分区顺序消费的呢？我们可以看一下它的工作机制：
 
-![图片](https://static001.geekbang.org/resource/image/51/61/51ef84yy8790bd41aef99787fd2b1961.jpg?wh=1920x1328)
+![图片](https://static001.geekbang.org/resource/image/51/61/51ef84yy8790bd41aef99787fd2b1961.jpg?wh=1920x1328){: referrerpolicy="no-referrer" }
 
 顺序消费实现的核心要点可以细分为三个阶段。
 
@@ -72,7 +72,7 @@ RocketMQ一次只会拉取一个队列中的消息，然后将其提交到线程
 
 当用户的账户余额发生变更时，金融机构需要发送一条短信，告知用户余额变更情况。为了实现余额变更和发送短信的解耦，架构设计时通常会引入消息中间件，它的基本实现思路你可以参考这张图：
 
-![图片](https://static001.geekbang.org/resource/image/ce/dc/cea0d3f79617c677e8dec11d03c322dc.jpg?wh=1920x494)
+![图片](https://static001.geekbang.org/resource/image/ce/dc/cea0d3f79617c677e8dec11d03c322dc.jpg?wh=1920x494){: referrerpolicy="no-referrer" }
 
 基于RocketMQ的顺序消费机制，我们可以实现基于队列的顺序消费，在消息发送时只需要确保同一个账号的多条消息（多次余额变更通知）发送到同一个队列，消费端使用顺序消费，就可以保证同一个账号的多次余额变更短信不会顺序错乱。
 
@@ -90,7 +90,7 @@ q0队列中依次发送了账号ID为1、3、5、3、9的5条消息，这些消�
 
 基于关联顺序性的整体指导思路，我设计出了一种**顺序消费改进模型**：
 
-![图片](https://static001.geekbang.org/resource/image/9a/82/9ae8ed21d5c0023c013ce98cd1fe8682.jpg?wh=1920x932)
+![图片](https://static001.geekbang.org/resource/image/9a/82/9ae8ed21d5c0023c013ce98cd1fe8682.jpg?wh=1920x932){: referrerpolicy="no-referrer" }
 
 详细说明一下。
 
@@ -100,7 +100,7 @@ q0队列中依次发送了账号ID为1、3、5、3、9的5条消息，这些消�
 
 为了让你更加直观地体会两种设计的优劣，我们来看一下两种模式针对一批消息的消费行为对比：
 
-![图片](https://static001.geekbang.org/resource/image/38/63/384003e610539cf1f7cc0e7334d0c463.jpg?wh=1920x1135)
+![图片](https://static001.geekbang.org/resource/image/38/63/384003e610539cf1f7cc0e7334d0c463.jpg?wh=1920x1135){: referrerpolicy="no-referrer" }
 
 在这里，方案一是RocketMQ内置的顺序消费模型。实际执行过程中，线程三、线程四也会处理消息，但内部线程在处理消息之前必须获取队列锁，所以说同一时刻一个队列只会有一个线程真正存在消费动作。
 
@@ -118,7 +118,7 @@ q0队列中依次发送了账号ID为1、3、5、3、9的5条消息，这些消�
 
 ### 类图设计
 
-![图片](https://static001.geekbang.org/resource/image/c4/94/c469fabd860ff2eff3c3a117e764e394.jpg?wh=1920x783)
+![图片](https://static001.geekbang.org/resource/image/c4/94/c469fabd860ff2eff3c3a117e764e394.jpg?wh=1920x783){: referrerpolicy="no-referrer" }
 
 1. DefaultMQLitePushConsumer  
    基于DefaultMQLitePullCOnsumer实现的Push模式，它的内部对线程模型进行了优化，对标DefaultMQPushConsumer。
@@ -141,7 +141,7 @@ q0队列中依次发送了账号ID为1、3、5、3、9的5条消息，这些消�
 
 类图只能简单介绍各个类的职责，接下来，我们用时序图勾画出核心的设计要点：
 
-![图片](https://static001.geekbang.org/resource/image/47/01/4754a410033f5452aaa7947353122c01.jpg?wh=1920x1099)
+![图片](https://static001.geekbang.org/resource/image/47/01/4754a410033f5452aaa7947353122c01.jpg?wh=1920x1099){: referrerpolicy="no-referrer" }
 
 这里，我主要解读一下与顺序消费优化模型相关的核心流程：
 
@@ -159,7 +159,7 @@ q0队列中依次发送了账号ID为1、3、5、3、9的5条消息，这些消�
 
 创建消费线程池部分是我们这个方案的点睛之笔，它对应的是第三小节顺序消费改进模型图中用虚线勾画出的线程池。为了方便你回顾，我把这个图粘贴在下面。
 
-![图片](https://static001.geekbang.org/resource/image/9a/82/9ae8ed21d5c0023c013ce98cd1fe8682.jpg?wh=1920x932)
+![图片](https://static001.geekbang.org/resource/image/9a/82/9ae8ed21d5c0023c013ce98cd1fe8682.jpg?wh=1920x932){: referrerpolicy="no-referrer" }
 
 代码实现如下所示：
 
@@ -202,7 +202,7 @@ private void startConsumerThreads() {
 
 以5个消费线程池为例，从运行视角来看，它对应的效果如下：
 
-![图片](https://static001.geekbang.org/resource/image/b6/96/b6ce902df7139dba23cfec955125f096.jpg?wh=1920x1049)
+![图片](https://static001.geekbang.org/resource/image/b6/96/b6ce902df7139dba23cfec955125f096.jpg?wh=1920x1049){: referrerpolicy="no-referrer" }
 
 #### 消费线程内部执行流程
 

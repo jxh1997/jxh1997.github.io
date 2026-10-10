@@ -45,7 +45,7 @@
 
 那么，所谓的Redis知识全景图都包括什么呢？简单来说，就是“两大维度，三大主线”。
 
-![](https://static001.geekbang.org/resource/image/79/e7/79da7093ed998a99d9abe91e610b74e7.jpg?wh=2001%2A1126)
+![](https://static001.geekbang.org/resource/image/79/e7/79da7093ed998a99d9abe91e610b74e7.jpg?wh=2001%2A1126){: referrerpolicy="no-referrer" }
 
 “两大维度”就是指系统维度和应用维度，“三大主线”也就是指高性能、高可靠和高可扩展（可以简称为“三高”）。
 
@@ -71,7 +71,7 @@
 
 最后，我还想跟你分享一个非常好用的技巧。我梳理了一下这些年遇到的、看到的Redis各大典型问题，同时结合相关的技术点，手绘了一张Redis的问题画像图。无论你遇见什么问题，都可以拿出来这张图，这样你就能快速地按照问题来查找对应的Redis主线模块了，然后再进一步定位到相应的技术点上。
 
-![](https://static001.geekbang.org/resource/image/70/b4/70a5bc1ddc9e3579a2fcb8a5d44118b4.jpeg?wh=2048%2A1536)
+![](https://static001.geekbang.org/resource/image/70/b4/70a5bc1ddc9e3579a2fcb8a5d44118b4.jpeg?wh=2048%2A1536){: referrerpolicy="no-referrer" }
 
 举个例子，如果你遇到了Redis的响应变慢问题，对照着这张图，你就可以发现，这个问题和Redis的性能主线相关，而性能主线又和数据结构、异步机制、RDB、AOF重写相关。找到了影响的因素，解决起来也就很容易了。
 
@@ -99,7 +99,7 @@ Redis 6.0刚刚推出，增加了万众瞩目的多线程等新特性，因此�
 
 除此之外，我还会不定期进行加餐，跟你分享一些好的运维工具、定制化客户端开发的方法、经典的学习资料，等等，还会策划一些答疑，及时解决你的疑惑。
 
-![](https://static001.geekbang.org/resource/image/13/7e/13946f7543f9eea58c9bd2b877826b7e.jpg?wh=750%2A4458)
+![](https://static001.geekbang.org/resource/image/13/7e/13946f7543f9eea58c9bd2b877826b7e.jpg?wh=750%2A4458){: referrerpolicy="no-referrer" }
 
 最后，我想说，Redis是一个非常优秀的系统，它在CPU使用、内存组织、存储持久化和网络通信这四大方面的设计非常经典，而这些，基本涵盖了一个优秀的后端系统工程师需要掌握的核心知识和关键技术。希望你通过这个课程的学习，成长为一名优秀的系统工程师。
 

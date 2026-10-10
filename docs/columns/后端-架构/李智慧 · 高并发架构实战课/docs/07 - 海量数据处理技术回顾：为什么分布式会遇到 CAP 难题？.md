@@ -16,7 +16,7 @@
 
 HDFS，即Hadoop分布式文件系统，其架构如下。
 
-![图片](https://static001.geekbang.org/resource/image/b1/f2/b128684043403aaf314fb32bc23847f2.jpg?wh=1920x1123)
+![图片](https://static001.geekbang.org/resource/image/b1/f2/b128684043403aaf314fb32bc23847f2.jpg?wh=1920x1123){: referrerpolicy="no-referrer" }
 
 HDFS的关键组件有两个，一个是NameNode，另一个是DataNode。
 
@@ -36,13 +36,13 @@ HDFS的典型应用场景是大数据计算，即使用MapReduce、Spark这样�
 
 最简单的数据库分片存储可以采用硬编码的方式，我们在程序代码中直接指定把一条数据库记录存放在哪个服务器上。比如像下图这样，要将用户表分成两片，存储在两台服务器上，那么我们就可以在程序代码中根据用户ID进行分片计算，把ID为偶数（如94）的用户记录存储到服务器1，ID为奇数（如33）的用户记录存储到服务器2。
 
-![图片](https://static001.geekbang.org/resource/image/9a/76/9a77f715339f00ef67705e3a5a8cb476.jpg?wh=1920x827)
+![图片](https://static001.geekbang.org/resource/image/9a/76/9a77f715339f00ef67705e3a5a8cb476.jpg?wh=1920x827){: referrerpolicy="no-referrer" }
 
 但是硬编码方式的缺点比较明显。如果要增加服务器，那么就必须修改分片逻辑代码，这样程序代码就会因为非业务需求产生不必要的变更；其次，分片逻辑会耦合在业务逻辑的程序代码中，修改分片逻辑或业务逻辑，都可能影响另一部分代码，从而出现Bug。
 
 我们可以使用分布式关系数据库中间件来解决这个问题，在中间件中完成数据的分片逻辑，这样对应用程序是透明的。我们常用的分布式关系数据库中间件是MyCAT，原理如下图。
 
-![图片](https://static001.geekbang.org/resource/image/73/37/739e8253a9d50198b6f769b627fcdb37.jpg?wh=1920x786)
+![图片](https://static001.geekbang.org/resource/image/73/37/739e8253a9d50198b6f769b627fcdb37.jpg?wh=1920x786){: referrerpolicy="no-referrer" }
 
 MyCAT是针对MySQL数据库设计的，应用程序可以像使用MySQL数据库一样连接MYCAT，提交SQL命令。MyCAT在收到SQL命令以后，查找配置的分片逻辑规则。
 
@@ -54,7 +54,7 @@ MyCAT是针对MySQL数据库设计的，应用程序可以像使用MySQL数据�
 
 HBase就是NoSQL数据库中较为知名的一个产品。我们的短URL数据存储、短视频缩略图存储都使用了HBase作为存储方案。上面网盘元数据存储方案使用了分布式关系数据库，事实上，使用HBase这样的NoSQL数据库会是更好的方案。HBase架构如下。
 
-![图片](https://static001.geekbang.org/resource/image/fb/de/fb8aa6b4c7577c0e2b1423e2byyb4cde.jpg?wh=1920x628)
+![图片](https://static001.geekbang.org/resource/image/fb/de/fb8aa6b4c7577c0e2b1423e2byyb4cde.jpg?wh=1920x628){: referrerpolicy="no-referrer" }
 
 HRegion是HBase中负责数据存储的主要进程，应用程序对数据的读写操作都是通过和HRetion通信完成的。也就是说，应用程序如果想要访问一个数据，必须先找到HRegion，然后将数据读写操作提交给HRegion，而HRegion最终将数据存储到HDFS文件系统中。由于HDFS是分布式、高可用的，所以HBase的数据存储天然是分布式、高可用的。
 
@@ -68,7 +68,7 @@ HRegion是HBase中负责数据存储的主要进程，应用程序对数据的�
 
 CAP原理认为，一个提供数据服务的分布式系统无法同时满足数据**一致性**（Consistency）、**可用性**（Availibility）、**分区耐受性**（Patition Tolerance）这三个条件，如下图所示。
 
-![图片](https://static001.geekbang.org/resource/image/99/cd/997eb01798de1dd6c1c2a629f927ebcd.jpg?wh=1920x628)
+![图片](https://static001.geekbang.org/resource/image/99/cd/997eb01798de1dd6c1c2a629f927ebcd.jpg?wh=1920x628){: referrerpolicy="no-referrer" }
 
 其中，一致性的意思是，每次读取数据，要么读取到最近写入的数据，要么返回一个错误，而不是过期数据，这样就能保证数据一致。
 
@@ -82,7 +82,7 @@ CAP原理认为，一个提供数据服务的分布式系统无法同时满足�
 
 由于互联网对高可用的追求，大多数分布式存储系统选择可用性，而放松对一致性的要求。而ZooKeeper则是一个保证数据一致性的分布式系统，它主要通过一个ZAB算法（Zookeeper Atomic Broadcast， Zookeeper原子广播）实现数据一致性，算法过程如下。
 
-![图片](https://static001.geekbang.org/resource/image/74/47/74fea01b44303b84a33cab35c7d8e547.jpg?wh=1920x786)
+![图片](https://static001.geekbang.org/resource/image/74/47/74fea01b44303b84a33cab35c7d8e547.jpg?wh=1920x786){: referrerpolicy="no-referrer" }
 
 ZooKeeper集群由多台服务器组成，为了保证多台服务器上存储的数据是一致的，ZAB需要在这些服务器中选举一个Leader，所有的写请求都必须提交给Leader。Leader服务器会向其他服务器（Follower）发起Propose，通知所有服务器：“我们要完成一个写操作请求，请大家检查自己的数据状态是否有问题。”
 
@@ -98,7 +98,7 @@ ZooKeeper集群由多台服务器组成，为了保证多台服务器上存储�
 
 我们在[短URL生成](https://time.geekbang.org/column/article/488496)以及[网络爬虫的案例](https://time.geekbang.org/column/article/489014)中，还使用了布隆过滤器检查内容是否重复，即检查短URL或者网页内容的MD5是否已经存在。如果用Hash表检查重复，千亿级的网页内容MD5就需要一个非常大的Hash表，内存资源消耗非常大。而用布隆过滤器，使用较小的内存就可以检查海量数据中一个数据是否存在。文件MD5重复性检查的布隆过滤器原理如下。
 
-![图片](https://static001.geekbang.org/resource/image/83/40/831f78dd557b680bc8ee65d52a588940.jpg?wh=1920x786)
+![图片](https://static001.geekbang.org/resource/image/83/40/831f78dd557b680bc8ee65d52a588940.jpg?wh=1920x786){: referrerpolicy="no-referrer" }
 
 布隆过滤器首先开辟一块巨大的连续内存空间，比如开辟一个 1600G 比特的连续内存空间，也就是 200GB 大的一个内存空间，并将这个空间所有比特位都设置为 0。然后对每个MD5使用多种Hash算法，比如使用 8 种Hash算法，分别计算 8 个Hash值，并保证每个Hash值是落在这个 1600G 的空间里的，也就是，每个 Hash 值对应 1600G 空间里的一个地址下标。然后根据计算出来的Hash值将对应的地址空间里的比特值设为 1，这样一个MD5就可以将8个比特位设置为 1。
 

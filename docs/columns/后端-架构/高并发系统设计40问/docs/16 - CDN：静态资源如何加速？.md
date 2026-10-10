@@ -2,7 +2,7 @@
 
 前面几节课，我带你了解了缓存的定义以及常用缓存的使用姿势，你应该对包括本地缓存、分布式缓存等缓存组件的适用场景和使用技巧有了一定了解了。结合在[14讲](https://shimo.im/docs/tqDK6cRX9yR8XJyt)中我提到的客户端高可用方案，你会将单个缓存节点扩展为高可用的缓存集群，现在，你的电商系统架构演变成了下面这样：
 
-![](https://static001.geekbang.org/resource/image/1a/ba/1aa34cb9f368727399ba32e2891d48ba.jpg?wh=1142%2A611)
+![](https://static001.geekbang.org/resource/image/1a/ba/1aa34cb9f368727399ba32e2891d48ba.jpg?wh=1142%2A611){: referrerpolicy="no-referrer" }
 
 在这个架构中我们使用分布式缓存对动态请求数据的读取做了加速，但是在我们的系统中存在着大量的静态资源请求：
 
@@ -52,7 +52,7 @@ DNS（Domain Name System，域名系统）实际上就是一个存储域名和IP
 
 **不过这里面有一个问题：**因为域名解析过程是分级的，每一级有专门的域名服务器承担解析的职责，所以域名的解析过程有可能需要跨越公网做多次DNS查询，在性能上是比较差的。
 
-![](https://static001.geekbang.org/resource/image/95/96/95d3d6081d8e55860bff6ad0df96c396.jpg?wh=1142%2A626)
+![](https://static001.geekbang.org/resource/image/95/96/95d3d6081d8e55860bff6ad0df96c396.jpg?wh=1142%2A626){: referrerpolicy="no-referrer" }
 
 从“ 域名分级解析示意图”中你可以看出DNS分为很多种，有根DNS，顶级DNS等等。除此之外还有两种DNS需要特别留意：一种是Local DNS，它是由你的运营商提供的DNS，一般域名解析的第一站会到这里；另一种是权威DNS，它的含义是自身数据库中存储了这个域名对应关系的DNS。
 
@@ -68,11 +68,11 @@ DNS（Domain Name System，域名系统）实际上就是一个存储域名和IP
 
 **我曾经测试过这种方式，**对于HTTP请求的响应时间的提升是很明显的，原先DNS解析时间经常会超过1s，使用这种方式后，DNS解析时间可以控制在200ms之内，整个HTTP请求的过程也可以减少大概80ms～100ms。
 
-![](https://static001.geekbang.org/resource/image/1a/c9/1a692c89b0bcaa8106a8ba045be835c9.jpg?wh=1142%2A511)
+![](https://static001.geekbang.org/resource/image/1a/c9/1a692c89b0bcaa8106a8ba045be835c9.jpg?wh=1142%2A511){: referrerpolicy="no-referrer" }
 
 **这里总结一下，**将用户的请求映射到CDN服务器上是使用CDN时需要解决的一个核心的问题，而CNAME记录在DNS解析过程中可以充当一个中间代理层的角色，可以把用户最初使用的域名代理到正确的IP地址上。
 
-![](https://static001.geekbang.org/resource/image/4c/59/4c884118fccb7041fdfb4d3e37003f59.jpg?wh=1142%2A656)
+![](https://static001.geekbang.org/resource/image/4c/59/4c884118fccb7041fdfb4d3e37003f59.jpg?wh=1142%2A656){: referrerpolicy="no-referrer" }
 
 现在，剩下的一个问题就是如何找到更近的CDN节点了，而GSLB承担了这个职责。
 
@@ -87,7 +87,7 @@ GSLB可以通过多种策略来保证返回的CDN节点和用户尽量保证在�
 
 有了GSLB之后，节点的解析过程变成了下图中的样子：
 
-![](https://static001.geekbang.org/resource/image/fc/01/fcc357ff674b4abdc00dc9c33cbf9a01.jpg?wh=1142%2A676)
+![](https://static001.geekbang.org/resource/image/fc/01/fcc357ff674b4abdc00dc9c33cbf9a01.jpg?wh=1142%2A676){: referrerpolicy="no-referrer" }
 
 **当然，是否能够从CDN节点上获取到资源还取决于CDN的同步延时。**一般我们会通过CDN厂商的接口将静态的资源写入到某一个CDN节点上，再由CDN内部的同步机制将资源分散同步到每个CDN节点，即使CDN内部网络经过了优化，这个同步的过程是有延时的，一旦我们无法从选定的CDN节点上获取到数据，我们就不得不从源站获取数据，而用户网络到源站的网络可能会跨越多个主干网，这样不仅性能上有损耗也会消耗源站的带宽，带来更高的研发成本。所以我们在使用CDN的时候需要关注CDN的命中率和源站的带宽情况。
 

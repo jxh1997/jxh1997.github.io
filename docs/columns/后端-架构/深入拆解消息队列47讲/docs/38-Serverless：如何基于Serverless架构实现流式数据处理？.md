@@ -4,7 +4,7 @@
 
 为什么要搞明白上述问题？我们从一张架构图讲起。
 
-![](https://static001.geekbang.org/resource/image/7b/26/7b49facf1a4e7f93ab1edc15656d9d26.jpg?wh=10666x5239)
+![](https://static001.geekbang.org/resource/image/7b/26/7b49facf1a4e7f93ab1edc15656d9d26.jpg?wh=10666x5239){: referrerpolicy="no-referrer" }
 
 这是一张消息队列上下游生态的架构图，分为数据源、总线管道、数据目标三部分。可以看到消息队列在架构中处于缓存层，起到的是削峰填谷的缓冲作用。
 
@@ -25,7 +25,7 @@
 
 最后我们通过一个表格来总结一下这 4 个方向。
 
-![](https://static001.geekbang.org/resource/image/c3/92/c347e83705cfbee5bb1831c7fe390292.jpg?wh=2048x672)
+![](https://static001.geekbang.org/resource/image/c3/92/c347e83705cfbee5bb1831c7fe390292.jpg?wh=2048x672){: referrerpolicy="no-referrer" }
 
 接下来我们看一下基于 Serverless 架构是如何同时满足上面这四种场景的。
 
@@ -60,7 +60,7 @@ def main_handler(event, context):
 
 上面的函数段可以直接提交到 Serverless 平台上运行，平台会执行整个函数代码流程，并输出结果。我们可以通过 Serverless Function 的生命周期来加深一下理解。
 
-![](https://static001.geekbang.org/resource/image/19/16/198fbe710c2d55ace901d27b37c01c16.jpg?wh=10666x3406)
+![](https://static001.geekbang.org/resource/image/19/16/198fbe710c2d55ace901d27b37c01c16.jpg?wh=10666x3406){: referrerpolicy="no-referrer" }
 
 参考图示可以知道，函数的生命周期主要包含6个阶段：
 
@@ -83,7 +83,7 @@ def main_handler(event, context):
 
 先来看下面这张图：
 
-![](https://static001.geekbang.org/resource/image/e2/67/e2f67001ef347010536b4d9f15b56967.jpg?wh=10666x5188)
+![](https://static001.geekbang.org/resource/image/e2/67/e2f67001ef347010536b4d9f15b56967.jpg?wh=10666x5188){: referrerpolicy="no-referrer" }
 
 这张图和最开始那张，最大的区别在于：**把中间这两个处理层替换为了 Serverless Function平台，用它来替代流入和流出过程中的多款开源组件。**
 
@@ -91,7 +91,7 @@ def main_handler(event, context):
 
 在这个场景中，我们可以写一个函数代码段来消费数据，并做一些处理，然后写入下游。代码逻辑是对数据进行处理后，返回一个新的数据。代码示例如下：
 
-![](https://static001.geekbang.org/resource/image/51/e6/51811fdbb80c7ayyeyy64707af5bebe6.png?wh=1540x932)
+![](https://static001.geekbang.org/resource/image/51/e6/51811fdbb80c7ayyeyy64707af5bebe6.png?wh=1540x932){: referrerpolicy="no-referrer" }
 
 这个代码段在业务量很小时，只需写个 Cron 定时运行或者单进程运行即可。当数据量大时再把它放到 Serverless Function 平台去运行。唯一的区别在于，运行的地方平台不一样，对研发来讲没有重复的开发成本。
 
@@ -101,7 +101,7 @@ def main_handler(event, context):
 
 先来看一张架构图。
 
-![](https://static001.geekbang.org/resource/image/dd/2b/ddff516f261d511bae479526da545a2b.jpg?wh=10666x4848)
+![](https://static001.geekbang.org/resource/image/dd/2b/ddff516f261d511bae479526da545a2b.jpg?wh=10666x4848){: referrerpolicy="no-referrer" }
 
 在这张图中，从左到右依次是**输入源**、**Serverless 调度运行平台**、**数据目标**三部分。这里面需要重点关注两个部分，一个是数据源事件的触发方式，另一个是Serverless Function 平台的底层运行原理。
 
@@ -125,7 +125,7 @@ Serverless 平台的核心竞争力是**通过灵活的调度能力来提高资�
 
 这里我整理了一个表格。
 
-![](https://static001.geekbang.org/resource/image/0c/2a/0ca04ec7a9d2d6406d3bc5f17fd29a2a.jpg?wh=2072x950)
+![](https://static001.geekbang.org/resource/image/0c/2a/0ca04ec7a9d2d6406d3bc5f17fd29a2a.jpg?wh=2072x950){: referrerpolicy="no-referrer" }
 
 从技术的角度上讲，当前Serverless还处于快速发展阶段，技术架构和稳定性等都处于快速完善期，因此会不太稳定，其本身的运维成本是比较高的。所以，它并不能完全替代其他的方案，而是提供一种可能的选择，在某些场景下它的表现更优，比如图片处理、小流量的流式数据处理、事件型流处理等。那么随着云原生架构的成熟，Serverless 方案也会越来越成熟。
 
@@ -149,7 +149,7 @@ Serverless 平台的核心竞争力是**通过灵活的调度能力来提高资�
 
 为了解决这个问题，我们引入了 Serverless Function 来处理数据。方案架构图如下：
 
-![](https://static001.geekbang.org/resource/image/31/f4/3195d7354a7330e04db153f5e9dfb8f4.jpg?wh=10666x3604)
+![](https://static001.geekbang.org/resource/image/31/f4/3195d7354a7330e04db153f5e9dfb8f4.jpg?wh=10666x3604){: referrerpolicy="no-referrer" }
 
 首先合作方会把日志上传到我们业务的 HDFS。这里要经过跨网络传输、压缩等，才能存储到统一的 HDFS。接下来用户需要对 HDFS 的数据进行处理，业务上有两条链路：
 
@@ -168,7 +168,7 @@ Serverless 平台的核心竞争力是**通过灵活的调度能力来提高资�
 
 来看一下基于 Serverless Function 的解决方案。
 
-![](https://static001.geekbang.org/resource/image/02/88/025ba5f30876bcf9ee988c4aab48cb88.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/02/88/025ba5f30876bcf9ee988c4aab48cb88.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 如上图所示，我们的消息首先接入RabbitMQ，通过事件触发的模型主动触发函数。它是推模式（Push），因此实时性很强。
 

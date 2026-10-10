@@ -6,7 +6,7 @@
 
 数据复制是MySQL一直以来最受欢迎的功能之一。应用程序访问主库，对主库的修改操作都记录到Binlog中。备库从主库同步Binlog、执行Binlog，这样，备库和主库始终保持一致。
 
-![图片](https://static001.geekbang.org/resource/image/35/0b/35201d05c58c91f74a2b704f35a1b80b.jpg?wh=1195x765)
+![图片](https://static001.geekbang.org/resource/image/35/0b/35201d05c58c91f74a2b704f35a1b80b.jpg?wh=1195x765){: referrerpolicy="no-referrer" }
 
 基于数据复制，可以实现多种高可用架构。
 
@@ -14,19 +14,19 @@
 
 应用程序只访问主库，备库作为主库的热备。当主库发生故障，或者主库需要停机维护时，将业务流量切到备库上，减少停机时间。在备库上进行数据库备份等运维操作。
 
-![图片](https://static001.geekbang.org/resource/image/cc/4b/cc4fdaed31d6129394d901e5da68b54b.png?wh=818x254)
+![图片](https://static001.geekbang.org/resource/image/cc/4b/cc4fdaed31d6129394d901e5da68b54b.png?wh=818x254){: referrerpolicy="no-referrer" }
 
 - 读写分离
 
 将应用的一部分读流量分发（select）到备库上执行。MySQL支持一主多备的数据复制架构，在读多写少的场景下，可以增加多个备库，来提高数据库集群的业务支撑能力。
 
-![图片](https://static001.geekbang.org/resource/image/53/0a/536d21d821b25ed860e790b7b5e8300a.jpg?wh=1228x558)
+![图片](https://static001.geekbang.org/resource/image/53/0a/536d21d821b25ed860e790b7b5e8300a.jpg?wh=1228x558){: referrerpolicy="no-referrer" }
 
 还可以使用备库来支持一些分析类的大查询、数据抽取等资源消耗较高的操作，避免影响主库业务。
 
 - 报表库
 
-![图片](https://static001.geekbang.org/resource/image/9a/71/9a298065bfea34a5605ayy845fdbd871.jpg?wh=1140x564)
+![图片](https://static001.geekbang.org/resource/image/9a/71/9a298065bfea34a5605ayy845fdbd871.jpg?wh=1140x564){: referrerpolicy="no-referrer" }
 
 ### MySQL数据复制的基本原理
 
@@ -34,7 +34,7 @@
 
 下面这张图中，备库先同步了状态Y的主库，然后再开始执行Binlog事件。
 
-![图片](https://static001.geekbang.org/resource/image/a7/99/a738a444b3dddc551d17104a597ce999.jpg?wh=1296x607)
+![图片](https://static001.geekbang.org/resource/image/a7/99/a738a444b3dddc551d17104a597ce999.jpg?wh=1296x607){: referrerpolicy="no-referrer" }
 
 搭建一个备库，有两个核心步骤。
 
@@ -51,7 +51,7 @@
 
 MySQL将一个事务中对数据库做的所有修改都封装到Binlog事件中，同一个事务的Binlog事件，在binlog文件中连续存放。假设在第一步中备库初始化到状态Y，这个状态下，主库上Binlog位点指向事务y对应的binlog事件的结尾处，那么备库就要从这个地方开始同步和应用Binlog。
 
-![图片](https://static001.geekbang.org/resource/image/6c/fb/6c920ce2d34c43656888bcf87222c2fb.jpg?wh=1380x726)
+![图片](https://static001.geekbang.org/resource/image/6c/fb/6c920ce2d34c43656888bcf87222c2fb.jpg?wh=1380x726){: referrerpolicy="no-referrer" }
 
 binlog位点使用（bin\_log\_file，bin\_log\_pos）来表示，bin\_log\_file是binlog文件名，bin\_log\_pos是binlog文件中的偏移量，指向下一个要执行的binlog事件的起始地址。
 
@@ -325,7 +325,7 @@ mysql> show replica status\G
 
 参考下面这个数据复制的架构图。
 
-![图片](https://static001.geekbang.org/resource/image/b7/69/b7yyb5475d3052518byy1b8d27f24269.jpg?wh=1822x845)
+![图片](https://static001.geekbang.org/resource/image/b7/69/b7yyb5475d3052518byy1b8d27f24269.jpg?wh=1822x845){: referrerpolicy="no-referrer" }
 
 我们需要了解几个关键点。
 
@@ -453,7 +453,7 @@ c1a67221-f9fc-11ed-bffd-fa8338b09400:1-106
 监控备库状态时，要关注SQL线程和IO线程的状态，Replica\_IO\_Running和Replica\_SQL\_Running是否都为ON，如果有异常，查看Last\_IO\_Error、Last\_SQL\_Error，分析原因。此外，还要看备库是否有延迟，可以查看Seconds\_Behind\_Source。
 
 这个命令输出内容比较多，下面表格中整理了其中部分字段的含义。  
-![图片](https://static001.geekbang.org/resource/image/df/93/df947fac24b72e9b226083c8c4aeb693.png?wh=1920x1173)
+![图片](https://static001.geekbang.org/resource/image/df/93/df947fac24b72e9b226083c8c4aeb693.png?wh=1920x1173){: referrerpolicy="no-referrer" }
 
 使用多线程复制时，有时候还要看各个worker的状态，可以查询performance\_schema.replication\_applier\_status\_by\_worker表。
 
@@ -652,7 +652,7 @@ COMMIT/*!*/;
 
 MySQL复制关系中，主库和备库的server\_id如果相同，IO线程会直接报错。但是在级联复制的架构下，可能会出现server\_id相同的问题。
 
-![图片](https://static001.geekbang.org/resource/image/37/69/37ef4dfac0c85d16a19862099fc1ea69.jpg?wh=1026x292)
+![图片](https://static001.geekbang.org/resource/image/37/69/37ef4dfac0c85d16a19862099fc1ea69.jpg?wh=1026x292){: referrerpolicy="no-referrer" }
 
 图里的这个例子中，主和备1的server\_id不同，备2和备1的server\_id也不同，但是备2和主库的server\_id相同，这会导致一个问题：备2的IO线程从备1获取binlog事件时，发现事件的server\_id和自己的server\_id一样，就会忽略这些事件，从而备2会缺少数据。这种情况下，备2不会产生任何异常日志。
 
@@ -662,11 +662,11 @@ MySQL复制关系中，主库和备库的server\_id如果相同，IO线程会直
 
 考虑下面这个复制链路。
 
-![图片](https://static001.geekbang.org/resource/image/e2/58/e2327277b1d46db1a919d9b43d80a258.jpg?wh=1013x268)
+![图片](https://static001.geekbang.org/resource/image/e2/58/e2327277b1d46db1a919d9b43d80a258.jpg?wh=1013x268){: referrerpolicy="no-referrer" }
 
 由于某些原因，需要下线主，备1和备2组成双向复制架构。
 
-![图片](https://static001.geekbang.org/resource/image/a6/88/a6b2296a32614173f598b8813d4a8788.jpg?wh=982x369)
+![图片](https://static001.geekbang.org/resource/image/a6/88/a6b2296a32614173f598b8813d4a8788.jpg?wh=982x369){: referrerpolicy="no-referrer" }
 
 为了修改复制架构，执行了下面这几个步骤。
 

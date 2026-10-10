@@ -28,7 +28,7 @@ ZooKeeper还提供了一种订阅ZNode状态变化的通知机制：Watcher，�
 
 首先我们来看一下Kafka在ZooKeeper都保存了哪些信息，我把这些ZNode整理了一张图方便你来学习。
 
-![](https://static001.geekbang.org/resource/image/80/b3/806ac0fc52ccbf50506e3b5d269b81b3.jpg?wh=994%2A929)  
+![](https://static001.geekbang.org/resource/image/80/b3/806ac0fc52ccbf50506e3b5d269b81b3.jpg?wh=994%2A929)  {: referrerpolicy="no-referrer" }
 你可能在网上看到过和这个图类似的其他版本的图，这些图中绘制的ZNode比我们这张图要多一些，这些图大都是描述的0.8.x的旧版本的情况，最新版本的Kafka已经将消费位置管理等一些原本依赖ZooKeeper实现的功能，替换成了其他的实现方式。
 
 图中圆角的矩形是临时节点，直角矩形是持久化的节点。

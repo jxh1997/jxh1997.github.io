@@ -72,7 +72,7 @@ App终端会对返回的接入点IP列表中的所有IP进行跑马测试，并�
 
 这里我举一个简单的接入点跑马竞速实现的例子：客户端在启动时，通过HttpDNS服务获取到多个接入点VIP1、VIP2和VIP3，此时客户端针对这3个VIP进行并发测速（一般可以通过访问一个固定大小的静态页面来实现），根据每个VIP的整体响应耗时来决定后续正式的连接使用哪个VIP。这里，由于VIP2响应耗时最少，最后客户端会选择使用VIP2来进行接入。这个过程你可以参考下图。
 
-![](https://static001.geekbang.org/resource/image/09/8a/0968508d66102a8a495a407ca54a118a.png?wh=1142%2A880)
+![](https://static001.geekbang.org/resource/image/09/8a/0968508d66102a8a495a407ca54a118a.png?wh=1142%2A880){: referrerpolicy="no-referrer" }
 
 ## 让消息通道保持稳定
 
@@ -100,7 +100,7 @@ App终端会对返回的接入点IP列表中的所有IP进行跑马测试，并�
 
 下面画了一个图来简单描述下如何对上下行通道进行拆分隔离：
 
-![](https://static001.geekbang.org/resource/image/4c/b4/4c32594630ae9c927adbc9cbb54aa6b4.png?wh=1024%2A768)
+![](https://static001.geekbang.org/resource/image/4c/b4/4c32594630ae9c927adbc9cbb54aa6b4.png?wh=1024%2A768){: referrerpolicy="no-referrer" }
 
 用户A和用户B分别都通过接入查询服务来获取最优接入点，用户A通过上行通道的短连接网关来发送消息，发送的消息在上行业务处理服务进行存储、加未读等业务操作；然后通过消息队列把这条消息给到下行通道，下行分发逻辑服务查询用户B的在线状态等信息，并对消息进行必要的推送准备处理（比如版本兼容处理）；接着把消息给到用户B的长连接所在的长连网关机器，长连网关机器再将消息推送到用户B的设备中。
 

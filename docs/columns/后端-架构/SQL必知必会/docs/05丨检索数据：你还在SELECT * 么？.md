@@ -16,11 +16,11 @@ SELECT可以帮助我们从一个表或多个表中进行数据查询。我们�
 
 我创建了一个王者荣耀英雄数据表，这张表里一共有69个英雄，23个属性值（不包括英雄名name）。SQL文件见[Github地址](https://github.com/cystanford/sql_heros_data)。
 
-![](https://static001.geekbang.org/resource/image/00/38/002726e066b15cb91e96828c82825f38.png?wh=620%2A268)
+![](https://static001.geekbang.org/resource/image/00/38/002726e066b15cb91e96828c82825f38.png?wh=620%2A268){: referrerpolicy="no-referrer" }
 
 数据表中这24个字段（除了id以外），分别代表的含义见下图。
 
-![](https://static001.geekbang.org/resource/image/50/44/50284b67a5c5d3f6ecc541f8dbb5ea44.png?wh=630%2A317)
+![](https://static001.geekbang.org/resource/image/50/44/50284b67a5c5d3f6ecc541f8dbb5ea44.png?wh=630%2A317){: referrerpolicy="no-referrer" }
 
 ### 查询列
 
@@ -32,7 +32,7 @@ SQL：SELECT name FROM heros
 
 运行结果（69条记录）见下图，你可以看到这样就等于单独输出了name这一列。
 
-![](https://static001.geekbang.org/resource/image/e5/f9/e5e240cbbe9b9309d39d919bb10f93f9.png?wh=120%2A157)
+![](https://static001.geekbang.org/resource/image/e5/f9/e5e240cbbe9b9309d39d919bb10f93f9.png?wh=120%2A157){: referrerpolicy="no-referrer" }
 
 我们也可以对多个列进行检索，在列名之间用逗号(,)分割即可。比如我们想要检索有哪些英雄，他们的最大生命、最大法力、最大物攻和最大物防分别是多少。
 
@@ -42,7 +42,7 @@ SQL：SELECT name, hp_max, mp_max, attack_max, defense_max FROM heros
 
 运行结果（69条记录）：
 
-![](https://static001.geekbang.org/resource/image/4b/95/4b1e0691f2fbc80fce8d06ff1bdf7a95.png?wh=516%2A190)
+![](https://static001.geekbang.org/resource/image/4b/95/4b1e0691f2fbc80fce8d06ff1bdf7a95.png?wh=516%2A190){: referrerpolicy="no-referrer" }
 
 这个表中一共有25个字段，除了id和英雄名name以外，还存在23个属性值，如果我们记不住所有的字段名称，可以使用SELECT * 帮我们检索出所有的列：
 
@@ -52,7 +52,7 @@ SQL：SELECT * FROM heros
 
 运行结果（69条记录）：
 
-![](https://static001.geekbang.org/resource/image/5a/38/5a1d231ada76cf93db734de757810c38.png?wh=618%2A187)  
+![](https://static001.geekbang.org/resource/image/5a/38/5a1d231ada76cf93db734de757810c38.png?wh=618%2A187)  {: referrerpolicy="no-referrer" }
 我们在做数据探索的时候，`SELECT *`还是很有用的，这样我们就不需要写很长的SELECT语句了。但是在生产环境时要尽量避免使用`SELECT*`，具体原因我会在后面讲。
 
 ### 起别名
@@ -77,7 +77,7 @@ SQL：SELECT '王者荣耀' as platform, name FROM heros
 
 运行结果：（69条记录）
 
-![](https://static001.geekbang.org/resource/image/19/3d/1975e19d4e21914a7ebee73daf240f3d.png?wh=463%2A190)  
+![](https://static001.geekbang.org/resource/image/19/3d/1975e19d4e21914a7ebee73daf240f3d.png?wh=463%2A190)  {: referrerpolicy="no-referrer" }
 在这个SQL语句中，我们虚构了一个`platform`字段，并且把它设置为固定值“王者荣耀”。
 
 需要说明的是，如果常数是个字符串，那么使用单引号（‘’）就非常重要了，比如‘王者荣耀’。单引号说明引号中的字符串是个常数，否则SQL会把王者荣耀当成列名进行查询，但实际上数据表里没有这个列名，就会引起错误。如果常数是英文字母，比如`'WZRY'`也需要加引号。如果常数是个数字，就可以直接写数字，不需要单引号，比如：
@@ -88,7 +88,7 @@ SQL：SELECT 123 as platform, name FROM heros
 
 运行结果：（69条记录）
 
-![](https://static001.geekbang.org/resource/image/41/99/41ed73cef49e445d64b8cb748a82c299.png?wh=465%2A189)
+![](https://static001.geekbang.org/resource/image/41/99/41ed73cef49e445d64b8cb748a82c299.png?wh=465%2A189){: referrerpolicy="no-referrer" }
 
 ### 去除重复行
 
@@ -100,7 +100,7 @@ SQL：SELECT DISTINCT attack_range FROM heros
 
 这是运行结果（2条记录），这样我们就能直观地看到攻击范围其实只有两个值，那就是近战和远程。
 
-![](https://static001.geekbang.org/resource/image/e6/15/e67c0d2f7b977cb0ff87891eb9adf615.png?wh=135%2A101)  
+![](https://static001.geekbang.org/resource/image/e6/15/e67c0d2f7b977cb0ff87891eb9adf615.png?wh=135%2A101)  {: referrerpolicy="no-referrer" }
 如果我们带上英雄名称，会是怎样呢：
 
 ```
@@ -109,7 +109,7 @@ SQL：SELECT DISTINCT attack_range, name FROM heros
 
 运行结果（69条记录）：
 
-![](https://static001.geekbang.org/resource/image/01/2a/0105eb3f0b74d0ed5e6c2fafca38292a.png?wh=462%2A187)  
+![](https://static001.geekbang.org/resource/image/01/2a/0105eb3f0b74d0ed5e6c2fafca38292a.png?wh=462%2A187)  {: referrerpolicy="no-referrer" }
 这里有两点需要注意：
 
 1. DISTINCT需要放到所有列名的前面，如果写成`SELECT name, DISTINCT attack_range FROM heros`会报错。
@@ -134,7 +134,7 @@ SQL：SELECT name, hp_max FROM heros ORDER BY hp_max DESC
 
 运行结果（69条记录）：
 
-![](https://static001.geekbang.org/resource/image/67/08/67714aae8a6ac8e9b356f6975324be08.png?wh=467%2A192)
+![](https://static001.geekbang.org/resource/image/67/08/67714aae8a6ac8e9b356f6975324be08.png?wh=467%2A192){: referrerpolicy="no-referrer" }
 
 如果想要显示英雄名称及最大生命值，按照第一排序最大法力从低到高，当最大法力值相等的时候则按照第二排序进行，即最大生命值从高到低的方式进行排序：
 
@@ -144,7 +144,7 @@ SQL：SELECT name, hp_max FROM heros ORDER BY mp_max, hp_max DESC
 
 运行结果：（69条记录）
 
-![](https://static001.geekbang.org/resource/image/e6/3e/e622aa87b86051b0512cb36ba7daf43e.png?wh=465%2A197)
+![](https://static001.geekbang.org/resource/image/e6/3e/e622aa87b86051b0512cb36ba7daf43e.png?wh=465%2A197){: referrerpolicy="no-referrer" }
 
 ## 约束返回结果的数量
 
@@ -156,7 +156,7 @@ SQL：SELECT name, hp_max FROM heros ORDER BY hp_max DESC LIMIT 5
 
 运行结果（5条记录）：
 
-![](https://static001.geekbang.org/resource/image/21/b3/21c4f6e69fd3429b796146675389bbb3.png?wh=465%2A193)  
+![](https://static001.geekbang.org/resource/image/21/b3/21c4f6e69fd3429b796146675389bbb3.png?wh=465%2A193)  {: referrerpolicy="no-referrer" }
 有一点需要注意，约束返回结果的数量，在不同的DBMS中使用的关键字可能不同。在MySQL、PostgreSQL、MariaDB和SQLite中使用LIMIT关键字，而且需要放到SELECT语句的最后面。如果是SQL Server和Access，需要使用TOP关键字，比如：
 
 ```
@@ -249,7 +249,7 @@ LIMIT 2 #顺序7
 
 在我们的日常工作中，很多人都可以写出SELECT语句，但是执行的效率却相差很大。产生这种情况的原因主要有两个，一个是习惯的培养，比如大部分初学者会经常使用`SELECT *`，而好的习惯则是只查询所需要的列；另一个对SQL查询的执行顺序及查询效率的关注，比如当你知道只有1条记录的时候，就可以使用`LIMIT 1`来进行约束，从而提升查询效率。
 
-![](https://static001.geekbang.org/resource/image/c8/a8/c88258e72728957b43dc2441d3f381a8.jpg?wh=3341%2A1493)
+![](https://static001.geekbang.org/resource/image/c8/a8/c88258e72728957b43dc2441d3f381a8.jpg?wh=3341%2A1493){: referrerpolicy="no-referrer" }
 
 最后留两道思考题吧，我今天对单表的SELECT查询进行了讲解，你之前可能也有学习使用的经验，可以说下你对SELECT使用的理解吗？另外，我今天使用heros数据表进行了举例，请你编写SQL语句，对英雄名称和最大法力进行查询，按照最大生命从高到低排序，只返回5条记录即可。你可以说明下使用的DBMS及相应的SQL语句。
 

@@ -8,7 +8,7 @@
 
 整个Kafka生态圈如下图所示。值得注意的是，这张图中的外部系统只是Kafka Connect组件支持的一部分而已。目前还有一个可喜的趋势是使用Kafka Connect组件的用户越来越多，相信在未来会有越来越多的人开发自己的连接器。
 
-![](https://static001.geekbang.org/resource/image/0e/3d/0ecc8fe201c090e7ce514d719372f43d.png?wh=1542%2A887)
+![](https://static001.geekbang.org/resource/image/0e/3d/0ecc8fe201c090e7ce514d719372f43d.png?wh=1542%2A887){: referrerpolicy="no-referrer" }
 
 说了这么多你可能会问这和今天的主题有什么关系呢？其实清晰地了解Kafka的发展脉络和生态圈现状，对于指导我们选择合适的Kafka版本大有裨益。下面我们就进入今天的主题——如何选择Kafka版本？
 
@@ -76,7 +76,7 @@ Okay，说完了目前市面上的这些Kafka，我来对比一下它们的优�
 - Confluent Kafka，Confluent公司提供的Kafka。优势在于集成了很多高级特性且由Kafka原班人马打造，质量上有保证；缺陷在于相关文档资料不全，普及率较低，没有太多可供参考的范例。
 - CDH/HDP Kafka，大数据云公司提供的Kafka，内嵌Apache Kafka。优势在于操作简单，节省运维成本；缺陷在于把控度低，演进速度较慢。
 
-![](https://static001.geekbang.org/resource/image/a2/11/a2ec80dceb9ba6eeaaeebc662f439211.jpg?wh=2069%2A2560)
+![](https://static001.geekbang.org/resource/image/a2/11/a2ec80dceb9ba6eeaaeebc662f439211.jpg?wh=2069%2A2560){: referrerpolicy="no-referrer" }
 
 ## 开放讨论
 

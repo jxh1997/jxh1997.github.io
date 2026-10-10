@@ -12,7 +12,7 @@ RPC框架中的这种桩的设计，它其实采用了一种设计模式：“�
 
 在RPC框架中，代理对象都是由RPC框架的客户端来提供的，也就是我们一直说的“桩”，委托对象就是在服务端，真正实现业务逻辑的服务类的实例。
 
-![](https://static001.geekbang.org/resource/image/6c/48/6ca3f88f1a6c06513d5adfe976efcc48.jpg?wh=4266%2A768)
+![](https://static001.geekbang.org/resource/image/6c/48/6ca3f88f1a6c06513d5adfe976efcc48.jpg?wh=4266%2A768){: referrerpolicy="no-referrer" }
 
 我们最常用Spring框架，它的核心IOC（依赖注入）和AOP（面向切面）机制，就是这种代理模式的一个实现。我们在日常开发的过程中，可以利用这种代理模式，在调用流程中动态地注入一些非侵入式业务逻辑。
 

@@ -64,7 +64,7 @@ DELETE https://api.rest.cn/accounts/:username
 POST https://api.gemini.com/v1/order/cancel
 ```
 
-![](https://static001.geekbang.org/resource/image/c6/8f/c6851d2560b5f67f29c750cyy018738f.png?wh=1132x614)
+![](https://static001.geekbang.org/resource/image/c6/8f/c6851d2560b5f67f29c750cyy018738f.png?wh=1132x614){: referrerpolicy="no-referrer" }
 
 你会发现，这个接口不够“RESTful”的地方有：
 

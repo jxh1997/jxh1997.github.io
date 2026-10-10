@@ -56,7 +56,7 @@ ClickHouse的设计目标是高效的列存储和数据分析，还要擅长处�
 grep -q sse4_2 /proc/cpuinfo && echo "SSE 4.2 supported" || echo "SSE 4.2 not supported"
 ```
 
-![图片](https://static001.geekbang.org/resource/image/86/67/86d4518779632a39fc87d3665acbb667.png?wh=1253x69)
+![图片](https://static001.geekbang.org/resource/image/86/67/86d4518779632a39fc87d3665acbb667.png?wh=1253x69){: referrerpolicy="no-referrer" }
 
 看完硬件与存储方面的支持后，再来看看ClickHouse表引擎。
 

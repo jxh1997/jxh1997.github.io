@@ -98,7 +98,7 @@ else if (strstr(argv[0],"redis-check-aof") != NULL)
 
 我把刚才介绍的五个阶段涉及到的关键操作，画在了下面的图中，你可以再回顾下。
 
-![](https://static001.geekbang.org/resource/image/19/7b/1900f60f58048ac3095298da1057327b.jpg?wh=1999x1333)
+![](https://static001.geekbang.org/resource/image/19/7b/1900f60f58048ac3095298da1057327b.jpg?wh=1999x1333){: referrerpolicy="no-referrer" }
 
 那么，在这五个阶段当中，阶段三、四和五其实就包括了Redis server启动过程中的关键操作。所以接下来，我们就来依次学习下这三个阶段中的主要工作。
 
@@ -116,7 +116,7 @@ else if (strstr(argv[0],"redis-check-aof") != NULL)
 
 首先，Redis运行所需的各种参数，都统一定义在了[server.h](https://github.com/redis/redis/tree/5.0/src/server.h)文件的redisServer结构体中。根据参数作用的范围，我把各种参数划分为了七大类型，包括通用参数、数据结构参数、网络参数、持久化参数、主从复制参数、切片集群参数、性能优化参数。具体你可以参考下面表格中的内容。
 
-![](https://static001.geekbang.org/resource/image/f4/73/f4b8477a07bed492aa3b8c89008f9a73.jpg?wh=1999x1333)
+![](https://static001.geekbang.org/resource/image/f4/73/f4b8477a07bed492aa3b8c89008f9a73.jpg?wh=1999x1333){: referrerpolicy="no-referrer" }
 
 这样，如果你能按照上面的划分方法给Redis参数进行归类，那么你就可以发现，这些参数实际和Redis的主要功能机制是相对应的。所以，如果你要深入掌握这些参数的典型配置值，你就需要对相应功能机制的工作原理有所了解。我在接下来的课程中，也会在介绍Redis功能模块设计的同时，带你了解下其相应的典型参数配置。
 
@@ -205,7 +205,7 @@ loadServerConfigFromString(char *config) {
 
 好了，到这里，你应该就了解了Redis server运行参数配置的步骤，我也画了一张图，以便你更直观地理解这个过程。
 
-![](https://static001.geekbang.org/resource/image/e7/0d/e7d8137ee5ee69f504cc8b662ebec60d.jpg?wh=1999x865)
+![](https://static001.geekbang.org/resource/image/e7/0d/e7d8137ee5ee69f504cc8b662ebec60d.jpg?wh=1999x865){: referrerpolicy="no-referrer" }
 
 在完成参数配置后，main函数会开始调用initServer函数，对server进行初始化。所以接下来，我们继续来了解Redis server初始化时的关键操作。
 

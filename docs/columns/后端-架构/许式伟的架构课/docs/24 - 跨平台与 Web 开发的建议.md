@@ -36,7 +36,7 @@
 
 如此繁复多样的终端类型，无怪跨平台如此之难。我们来总结一下当前都有哪些跨平台的解决方案。
 
-![](https://static001.geekbang.org/resource/image/da/c7/daf115d3a745c302026b914ee760ccc7.jpg?wh=800%2A663)
+![](https://static001.geekbang.org/resource/image/da/c7/daf115d3a745c302026b914ee760ccc7.jpg?wh=800%2A663){: referrerpolicy="no-referrer" }
 
 这个列表只是沧海一粟。之所以没有列那么多，也是因为大部分的跨平台框架都已经不怎么活跃，已经无疾而终了。
 
@@ -72,7 +72,7 @@ HTML+CSS 与其理解为 View 层，不如理解为 ViewModel 层，因为 HTML 
 
 这个时候我们重新看 MVC 框架在浏览器下的样子，你会发现它变成了 MVMP 模式，全称为 “Model-ViewModel-Presenter”。
 
-![](https://static001.geekbang.org/resource/image/94/7f/94475e49c61f8dfbadb2448c7bc72b7f.png?wh=1440%2A1080)
+![](https://static001.geekbang.org/resource/image/94/7f/94475e49c61f8dfbadb2448c7bc72b7f.png?wh=1440%2A1080){: referrerpolicy="no-referrer" }
 
 **首先，我们看事件响应过程。**浏览器的 View 收到了用户的交互事件，它把这些事件委托（delegate）给了 ViewModel 层，并且通过 HTML DOM 暴露出来。通过修改 HTML 元素的事件响应属性，一般名字叫 onXXX（比如 onclick），可以获得事件的响应机会。
 
@@ -84,7 +84,7 @@ HTML+CSS 与其理解为 View 层，不如理解为 ViewModel 层，因为 HTML 
 
 聊完了浏览器端，我们在来看下服务端（Server）。虽然这一章我们的重点不是聊服务端，但是为了有个完整的认识，我们还是要概要地梳理一下 Server 端的架构。
 
-![](https://static001.geekbang.org/resource/image/7d/c2/7d4754709350d95b8afe0aa35e6e6dc2.jpg?wh=1440%2A810)
+![](https://static001.geekbang.org/resource/image/7d/c2/7d4754709350d95b8afe0aa35e6e6dc2.jpg?wh=1440%2A810){: referrerpolicy="no-referrer" }
 
 前面我们在 “[22 | 桌面程序的架构建议](https://time.geekbang.org/column/article/105356)” 中，曾提到桌面软件除了要支持用户交互外，另一个很重要的需求是提供应用程序的二次开发接口（API）。
 

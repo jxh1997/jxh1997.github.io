@@ -24,26 +24,26 @@
 
 为了帮你理解一致性这个指标，我给你举一个具体的例子。比如，2个节点的KV存储，原始的KV记录为“X = 1”。
 
-![](https://static001.geekbang.org/resource/image/5d/6d/5d666afe96731c95556ee7d5a1194d6d.jpg?wh=1142%2A627)
+![](https://static001.geekbang.org/resource/image/5d/6d/5d666afe96731c95556ee7d5a1194d6d.jpg?wh=1142%2A627){: referrerpolicy="no-referrer" }
 
 紧接着，客户端向节点1发送写请求“SET X = 2”。
 
-![](https://static001.geekbang.org/resource/image/58/e7/58519857f8f6b3edf8ebe38d3c18ede7.jpg?wh=1142%2A655)
+![](https://static001.geekbang.org/resource/image/58/e7/58519857f8f6b3edf8ebe38d3c18ede7.jpg?wh=1142%2A655){: referrerpolicy="no-referrer" }
 
 如果节点1收到写请求后，只将节点1的X值更新为2，然后返回成功给客户端。
 
-![](https://static001.geekbang.org/resource/image/56/c4/56922def2471e194d3e5420ad006e1c4.jpg?wh=1142%2A632)
+![](https://static001.geekbang.org/resource/image/56/c4/56922def2471e194d3e5420ad006e1c4.jpg?wh=1142%2A632){: referrerpolicy="no-referrer" }
 
 那么，此时如果客户端访问节点2执行读操作，就无法读到最新写入的X值，这就不满足一致性了。  
-![](https://static001.geekbang.org/resource/image/31/1f/31b628027351e4b5a6ffb31cdcba431f.jpg?wh=1142%2A545)
+![](https://static001.geekbang.org/resource/image/31/1f/31b628027351e4b5a6ffb31cdcba431f.jpg?wh=1142%2A545){: referrerpolicy="no-referrer" }
 
 如果节点1收到写请求后，通过节点间的通讯，同时将节点1和节点2的X值都更新为2，然后返回成功给客户端。
 
-![](https://static001.geekbang.org/resource/image/89/51/890b9890584a4f17306da88fedea3451.jpg?wh=1142%2A625)
+![](https://static001.geekbang.org/resource/image/89/51/890b9890584a4f17306da88fedea3451.jpg?wh=1142%2A625){: referrerpolicy="no-referrer" }
 
 那么在完成写请求后，不管客户端访问哪个节点，读取到的都是同一份最新写入的数据，这就叫一致性。
 
-![](https://static001.geekbang.org/resource/image/9b/c2/9bf9c133ad815219791f87799bee5cc2.jpg?wh=1142%2A717)
+![](https://static001.geekbang.org/resource/image/9b/c2/9bf9c133ad815219791f87799bee5cc2.jpg?wh=1142%2A717){: referrerpolicy="no-referrer" }
 
 一致性这个指标，描述的是分布式系统非常重要的一个特性，强调的是数据正确。也就是说，对客户端而言，每次读都能读取到最新写入的数据。
 
@@ -57,13 +57,13 @@
 
 我还是用一个例子，帮助你理解一下。比如，用户可以选择向节点1或节点2 发起读操作，如果不管节点间的数据是否一致，只要节点服务器收到请求，就响应X的值，那么，2个节点的服务是满足可用性的。
 
-![](https://static001.geekbang.org/resource/image/b2/a4/b27f4ff771fa8e9b671f5864c96d9aa4.jpg?wh=1142%2A841)
+![](https://static001.geekbang.org/resource/image/b2/a4/b27f4ff771fa8e9b671f5864c96d9aa4.jpg?wh=1142%2A841){: referrerpolicy="no-referrer" }
 
 最后的分区容错性说的是，当节点间出现任意数量的消息丢失或高延迟的时候，系统仍然在继续工作。也就是说，分布式系统在告诉访问本系统的客户端：不管我的内部出现什么样的数据同步问题，我会一直运行。**这个指标，强调的是集群对分区故障的容错能力。**
 
 来看下面的图，当节点1和节点2通信出问题的时候，如果系统仍能继续工作，那么，2个节点是满足分区容错性的。
 
-![](https://static001.geekbang.org/resource/image/a6/65/a61a426bccbe27e48ca75db909ae8265.jpg?wh=1142%2A866)
+![](https://static001.geekbang.org/resource/image/a6/65/a61a426bccbe27e48ca75db909ae8265.jpg?wh=1142%2A866){: referrerpolicy="no-referrer" }
 
 因为分布式系统与单机系统不同，它涉及到多节点间的通讯和交互，节点间的分区故障是必然发生的，**所以我要提醒你的是，在分布式系统中分区容错性是必须要考虑的。**
 
@@ -73,7 +73,7 @@
 
 CAP不可能三角说的是对于一个分布式系统而言，一致性（Consistency）、可用性（Availability）、分区容错性（Partition Tolerance）3个指标不可兼得，只能在3个指标中选择2个。
 
-![](https://static001.geekbang.org/resource/image/67/48/67aa4a0e56dcc8ad34bf1b0232f12748.jpg?wh=1142%2A911)
+![](https://static001.geekbang.org/resource/image/67/48/67aa4a0e56dcc8ad34bf1b0232f12748.jpg?wh=1142%2A911){: referrerpolicy="no-referrer" }
 
 CAP不能三角最初是埃里克·布鲁尔（Eric Brewer）基于自己的工程实践，提出的一个猜想，后被赛斯·吉尔伯特（Seth Gilbert）和南希·林奇（Nancy Lynch）证明，证明过程可以参考论文[《Brewer’s conjecture and the feasibility of consistent, available, partition-tolerant web services》](https://dl.acm.org/citation.cfm?id=564601)，你记住结论就好了。不过，为了帮你阅读论文，我补充一点：
 
@@ -96,7 +96,7 @@ CAP不能三角最初是埃里克·布鲁尔（Eric Brewer）基于自己的工�
 
 开源版的InfluxDB，缺乏集群能力和可用性，而且，InfluxDB是由META节点和DATA节点2个逻辑单元组成，这2个节点的功能和数据特点不同，需要我们分别为它们设计分区容错一致性模型。
 
-![](https://static001.geekbang.org/resource/image/93/5d/9397c99a462d1dcb9ca69328ba34515d.jpg?wh=1142%2A812 "InfluxDB程序的逻辑架构示意图")
+![](https://static001.geekbang.org/resource/image/93/5d/9397c99a462d1dcb9ca69328ba34515d.jpg?wh=1142%2A812 "InfluxDB程序的逻辑架构示意图"){: referrerpolicy="no-referrer" }
 
 我具体是这么设计的：
 

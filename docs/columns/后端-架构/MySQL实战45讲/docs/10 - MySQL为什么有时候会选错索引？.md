@@ -46,7 +46,7 @@ mysql> select * from t where a between 10000 and 20000;
 
 你说得没错，图1显示的就是使用explain命令看到的这条语句的执行情况。
 
-![](https://static001.geekbang.org/resource/image/2c/e3/2cfce769551c6eac9bfbee0563d48fe3.png?wh=1743%2A159)
+![](https://static001.geekbang.org/resource/image/2c/e3/2cfce769551c6eac9bfbee0563d48fe3.png?wh=1743%2A159){: referrerpolicy="no-referrer" }
 
 图1 使用explain命令查看语句执行情况
 
@@ -54,7 +54,7 @@ mysql> select * from t where a between 10000 and 20000;
 
 不过别急，这个案例不会这么简单。在我们已经准备好的包含了10万行数据的表上，我们再做如下操作。
 
-![](https://static001.geekbang.org/resource/image/1e/1e/1e5ba1c2934d3b2c0d96b210a27e1a1e.png?wh=936%2A344)
+![](https://static001.geekbang.org/resource/image/1e/1e/1e5ba1c2934d3b2c0d96b210a27e1a1e.png?wh=936%2A344){: referrerpolicy="no-referrer" }
 
 图2 session A和session B的执行流程
 
@@ -78,7 +78,7 @@ select * from t force index(a) where a between 10000 and 20000;/*Q2*/
 
 如图3所示是这三条SQL语句执行完成后的慢查询日志。
 
-![](https://static001.geekbang.org/resource/image/7c/f6/7c58b9c71853b8bba1a8ad5e926de1f6.png?wh=1221%2A325)
+![](https://static001.geekbang.org/resource/image/7c/f6/7c58b9c71853b8bba1a8ad5e926de1f6.png?wh=1221%2A325){: referrerpolicy="no-referrer" }
 
 图3 slow log结果
 
@@ -104,7 +104,7 @@ MySQL在真正开始执行语句之前，并不能精确地知道满足这个条
 
 我们可以使用show index方法，看到一个索引的基数。如图4所示，就是表t的show index 的结果 。虽然这个表的每一行的三个字段值都是一样的，但是在统计信息中，这三个索引的基数值并不同，而且其实都不准确。
 
-![](https://static001.geekbang.org/resource/image/16/d4/16dbf8124ad529fec0066950446079d4.png?wh=1850%2A209)
+![](https://static001.geekbang.org/resource/image/16/d4/16dbf8124ad529fec0066950446079d4.png?wh=1850%2A209){: referrerpolicy="no-referrer" }
 
 图4 表t的show index 结果
 
@@ -131,7 +131,7 @@ MySQL在真正开始执行语句之前，并不能精确地知道满足这个条
 
 接下来，我们再一起看看优化器预估的，这两个语句的扫描行数是多少。
 
-![](https://static001.geekbang.org/resource/image/e2/89/e2bc5f120858391d4accff05573e1289.png?wh=1606%2A382)
+![](https://static001.geekbang.org/resource/image/e2/89/e2bc5f120858391d4accff05573e1289.png?wh=1606%2A382){: referrerpolicy="no-referrer" }
 
 图5 意外的explain结果
 
@@ -153,7 +153,7 @@ rows这个字段表示的是预计扫描行数。
 
 既然是统计信息不对，那就修正。analyze table t 命令，可以用来重新统计索引信息。我们来看一下执行效果。
 
-![](https://static001.geekbang.org/resource/image/20/9c/209e9d3514688a3bcabbb75e54e1e49c.png?wh=1736%2A397)
+![](https://static001.geekbang.org/resource/image/20/9c/209e9d3514688a3bcabbb75e54e1e49c.png?wh=1736%2A397){: referrerpolicy="no-referrer" }
 
 图6 执行analyze table t 命令恢复的explain结果
 
@@ -175,7 +175,7 @@ mysql> select * from t where (a between 1 and 1000)  and (b between 50000 and 10
 
 为了便于分析，我们先来看一下a、b这两个索引的结构图。
 
-![](https://static001.geekbang.org/resource/image/1d/b9/1d037f92063e800c3bfff3f4dbf1a2b9.png?wh=1142%2A856)
+![](https://static001.geekbang.org/resource/image/1d/b9/1d037f92063e800c3bfff3f4dbf1a2b9.png?wh=1142%2A856){: referrerpolicy="no-referrer" }
 
 图7 a、b索引的结构图
 
@@ -191,7 +191,7 @@ mysql> select * from t where (a between 1 and 1000)  and (b between 50000 and 10
 mysql> explain select * from t where (a between 1 and 1000) and (b between 50000 and 100000) order by b limit 1;
 ```
 
-![](https://static001.geekbang.org/resource/image/48/b8/483bcb1ef3bb902844e80d9cbdd73ab8.png?wh=1891%2A163)
+![](https://static001.geekbang.org/resource/image/48/b8/483bcb1ef3bb902844e80d9cbdd73ab8.png?wh=1891%2A163){: referrerpolicy="no-referrer" }
 
 图8 使用explain方法查看执行计划 2
 
@@ -210,7 +210,7 @@ mysql> explain select * from t where (a between 1 and 1000) and (b between 50000
 
 我们来看看第二个例子。刚开始分析时，我们认为选择索引a会更好。现在，我们就来看看执行效果：
 
-![](https://static001.geekbang.org/resource/image/95/54/9582401a6bed6cb8fd803c9555750b54.png?wh=1235%2A115)
+![](https://static001.geekbang.org/resource/image/95/54/9582401a6bed6cb8fd803c9555750b54.png?wh=1235%2A115){: referrerpolicy="no-referrer" }
 
 图9 使用不同索引的语句执行耗时
 
@@ -228,7 +228,7 @@ mysql> explain select * from t where (a between 1 and 1000) and (b between 50000
 
 我们来看看改之后的效果：
 
-![](https://static001.geekbang.org/resource/image/14/94/14cd598e52a2b72dd334a42603e5b894.png?wh=1623%2A146)
+![](https://static001.geekbang.org/resource/image/14/94/14cd598e52a2b72dd334a42603e5b894.png?wh=1623%2A146){: referrerpolicy="no-referrer" }
 
 图10 order by b,a limit 1 执行结果
 
@@ -244,7 +244,7 @@ mysql> explain select * from t where (a between 1 and 1000) and (b between 50000
 mysql> select * from  (select * from t where (a between 1 and 1000)  and (b between 50000 and 100000) order by b limit 100)alias limit 1;
 ```
 
-![](https://static001.geekbang.org/resource/image/b1/d7/b1a2ad43c78477d7f93dbc692cbaa0d7.png?wh=1824%2A165)
+![](https://static001.geekbang.org/resource/image/b1/d7/b1a2ad43c78477d7f93dbc692cbaa0d7.png?wh=1824%2A165){: referrerpolicy="no-referrer" }
 
 图11 改写SQL的explain
 

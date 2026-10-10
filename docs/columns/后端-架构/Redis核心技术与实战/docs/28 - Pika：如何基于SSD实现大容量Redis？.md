@@ -30,7 +30,7 @@ Redis使用内存保存数据，内存容量增加后，就会带来两方面的
 
 Pika键值数据库的整体架构中包括了五部分，分别是网络框架、Pika线程模块、Nemo存储模块、RocksDB和binlog机制，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/a1/e7/a1421b8dbca6bb1ee9b6c1be7a929ae7.jpg?wh=1486%2A1469)
+![](https://static001.geekbang.org/resource/image/a1/e7/a1421b8dbca6bb1ee9b6c1be7a929ae7.jpg?wh=1486%2A1469){: referrerpolicy="no-referrer" }
 
 这五个部分分别实现了不同的功能，下面我一个个来介绍下。
 
@@ -40,7 +40,7 @@ Pika键值数据库的整体架构中包括了五部分，分别是网络框架�
 
 请求分发线程专门监听网络端口，一旦接收到客户端的连接请求后，就和客户端建立连接，并把连接交由工作线程处理。工作线程负责接收客户端连接上发送的具体命令请求，并把命令请求封装成Task，再交给线程池中的线程，由这些线程进行实际的数据存取处理，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/46/06/4627f13848167cdaa3b30370d9b80a06.jpg?wh=3000%2A1676)
+![](https://static001.geekbang.org/resource/image/46/06/4627f13848167cdaa3b30370d9b80a06.jpg?wh=3000%2A1676){: referrerpolicy="no-referrer" }
 
 在实际应用Pika的时候，我们可以通过增加工作线程数和线程池中的线程数，来提升Pika的请求处理吞吐率，进而满足业务层对数据处理性能的需求。
 
@@ -56,7 +56,7 @@ Nemo模块很容易理解，它实现了Pika和Redis的数据类型兼容。这�
 
 下面我结合一张图片，来给你具体介绍下RocksDB写入数据的基本流程。
 
-![](https://static001.geekbang.org/resource/image/95/1d/95d97d3cf0f1555b65b47fb256b7b81d.jpg?wh=3000%2A2139)
+![](https://static001.geekbang.org/resource/image/95/1d/95d97d3cf0f1555b65b47fb256b7b81d.jpg?wh=3000%2A2139){: referrerpolicy="no-referrer" }
 
 当Pika需要保存数据时，RocksDB会使用两小块内存空间（Memtable1和Memtable2）来交替缓存写入的数据。Memtable的大小可以设置，一个Memtable的大小一般为几MB或几十MB。当有数据要写入RocksDB时，RocksDB会先把数据写入到Memtable1。等到Memtable1写满后，RocksDB再把数据以文件的形式，快速写入底层的SSD。同时，RocksDB会使用Memtable2来代替Memtable1，缓存新写入的数据。等到Memtable1的数据都写入SSD了，RocksDB会在Memtable2写满后，再用Memtable1缓存新写入的数据。
 
@@ -64,7 +64,7 @@ Nemo模块很容易理解，它实现了Pika和Redis的数据类型兼容。这�
 
 当Pika需要读取数据的时候，RocksDB会先在Memtable中查询是否有要读取的数据。这是因为，最新的数据都是先写入到Memtable中的。如果Memtable中没有要读取的数据，RocksDB会再查询保存在SSD上的数据文件，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/aa/3b/aa70655efbb767af499a83bd6521ee3b.jpg?wh=2479%2A971)
+![](https://static001.geekbang.org/resource/image/aa/3b/aa70655efbb767af499a83bd6521ee3b.jpg?wh=2479%2A971){: referrerpolicy="no-referrer" }
 
 到这里，你就了解了，当使用了RocksDB保存数据后，Pika就可以把大量数据保存到大容量的SSD上了，实现了大容量实例。不过，我刚才向你介绍过，当使用大内存实例保存大量数据时，Redis会面临RDB生成和恢复的效率问题，以及主从同步时的效率和缓冲区溢出问题。那么，当Pika保存大量数据时，还会面临相同的问题吗？
 
@@ -97,21 +97,21 @@ Nemo模块通过转换操作，把这4种集合类型的元素表示为单值的
 
 此外，在单值键值对的key前面，Nemo模块还增加了一个值“l”，表示当前数据是List类型，以及增加了一个1字节的size字段，表示List集合key的大小。在单值键值对的value后面，Nemo模块还增加了version和ttl字段，分别表示当前数据的版本号和剩余存活时间（用来支持过期key功能），如下图所示：
 
-![](https://static001.geekbang.org/resource/image/06/05/066465f1a28b6f14a42c1fc3a3f73105.jpg?wh=3000%2A1056)
+![](https://static001.geekbang.org/resource/image/06/05/066465f1a28b6f14a42c1fc3a3f73105.jpg?wh=3000%2A1056){: referrerpolicy="no-referrer" }
 
 我们再来看看Set集合。
 
 Set集合的key和元素member值，都被嵌入到了Pika单值键值对的键当中，分别用key和member字段表示。同时，和List集合类似，单值键值对的key前面有值“s”，用来表示数据是Set类型，同时还有size字段，用来表示key的大小。Pika单值键值对的值只保存了数据的版本信息和剩余存活时间，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/aa/71/aa20c1456526dbf3f7d30f9d865f0f71.jpg?wh=2318%2A936)
+![](https://static001.geekbang.org/resource/image/aa/71/aa20c1456526dbf3f7d30f9d865f0f71.jpg?wh=2318%2A936){: referrerpolicy="no-referrer" }
 
 对于Hash类型来说，Hash集合的key被嵌入到单值键值对的键当中，用key字段表示，而Hash集合元素的field也被嵌入到单值键值对的键当中，紧接着key字段，用field字段表示。Hash集合元素的value则是嵌入到单值键值对的值当中，并且也带有版本信息和剩余存活时间，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/63/b9/6378f7045393ae342632189a4ab601b9.jpg?wh=2813%2A851)
+![](https://static001.geekbang.org/resource/image/63/b9/6378f7045393ae342632189a4ab601b9.jpg?wh=2813%2A851){: referrerpolicy="no-referrer" }
 
 最后，对于Sorted Set类型来说，该类型是需要能够按照集合元素的score值排序的，而RocksDB只支持按照单值键值对的键来排序。所以，Nemo模块在转换数据时，就把Sorted Set集合key、元素的score和member值都嵌入到了单值键值对的键当中，此时，单值键值对中的值只保存了数据的版本信息和剩余存活时间，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/a0/a8/a0bc4d00a5d95e7fd2699945ff7a56a8.jpg?wh=3000%2A940)
+![](https://static001.geekbang.org/resource/image/a0/a8/a0bc4d00a5d95e7fd2699945ff7a56a8.jpg?wh=3000%2A940){: referrerpolicy="no-referrer" }
 
 采用了上面的转换方式之后，Pika不仅能兼容支持Redis的数据类型，而且还保留了这些数据类型的特征，例如List的元素保序、Sorted Set的元素按score排序。了解了Pika的转换机制后，你就会明白，如果你有业务应用计划从使用Redis切换到使用Pika，就不用担心面临因为操作接口不兼容而要修改业务应用的问题了。
 
@@ -135,7 +135,7 @@ Set集合的key和元素member值，都被嵌入到了Pika单值键值对的键�
 
 为了帮助你更直观地了解Pika的性能情况，我再给你提供一张表，这是Pika[官网](https://github.com/Qihoo360/pika/wiki/3.2.x-Performance)上提供的测试数据。
 
-![](https://static001.geekbang.org/resource/image/6f/c5/6fed4a269a79325efd6fa4fb17fc44c5.jpg?wh=1456%2A716)
+![](https://static001.geekbang.org/resource/image/6f/c5/6fed4a269a79325efd6fa4fb17fc44c5.jpg?wh=1456%2A716){: referrerpolicy="no-referrer" }
 
 这些数据是在Pika 3.2版本中，String和Hash类型在多线程情况下的基本操作性能结果。从表中可以看到，在不写binlog时，Pika的SET/GET、HSET/HGET的性能都能达到200K OPS以上，而一旦增加了写binlog操作，SET和HSET操作性能大约下降了41%，只有约120K OPS。
 

@@ -14,7 +14,7 @@ API作为对外暴露的接口，也是需要保持高稳定性的组件。我�
 
 从行为角度和数据角度构造API存在什么差异呢？让我们通过一个例子来解释它，我想你也猜到了。对，还是极客时间的例子，我们在讲解[催化剂方法](https://time.geekbang.org/column/article/390792)时展示过它：
 
-![](https://static001.geekbang.org/resource/image/53/7d/5342374c949cfdd92d718aa476dac57d.jpg?wh=8000x4251)
+![](https://static001.geekbang.org/resource/image/53/7d/5342374c949cfdd92d718aa476dac57d.jpg?wh=8000x4251){: referrerpolicy="no-referrer" }
 
 如果从行为角度进行API设计，那么我们的着眼点就应该从人机交互上入手，寻找系统提供了什么服务，并针对这些服务进行API设计。
 
@@ -115,13 +115,13 @@ message SendGiftRequest {
 
 比如URI中有这样的一个路径“/users/爱学习的鱼玄机/subscriptions”，那么我们可以认为它实际是下图所示的图结构中，对右侧分支遍历的结果：
 
-![](https://static001.geekbang.org/resource/image/8d/04/8d325bf4a213f451e11b1f73dfb44d04.jpg?wh=8000x4500)
+![](https://static001.geekbang.org/resource/image/8d/04/8d325bf4a213f451e11b1f73dfb44d04.jpg?wh=8000x4500){: referrerpolicy="no-referrer" }
 
 那么同样地，如果是对左侧分支遍历，就能得到另外一个路径“/users/会聊骚的黄庭坚/subscriptions”。
 
 仔细看这个图，我们会发现它是将`User-Subscriptions`聚合进行实例化之后，再将实例与领域对象结合在一起，得到的对象图：
 
-![](https://static001.geekbang.org/resource/image/78/e0/785c9ec4f458570702413b70f724f6e0.jpg?wh=7284x4500)
+![](https://static001.geekbang.org/resource/image/78/e0/785c9ec4f458570702413b70f724f6e0.jpg?wh=7284x4500){: referrerpolicy="no-referrer" }
 
 那么当我们看到路径`/users/爱学习的鱼玄机/subscriptions`时，或者它的模板化表示形式`/users/{user_id}/subscriptions`时，我们就可以还原出路径背后的领域模型，也就是`User-Subscription`的一对多聚合关系。
 
@@ -136,7 +136,7 @@ message SendGiftRequest {
 1. 以User为聚合根的`User-Subscriptions`聚合；
 2. 以Author为聚合根的`Author-Column-Content`聚合。
 
-![](https://static001.geekbang.org/resource/image/98/c4/980330c407f5354ee8d187657be9e7c4.jpg?wh=8000x4500)
+![](https://static001.geekbang.org/resource/image/98/c4/980330c407f5354ee8d187657be9e7c4.jpg?wh=8000x4500){: referrerpolicy="no-referrer" }
 
 然后我们就可以从聚合中依次设计对应的API模板了。比如对于`User-Subscription`聚合，我们可以得到如下的URI模板。
 
@@ -166,11 +166,11 @@ message SendGiftRequest {
 
 在根据领域模型得到了URI模板之后，我们就需要围绕着URI进行API设计了。这个过程惊人地简单。我们需要做的就是构造这样一张表格，表格中包含：角色、HTTP 方法、URI、业务场景这样一些条目。如下图所示：
 
-![](https://static001.geekbang.org/resource/image/f4/de/f4680fdd858b5d15e1076e62938df1de.jpg?wh=8000x4500)
+![](https://static001.geekbang.org/resource/image/f4/de/f4680fdd858b5d15e1076e62938df1de.jpg?wh=8000x4500){: referrerpolicy="no-referrer" }
 
 然后，我们只需填入角色、URI，然后按照穷举法，填入所有的HTTP方法就可以了。比如，对于`/users/{user_id}/subscriptions`这个URI，我们可以将常用的四个HTTP方法填入表格：
 
-![](https://static001.geekbang.org/resource/image/28/52/28b46cd5086dea5595a5268df32dac52.jpg?wh=8000x4500)
+![](https://static001.geekbang.org/resource/image/28/52/28b46cd5086dea5595a5268df32dac52.jpg?wh=8000x4500){: referrerpolicy="no-referrer" }
 
 这里有个我个人的小偏好，就是**通过模板化表示角色**（通常的做法是以统一语言中的角色名加\_id）。比如第一行，实际我的意思是，角色是user，并且和URI中给出的`user_id`是同一个人。当然，也可以只统一语言中的角色名。
 
@@ -180,11 +180,11 @@ message SendGiftRequest {
 
 最后，在这个例子里，我们得到的API候选是这样的：
 
-![](https://static001.geekbang.org/resource/image/7d/83/7ddf0c23d9f1a0914aea6767676e9583.jpg?wh=8000x4500)
+![](https://static001.geekbang.org/resource/image/7d/83/7ddf0c23d9f1a0914aea6767676e9583.jpg?wh=8000x4500){: referrerpolicy="no-referrer" }
 
 这个过程很简单吧。那我们再来看一个例子，这个例子里我们引入不同的角色。我们通常会将API候选看作是HTTP方法和URI的组合，然而调用方的角色其实也是很重要的。过程我就省略了，方法和刚才讲的一样，我们着重看一下结果：
 
-![](https://static001.geekbang.org/resource/image/ca/03/caeed632b599a6d25dda9e2699ef0503.jpg?wh=8000x4500)
+![](https://static001.geekbang.org/resource/image/ca/03/caeed632b599a6d25dda9e2699ef0503.jpg?wh=8000x4500){: referrerpolicy="no-referrer" }
 
 通常来说，已经订阅的专栏就无法修改了，但是我们假设有赠送功能。于是呢，读者发起的“对于专栏的修改”，那么其实就是赠送；与之相对的，由系统管理员发起的“对于读者订阅专栏的修改”，可能就是处理退订。
 
@@ -211,7 +211,7 @@ message SendGiftRequest {
 
 我们在使用RESTful API时，经常会遇到这种情况：不同的客户端（比如手机或页面）需要不同格式的数据。那么我们有没有办法，只提供一种格式的数据，但能满足所有客户端的需求，不需要根据客户端的要求而修改，并且还不怎么影响性能？
 
-![](https://static001.geekbang.org/resource/image/c5/c2/c5ed45yyeec4c1a532a1d95b2cf82dc2.jpg?wh=1500x1798)
+![](https://static001.geekbang.org/resource/image/c5/c2/c5ed45yyeec4c1a532a1d95b2cf82dc2.jpg?wh=1500x1798){: referrerpolicy="no-referrer" }
 
 欢迎把你的思考和想法分享在留言区，我会和你交流讨论。我们下节课再见！
 <div><strong>精选留言（15）</strong></div><ul>

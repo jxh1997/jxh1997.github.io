@@ -8,7 +8,7 @@
 
 所以在这门课程中，蒋德钧老师就会分享他实际阅读Redis源码总结出来的经验和方法，帮助你先从整体上掌握Redis源码的结构，也就是形成一幅Redis源码全景图。
 
-![](https://static001.geekbang.org/resource/image/59/35/5975c57d9ac404fe3a774ea28a7ac935.jpg)
+![](https://static001.geekbang.org/resource/image/59/35/5975c57d9ac404fe3a774ea28a7ac935.jpg){: referrerpolicy="no-referrer" }
 
 然后，蒋老师会带你细分Redis的各大功能特性，梳理出Redis功能模块的主线逻辑，让你有目标、更高效地阅读和学习代码，进一步掌握Redis不同功能特性的设计与实现思路。并且在阅读代码的过程中，还会带你体会和掌握关键源码对应的计算机系统设计思想，从而你也可以把这些设计思想应用到自己的系统开发中。
 

@@ -24,7 +24,7 @@
 
 不过，我们还有另外一个系统B，专门用来分析搜索日志，定期（比如间隔10分钟）批量地更新数据库中的数据，并且标记为新的数据版本。比如，在下面的示例图中，我们对v2版本的数据进行更新，得到v3版本的数据。这里我们假设只有更新和新添关键词，没有删除关键词的行为。
 
-![](https://static001.geekbang.org/resource/image/05/0e/05233c28ddda51b81dfd946ffdef640e.jpg?wh=2446%2A1240)
+![](https://static001.geekbang.org/resource/image/05/0e/05233c28ddda51b81dfd946ffdef640e.jpg?wh=2446%2A1240){: referrerpolicy="no-referrer" }
 
 为了保证系统A中数据的实时性（不一定非常实时，但数据也不能太旧），系统A需要定期根据数据库中的数据，更新内存中的索引和数据。
 
@@ -145,13 +145,13 @@ public class Demo {
 
 我们来看，在内存中，用散列表组织的搜索关键词信息是如何存储的。我画了一张示意图，大致结构如下所示。从图中我们可以发现，散列表索引中，每个结点存储的key是搜索关键词，value是SearchWord对象的内存地址。SearchWord对象本身存储在散列表之外的内存空间中。
 
-![](https://static001.geekbang.org/resource/image/f5/d2/f5ba85952b27a569687e2d44352216d2.jpg?wh=2258%2A1784)
+![](https://static001.geekbang.org/resource/image/f5/d2/f5ba85952b27a569687e2d44352216d2.jpg?wh=2258%2A1784){: referrerpolicy="no-referrer" }
 
 浅拷贝和深拷贝的区别在于，浅拷贝只会复制图中的索引（散列表），不会复制数据（SearchWord对象）本身。相反，深拷贝不仅仅会复制索引，还会复制数据本身。浅拷贝得到的对象（newKeywords）跟原始对象（currentKeywords）共享数据（SearchWord对象），而深拷贝得到的是一份完完全全独立的对象。具体的对比如下图所示：
 
-![](https://static001.geekbang.org/resource/image/74/82/74bceb7a0736957daaa4abeba6826182.jpg?wh=4580%2A1784)
+![](https://static001.geekbang.org/resource/image/74/82/74bceb7a0736957daaa4abeba6826182.jpg?wh=4580%2A1784){: referrerpolicy="no-referrer" }
 
-![](https://static001.geekbang.org/resource/image/b9/1b/b978d054ab3183b9e0ae461e6abac81b.jpg?wh=5198%2A1784)
+![](https://static001.geekbang.org/resource/image/b9/1b/b978d054ab3183b9e0ae461e6abac81b.jpg?wh=5198%2A1784){: referrerpolicy="no-referrer" }
 
 在Java语言中，Object类的clone()方法执行的就是我们刚刚说的浅拷贝。它只会拷贝对象中的基本数据类型的数据（比如，int、long），以及引用对象（SearchWord）的内存地址，不会递归地拷贝引用对象本身。
 

@@ -32,7 +32,7 @@
 
 接下来，我们再一起看看Actor计算模式吧。如下图所示，描述了具有3个Actor的Actor模型。
 
-![](https://static001.geekbang.org/resource/image/3d/11/3d64427315a82ef08f4dd0fc88d9a311.png?wh=666%2A443)
+![](https://static001.geekbang.org/resource/image/3d/11/3d64427315a82ef08f4dd0fc88d9a311.png?wh=666%2A443){: referrerpolicy="no-referrer" }
 
 可以看到，**Actor模型的三要素是状态、行为和消息**，有一个很流行的等式：Actor模型=（状态+行为）+ 消息。
 
@@ -48,7 +48,7 @@
 
 为了方便你理解Actor的工作原理，我会通过讲述3个Actor之间基于消息和消息队列的工作流程进行说明。这3个Actor的工作流程，如下所示。
 
-![](https://static001.geekbang.org/resource/image/ad/7f/addab9026cecd00194755f594b3ab87f.png?wh=893%2A600)
+![](https://static001.geekbang.org/resource/image/ad/7f/addab9026cecd00194755f594b3ab87f.png?wh=893%2A600){: referrerpolicy="no-referrer" }
 
 1. Actor1和Actor3先后向Actor2发送消息，消息被依次放入Actor2的MailBox队列的队尾;
 2. Actor2从MailBox队列的队首依次取出消息执行相应的操作，由于Actor1先把消息发送给Actor2，因此Actor2先处理Actor1的消息；
@@ -56,7 +56,7 @@
 
 了解了Actor之间的消息交互和处理流程，我再以一个具体案例和你详细解读一下Actor之间的消息传递过程吧。
 
-![](https://static001.geekbang.org/resource/image/4d/d3/4d1e879439672d2052efd8dca0026dd3.png?wh=896%2A563)
+![](https://static001.geekbang.org/resource/image/4d/d3/4d1e879439672d2052efd8dca0026dd3.png?wh=896%2A563){: referrerpolicy="no-referrer" }
 
 我们已经知道，在系统中，不同的组件/模块可以视为不同的Actor。现在有一个执行神经网络的应用，其中有两个组件A和B，分别表示数据处理模块和模型训练模块。假设，我们可以将组件A和B看作两个Actor，训练过程中的数据可以通过消息进行传递。如上图所示，完整的消息传输过程为：
 
@@ -115,7 +115,7 @@ Akka 集群中的故障检测方法是，集群中每个节点被k个节点通�
 
 最后，我再通过一张思维导图来归纳一下今天的核心知识点吧。
 
-![](https://static001.geekbang.org/resource/image/d6/89/d605ba04f0eb88c6cd0910eef6af4489.png?wh=1170%2A881)
+![](https://static001.geekbang.org/resource/image/d6/89/d605ba04f0eb88c6cd0910eef6af4489.png?wh=1170%2A881){: referrerpolicy="no-referrer" }
 
 著名的Erlang并发编程语言，以及Akka这一分布式计算框架都实现了Actor模型的计算逻辑。因此，即使你在之前未曾接触过Actor模型，学习了这篇文章后，你也可以根据开源的Erlang或Akka项目，去更深刻地理解Actor模型了，加油！
 

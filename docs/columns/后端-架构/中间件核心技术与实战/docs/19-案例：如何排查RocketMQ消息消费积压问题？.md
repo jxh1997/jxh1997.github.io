@@ -12,14 +12,14 @@
 
 在开源版本的控制台rocketmq-console界面中，我们可以查阅消费端的这两个指标：
 
-![图片](https://static001.geekbang.org/resource/image/yy/07/yy0cf8266e7c6c1cb8cfa7caf7562207.png?wh=1039x692)
+![图片](https://static001.geekbang.org/resource/image/yy/07/yy0cf8266e7c6c1cb8cfa7caf7562207.png?wh=1039x692){: referrerpolicy="no-referrer" }
 
 - Delay指的是消息积压数量，它是由BrokerOffset（服务端当前最大的逻辑偏移量）减去ConsumerOffset（消费者消费的当前位点）计算出来的。**如果Delay值很大，说明消费端遇到了瓶颈**。
 - LastConsumeTime表示上一次成功消费消息的存储时间。**这个值如果很大，同样能说明消费端遇到了瓶颈。**如果这个值线上为1970年，表示消费者当前消费位点对应的消息在服务端已经过期，被删除了。
 
 那为什么消费会积压呢？要理解这个问题，我们首先要了解RocketMQ消费者的消费处理模型。核心流程如下图所示：
 
-![图片](https://static001.geekbang.org/resource/image/69/72/694cf4yybd4f3ef68c14377d4e755672.jpg?wh=1920x889)
+![图片](https://static001.geekbang.org/resource/image/69/72/694cf4yybd4f3ef68c14377d4e755672.jpg?wh=1920x889){: referrerpolicy="no-referrer" }
 
 说明一下具体的工作流程。
 
@@ -39,7 +39,7 @@
 
 针对第一点，Pull线程的run方法采用的是while(true)+try catch的模式，只要不主动关闭消费者，这个线程是不会停止的。具体的代码实现如下：
 
-![图片](https://static001.geekbang.org/resource/image/c2/ac/c2dc20f9952417b2fdd742c09c26dcac.png?wh=1920x978)
+![图片](https://static001.geekbang.org/resource/image/c2/ac/c2dc20f9952417b2fdd742c09c26dcac.png?wh=1920x978){: referrerpolicy="no-referrer" }
 
 这么看来，消费积压基本都是消费线程池由于某种原因阻塞导致的。
 
@@ -70,7 +70,7 @@ jstack pid > j1.log
 
 在RocketMQ中，消费端线程以ConsumeMessageThread\_打头，通过对线程的判断，可以发现下面这段代码：
 
-![图片](https://static001.geekbang.org/resource/image/9c/d0/9c079bb6ff965945595be90c8c3378d0.png?wh=1073x472)
+![图片](https://static001.geekbang.org/resource/image/9c/d0/9c079bb6ff965945595be90c8c3378d0.png?wh=1073x472){: referrerpolicy="no-referrer" }
 
 这些线程的状态为RUNNABLE，并且在jstack日志中状态一直没有发生变化，说明这些线程是有问题的。通过线程栈，我们可以清楚地定位到具体的代码行。
 

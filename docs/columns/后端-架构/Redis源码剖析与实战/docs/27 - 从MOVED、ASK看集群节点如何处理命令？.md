@@ -12,7 +12,7 @@
 
 因此，集群节点在各阶段处理命令的入口函数和单个Redis server也是一样的，如下图所示。你也可以再去回顾下第14讲中，我介绍的命令处理详细流程。
 
-![图片](https://static001.geekbang.org/resource/image/53/b6/53b6b983f429fa7d298546dbc217d9b6.jpg?wh=1920x1080)
+![图片](https://static001.geekbang.org/resource/image/53/b6/53b6b983f429fa7d298546dbc217d9b6.jpg?wh=1920x1080){: referrerpolicy="no-referrer" }
 
 但是，在其中的命令执行阶段，如果Redis server是一个集群节点，那么在命令执行的过程中，就会增加额外的处理流程，而这个流程正对应了Redis Cluster中可能遇到的请求重定向问题。
 
@@ -55,7 +55,7 @@ int processCommand(client *c) {
 
 下图展示了processCommand函数针对集群节点增加的基本执行逻辑，你可以再回顾下。
 
-![图片](https://static001.geekbang.org/resource/image/91/7d/91ce0579f5465806b6ed2c95b749c67d.jpg?wh=1920x1080)
+![图片](https://static001.geekbang.org/resource/image/91/7d/91ce0579f5465806b6ed2c95b749c67d.jpg?wh=1920x1080){: referrerpolicy="no-referrer" }
 
 好，接下来，我们就来看下getNodeByQuery函数是如何查询能处理一条命令的集群节点的。
 
@@ -230,7 +230,7 @@ if (n != myself && error_code) *error_code = CLUSTER_REDIR_MOVED;
 
 好了，到这里，我们就了解了getNodeByQuery函数对命令访问key的查询过程了。我画了张图，展示了getNodeByQuery函数基本执行过程，你可以再回顾下。
 
-![图片](https://static001.geekbang.org/resource/image/72/65/727022d24a5f15d2fc2f8fa65dbda565.jpg?wh=1920x1080)
+![图片](https://static001.geekbang.org/resource/image/72/65/727022d24a5f15d2fc2f8fa65dbda565.jpg?wh=1920x1080){: referrerpolicy="no-referrer" }
 
 那么，有了key所属节点的查询结果后，processCommand函数接下来又会如何进行请求重定向呢?
 

@@ -36,7 +36,7 @@ Reactor模式的核心组成部分包括Reactor和处理资源池（进程池或
 
 单Reactor单进程/线程的方案示意图如下（以进程为例）：
 
-![](https://static001.geekbang.org/resource/image/c2/c0/c2fafab3yybd83e97027b3e3f987f9c0.jpg?wh=3789%2A2184)
+![](https://static001.geekbang.org/resource/image/c2/c0/c2fafab3yybd83e97027b3e3f987f9c0.jpg?wh=3789%2A2184){: referrerpolicy="no-referrer" }
 
 注意，select、accept、read、send是标准的网络编程API，dispatch和“业务处理”是需要完成的操作，其他方案示意图类似。
 
@@ -62,7 +62,7 @@ Reactor模式的核心组成部分包括Reactor和处理资源池（进程池或
 
 单Reactor多线程方案示意图是：
 
-![](https://static001.geekbang.org/resource/image/73/da/73a2d97c63c143a01b2e671942024fda.jpg?wh=4946%2A1993)
+![](https://static001.geekbang.org/resource/image/73/da/73a2d97c63c143a01b2e671942024fda.jpg?wh=4946%2A1993){: referrerpolicy="no-referrer" }
 
 我来介绍一下这个方案：
 
@@ -85,7 +85,7 @@ Reactor模式的核心组成部分包括Reactor和处理资源池（进程池或
 
 多Reactor多进程/线程方案示意图是（以进程为例）：
 
-![](https://static001.geekbang.org/resource/image/6c/ba/6cfe3c8785623f93da18ce3390e524ba.jpg?wh=4434%2A1860)
+![](https://static001.geekbang.org/resource/image/6c/ba/6cfe3c8785623f93da18ce3390e524ba.jpg?wh=4434%2A1860){: referrerpolicy="no-referrer" }
 
 方案详细说明如下：
 
@@ -112,7 +112,7 @@ Proactor中文翻译为“前摄器”比较难理解，与其类似的单词是
 
 Proactor模型示意图是：
 
-![](https://static001.geekbang.org/resource/image/f4/fe/f431b2674eb0881df6a1d1f77a3729fe.jpg?wh=4374%2A1853)
+![](https://static001.geekbang.org/resource/image/f4/fe/f431b2674eb0881df6a1d1f77a3729fe.jpg?wh=4374%2A1853){: referrerpolicy="no-referrer" }
 
 详细介绍一下Proactor方案：
 
@@ -132,10 +132,19 @@ Proactor模型示意图是：
 
 欢迎你把答案写到留言区，和我一起讨论。相信经过深度思考的回答，也会让你对知识的理解更加深刻。（编辑乱入：精彩的留言有机会获得丰厚福利哦！）
 <div><strong>精选留言（15）</strong></div><ul>
-<li><span>林</span> 👍（523） 💬（11）<p>IO操作分两个阶段1、等待数据准备好(读到内核缓存)2、将数据从内核读到用户空间(进程空间)一般来说1花费的时间远远大于2。1上阻塞2上也阻塞的是同步阻塞IO1上非阻塞2阻塞的是同步非阻塞IO，这讲说的Reactor就是这种模型 1上非阻塞2上非阻塞是异步非阻塞IO，这讲说的Proactor模型就是这种模型 </p>2018-06-10</li><br/><li><span>林</span> 👍（493） 💬（18）<p>Reactor与Proactor能不能这样打个比方：
-1、假如我们去饭店点餐，饭店人很多，如果我们付了钱后站在收银台等着饭端上来我们才离开，这就成了同步阻塞了。
-2、如果我们付了钱后给你一个号就可以离开，饭好了老板会叫号，你过来取。这就是Reactor模型。
-3、如果我们付了钱后给我一个号就可以坐到坐位上该干啥干啥，饭好了老板会把饭端上来送给你。这就是Proactor模型了。</p>2018-06-11</li><br/><li><span>正是那朵玫瑰</span> 👍（101） 💬（1）<p>感谢华仔，我也再实验了下netty4，其实handler的独立的线程池里面执行其实也没有问题，netty已经帮我们处理好了，当我们处理完业务，write数据的时候，会先放到一个队列里面，真正出站还是由io线程统一调度，这样就避免了netty3的问题！</p>2018-06-15</li><br/><li><span>正是那朵玫瑰</span> 👍（64） 💬（5）<p>根据华仔之前对前浪微博消息中间件的分析，TPS定位在1380，QPS定位在13800，消息要高可靠（不能丢失消息），定位在常量连接海量请求的系统吧。基于此来分析下吧。
+<li><span>林</span> 👍（523） 💬（11）<p>IO操作分两个阶段
+1、等待数据准备好(读到内核缓存)
+2、将数据从内核读到用户空间(进程空间)
+一般来说1花费的时间远远大于2。
+1上阻塞2上也阻塞的是同步阻塞IO
+1上非阻塞2阻塞的是同步非阻塞IO，这讲说的Reactor就是这种模型 
+1上非阻塞2上非阻塞是异步非阻塞IO，这讲说的Proactor模型就是这种模型 </p>2018-06-10</li><br/><li><span>林</span> 👍（493） 💬（18）<p>Reactor与Proactor能不能这样打个比方：
+
+1、假如我们去饭店点餐，饭店人很多，如果我们付了钱后站在收银台等着饭端上来我们才离开，这就成了同步阻塞了。
+
+2、如果我们付了钱后给你一个号就可以离开，饭好了老板会叫号，你过来取。这就是Reactor模型。
+
+3、如果我们付了钱后给我一个号就可以坐到坐位上该干啥干啥，饭好了老板会把饭端上来送给你。这就是Proactor模型了。</p>2018-06-11</li><br/><li><span>正是那朵玫瑰</span> 👍（101） 💬（1）<p>感谢华仔，我也再实验了下netty4，其实handler的独立的线程池里面执行其实也没有问题，netty已经帮我们处理好了，当我们处理完业务，write数据的时候，会先放到一个队列里面，真正出站还是由io线程统一调度，这样就避免了netty3的问题！</p>2018-06-15</li><br/><li><span>正是那朵玫瑰</span> 👍（64） 💬（5）<p>根据华仔之前对前浪微博消息中间件的分析，TPS定位在1380，QPS定位在13800，消息要高可靠（不能丢失消息），定位在常量连接海量请求的系统吧。基于此来分析下吧。
 
 1、单Reactor单进程&#47;线程
 redis采用这种模式，原因是redis是基于内存的数据库，在处理业务会非常快，所以不会对IO读写进行过长时间的阻塞，但是如果redis开启同步持久化后，业务处理会变慢，阻塞了IO线程，也就无法处理更多的连接了，而我们的消息中间件需要消息的高可靠，必定要同步持久化，如果异步的话，就看异步持久化的时间间隔了，假设500ms持久化一次，那就有可能会丢失500ms的消息。当然华仔分析的无法利用多核cpu的特性也是一大缺点；虽然我们要求的TPS不算很高，但是QPS很高了，所以我觉得这种模式不合适

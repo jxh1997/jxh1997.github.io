@@ -116,7 +116,7 @@ API
 并为"查找所有计算机学院的学生"生成MongoDB的查询语句
 ```
 
-![](https://static001.geekbang.org/resource/image/70/d9/70c8444fb9911b1b80d151efbcf237d9.jpg?wh=1371x3452)
+![](https://static001.geekbang.org/resource/image/70/d9/70c8444fb9911b1b80d151efbcf237d9.jpg?wh=1371x3452){: referrerpolicy="no-referrer" }
 
 我们可以直接执行ChatGPT返回的结果，验证是否符合我们的预期。如果执行有错，可以将错误直接贴回，让ChatGPT继续改正。这就极大地缩短了反馈周期。
 
@@ -148,7 +148,7 @@ API
 
 今天，我们讲解了LLM是如何帮助在知识过程中提效的。除了交互模式之外，不同的prompting技巧也会在具体交互时，带来不同的效率差异。
 
-![](https://static001.geekbang.org/resource/image/28/78/287576c5d9e5934cfdf2671e5e867778.jpg?wh=1730x1009 "Prompting技术与认知模式")
+![](https://static001.geekbang.org/resource/image/28/78/287576c5d9e5934cfdf2671e5e867778.jpg?wh=1730x1009 "Prompting技术与认知模式"){: referrerpolicy="no-referrer" }
 
 上图就是我在实践中尝试和采纳过的一些Prompting技术。比如处理庞杂问题时，除了CoT之外，像推理行动（Reasoning-Action，ReAct）也可以处理已经充分学习的不可言说知识。而除了RAG以外，自动推理与工具使用（Automatic Reasoning and Tool-use）也是学习新知识的标准模式之一了（ChatGPT plugin的基本架构）。
 

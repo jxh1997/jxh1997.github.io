@@ -135,11 +135,11 @@ FMEA分析的方法其实很简单，就是一个FMEA分析表，常见的FMEA�
 
 下面我以一个简单的样例来模拟一次FMEA分析。假设我们设计一个最简单的用户管理系统，包含登录和注册两个功能，其初始架构是：
 
-![](https://static001.geekbang.org/resource/image/f2/5a/f2e22565b6b60cd3cdce52fcc3711b5a.jpg?wh=3581%2A2986)
+![](https://static001.geekbang.org/resource/image/f2/5a/f2e22565b6b60cd3cdce52fcc3711b5a.jpg?wh=3581%2A2986){: referrerpolicy="no-referrer" }
 
 初始架构很简单：MySQL负责存储，Memcache（以下简称MC）负责缓存，Server负责业务处理。我们来看看这个架构通过FMEA分析后，能够有什么样的发现，下表是分析的样例（注意，这个样例并不完整，感兴趣的同学可以自行尝试将这个案例补充完整）。
 
-![](https://static001.geekbang.org/resource/image/58/8d/583fd4cc24680d407e248a3e15fb138d.jpg?wh=7978%2A3939)
+![](https://static001.geekbang.org/resource/image/58/8d/583fd4cc24680d407e248a3e15fb138d.jpg?wh=7978%2A3939){: referrerpolicy="no-referrer" }
 
 经过上表的FMEA分析，将“后续规划”列的内容汇总一下，我们最终得到了下面几条需要改进的措施：
 
@@ -149,7 +149,7 @@ FMEA分析的方法其实很简单，就是一个FMEA分析表，常见的FMEA�
 
 改进后的架构如下：
 
-![](https://static001.geekbang.org/resource/image/42/ab/4250e8b6eb07023e2b55fa6fdbayyeab.png?wh=1082%2A1094)
+![](https://static001.geekbang.org/resource/image/42/ab/4250e8b6eb07023e2b55fa6fdbayyeab.png?wh=1082%2A1094){: referrerpolicy="no-referrer" }
 
 ## 小结
 

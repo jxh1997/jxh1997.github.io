@@ -16,7 +16,7 @@
 
 优化漏斗是一个调优过程中的分层漏斗，我们可以在每一层上执行相应的优化调整。总体来说，层级越靠上，其调优的效果越明显，整体优化效果是自上而下衰减的，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/94/59/94486dc0eb55b68855478ef7e5709359.png?wh=1950%2A1248)
+![](https://static001.geekbang.org/resource/image/94/59/94486dc0eb55b68855478ef7e5709359.png?wh=1950%2A1248){: referrerpolicy="no-referrer" }
 
 **第1层：应用程序层**。它是指优化Kafka客户端应用程序代码。比如，使用合理的数据结构、缓存计算开销大的运算结果，抑或是复用构造成本高的对象实例等。这一层的优化效果最为明显，通常也是比较简单的。
 
@@ -64,7 +64,7 @@
 
 Broker端调优很重要的一个方面，就是合理地设置Broker端参数值，以匹配你的生产环境。不过，后面我们在讨论具体的调优目标时再详细说这部分内容。这里我想先讨论另一个优化手段，**即尽力保持客户端版本和Broker端版本一致**。不要小看版本间的不一致问题，它会令Kafka丧失很多性能收益，比如Zero Copy。下面我用一张图来说明一下。
 
-![](https://static001.geekbang.org/resource/image/53/6e/5310d7d29235b080c872e0a9eb396e6e.png?wh=816%2A388)
+![](https://static001.geekbang.org/resource/image/53/6e/5310d7d29235b080c872e0a9eb396e6e.png?wh=816%2A388){: referrerpolicy="no-referrer" }
 
 图中蓝色的Producer、Consumer和Broker的版本是相同的，它们之间的通信可以享受Zero Copy的快速通道；相反，一个低版本的Consumer程序想要与Producer、Broker交互的话，就只能依靠JVM堆中转一下，丢掉了快捷通道，就只能走慢速通道了。因此，在优化Broker这一层时，你只要保持服务器端和客户端版本的一致，就能获得很多性能收益了。
 
@@ -92,7 +92,7 @@ Broker端调优很重要的一个方面，就是合理地设置Broker端参数�
 
 好了，说了这么多，我们该怎么调优TPS呢？我来跟你分享一个参数列表。
 
-![](https://static001.geekbang.org/resource/image/7a/cb/7aec00207dc149bd804d20df6e3b9ccb.jpg?wh=1713%2A1983)
+![](https://static001.geekbang.org/resource/image/7a/cb/7aec00207dc149bd804d20df6e3b9ccb.jpg?wh=1713%2A1983){: referrerpolicy="no-referrer" }
 
 我稍微解释一下表格中的内容。
 
@@ -114,7 +114,7 @@ Broker端参数num.replica.fetchers表示的是Follower副本用多少个线程�
 
 讲完了调优吞吐量，我们来说说如何优化延时，下面是调优延时的参数列表。
 
-![](https://static001.geekbang.org/resource/image/26/3a/2688329a0614601fed497f3858c98e3a.jpg?wh=1803%2A1083)
+![](https://static001.geekbang.org/resource/image/26/3a/2688329a0614601fed497f3858c98e3a.jpg?wh=1803%2A1083){: referrerpolicy="no-referrer" }
 
 在Broker端，我们依然要增加num.replica.fetchers值以加快Follower副本的拉取速度，减少整个消息处理的延时。
 
@@ -132,7 +132,7 @@ Broker端参数num.replica.fetchers表示的是Follower副本用多少个线程�
 
 其实，我给出这个案例的真实目的是想说，对于性能调优，我们最好按照今天给出的步骤一步一步地窄化和定位问题。一旦定位了原因，后面的优化就水到渠成了。
 
-![](https://static001.geekbang.org/resource/image/d4/38/d40b07ca7bcc0fc43c5266b0b2c81c38.jpg?wh=2069%2A2560)
+![](https://static001.geekbang.org/resource/image/d4/38/d40b07ca7bcc0fc43c5266b0b2c81c38.jpg?wh=2069%2A2560){: referrerpolicy="no-referrer" }
 
 ## 开放讨论
 

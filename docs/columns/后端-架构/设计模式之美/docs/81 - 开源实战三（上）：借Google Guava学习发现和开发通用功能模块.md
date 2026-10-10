@@ -16,7 +16,7 @@ Google Guava是Google公司内部Java开发工具库的开源版本。Google内�
 
 我截取了Google Guava的包结构图，贴到了这里，你看起来更加直观些。
 
-![](https://static001.geekbang.org/resource/image/1c/45/1ce23ffd03045dadf2bad7e126337045.png?wh=363%2A402)
+![](https://static001.geekbang.org/resource/image/1c/45/1ce23ffd03045dadf2bad7e126337045.png?wh=363%2A402){: referrerpolicy="no-referrer" }
 
 我们知道，JDK的全称是Java Development Kit。它本身就是Java提供的工具类库。那现在请你思考一下，既然有了JDK，为什么Google还要开发一套新的类库Google Guava？是否是重复早轮子？两者的差异化在哪里？
 

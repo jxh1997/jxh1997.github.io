@@ -44,7 +44,7 @@ HASH_SLOT = CRC16(key) mod 16384
 
 以上就是Redis Cluster的基本原理，你可以对照下图来加深理解。
 
-![](https://static001.geekbang.org/resource/image/c4/fd/c405e73a4fd797ca0cda82b383e46ffd.png?wh=778%2A555)
+![](https://static001.geekbang.org/resource/image/c4/fd/c405e73a4fd797ca0cda82b383e46ffd.png?wh=778%2A555){: referrerpolicy="no-referrer" }
 
 （图片来源：[网络](https://rancher.com/blog/2019/deploying-redis-cluster/)）
 
@@ -78,7 +78,7 @@ Redis Cluster不太适合用于大规模集群，所以很多大厂，都选择�
 
 第三个作用就是维护集群的元数据，这个元数据主要就是集群所有节点的主从信息，以及槽和节点关系映射表。这个架构和我在《[12 | MySQL如何应对高并发（二）：读写分离](https://time.geekbang.org/column/article/215330)》这节课中给你讲过的，用HAProxy+Keepalived来代理MySQL请求的架构是类似的，只是多了一个自动路由分片的功能而已。
 
-![](https://static001.geekbang.org/resource/image/03/d6/03c2901db83c02cbfe90a8c9b78d04d6.jpg?wh=1142%2A513)
+![](https://static001.geekbang.org/resource/image/03/d6/03c2901db83c02cbfe90a8c9b78d04d6.jpg?wh=1142%2A513){: referrerpolicy="no-referrer" }
 
 像开源的Redis集群方案[twemproxy](https://github.com/twitter/twemproxy)和[Codis](https://github.com/CodisLabs/codis)，都是这种架构的。
 
@@ -90,7 +90,7 @@ Redis Cluster不太适合用于大规模集群，所以很多大厂，都选择�
 
 当然，客户端不用每次都去查询元数据，因为这个元数据是不怎么变化的，客户端可以自己缓存元数据，这样访问性能基本上和单机版的Redis是一样的。如果某个分片的主节点宕机了，新的主节点被选举出来之后，更新元数据里面的信息。对集群的扩容操作也比较简单，除了迁移数据的工作必须要做以外，更新一下元数据就可以了。
 
-![](https://static001.geekbang.org/resource/image/dc/da/dcaced0a9ce9842ef688c9626accdcda.jpg?wh=1142%2A605)
+![](https://static001.geekbang.org/resource/image/dc/da/dcaced0a9ce9842ef688c9626accdcda.jpg?wh=1142%2A605){: referrerpolicy="no-referrer" }
 
 虽然说，这个元数据服务仍然是一个单点，但是它的数据量不大，访问量也不大，相对就比较容易实现。我们可以用ZooKeeper、etcd甚至MySQL都能满足要求。这个方案应该是最适合超大规模Redis集群的方案了，在性能、弹性、高可用几方面表现都非常好，缺点是整个架构比较复杂，客户端不能通用，需要开发定制化的Redis客户端，只有规模足够大的企业才负担得起。
 

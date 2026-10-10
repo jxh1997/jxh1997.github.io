@@ -115,7 +115,7 @@ registry://multicast://224.5.6.7:1234/com.alibaba.dubbo.registry.RegistryService
 
 再来看下Dubbo的数据传输采用什么协议。Dubbo不仅支持私有的Dubbo协议，还支持其他协议比如Hessian、RMI、HTTP、Web Service、Thrift等。下面这张图描述了私有Dubbo协议的协议头约定。
 
-![](https://static001.geekbang.org/resource/image/8f/a5/8f98ef03078163adc8055b02ac4337a5.jpg?wh=727%2A491)  
+![](https://static001.geekbang.org/resource/image/8f/a5/8f98ef03078163adc8055b02ac4337a5.jpg?wh=727%2A491)  {: referrerpolicy="no-referrer" }
 (图片来源：[https://dubbo.incubator.apache.org/docs/zh-cn/dev/sources/images/dubbo\_protocol\_header.jpg](https://dubbo.incubator.apache.org/docs/zh-cn/dev/sources/images/dubbo_protocol_header.jpg) ）
 
 至于数据序列化和反序列方面，Dubbo同样也支持多种序列化格式，比如Dubbo、Hession 2.0、JSON、Java、Kryo以及FST等，可以通过在XML配置中添加下面的配置项。
@@ -136,7 +136,7 @@ registry://multicast://224.5.6.7:1234/com.alibaba.dubbo.registry.RegistryService
 
 服务治理手段包括节点管理、负载均衡、服务路由、服务容错等，下面这张图给出了Dubbo框架服务治理的具体实现。
 
-![](https://static001.geekbang.org/resource/image/8d/fc/8d02991a1eac41596979d8e89f5344fc.jpg?wh=600%2A300)  
+![](https://static001.geekbang.org/resource/image/8d/fc/8d02991a1eac41596979d8e89f5344fc.jpg?wh=600%2A300)  {: referrerpolicy="no-referrer" }
 （图片来源：[http://dubbo.incubator.apache.org/docs/zh-cn/user/sources/images/cluster.jpg](http://dubbo.incubator.apache.org/docs/zh-cn/user/sources/images/cluster.jpg) ）
 
 图中的Invoker是对服务提供者节点的抽象，Invoker封装了服务提供者的地址以及接口信息。
@@ -150,7 +150,7 @@ registry://multicast://224.5.6.7:1234/com.alibaba.dubbo.registry.RegistryService
 
 上面我讲的是Dubbo下每个基本组件的实现方式，那么Dubbo框架下，一次服务调用的流程是什么样的呢？下面结合这张图，我来给你详细讲解一下。
 
-![](https://static001.geekbang.org/resource/image/bf/19/bff032fdcca1272bb0349286caad6c19.jpg?wh=800%2A738)  
+![](https://static001.geekbang.org/resource/image/bf/19/bff032fdcca1272bb0349286caad6c19.jpg?wh=800%2A738)  {: referrerpolicy="no-referrer" }
 (图片来源：[https://dubbo.incubator.apache.org/docs/zh-cn/dev/sources/images/dubbo-extension.jpg](https://dubbo.incubator.apache.org/docs/zh-cn/dev/sources/images/dubbo-extension.jpg) ）
 
 首先我来解释微服务架构中各个组件分别对应到上面这张图中是如何实现。

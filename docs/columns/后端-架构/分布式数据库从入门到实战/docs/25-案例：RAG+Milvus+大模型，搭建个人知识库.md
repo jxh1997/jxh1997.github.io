@@ -26,7 +26,7 @@
 
 我们看下RAG个人知识库的搭建和使用流程图。
 
-![](https://static001.geekbang.org/resource/image/3c/59/3cfedcaafe527fac6936d422e5cafb59.png?wh=3768x1668)
+![](https://static001.geekbang.org/resource/image/3c/59/3cfedcaafe527fac6936d422e5cafb59.png?wh=3768x1668){: referrerpolicy="no-referrer" }
 
 虽然图上的内容不少，但大致来看，搭建、使用基于RAG的知识库一共有4步。
 
@@ -100,7 +100,7 @@ print(docs)
 
 比如这个CSV有10行数据，被CSVLoader读取出来后，就生成了10个文档。
 
-![](https://static001.geekbang.org/resource/image/75/d1/759ae547ab757e8edb55169ede8463d1.jpg?wh=2284x1280)
+![](https://static001.geekbang.org/resource/image/75/d1/759ae547ab757e8edb55169ede8463d1.jpg?wh=2284x1280){: referrerpolicy="no-referrer" }
 
 ### **第三步，存入向量数据库**
 
@@ -177,7 +177,7 @@ print(result)
 
 下面的图就是上面程序的执行结果，你就会发现，我们已经实现了一个简单的基于你个人知识文件的问答与检索。
 
-![图片](https://static001.geekbang.org/resource/image/30/1a/3037yyab022c4811b12431c6d335251a.png?wh=1818x233)
+![图片](https://static001.geekbang.org/resource/image/30/1a/3037yyab022c4811b12431c6d335251a.png?wh=1818x233){: referrerpolicy="no-referrer" }
 
 注意，代码中定义了一个rag\_chain，就是我们说的LangChain的“链”。它类似Linux的管道，通过特殊字符“｜”来连接不同组件，构成一个输入输出的“链”条。数据在链条中流转，实现复杂的数据处理流程。这个链条就是用LangChain表达式 (LCEL)来定义的。
 
@@ -209,7 +209,7 @@ print(result)
 
 具体流程大概是这样。
 
-![](https://static001.geekbang.org/resource/image/c9/8a/c9cfca28cbaf2ba1abc00bebcf22438a.png?wh=3024x1284)
+![](https://static001.geekbang.org/resource/image/c9/8a/c9cfca28cbaf2ba1abc00bebcf22438a.png?wh=3024x1284){: referrerpolicy="no-referrer" }
 
 但我们这里要思考的重点是，GraphRAG与RAG有什么不一样的地方呢？
 
@@ -225,7 +225,7 @@ GraphRAG检索的时候，会同时构建图查询与向量检索，然后将查
 
 据微软的报告，利用生成的知识图谱，GraphRAG可以为上下文窗口填入相关性更高的内容，得到更好的答案并获取证据来源，同时GraphRAG所需的token数量可以减少26%到97%。也就是说，GraphRAG不仅能给出更好的答案，而且成本更低，扩展性也更好。如果你有精力，也可以试试用它来搭建知识库。
 
-![图片](https://static001.geekbang.org/resource/image/42/f5/42804147480905604dff834a0d3448f5.png?wh=1080x556 "图片源自网络：将从 10,000 篇金融文章提取出的实体载入知识图谱")
+![图片](https://static001.geekbang.org/resource/image/42/f5/42804147480905604dff834a0d3448f5.png?wh=1080x556 "图片源自网络：将从 10,000 篇金融文章提取出的实体载入知识图谱"){: referrerpolicy="no-referrer" }
 
 ## 小结
 

@@ -43,7 +43,7 @@
 
 而在 Redis 上怎么能够达到这种排他的效果？用 SETNX 命令就可以做到。也就是说，如果一个线程能够用 SETNX 成功地在 Redis 上设置好一个键值对，那么在它删除这个键值对之前，别的线程都没办法再设置同样的键值对。
 
-![图片](https://static001.geekbang.org/resource/image/7e/fa/7ec76768f7dfccea4cb5ec4ec36562fa.png?wh=1920x843)
+![图片](https://static001.geekbang.org/resource/image/7e/fa/7ec76768f7dfccea4cb5ec4ec36562fa.png?wh=1920x843){: referrerpolicy="no-referrer" }
 
 所以，加锁就是调用 SETNX 命令，而释放锁就是执行 DEL 命令。你在面试的过程中要先简明扼要地说清楚锁的实质，还有加锁和释放锁是什么。
 
@@ -65,7 +65,7 @@
 
 > 等待也有两种实现方式。第一种方式就是轮询，比如说在加锁失败之后，每睡眠 100 毫秒就尝试加锁一次，直到成功或者整个等待时间超过一秒钟。第二种方式是监听删除事件，也就是在加锁失败之后立刻订阅这个键值对。当键值对被删除的时候就说明锁被释放了，这个时候再次尝试加锁。监听删除事件总的来说，实时性比较好，但是实现起来比较麻烦。
 
-![图片](https://static001.geekbang.org/resource/image/7d/af/7d8b22d27dbdcb089a26cebb6484bdaf.png?wh=1920x1077)
+![图片](https://static001.geekbang.org/resource/image/7d/af/7d8b22d27dbdcb089a26cebb6484bdaf.png?wh=1920x1077){: referrerpolicy="no-referrer" }
 
 这个示意图只是为了方便你理解，而在实际的实现中，发现锁被人设置了和订阅是要做成一个整体的，不然就会有并发问题。
 
@@ -79,17 +79,17 @@
 
 <!--THE END-->
 
-![图片](https://static001.geekbang.org/resource/image/d0/d9/d06564265bc222b94711079ae06603d9.png?wh=1920x1077)
+![图片](https://static001.geekbang.org/resource/image/d0/d9/d06564265bc222b94711079ae06603d9.png?wh=1920x1077){: referrerpolicy="no-referrer" }
 
 2. 第一次调用的时候，加锁成功了。
 
 <!--THE END-->
 
-![图片](https://static001.geekbang.org/resource/image/c9/b6/c99042e750a4ac9a31702975a71548b6.png?wh=1920x1077)
+![图片](https://static001.geekbang.org/resource/image/c9/b6/c99042e750a4ac9a31702975a71548b6.png?wh=1920x1077){: referrerpolicy="no-referrer" }
 
 3. 第一次调用的时候，加锁失败了，并且现在别的线程持有锁。
 
-![图片](https://static001.geekbang.org/resource/image/c3/e2/c3f303212f17ae108eed92a81bf6fbe2.png?wh=1920x1077)
+![图片](https://static001.geekbang.org/resource/image/c3/e2/c3f303212f17ae108eed92a81bf6fbe2.png?wh=1920x1077){: referrerpolicy="no-referrer" }
 
 你在这三张图里应该注意到了，重试的一个核心是要知道自己究竟有没有加锁成功。所以，你在加锁的时候，键值对里的值应该可以标识锁是谁加的。比如说，使用 UUID。也就是你重试的时候还带着上次的 UUID，如果 Redis 里键值对存在，并且值正好是你的 UUID，那就说明是你的锁。
 
@@ -112,13 +112,13 @@
 
 如果你的机器永远不会出问题，网络也永远不会出问题，那么分布式锁用Redis的 SETNX 和 DEL 命令就足够了。然而，现实中这个假设显然是不成立的，所以你就要考虑这么一个问题，万一你加锁的那个线程崩溃了呢？比如说，它所在的机器整个崩溃了，应该怎么办？
 
-![图片](https://static001.geekbang.org/resource/image/64/4d/64ef504b343e4d1e4bedfba53256d04d.png?wh=1920x1077)
+![图片](https://static001.geekbang.org/resource/image/64/4d/64ef504b343e4d1e4bedfba53256d04d.png?wh=1920x1077){: referrerpolicy="no-referrer" }
 
 你抓住关键词**没人释放**来回答。
 
 > 在使用分布式锁的时候，分布式锁的持有者有可能宕机，这会导致整个锁既没有人能够获得，也没有人能够释放。在这种情况下，就可以考虑给分布式锁加一个过期时间。
 
-![图片](https://static001.geekbang.org/resource/image/e2/d7/e2d12160ef5cd3fc262f523291cee7d7.png?wh=1920x1077)
+![图片](https://static001.geekbang.org/resource/image/e2/d7/e2d12160ef5cd3fc262f523291cee7d7.png?wh=1920x1077){: referrerpolicy="no-referrer" }
 
 #### 亮点1：过期时间应该多长
 
@@ -132,7 +132,7 @@
 
 > 总的来说，不管过期时间设置成多长，都可能遇到业务没能在持有分布式锁期间完成的情况。
 
-![图片](https://static001.geekbang.org/resource/image/5d/24/5d816c2fd1366e6208a862b9d07c7124.png?wh=1920x1077)
+![图片](https://static001.geekbang.org/resource/image/5d/24/5d816c2fd1366e6208a862b9d07c7124.png?wh=1920x1077){: referrerpolicy="no-referrer" }
 
 这也是为了引导面试官发问。这种情况究竟该怎么解决呢？答案是续约。
 
@@ -140,7 +140,7 @@
 
 所谓续约是指设置了过期时间之后，在快要过期的时候，再次延长这个过期时间。
 
-![图片](https://static001.geekbang.org/resource/image/6c/0b/6c9cd6bda834593306471c060ff3ee0b.png?wh=1920x1077)
+![图片](https://static001.geekbang.org/resource/image/6c/0b/6c9cd6bda834593306471c060ff3ee0b.png?wh=1920x1077){: referrerpolicy="no-referrer" }
 
 > 为了防止出现总有业务不能在锁过期时间内结束的问题，可以考虑引入续约机制。也就是在分布式锁快要过期的时候就重置一下过期时间。比如说一开始过期时间设置的是 1 分钟，那么可以在 50 秒之后再次把过期时间重置为 1 分钟。理论上来说，只需要确保在剩余过期时间内能够续约成功，就可以了。比如说这里预留了 10 秒，那么就算第一次续约失败，也有足够的时间进行重试。
 
@@ -196,13 +196,13 @@ if interrupted {
 
 当线程 1 执行完毕之后，去释放锁就会把线程 2 的锁也释放掉。
 
-![图片](https://static001.geekbang.org/resource/image/89/0a/890253f814bc56d4afe1a430819bcb0a.png?wh=1920x1077)
+![图片](https://static001.geekbang.org/resource/image/89/0a/890253f814bc56d4afe1a430819bcb0a.png?wh=1920x1077){: referrerpolicy="no-referrer" }
 
 所以在释放锁的时候，都要确认这个锁是不是自己的。
 
 > 在释放锁的时候，要先确认锁是不是自己加的，防止因为系统故障或者有人手动操作了 Redis 导致锁被别人持有了。确认锁的方法也很简单，就是比较一下键值对里的值是不是自己设置的。这也要求在加锁设置键值对的时候使用唯一的值，比如说用 UUID。
 
-![图片](https://static001.geekbang.org/resource/image/ce/fb/ceb68e8b25e60b1c6cb3cb8266a8f3fb.png?wh=1920x881)
+![图片](https://static001.geekbang.org/resource/image/ce/fb/ceb68e8b25e60b1c6cb3cb8266a8f3fb.png?wh=1920x881){: referrerpolicy="no-referrer" }
 
 ### 其他亮点
 
@@ -214,13 +214,13 @@ if interrupted {
 
 首先，Redis 的主从切换机制是解决不了这个问题的，因为 Redis 的主从同步是异步的。也就是说当你拿到一个分布式锁的时候，这个锁还没有同步到从节点，主节点就可能崩溃了。这个时候从节点被提升成主节点，里面并没有你的分布式锁，所以别人就可以拿到分布式锁。
 
-![图片](https://static001.geekbang.org/resource/image/f6/99/f6f9d0f84477275f7233a0f284809d99.png?wh=1920x1078)
+![图片](https://static001.geekbang.org/resource/image/f6/99/f6f9d0f84477275f7233a0f284809d99.png?wh=1920x1078){: referrerpolicy="no-referrer" }
 
 为了解决这个问题，就有了 Redlock 算法。你只需要掌握 Redlock 的基本概念就可以，不需要深入去研究。原因也很简单，就是目前绝大部分公司使用的分布式锁，都没有按照 Redlock 算法来实现，因为 Redlock 成本高，性能也比较差。
 
 Redlock 的思想说起来也很简单，用一句话概括就是**多数原则**。也就是说，你加锁的时候要在多个独立的 Redis 节点上同时加锁。当大多数节点都告诉你加锁成功的时候，就说明你加锁成功了。举例来说，如果你同时在 5 个节点上加锁，那么大多数就意味着至少 3 个节点成功才算加锁成功。
 
-![图片](https://static001.geekbang.org/resource/image/81/7f/81c757c7f725601cf27ba8162d66fb7f.png?wh=1920x1078)
+![图片](https://static001.geekbang.org/resource/image/81/7f/81c757c7f725601cf27ba8162d66fb7f.png?wh=1920x1078){: referrerpolicy="no-referrer" }
 
 在这个过程中，假设说你的锁过期时间是 10 秒，加锁花了 1 秒钟，那么你就只剩下 9 秒钟。如果加锁失败，还要在所有的节点上释放锁。比如说 4 个节点告诉你成功了，1 个节点超时了，这种时候你需要在 5 个节点上一起释放锁。
 
@@ -232,7 +232,7 @@ Redlock 的思想说起来也很简单，用一句话概括就是**多数原则*
 
 Singleflight 模式我们前面已经接触过了。在缓存模式里，Singleflight 模式可以确保同一个 key 在一个实例上，只有一个线程去回查数据库。类似地，在分布式锁中应用 Singleflight 模式则是为了确保针对同一个锁一个实例只有一个线程去获取分布式锁。
 
-![图片](https://static001.geekbang.org/resource/image/a3/9c/a348cd0ff31bb1ab3816663909b77f9c.png?wh=1920x1078)
+![图片](https://static001.geekbang.org/resource/image/a3/9c/a348cd0ff31bb1ab3816663909b77f9c.png?wh=1920x1078){: referrerpolicy="no-referrer" }
 
 > 要想优化分布式锁的性能，一方面是考虑优化 Redis 本身的性能，比如说启用单独的 Redis 集群，这可以有效防止别的业务操作 Redis，影响加锁和释放锁的性能。另外一方面则是可以考虑减少分布式锁的竞争，比如说使用 Singleflight 模式。也就是针对同一把锁，每个实例内部先选出一个线程去获得锁。  
 >    
@@ -242,7 +242,7 @@ Singleflight 模式我们前面已经接触过了。在缓存模式里，Singlef
 
 > 在实例拿到了分布式锁之后，释放锁之前先看看本地有没有别的线程也需要同一把分布式锁。如果有，就直接转交给本地的线程，进一步减少加锁和释放锁的开销。这种优化手段同样是在竞争越激烈的场景，效果越好。
 
-![图片](https://static001.geekbang.org/resource/image/ca/8f/cab4aa44f2a80c81b2e6e50a3af35b8f.png?wh=1920x826)
+![图片](https://static001.geekbang.org/resource/image/ca/8f/cab4aa44f2a80c81b2e6e50a3af35b8f.png?wh=1920x826){: referrerpolicy="no-referrer" }
 
 最后不要忘了补充一下，也就是分布式锁不到逼不得已，就不要使用。
 
@@ -262,7 +262,7 @@ Singleflight 模式我们前面已经接触过了。在缓存模式里，Singlef
 
 > 第二种思路是利用一致性哈希负载均衡算法。在使用这种算法的时候，同一个业务的请求肯定发到同一个节点上。这时候就没必要使用分布式锁了，本地直接加锁，或者用 Singleflight 模式就可以。
 
-![图片](https://static001.geekbang.org/resource/image/f9/87/f9e3ae47f06e3c5361ebfdd9ef245787.png?wh=1920x1075)
+![图片](https://static001.geekbang.org/resource/image/f9/87/f9e3ae47f06e3c5361ebfdd9ef245787.png?wh=1920x1075){: referrerpolicy="no-referrer" }
 
 ## 面试思路总结
 
@@ -274,7 +274,7 @@ Singleflight 模式我们前面已经接触过了。在缓存模式里，Singlef
 
 最后我还给出了三个亮点内容，第一个是 Redlock，这个你只需要有一个基本概念就可以了。另外两个都是尝试优化性能，优化分布式锁的性能主要是用 Singleflight 来减少竞争。而优化系统本身的性能，也就是尝试把分布式锁去掉，可以考虑使用数据库乐观锁或者一致性哈希负载均衡来取代分布式锁。
 
-![](https://static001.geekbang.org/resource/image/55/4f/552d3b227dbecaf49261940d939f254f.jpg?wh=2480x2431)
+![](https://static001.geekbang.org/resource/image/55/4f/552d3b227dbecaf49261940d939f254f.jpg?wh=2480x2431){: referrerpolicy="no-referrer" }
 
 ## 思考题
 

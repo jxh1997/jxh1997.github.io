@@ -113,7 +113,7 @@ create_word_cloud(content)
 
 运行结果：
 
-![](https://static001.geekbang.org/resource/image/c0/6b/c01ef48d13e80b5742248b9cf58cfb6b.png?wh=1727%2A1033)  
+![](https://static001.geekbang.org/resource/image/c0/6b/c01ef48d13e80b5742248b9cf58cfb6b.png?wh=1727%2A1033)  {: referrerpolicy="no-referrer" }
 你在[Github](https://github.com/cystanford/SQLite)上也可以找到相应的代码，这个结果图是我运行自己的微信聊天记录得出的。
 
 我来讲解下代码中相关模块的作用。

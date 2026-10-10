@@ -12,7 +12,7 @@ LLM是怎么帮助我们提取知识的呢？我们首先需要将**LLM看作一
 
 迁移学习在实际应用中非常重要，特别是在数据稀缺的情况下。例如，在深度学习中，训练一个从头开始的模型通常需要大量的标记数据和计算资源。通过迁移学习，我们可以利用在大型数据集上预训练的模型，然后将这些模型调整（fine-tune）到特定的、数据较少的任务上。
 
-![](https://static001.geekbang.org/resource/image/48/de/48d5b74900de0bc19a5d12ba2c074dde.jpg?wh=1742x871 "从头训练与迁移学习")
+![](https://static001.geekbang.org/resource/image/48/de/48d5b74900de0bc19a5d12ba2c074dde.jpg?wh=1742x871 "从头训练与迁移学习"){: referrerpolicy="no-referrer" }
 
 LLM是一个非常特殊的模型，它的核心能力是**阅读理解**——结合预训练集中的语料，根据提示词中提供的上下文信息执行任务。从概念上说，当我们为LLM提供了上下文之后，实际已经把**LLM迁移成为一个面向特定领域的模型了**。
 
@@ -44,7 +44,7 @@ API返回的结果是json格式；(技术规范描述）
 
 在概念上，如果将提示词中的上下文与问题当作截然不同的两个部分，那么实际上我们可以将结合了上下文的LLM看作一个经过迁移学习后的模型：
 
-![](https://static001.geekbang.org/resource/image/77/b4/772c489a62248ac2df6efc3bc27e46b4.jpg?wh=1694x906 "在概念上将 LLM 看作迁移学习")
+![](https://static001.geekbang.org/resource/image/77/b4/772c489a62248ac2df6efc3bc27e46b4.jpg?wh=1694x906 "在概念上将 LLM 看作迁移学习"){: referrerpolicy="no-referrer" }
 
 之所以可以这样看待大模型，是因为LLM在大规模数据集上进行预训练，能够学习到语言的深层结构和模式，因此具备了很强的**泛化能力**。
 
@@ -83,7 +83,7 @@ API返回的结果是json格式；(技术规范描述）
 
 我建议所有人在使用提示词的时候，都将知识的部分（背景）与任务的部分分开。这样能有一个明确的关注点。在这个改版的提示词中，我们暂时放弃了最终目标，而首先检查我们的知识提取是否足够清楚。ChatGPT给我的答案是：
 
-![](https://static001.geekbang.org/resource/image/7b/6d/7bbc5d1d76d9856e9286af849a01546d.jpg?wh=1596x1531)
+![](https://static001.geekbang.org/resource/image/7b/6d/7bbc5d1d76d9856e9286af849a01546d.jpg?wh=1596x1531){: referrerpolicy="no-referrer" }
 
 显然，这个答案与我预期的结果是不同的，我们预期中这个API只有列出所有商品、按SKU查看某个商品、按照分类列出商品以及按关键词搜索的功能。ChatGPT列出了非常多的额外功能。如果在这个基础上去生产代码，就会有很多无用的功能。
 
@@ -103,7 +103,7 @@ API返回的结果是json格式；(技术规范描述）
 请问这个产品目录服务主要有什么功能？
 ```
 
-![](https://static001.geekbang.org/resource/image/48/3e/486311788930f3da305926d7e9a6123e.jpg?wh=1544x1421)
+![](https://static001.geekbang.org/resource/image/48/3e/486311788930f3da305926d7e9a6123e.jpg?wh=1544x1421){: referrerpolicy="no-referrer" }
 
 这一次因为我们明确了功能的范围，ChatGPT给出的答案就完全符合我们的要求了。同样，我们还可以继续验证当前的业务知识是否是足够的，比如：
 
@@ -119,7 +119,7 @@ API返回的结果是json格式；(技术规范描述）
 请问通过API提供的产品信息都包含哪些内容？
 ```
 
-![](https://static001.geekbang.org/resource/image/78/95/783788c80d571d29765edd24dyyfdb95.jpg?wh=1631x2302)
+![](https://static001.geekbang.org/resource/image/78/95/783788c80d571d29765edd24dyyfdb95.jpg?wh=1631x2302){: referrerpolicy="no-referrer" }
 
 同样ChatGPT提供了非常多的额外信息。如果在这个基础上去生产代码，还是会有很多无用的功能。因为我们这里是个例子，并没有细扣其中的具体实现细节，但是在实际工作中，我们可能会根据实际的情况，补充更完备的信息，比如：
 
@@ -142,7 +142,7 @@ API返回的结果是json格式；(技术规范描述）
 
 这种通过LLM的反馈反思并修改知识描述的方式，就是知识工程中的**知识提取流程**，你可以结合下图来理解。
 
-![](https://static001.geekbang.org/resource/image/e9/72/e971c672db26bef0edc6713648f4ba72.jpg?wh=1537x787)
+![](https://static001.geekbang.org/resource/image/e9/72/e971c672db26bef0edc6713648f4ba72.jpg?wh=1537x787){: referrerpolicy="no-referrer" }
 
 回想一下刚刚的例子，我们提取的是什么知识呢？我们提取的是隐式知识（Implicit Knowledge）。因为对于业务的上下文我们已经有了构想和要求，只不过没有变成文字形式而已。
 
@@ -168,7 +168,7 @@ API返回的结果是json格式；(技术规范描述）
 
 **当我们完成了知识提取，再将知识应用到具体的任务时，就是知识的传递和应用的过程**。在知识工程中，知识的提取与传递流程如下图所示：
 
-![](https://static001.geekbang.org/resource/image/6e/b6/6e36412fe0d123e279c5f05ff5294fb6.jpg?wh=1847x1080)
+![](https://static001.geekbang.org/resource/image/6e/b6/6e36412fe0d123e279c5f05ff5294fb6.jpg?wh=1847x1080){: referrerpolicy="no-referrer" }
 
 ## 小结
 

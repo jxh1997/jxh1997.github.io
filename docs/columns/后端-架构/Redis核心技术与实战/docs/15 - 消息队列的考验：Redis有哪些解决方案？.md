@@ -21,11 +21,11 @@
 
 假设组件1需要对采集到的数据进行求和计算，并写入数据库，但是，消息到达的速度很快，组件1没有办法及时地既做采集，又做计算，并且写入数据库。所以，我们可以使用基于消息队列的通信，让组件1把数据x和y保存为JSON格式的消息，再发到消息队列，这样它就可以继续接收新的数据了。组件2则异步地从消息队列中把数据读取出来，在服务器2上进行求和计算后，再写入数据库。这个过程如下图所示：
 
-![](https://static001.geekbang.org/resource/image/d7/bc/d79d46ec4aa22bf46fde3ae1a99fc2bc.jpg?wh=3000%2A1459)
+![](https://static001.geekbang.org/resource/image/d7/bc/d79d46ec4aa22bf46fde3ae1a99fc2bc.jpg?wh=3000%2A1459){: referrerpolicy="no-referrer" }
 
 我们一般把消息队列中发送消息的组件称为生产者（例子中的组件1），把接收消息的组件称为消费者（例子中的组件2），下图展示了一个通用的消息队列的架构模型：
 
-![](https://static001.geekbang.org/resource/image/f4/62/f470bb957c1faff674c08b1fa65a3a62.jpg?wh=3000%2A857)
+![](https://static001.geekbang.org/resource/image/f4/62/f470bb957c1faff674c08b1fa65a3a62.jpg?wh=3000%2A857){: referrerpolicy="no-referrer" }
 
 在使用消息队列时，消费者可以异步读取生产者消息，然后再进行处理。这样一来，即使生产者发送消息的速度远远超过了消费者处理消息的速度，生产者已经发送的消息也可以缓存在消息队列中，避免阻塞生产者，这是消息队列作为分布式组件通信的一大优势。
 
@@ -63,7 +63,7 @@ List本身就是按先进先出的顺序对数据进行存取的，所以，如�
 
 如下图所示，生产者先用LPUSH写入了两条库存消息，分别是5和3，表示要把库存更新为5和3；消费者则用RPOP把两条消息依次读出，然后进行相应的处理。
 
-![](https://static001.geekbang.org/resource/image/b0/7c/b0959216cbce7ac383ce206b8884777c.jpg?wh=3000%2A2250)
+![](https://static001.geekbang.org/resource/image/b0/7c/b0959216cbce7ac383ce206b8884777c.jpg?wh=3000%2A2250){: referrerpolicy="no-referrer" }
 
 不过，在消费者读取数据时，有一个潜在的性能风险点。
 
@@ -96,7 +96,7 @@ LPUSH mq "101030001:stock:5"
 
 我画了一张示意图，展示了使用BRPOPLPUSH命令留存消息，以及消费者再次读取消息的过程，你可以看下。
 
-![](https://static001.geekbang.org/resource/image/50/3d/5045395da08317b546aab7eb698d013d.jpg?wh=3000%2A2135)
+![](https://static001.geekbang.org/resource/image/50/3d/5045395da08317b546aab7eb698d013d.jpg?wh=3000%2A2135){: referrerpolicy="no-referrer" }
 
 生产者先用LPUSH把消息“5”“3”插入到消息队列mq中。消费者程序使用BRPOPLPUSH命令读取消息“5”，同时，消息“5”还会被Redis插入到mqback队列中。如果消费者程序处理消息“5”时宕机了，等它重启后，可以从mqback中再次读取消息“5”，继续处理。
 
@@ -264,7 +264,7 @@ XPENDING mqstream group2 - + 10 consumer2
 
 我画了一张表格，汇总了用List和Streams实现消息队列的特点和区别。当然，在实践的过程中，你也可以根据新的积累，进一步补充和完善这张表。
 
-![](https://static001.geekbang.org/resource/image/b2/14/b2d6581e43f573da6218e790bb8c6814.jpg?wh=2922%2A943)
+![](https://static001.geekbang.org/resource/image/b2/14/b2d6581e43f573da6218e790bb8c6814.jpg?wh=2922%2A943){: referrerpolicy="no-referrer" }
 
 其实，关于Redis是否适合做消息队列，业界一直是有争论的。很多人认为，要使用消息队列，就应该采用Kafka、RabbitMQ这些专门面向消息队列场景的软件，而Redis更加适合做缓存。
 

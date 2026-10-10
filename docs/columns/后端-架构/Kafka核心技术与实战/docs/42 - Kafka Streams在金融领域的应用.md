@@ -205,7 +205,7 @@ buildTopology的第一步是构造表，即KTable对象。我们修改初始的�
 
 好了，我们小结一下。今天，我展示了Kafka Streams在金融领域的一个应用案例，重点演示了如何利用连接函数来实时关联流和表。其实，Kafka Streams提供的功能远不止这些，我推荐你阅读一下[官网](https://kafka.apache.org/23/documentation/streams/developer-guide/)的教程，然后把自己的一些轻量级的实时计算线上任务改为使用Kafka Streams来实现。
 
-![](https://static001.geekbang.org/resource/image/75/e7/75df06c2b75c3886ca3496a774730de7.jpg?wh=2069%2A2560)
+![](https://static001.geekbang.org/resource/image/75/e7/75df06c2b75c3886ca3496a774730de7.jpg?wh=2069%2A2560){: referrerpolicy="no-referrer" }
 
 ## 开放讨论
 

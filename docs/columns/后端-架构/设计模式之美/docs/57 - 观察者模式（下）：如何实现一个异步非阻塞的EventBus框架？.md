@@ -200,8 +200,8 @@ Guava EventBus的功能我们已经讲清楚了，总体上来说，还是比较
 
 我们重点来看，EventBus中两个核心函数register()和post()的实现原理。弄懂了它们，基本上就弄懂了整个EventBus框架。下面两张图是这两个函数的实现原理图。
 
-![](https://static001.geekbang.org/resource/image/c3/e1/c3760c7f5ff8d93e0e42e5ce1a4376e1.jpg?wh=2473x1393)  
-![](https://static001.geekbang.org/resource/image/8d/1a/8d5c765ed641a89fe80fd64aa61be31a.jpg?wh=2528x953)
+![](https://static001.geekbang.org/resource/image/c3/e1/c3760c7f5ff8d93e0e42e5ce1a4376e1.jpg?wh=2473x1393)  {: referrerpolicy="no-referrer" }
+![](https://static001.geekbang.org/resource/image/8d/1a/8d5c765ed641a89fe80fd64aa61be31a.jpg?wh=2528x953){: referrerpolicy="no-referrer" }
 
 从图中我们可以看出，最关键的一个数据结构是Observer注册表，记录了消息类型和可接收消息函数的对应关系。当调用register()函数注册观察者的时候，EventBus通过解析@Subscribe注解，生成Observer注册表。当调用post()函数发送消息的时候，EventBus通过注册表找到相应的可接收消息的函数，然后通过Java的反射语法来动态地创建对象、执行函数。对于同步阻塞模式，EventBus在一个线程内依次执行相应的函数。对于异步非阻塞模式，EventBus通过一个线程池来执行相应的函数。
 

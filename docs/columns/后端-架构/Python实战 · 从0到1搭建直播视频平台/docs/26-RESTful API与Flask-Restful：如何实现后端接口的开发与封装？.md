@@ -56,7 +56,7 @@ api.add_resource(HelloFlask, '/')
 
 对应api.add\_resource()的参数含义，你可以参考后面的思维导图。
 
-![](https://static001.geekbang.org/resource/image/47/90/47fdefcd84a0c776692f1fb0d4e13290.jpg?wh=1990x1276)
+![](https://static001.geekbang.org/resource/image/47/90/47fdefcd84a0c776692f1fb0d4e13290.jpg?wh=1990x1276){: referrerpolicy="no-referrer" }
 
 项目开发中我们通常都会定义前两个参数——资源类和资源所在的URL路径，参数endpoint不指定则默认为该资源类的名称，比如示例代码当中的endpoint默认为HelloFlask。其余参数我们可以依据不同情况灵活添加。
 
@@ -92,7 +92,7 @@ if __name__ == '__main__':
 
 这里的GET方法可以直接运行程序来查看执行结果，我们在浏览器中输入绑定的URL即可显示内容。对应的效果图我给你放在了下面，你可以看一下。
 
-![](https://static001.geekbang.org/resource/image/de/c8/dedb157a46f33f1224a6c7d8664307c8.jpg?wh=1990x962)
+![](https://static001.geekbang.org/resource/image/de/c8/dedb157a46f33f1224a6c7d8664307c8.jpg?wh=1990x962){: referrerpolicy="no-referrer" }
 
 POST方法与GET方法不同，不能直接在浏览器输入URL来测试执行结果。我们可以借助工具requests来测试，它是Python的一个HTTP库（Python的第三方库），可以通过pip来安装使用，它允许我们发送HTTP请求并获取响应。
 
@@ -117,11 +117,11 @@ print(response.json())
 
 接下来，我们先运行lb\_05.py，后运行test\_lb\_05.py，等待返回结果。
 
-![](https://static001.geekbang.org/resource/image/92/3d/92b05cc077c1d3ae062755b04bb2993d.jpg?wh=2822x807)
+![](https://static001.geekbang.org/resource/image/92/3d/92b05cc077c1d3ae062755b04bb2993d.jpg?wh=2822x807){: referrerpolicy="no-referrer" }
 
 运行完成后，记得在左栏的running中关闭此刻正在运行的lb\_05.py。
 
-![](https://static001.geekbang.org/resource/image/58/f0/580d6c680c4f4a6553b5f5c8a78e2ef0.jpg?wh=2333x768)
+![](https://static001.geekbang.org/resource/image/58/f0/580d6c680c4f4a6553b5f5c8a78e2ef0.jpg?wh=2333x768){: referrerpolicy="no-referrer" }
 
 查看其中的记录，可以看到 GET和POST两种HTTP请求方式都运行了，这正是我们在test\_lb\_05.py文件中定义的。
 
@@ -177,7 +177,7 @@ print(response.json())
 为了和之前的运行结果有所区分，我们修改了number的传递数据，改成字符类型，看看在进行参数解析时是什么结果。  
 再次操作估计你就更熟练了，我们先运行lb\_05.py文件，再运行test\_lb\_05.py，然后查看一下运行结果。
 
-![](https://static001.geekbang.org/resource/image/f5/71/f542845d32abf8ca9f9993eea4253871.jpg?wh=2333x768)
+![](https://static001.geekbang.org/resource/image/f5/71/f542845d32abf8ca9f9993eea4253871.jpg?wh=2333x768){: referrerpolicy="no-referrer" }
 
 就像截图里展示的这样，在解析参数解析时，add\_argument会自动进行校验，出现传入空值或者不符合数据类型的值，就会提示用户改正。这种方式比手动解析参数时编写多个条件判断语句要方便很多，而且不易出错。
 
@@ -187,7 +187,7 @@ print(response.json())
 
 我们通过登录功能的案例来实践一下。为了帮你更好理解，我给你准备了每一个模块对应的所属文件图。
 
-![](https://static001.geekbang.org/resource/image/86/d0/8614dc02275f12a1b9ffd4ea3d7329d0.jpg?wh=2155x1438)
+![](https://static001.geekbang.org/resource/image/86/d0/8614dc02275f12a1b9ffd4ea3d7329d0.jpg?wh=2155x1438){: referrerpolicy="no-referrer" }
 
 我们先来看UserLogin类的实现，对应的文件路径是api/models/user.py，具体实现的代码如下所示。
 
@@ -283,7 +283,7 @@ class LoginView(Resource):
 
 随后我们向参数解析器parser中添加 mobile 和 password参数。这些参数的含义你可以参考后面的表格。
 
-![](https://static001.geekbang.org/resource/image/f5/51/f5e61468c4cfcd7f0b3b4529ebe45351.jpg?wh=3159x1412)  
+![](https://static001.geekbang.org/resource/image/f5/51/f5e61468c4cfcd7f0b3b4529ebe45351.jpg?wh=3159x1412)  {: referrerpolicy="no-referrer" }
 try-except异常处理，用于查询用户操作，如果从数据库中查询到的手机号和用户输入的一致，则表示查询成功。如果查询失败，程序就会记录错误日志，并返回一个包含错误消息的 HTTP 响应。其中current\_app是正在运行的 Flask 应用程序的代理对象。
 
 在日志记录管理方面，我们使用了.error()方法，如果有任何异常发生，则会在日志文件中记录下来，方便查找和调试问题，让我们能尽快锁定问题。

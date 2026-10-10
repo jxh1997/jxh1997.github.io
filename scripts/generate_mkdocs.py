@@ -66,6 +66,29 @@ def columns_nav() -> list:
     return nav
 
 
+def knowledge_directory_nav(directory: Path, index_title: str = "目录首页") -> list:
+    """Keep ordered learning directories and future Markdown notes in navigation."""
+    nav = []
+    index = directory / "index.md"
+    if index.exists():
+        nav.append({index_title: str(index.relative_to(DOCS))})
+    for path in sorted(directory.iterdir()):
+        if path.is_dir():
+            children = knowledge_directory_nav(path)
+            if children:
+                title = path.name.split("-", 1)[-1]
+                child_index = path / "index.md"
+                if child_index.exists():
+                    for line in child_index.read_text(encoding="utf-8").splitlines():
+                        if line.startswith("# "):
+                            title = line[2:].strip()
+                            break
+                nav.append({title: children})
+        elif path.suffix == ".md" and path.name != "index.md":
+            nav.append({path.stem: str(path.relative_to(DOCS))})
+    return nav
+
+
 def add_image_referrer_policy() -> None:
     for md_path in DOCS.rglob("*.md"):
         text = md_path.read_text(encoding="utf-8")
@@ -88,7 +111,7 @@ def add_image_referrer_policy() -> None:
 def build_config() -> dict:
     return {
         "site_name": "个人知识库",
-        "site_description": "专栏、学习库与我的笔记",
+        "site_description": "专栏、学习库与新能源产品知识库",
         "site_url": "https://jxh1997.github.io/",
         "docs_dir": "docs",
         "site_dir": "site",
@@ -205,6 +228,7 @@ def build_config() -> dict:
                     },
                 ]
             },
+            {"新能源产品": knowledge_directory_nav(DOCS / "new-energy", "知识全景图")},
         ],
     }
 

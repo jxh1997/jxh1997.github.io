@@ -74,7 +74,7 @@ v.A(param1, param2, param3) \ #  字符'\'表示换行
 
 最后，我专门为你绘制了一张Python学习的知识图谱，里面涵盖了Python最高频的核心知识，大部分内容我在专栏中都会讲到。你可以保存或者打印出来，作为学习参考。
 
-![](https://static001.geekbang.org/resource/image/2c/1d/2cfc18adf51b61ca8140561071d20c1d.png?wh=3951%2A2568)
+![](https://static001.geekbang.org/resource/image/2c/1d/2cfc18adf51b61ca8140561071d20c1d.png?wh=3951%2A2568){: referrerpolicy="no-referrer" }
 
 今天，我跟你分享了Python的学习方法和注意事项，其实这些观点不只适用于Python，也能帮助你学习任何一门其他计算机编程语言，希望你能牢记在心。在接下来的课程里，我会带你逐步突破，最终成为一名Python高手。
 

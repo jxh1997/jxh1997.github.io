@@ -14,7 +14,7 @@
 
 接入协议的核心实现，就是下面的样子。
 
-![](https://static001.geekbang.org/resource/image/b7/56/b72754232480fadd7d8eeb9bfdd15e56.jpg?wh=1142%2A369 "图1")
+![](https://static001.geekbang.org/resource/image/b7/56/b72754232480fadd7d8eeb9bfdd15e56.jpg?wh=1142%2A369 "图1"){: referrerpolicy="no-referrer" }
 
 我带你走一遍这三个步骤，便于你加深印象。
 
@@ -42,7 +42,7 @@ curl -XPOST http://raft-cluster-host01:8091/key -d '{"foo": "bar"}'
 
 也就是说，我们是通过HTTP POST请求，实现了赋值操作。
 
-![](https://static001.geekbang.org/resource/image/ad/91/ad3f4c3955f721fe60d7f041ea9aae91.jpg?wh=1142%2A970 "图2")
+![](https://static001.geekbang.org/resource/image/ad/91/ad3f4c3955f721fe60d7f041ea9aae91.jpg?wh=1142%2A970 "图2"){: referrerpolicy="no-referrer" }
 
 同样的，我们走一遍这个过程，加深一下印象。
 
@@ -61,7 +61,7 @@ curl -XGET http://raft-cluster-host01:8091/key/foo
 
 也就是说，我们是通过HTTP GET请求实现了查询操作。在这里我想强调一下，相比需要将指令应用到状态机的赋值操作，查询操作要简单多了，因为系统只需要查询内存中的数据就可以了，不涉及状态机。具体的代码流程如图所示。
 
-![](https://static001.geekbang.org/resource/image/c7/b4/c70b009d5abd3b3f63c0d1d419ede9b4.jpg?wh=1142%2A721 "图3")
+![](https://static001.geekbang.org/resource/image/c7/b4/c70b009d5abd3b3f63c0d1d419ede9b4.jpg?wh=1142%2A721 "图3"){: referrerpolicy="no-referrer" }
 
 我们走一遍这个过程，加深一下印象。
 
@@ -77,7 +77,7 @@ curl -XDELETE http://raft-cluster-host01:8091/key/foo
 
 也就是说，我们是通过HTTP DELETE请求，实现了删除操作。
 
-![](https://static001.geekbang.org/resource/image/90/4e/90f99bc9c4aebb50c39f05412fa4594e.jpg?wh=1142%2A940 "图4")
+![](https://static001.geekbang.org/resource/image/90/4e/90f99bc9c4aebb50c39f05412fa4594e.jpg?wh=1142%2A940 "图4"){: referrerpolicy="no-referrer" }
 
 同样的，我们走一遍这个过程。
 
@@ -124,7 +124,7 @@ $GOPATH/bin/raftdb -id node02 -haddr raft-cluster-host02:8091 -raddr raft-cluste
 ### 写操作
 
 在19讲中，我们选择了方法2来实现写操作。也就是，当跟随者接收到写请求后，将拒绝处理该请求，并将领导者的地址信息转发给客户端。后续客户端就可以直接访问领导者（为了演示方便，我们以赋值操作为例）。  
-![](https://static001.geekbang.org/resource/image/0a/58/0a79be9a402addd226c0df170268a658.jpg?wh=1142%2A429 "图5")
+![](https://static001.geekbang.org/resource/image/0a/58/0a79be9a402addd226c0df170268a658.jpg?wh=1142%2A429 "图5"){: referrerpolicy="no-referrer" }
 
 我们来看一下具体的内容。
 
@@ -144,7 +144,7 @@ curl -XPOST raft-cluster-host02:8091/key -d '{"foo": "bar"}' -L
 
 如果当前节点（也就是节点2）不是领导者，它将返回包含领导者地址信息的HTTP 307重定向响应给curl。这时，curl根据响应信息，重新发起赋值操作请求，并直接访问领导者节点（也就是节点1，192.168.0.10）。具体的过程，就像下面的Wireshark截图。
 
-![](https://static001.geekbang.org/resource/image/27/fe/27b9005d47f65ca9d231da6e5bddbafe.jpg?wh=1142%2A118 "图6")
+![](https://static001.geekbang.org/resource/image/27/fe/27b9005d47f65ca9d231da6e5bddbafe.jpg?wh=1142%2A118 "图6"){: referrerpolicy="no-referrer" }
 
 相比写请求必须在领导者节点上执行，虽然查询操作属于读操作，可以在任何节点上执行，但是如何实现却更加复杂，因为读操作的实现关乎着一致性的实现。那么，具体怎么实现呢？
 
@@ -154,7 +154,7 @@ curl -XPOST raft-cluster-host02:8091/key -d '{"foo": "bar"}' -L
 
 具体的读操作的代码实现，就像下面的样子。
 
-![](https://static001.geekbang.org/resource/image/42/97/42cdc5944e200f20f0cdcfef6891cc97.jpg?wh=1142%2A477 "图7")
+![](https://static001.geekbang.org/resource/image/42/97/42cdc5944e200f20f0cdcfef6891cc97.jpg?wh=1142%2A477 "图7"){: referrerpolicy="no-referrer" }
 
 我们走一遍这个过程。
 

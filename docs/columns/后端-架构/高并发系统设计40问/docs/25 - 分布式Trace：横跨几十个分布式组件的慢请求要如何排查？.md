@@ -2,7 +2,7 @@
 
 经过前面几节课的学习，你的垂直电商系统在引入RPC框架和注册中心之后已经完成基本的服务化拆分了，系统架构也有了改变：
 
-![](https://static001.geekbang.org/resource/image/ac/4e/ac71f706f791e6f8d31d30513657534e.jpg?wh=1142%2A741)
+![](https://static001.geekbang.org/resource/image/ac/4e/ac71f706f791e6f8d31d30513657534e.jpg?wh=1142%2A741){: referrerpolicy="no-referrer" }
 
 现在，你的系统运行平稳，老板很高兴，你也安心了很多。而且你认为，在经过了服务化拆分之后，服务的可扩展性增强了很多，可以通过横向扩展服务节点的方式平滑地扩容了，对于应对峰值流量也更有信心了。
 
@@ -115,7 +115,7 @@ public class Tracer {
 
 **你可以考虑的解决思路是：**把日志不打印到本地文件中，而是发送到消息队列里，再由消息处理程序写入到集中存储中，比如Elasticsearch。这样，你在排查问题的时候，只需要拿着requestId到Elasticsearch中查找相关的记录就好了。在加入消息队列和Elasticsearch之后，我们这个排查程序的架构图也会有所改变：
 
-![](https://static001.geekbang.org/resource/image/ae/7a/ae25d911a438dc8ca1adb816595a787a.jpg?wh=1142%2A466)
+![](https://static001.geekbang.org/resource/image/ae/7a/ae25d911a438dc8ca1adb816595a787a.jpg?wh=1142%2A466){: referrerpolicy="no-referrer" }
 
 我来总结一下，为了排查单次请求响应时间长的原因，我们主要做了哪些事情：
 
@@ -134,7 +134,7 @@ public class Tracer {
 
 比如，你的请求从用户端过来，先到达A服务，A服务会分别调用B和C服务，B服务又会调用D和E服务。
 
-![](https://static001.geekbang.org/resource/image/ba/10/ba9e63bbcccd910df41b75b925ad5910.jpg?wh=1142%2A689)
+![](https://static001.geekbang.org/resource/image/ba/10/ba9e63bbcccd910df41b75b925ad5910.jpg?wh=1142%2A689){: referrerpolicy="no-referrer" }
 
 我来给你讲讲图中的内容：
 

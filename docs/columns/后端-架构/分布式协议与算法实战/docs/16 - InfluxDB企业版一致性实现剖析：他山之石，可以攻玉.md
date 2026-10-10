@@ -67,7 +67,7 @@ time                host     location system user
 
 我想说的是，一个节点接收到写请求时，需要将写请求中的数据转发一份到其他副本所在的节点，那么在这个过程中，远程RPC通讯是可能会失败的，比如网络不通了，目标节点宕机了，等等，就像下图的样子。
 
-![](https://static001.geekbang.org/resource/image/d1/85/d1ee3381b7ae527cbc9d607d1a1f8385.jpg?wh=1142%2A696 "图1")
+![](https://static001.geekbang.org/resource/image/d1/85/d1ee3381b7ae527cbc9d607d1a1f8385.jpg?wh=1142%2A696 "图1"){: referrerpolicy="no-referrer" }
 
 那么如何处理这种情况呢？答案是实现Hinted-handoff。在InfluxDB企业版中，Hinted-handoff是这样实现的:
 
@@ -83,9 +83,9 @@ time                host     location system user
 
 需要你注意的是，时序数据虽然一致性不敏感，能容忍短暂的不一致，但如果查询的数据长期不一致的话，肯定就不行了，因为这样就会出现“Flapping Dashboard”的现象，也就是说向不同节点查询数据，生成的仪表盘视图不一样，就像图2和图3的样子。
 
-![](https://static001.geekbang.org/resource/image/53/3c/535208a278935bc490e0d4f50f2ca13c.png?wh=1142%2A477 "图2")
+![](https://static001.geekbang.org/resource/image/53/3c/535208a278935bc490e0d4f50f2ca13c.png?wh=1142%2A477 "图2"){: referrerpolicy="no-referrer" }
 
-![](https://static001.geekbang.org/resource/image/7c/21/7cc5f061f62854caa1d31aed586c8321.png?wh=1142%2A477 "图3")  
+![](https://static001.geekbang.org/resource/image/7c/21/7cc5f061f62854caa1d31aed586c8321.png?wh=1142%2A477 "图3")  {: referrerpolicy="no-referrer" }
 从上面的2个监控视图中你可以看到，同一份数据，查询不同的节点，生成的视图是不一样的。那么，如何实现最终一致性呢？
 
 答案就是咱们刚刚说的反熵，而我在[11讲](https://time.geekbang.org/column/article/208182)以自研InfluxDB系统为例介绍过反熵的实现，InfluxDB企业版类似，所以在这里就不啰嗦了。

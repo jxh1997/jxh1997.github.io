@@ -84,7 +84,7 @@ CPython使用引用计数来管理内存，所有Python脚本中创建的实例�
 
 下面这张图，就是一个GIL在Python程序的工作示例。其中，Thread 1、2、3轮流执行，每一个线程在开始执行时，都会锁住GIL，以阻止别的线程执行；同样的，每一个线程执行完一段后，会释放GIL，以允许别的线程开始利用资源。
 
-![](https://static001.geekbang.org/resource/image/db/8d/dba8e4a107829d0b72ea513be34fe18d.png?wh=720%2A272)
+![](https://static001.geekbang.org/resource/image/db/8d/dba8e4a107829d0b72ea513be34fe18d.png?wh=720%2A272){: referrerpolicy="no-referrer" }
 
 细心的你可能会发现一个问题：为什么Python线程会去主动释放GIL呢？毕竟，如果仅仅是要求Python线程在开始执行时锁住GIL，而永远不去释放GIL，那别的线程就都没有了运行的机会。
 
@@ -92,7 +92,7 @@ CPython使用引用计数来管理内存，所有Python脚本中创建的实例�
 
 不同版本的Python中，check interval的实现方式并不一样。早期的Python是100个ticks，大致对应了1000个bytecodes；而 Python 3以后，interval是15毫秒。当然，我们不必细究具体多久会强制释放GIL，这不应该成为我们程序设计的依赖条件，我们只需明白，CPython解释器会在一个“合理”的时间范围内释放GIL就可以了。
 
-![](https://static001.geekbang.org/resource/image/42/88/42791f4cf34c0a784f466be22efeb388.png?wh=646%2A160)
+![](https://static001.geekbang.org/resource/image/42/88/42791f4cf34c0a784f466be22efeb388.png?wh=646%2A160){: referrerpolicy="no-referrer" }
 
 整体来说，每一个Python线程都是类似这样循环的封装，我们来看下面这段代码：
 

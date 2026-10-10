@@ -32,13 +32,13 @@
 
 **CAP理论**指的就是，在分布式系统中C、A、P这三个特征不能同时满足，只能满足其中两个，如下图所示。这，是不是有点像分布式系统在说，这顶“帽子”我不想要呢？
 
-![](https://static001.geekbang.org/resource/image/85/b0/8544ff09258cea4d6d0c6e01cc2aa2b0.png?wh=678%2A613)
+![](https://static001.geekbang.org/resource/image/85/b0/8544ff09258cea4d6d0c6e01cc2aa2b0.png?wh=678%2A613){: referrerpolicy="no-referrer" }
 
 接下来，我就通过一个例子和你进一步解释下，**什么是CAP以及CAP为什么不能同时满足**吧。
 
 如下图所示，网络中有两台服务器Server1和Server2，分别部署了数据库DB1和DB2，这两台机器组成一个服务集群，DB1和DB2两个数据库中的数据要保持一致，共同为用户提供服务。用户User1可以向Server1发起查询数据的请求，用户User2可以向服务器Server2发起查询数据的请求，它们共同组成了一个分布式系统。
 
-![](https://static001.geekbang.org/resource/image/b3/a8/b335fa77228eb37d6f3596f9419a05a8.png?wh=423%2A305)
+![](https://static001.geekbang.org/resource/image/b3/a8/b335fa77228eb37d6f3596f9419a05a8.png?wh=423%2A305){: referrerpolicy="no-referrer" }
 
 对这个系统来说，分别满足C、A和P指的是：
 
@@ -52,7 +52,7 @@
 2. 系统会进行数据同步，即图中的S操作，将Server1中DB1的修改同步到服务器Server2中，使得DB2中的数据a也被修改为2；
 3. 当User2向Server2发起读取数据a的请求时，会得到a最新的数据值2。
 
-![](https://static001.geekbang.org/resource/image/c7/c5/c700058c70793b7dbe721e7f15d574c5.png?wh=591%2A494)
+![](https://static001.geekbang.org/resource/image/c7/c5/c700058c70793b7dbe721e7f15d574c5.png?wh=591%2A494){: referrerpolicy="no-referrer" }
 
 这其实是在网络环境稳定、系统无故障的情况下的工作流程。但在实际场景中，网络环境不可能百分之百不出故障，比如网络拥塞、网卡故障等，会导致网络故障或不通，从而导致节点之间无法通信，或者集群中节点被划分为多个分区，分区中的节点之间可通信，分区间不可通信。
 
@@ -66,11 +66,11 @@
 
 **第一种处理方式是，**保证一致性C，牺牲可用性A：Server2选择让User2的请求阻塞，一直等到网络恢复正常，Server1被修改的数据同步更新到Server2之后，即DB2中数据a修改成最新值2后，再给用户User2响应。
 
-![](https://static001.geekbang.org/resource/image/6e/4f/6ec73c1d7061afe932f0a850547a854f.png?wh=595%2A499)
+![](https://static001.geekbang.org/resource/image/6e/4f/6ec73c1d7061afe932f0a850547a854f.png?wh=595%2A499){: referrerpolicy="no-referrer" }
 
 **第二种处理方式是，**保证可用性A，牺牲一致性C：Server2选择将旧的数据a=1返回给用户，等到网络恢复，再进行数据同步。
 
-![](https://static001.geekbang.org/resource/image/51/11/518102b750f1dc43d58256eac9776611.png?wh=595%2A496)
+![](https://static001.geekbang.org/resource/image/51/11/518102b750f1dc43d58256eac9776611.png?wh=595%2A496){: referrerpolicy="no-referrer" }
 
 除了以上这两种方案，没有其他方案可以选择。可以看出：在满足分区容错性P的前提下，一致性C和可用性A只能选择一个，无法同时满足。
 
@@ -108,7 +108,7 @@
 
 首先，我们看一下ZooKeeper架构图。
 
-![](https://static001.geekbang.org/resource/image/92/2b/9284b9f7bb413bdb80032866b106d42b.png?wh=1729%2A554)
+![](https://static001.geekbang.org/resource/image/92/2b/9284b9f7bb413bdb80032866b106d42b.png?wh=1729%2A554){: referrerpolicy="no-referrer" }
 
 备注：此图引自[ZooKeeper官网](https://zookeeper.apache.org/doc/current/zookeeperOver.html)。
 
@@ -121,7 +121,7 @@ ZooKeeper集群包含多个节点（Server），这些节点会通过分布式�
 
 具体示意图如下所示：
 
-![](https://static001.geekbang.org/resource/image/ef/fb/ef48459152db9be2db80dc3e9e6b92fb.png?wh=1729%2A736)
+![](https://static001.geekbang.org/resource/image/ef/fb/ef48459152db9be2db80dc3e9e6b92fb.png?wh=1729%2A736){: referrerpolicy="no-referrer" }
 
 当出现网络分区时，如果其中一个分区的节点数大于集群总节点数的一半，那么这个分区可以再选出一个Leader，仍然对用户提供服务，但在选出Leader之前，不能正常为用户提供服务；如果形成的分区中，没有一个分区的节点数大于集群总节点数的一半，那么系统不能正常为用户提供服务，必须待网络恢复后，才能正常提供服务。
 
@@ -141,7 +141,7 @@ ZooKeeper集群包含多个节点（Server），这些节点会通过分布式�
 
 当然，待网络恢复后，服务器A和B的数据会同步到C，C更新数据为59，最终三台服务器数据保持一致，用户刷新一下查询界面或重新提交一下查询，就可以得到最新的数据。而对用户来说，他们并不会感知到前后数据的差异，到底是因为其他用户购买导致的，还是因为网络故障导致数据不同步而产生的。
 
-![](https://static001.geekbang.org/resource/image/45/90/45a06d5dae3b859011bfc77b27bde290.png?wh=664%2A493)
+![](https://static001.geekbang.org/resource/image/45/90/45a06d5dae3b859011bfc77b27bde290.png?wh=664%2A493){: referrerpolicy="no-referrer" }
 
 当然，你可能会说，为什么上海服务器不能等网络恢复后，再响应用户请求呢？可以想象一下，如果用户提交一个查询请求，需要等上几分钟、几小时才能得到反馈，那么用户早已离去了。
 
@@ -153,7 +153,7 @@ ZooKeeper集群包含多个节点（Server），这些节点会通过分布式�
 
 保CA弃P、保CP弃A和保AP弃C这三种策略，以方便你记忆和理解。
 
-![](https://static001.geekbang.org/resource/image/1b/45/1b961be4510d86f52eb1c4d60c40d945.jpg?wh=3638%2A1348)
+![](https://static001.geekbang.org/resource/image/1b/45/1b961be4510d86f52eb1c4d60c40d945.jpg?wh=3638%2A1348){: referrerpolicy="no-referrer" }
 
 ## 知识扩展：CAP和ACID的“C”“A”是一样的吗？
 
@@ -179,7 +179,7 @@ ZooKeeper集群包含多个节点（Server），这些节点会通过分布式�
 
 最后，我再通过一张思维导图来归纳一下今天的核心知识点吧。
 
-![](https://static001.geekbang.org/resource/image/79/66/7986206234a8f0477cfe0cd7b639db66.png?wh=2060%2A1446)
+![](https://static001.geekbang.org/resource/image/79/66/7986206234a8f0477cfe0cd7b639db66.png?wh=2060%2A1446){: referrerpolicy="no-referrer" }
 
 相信通过今天的学习，你不仅对CAP理论有了更深刻的认识，并且可以针对不同场景采用哪种策略给出自己的建议。加油，行动起来，为你的业务场景选择一种合适的策略，来指导分布式系统的设计吧。相信你，一定可以的！
 

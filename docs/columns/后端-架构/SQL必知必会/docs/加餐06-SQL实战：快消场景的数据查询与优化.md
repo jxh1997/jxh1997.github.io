@@ -7,27 +7,27 @@
 ## **数据表**
 
 - **订单表 orders**  
-  ![](https://static001.geekbang.org/resource/image/0f/b1/0f331b0d7d23b90fd78ce6cbb0d69cb1.jpg?wh=1798x1520)
+  ![](https://static001.geekbang.org/resource/image/0f/b1/0f331b0d7d23b90fd78ce6cbb0d69cb1.jpg?wh=1798x1520){: referrerpolicy="no-referrer" }
 
 <!--THE END-->
 
 - **订单明细表 order\_details**  
-  ![](https://static001.geekbang.org/resource/image/05/a1/05f2a4bc77b0aa12aed302dbb18f77a1.jpg?wh=1800x810)
+  ![](https://static001.geekbang.org/resource/image/05/a1/05f2a4bc77b0aa12aed302dbb18f77a1.jpg?wh=1800x810){: referrerpolicy="no-referrer" }
 
 <!--THE END-->
 
 - **产品表 products**  
-  ![](https://static001.geekbang.org/resource/image/37/e5/374ec704448b03f990a0d7a9fyy402e5.jpg?wh=1802x1220)
+  ![](https://static001.geekbang.org/resource/image/37/e5/374ec704448b03f990a0d7a9fyy402e5.jpg?wh=1802x1220){: referrerpolicy="no-referrer" }
 
 <!--THE END-->
 
 - **门店表 stores**  
-  ![](https://static001.geekbang.org/resource/image/68/fa/6832ccaba343ab13b05c1a4d95c576fa.jpg?wh=1808x1502)
+  ![](https://static001.geekbang.org/resource/image/68/fa/6832ccaba343ab13b05c1a4d95c576fa.jpg?wh=1808x1502){: referrerpolicy="no-referrer" }
 
 <!--THE END-->
 
 - **会员表 (members)**  
-  ![](https://static001.geekbang.org/resource/image/f8/a0/f8eaba74a4a4219a693e12911ae646a0.jpg?wh=1820x1222)
+  ![](https://static001.geekbang.org/resource/image/f8/a0/f8eaba74a4a4219a693e12911ae646a0.jpg?wh=1820x1222){: referrerpolicy="no-referrer" }
 
 ## **问题设定**
 

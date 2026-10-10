@@ -6,7 +6,7 @@ Vue和React都是Web前端工程师必学必会的框架，在企业中有着广
 
 ## 初识Vue
 
-![](https://static001.geekbang.org/resource/image/40/8e/40c2c374d4630be6f1e2c7178374f48e.jpg?wh=2890x584)
+![](https://static001.geekbang.org/resource/image/40/8e/40c2c374d4630be6f1e2c7178374f48e.jpg?wh=2890x584){: referrerpolicy="no-referrer" }
 
 Vue是一款用于构建用户界面的 JavaScript 框架。它基于标准 HTML、CSS 和 JavaScript 构建，并提供了一套声明式的、组件化的编程模型。无论是简单还是复杂的界面，Vue 都可以胜任，可以说是我们高效开发用户界面的一大利器。
 
@@ -24,7 +24,7 @@ Vue有三个核心特性。
 
 下面是Vue-cli脚手架项目目录，也是我们课程开发中用的标准框架。
 
-![](https://static001.geekbang.org/resource/image/d9/33/d983e4c670f3380c1872377dff31fa33.jpg?wh=3000x1580)
+![](https://static001.geekbang.org/resource/image/d9/33/d983e4c670f3380c1872377dff31fa33.jpg?wh=3000x1580){: referrerpolicy="no-referrer" }
 
 通过脚手架的搭建，我们可以快速地实现开发。在脚手架搭建过程中，首先保证你的本地是有配置安装Node.js的环境，Node.js 就是运行在服务端的 JavaScript。是一个基于Chrome JavaScript 运行时建立的一个平台。是一个事件驱动I/O服务端JavaScript环境，基于Google的V8引擎，V8引擎执行Javascript的速度非常快，性能非常好。下面我也给你写了安装的地址：
 
@@ -32,7 +32,7 @@ Vue有三个核心特性。
 
 你直接根据自己电脑的系统，直接下载LTS稳定版本就可以了。
 
-![](https://static001.geekbang.org/resource/image/e8/22/e8f01e8854byyc12bdf424efcc360122.jpg?wh=2046x1288)
+![](https://static001.geekbang.org/resource/image/e8/22/e8f01e8854byyc12bdf424efcc360122.jpg?wh=2046x1288){: referrerpolicy="no-referrer" }
 
 在Node.js安装成功之后，我们还需要使用到一个工具，也就是NPM。NPM是随同NodeJS一起安装的包管理工具，能解决NodeJS代码部署上的很多问题，常见的使用场景有以下几种。
 
@@ -77,7 +77,7 @@ npm run dev //这是启动命令，在对应的项目路径下执行就可以
 ```
 
 这样我们的脚手架就搭建成功了。下面我用表格的形式目录里梳理了每个文件的作用，供你参考。  
-![](https://static001.geekbang.org/resource/image/a6/49/a68c73dcdcca5d1b5eda68194aa5f049.jpg?wh=3820x2361)
+![](https://static001.geekbang.org/resource/image/a6/49/a68c73dcdcca5d1b5eda68194aa5f049.jpg?wh=3820x2361){: referrerpolicy="no-referrer" }
 
 了解了Vue的目录结构及其作用之后，我们就可以进一步学习Vue的核心技术了。
 
@@ -85,7 +85,7 @@ npm run dev //这是启动命令，在对应的项目路径下执行就可以
 
 你可以先看一下Vue的知识地图，一共有六个部分。
 
-![图片](https://static001.geekbang.org/resource/image/dd/4e/dd90992633bf4c19d13bcd4621a8ed4e.png?wh=1920x515)
+![图片](https://static001.geekbang.org/resource/image/dd/4e/dd90992633bf4c19d13bcd4621a8ed4e.png?wh=1920x515){: referrerpolicy="no-referrer" }
 
 虽然看着有点多，但不用担心，跟着我的讲解和示例代码，你很快就能理解。
 
@@ -197,9 +197,9 @@ export default {
 
 如下图所示，Vue组件的生命周期中有8个常用的钩子函数（音频里我对每个函数做了更详细的讲解，你可以仔细听一下）。
 
-![](https://static001.geekbang.org/resource/image/a1/50/a14e2828af0d187fec049d83a6fdda50.jpg?wh=1556x887)
+![](https://static001.geekbang.org/resource/image/a1/50/a14e2828af0d187fec049d83a6fdda50.jpg?wh=1556x887){: referrerpolicy="no-referrer" }
 
-![](https://static001.geekbang.org/resource/image/82/fa/827f0b3ff901e86902783e9aa13ccefa.jpg?wh=3604x2260)  
+![](https://static001.geekbang.org/resource/image/82/fa/827f0b3ff901e86902783e9aa13ccefa.jpg?wh=3604x2260)  {: referrerpolicy="no-referrer" }
 为了让你进一步理解这些函数，我为你准备了相关代码。运行之后，你就能看到生命周期钩子函数的执行先后顺序。
 
 ```javascript
@@ -450,7 +450,7 @@ export default {
 
 执行结果如下。
 
-![](https://static001.geekbang.org/resource/image/6b/9a/6bc9daf2913fef33cbca49eebe6bca9a.jpg?wh=2444x1043)
+![](https://static001.geekbang.org/resource/image/6b/9a/6bc9daf2913fef33cbca49eebe6bca9a.jpg?wh=2444x1043){: referrerpolicy="no-referrer" }
 
 #### watch 监听属性
 
@@ -490,11 +490,11 @@ export default {
 
 为了让你明确路由是什么，我举个例子。当我们打开一个网站，经常会跳转到其他的页面。“路由”的作用就是控制页面的地址和显示页面的关系。比如百度新闻 [news.baidu.com](https://news.baidu.com) 是一个网站，页面中会有很多可以点击的新闻。
 
-![](https://static001.geekbang.org/resource/image/af/4a/afd1d159f3e7dc86f63e398cf0b60f4a.jpg?wh=2874x1714)
+![](https://static001.geekbang.org/resource/image/af/4a/afd1d159f3e7dc86f63e398cf0b60f4a.jpg?wh=2874x1714){: referrerpolicy="no-referrer" }
 
 比方说，点击热搜新闻词下的“从全国两会看民生新图景”就会来到一个新的页面，地址是 [https://www.baidu.com/s?wd=从全国两会看民生新图景](https://www.baidu.com/s?wd=%E4%BB%8E%E5%85%A8%E5%9B%BD%E4%B8%A4%E4%BC%9A%E7%9C%8B%E6%B0%91%E7%94%9F%E6%96%B0%E5%9B%BE%E6%99%AF)。
 
-![](https://static001.geekbang.org/resource/image/a9/80/a9114c65032d391e4dfd394f31f17180.jpg?wh=2516x1514)
+![](https://static001.geekbang.org/resource/image/a9/80/a9114c65032d391e4dfd394f31f17180.jpg?wh=2516x1514){: referrerpolicy="no-referrer" }
 
 点击其他词条也是一样的效果，都会跳转到一个新的页面。
 

@@ -73,7 +73,7 @@ Django的库完整、架构设计严密这些优点，注定了它非常适用�
 
 我们在后端开发中使用Pycharm这个工具，你可以直接到 [Pycharm的官网](https://www.jetbrains.com/zh-cn/pycharm/)。它的安装比较简单，你根据教程一步步操作就能搞定。这里我们需要选择community，也就是社区版本。
 
-![图片](https://static001.geekbang.org/resource/image/f7/fd/f7699c319aaf1f36e63f47e97f7af9fd.png?wh=1920x712)
+![图片](https://static001.geekbang.org/resource/image/f7/fd/f7699c319aaf1f36e63f47e97f7af9fd.png?wh=1920x712){: referrerpolicy="no-referrer" }
 
 ## 第二步：配置Pycharm的编译环境
 
@@ -85,7 +85,7 @@ Django的库完整、架构设计严密这些优点，注定了它非常适用�
 
 接下来就是安装环节。在Pycharm下方，有一个Terminal按钮，点击之后，就会弹出后面截图里的对话框。
 
-![](https://static001.geekbang.org/resource/image/54/58/549b74760c5cd1f1e8e8768649533658.jpg?wh=2000x524)
+![](https://static001.geekbang.org/resource/image/54/58/549b74760c5cd1f1e8e8768649533658.jpg?wh=2000x524){: referrerpolicy="no-referrer" }
 
 我们使用pip命令来安装，在下方的终端——Terminal输入命令行即可。
 
@@ -101,15 +101,15 @@ pip install flask
 
 接下来，我们看看这个项目需要的Python Package。我们先把基础的几个文件夹建好。每个文件夹的作用你可以参考后面的表格，之后我们有其他需要再创建即可。我画了一张表，帮你梳理了整个api文件下的项目目录。
 
-![](https://static001.geekbang.org/resource/image/3f/72/3f58f4678cd2a186f5dc1957fb4a9772.jpg?wh=3030x2030)
+![](https://static001.geekbang.org/resource/image/3f/72/3f58f4678cd2a186f5dc1957fb4a9772.jpg?wh=3030x2030){: referrerpolicy="no-referrer" }
 
 后面是对应的项目目录图，你可以对照图片来了解文件之间的层级关系。
 
-![](https://static001.geekbang.org/resource/image/f5/83/f58737d7d40b99029811fb70d0221183.jpg?wh=2600x509)![](https://static001.geekbang.org/resource/image/43/55/43a12e9e0642f2e4f1dc0f43b18d3255.jpg?wh=2000x487)
+![](https://static001.geekbang.org/resource/image/f5/83/f58737d7d40b99029811fb70d0221183.jpg?wh=2600x509)![](https://static001.geekbang.org/resource/image/43/55/43a12e9e0642f2e4f1dc0f43b18d3255.jpg?wh=2000x487){: referrerpolicy="no-referrer" }
 
 对于model文件夹中的内容，主要存放的是admin，video，message等项目文件。
 
-![](https://static001.geekbang.org/resource/image/f0/6f/f06617057f4de15279f1dbe8f31ca86f.jpg?wh=2463x678)
+![](https://static001.geekbang.org/resource/image/f0/6f/f06617057f4de15279f1dbe8f31ca86f.jpg?wh=2463x678){: referrerpolicy="no-referrer" }
 
 下面进入实战环节，我们通过简单的案例尝试在浏览器中输出打印hello word，借此感受一下Flask的魅力。
 
@@ -128,10 +128,10 @@ if __name__ == '__main__':
 请注意，写在最后的if **name** == ‘**main**’ 方法中 **name** 表示当前模块名，如果是直接运行的Python脚本，则为 **main**，所以该判断语句整体的作用是判断当前模块是否为主模块，如果是则执行下面的语句。
 
 接着，我们一起来看看运行结果，运行完前面那段代码，在Pycharm的终端就会显示后面截图这样的运行结果，生成一个URL。  
-![](https://static001.geekbang.org/resource/image/da/32/da4f8b0a32262d0d15361c26cf956632.jpg?wh=2000x487)
+![](https://static001.geekbang.org/resource/image/da/32/da4f8b0a32262d0d15361c26cf956632.jpg?wh=2000x487){: referrerpolicy="no-referrer" }
 
 紧接着，你需要在浏览器中输入该地址，然后就可以看到对应的效果了。  
-![](https://static001.geekbang.org/resource/image/70/bb/70c246ea391547380e0418b999db79bb.jpg?wh=1623x554)
+![](https://static001.geekbang.org/resource/image/70/bb/70c246ea391547380e0418b999db79bb.jpg?wh=1623x554){: referrerpolicy="no-referrer" }
 
 到这里，我们就完成了Flask框架的搭建，并且完成了一个简单的案例测试。建议你在课后用配套代码亲自动手练习一下，这样学习效果会更好。
 

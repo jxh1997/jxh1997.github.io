@@ -16,7 +16,7 @@ ClickHouse的集群配置则非常灵活，你可以将所有的物理服务器�
 
 这时候我们就可以用一个大的逻辑集群，假设为A，把所有机房的服务器都包含在内，这样我们就只需要查询这个大的逻辑集群，就能一次将数据全部查出来。
 
-![图片](https://static001.geekbang.org/resource/image/87/d6/8732e76c4f79c218a3c83879f25c7fd6.png?wh=1776x1072)
+![图片](https://static001.geekbang.org/resource/image/87/d6/8732e76c4f79c218a3c83879f25c7fd6.png?wh=1776x1072){: referrerpolicy="no-referrer" }
 
 ClickHouse集群的配置很简单，只需要修改配置文件/etc/clickhouse-server/config.xml，在配置文件的&lt;remote\_servers&gt;标签下，增加集群的节点配置即可。比如下面的配置片段，就描述了我们上图中第2种集群划分的方式。
 
@@ -153,7 +153,7 @@ CREATE TABLE [IF NOT EXISTS] [db.]table_name [ON CLUSTER cluster] AS [db2.]name2
 
 此外，还有一些setting参数，用来配置数据插入后，是同步还是异步写入到其他分布式节点，是否立即刷新到磁盘等。
 
-![图片](https://static001.geekbang.org/resource/image/2f/1c/2f8d0baebcc02a388fcd9c19d5b4d91c.png?wh=1506x772)
+![图片](https://static001.geekbang.org/resource/image/2f/1c/2f8d0baebcc02a388fcd9c19d5b4d91c.png?wh=1506x772){: referrerpolicy="no-referrer" }
 
 使用分布式表将数据分片存储后，意味着每个服务器节点都只是存储了表的一部分数据，这样又会带来数据单点的问题，如果一个节点出现故障，表数据就不可用，甚至丢失，该怎么办呢？不用担心，ClickHouse也提供了多副本机制，来保障数据的高可用。
 
@@ -190,7 +190,7 @@ ClickHouse同样可以在配置文件/etc/clickhouse-server/config.xml中配置�
 
 配置好副本之后，在我们上面的例子中，数据的写入，包括原分片数据与副本数据，都会由Distributed节点写入，像下面这张图。
 
-![图片](https://static001.geekbang.org/resource/image/38/2b/38334a957a1cce13ffcd43ef5bedc62b.png?wh=1568x778)
+![图片](https://static001.geekbang.org/resource/image/38/2b/38334a957a1cce13ffcd43ef5bedc62b.png?wh=1568x778){: referrerpolicy="no-referrer" }
 
 显然，这种情况下，Distributed节点需要同时负责分片数据与副本数据的写入，复杂度大大提升，网络压力也很大，很容易就成为瓶颈。
 
@@ -200,7 +200,7 @@ ClickHouse同样可以在配置文件/etc/clickhouse-server/config.xml中配置�
 
 第二种就是利用ClickHouse的Replicate机制，不过只有MergeTree系列表引擎支持。
 
-![图片](https://static001.geekbang.org/resource/image/65/1f/65ae2f7fd561b1f9d5222cce9562681f.png?wh=1700x714)
+![图片](https://static001.geekbang.org/resource/image/65/1f/65ae2f7fd561b1f9d5222cce9562681f.png?wh=1700x714){: referrerpolicy="no-referrer" }
 
 你可以看到上面这个图，我们只需要在MergeTree系列表引擎前面加一个Replicated前缀，就可以开启表的多副本。使用之前需要调整一下/etc/clickhouse-server/config.xml文件的配置。
 
@@ -256,7 +256,7 @@ ORDER BY (event_time,event_type);
 
 这个时候，如果我们向分布式表插入数据，副本的数据就由节点之间自行复制了。下面这个图对比了一下通过Distribute引擎直接写入多副本，与通过ReplicatedMergeTree系列表引擎写入多副本的区别。
 
-![图片](https://static001.geekbang.org/resource/image/fc/3b/fc3b9e4835b2a57b3c2c0ab63fcc913b.png?wh=1922x830)
+![图片](https://static001.geekbang.org/resource/image/fc/3b/fc3b9e4835b2a57b3c2c0ab63fcc913b.png?wh=1922x830){: referrerpolicy="no-referrer" }
 
 ClickHouse的多副本，除了用来容灾之外，还可以提升查询的并发，也就是每个副本都可以承担数据查询的职责。
 
@@ -276,11 +276,11 @@ ClickHouse的副本并不是全局的，而是表级别的，所以如果一个�
 
 CK-1节点数据：
 
-![图片](https://static001.geekbang.org/resource/image/6a/c4/6aab8121e0edea8b2b7db6218a5d60c4.png?wh=2352x636)
+![图片](https://static001.geekbang.org/resource/image/6a/c4/6aab8121e0edea8b2b7db6218a5d60c4.png?wh=2352x636){: referrerpolicy="no-referrer" }
 
 CK-2节点数据：
 
-![图片](https://static001.geekbang.org/resource/image/cb/a2/cb18813af205420ba1316251ed5000a2.png?wh=2352x636)
+![图片](https://static001.geekbang.org/resource/image/cb/a2/cb18813af205420ba1316251ed5000a2.png?wh=2352x636){: referrerpolicy="no-referrer" }
 
 现在要找出同时存在click与pay事件的用户。
 

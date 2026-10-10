@@ -12,7 +12,7 @@ MongoDB 在分片之后肯定会有一些机制来保证查询能够准确找到
 
 而MongoDB 也需要考虑类似的问题。在 MongoDB 里面，有一类实例叫做 mongos，这些实例就是负责路由查询到目标表上，还有合并结果集。
 
-![图片](https://static001.geekbang.org/resource/image/71/62/717ef05ee34e5c413b5a27c479626062.png?wh=1920x1017)
+![图片](https://static001.geekbang.org/resource/image/71/62/717ef05ee34e5c413b5a27c479626062.png?wh=1920x1017){: referrerpolicy="no-referrer" }
 
 而在分库分表中，计算目标表是分库分表中间件或者分库分表代理完成的。
 
@@ -62,7 +62,7 @@ MongoDB 在分片之后肯定会有一些机制来保证查询能够准确找到
 
 > 之前我做过一个很简单的优化。我们早期有一个业务查询，就是把整个文档都加载起来。后面我发现，这个查询的调用者大部分其实不需要整个文档，只需要里面的几个字段。所以我就额外提供了一个新的查询接口，这个查询接口只会返回部分字段。这样优化之后，大部分查询都是改用新接口，MongoDB 也不需要把整个文档都加载出来，性能提升了至少 30%。
 
-![图片](https://static001.geekbang.org/resource/image/46/ec/46ae44ff3a5b86372f1f266e380ed9ec.png?wh=1920x1017)
+![图片](https://static001.geekbang.org/resource/image/46/ec/46ae44ff3a5b86372f1f266e380ed9ec.png?wh=1920x1017){: referrerpolicy="no-referrer" }
 
 你可以进一步总结升华一下。
 
@@ -74,7 +74,7 @@ MongoDB 在分片之后肯定会有一些机制来保证查询能够准确找到
 
 可想而知，如果内存排序，再叠加分页查询的话，性能就会更差。比如说你要查询 `skip(100000).limit(100)`，那么最坏的情况下，MongoDB 要把所有的文件都加载到内存里进行排序，然后找到从 100000 开始的 100 条数据。
 
-![图片](https://static001.geekbang.org/resource/image/f5/23/f599936ed3ff59056f40b0a5cf703f23.png?wh=1920x773)
+![图片](https://static001.geekbang.org/resource/image/f5/23/f599936ed3ff59056f40b0a5cf703f23.png?wh=1920x773){: referrerpolicy="no-referrer" }
 
 优化的思路也类似于之前在 MySQL 里面讲的。第一种是把查询优化成利用索引来排序，可以考虑修改查询，也可以考虑修改索引。比如说你可以新建索引。
 
@@ -139,7 +139,7 @@ MongoDB 在分片之后肯定会有一些机制来保证查询能够准确找到
 
 相当于原本 A 文档和 B 文档都是单独存储的，可能在 A 文档里面有一个 B 文档的 ID 字段，又或者在 B 文档里有 A 的文档 ID。那么你可以考虑合并这两个文档。
 
-![图片](https://static001.geekbang.org/resource/image/2b/24/2b7791226945c7d33c3724c43ec42524.png?wh=1920x654)
+![图片](https://static001.geekbang.org/resource/image/2b/24/2b7791226945c7d33c3724c43ec42524.png?wh=1920x654){: referrerpolicy="no-referrer" }
 
 你可以这么介绍你的方案。
 
@@ -153,7 +153,7 @@ MongoDB 在分片之后肯定会有一些机制来保证查询能够准确找到
 >    
 > 我这个业务有一个好处，就是没有直接更新 B 文档的场景，都是通过 A 来操作 B 文档，所以并不需要考虑其他的并发问题。
 
-![图片](https://static001.geekbang.org/resource/image/5a/d3/5a1239149a71162cb47da2d3705d3fd3.png?wh=1920x1083)
+![图片](https://static001.geekbang.org/resource/image/5a/d3/5a1239149a71162cb47da2d3705d3fd3.png?wh=1920x1083){: referrerpolicy="no-referrer" }
 
 这种懒惰更新策略里的最后一步更新动作，实际上就是一个乐观锁。所以你可以尝试把话题引导到乐观锁上。
 
@@ -181,7 +181,7 @@ MongoDB 在分片之后肯定会有一些机制来保证查询能够准确找到
 
 最后还是想要再叮嘱你一下，在面试的时候要提前准备好优化方案，在面试过程中注意引导。不然如果面试官自由发挥，手写一个查询让你优化，撞上你不知道的手段或者你没有见过的案例，你就回答不出来了。
 
-![](https://static001.geekbang.org/resource/image/fc/47/fcd0a6d07e3f565d8d0a27e4f6588847.jpg?wh=1738x1397)
+![](https://static001.geekbang.org/resource/image/fc/47/fcd0a6d07e3f565d8d0a27e4f6588847.jpg?wh=1738x1397){: referrerpolicy="no-referrer" }
 
 ## 思考题
 

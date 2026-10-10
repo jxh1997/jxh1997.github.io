@@ -10,13 +10,13 @@
 
 了解过一些股票交易的同学，可能知道K线这种东西。K线又称“蜡烛线”，是一种反映价格走势的图线。它的特色在于，一个线段内记录了多项讯息，相当易读易懂且实用有效，因此被广泛用于股票、期货、贵金属、数字货币等行情的技术分析。下面便是一个K线示意图。
 
-![](https://static001.geekbang.org/resource/image/47/9b/470a68b8eaff3807efd89bc616e5659b.png?wh=730%2A320)
+![](https://static001.geekbang.org/resource/image/47/9b/470a68b8eaff3807efd89bc616e5659b.png?wh=730%2A320){: referrerpolicy="no-referrer" }
 
 K线示意图
 
 其中，每一个小蜡烛，都代表着当天的开盘价（Open）、最高价（High）、最低价（Low）和收盘价（Close），也就是我画的第二张图表示的这样。
 
-![](https://static001.geekbang.org/resource/image/58/57/58ce87e32aa4655211da02ce88223757.png?wh=1200%2A1200)
+![](https://static001.geekbang.org/resource/image/58/57/58ce87e32aa4655211da02ce88223757.png?wh=1200%2A1200){: referrerpolicy="no-referrer" }
 
 K线的“小蜡烛” -- OHLC
 
@@ -245,7 +245,7 @@ class Backtest:
 
 SMA，实质上就是对原始数组进行了一个简单平滑处理。比如，某支股票的价格波动很大，那么，我们用SMA平滑之后，就会得到下面这张图的效果。
 
-![](https://static001.geekbang.org/resource/image/b5/0f/b543927903fbbaa33980a2046651530f.png?wh=1204%2A706)
+![](https://static001.geekbang.org/resource/image/b5/0f/b543927903fbbaa33980a2046651530f.png?wh=1204%2A706){: referrerpolicy="no-referrer" }
 
 某个投资品价格的SMA，窗口大小为50
 
@@ -258,7 +258,7 @@ SMA，实质上就是对原始数组进行了一个简单平滑处理。比如�
 
 下面这幅图，就展示了这两种情况。
 
-![](https://static001.geekbang.org/resource/image/40/66/408ff342683f6ac1af798ba3d488c266.png?wh=1161%2A841)
+![](https://static001.geekbang.org/resource/image/40/66/408ff342683f6ac1af798ba3d488c266.png?wh=1161%2A841){: referrerpolicy="no-referrer" }
 
 明白了这里的概念和原理后，接下来的操作就不难了。利用Pandas，我们可以非常简单地计算SMA和SMA交叉。比如，你可以引入下面两个工具函数：
 

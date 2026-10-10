@@ -107,7 +107,7 @@ def streamkey_check():
 
 另一种情况是用户具备直播权限的情况，对应着前面从23行开始的代码，表示用户具备直播权限，系统要给用户返回对应前端需要的字段。具体字段含义你可以参考我梳理的表格。
 
-![](https://static001.geekbang.org/resource/image/1d/e3/1d54b64e34648fa33d8a445a07ff1ae3.jpg?wh=2686x1734)
+![](https://static001.geekbang.org/resource/image/1d/e3/1d54b64e34648fa33d8a445a07ff1ae3.jpg?wh=2686x1734){: referrerpolicy="no-referrer" }
 
 到这里。我们就完成了用户直播权限的认证处理的功能。
 
@@ -160,7 +160,7 @@ application stream-data {
 
 你可以参考后面的表格了解每一项配置的含义。
 
-![](https://static001.geekbang.org/resource/image/ac/6f/acffaa6bcb58789a77049dd025ed1c6f.jpg?wh=3733x2083)
+![](https://static001.geekbang.org/resource/image/ac/6f/acffaa6bcb58789a77049dd025ed1c6f.jpg?wh=3733x2083){: referrerpolicy="no-referrer" }
 
 以上配置的核心就是当用户要发起推流时，系统就会调用auth-user的接口来验证直播流以及直播间是否可用，一旦开始直播就会开启录制功能。
 
@@ -217,7 +217,7 @@ def user_auth_check():
 
 接下来是13行代码，用来判断直播流内容，确定是否为有效直播流。如果有效则给前端返回对应的参数信息msg，这里包含四个字段，含义你可以参考下表。
 
-![](https://static001.geekbang.org/resource/image/12/67/122d13cac51704b8d1e6aef99a6dd667.jpg?wh=2592x1466)
+![](https://static001.geekbang.org/resource/image/12/67/122d13cac51704b8d1e6aef99a6dd667.jpg?wh=2592x1466){: referrerpolicy="no-referrer" }
 
 21行的input\_location就是我们的RTMP推流地址。其中NGINX\_RTMP\_ADDRESS内容就是对应的服务器IP地址，这个是一个动态值，对应端口就是1935，后面拼接的就是直播的串流码。
 
@@ -233,7 +233,7 @@ OBS是一款免费的、开源的直播录制软件，适用于Windows、macOS�
 
 而且它整个操作也比较简单，我们直接到官网下载即可，你可以从文稿里获取对应的[下载链接](https://obsproject.com/download)。
 
-![](https://static001.geekbang.org/resource/image/7e/79/7e2c67a3851e15f815a3c3f60b4c8e79.jpg?wh=2892x1598)  
+![](https://static001.geekbang.org/resource/image/7e/79/7e2c67a3851e15f815a3c3f60b4c8e79.jpg?wh=2892x1598)  {: referrerpolicy="no-referrer" }
 这里我格外提醒一下，Windows的用户直接下载就行。而对于macOS用户，我们需要注意：
 
 如果你的Mac电脑是Intel芯片，可以选择下载OBS Studio的Intel版本。这个版本是为Intel处理器优化的，可以为我们提供更好的性能和兼容性。
@@ -244,15 +244,15 @@ OBS是一款免费的、开源的直播录制软件，适用于Windows、macOS�
 
 第一步我们要在界面当中选择设置，具体的效果图如下。
 
-![](https://static001.geekbang.org/resource/image/2c/51/2c9bcd4a69437bcfce90c18a81c0c451.jpg?wh=3600x2615)
+![](https://static001.geekbang.org/resource/image/2c/51/2c9bcd4a69437bcfce90c18a81c0c451.jpg?wh=3600x2615){: referrerpolicy="no-referrer" }
 
 第二步，在点击设置去选择推流选项，这里的服务器地址就是你后端接口返回来的RTMP推流地址，也就是前面提到的input\_location.，串流密钥就是我们返回来的key。然后，我们点击确定就可以实现推流了。
 
-![](https://static001.geekbang.org/resource/image/a5/c7/a5a6b822b2887930697c07bfd0a69ec7.jpg?wh=3600x2552)
+![](https://static001.geekbang.org/resource/image/a5/c7/a5a6b822b2887930697c07bfd0a69ec7.jpg?wh=3600x2552){: referrerpolicy="no-referrer" }
 
 当然你也可以选择你要录制的内容，因为OBS目前默认设置是桌面录制，例如在上课场景中教师端分享桌面的功能。开始直播前，别忘了选择对应的音频输入，一般选择电脑的麦克风即可，具体的调节位置你可以参考后面的截图。
 
-![](https://static001.geekbang.org/resource/image/b2/7b/b22f6612face31673da9c3f72364d77b.jpg?wh=2620x771)  
+![](https://static001.geekbang.org/resource/image/b2/7b/b22f6612face31673da9c3f72364d77b.jpg?wh=2620x771)  {: referrerpolicy="no-referrer" }
 完成前面的配置，我们实现了在系统中直接发起直播，而并非手动配置启动。同时，我们也借助OBS的功能完成了音视频录制和直播推流。
 
 那接下来我们看看创建直播间的接口实现，这一步也非常重要，只有创建完直播间之后才能开启直播。
@@ -292,7 +292,7 @@ def channels():
 
 我们来梳理一下这段代码的含义。先看第4行到第13行，这一部分我们主要用来获取前端提交数据，具体字段含义你可以参考后面的表格。
 
-![](https://static001.geekbang.org/resource/image/4d/46/4d920f20c086dc08399688b090e36b46.jpg?wh=3172x1546)
+![](https://static001.geekbang.org/resource/image/4d/46/4d920f20c086dc08399688b090e36b46.jpg?wh=3172x1546){: referrerpolicy="no-referrer" }
 
 前端的数据中包含是否录制直播和是否默认进入直播间能聊天两个字段，这两个字段会根据用户的选择来确定最终值。
 

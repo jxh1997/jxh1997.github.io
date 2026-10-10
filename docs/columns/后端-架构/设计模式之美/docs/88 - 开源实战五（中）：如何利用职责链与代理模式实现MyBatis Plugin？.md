@@ -64,7 +64,7 @@ public class SqlCostTimeInterceptor implements Interceptor {
 
 默认情况下，MyBatis Plugin允许拦截的方法有下面这样几个：
 
-![](https://static001.geekbang.org/resource/image/cd/d1/cd0aae4a0758ac0913ad28988a6718d1.jpg?wh=1723%2A763)
+![](https://static001.geekbang.org/resource/image/cd/d1/cd0aae4a0758ac0913ad28988a6718d1.jpg?wh=1723%2A763){: referrerpolicy="no-referrer" }
 
 为什么默认允许拦截的是这样几个类的方法呢？
 

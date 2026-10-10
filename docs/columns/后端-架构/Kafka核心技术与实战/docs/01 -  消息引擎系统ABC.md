@@ -54,7 +54,7 @@
 
 最后我想送给你一句话：**聪明人也要下死功夫**。我不记得这是曾国藩说的还是季羡林说的，但这句话对我有很大影响，当我感到浮躁的时候它能帮我静下心来踏踏实实做事情。希望这句话对你也有所启发。切记：聪明人要下死功夫！
 
-![](https://static001.geekbang.org/resource/image/8b/26/8bc58bf5bb98db09fd6ef343e0f28826.jpg?wh=2069%2A2560)
+![](https://static001.geekbang.org/resource/image/8b/26/8bc58bf5bb98db09fd6ef343e0f28826.jpg?wh=2069%2A2560){: referrerpolicy="no-referrer" }
 
 ## 开放讨论
 

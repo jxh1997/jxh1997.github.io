@@ -12,7 +12,7 @@
 
 下图就展示了这两种集群节点信息维护的方法，你可以看下。
 
-![图片](https://static001.geekbang.org/resource/image/08/c7/08e25d1645b196f0143b495071d219c7.jpg?wh=1920x894)
+![图片](https://static001.geekbang.org/resource/image/08/c7/08e25d1645b196f0143b495071d219c7.jpg?wh=1920x894){: referrerpolicy="no-referrer" }
 
 我在[第一季](https://time.geekbang.org/column/article/310347)的“通信开销：限制Redis Cluster规模的关键因素”课程中，介绍过Gossip协议的工作机制，你可以去参考或回顾下。这里，我就简单介绍下Gossip协议的主要机制，来帮助你更好地理解接下来要学习的Gossip协议，在源码层面的设计与实现。
 
@@ -22,7 +22,7 @@
 
 当集群节点按照Gossip协议工作时，每个节点会以一定的频率从集群中随机挑选一些其他节点，把自身的信息和已知的其他节点信息，用PING消息发送给选出的节点。而其他节点收到PING消息后，也会把自己的信息和已知的其他节点信息，用PONG消息返回给发送节点，这个过程如下图所示：
 
-![图片](https://static001.geekbang.org/resource/image/44/1b/44b8b114acyy59f9eb5ac410a28fe01b.jpg?wh=1920x489)
+![图片](https://static001.geekbang.org/resource/image/44/1b/44b8b114acyy59f9eb5ac410a28fe01b.jpg?wh=1920x489){: referrerpolicy="no-referrer" }
 
 Gossip协议正是通过这种**随机挑选通信节点**的方法，让节点信息在整个集群中传播。当有节点维护的信息发生变化时，比如数据布局信息发生了改变，那么通过几轮通信后，其他节点也可以获得这一变化的信息了。这样一来，就实现了分布式集群所有节点维护一致的状态信息的目标。
 
@@ -243,7 +243,7 @@ while(freshnodes > 0 && gossipcount < wanted && maxiterations--) {
 
 我画了下面的这张图，展示了clusterSendPing函数的主体逻辑，你可以再回顾下。
 
-![图片](https://static001.geekbang.org/resource/image/e4/da/e4fd8037321e805027d604ee130c70da.jpg?wh=1920x1080)
+![图片](https://static001.geekbang.org/resource/image/e4/da/e4fd8037321e805027d604ee130c70da.jpg?wh=1920x1080){: referrerpolicy="no-referrer" }
 
 接下来，我们再来看下当节点收到Ping消息后的处理，也就是Pong消息的发送。
 
@@ -340,7 +340,7 @@ int clusterProcessPacket(clusterLink *link) {
 
 好了，到这里，我们就了解了按照Gossip协议发送的Ping、Pong消息的整体处理过程。从中，我们也看到了Redis实现Gossip协议用到的数据结构和主要函数，我画了两张表，分别汇总了刚才介绍的数据结构和函数，你可以再回顾下。
 
-![图片](https://static001.geekbang.org/resource/image/98/4b/9828680d9e8fe70c3af6e7b02484304b.jpg?wh=1920x778)![图片](https://static001.geekbang.org/resource/image/eb/20/ebfa014888404b1a0f087a43e0e61820.jpg?wh=1920x1080)
+![图片](https://static001.geekbang.org/resource/image/98/4b/9828680d9e8fe70c3af6e7b02484304b.jpg?wh=1920x778)![图片](https://static001.geekbang.org/resource/image/eb/20/ebfa014888404b1a0f087a43e0e61820.jpg?wh=1920x1080){: referrerpolicy="no-referrer" }
 
 ## 小结
 

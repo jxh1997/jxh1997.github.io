@@ -18,7 +18,7 @@ ORM本身就是一种编程技术，全称是“对象关系映射”。通俗�
 
 下面我给你整理了一张表，来说明SQL中的表和ORM的对应关系。
 
-![](https://static001.geekbang.org/resource/image/91/a4/919462536b6be42d26f9fd7359f2dda4.jpg?wh=2740x1130)
+![](https://static001.geekbang.org/resource/image/91/a4/919462536b6be42d26f9fd7359f2dda4.jpg?wh=2740x1130){: referrerpolicy="no-referrer" }
 
 对照表格可以发现，ORM是将SQL的表格，转换成了我们编程语言当中的类。它的对应关系是整个表格，也就是类；表的行，我们也称为记录，就是类的实例对象；表的列，就是类的属性。
 
@@ -78,7 +78,7 @@ db.session对象：用于在数据库中进行查询、插入、修改和删除�
 
 其中SQLAIchemy中的字段参数，对应的含义和作用我给你写在了下面，你可以参考一下。
 
-![](https://static001.geekbang.org/resource/image/a1/a1/a10b831253b8f9c2d8298c1c4d9aeca1.jpg?wh=2838x1335)
+![](https://static001.geekbang.org/resource/image/a1/a1/a10b831253b8f9c2d8298c1c4d9aeca1.jpg?wh=2838x1335){: referrerpolicy="no-referrer" }
 
 后面就是创建过程的代码。
 
@@ -104,7 +104,7 @@ class UserInfo(db.Model):
 
 我用表格的形式整理了SQLAlchemy字段类型和SQL字段类型的对应关系，供你参考。
 
-![](https://static001.geekbang.org/resource/image/11/1c/11a333c81a9b3cd81072fe52532d1b1c.jpg?wh=3483x1929)
+![](https://static001.geekbang.org/resource/image/11/1c/11a333c81a9b3cd81072fe52532d1b1c.jpg?wh=3483x1929){: referrerpolicy="no-referrer" }
 
 表的内容较多，但你不用刻意去记忆。效率更高的方法是：在定义过程中，需要使用哪个再查看哪个，多练习使用一阵儿，这样自然而然就记住了。
 
@@ -137,7 +137,7 @@ class BaseModels:
 
 定义好了模型基类，我们还需要定义具体的用户数据库表。我给你做了一个思维框架图，罗列出了表中需要的字段。
 
-![](https://static001.geekbang.org/resource/image/41/ea/41b6183378dd03e79dcf739d41b17fea.jpg?wh=2882x1356)
+![](https://static001.geekbang.org/resource/image/41/ea/41b6183378dd03e79dcf739d41b17fea.jpg?wh=2882x1356){: referrerpolicy="no-referrer" }
 
 在整个用户信息表中，我们首先需要设置好数据库的主键id，将其设置为随数据数量默认递增的状态。其他字段，像昵称、手机号、个性签名等等这些，都是在平台里面常用到的一些字段，我们也把它们设置为用户信息表的字段。
 
@@ -172,11 +172,11 @@ class UserInfo(BaseModels, db.Model):
 
 连接成功后，你看到的界面会是下面这个样子。
 
-![](https://static001.geekbang.org/resource/image/f8/40/f8910de33d165c9d09fd281d5715ba40.jpg?wh=2741x1508)
+![](https://static001.geekbang.org/resource/image/f8/40/f8910de33d165c9d09fd281d5715ba40.jpg?wh=2741x1508){: referrerpolicy="no-referrer" }
 
 输入密码并点击确定之后，如果界面显示后面截图的界面，就表示我们安装成功了。
 
-![](https://static001.geekbang.org/resource/image/e6/cb/e61c0aeca5da5e25055df2b2f6ceebcb.jpg?wh=2741x1508)
+![](https://static001.geekbang.org/resource/image/e6/cb/e61c0aeca5da5e25055df2b2f6ceebcb.jpg?wh=2741x1508){: referrerpolicy="no-referrer" }
 
 紧接着，我们在代码中进行设置和连接。我们先安装好需要的SQLAIchemy库，具体的执行命令是后面这样。
 
@@ -210,8 +210,8 @@ if __name__ == "__main__":
 
 如果连接成功，函数会返回一条消息，提示MySQL数据库已经连接成功；否则，就会返回错误消息。运行成功后，我们用浏览器打开http://127.0.0.1:5000，就能看到连接成功的提示。对应的启动效果如下图所示。
 
-![](https://static001.geekbang.org/resource/image/46/24/46d1e3a6c1f1bf0f2e45f9d09939de24.jpg?wh=2741x1329)  
-![](https://static001.geekbang.org/resource/image/ed/1e/ed35d6b3ee468c998dd6080444e3ca1e.jpg?wh=2741x1329)  
+![](https://static001.geekbang.org/resource/image/46/24/46d1e3a6c1f1bf0f2e45f9d09939de24.jpg?wh=2741x1329)  {: referrerpolicy="no-referrer" }
+![](https://static001.geekbang.org/resource/image/ed/1e/ed35d6b3ee468c998dd6080444e3ca1e.jpg?wh=2741x1329)  {: referrerpolicy="no-referrer" }
 到这里，我们已经实现了数据库的连接，之后你应对项目开发过程中的数据库连接问题时，相信就能轻松解决了。
 
 ## 总结

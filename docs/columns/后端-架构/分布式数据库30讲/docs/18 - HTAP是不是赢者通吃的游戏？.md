@@ -4,7 +4,7 @@
 
 有关OLTP和OLAP的概念，我们在[第1讲](https://time.geekbang.org/column/article/271373)就已经介绍过了。OLTP是面向交易的处理过程，单笔交易的数据量很小，但是要在很短的时间内给出结果；而OLAP场景通常是基于大数据集的运算。
 
-![](https://static001.geekbang.org/resource/image/38/1a/382508db9c5e251760d2eb443ebcc41a.jpg?wh=2700%2A1180)
+![](https://static001.geekbang.org/resource/image/38/1a/382508db9c5e251760d2eb443ebcc41a.jpg?wh=2700%2A1180){: referrerpolicy="no-referrer" }
 
 OLAP和OLTP通过ETL进行衔接。为了提升OLAP的性能，需要在ETL过程中进行大量的预计算，包括数据结构的调整和业务逻辑处理。这样的好处是可以控制OLAP的访问延迟，提升用户体验。但是，因为要避免抽取数据对OLTP系统造成影响，所以必须在日终的交易低谷期才能启动ETL过程。这样一来， OLAP与OLTP的数据延迟通常就在一天左右，习惯上大家把这种时效性表述为T+1。其中，T日就是指OLTP系统产生数据的日期，T+1日是OLAP中数据可用的日期，两者间隔为1天。
 
@@ -21,7 +21,7 @@ OLAP和OLTP通过ETL进行衔接。为了提升OLAP的性能，需要在ETL过�
 
 我们先来看第一种思路。重建OLAP体系，重视数据加工的时效性，正是近年来大数据技术的主要发展方向。Kappa架构就是新体系的代表，它最早由LinkedIn的Jay Kreps在2014年的[一篇文章](https://www.oreilly.com/radar/questioning-the-lambda-architecture/)中提出。
 
-![](https://static001.geekbang.org/resource/image/6b/52/6b204f3de97cdf4b75dd197672db2452.jpg?wh=2700%2A1004)
+![](https://static001.geekbang.org/resource/image/6b/52/6b204f3de97cdf4b75dd197672db2452.jpg?wh=2700%2A1004){: referrerpolicy="no-referrer" }
 
 在Kappa架构中，原来的批量文件传输方式完全被Kafka替代，通过流计算系统完成数据的快速加工，数据最终落地到Serving DB中提供查询服务。这里的Serving DB泛指各种类型的存储，可以是HBase、Redis或者MySQL。
 
@@ -67,11 +67,11 @@ NSM（N-ary Storage Model）就是行式存储，也是OLTP数据库默认的存
 
 顾名思义，行式存储的特点是将一条数据记录集中存在一起，这种方式更加贴近于关系模型。写入的效率较高，在读取时也可以快速获得一个完整数据记录，这种特点称为记录内的局部性（Intra-Record Spatial Locality）。
 
-![](https://static001.geekbang.org/resource/image/aa/6c/aa9a1c530231f625d2fde65d59ba5c6c.jpg?wh=2700%2A1258)
+![](https://static001.geekbang.org/resource/image/aa/6c/aa9a1c530231f625d2fde65d59ba5c6c.jpg?wh=2700%2A1258){: referrerpolicy="no-referrer" }
 
 但是，行式存储对于OLAP分析查询并不友好。OLAP系统的数据往往是从多个OLTP系统中汇合而来，单表可能就有上百个字段。而用户一次查询通常只访问其中的少量字段，如果以行为单位读取数据，查询出的多数字段其实是无用的，也就是说大量I/O操作都是无效的。同时，大量无效数据的读取，又会造成CPU缓存的失效，进一步降低了系统的性能。
 
-![](https://static001.geekbang.org/resource/image/b6/2b/b61bac48bd1d05f8fe58b7ae4904932b.jpg?wh=2700%2A1134)
+![](https://static001.geekbang.org/resource/image/b6/2b/b61bac48bd1d05f8fe58b7ae4904932b.jpg?wh=2700%2A1134){: referrerpolicy="no-referrer" }
 
 图中显示CPU缓存的处理情况，我们可以看到很多无效数据被填充到缓存中，挤掉了那些原本有机会复用的数据。
 
@@ -83,13 +83,13 @@ DSM（Decomposition Storage Model）就是列式存储，它的出现要晚于�
 
 列式存储的问题是写入开销更大，这是因为根据关系模型，在逻辑上数据的组织单元仍然是行，改为列式存储后，同样的数据量会被写入到更多的数据页（page）中，而数据页直接对应着物理扇区，那么磁盘I/O的开销自然增大了。
 
-![](https://static001.geekbang.org/resource/image/bd/96/bd96a2edb8bfe131bf0ec5aa91509596.jpg?wh=2700%2A1825)
+![](https://static001.geekbang.org/resource/image/bd/96/bd96a2edb8bfe131bf0ec5aa91509596.jpg?wh=2700%2A1825){: referrerpolicy="no-referrer" }
 
 列式存储的第二个问题，就是很难将不同列高效地关联起来。毕竟在多数应用场景中，不只是使用单列或单表数据，数据分散后，关联的成本会更高。
 
 #### PAX
 
-![](https://static001.geekbang.org/resource/image/70/08/70c94c6aef3d1d8d27d263d52e6e2c08.jpg?wh=2700%2A1675)
+![](https://static001.geekbang.org/resource/image/70/08/70c94c6aef3d1d8d27d263d52e6e2c08.jpg?wh=2700%2A1675){: referrerpolicy="no-referrer" }
 
 PAX增加了minipage这个概念，是原有的数据页下的二级单位，这样一行数据记录在数据页上的基本分布不会被破坏，而相同列的数据又被集中地存储在一起。PAX本质上还是更接近于行式存储，但它也在努力平衡记录内局部性和记录间局部性，提升了OLAP的性能。
 
@@ -103,7 +103,7 @@ PAX增加了minipage这个概念，是原有的数据页下的二级单位，这
 
 TiDB是在较早的版本中就提出了HTAP这个目标，并增加了TiSpark作为OLAP的计算引擎，但仍然共享OLTP的数据存储TiKV，所以两种任务之间的资源竞争依旧不可避免。直到近期的4.0版本中，TiDB正式推出了TiFlash作为OLAP的专用存储。
 
-![](https://static001.geekbang.org/resource/image/7f/83/7fd1f6b5fe9fa85bf85da382fec68083.jpg?wh=2700%2A1177)
+![](https://static001.geekbang.org/resource/image/7f/83/7fd1f6b5fe9fa85bf85da382fec68083.jpg?wh=2700%2A1177){: referrerpolicy="no-referrer" }
 
 我们的关注点集中在TiFlash与TiKV之间的同步机制上。其实，这个同步机制仍然是基于Raft协议的。TiDB在Raft协议原有的Leader和Follower上增加了一个角色Learner。这个Learner和Paxos协议中的同名角色，有类似的职责，就是负责学习已经达成一致的状态，但不参与投票。这就是说，Raft Group在写入过程中统计多数节点时，并没有包含Learner，这样的好处是Learner不会拖慢写操作，但带来的问题是Learner的数据更新必然会落后于Leader。
 
@@ -132,7 +132,7 @@ Learner每次接到请求后，首先要确认本地的数据是否足够新，�
 
 当然HTAP也具有相对优势，那就是通过全家桶方案避免了用户集成多个技术产品，整体技术复杂度有所降低。最后，TiDB给出的解决方案很有新意，但是能否覆盖足够大的OLAP场景，仍有待观察。
 
-![](https://static001.geekbang.org/resource/image/17/73/1782dfac5604f15f3daee70cfbfb4e73.jpg?wh=2700%2A3764)
+![](https://static001.geekbang.org/resource/image/17/73/1782dfac5604f15f3daee70cfbfb4e73.jpg?wh=2700%2A3764){: referrerpolicy="no-referrer" }
 
 ## 思考题
 

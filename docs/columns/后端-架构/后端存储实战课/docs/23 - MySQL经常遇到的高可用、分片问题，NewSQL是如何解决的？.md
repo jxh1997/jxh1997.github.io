@@ -27,7 +27,7 @@ No SQL本来希望能凭借高性能和集群的优势，替代掉Old SQL。但�
 
 首先，我们一起先来简单看一下CockroachDB的架构，从架构层面分析一下，它是不是真的像宣传的那么厉害。我们先来看一下它的架构图(图片来自于[官方文档](https://github.com/cockroachdb/cockroach/blob/master/docs/design.md))：
 
-![](https://static001.geekbang.org/resource/image/8c/82/8c78db973e66bb62b23c8e85afe78082.jpg?wh=1004%2A676)
+![](https://static001.geekbang.org/resource/image/8c/82/8c78db973e66bb62b23c8e85afe78082.jpg?wh=1004%2A676){: referrerpolicy="no-referrer" }
 
 这是一个非常典型的分层架构，我们从上往下看。最上层是SQL层，SQL层支持和关系型数据库类似的逻辑数据结构，比如说库、表、行和列这些逻辑概念。SQL层向下调用的是一个抽象的接口层Structured Data API，实际实现这个API的是下面一层：Distributed, Monolithic KV Store，这就是一个分布式的KV存储系统。
 
@@ -61,7 +61,7 @@ CockroachDB提供了另外两种隔离级别，分别是：**Snapshot Isolation 
 
 这两种隔离级别和之前提到的四种隔离级别是什么关系呢？我们通过下面这张表，和MySQL默认的隔离级别RR做一个对比。
 
-![](https://static001.geekbang.org/resource/image/20/67/20e20d983ad7519e6eae11821a3f1567.jpg?wh=2284%2A1313)
+![](https://static001.geekbang.org/resource/image/20/67/20e20d983ad7519e6eae11821a3f1567.jpg?wh=2284%2A1313){: referrerpolicy="no-referrer" }
 
 首先我们看SI这一行。我们之前讲到过，RR这种隔离级别，可以很好地解决脏读和不可重复读的问题，虽然可能会产生幻读，但实际上对绝大多数事务影响不大。SI不会发生脏读、不可重复读，也不会发生幻读的情况，这个隔离级别似乎比RR还要好。
 

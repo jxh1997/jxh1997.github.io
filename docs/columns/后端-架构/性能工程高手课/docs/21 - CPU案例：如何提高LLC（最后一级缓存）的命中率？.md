@@ -40,7 +40,7 @@ perf stat -e LLC-loads,LLC-load-misses,LLC-stores,LLC-store-misses
 
 下图显示的是一次Perf执行结果。
 
-![](https://static001.geekbang.org/resource/image/15/1e/15211eb7e1e6da1d46b66e7cebdf1e1e.png?wh=2361%2A596)
+![](https://static001.geekbang.org/resource/image/15/1e/15211eb7e1e6da1d46b66e7cebdf1e1e.png?wh=2361%2A596){: referrerpolicy="no-referrer" }
 
 我们可以看到，在这段取样时间内，有1951M（19.51亿）次LLC的读取，大约16%是不命中。有313M（3.13亿）次LLC的写入，差不多24%是不命中。
 
@@ -96,7 +96,7 @@ perf stat -e LLC-loads,LLC-load-misses,LLC-stores,LLC-store-misses
 
 你可以参考下面这张Intel公司提供的图，两个线程运行在不同的核上，每个核都有自己单独的缓存，并且两个线程访问同一个缓存行。
 
-![](https://static001.geekbang.org/resource/image/42/c9/42be053ba1c46fece881b97b1f328ac9.png?wh=2427%2A2052)
+![](https://static001.geekbang.org/resource/image/42/c9/42be053ba1c46fece881b97b1f328ac9.png?wh=2427%2A2052){: referrerpolicy="no-referrer" }
 
 如果线程0修改了缓存行的一部分，比如一个字节，那么为了保证缓存一致性，这个核上的整个缓存行的64字节，都必须写回到内存；这就导致其他核的对应缓存行失效。其他核的缓存就必须从内存读取最新的缓存行数据。这就造成了其他线程（比如线程1）相对较大的停顿。
 
@@ -114,7 +114,7 @@ perf stat -e LLC-loads,LLC-load-misses,LLC-stores,LLC-store-misses
 
 这一讲，我们介绍了CPU方面的优化案例，重点讨论了**如何降低LLC的缓存不命中率**。我们提出了三个方案，分别是紧凑化数据、软件指令预取和去除伪共享缓存。
 
-![](https://static001.geekbang.org/resource/image/fc/ba/fc86555b197673e40096980571af44ba.png?wh=2573%2A2059)
+![](https://static001.geekbang.org/resource/image/fc/ba/fc86555b197673e40096980571af44ba.png?wh=2573%2A2059){: referrerpolicy="no-referrer" }
 
 尤其是第三个方案解决的伪共享缓存问题，对大多数程序员和运维人员而言，不太容易理解。为什么难理解？是因为它牵扯了软件（比如多线程）和硬件（比如缓存一致性和缓存行的大小）的交互。
 

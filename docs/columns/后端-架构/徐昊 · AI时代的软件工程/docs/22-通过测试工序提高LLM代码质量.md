@@ -10,7 +10,7 @@
 
 这里我们使用的测试工序仍然是前面提到的那一个：
 
-![](https://static001.geekbang.org/resource/image/26/ee/26e48c8fc6ca29b39eb57366dbb42fee.jpg?wh=1833x932)
+![](https://static001.geekbang.org/resource/image/26/ee/26e48c8fc6ca29b39eb57366dbb42fee.jpg?wh=1833x932){: referrerpolicy="no-referrer" }
 
 我们将架构组件中的三种不同的组件分别进行测试，其中Persistent层中的组件，使用假对象（Fake，内存数据库）作为测试替身。而HTTP interface和Application Logic层则通过存根（Stub）作为测试替身。最后，再通过功能测试，对整个系统进行验证。
 
@@ -61,14 +61,14 @@
 
 当我们针对列出所有商品的功能使用这个模板时，可以得到以下的回答：
 
-![](https://static001.geekbang.org/resource/image/a2/fc/a2c27e002fd44786ccdfc248a012fefc.jpg?wh=1070x2109)  
+![](https://static001.geekbang.org/resource/image/a2/fc/a2c27e002fd44786ccdfc248a012fefc.jpg?wh=1070x2109)  {: referrerpolicy="no-referrer" }
 可以看到，虽然这个任务列表稍显粗略，但是对于任务的划分，的确是按照我们给定的工序进行的。在获得任务列表之后，我们可以围绕任务列表的指引，让LLM帮助我们完成代码的编写，这里我只展示对于测试代码的编写：
 
 ```plain
 请按照任务列表，编写http interface层的测试代码
 ```
 
-![](https://static001.geekbang.org/resource/image/2e/38/2e1699bc68fe93eed6a8ef8f8d3a4638.jpg?wh=1658x239)
+![](https://static001.geekbang.org/resource/image/2e/38/2e1699bc68fe93eed6a8ef8f8d3a4638.jpg?wh=1658x239){: referrerpolicy="no-referrer" }
 
 ```plain
 import static org.junit.Assert.assertEquals;
@@ -130,13 +130,13 @@ public class ProductsAPITest {
 }
 ```
 
-![](https://static001.geekbang.org/resource/image/df/d9/df259706632f7b8bccb32ff5399417d9.jpg?wh=1598x337)
+![](https://static001.geekbang.org/resource/image/df/d9/df259706632f7b8bccb32ff5399417d9.jpg?wh=1598x337){: referrerpolicy="no-referrer" }
 
 ```plain
 请按照任务列表，编写application logic层的测试代码
 ```
 
-![](https://static001.geekbang.org/resource/image/2a/6a/2a60080f07f7319df2d0d61de5e3516a.jpg?wh=1696x229)
+![](https://static001.geekbang.org/resource/image/2a/6a/2a60080f07f7319df2d0d61de5e3516a.jpg?wh=1696x229){: referrerpolicy="no-referrer" }
 
 ```plain
 import static org.junit.Assert.assertEquals;
@@ -192,13 +192,13 @@ public class OrderServiceTest {
 }
 ```
 
-![](https://static001.geekbang.org/resource/image/56/b3/563d5ba66376967c6a4e9414bd46a5b3.jpg?wh=1640x330)
+![](https://static001.geekbang.org/resource/image/56/b3/563d5ba66376967c6a4e9414bd46a5b3.jpg?wh=1640x330){: referrerpolicy="no-referrer" }
 
 ```plain
 请按照任务列表，编写persistent层的测试代码
 ```
 
-![](https://static001.geekbang.org/resource/image/6f/69/6f03b6b550f58122625365f6c7d33169.jpg?wh=1708x262)
+![](https://static001.geekbang.org/resource/image/6f/69/6f03b6b550f58122625365f6c7d33169.jpg?wh=1708x262){: referrerpolicy="no-referrer" }
 
 ```plain
 import static org.junit.Assert.assertEquals;
@@ -269,7 +269,7 @@ public class OrderDAOTest {
 }
 ```
 
-![](https://static001.geekbang.org/resource/image/30/7c/303f6c0e47f068917cd63a60ef68297c.jpg?wh=1580x291)
+![](https://static001.geekbang.org/resource/image/30/7c/303f6c0e47f068917cd63a60ef68297c.jpg?wh=1580x291){: referrerpolicy="no-referrer" }
 
 请注意观察，上述代码中对于测试策略的应用，是符合我们对于测试工序的描述的。在确认测试代码没有问题之后，我们就可以通过与LLM的交互配合，完成生产代码的编写。这个在前面的课程里已经给过了例子，就不再重复了。
 
@@ -299,7 +299,7 @@ public class OrderDAOTest {
 按照任务列表，符合技术要求，编写测试代码
 ```
 
-![](https://static001.geekbang.org/resource/image/ff/32/ffb73ccb52c6689c13b099df6051d232.jpg?wh=1620x214)
+![](https://static001.geekbang.org/resource/image/ff/32/ffb73ccb52c6689c13b099df6051d232.jpg?wh=1620x214){: referrerpolicy="no-referrer" }
 
 ```plain
 import org.flywaydb.core.Flyway;
@@ -368,7 +368,7 @@ public class OrderDAOTest {
 }
 ```
 
-![](https://static001.geekbang.org/resource/image/e9/a3/e947eb686851666b85f8cb239c6904a3.jpg?wh=1536x271)
+![](https://static001.geekbang.org/resource/image/e9/a3/e947eb686851666b85f8cb239c6904a3.jpg?wh=1536x271){: referrerpolicy="no-referrer" }
 
 需要注意的是，在这个提示词模版中，我们需要填入**需求**和**任务列表**这两个上下文。从而保证CoT的提示词模板和具体测试工序的提示词模板，在上下文中是统一的。在得到上面的回答时，我分别填入的上下文是：
 
@@ -411,7 +411,7 @@ public class OrderDAOTest {
 
 除此之外，另一个使用独立测试工序模版的好处是，更容易过渡到大模型驱动的自主代理架构（LLM based Autonomous Agent）。
 
-![](https://static001.geekbang.org/resource/image/a5/88/a51a7885590830fbe08a4da55b22d088.jpg?wh=2000x1078)
+![](https://static001.geekbang.org/resource/image/a5/88/a51a7885590830fbe08a4da55b22d088.jpg?wh=2000x1078){: referrerpolicy="no-referrer" }
 
 这种由一个Agent控制任务列表，并调用其他Agent完成具体工作的架构，非常类似于最近（2024年3月）火热的Devin。而在crewAI等框架的帮助下，获得一个更加精准的、也符合我们架构要求的“定制版Devin”，成本是非常低的。我们只要梳理清楚与架构对应的测试工序即可。
 

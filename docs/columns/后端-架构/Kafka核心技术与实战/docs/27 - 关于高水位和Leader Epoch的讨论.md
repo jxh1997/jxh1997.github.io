@@ -14,7 +14,7 @@
 
 为了帮助你更好地理解水位，我借助这本书里的一张图来说明一下。
 
-![](https://static001.geekbang.org/resource/image/84/77/8426888d04e1e9917619829b7e3de877.png?wh=1950%2A624)
+![](https://static001.geekbang.org/resource/image/84/77/8426888d04e1e9917619829b7e3de877.png?wh=1950%2A624){: referrerpolicy="no-referrer" }
 
 图中标注“Completed”的蓝色部分代表已完成的工作，标注“In-Flight”的红色部分代表正在进行中的工作，两者的边界就是水位线。
 
@@ -29,7 +29,7 @@
 
 下面这张图展示了多个与高水位相关的Kafka术语。我来详细解释一下图中的内容，同时澄清一些常见的误区。
 
-![](https://static001.geekbang.org/resource/image/45/db/453ff803a31aa030feedba27aed17ddb.jpg?wh=4000%2A1583)
+![](https://static001.geekbang.org/resource/image/45/db/453ff803a31aa030feedba27aed17ddb.jpg?wh=4000%2A1583){: referrerpolicy="no-referrer" }
 
 我们假设这是某个分区Leader副本的高水位图。首先，请你注意图中的“已提交消息”和“未提交消息”。我们之前在专栏[第11讲](https://time.geekbang.org/column/article/102931)谈到Kafka持久性保障的时候，特意对两者进行了区分。现在，我借用高水位再次强调一下。在分区高水位以下的消息被认为是已提交消息，反之就是未提交消息。消费者只能消费已提交消息，即图中位移小于8的所有消息。注意，这里我们不讨论Kafka事务，因为事务机制会影响消费者所能看到的消息的范围，它不只是简单依赖高水位来判断。它依靠一个名为LSO（Log Stable Offset）的位移值来判断事务型消费者的可见性。
 
@@ -43,7 +43,7 @@
 
 现在，我们知道了每个副本对象都保存了一组高水位值和LEO值，但实际上，在Leader副本所在的Broker上，还保存了其他Follower副本的LEO值。我们一起来看看下面这张图。
 
-![](https://static001.geekbang.org/resource/image/8b/de/8b1b8474a568e2ae40bf36bb03ca81de.jpg?wh=2347%2A1648)
+![](https://static001.geekbang.org/resource/image/8b/de/8b1b8474a568e2ae40bf36bb03ca81de.jpg?wh=2347%2A1648){: referrerpolicy="no-referrer" }
 
 在这张图中，我们可以看到，Broker 0上保存了某分区的Leader副本和所有Follower副本的LEO值，而Broker 1上仅仅保存了该分区的某个Follower副本。Kafka把Broker 0上保存的这些Follower副本又称为**远程副本**（Remote Replica）。Kafka副本机制在运行过程中，会更新Broker 1上Follower副本的高水位和LEO值，同时也会更新Broker 0上Leader副本的高水位和LEO以及所有远程副本的LEO，但它不会更新远程副本的高水位值，也就是我在图中标记为灰色的部分。
 
@@ -51,7 +51,7 @@
 
 为了帮助你更好地记忆这些值被更新的时机，我做了一张表格。只有搞清楚了更新机制，我们才能开始讨论Kafka副本机制的原理，以及它是如何使用高水位来执行副本消息同步的。
 
-![](https://static001.geekbang.org/resource/image/d6/41/d6d2f98c611e06ffb85f01031ca79b41.jpg?wh=3894%2A2216)
+![](https://static001.geekbang.org/resource/image/d6/41/d6d2f98c611e06ffb85f01031ca79b41.jpg?wh=3894%2A2216){: referrerpolicy="no-referrer" }
 
 在这里，我稍微解释一下，什么叫与Leader副本保持同步。判断的条件有两个。
 
@@ -97,21 +97,21 @@
 
 首先是初始状态。下面这张图中的remote LEO就是刚才的远程副本的LEO值。在初始状态时，所有值都是0。
 
-![](https://static001.geekbang.org/resource/image/1e/36/1ee643ce819a503f72df3d9b4ab04536.jpg?wh=3173%2A691)
+![](https://static001.geekbang.org/resource/image/1e/36/1ee643ce819a503f72df3d9b4ab04536.jpg?wh=3173%2A691){: referrerpolicy="no-referrer" }
 
 当生产者给主题分区发送一条消息后，状态变更为：
 
-![](https://static001.geekbang.org/resource/image/73/0b/7317242d7068dbf618866d5974a2d80b.jpg?wh=3147%2A1271)
+![](https://static001.geekbang.org/resource/image/73/0b/7317242d7068dbf618866d5974a2d80b.jpg?wh=3147%2A1271){: referrerpolicy="no-referrer" }
 
 此时，Leader副本成功将消息写入了本地磁盘，故LEO值被更新为1。
 
 Follower再次尝试从Leader拉取消息。和之前不同的是，这次有消息可以拉取了，因此状态进一步变更为：
 
-![](https://static001.geekbang.org/resource/image/91/0d/910e114abe40f1f9e4a13f6e6083320d.jpg?wh=3167%2A1013)
+![](https://static001.geekbang.org/resource/image/91/0d/910e114abe40f1f9e4a13f6e6083320d.jpg?wh=3167%2A1013){: referrerpolicy="no-referrer" }
 
 这时，Follower副本也成功地更新LEO为1。此时，Leader和Follower副本的LEO都是1，但各自的高水位依然是0，还没有被更新。**它们需要在下一轮的拉取中被更新**，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/80/cb/8066e72733f14d2732a054ed56e373cb.jpg?wh=3081%2A1560)
+![](https://static001.geekbang.org/resource/image/80/cb/8066e72733f14d2732a054ed56e373cb.jpg?wh=3081%2A1560){: referrerpolicy="no-referrer" }
 
 在新一轮的拉取请求中，由于位移值是0的消息已经拉取成功，因此Follower副本这次请求拉取的是位移值=1的消息。Leader副本接收到此请求后，更新远程副本LEO为1，然后更新Leader高水位为1。做完这些之后，它会将当前已更新过的高水位值1发送给Follower副本。Follower副本接收到以后，也将自己的高水位值更新成1。至此，一次完整的消息同步周期就结束了。事实上，Kafka就是利用这样的机制，实现了Leader和Follower副本之间的同步。
 
@@ -132,7 +132,7 @@ Kafka Broker会在内存中为每个分区都缓存Leader Epoch数据，同时�
 
 接下来，我们来看一个实际的例子，它展示的是Leader Epoch是如何防止数据丢失的。请先看下图。
 
-![](https://static001.geekbang.org/resource/image/4d/f5/4d97a873fc1bfaf89b5cc8259838f0f5.jpg?wh=2254%2A2036)
+![](https://static001.geekbang.org/resource/image/4d/f5/4d97a873fc1bfaf89b5cc8259838f0f5.jpg?wh=2254%2A2036){: referrerpolicy="no-referrer" }
 
 我稍微解释一下，单纯依赖高水位是怎么造成数据丢失的。开始时，副本A和副本B都处于正常状态，A是Leader副本。某个使用了默认acks设置的生产者程序向A发送了两条消息，A全部写入成功，此时Kafka会通知生产者说两条消息全部发送成功。
 
@@ -144,7 +144,7 @@ Kafka Broker会在内存中为每个分区都缓存Leader Epoch数据，同时�
 
 现在，我们来看下如何利用Leader Epoch机制来规避这种数据丢失。我依然用图的方式来说明。
 
-![](https://static001.geekbang.org/resource/image/3a/8c/3a2e1131e8244233c076de906c174f8c.jpg?wh=2975%2A1992)
+![](https://static001.geekbang.org/resource/image/3a/8c/3a2e1131e8244233c076de906c174f8c.jpg?wh=2975%2A1992){: referrerpolicy="no-referrer" }
 
 场景和之前大致是类似的，只不过引用Leader Epoch机制后，Follower副本B重启回来后，需要向A发送一个特殊的请求去获取Leader的LEO值。在这个例子中，该值为2。当获知到Leader LEO=2后，B发现该LEO值不比它自己的LEO值小，而且缓存中也没有保存任何起始位移值 &gt; 2的Epoch条目，因此B无需执行任何日志截断操作。这是对高水位机制的一个明显改进，即副本是否执行日志截断不再依赖于高水位进行判断。
 
@@ -154,7 +154,7 @@ Kafka Broker会在内存中为每个分区都缓存Leader Epoch数据，同时�
 
 今天，我向你详细地介绍了Kafka的高水位机制以及Leader Epoch机制。高水位在界定Kafka消息对外可见性以及实现副本机制等方面起到了非常重要的作用，但其设计上的缺陷给Kafka留下了很多数据丢失或数据不一致的潜在风险。为此，社区引入了Leader Epoch机制，尝试规避掉这类风险。事实证明，它的效果不错，在0.11版本之后，关于副本数据不一致性方面的Bug的确减少了很多。如果你想深入学习Kafka的内部原理，今天的这些内容是非常值得你好好琢磨并熟练掌握的。
 
-![](https://static001.geekbang.org/resource/image/98/3f/989d13e4bc4f44618a10b5b7bd6f523f.jpg?wh=2069%2A2580)
+![](https://static001.geekbang.org/resource/image/98/3f/989d13e4bc4f44618a10b5b7bd6f523f.jpg?wh=2069%2A2580){: referrerpolicy="no-referrer" }
 
 ## 开放讨论
 

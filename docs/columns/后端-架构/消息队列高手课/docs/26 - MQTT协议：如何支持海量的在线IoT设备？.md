@@ -46,7 +46,7 @@ MQTT面临的使用场景中，另外一个很重要的特点就是，服务端�
 
 一般来说，一个MQTT集群它的架构应该是这样的：
 
-![](https://static001.geekbang.org/resource/image/de/f1/deae9d8d95484a2d2499a47beeaebbf1.jpg?wh=4266%2A2087)
+![](https://static001.geekbang.org/resource/image/de/f1/deae9d8d95484a2d2499a47beeaebbf1.jpg?wh=4266%2A2087){: referrerpolicy="no-referrer" }
 
 这个图从左向右看，首先接入的地址最好是一个域名，这样域名的后面可以配置多个IP地址做负载均衡，当然这个域名不是必需的。也可以直接连接负载均衡器。负载均衡可以选择像F5这种专用的负载均衡硬件，也可以使用Nginx这样的软件，只要是四层或者支持MQTT协议的七层负载均衡设备，都可以选择。
 
@@ -56,7 +56,7 @@ MQTT面临的使用场景中，另外一个很重要的特点就是，服务端�
 
 有的MQTT Server它的集群架构是这样的：
 
-![](https://static001.geekbang.org/resource/image/6a/ef/6a8fdaed5ba598a734691aa725e03bef.jpg?wh=4266%2A1873)
+![](https://static001.geekbang.org/resource/image/6a/ef/6a8fdaed5ba598a734691aa725e03bef.jpg?wh=4266%2A1873){: referrerpolicy="no-referrer" }
 
 它的架构中没有Proxy。实际上，它只是把Proxy和Broker的功能集成到了一个进程中，这两种架构它本质上没有太大的区别。所以这两种架构我们可以认为是同一种架构，一起来分析。
 

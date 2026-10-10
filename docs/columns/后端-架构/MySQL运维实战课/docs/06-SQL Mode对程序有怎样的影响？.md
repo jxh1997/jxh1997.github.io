@@ -666,7 +666,7 @@ MySQL数据库从低版本升级或迁移到高版本时，也需要全面测试
 
 下面这个表格对一些SQL Mode的作用做了简单总结，你可以参考。
 
-![图片](https://static001.geekbang.org/resource/image/2c/ba/2c2193d813bea7aa6445a7795d9900ba.png?wh=1740x1496)
+![图片](https://static001.geekbang.org/resource/image/2c/ba/2c2193d813bea7aa6445a7795d9900ba.png?wh=1740x1496){: referrerpolicy="no-referrer" }
 
 ## 总结时刻
 

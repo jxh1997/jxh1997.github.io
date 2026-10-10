@@ -18,7 +18,7 @@
 
 它可以分为两个阶段：准备阶段和提交阶段。
 
-![图片](https://static001.geekbang.org/resource/image/6y/93/6yyac8bf7452e05cb0d0edaf24363193.png?wh=1920x768)
+![图片](https://static001.geekbang.org/resource/image/6y/93/6yyac8bf7452e05cb0d0edaf24363193.png?wh=1920x768){: referrerpolicy="no-referrer" }
 
 1. 准备阶段，**协调者让参与者执行事务，但是并不提交，协调者返回执行情况。**这个阶段参与者会记录 Redo 和 Undo 信息，用于后续提交或者回滚。
 2. 提交阶段，协调者根据准备阶段的情况，要求参与者提交或者回滚，参与者返回提交或者回滚的结果。准备阶段任何一个节点执行失败了，就都会回滚。全部执行成功就提交。
@@ -29,11 +29,11 @@
 
 而这里有一个问题，很少有人会想到。如果在第二阶段，协调者发送 Commit 的时候，参与者没有收到，会怎样？那么协调者会不断重试，直到请求发送成功。
 
-![图片](https://static001.geekbang.org/resource/image/0f/fc/0fdca749e1590ee06ec873e813b505fc.png?wh=1920x761)
+![图片](https://static001.geekbang.org/resource/image/0f/fc/0fdca749e1590ee06ec873e813b505fc.png?wh=1920x761){: referrerpolicy="no-referrer" }
 
 但是如果参与者已经收到了 Commit 请求，但是在提交之前就宕机了又该怎样呢？
 
-![图片](https://static001.geekbang.org/resource/image/6d/14/6d2cf55f54b9665b93fdb6f6e7e7d214.png?wh=1920x762)
+![图片](https://static001.geekbang.org/resource/image/6d/14/6d2cf55f54b9665b93fdb6f6e7e7d214.png?wh=1920x762){: referrerpolicy="no-referrer" }
 
 参与者在恢复过来之后会查看自己本地的日志，看有没有收到 Commit 指令，如果已经收到了，就会使用 Redo 信息来提交事务。
 
@@ -45,7 +45,7 @@
 
 在两阶段协议里面，比较容易出现的一个情况就是参与者在准备阶段辛辛苦苦把 Redo、Undo 写好，结果另外一个参与者说自己这边执行不了事务，要回滚。那么这个参与者就白费功夫了。
 
-![图片](https://static001.geekbang.org/resource/image/f2/b6/f2147aa08d4ffe5ddc150be15e33ffb6.png?wh=1920x762)
+![图片](https://static001.geekbang.org/resource/image/f2/b6/f2147aa08d4ffe5ddc150be15e33ffb6.png?wh=1920x762){: referrerpolicy="no-referrer" }
 
 因此在两阶段提交的基础上，三阶段提交引入了一个新阶段，协调者会先问一下参与者能不能执行这个事务。所以整个三阶段提交协议的三个阶段是这样的：
 
@@ -130,7 +130,7 @@ TCC 在微服务架构里面比较常用，Try 对应一个微服务调用，Con
 
 然后你可以用这个例子补充说明。
 
-![图片](https://static001.geekbang.org/resource/image/f4/a7/f452e763d48daf1ce86833771af04ca7.png?wh=1920x1057)
+![图片](https://static001.geekbang.org/resource/image/f4/a7/f452e763d48daf1ce86833771af04ca7.png?wh=1920x1057){: referrerpolicy="no-referrer" }
 
 > 比如在我的某个业务里面，Try 本身就是插入数据，但是处于初始化状态，还不能使用。后续 Confirm 的时候就是把状态更新为可用，而 Cancel 则是更新为不可用，当然直接删除也是可以的。
 
@@ -146,7 +146,7 @@ TCC 在微服务架构里面比较常用，Try 对应一个微服务调用，Con
 
 > 正常来说，TCC 里面 T 阶段出错是没有关系的。比如说前面的那个例子里，数据处于初始化状态的时候，其实后续业务是用不了的，也就不会有问题。但是如果在 Confirm 的时候出错了，问题就比较严重了。比如说一部分业务已经将数据更新为可用了，另外一部分业务更新数据为可用失败，那么就会出现不一致的情况。
 
-![图片](https://static001.geekbang.org/resource/image/09/46/098b5608842f7501ed4a21acdf684746.png?wh=1920x1057)
+![图片](https://static001.geekbang.org/resource/image/09/46/098b5608842f7501ed4a21acdf684746.png?wh=1920x1057){: referrerpolicy="no-referrer" }
 
 紧接着讲解决方案，关键词是**重试。**
 
@@ -156,13 +156,13 @@ TCC 在微服务架构里面比较常用，Try 对应一个微服务调用，Con
 
 > 我在后面搞了一个离线比对数据并修复的方案，就是用来查找这种相关联的数据的，一部分数据还处于初始化状态，但是一部分数据已经处于可用状态，然后修复那部分初始化的数据。
 
-![图片](https://static001.geekbang.org/resource/image/99/0f/999a42ef82eff53fa5affa5985bca50f.png?wh=1920x937)
+![图片](https://static001.geekbang.org/resource/image/99/0f/999a42ef82eff53fa5affa5985bca50f.png?wh=1920x937){: referrerpolicy="no-referrer" }
 
 另外一个方案则是在读取数据的时候，如果发现数据不一致，那么就**丢弃这个数据，同时触发修复逻辑。**
 
 > 在一些业务场景下，读请求是能够发现这种数据不一致的。那么它就会立刻丢弃这个数据，并且触发修复程序。
 
-![图片](https://static001.geekbang.org/resource/image/f1/39/f17da3dc9b381aebd3dfc42867ea8239.png?wh=1920x1057)
+![图片](https://static001.geekbang.org/resource/image/f1/39/f17da3dc9b381aebd3dfc42867ea8239.png?wh=1920x1057){: referrerpolicy="no-referrer" }
 
 到这里 TCC 你已经讨论得比较深入了。接下来你可以考虑尝试把话题引到 SAGA。
 
@@ -176,7 +176,7 @@ SAGA 的核心思想一句话就可以说明白，就是把业务分成一个个
 
 我举一个例子，某个步骤是插入数据，如果是回滚的话，那么是指插入的时候没有提交，然后在业务失败的时候回滚。如果是反向补偿的话，那么是指插入的时候已经提交了，然后在业务失败的时候执行删除。
 
-![图片](https://static001.geekbang.org/resource/image/b5/c7/b54fd51cb4e9e55b24f3a045729316c7.png?wh=1920x1082)
+![图片](https://static001.geekbang.org/resource/image/b5/c7/b54fd51cb4e9e55b24f3a045729316c7.png?wh=1920x1082){: referrerpolicy="no-referrer" }
 
 在聊到 SAGA 的时候，你可以简单介绍一下 SAGA 的基本理念，关键词是**反向补偿**。
 
@@ -186,7 +186,7 @@ SAGA 的核心思想一句话就可以说明白，就是把业务分成一个个
 
 > 早期我设计过一个比较复杂的 SAGA 机制，它支持并发调度。也就是说如果整个分布式事务中有可以并发执行的步骤，那么就并发执行，在后续出错的时候，这些并发执行的步骤也可以并发反向补偿。
 
-![图片](https://static001.geekbang.org/resource/image/4b/d3/4beb57642bb000fe1ae5fcdb658yy1d3.png?wh=1920x751)
+![图片](https://static001.geekbang.org/resource/image/4b/d3/4beb57642bb000fe1ae5fcdb658yy1d3.png?wh=1920x751){: referrerpolicy="no-referrer" }
 
 SAGA 本身也是需要考虑容错的，难点就是在反向补偿的时候失败了怎么办？比如说在前面的例子里，你准备删除数据的时候失败了。那么还是没有特别好的办法，无非就是不断重试，这一部分你可以参考 TCC 中讨论的容错内容。
 
@@ -224,21 +224,21 @@ AT 是指如果你操作很多个数据库，那么分布式事务中间件会�
 
 在分库分表中间件眼里，当你执行 Begin 的时候，它是无法预测你接下来会在哪些数据库上面开启事务的。
 
-![图片](https://static001.geekbang.org/resource/image/84/87/840fc823ddd3d576651beacdb1761b87.png?wh=1920x1060)
+![图片](https://static001.geekbang.org/resource/image/84/87/840fc823ddd3d576651beacdb1761b87.png?wh=1920x1060){: referrerpolicy="no-referrer" }
 
 比如说，在同一个场景下，某个请求过来，你处理的时候在分库分表中间件上调用了 Begin 方法，这个请求最终在 user\_db\_0 和 user\_db\_1 上开启了事务；但是另外一个请求过来，因为参数不同，它可能最终在 user\_db\_2 上开启了事务。
 
-![图片](https://static001.geekbang.org/resource/image/c2/c3/c205c41113b148080290632e8b6218c3.png?wh=1920x1082)
+![图片](https://static001.geekbang.org/resource/image/c2/c3/c205c41113b148080290632e8b6218c3.png?wh=1920x1082){: referrerpolicy="no-referrer" }
 
 所以中间件只有两个选择，要么在 Begin 的时候就在全部数据库上开启事务，要么就是延迟到执行具体 SQL 的时候，知道要在哪些数据库上执行，再去开启事务。
 
 而在 Begin 的时候就直接开启事务过于粗暴，毕竟后面有些 DB 根本不会有任何查询。
 
-![图片](https://static001.geekbang.org/resource/image/2a/48/2a970e9bea5a32d3ae4ef482f609a348.png?wh=1920x1075)
+![图片](https://static001.geekbang.org/resource/image/2a/48/2a970e9bea5a32d3ae4ef482f609a348.png?wh=1920x1075){: referrerpolicy="no-referrer" }
 
 因此，延迟事务应用更加广泛，它可以避免在用不上的数据库上开启事务的问题。
 
-![图片](https://static001.geekbang.org/resource/image/b7/7e/b75a73a5498dfba73144786d3c1e497e.png?wh=1920x1060)
+![图片](https://static001.geekbang.org/resource/image/b7/7e/b75a73a5498dfba73144786d3c1e497e.png?wh=1920x1060){: referrerpolicy="no-referrer" }
 
 这时候，你就可以对比**全开事务**和**延迟事务**这两种思路。
 
@@ -248,7 +248,7 @@ AT 是指如果你操作很多个数据库，那么分布式事务中间件会�
 
 这里你故意提到了部分失败的问题，是为了引导面试官进一步问。所谓部分失败是指在 COMMIT 的时候，某些数据库 COMMIT 成功了，但是另外一些数据库 COMMIT 失败了怎么办？当然，回滚也有类似的问题。
 
-![图片](https://static001.geekbang.org/resource/image/7d/d5/7dcb91a998c9dc0c67c6f2bdee18d4d5.png?wh=1920x1070)
+![图片](https://static001.geekbang.org/resource/image/7d/d5/7dcb91a998c9dc0c67c6f2bdee18d4d5.png?wh=1920x1070){: referrerpolicy="no-referrer" }
 
 其实这里没有完美的解决方案，只能**考虑重试，**类似于在讨论 TCC、SAGA 和 AT 的时候那样。
 
@@ -264,7 +264,7 @@ AT 是指如果你操作很多个数据库，那么分布式事务中间件会�
 
 实际上，这种自动修复的逻辑是跟业务强相关的，所以你可以提供一些简单的通用处理机制，但是如果比较复杂的话，就需要业务方来控制如何修复了。
 
-![图片](https://static001.geekbang.org/resource/image/9d/2f/9db2481dc2ec4726e77ccf2344e4ed2f.png?wh=1920x862)
+![图片](https://static001.geekbang.org/resource/image/9d/2f/9db2481dc2ec4726e77ccf2344e4ed2f.png?wh=1920x862){: referrerpolicy="no-referrer" }
 
 ## 面试思路总结
 
@@ -278,7 +278,7 @@ AT 是指如果你操作很多个数据库，那么分布式事务中间件会�
 
 如果是单纯的分库分表跨库事务，那么可以考虑延迟事务，同时它也是我给你提供的亮点方案。
 
-![](https://static001.geekbang.org/resource/image/cb/47/cba3889e193ffe72a714bcf7e0368d47.png?wh=1882x1708)
+![](https://static001.geekbang.org/resource/image/cb/47/cba3889e193ffe72a714bcf7e0368d47.png?wh=1882x1708){: referrerpolicy="no-referrer" }
 
 此外，这一节课我又演示了一个面试小技巧，就是顺着面试官的立场回答。在我们的技术领域，并不是所有答案都有对错之分，有一些是立场之分、偏好之分。如果你摸不清面试官的偏向，你就按照自己的本心回答。如果你的回答面试官不满意，也就是你的偏向和他的偏向不一致，他一路杠到底，你就直接认怂。
 

@@ -4,7 +4,7 @@
 
 2015年，HTTP/2协议正式推出后，已经有接近一半的互联网站点在使用它：
 
-[![](https://static001.geekbang.org/resource/image/0c/01/0c0277835b0yy731b11d68d44de00601.jpg?wh=1188%2A796 "图片来自：https://w3techs.com/technologies/details/ce-http2")](https://w3techs.com/technologies/details/ce-http2)
+[![](https://static001.geekbang.org/resource/image/0c/01/0c0277835b0yy731b11d68d44de00601.jpg?wh=1188%2A796 "图片来自：https://w3techs.com/technologies/details/ce-http2")](https://w3techs.com/technologies/details/ce-http2){: referrerpolicy="no-referrer" }
 
 HTTP/2协议虽然大幅提升了HTTP/1.1的性能，然而，基于TCP实现的HTTP/2遗留下3个问题：
 
@@ -32,7 +32,7 @@ HTTP/3在保持HTTP/1语义不变的情况下，更改了编码格式，这由2�
 
 首先，是为了减少编码长度。下图中HTTP/1协议的编码使用了ASCII码，用空格、冒号以及 \\r\\n作为分隔符，编码效率很低。
 
-![](https://static001.geekbang.org/resource/image/f8/91/f8c65f3f1c405f2c87db1db1c421f891.jpg?wh=4997%2A2552)
+![](https://static001.geekbang.org/resource/image/f8/91/f8c65f3f1c405f2c87db1db1c421f891.jpg?wh=4997%2A2552){: referrerpolicy="no-referrer" }
 
 HTTP/2与HTTP/3采用二进制、静态表、动态表与Huffman算法对HTTP Header编码，不只提供了高压缩率，还加快了发送端编码、接收端解码的速度。
 
@@ -44,15 +44,15 @@ HTTP/2与HTTP/3采用二进制、静态表、动态表与Huffman算法对HTTP He
 
 因此，HTTP/2与HTTP/3都在应用层实现了多路复用功能：
 
-[![](https://static001.geekbang.org/resource/image/90/e0/90f7cc7fed1a46b691303559cde3bce0.jpg?wh=1792%2A834 "图片来自：https://blog.cloudflare.com/http3-the-past-present-and-future/")](https://blog.cloudflare.com/http3-the-past-present-and-future/)
+[![](https://static001.geekbang.org/resource/image/90/e0/90f7cc7fed1a46b691303559cde3bce0.jpg?wh=1792%2A834 "图片来自：https://blog.cloudflare.com/http3-the-past-present-and-future/")](https://blog.cloudflare.com/http3-the-past-present-and-future/){: referrerpolicy="no-referrer" }
 
 HTTP/2协议基于TCP有序字节流实现，因此**应用层的多路复用并不能做到无序地并发，在丢包场景下会出现队头阻塞问题**。如下面的动态图片所示，服务器返回的绿色响应由5个TCP报文组成，而黄色响应由4个TCP报文组成，当第2个黄色报文丢失后，即使客户端接收到完整的5个绿色报文，但TCP层不允许应用进程的read函数读取到最后5个报文，并发也成了一纸空谈。
 
-![](https://static001.geekbang.org/resource/image/12/46/12473f12db5359904526d1878bc3c046.gif?wh=720%2A520)
+![](https://static001.geekbang.org/resource/image/12/46/12473f12db5359904526d1878bc3c046.gif?wh=720%2A520){: referrerpolicy="no-referrer" }
 
 当网络繁忙时，丢包概率会很高，多路复用受到了很大限制。因此，**HTTP/3采用UDP作为传输层协议，重新实现了无序连接，并在此基础上通过有序的QUIC Stream提供了多路复用**，如下图所示：
 
-[![](https://static001.geekbang.org/resource/image/35/d6/35c3183d5a210bc4865869d9581c93d6.png?wh=554%2A254 "图片来自：https://blog.cloudflare.com/http3-the-past-present-and-future/")](https://blog.cloudflare.com/http3-the-past-present-and-future/)
+[![](https://static001.geekbang.org/resource/image/35/d6/35c3183d5a210bc4865869d9581c93d6.png?wh=554%2A254 "图片来自：https://blog.cloudflare.com/http3-the-past-present-and-future/")](https://blog.cloudflare.com/http3-the-past-present-and-future/){: referrerpolicy="no-referrer" }
 
 最早这一实验性协议由Google推出，并命名为gQUIC，因此，IETF草案中仍然保留了QUIC概念，用来描述HTTP/3协议的传输层和表示层。HTTP/3协议规范由以下5个部分组成：
 
@@ -68,13 +68,13 @@ HTTP/2协议基于TCP有序字节流实现，因此**应用层的多路复用并
 
 对于当下的HTTP/1和HTTP/2协议，传输请求前需要先完成耗时1个RTT的TCP三次握手、耗时1个RTT的TLS握手（TLS1.3），**由于它们分属内核实现的传输层、openssl库实现的表示层，所以难以合并在一起**，如下图所示：
 
-[![](https://static001.geekbang.org/resource/image/79/a2/79a1d38d2e39c93e600f38ae3a9a04a2.jpg?wh=1760%2A1234 "图片来自：https://blog.cloudflare.com/http3-the-past-present-and-future/")](https://blog.cloudflare.com/http3-the-past-present-and-future/)
+[![](https://static001.geekbang.org/resource/image/79/a2/79a1d38d2e39c93e600f38ae3a9a04a2.jpg?wh=1760%2A1234 "图片来自：https://blog.cloudflare.com/http3-the-past-present-and-future/")](https://blog.cloudflare.com/http3-the-past-present-and-future/){: referrerpolicy="no-referrer" }
 
 在IoT时代，移动设备接入的网络会频繁变动，从而导致设备IP地址改变。**对于通过四元组（源IP、源端口、目的IP、目的端口）定位连接的TCP协议来说，这意味着连接需要断开重连，所以上述2个RTT的建链时延、TCP慢启动都需要重新来过。**而HTTP/3的QUIC层实现了连接迁移功能，允许移动设备更换IP地址后，只要仍保有上下文信息（比如连接ID、TLS密钥等），就可以复用原连接。
 
 在UDP报文头部与HTTP消息之间，共有3层头部，定义连接且实现了Connection Migration主要是在Packet Header中完成的，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/ab/7c/ab3283383013b707d1420b6b4cb8517c.png?wh=554%2A371)
+![](https://static001.geekbang.org/resource/image/ab/7c/ab3283383013b707d1420b6b4cb8517c.png?wh=554%2A371){: referrerpolicy="no-referrer" }
 
 这3层Header实现的功能各不相同：
 
@@ -89,19 +89,19 @@ HTTP/2协议基于TCP有序字节流实现，因此**应用层的多路复用并
 
 其中，Long Packet Header的格式如下图所示：
 
-![](https://static001.geekbang.org/resource/image/5e/b4/5ecc19ba9106179cd3443eefc1d6b8b4.png?wh=554%2A248)
+![](https://static001.geekbang.org/resource/image/5e/b4/5ecc19ba9106179cd3443eefc1d6b8b4.png?wh=554%2A248){: referrerpolicy="no-referrer" }
 
 建立连接时，连接是由服务器通过Source Connection ID字段分配的，这样，后续传输时，双方只需要固定住Destination Connection ID，就可以在客户端IP地址、端口变化后，绕过UDP四元组（与TCP四元组相同），实现连接迁移功能。下图是Short Packet Header头部的格式，这里就不再需要传输Source Connection ID字段了：
 
-![](https://static001.geekbang.org/resource/image/f4/26/f41634797dfafeyy4535c3e94ea5f226.png?wh=554%2A179)
+![](https://static001.geekbang.org/resource/image/f4/26/f41634797dfafeyy4535c3e94ea5f226.png?wh=554%2A179){: referrerpolicy="no-referrer" }
 
 上图中的Packet Number是每个报文独一无二的序号，基于它可以实现丢失报文的精准重发。如果你通过抓包观察Packet Header，会发现Packet Number被TLS层加密保护了，这是为了防范各类网络攻击的一种设计。下图给出了Packet Header中被加密保护的字段：
 
-![](https://static001.geekbang.org/resource/image/5a/93/5a77916ce399148d0c2d951df7c26c93.png?wh=554%2A385)
+![](https://static001.geekbang.org/resource/image/5a/93/5a77916ce399148d0c2d951df7c26c93.png?wh=554%2A385){: referrerpolicy="no-referrer" }
 
 其中，显示为E（Encrypt）的字段表示被TLS加密过。当然，Packet Header只是描述了最基本的连接信息，其上的Stream层、HTTP消息也是被加密保护的：
 
-![](https://static001.geekbang.org/resource/image/9e/af/9edabebb331bb46c6e2335eda20c68af.png?wh=554%2A306)
+![](https://static001.geekbang.org/resource/image/9e/af/9edabebb331bb46c6e2335eda20c68af.png?wh=554%2A306){: referrerpolicy="no-referrer" }
 
 现在我们已经对HTTP/3协议的格式有了基本的了解，接下来我们通过队头阻塞问题，看看Packet之上的QUIC Frame、HTTP/3 Frame帧格式。
 
@@ -109,29 +109,29 @@ HTTP/2协议基于TCP有序字节流实现，因此**应用层的多路复用并
 
 其实，解决队头阻塞的方案，就是允许微观上有序发出的Packet报文，在接收端无序到达后也可以应用于并发请求中。比如上文的动态图中，如果丢失的黄色报文对其后发出的绿色报文不造成影响，队头阻塞问题自然就得到了解决：
 
-![](https://static001.geekbang.org/resource/image/f6/f4/f6dc5b11f8a240b4283dcb8de5b9a0f4.gif?wh=720%2A520)
+![](https://static001.geekbang.org/resource/image/f6/f4/f6dc5b11f8a240b4283dcb8de5b9a0f4.gif?wh=720%2A520){: referrerpolicy="no-referrer" }
 
 在Packet Header之上的QUIC Frame Header，定义了有序字节流Stream，而且Stream之间可以实现真正的并发。HTTP/3的Stream，借鉴了HTTP/2中的部分概念，所以在讨论QUIC Frame Header格式之前，我们先来看看HTTP/2中的Stream长什么样子：
 
-[![](https://static001.geekbang.org/resource/image/ff/4e/ff629c78ac1880939e5eabb85ab53f4e.png?wh=554%2A449 "图片来自：https://developers.google.com/web/fundamentals/performance/http2")](https://developers.google.com/web/fundamentals/performance/http2)
+[![](https://static001.geekbang.org/resource/image/ff/4e/ff629c78ac1880939e5eabb85ab53f4e.png?wh=554%2A449 "图片来自：https://developers.google.com/web/fundamentals/performance/http2")](https://developers.google.com/web/fundamentals/performance/http2){: referrerpolicy="no-referrer" }
 
 每个Stream就像HTTP/1中的TCP连接，它保证了承载的HEADERS frame（存放HTTP Header）、DATA frame（存放HTTP Body）是有序到达的，多个Stream之间可以并行传输。在HTTP/3中，上图中的HTTP/2 frame会被拆解为两层，我们先来看底层的QUIC Frame。
 
 一个Packet报文中可以存放多个QUIC Frame，当然所有Frame的长度之和不能大于PMTUD（Path Maximum Transmission Unit Discovery，这是大于1200字节的值），你可以把它与IP路由中的MTU概念对照理解：
 
-![](https://static001.geekbang.org/resource/image/3d/47/3df65a7bb095777f1f8a7fede1a06147.png?wh=554%2A183)
+![](https://static001.geekbang.org/resource/image/3d/47/3df65a7bb095777f1f8a7fede1a06147.png?wh=554%2A183){: referrerpolicy="no-referrer" }
 
 每一个Frame都有明确的类型：
 
-![](https://static001.geekbang.org/resource/image/0e/5d/0e27cd850c0f5b854fd3385cab05755d.png?wh=554%2A120)
+![](https://static001.geekbang.org/resource/image/0e/5d/0e27cd850c0f5b854fd3385cab05755d.png?wh=554%2A120){: referrerpolicy="no-referrer" }
 
 前4个字节的Frame Type字段描述的类型不同，接下来的编码也不相同，下表是各类Frame的16进制Type值：
 
-![](https://static001.geekbang.org/resource/image/45/85/45b0dfcd5c59a9c8be1c5c9e6f998085.jpg?wh=1236%2A900)
+![](https://static001.geekbang.org/resource/image/45/85/45b0dfcd5c59a9c8be1c5c9e6f998085.jpg?wh=1236%2A900){: referrerpolicy="no-referrer" }
 
 在上表中，我们只要分析0x08-0x0f这8种STREAM类型的Frame，就能弄明白Stream流的实现原理，自然也就清楚队头阻塞是怎样解决的了。Stream Frame用于传递HTTP消息，它的格式如下所示：
 
-![](https://static001.geekbang.org/resource/image/10/4c/10874d334349349559835yy4d4c92b4c.png?wh=554%2A180)
+![](https://static001.geekbang.org/resource/image/10/4c/10874d334349349559835yy4d4c92b4c.png?wh=554%2A180){: referrerpolicy="no-referrer" }
 
 可见，Stream Frame头部的3个字段，完成了多路复用、有序字节流以及报文段层面的二进制分隔功能，包括：
 
@@ -147,7 +147,7 @@ HTTP/2协议基于TCP有序字节流实现，因此**应用层的多路复用并
 
 Stream数据中并不会直接存放HTTP消息，因为HTTP/3还需要实现服务器推送、权重优先级设定、流量控制等功能，所以Stream Data中首先存放了HTTP/3 Frame：
 
-![](https://static001.geekbang.org/resource/image/12/61/12b117914de00014f90d1yyf12875861.png?wh=554%2A150)
+![](https://static001.geekbang.org/resource/image/12/61/12b117914de00014f90d1yyf12875861.png?wh=554%2A150){: referrerpolicy="no-referrer" }
 
 其中，Length指明了HTTP消息的长度，而Type字段（请注意，低2位有特殊用途，在QPACK一节中会详细介绍）包含了以下类型：
 
@@ -167,15 +167,15 @@ Stream数据中并不会直接存放HTTP消息，因为HTTP/3还需要实现服�
 
 与HTTP/2中的HPACK编码方式相似，HTTP/3中的QPACK也采用了静态表、动态表及Huffman编码：
 
-[![](https://static001.geekbang.org/resource/image/af/94/af869abf09yy1d6d3b0fa5879e300194.jpg?wh=1568%2A532 "图片来自：https://www.oreilly.com/content/http2-a-new-excerpt/")](https://www.oreilly.com/content/http2-a-new-excerpt/)
+[![](https://static001.geekbang.org/resource/image/af/94/af869abf09yy1d6d3b0fa5879e300194.jpg?wh=1568%2A532 "图片来自：https://www.oreilly.com/content/http2-a-new-excerpt/")](https://www.oreilly.com/content/http2-a-new-excerpt/){: referrerpolicy="no-referrer" }
 
 先来看静态表的变化。在上图中，GET方法映射为数字2，这是通过客户端、服务器协议实现层的硬编码完成的。在HTTP/2中，共有61个静态表项：
 
-![](https://static001.geekbang.org/resource/image/8c/21/8cd69a7baf5a02d84e69fe6946d5ab21.jpg?wh=1176%2A882)
+![](https://static001.geekbang.org/resource/image/8c/21/8cd69a7baf5a02d84e69fe6946d5ab21.jpg?wh=1176%2A882){: referrerpolicy="no-referrer" }
 
 而在QPACK中，则上升为98个静态表项，比如Nginx上的ngx\_http\_v3\_static\_table数组所示：
 
-![](https://static001.geekbang.org/resource/image/0c/10/0c9c5ab8c342eb6545b00cee8f6b4010.png?wh=554%2A500)
+![](https://static001.geekbang.org/resource/image/0c/10/0c9c5ab8c342eb6545b00cee8f6b4010.png?wh=554%2A500){: referrerpolicy="no-referrer" }
 
 你也可以从[这里](https://tools.ietf.org/html/draft-ietf-quic-qpack-14#appendix-A)找到完整的HTTP/3静态表。对于Huffman以及整数的编码，QPACK与HPACK并无多大不同，但动态表编解码方式差距很大。
 
@@ -185,11 +185,11 @@ QPACK是如何解决队头阻塞问题的呢？事实上，QPACK将动态表的�
 
 这里我们又引入了单向Stream和双向Stream概念，不要头疼，它其实很简单。单向指只有一端可以发送消息，双向则指两端都可以发送消息。还记得上一小节的QUIC Stream Frame头部吗？其中的Stream ID别有玄机，除了标识Stream外，它的低2位还可以表达以下组合：
 
-![](https://static001.geekbang.org/resource/image/ae/0a/ae1dbf30467e8a7684d337701f055c0a.png?wh=429%2A202)
+![](https://static001.geekbang.org/resource/image/ae/0a/ae1dbf30467e8a7684d337701f055c0a.png?wh=429%2A202){: referrerpolicy="no-referrer" }
 
 因此，当Stream ID是0、4、8、12时，这就是客户端发起的双向Stream（HTTP/3不支持服务器发起双向Stream），它用于传输HTTP请求与响应。单向Stream有很多用途，所以它在数据前又多出一个Stream Type字段：
 
-![](https://static001.geekbang.org/resource/image/b0/52/b07521a11e65a24cd4b93553127bfc52.png?wh=554%2A84)
+![](https://static001.geekbang.org/resource/image/b0/52/b07521a11e65a24cd4b93553127bfc52.png?wh=554%2A84){: referrerpolicy="no-referrer" }
 
 Stream Type有以下取值：
 

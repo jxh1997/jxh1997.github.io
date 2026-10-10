@@ -71,7 +71,7 @@
 
 如下图所示为8X Flow的元模型（Meta Model）图，表示了上面我们所讲的核心概念，以及它们之间的关联：
 
-![](https://static001.geekbang.org/resource/image/d9/08/d9286102bb3b782706631b2528bdf108.jpg?wh=1920x1080)
+![](https://static001.geekbang.org/resource/image/d9/08/d9286102bb3b782706631b2528bdf108.jpg?wh=1920x1080){: referrerpolicy="no-referrer" }
 
 使用8X Flow建模的流程大致是这样的：
 
@@ -90,7 +90,7 @@
 
 那么我们可以建立一个业务模型，里面包含合同和这两个主要履约项：
 
-![](https://static001.geekbang.org/resource/image/f8/1a/f836053b882ae471c6d9bdfb25f43d1a.jpg?wh=1920x1080)
+![](https://static001.geekbang.org/resource/image/f8/1a/f836053b882ae471c6d9bdfb25f43d1a.jpg?wh=1920x1080){: referrerpolicy="no-referrer" }
 
 接下来我们就需要寻找违约情况了，对应上面讲的两个权责，那么分别存在如下两种违约情况：
 
@@ -103,7 +103,7 @@
 
 所以我们可以继续添加模型到上面的模型图中，并将标的物划入不同的上下文，以表示领域边界，如下图所示。这里我也说明一下，由于图片大小关系，我省略了一些凭证，还简化了权责方与请求和确认的关联。不过这并不影响对模型的整体理解，你可以着重看一下权责履约项：
 
-![](https://static001.geekbang.org/resource/image/a1/19/a1dd021d2738e6de7770a3cd0d1aed19.jpg?wh=1920x1080)
+![](https://static001.geekbang.org/resource/image/a1/19/a1dd021d2738e6de7770a3cd0d1aed19.jpg?wh=1920x1080){: referrerpolicy="no-referrer" }
 
 至此，我们就通过8X Flow完成了对极客时间专栏的建模。不过如果我们仔细观察得到的模型，会发现几个有意思的现象。
 
@@ -131,7 +131,7 @@
 
 这个合同呢，其实你也不陌生，就是你开通微信或者支付宝支付服务时，签署的用户协议（对，就是你看也没看就点了“同意”的那篇“废话”）。在这个用户协议中，规定了如何付款与收款。那么我们同样可以通过8X Flow对这个用户协议进行建模，过程与上面大同小异，不再赘述，直接来看结果：
 
-![](https://static001.geekbang.org/resource/image/63/36/631c5264df06250e4912d27ab660ca36.jpg?wh=1920x1080)
+![](https://static001.geekbang.org/resource/image/63/36/631c5264df06250e4912d27ab660ca36.jpg?wh=1920x1080){: referrerpolicy="no-referrer" }
 
 通过这个模型我们很明显就能发现，**业务模式改变了，从面对面的现金交易，变成了借由第三方支付服务完成的交易。**
 
@@ -145,7 +145,7 @@
 
 也就是说，在上面的例子里，专栏订阅合同是依赖于移动支付协议的。那么如果我们引入另一种支付模式，比如说预充值抵扣，那么我们可能就会引入另外一个合同上下文：预付费合同。而专栏订阅合同也会依赖于它。如下所示：
 
-![](https://static001.geekbang.org/resource/image/ff/98/ff9e0b7ab55ab20791fcdc9df1892d98.jpg?wh=1920x1080)
+![](https://static001.geekbang.org/resource/image/ff/98/ff9e0b7ab55ab20791fcdc9df1892d98.jpg?wh=1920x1080){: referrerpolicy="no-referrer" }
 
 这里明显会出现一个坏味道，随着新支付方式和手段的引入，专栏订阅合同上下文会不断地去依赖新的合同上下文。
 
@@ -155,7 +155,7 @@
 
 不过解决的办法也很简单，那就是**反转依赖**，我们可以让**履约确认角色化，让其他合同中的凭证来扮演这个履约确认。**这其实就是我们在[第9节](https://time.geekbang.org/column/article/392869)讲的能力供应商模式，它是面向对象技术中反转依赖的一个小应用。如下图所示：
 
-![](https://static001.geekbang.org/resource/image/c1/cc/c1a4eyy38c9d28b930d7a340f59995cc.jpg?wh=1920x1080)
+![](https://static001.geekbang.org/resource/image/c1/cc/c1a4eyy38c9d28b930d7a340f59995cc.jpg?wh=1920x1080){: referrerpolicy="no-referrer" }
 
 通过将专栏付款确认角色化，我们就在专栏订阅合同中引入了一个变化点。就意味着这个履约项，可由多种不同凭证来确定，也就是存在跟其他不同合同上下文交互的可能性。**而这种对业务变化的判断，并不是源自技术方案，而是从业务本身的结构出发，寻找可能存在的变化点。**
 
@@ -192,7 +192,7 @@
 
 对于其他合同上下文的引用，能不能将其转化为领域系统（比如支付子系统），并与业务部分整合？我们现在的建模是从合同确立开始的，那么合同确立之前要怎么建模？
 
-![](https://static001.geekbang.org/resource/image/73/3e/7348c2a3508769257yyb3637e329433e.jpg?wh=1500x1798)
+![](https://static001.geekbang.org/resource/image/73/3e/7348c2a3508769257yyb3637e329433e.jpg?wh=1500x1798){: referrerpolicy="no-referrer" }
 
 欢迎把你的思考和想法分享在留言区，我会和你交流。我们下节课继续学习8X Flow！
 <div><strong>精选留言（15）</strong></div><ul>

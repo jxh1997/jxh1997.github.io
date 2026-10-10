@@ -32,7 +32,7 @@ SSD的好处显而易见，它作为存储时，应用程序可以获得更好�
 
 这其中的秘密，就是**使用多个并发线程来执行I/O**。如下图所示，这利用了**SSD的内部并行性**。
 
-![](https://static001.geekbang.org/resource/image/d2/a0/d2b82a4a2b47c03aea570f183c49b8a0.png?wh=2000%2A902)
+![](https://static001.geekbang.org/resource/image/d2/a0/d2b82a4a2b47c03aea570f183c49b8a0.png?wh=2000%2A902){: referrerpolicy="no-referrer" }
 
 这里你需要注意的是，在这个系统中，多个I/O线程对HDD是毫无益处的。因为HDD只有一个磁头，所以用多个I/O线程，并不能提高旧系统的吞吐量。
 
@@ -95,7 +95,7 @@ SSD和HDD之间的差异在数据库设计中尤其重要。近几十年来，�
 
 在这一领域，我总结了七大SSD友好的设计原则，大体上分为三类：数据结构、I/O处理和线程使用。
 
-![](https://static001.geekbang.org/resource/image/a0/2d/a087788f0d74a2863366ca456f8c362d.png?wh=1920%2A1075)
+![](https://static001.geekbang.org/resource/image/a0/2d/a087788f0d74a2863366ca456f8c362d.png?wh=1920%2A1075){: referrerpolicy="no-referrer" }
 
 ### 1.数据结构：避免就地更新优化
 
@@ -103,7 +103,7 @@ SSD和HDD之间的差异在数据库设计中尤其重要。近几十年来，�
 
 比如下图所示，在执行随机更新时，吞吐量一般只能达到约170 QPS；而对于同一个HDD，就地更新可以达到280QPS，远高于随机更新。
 
-![](https://static001.geekbang.org/resource/image/ff/3b/fff29bfb9e14f2ff93e0637e8636333b.png?wh=2059%2A1067)
+![](https://static001.geekbang.org/resource/image/ff/3b/fff29bfb9e14f2ff93e0637e8636333b.png?wh=2059%2A1067){: referrerpolicy="no-referrer" }
 
 不过在设计与SSD配合使用的应用程序时，这些考虑就没什么意义了。对SSD而言，随机读写和顺序读写性能类似，就地更新不会获得任何IOPS优势。
 
@@ -113,7 +113,7 @@ SSD和HDD之间的差异在数据库设计中尤其重要。近几十年来，�
 
 使用SSD，以上相同的应用程序，可以通过**随机更新**或**就地更新**来达到大约2万QPS；而且随机更新和就地更新的吞吐量大体相似，随机更新其实还稍微好些。如下图所示。
 
-![](https://static001.geekbang.org/resource/image/7a/0b/7aa33a3abeef4b908f7560b23db6c20b.png?wh=2027%2A1035)
+![](https://static001.geekbang.org/resource/image/7a/0b/7aa33a3abeef4b908f7560b23db6c20b.png?wh=2027%2A1035){: referrerpolicy="no-referrer" }
 
 ### 2.数据结构：区分热、冷数据
 
@@ -153,7 +153,7 @@ SSD内部大量使用了并行的设计，这种并行表现在多个层面上�
 
 SSD可以有效地在可用通道之间分配读写操作，从而提供高水平的内部I/O并发性。例如，我们使用一个应用程序执行10KB写入I/O（10KB算是比较小的IO大小）。使用一个I/O线程，它可以达到115MB/秒。使用两个线程基本上使吞吐量加倍；使用四个线程再次将其加倍；使用八个线程可达到约500MB/秒，如下图所示。
 
-![](https://static001.geekbang.org/resource/image/89/76/8984620c393a877fb47ecab219a41076.png?wh=2000%2A705)
+![](https://static001.geekbang.org/resource/image/89/76/8984620c393a877fb47ecab219a41076.png?wh=2000%2A705){: referrerpolicy="no-referrer" }
 
 你可能会很自然地问出一个问题：这里的“小”IO，到底有多小？
 
@@ -167,7 +167,7 @@ SSD可以有效地在可用通道之间分配读写操作，从而提供高水�
 
 例如，根据我们的实验，当写入大小为10MB时，一个线程可以达到414MB/秒，两个线程可以达到816MB/秒，而四个线程达到912MB/秒，八个线程实际上只有520MB/秒。如下图所示。
 
-![](https://static001.geekbang.org/resource/image/98/99/98feb65d9b624e057baeb97f0af6c599.png?wh=2000%2A722)
+![](https://static001.geekbang.org/resource/image/98/99/98feb65d9b624e057baeb97f0af6c599.png?wh=2000%2A722){: referrerpolicy="no-referrer" }
 
 ## 总结
 
@@ -177,7 +177,7 @@ SSD可以有效地在可用通道之间分配读写操作，从而提供高水�
 
 为了发挥SSD的全部性能潜能，应用程序设计必须对SSD友好。
 
-![](https://static001.geekbang.org/resource/image/48/d0/485e47b6f1103ba4304e436d066f62d0.png?wh=1939%2A1371)
+![](https://static001.geekbang.org/resource/image/48/d0/485e47b6f1103ba4304e436d066f62d0.png?wh=1939%2A1371){: referrerpolicy="no-referrer" }
 
 唐代的王维有一首《少年行》，讲几个好哥们一起喝酒：“新丰美酒斗十千，咸阳游侠多少年。相逢意气为君饮，系马高楼垂柳边。” 说的是性情投机的好朋友一起互相帮助，就会互相促进。
 

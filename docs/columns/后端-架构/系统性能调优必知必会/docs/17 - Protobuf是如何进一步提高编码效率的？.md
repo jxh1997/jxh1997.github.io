@@ -41,7 +41,7 @@ message Person {
 
 接着，通过protoc程序便可以针对不同平台、编程语言，将它生成编解码类，最后通过类中自动生成的SerializeToString方法将消息序列化，编码后的信息仅有11个字节。其中，报文与字段的对应关系我放在下面这张图中。
 
-![](https://static001.geekbang.org/resource/image/12/b4/12907732b38fd0c0f41330985bb02ab4.png?wh=1256%2A760)
+![](https://static001.geekbang.org/resource/image/12/b4/12907732b38fd0c0f41330985bb02ab4.png?wh=1256%2A760){: referrerpolicy="no-referrer" }
 
 从图中可以看出，Protobuf是按照字段名、值类型、字段值的顺序来编码的，由于编码极为紧凑，所以分析时必须基于二进制比特位进行。比如红色的00001、00010、00011等前5个比特位，就分别代表着name、id、sex字段。
 
@@ -49,7 +49,7 @@ message Person {
 
 Protobuf可以用1到5个字节来表示一个字段名，因此，每个字节的第1个比特位保留，它为0时表示这是字段名的最后一个字节。下表列出了几种典型序号的编码值（请把黑色的二进制位，从右至左排列，比如2049应为000100000000001，即2048+1）。
 
-![](https://static001.geekbang.org/resource/image/43/33/43983f7fcba1d26eeea952dc0934d833.jpg?wh=1668%2A656)
+![](https://static001.geekbang.org/resource/image/43/33/43983f7fcba1d26eeea952dc0934d833.jpg?wh=1668%2A656){: referrerpolicy="no-referrer" }
 
 说完字段名，我们再来看字段值是如何编码的。
 
@@ -57,15 +57,15 @@ Protobuf可以用1到5个字节来表示一个字段名，因此，每个字节�
 
 Protobuf对不同类型的值，采用6种不同的编码方式，如下表所示：
 
-![](https://static001.geekbang.org/resource/image/b2/67/b20120a8bac33d985275b5a2768ad067.jpg?wh=2148%2A800)
+![](https://static001.geekbang.org/resource/image/b2/67/b20120a8bac33d985275b5a2768ad067.jpg?wh=2148%2A800){: referrerpolicy="no-referrer" }
 
 字符串用Length-delimited方式编码，顾名思义，在值长度后顺序添加ASCII字节码即可。比如上文例子中的John，对应的ASCII码如下表所示：
 
-![](https://static001.geekbang.org/resource/image/9f/cb/9f472ea914f98a81c03a7ad309f687cb.jpg?wh=1518%2A606)
+![](https://static001.geekbang.org/resource/image/9f/cb/9f472ea914f98a81c03a7ad309f687cb.jpg?wh=1518%2A606){: referrerpolicy="no-referrer" }
 
 这样，"John"需要5个字节进行编码，如下图所示（绿色表示长度，紫色表示ASCII码）：
 
-![](https://static001.geekbang.org/resource/image/6e/ae/6e45b5c7bb5e8766f6baef8c0e8b7bae.png?wh=1257%2A692)
+![](https://static001.geekbang.org/resource/image/6e/ae/6e45b5c7bb5e8766f6baef8c0e8b7bae.png?wh=1257%2A692){: referrerpolicy="no-referrer" }
 
 这里需要注意，字符串长度的编码逻辑与字段名相同，当长度小于128（27）时，1个字节就可以表示长度。若长度从128到16384（214），则需要2个字节，以此类推。
 
@@ -77,13 +77,13 @@ Protobuf对不同类型的值，采用6种不同的编码方式，如下表所�
 
 Protobuf还可以通过enum枚举类型压缩空间。回到第1幅图，sex: FEMALE仅用2个字节就编码完成，正是枚举值FEMALE使用数字1表示所达到的效果。
 
-![](https://static001.geekbang.org/resource/image/c9/c7/c9b6c10399a34d7a0e577a0397cd5ac7.png?wh=1256%2A760)
+![](https://static001.geekbang.org/resource/image/c9/c7/c9b6c10399a34d7a0e577a0397cd5ac7.png?wh=1256%2A760){: referrerpolicy="no-referrer" }
 
 而且，由于Protobuf定义了每个字段的默认值，因此，当消息使用字段的默认值时，Protobuf编码时会略过该字段。以sex: MALE为例，由于MALE=0是sex的默认值，因此在第2幅示例图中，这2个字节都省去了。
 
 另外，当使用repeated语法将多个数字组成列表时，还可以通过打包功能提升编码效率。比如下图中，对numbers字段添加101、102、103、104这4个值后，如果不使用打包功能，共需要8个字节编码，其中每个数字前都需要添加字段名。而使用打包功能后，仅用6个字节就能完成编码，显然列表越庞大，节约的空间越多。
 
-![](https://static001.geekbang.org/resource/image/ce/47/ce7ed2695b1e3dd869b59c438ee66147.png?wh=1524%2A564)
+![](https://static001.geekbang.org/resource/image/ce/47/ce7ed2695b1e3dd869b59c438ee66147.png?wh=1524%2A564){: referrerpolicy="no-referrer" }
 
 在Protobuf2版本中，需要显式设置 \[packed=True] 才能使用打包功能，而在Protobuf3版本中这是默认功能。
 

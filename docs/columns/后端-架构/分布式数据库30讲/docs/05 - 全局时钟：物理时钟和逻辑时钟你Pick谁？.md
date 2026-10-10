@@ -18,7 +18,7 @@
 
 根据排列组合，一共产生了8种可能性，其中NTP（Network Time Protocol）误差大，也不能保证单调递增，所以就没有单独使用NTP的产品；还有一些方案在实践中则是不适用的（N/A）。因此常见的方案主要只有4类，我画了张表格，总结了一下。
 
-![](https://static001.geekbang.org/resource/image/85/f4/85d161f3cbf5a162b78ayydf318cbdf4.jpg?wh=2700%2A1042)
+![](https://static001.geekbang.org/resource/image/85/f4/85d161f3cbf5a162b78ayydf318cbdf4.jpg?wh=2700%2A1042){: referrerpolicy="no-referrer" }
 
 ### 1. TrueTime
 
@@ -62,7 +62,7 @@ TiDB的全局时钟是一个数值，它由两部分构成，其中高位是物�
 
 如何解决性能问题呢？TiDB采用预申请时间窗口的方式，我画了张图来表示这个过程。
 
-![](https://static001.geekbang.org/resource/image/3c/d6/3c9703cafb44f53596b673d9293e12d6.jpg?wh=2700%2A1253)
+![](https://static001.geekbang.org/resource/image/3c/d6/3c9703cafb44f53596b673d9293e12d6.jpg?wh=2700%2A1253){: referrerpolicy="no-referrer" }
 
 当前PD（主节点）的系统时间是103毫秒，PD向etcd申请了一个“可分配的时间窗口”。要知道时间窗口的跨度是可以通过参数指定的，系统的默认配置是3毫秒，示例采用了默认配置，所以这个窗口的起点是PD当前时间103，时间窗口的终点就在106毫秒处。。写入etcd成功后，PD将得到一个从103到106的“可分配时间窗口”，在这个时间窗口内PD可以使用系统的物理时间作为高位，拼接自己在内存中累加的逻辑时间，对外分配时间戳。
 
@@ -76,7 +76,7 @@ TiDB的全局时钟是一个数值，它由两部分构成，其中高位是物�
 
 HLC不只是字面上的意思， TiDB的TSO也混合了物理时钟与逻辑时钟，但两者截然不同。HLC代表了一种计时机制，它的首次提出是在论文“[Logical Physical Clocks and Consistent Snapshots in Globally Distributed Databases](https://cse.buffalo.edu/~demirbas/publications/hlc.pdf)”中，CockroachDB和YugabyteDB的设计灵感都来自于这篇论文。下面，我们结合图片介绍一下这个机制。
 
-![](https://static001.geekbang.org/resource/image/1c/6b/1c40af51f993yyc296635ef27de7e26b.jpg?wh=2700%2A1461)
+![](https://static001.geekbang.org/resource/image/1c/6b/1c40af51f993yyc296635ef27de7e26b.jpg?wh=2700%2A1461){: referrerpolicy="no-referrer" }
 
 假如我们有ABCD四个节点，方框是节点上发生的事件，方框内的三个数字依次是节点的本地物理时间（简称本地时间，Pt）、HLC的高位（简称L值）和HLC的低位（简称C值）。
 
@@ -86,7 +86,7 @@ A节点的本地时间初始值为10，其他节点的本地时间初始值都�
 
 事件D2发生时，首先取上一个事件D1的L值和本地时间比较。L值等于0，本地时间已经递增变为1，取最大值，那么用本地时间作为D2的L值。高位变更了，低位要归零，所以D2的HLC就是(1,0)。
 
-![](https://static001.geekbang.org/resource/image/7b/52/7b34a1c812284bc7049f9ece2323bd52.jpg?wh=2700%2A650)
+![](https://static001.geekbang.org/resource/image/7b/52/7b34a1c812284bc7049f9ece2323bd52.jpg?wh=2700%2A650){: referrerpolicy="no-referrer" }
 
 如果你看懂了D2的计时逻辑就会发现，D1其实是一样的，只不过D1没有上一个事件的L值，只能用0代替，是一种特殊情况。
 
@@ -98,11 +98,11 @@ A节点的本地时间初始值为10，其他节点的本地时间初始值都�
 
 这三个值分别是0、1和10。按照规则取最大值，所以B2的L值是10，也就是A1的L值，而C值就在A1的C值上加1，最终B2的HLC就是(10,1)。
 
-![](https://static001.geekbang.org/resource/image/e6/a4/e6de74cb1b9d2a92cb3bcb711120c3a4.jpg?wh=2700%2A1010)
+![](https://static001.geekbang.org/resource/image/e6/a4/e6de74cb1b9d2a92cb3bcb711120c3a4.jpg?wh=2700%2A1010){: referrerpolicy="no-referrer" }
 
 B3事件发生时，发现当前本地时间比B2的L值还要小，所以沿用了B2的L值，而C值是在B2的C值上加一，最终B3的HLC就是(10,2)。
 
-![](https://static001.geekbang.org/resource/image/d0/55/d0473eb6c84a264d2be5104a62d77655.jpg?wh=2700%2A438)
+![](https://static001.geekbang.org/resource/image/d0/55/d0473eb6c84a264d2be5104a62d77655.jpg?wh=2700%2A438){: referrerpolicy="no-referrer" }
 
 论文中用伪码表述了完整的计时逻辑，我把它们复制在下面，你可以仔细研究。
 
@@ -134,7 +134,7 @@ Timestamp with l:j; c:j
 
 下面是STP体系下各角色节点的关系。
 
-![](https://static001.geekbang.org/resource/image/c4/ca/c463c3aa47d625a964422yy3df7d2cca.jpg?wh=2700%2A1252)
+![](https://static001.geekbang.org/resource/image/c4/ca/c463c3aa47d625a964422yy3df7d2cca.jpg?wh=2700%2A1252){: referrerpolicy="no-referrer" }
 
 STP是独立于分布式数据库的授时方案，该体系下的各角色节点与巨杉的其他角色节点共用机器，但没有必然的联系。
 
@@ -159,7 +159,7 @@ STP与 TSO一样都是单时间源，但通过增加更多的授时点，避免�
 
 有关时间的话题我们就聊到这了。时间误差是普遍存在的，只不过长期在单体应用系统下开发，思维惯性让我们忽略了它，但随着分布式架构的普及，我相信更多的架构设计中都要考虑这个因素。我建议你收藏今天的内容，因为即使抛开分布式数据库不谈，这些设计依然是值得借鉴的。
 
-![](https://static001.geekbang.org/resource/image/1a/b1/1a6ccbf7fa3801216468c311363a9fb1.jpg?wh=2700%2A3787)
+![](https://static001.geekbang.org/resource/image/1a/b1/1a6ccbf7fa3801216468c311363a9fb1.jpg?wh=2700%2A3787){: referrerpolicy="no-referrer" }
 
 ## 思考题
 

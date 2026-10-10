@@ -51,7 +51,7 @@ select * from t1 where a>=1 and a<=100;
 
 主键索引是一棵B+树，在这棵树上，每次只能根据一个主键id查到一行数据。因此，回表肯定是一行行搜索主键索引的，基本流程如图1所示。
 
-![](https://static001.geekbang.org/resource/image/97/05/97ae269061192f6d7a632df56fa03605.png?wh=1142%2A880)
+![](https://static001.geekbang.org/resource/image/97/05/97ae269061192f6d7a632df56fa03605.png?wh=1142%2A880){: referrerpolicy="no-referrer" }
 
 图1 基本回表流程
 
@@ -71,11 +71,11 @@ select * from t1 where a>=1 and a<=100;
 
 下面两幅图就是使用了MRR优化后的执行流程和explain结果。
 
-![](https://static001.geekbang.org/resource/image/d5/c7/d502fbaea7cac6f815c626b078da86c7.jpg?wh=1142%2A880)
+![](https://static001.geekbang.org/resource/image/d5/c7/d502fbaea7cac6f815c626b078da86c7.jpg?wh=1142%2A880){: referrerpolicy="no-referrer" }
 
 图2 MRR执行流程
 
-![](https://static001.geekbang.org/resource/image/a5/32/a513d07ebaf1ae044d44391c89bc6432.png?wh=1583%2A149)
+![](https://static001.geekbang.org/resource/image/a5/32/a513d07ebaf1ae044d44391c89bc6432.png?wh=1583%2A149){: referrerpolicy="no-referrer" }
 
 图3 MRR执行流程的explain结果
 
@@ -91,7 +91,7 @@ select * from t1 where a>=1 and a<=100;
 
 我们再来看看上一篇文章中用到的NLJ算法的流程图：
 
-![](https://static001.geekbang.org/resource/image/10/3d/10e14e8b9691ac6337d457172b641a3d.jpg?wh=1142%2A880)
+![](https://static001.geekbang.org/resource/image/10/3d/10e14e8b9691ac6337d457172b641a3d.jpg?wh=1142%2A880){: referrerpolicy="no-referrer" }
 
 图4 Index Nested-Loop Join流程图
 
@@ -105,7 +105,7 @@ NLJ算法执行的逻辑是：从驱动表t1，一行行地取出a的值，再�
 
 如图5所示，是上面的NLJ算法优化后的BKA算法的流程。
 
-![](https://static001.geekbang.org/resource/image/68/88/682370c5640244fa3474d26cc3bc0388.png?wh=1142%2A880)
+![](https://static001.geekbang.org/resource/image/68/88/682370c5640244fa3474d26cc3bc0388.png?wh=1142%2A880){: referrerpolicy="no-referrer" }
 
 图5 Batched Key Access流程
 
@@ -175,11 +175,11 @@ select * from t1 join t2 on (t1.b=t2.b) where t2.b>=1 and t2.b<=2000;
 
 我在上一篇文章中说过，对于表t2的每一行，判断join是否满足的时候，都需要遍历join\_buffer中的所有行。因此判断等值条件的次数是1000\*100万=10亿次，这个判断的工作量很大。
 
-![](https://static001.geekbang.org/resource/image/92/60/92fbdbfc35da3040396401250cb33f60.png?wh=1776%2A169)
+![](https://static001.geekbang.org/resource/image/92/60/92fbdbfc35da3040396401250cb33f60.png?wh=1776%2A169){: referrerpolicy="no-referrer" }
 
 图6 explain结果
 
-![](https://static001.geekbang.org/resource/image/d8/9c/d862bc3e88305688df2c354a4b26809c.png?wh=550%2A130)
+![](https://static001.geekbang.org/resource/image/d8/9c/d862bc3e88305688df2c354a4b26809c.png?wh=550%2A130){: referrerpolicy="no-referrer" }
 
 图7 语句执行时间
 
@@ -203,7 +203,7 @@ select * from t1 join temp_t on (t1.b=temp_t.b);
 
 图8就是这个语句序列的执行效果。
 
-![](https://static001.geekbang.org/resource/image/a8/c7/a80cdffe8173fa0fd8969ed976ac6ac7.png?wh=1130%2A547)
+![](https://static001.geekbang.org/resource/image/a8/c7/a80cdffe8173fa0fd8969ed976ac6ac7.png?wh=1130%2A547){: referrerpolicy="no-referrer" }
 
 图8 使用临时表的执行效果
 

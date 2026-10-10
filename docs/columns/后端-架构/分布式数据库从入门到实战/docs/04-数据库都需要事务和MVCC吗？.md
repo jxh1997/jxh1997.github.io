@@ -20,7 +20,7 @@ t3时刻：事务B发现转错账户了，事务回滚。小明账户余额仍�
 
 t4时刻：小明以为余额有1200，消费300，结果要么导致最后余额账户-100，要么交易失败。
 
-![图片](https://static001.geekbang.org/resource/image/8e/83/8eb218d4cdbcce078279df87db207183.png?wh=3712x2040)
+![图片](https://static001.geekbang.org/resource/image/8e/83/8eb218d4cdbcce078279df87db207183.png?wh=3712x2040){: referrerpolicy="no-referrer" }
 
 也就是说，脏读导致业务使用的可能是一个中间态的数据，以至于业务的数据出现问题。显然，如果我们的业务系统需要保障数据的准确与一致性，那就应该避免脏读。
 
@@ -32,7 +32,7 @@ t2时刻：小明往账户里面存了20000块，于是小明的balance更新为
 
 t3时刻：事务C开始给余额区间20000 - 30000的账户发放利息了，select account\_id, balance from u\_account where balance &gt;= 20000 and balance &lt; 30000，发现小明余额25000，符合条件，给小明发了2.5元利息。
 
-![图片](https://static001.geekbang.org/resource/image/f7/01/f79fcf7fa0afdfa96f363df9e4905301.png?wh=3712x1484)
+![图片](https://static001.geekbang.org/resource/image/f7/01/f79fcf7fa0afdfa96f363df9e4905301.png?wh=3712x1484){: referrerpolicy="no-referrer" }
 
 也就是说，银行给小明重复发了利息，至于到底是多发了5毛还是2.5元这个已经不重要了，反正银行产生了资损，得加班数钱盘点对账了。
 
@@ -46,7 +46,7 @@ t2时刻：小红基于事务B查询库存，也发现还有1件，下单成功�
 
 t3时刻：小明的事务A下单扣减库存，发现库存已经是0了。
 
-![图片](https://static001.geekbang.org/resource/image/5e/37/5e2d4654447ccda0a547bf0925372737.png?wh=3696x1872)
+![图片](https://static001.geekbang.org/resource/image/5e/37/5e2d4654447ccda0a547bf0925372737.png?wh=3696x1872){: referrerpolicy="no-referrer" }
 
 这就是不可重复读。因为t1时刻查询到的库存从1变成了0。因为库存变为0了，所以小明（事务A）不能下单了，这反而是业务所期望的。因为如果小明下单成功了，就超卖了。尤其是在秒杀场景下，可能超卖许多件，造成损失。
 
@@ -107,7 +107,7 @@ SQL-92标准定义了 4 种隔离级别。
 
 以MySQL为例，如果同一行数据被多个事务更新了，那么这行数据在数据文件里面的存储就长这样子。
 
-![图片](https://static001.geekbang.org/resource/image/fc/f1/fcdf668b9d62fd357ca67201496748f1.png?wh=1792x1480)
+![图片](https://static001.geekbang.org/resource/image/fc/f1/fcdf668b9d62fd357ca67201496748f1.png?wh=1792x1480){: referrerpolicy="no-referrer" }
 
 你看，除了最新的一条数据是在MySQL的数据文件里面，旧版本的数据都存储在一个叫做Undo Log的文件里面。
 
@@ -177,13 +177,13 @@ Region初始化的时候，会获取Region存储文件上数据最大的Sequence
 
 只要碰到一个未提交的事务，比如步骤3中的事务15696，那么尽管事务15697已经提交了，但是ReadPoint仍然不会前进。这其实是为了保证事务的顺序提交，在读的时候能够保障数据的一致性。
 
-![图片](https://static001.geekbang.org/resource/image/ce/ef/ce44975d3da5664d96cb20018a098cef.png?wh=2356x814)
+![图片](https://static001.geekbang.org/resource/image/ce/ef/ce44975d3da5664d96cb20018a098cef.png?wh=2356x814){: referrerpolicy="no-referrer" }
 
 那HBase的事务隔离级别跟MVCC有什么关系，又会有哪些影响呢？
 
 在读未提交隔离级别下，HBase数据读取获取ReadPoint的时候，直接返回了一个Long.MAX\_VALUE。所以，只要数据对应的sequeceId小于Long.MAX\_VALUE，就都能够返回。所以所有的数据都能够返回。
 
-![图片](https://static001.geekbang.org/resource/image/df/64/df57853a0e49805b008d9bbfb0c56664.png?wh=1004x244)
+![图片](https://static001.geekbang.org/resource/image/df/64/df57853a0e49805b008d9bbfb0c56664.png?wh=1004x244){: referrerpolicy="no-referrer" }
 
 而在读已提交隔离级别下，ReadPoint就按我们正常的sequeceId推进了。开始读取的时候，事务会获取到这个Region全局的ReadPoint，读取到的数据行的sequeceId如果大于ReadPoint，就会被过滤掉。
 

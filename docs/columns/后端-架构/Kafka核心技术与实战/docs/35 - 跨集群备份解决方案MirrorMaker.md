@@ -12,13 +12,13 @@
 
 从本质上说，MirrorMaker就是一个消费者+生产者的程序。消费者负责从源集群（Source Cluster）消费数据，生产者负责向目标集群（Target Cluster）发送消息。整个镜像流程如下图所示：
 
-![](https://static001.geekbang.org/resource/image/a7/e2/a771601d702eb35187a0a8894307eee2.jpg?wh=3681%2A787)
+![](https://static001.geekbang.org/resource/image/a7/e2/a771601d702eb35187a0a8894307eee2.jpg?wh=3681%2A787){: referrerpolicy="no-referrer" }
 
 MirrorMaker连接的源集群和目标集群，会实时同步消息。当然，你不要认为你只能使用一套MirrorMaker来连接上下游集群。事实上，很多用户会部署多套集群，用于实现不同的目的。
 
 我们来看看下面这张图。图中部署了三套集群：左边的源集群负责主要的业务处理；右上角的目标集群可以用于执行数据分析；而右下角的目标集群则充当源集群的热备份。
 
-![](https://static001.geekbang.org/resource/image/03/70/036955f42db6fe759849fb24a0d16070.jpg?wh=3535%2A1835)
+![](https://static001.geekbang.org/resource/image/03/70/036955f42db6fe759849fb24a0d16070.jpg?wh=3535%2A1835){: referrerpolicy="no-referrer" }
 
 ## 运行MirrorMaker
 
@@ -140,7 +140,7 @@ Uber公司之前也是使用MirrorMaker的，但是在使用过程中，他们�
 
 好了，我们总结一下今天所讲的MirrorMaker。它是Apache Kafka社区提供的跨集群镜像解决方案，主要实现将Kafka消息实时从一个集群同步复制或镜像到另一个集群。你可以把MirrorMaker应用到很多实际的场景中，比如数据备份、主备集群等。MirrorMaker本身功能简单，应用灵活，但也有运维成本高、性能差等劣势，因此业界有厂商研发了自己的镜像工具。你可以根据自身的业务需求，选择合适的工具来帮助你完成跨集群的数据备份。
 
-![](https://static001.geekbang.org/resource/image/c0/5e/c0b75891bf37c1086dea98358c481d5e.jpg?wh=2069%2A2560)
+![](https://static001.geekbang.org/resource/image/c0/5e/c0b75891bf37c1086dea98358c481d5e.jpg?wh=2069%2A2560){: referrerpolicy="no-referrer" }
 
 ## 开放讨论
 

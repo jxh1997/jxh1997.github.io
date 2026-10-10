@@ -9,17 +9,17 @@
 
 当然，实现这两个目标，既可以从单机中的应用、框架、内核优化入手，也可以使用类似F5这样的硬件设备，或者通过DNS等方案实现分布式集群。
 
-![](https://static001.geekbang.org/resource/image/1a/24/1a69ba079c318c227c9ccff842714424.jpg?wh=1888%2A1082)
+![](https://static001.geekbang.org/resource/image/1a/24/1a69ba079c318c227c9ccff842714424.jpg?wh=1888%2A1082){: referrerpolicy="no-referrer" }
 
 而Nginx最大的限制是网络，所以将网卡升级到万兆，比如10G或者40G吞吐量就会有很大提升。作为静态资源、缓存服务时，磁盘也是重点关注对象，比如固态硬盘的IOPS或者BPS，要比不超过1万转每秒的机械磁盘高出许多。
 
-![](https://static001.geekbang.org/resource/image/4a/2c/4aecd5772e4d164dc414d1f473440f2c.jpg?wh=1874%2A1076)
+![](https://static001.geekbang.org/resource/image/4a/2c/4aecd5772e4d164dc414d1f473440f2c.jpg?wh=1874%2A1076){: referrerpolicy="no-referrer" }
 
 这里我们重点看下CPU，如果由操作系统切换进程实现并发，代价太大，毕竟每次都有5微秒左右的切换成本。Nginx将其改到进程内部，由epoll切换ngx\_connection\_t连接的处理，成本会非常低。OpenResty切换Lua协程，也是基于同样的方式。这样，CPU的计算力会更多地用在业务处理上。
 
 从整体上看，只有充分、高效地使用各类IT资源，才能减少RTT时延、提升并发连接。
 
-![](https://static001.geekbang.org/resource/image/9d/24/9d4721babd048bed55968c4f8bbeaf24.jpg?wh=1874%2A1072)
+![](https://static001.geekbang.org/resource/image/9d/24/9d4721babd048bed55968c4f8bbeaf24.jpg?wh=1874%2A1072){: referrerpolicy="no-referrer" }
 
 ## 请求的“一生”
 
@@ -27,7 +27,7 @@
 
 首先，我们要搞清楚Nginx的模块架构。Nginx是一个极其开放的生态，它允许第三方编写的C模块与框架协作，共同处理1个HTTP请求。比如，所有的请求处理模块会构成一个链表，以PipeAndFilter这种架构依次处理请求。再比如，生成HTTP响应后，所有过滤模块也会依次加工。
 
-![](https://static001.geekbang.org/resource/image/8b/4d/8bb5620111efd7086b3fa89b1b7a3d4d.jpg?wh=1878%2A1074)
+![](https://static001.geekbang.org/resource/image/8b/4d/8bb5620111efd7086b3fa89b1b7a3d4d.jpg?wh=1878%2A1074){: referrerpolicy="no-referrer" }
 
 ### 1. 请求到来
 
@@ -37,7 +37,7 @@
 
 接下来Nginx会为这个连接添加一个默认60秒（client\_header\_timeout指令可以配置）的定时器，其中，需要将内核的socket读缓冲区里的TCP报文，拷贝到用户态内存中。所以，此时会将连接内存池扩展到1KB（client\_header\_buffer\_size指令可以配置）来拷贝消息内容，如果在这段时间之内没有接收完请求，则返回失败并关闭连接。
 
-![](https://static001.geekbang.org/resource/image/17/63/171329643c8f003yy47bcd0d1b5f5963.jpg?wh=1884%2A1080)
+![](https://static001.geekbang.org/resource/image/17/63/171329643c8f003yy47bcd0d1b5f5963.jpg?wh=1884%2A1080){: referrerpolicy="no-referrer" }
 
 ### 2. 处理请求
 
@@ -45,13 +45,13 @@
 
 Nginx会通过协议状态机解析接收到的字符流，如果1KB内存还没有接收到完整的HTTP头部，就会再从请求内存池上分配出32KB，继续接收字符流。其中，这32KB默认是分成4次分配，每次分配8KB（可以通过large\_client\_header\_buffers指令修改），这样可以避免为少量的请求浪费过大的内存。
 
-![](https://static001.geekbang.org/resource/image/f8/64/f8b2e2c3734188c4f00e8002f0966964.jpg?wh=1872%2A1066)
+![](https://static001.geekbang.org/resource/image/f8/64/f8b2e2c3734188c4f00e8002f0966964.jpg?wh=1872%2A1066){: referrerpolicy="no-referrer" }
 
 接下来，各类HTTP处理模块登场。当然，它们并不是简单构成1个链表，而是通过11个阶段构成了一个二维链表。其中，第1维长度是与Web业务场景相关的11个阶段，第2维的长度与每个阶段中注册的HTTP模块有关。
 
 这11个阶段不用刻意死记，你只要掌握3个关键词，就能够轻松地把他们分解开。首先是5个阶段的预处理，包括post\_read，以及与rewrite重写URL相关的3个阶段，以及URL与location相匹配的find\_config阶段。
 
-![](https://static001.geekbang.org/resource/image/a0/86/a048b12f5f79fee43856ecf449387786.jpg?wh=1886%2A1072)
+![](https://static001.geekbang.org/resource/image/a0/86/a048b12f5f79fee43856ecf449387786.jpg?wh=1886%2A1072){: referrerpolicy="no-referrer" }
 
 其次是访问控制，包括限流限速的preaccess阶段、控制IP访问范围的access阶段和做完访问控制后的post\_access阶段。
 
@@ -59,11 +59,11 @@ Nginx会通过协议状态机解析接收到的字符流，如果1KB内存还没
 
 每个阶段中的HTTP模块，会在configure脚本执行时就构成链表，顺序地处理HTTP请求。其中，HTTP框架允许某个模块跳过其后链接的本阶段模块，直接进入下一个阶段的第1个模块。
 
-![](https://static001.geekbang.org/resource/image/0e/fb/0ea57bd24be1fdae15f860b926cc25fb.jpg?wh=1872%2A1068)
+![](https://static001.geekbang.org/resource/image/0e/fb/0ea57bd24be1fdae15f860b926cc25fb.jpg?wh=1872%2A1068){: referrerpolicy="no-referrer" }
 
 content阶段会生成HTTP响应。当然，其他阶段也有可能生成HTTP响应返回给客户端，它们通常都是非200的错误响应。接下来，会由HTTP过滤模块加工这些响应的内容，并由write\_filter过滤模块最终发送到网络中。
 
-![](https://static001.geekbang.org/resource/image/f4/39/f4fc5bc3ef64498ac6882a902f927539.jpg?wh=1876%2A1074)
+![](https://static001.geekbang.org/resource/image/f4/39/f4fc5bc3ef64498ac6882a902f927539.jpg?wh=1876%2A1074){: referrerpolicy="no-referrer" }
 
 ### 3. 请求的反向代理
 
@@ -75,17 +75,17 @@ Nginx由于性能高，常用来做分布式集群的负载均衡服务。由于
 
 当上游生成HTTP响应后，考虑到不同的网络特点，如果你打开了proxy\_buffering on（该功能也是默认打开的）功能，Nginx会优先将内网传来的上游响应接收完毕（包括存储到磁盘上），这样就可以关闭与上游之间的TCP连接，减轻上游应用的并发压力。最后再通过缓慢的公网将响应发送给客户端。当然，针对下游客户端与上游应用，还可以通过proxy\_limit\_rate与limit\_rate指令限制传输速度。如果设置proxy\_buffering off，Nginx会从上游接收到一点响应，就立刻往下游发一些。
 
-![](https://static001.geekbang.org/resource/image/9c/90/9c3d5be8ecc6b287a0cb4fc09ab0c690.jpg?wh=1878%2A1066)
+![](https://static001.geekbang.org/resource/image/9c/90/9c3d5be8ecc6b287a0cb4fc09ab0c690.jpg?wh=1878%2A1066){: referrerpolicy="no-referrer" }
 
 ### 4. 返回响应
 
 当生成HTTP响应后，会由注册为HTTP响应的模块依次加工响应。同样，这些模块的顺序也是由configure脚本决定的。由于HTTP响应分为HEADER（包括响应行和头部两部分）、BODY，所以每个过滤模块也可以决定是仅处理HEADER，还是同时处理HEADER和BODY。
 
-![](https://static001.geekbang.org/resource/image/25/e8/2506dfed0c4792a7a1be390c1c7979e8.jpg?wh=1868%2A1070)
+![](https://static001.geekbang.org/resource/image/25/e8/2506dfed0c4792a7a1be390c1c7979e8.jpg?wh=1868%2A1070){: referrerpolicy="no-referrer" }
 
 因此，OpenResty中会提供有header\_filter\_by\_lua和body\_filter\_by\_lua这两个指令。
 
-![](https://static001.geekbang.org/resource/image/c4/81/c495fb95fed3b010a3fcdd26afd08c81.jpg?wh=1880%2A1070)
+![](https://static001.geekbang.org/resource/image/c4/81/c495fb95fed3b010a3fcdd26afd08c81.jpg?wh=1880%2A1070){: referrerpolicy="no-referrer" }
 
 ## 应用层优化
 
@@ -93,7 +93,7 @@ Nginx由于性能高，常用来做分布式集群的负载均衡服务。由于
 
 应用层协议的优化可以带来非常大的收益。比如HTTP/1 HEADER的编码方式低效，REST架构又放大了这一点，改为HTTP/2协议后就大有改善。Nginx对HTTP/2有良好的支持，包括上游、下游，以及基于HTTP/2的gRPC协议。
 
-![](https://static001.geekbang.org/resource/image/ee/91/eebe2bcd1349d51ee1d3cb60a238a391.jpg?wh=1874%2A1076)
+![](https://static001.geekbang.org/resource/image/ee/91/eebe2bcd1349d51ee1d3cb60a238a391.jpg?wh=1874%2A1076){: referrerpolicy="no-referrer" }
 
 ### 2. 压缩
 
@@ -107,13 +107,13 @@ Nginx由于性能高，常用来做分布式集群的负载均衡服务。由于
 
 同样，提升CPU缓存命中率，也可以提升内存的读取速度。基于cpu cache line来设置哈希表的桶大小，就可以提高多核CPU下的缓存命中率。
 
-![](https://static001.geekbang.org/resource/image/aa/a7/aa7727a2dbf6a3a22c2bf933327308a7.jpg?wh=1872%2A1072)
+![](https://static001.geekbang.org/resource/image/aa/a7/aa7727a2dbf6a3a22c2bf933327308a7.jpg?wh=1872%2A1072){: referrerpolicy="no-referrer" }
 
 ### 4. 限速
 
 作为负载均衡，Nginx可以通过各类模块提供丰富的限速功能。比如limit\_conn可以限制并发连接，而limit\_req可以基于leacky bucket漏斗原理限速。对于向客户端发送HTTP响应，可以通过limit\_rate指令限速，而对于HTTP上游应用，可以使用proxy\_limit\_rate限制发送响应的速度，对于TCP上游应用，则可以分别使用proxy\_upload\_rate和proxy\_download\_rate指令限制上行、下行速度。
 
-![](https://static001.geekbang.org/resource/image/3e/af/3e7dbd21efc06b6721ea7b0c08cd95af.jpg?wh=1878%2A1072)
+![](https://static001.geekbang.org/resource/image/3e/af/3e7dbd21efc06b6721ea7b0c08cd95af.jpg?wh=1878%2A1072){: referrerpolicy="no-referrer" }
 
 ### 5. Worker间负载均衡
 
@@ -127,7 +127,7 @@ Nginx早期解决这一问题，是通过应用层accept\_mutex锁完成的，�
 
 当然，在1.11.3版本后，Nginx默认关闭了accept\_mutex锁，这是因为操作系统提供了reuseport（Linux3.9版本后才提供这一功能）这个更好的解决方案。
 
-![](https://static001.geekbang.org/resource/image/5f/7a/5f5f833b51f322ae963bde06c7f66f7a.jpg?wh=1868%2A1064)
+![](https://static001.geekbang.org/resource/image/5f/7a/5f5f833b51f322ae963bde06c7f66f7a.jpg?wh=1868%2A1064){: referrerpolicy="no-referrer" }
 
 图中，横轴中的default项开启了accept\_mutex锁。我们可以看到，使用reuseport后，QPS吞吐量有了3倍的提高，同时处理时延有明显的下降，特别是时延的波动（蓝色的标准差线）有大幅度的下降。
 
@@ -135,19 +135,19 @@ Nginx早期解决这一问题，是通过应用层accept\_mutex锁完成的，�
 
 Nginx通过红黑树高效地管理着定时器，这里既有面对TCP报文层面的配置指令，比如面对下游的send\_timeout指令，也有面对UDP报文层面的配置指令，比如proxy\_responses，还有面对业务层面的配置指令，比如面对下游HTTP协议的client\_header\_timeout。
 
-![](https://static001.geekbang.org/resource/image/fy/f7/fyyb03d85d4b8312873b476888a1a0f7.jpg?wh=1870%2A1068)
+![](https://static001.geekbang.org/resource/image/fy/f7/fyyb03d85d4b8312873b476888a1a0f7.jpg?wh=1870%2A1068){: referrerpolicy="no-referrer" }
 
 ### 7. 缓存
 
 只要想提升性能必须要在缓存上下工夫。Nginx对于七层负载均衡，提供各种HTTP缓存，比如http\_proxy模块、uwsgi\_proxy模块、fastcgi\_proxy模块、scgi\_proxy模块等等。由于Nginx中可以通过变量来命名日志文件，因此Nginx很有可能会并行打开上百个文件，此时通过open\_file\_cache，Nginx可以将文件句柄、统计信息等写入缓存中，提升性能。
 
-![](https://static001.geekbang.org/resource/image/45/15/452d0ecf0fcd822c69e1df859fdeb115.jpg?wh=1868%2A1064)
+![](https://static001.geekbang.org/resource/image/45/15/452d0ecf0fcd822c69e1df859fdeb115.jpg?wh=1868%2A1064){: referrerpolicy="no-referrer" }
 
 ### 8. 减少磁盘IO
 
 Nginx虽然读写磁盘远没有数据库等服务要多，但由于它对性能的极致追求，仍然提供了许多优化策略。比如为方便统计和定位错误，每条HTTP请求的执行结果都会写入access.log日志文件。为了减少access.log日志对写磁盘造成的压力，Nginx提供了批量写入、实时压缩后写入等功能，甚至你可以在另一个服务器上搭建rsyslog服务，然后配置Nginx通过UDP协议，将access.log日志文件从网络写入到 rsyslog中，这完全移除了日志磁盘IO。
 
-![](https://static001.geekbang.org/resource/image/d5/da/d55cb817bb727a097ffc4dfe018539da.jpg?wh=1870%2A1076)
+![](https://static001.geekbang.org/resource/image/d5/da/d55cb817bb727a097ffc4dfe018539da.jpg?wh=1870%2A1076){: referrerpolicy="no-referrer" }
 
 ## 系统优化
 
@@ -155,19 +155,19 @@ Nginx虽然读写磁盘远没有数据库等服务要多，但由于它对性能
 
 首先是为由内核实现的OSI网络层（IP协议）、传输层（TCP与UDP协议）修改影响并发性的配置。毕竟操作系统并不知道自己会作为高并发服务，所以很多配置都需要进一步调整。
 
-![](https://static001.geekbang.org/resource/image/d5/15/d58dc3275745603b7525f690479d6615.jpg?wh=1868%2A1076)
+![](https://static001.geekbang.org/resource/image/d5/15/d58dc3275745603b7525f690479d6615.jpg?wh=1868%2A1076){: referrerpolicy="no-referrer" }
 
 其次，优化CPU缓存的亲和性，对于Numa架构的服务器，如果Nginx只使用一半以下的CPU核心，那么就让Worker进程只绑定一颗CPU上的核心。
 
-![](https://static001.geekbang.org/resource/image/8f/c2/8f073d7222yy8e823ce1a7c16b945fc2.jpg?wh=1870%2A1064)
+![](https://static001.geekbang.org/resource/image/8f/c2/8f073d7222yy8e823ce1a7c16b945fc2.jpg?wh=1870%2A1064){: referrerpolicy="no-referrer" }
 
 再次，调整默认的TCP网络选项，更快速地发现错误、重试、释放资源。
 
-![](https://static001.geekbang.org/resource/image/32/d3/326cf5a1cb8a8522b89eb19e7ca357d3.jpg?wh=1876%2A1076)
+![](https://static001.geekbang.org/resource/image/32/d3/326cf5a1cb8a8522b89eb19e7ca357d3.jpg?wh=1876%2A1076){: referrerpolicy="no-referrer" }
 
 还可以减少TCP报文的往返次数。比如FastOpen技术可以减少三次握手中1个RTT的时延，而增大初始拥塞窗口可以更快地达到带宽峰值。
 
-![](https://static001.geekbang.org/resource/image/6f/09/6f0de237bd54cf2edf8cdcfb606c8c09.jpg?wh=1872%2A1074)
+![](https://static001.geekbang.org/resource/image/6f/09/6f0de237bd54cf2edf8cdcfb606c8c09.jpg?wh=1872%2A1074){: referrerpolicy="no-referrer" }
 
 还可以提高硬件资源的利用效率，比如当你在listen指令后加入defer选项后，就使用了TCP\_DEFER\_ACCEPT功能，这样epoll\_wait并不会返回仅完成三次握手的连接，只有连接上接收到的TCP数据报文后，它才会返回socket，这样Worker进程就将原本2次切换就降为1次了，虽然会牺牲一些即时性，但提高了CPU的效率。
 
@@ -175,23 +175,23 @@ Linux为TCP内存提供了动态调整功能，这样高负载下我们更强调
 
 我们还可以将小报文合并后批量发送，通过减少IP与TCP头部的占比，提高网络效率。在nginx.conf文件中打开tcp\_nopush、tcp\_nodelay功能后，都可以实现这些目的。
 
-![](https://static001.geekbang.org/resource/image/ac/04/ac69ce7af1abbf4df4bc0b42f288d304.jpg?wh=1876%2A1064)
+![](https://static001.geekbang.org/resource/image/ac/04/ac69ce7af1abbf4df4bc0b42f288d304.jpg?wh=1876%2A1064){: referrerpolicy="no-referrer" }
 
 为了防止处理系统层网络栈的CPU过载，还可以通过多队列网卡，将负载分担到多个CPU中。
 
-![](https://static001.geekbang.org/resource/image/6b/82/6bacf6f3cyy3ffd730c6eb2f664fe682.jpg?wh=1880%2A1072)
+![](https://static001.geekbang.org/resource/image/6b/82/6bacf6f3cyy3ffd730c6eb2f664fe682.jpg?wh=1880%2A1072){: referrerpolicy="no-referrer" }
 
 为了提高内存、带宽的利用率，我们必须更精确地计算出BDP，也就是通过带宽与ping时延算出的带宽时延积，决定socket读写缓冲区（影响滑动窗口大小）。
 
-![](https://static001.geekbang.org/resource/image/13/7d/1389fd8fea84cef63e6438de1e18587d.jpg?wh=1876%2A1076)
+![](https://static001.geekbang.org/resource/image/13/7d/1389fd8fea84cef63e6438de1e18587d.jpg?wh=1876%2A1076){: referrerpolicy="no-referrer" }
 
 Nginx上多使用小于256KB的小内存，而且我们通常会按照CPU核数开启Worker进程，这样一种场景下，TCMalloc的性能要远高于Linux默认的PTMalloc2内存池。
 
-![](https://static001.geekbang.org/resource/image/56/a8/56267e1yye31a7af808c8793c894b0a8.jpg?wh=1870%2A1074)
+![](https://static001.geekbang.org/resource/image/56/a8/56267e1yye31a7af808c8793c894b0a8.jpg?wh=1870%2A1074){: referrerpolicy="no-referrer" }
 
 作为Web服务器，Nginx必须重写URL以应对网址变化，或者应用的维护，这需要正则表达式的支持。做复杂的URL或者域名匹配时，也会用到正则表达式。优秀的正则表达式库，可以提供更好的执行性能。
 
-![](https://static001.geekbang.org/resource/image/55/f0/556b3359b43f2a641ef2bc4a13a334f0.jpg?wh=1878%2A1070)
+![](https://static001.geekbang.org/resource/image/55/f0/556b3359b43f2a641ef2bc4a13a334f0.jpg?wh=1878%2A1070){: referrerpolicy="no-referrer" }
 
 以上就是今天的加餐分享，有任何问题欢迎在留言区中提出。
 <div><strong>精选留言（4）</strong></div><ul>

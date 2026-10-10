@@ -1,6 +1,6 @@
 我们之前对SQL中的数据表查询进行了讲解，今天我们来看下如何对视图进行查询。视图，也就是我们今天要讲的虚拟表，本身是不具有数据的，它是SQL中的一个重要概念。从下面这张图中，你能看到，虚拟表的创建连接了一个或多个数据表，不同的查询应用都可以建立在虚拟表之上。
 
-![](https://static001.geekbang.org/resource/image/6c/e8/6c7cd968b0bd24ce5689a08c052eade8.jpg?wh=736%2A430)
+![](https://static001.geekbang.org/resource/image/6c/e8/6c7cd968b0bd24ce5689a08c052eade8.jpg?wh=736%2A430){: referrerpolicy="no-referrer" }
 
 视图一方面可以帮我们使用表的一部分而不是所有的表，另一方面也可以针对不同的用户制定不同的查询视图。比如，针对一个公司的销售人员，我们只想给他看部分数据，而某些特殊的数据，比如采购的价格，则不会提供给他。
 
@@ -40,7 +40,7 @@ WHERE height > (SELECT AVG(height) from player)
 
 视图查询结果（18条记录）：
 
-![](https://static001.geekbang.org/resource/image/a0/35/a05ac6169562c0f95bf8387df3577635.png?wh=519%2A357)  
+![](https://static001.geekbang.org/resource/image/a0/35/a05ac6169562c0f95bf8387df3577635.png?wh=519%2A357)  {: referrerpolicy="no-referrer" }
 当视图创建之后，它就相当于一个虚拟表，可以直接使用：
 
 ```
@@ -62,7 +62,7 @@ WHERE height > (SELECT AVG(height) from player_above_avg_height)
 
 视图查询结果（11条记录）：
 
-![](https://static001.geekbang.org/resource/image/6b/5b/6b7416b24d91786c023bf10eee50355b.png?wh=520%2A355)
+![](https://static001.geekbang.org/resource/image/6b/5b/6b7416b24d91786c023bf10eee50355b.png?wh=520%2A355){: referrerpolicy="no-referrer" }
 
 你能看到这个视图的数据记录数为11个，比之前的记录少了7个。
 
@@ -94,7 +94,7 @@ SELECT * FROM player_above_avg_height
 
 运行结果（18条记录）：
 
-![](https://static001.geekbang.org/resource/image/d9/bb/d91a3d7978b12fc52c194d1ce58410bb.png?wh=879%2A354)
+![](https://static001.geekbang.org/resource/image/d9/bb/d91a3d7978b12fc52c194d1ce58410bb.png?wh=879%2A354){: referrerpolicy="no-referrer" }
 
 ### 删除视图：DROP VIEW
 
@@ -131,7 +131,7 @@ ON height BETWEEN h.height_lowest AND h.height_highest
 
 运行结果（37条记录）：
 
-![](https://static001.geekbang.org/resource/image/31/d2/3185f62845a19162c19b22673da6c8d2.png?wh=887%2A357)
+![](https://static001.geekbang.org/resource/image/31/d2/3185f62845a19162c19b22673da6c8d2.png?wh=887%2A357){: referrerpolicy="no-referrer" }
 
 以后我们进行查询的时候，可以直接通过视图查询，比如我想查询身高介于1.90m和2.08m之间的球员及他们对应的身高：
 
@@ -141,7 +141,7 @@ SELECT * FROM player_height_grades WHERE height >= 1.90 AND height <= 2.08
 
 运行结果（26条记录）：
 
-![](https://static001.geekbang.org/resource/image/8c/89/8c060eb06386b95cb31ff43c95948a89.png?wh=883%2A355)
+![](https://static001.geekbang.org/resource/image/8c/89/8c060eb06386b95cb31ff43c95948a89.png?wh=883%2A355){: referrerpolicy="no-referrer" }
 
 这样就把一个相对复杂的连接查询转化成了视图查询。
 
@@ -164,7 +164,7 @@ SELECT * FROM player_team
 
 运行结果（37条记录）：
 
-![](https://static001.geekbang.org/resource/image/28/0d/280a22627fd84cd8450245041a3bba0d.png?wh=506%2A355)
+![](https://static001.geekbang.org/resource/image/28/0d/280a22627fd84cd8450245041a3bba0d.png?wh=506%2A355){: referrerpolicy="no-referrer" }
 
 ### 使用视图与计算字段
 
@@ -172,7 +172,7 @@ SELECT * FROM player_team
 
 我以球员比赛成绩表为例，对应的是player\_score表。这张表中一共有19个字段，它们代表的含义如下：
 
-![](https://static001.geekbang.org/resource/image/8a/d2/8a77858d8c9633c7c4128dd454ad38d2.png?wh=968%2A367)  
+![](https://static001.geekbang.org/resource/image/8a/d2/8a77858d8c9633c7c4128dd454ad38d2.png?wh=968%2A367)  {: referrerpolicy="no-referrer" }
 如果我想要统计每位球员在每场比赛中的二分球、三分球和罚球的得分，可以通过创建视图完成：
 
 ```
@@ -188,7 +188,7 @@ SELECT * FROM game_player_score
 
 运行结果（19条记录）：
 
-![](https://static001.geekbang.org/resource/image/b0/dc/b0edf8453df44d018315f68e89f7e3dc.png?wh=1766%2A550)
+![](https://static001.geekbang.org/resource/image/b0/dc/b0edf8453df44d018315f68e89f7e3dc.png?wh=1766%2A550){: referrerpolicy="no-referrer" }
 
 你能看出正确使用视图可以简化复杂的SQL查询，让SQL更加清爽易用。不过有一点需要注意，视图是虚拟表，它只是封装了底层的数据表查询接口，因此有些RDBMS不支持对视图创建索引（有些RDBMS则支持，比如新版本的SQL Server）。
 
@@ -201,7 +201,7 @@ SELECT * FROM game_player_score
 
 另外，我们也需要了解到视图是虚拟表，本身不存储数据，如果想要通过视图对底层数据表的数据进行修改也会受到很多限制，通常我们是把视图用于查询，也就是对SQL查询的一种封装。那么它和临时表又有什么区别呢？在实际工作中，我们可能会见到各种临时数据。比如你可能会问，如果我在做一个电商的系统，中间会有个购物车的功能，需要临时统计购物车中的商品和金额，那该怎么办呢？这里就需要用到临时表了，临时表是真实存在的数据表，不过它不用于长期存放数据，只为当前连接存在，关闭连接后，临时表就会自动释放。
 
-![](https://static001.geekbang.org/resource/image/8a/30/8afa99e7d1ac1de2c802cf0c61004b30.jpg?wh=3341%2A1916)  
+![](https://static001.geekbang.org/resource/image/8a/30/8afa99e7d1ac1de2c802cf0c61004b30.jpg?wh=3341%2A1916)  {: referrerpolicy="no-referrer" }
 今天我们对视图进行了讲解，你能用自己的语言来说下视图的优缺点么？另外视图在更新的时候会影响到数据表吗？
 
 欢迎你在评论区写下你的思考，也欢迎把这篇文章分享给你的朋友或者同事，一起交流一下。

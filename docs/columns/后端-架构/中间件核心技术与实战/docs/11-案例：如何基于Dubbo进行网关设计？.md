@@ -10,13 +10,13 @@
 
 当时网关项目组的核心任务就是确保能够快速接入各个电商平台。我来简单说明一下具体的场景。
 
-![图片](https://static001.geekbang.org/resource/image/yy/af/yya8c848bc0c0870d5bb5b6bb41268af.jpg?wh=1920x539)
+![图片](https://static001.geekbang.org/resource/image/yy/af/yya8c848bc0c0870d5bb5b6bb41268af.jpg?wh=1920x539){: referrerpolicy="no-referrer" }
 
 解释一下上面这个图。
 
 物流公司内部已经基于Dubbo构建了订单中心微服务域，其中创建订单接口的定义如下：​
 
-![图片](https://static001.geekbang.org/resource/image/c4/61/c4yy4a46bcb07cbbfb6f0fe750de8861.jpg?wh=1920x936)
+![图片](https://static001.geekbang.org/resource/image/c4/61/c4yy4a46bcb07cbbfb6f0fe750de8861.jpg?wh=1920x936){: referrerpolicy="no-referrer" }
 
 外部电商平台众多，每一家电商平台内部都有自己的标准，并不会遵循统一的标准。例如在淘宝中，当用户购买商品后，淘宝内部会定义一个统一的订单外派接口。它的请求包可能是这样的：
 
@@ -80,7 +80,7 @@
 
 这整个过程里有一个非常重要的点，就是密钥自始至终并没有在网络上进行过传播，它的安全性可以得到十足的保证。签名验证的流程大概可以用下面这张图表示：
 
-![图片](https://static001.geekbang.org/resource/image/cb/7d/cb6c980fabc1afd0e76c4fe6627ce87d.jpg?wh=1920x1367)
+![图片](https://static001.geekbang.org/resource/image/cb/7d/cb6c980fabc1afd0e76c4fe6627ce87d.jpg?wh=1920x1367){: referrerpolicy="no-referrer" }
 
 如果要对验证签名进行产品化设计，我们通常需要：
 
@@ -91,7 +91,7 @@
 
 我们先来看一下微服务调用协议的配置，设计的原型界面如下图所示：
 
-![图片](https://static001.geekbang.org/resource/image/6e/59/6eed0bd5cbe4891082bb3e0678cb7b59.jpg?wh=1920x668)
+![图片](https://static001.geekbang.org/resource/image/6e/59/6eed0bd5cbe4891082bb3e0678cb7b59.jpg?wh=1920x668){: referrerpolicy="no-referrer" }
 
 将所有的微服务（细化到方法级名称）维护到网关系统中，网关应用就可以使用Dubbo提供的编程API，根据这些元信息动态构建一个个消费者（服务调用者），进而通过创建的服务调用客户端发起RPC远程调用，最终实现网关应用的Dubbo服务调用。
 
@@ -139,7 +139,7 @@ public static GenericService getInvoker(String serviceInterface, String version,
 
 那如果配置信息动态发生了变化，例如需要添加新的服务，这时候网关应用如何做到动态感知呢？我们通常可以用基于MQ的方式来解决这个问题。具体的解决方案如下：
 
-![图片](https://static001.geekbang.org/resource/image/01/0e/01a98d71ee4b0a1c56a390eb8e338f0e.jpg?wh=1920x619)
+![图片](https://static001.geekbang.org/resource/image/01/0e/01a98d71ee4b0a1c56a390eb8e338f0e.jpg?wh=1920x619){: referrerpolicy="no-referrer" }
 
 也就是说，用户如果在网关运营平台上修改原有服务协议（Dubbo服务）或者添加新的服务协议，变动后的协议会首先存储到数据库中，然后运营平台发送一条消息到MQ，紧接着Gateway的后台进程以广播模式进行订阅。这样，所有后台网关进程都可以感知。
 
@@ -160,11 +160,11 @@ oldInvoker.destory();
 
 联系这节课前面的场景，我们需要在页面上配置公司内部Dubbo服务与外部电商的接口映射。
 
-![图片](https://static001.geekbang.org/resource/image/23/79/233fc90464a70ab461d91766789df579.png?wh=1920x596)
+![图片](https://static001.geekbang.org/resource/image/23/79/233fc90464a70ab461d91766789df579.png?wh=1920x596){: referrerpolicy="no-referrer" }
 
 为此，我们专门建立了一条参数映射协议：
 
-![图片](https://static001.geekbang.org/resource/image/51/af/51f750f5cb40a27a69e49a186b028faf.jpg?wh=1920x774)
+![图片](https://static001.geekbang.org/resource/image/51/af/51f750f5cb40a27a69e49a186b028faf.jpg?wh=1920x774){: referrerpolicy="no-referrer" }
 
 参数映射设计的说明如下。
 

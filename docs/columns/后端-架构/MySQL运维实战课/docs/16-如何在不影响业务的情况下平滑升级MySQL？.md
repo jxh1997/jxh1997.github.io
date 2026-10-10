@@ -534,10 +534,10 @@ employees.dept_emp                                 OK
 前面我们讲了MySQL物理升级的操作步骤，包括8.0小版本升级，以及从5.6或5.7升级到8.0。在正式的环境中升级时，需要保障业务的连续性，不能因为升级数据库而影响了业务系统的正常运行。
 
 我们来考虑下图这样的一个数据复制架构，如何在不影响业务的前提下，升级这些数据库。  
-![图片](https://static001.geekbang.org/resource/image/d2/f4/d269a562aff7ce434259b595427d9ff4.jpg?wh=1174x536)
+![图片](https://static001.geekbang.org/resource/image/d2/f4/d269a562aff7ce434259b595427d9ff4.jpg?wh=1174x536){: referrerpolicy="no-referrer" }
 
 我们不能直接升级主库，因为升级时需要停库，先升级备库。在上面这个复制结构下，可以考虑先升级备库2、备库3，然后再升级备库1。升级好备库1之后，将备库1切换为主库，数据库变成下面这样的结构。  
-![图片](https://static001.geekbang.org/resource/image/db/ae/dbb2349b1888e185b67fb7e9e9487dae.jpg?wh=1218x577)  
+![图片](https://static001.geekbang.org/resource/image/db/ae/dbb2349b1888e185b67fb7e9e9487dae.jpg?wh=1218x577)  {: referrerpolicy="no-referrer" }
 此时原先的主库上所有的业务访问流量都已经切走了，然后再进行升级。当然，如果备库也承担了读的流量，那么在升级备库前，需要先将这些流量切到别的实例上。
 
 ### 验证升级操作
@@ -546,7 +546,7 @@ MySQL在不同的版本之间，可能会存在一些不兼容的地方，升级
 
 接下来我们来看一个从5.7升级到8.0的例子。首先对正式环境做一个数据库物理备份，再将备份恢复到验证环境中。**一般我们使用xtrabackup对数据库进行备份和恢复。**关于xtrabackup的具体使用，后续的课程中还会做更详细的介绍，这里我们先来看一下大致的操作步骤。
 
-![图片](https://static001.geekbang.org/resource/image/40/02/40fc5231cf113b6646163acee77b6f02.jpg?wh=1434x606)
+![图片](https://static001.geekbang.org/resource/image/40/02/40fc5231cf113b6646163acee77b6f02.jpg?wh=1434x606){: referrerpolicy="no-referrer" }
 
 1. 备份正式环境的数据库
 
@@ -668,11 +668,11 @@ mysql.db                                           OK
 
 验证完数据库升级后，我们最好再验证一下数据复制，因为在升级一个复制结构中所有数据库节点的过程中，会存在高版本从低版本复制数据的情况，比如备节点已经升级到了8.0，而主节点还是5.7版本的。我们需要确保5.7的binlog能顺利地复制到8.0的备库中，**因为能将备库切换为主库的前提条件，是备库的数据和主库保持一致。**
 
-![图片](https://static001.geekbang.org/resource/image/d4/06/d4c4669c58872137ef7908392a180a06.jpg?wh=877x295)
+![图片](https://static001.geekbang.org/resource/image/d4/06/d4c4669c58872137ef7908392a180a06.jpg?wh=877x295){: referrerpolicy="no-referrer" }
 
 还可能存在从低版本往高版本复制数据的情况。当备库升级到8.0后，切换为新的主库，原先的主库变成备库，还是5.7版本的。当然，这个方向的数据复制可能没那么重要，因为5.7的备库从8.0的主库复制数据时，如果报错了，我们可以先把备库的版本升上来，然后再复制数据。
 
-![图片](https://static001.geekbang.org/resource/image/6e/69/6ee73a4e0f901e27c9917f5f41799569.jpg?wh=855x266)
+![图片](https://static001.geekbang.org/resource/image/6e/69/6ee73a4e0f901e27c9917f5f41799569.jpg?wh=855x266){: referrerpolicy="no-referrer" }
 
 我在这里提供一种数据库升级后，验证数据复制的方法。实际上就是将新恢复出来并升级后的数据库，设置为备库，从源库复制数据。关于数据复制的内容，后续会专门介绍，这里我们先了解下主要的操作步骤。
 
@@ -743,7 +743,7 @@ Query OK, 0 rows affected (0.01 sec)
 ```
 
 到这里，我们就验证了数据库的升级，以及升级后跨版本的数据复制功能。参考下面这个复制链路图，我们验证了两个版本之间的数据复制功能。  
-![图片](https://static001.geekbang.org/resource/image/a0/63/a041297ceb198d4a440836280eb5d063.jpg?wh=862x608)  
+![图片](https://static001.geekbang.org/resource/image/a0/63/a041297ceb198d4a440836280eb5d063.jpg?wh=862x608)  {: referrerpolicy="no-referrer" }
 这里我们需要用正式环境的数据库备份文件和Binlog来做验证，因为是否能升级成功，以及是否能正常复制数据，跟数据库的具体使用情况，以及Binlog中具体的事件相关。
 
 ## 总结
@@ -754,7 +754,7 @@ Query OK, 0 rows affected (0.01 sec)
 
 在使用生产环境的真实数据恢复出来的验证环境做业务测试的时候，有一点需要特别注意，**不要影响线上业务**，因为验证环境数据库中都是真实的业务数据，测试时可能会影响真实用户。
 
-![图片](https://static001.geekbang.org/resource/image/05/5c/05ce472564a0fc89997d9b1bd41a435c.jpg?wh=1004x489)
+![图片](https://static001.geekbang.org/resource/image/05/5c/05ce472564a0fc89997d9b1bd41a435c.jpg?wh=1004x489){: referrerpolicy="no-referrer" }
 
 这一讲我们使用了官方提供的employees样例数据库来测试各个版本间的升级。你可以查看[官方文档](https://dev.mysql.com/doc/employee/en/)，了解具体的下载和安装方法。
 

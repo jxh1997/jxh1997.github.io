@@ -20,7 +20,7 @@ WebSQL更准确的说是WebSQL DB API，它是一种操作本地数据库的网�
 
 如果说WebSQL方便我们对RDBMS进行操作，那么IndexedDB则是一种NoSQL方式。它存储的是key-value类型的数据，允许存储大量的数据，通常可以超过250M，并且支持事务，当我们对数据进行增删改查（CRUD）的时候可以通过事务来进行。
 
-![](https://static001.geekbang.org/resource/image/58/a2/58a474019f55d9854034ed244c4ec4a2.png?wh=1729%2A665)  
+![](https://static001.geekbang.org/resource/image/58/a2/58a474019f55d9854034ed244c4ec4a2.png?wh=1729%2A665)  {: referrerpolicy="no-referrer" }
 你能看到本地存储包括了多种存储方式，它可以很方便地将数据存储在客户端中，在使用的时候避免重复调用服务器的资源。
 
 需要说明的是，今天我要讲的WebSQL并不属于HTML5规范的一部分，它是一个单独的规范，只是随着HTML5规范一起加入到了浏览器端。主流的浏览器比如Chrome、Safari和Firefox都支持WebSQL，我们可以在JavaScript脚本中使用WebSQL对客户端数据库进行操作。
@@ -207,12 +207,12 @@ tx.executeSql('INSERT INTO heros (id, name, hp_max, mp_max, role_main) VALUES (1
 
 演示结果如下：
 
-![](https://static001.geekbang.org/resource/image/3e/33/3e7e08ea2c5d768ed0bdbd757c6b8f33.png?wh=1009%2A703)  
+![](https://static001.geekbang.org/resource/image/3e/33/3e7e08ea2c5d768ed0bdbd757c6b8f33.png?wh=1009%2A703)  {: referrerpolicy="no-referrer" }
 你能看到使用WebSQL来操作本地存储还是很方便的。
 
 刚才我们讲的是创建本地存储，那么如何删除呢？你可以直接通过浏览器来删除，比如在Chrome浏览器中找到Application中的Clear storage，然后使用Clear site data即可：
 
-![](https://static001.geekbang.org/resource/image/0e/db/0eec0b6cd8a11e6e52af6595b02ac9db.png?wh=1291%2A790)
+![](https://static001.geekbang.org/resource/image/0e/db/0eec0b6cd8a11e6e52af6595b02ac9db.png?wh=1291%2A790){: referrerpolicy="no-referrer" }
 
 ## 总结
 
@@ -222,7 +222,7 @@ tx.executeSql('INSERT INTO heros (id, name, hp_max, mp_max, role_main) VALUES (1
 
 最后是一道动手题，请你使用WebSQL创建数据表heros，并且插入5个以上的英雄数据，字段为id、name、hp\_max、mp\_max、role\_main。在HTML中添加一个输入框，可以输入英雄的姓名，并对该英雄的数据进行查询，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/dc/08/dcdefa40424e4e9910dbef9dd6938d08.png?wh=1028%2A305)
+![](https://static001.geekbang.org/resource/image/dc/08/dcdefa40424e4e9910dbef9dd6938d08.png?wh=1028%2A305){: referrerpolicy="no-referrer" }
 
 欢迎你在评论区写下你的答案，我会和你一起交流，也欢迎把这篇文章分享给你的朋友或者同事，与他们一起交流一下。
 <div><strong>精选留言（12）</strong></div><ul>

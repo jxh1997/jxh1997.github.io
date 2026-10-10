@@ -71,7 +71,7 @@ mysql> show processlist;
 
 从ProcessList可以获取到这些信息：
 
-![图片](https://static001.geekbang.org/resource/image/db/73/db54c2823039988bbded4035ef1a1373.png?wh=1920x1459)
+![图片](https://static001.geekbang.org/resource/image/db/73/db54c2823039988bbded4035ef1a1373.png?wh=1920x1459){: referrerpolicy="no-referrer" }
 
 正式的环境中，Processlist可能会包含上千个会话，我们可以通过一些工具对输出进行汇总，便于判断问题。下面这个例子中，我们使用MySQL自带客户端的功能，实现按State统计会话数量。
 
@@ -91,7 +91,7 @@ mysql> show processlist\G
 
 Processlist输出中的State字段提供了会话当前处于哪个状态的一些内部信息，实践中我们经常会根据会话的State来判断问题的大致方向。下面表格提供了比较常见的一些state的含义和可能的原因。
 
-![图片](https://static001.geekbang.org/resource/image/da/ef/daf1e0abdf4ea4787be1cd56b18de0ef.jpg?wh=1920x2039)
+![图片](https://static001.geekbang.org/resource/image/da/ef/daf1e0abdf4ea4787be1cd56b18de0ef.jpg?wh=1920x2039){: referrerpolicy="no-referrer" }
 
 会话在一个state下，可能会进行很多不同的操作，单凭一个状态值无法精确地判断MySQL到底在执行或等待什么。有时候我们也会使用pstack收集mysqld进程里各个线程的调用栈。通过调用栈可以更加精确地判断MySQL当前运行状态。不过使用pstack要特别谨慎，因为这会严重影响MySQL的性能。在MySQL已经卡死的情况下，使用pstack可以收集到对诊断问题很关键的信息，这时可以适当使用pstack。
 

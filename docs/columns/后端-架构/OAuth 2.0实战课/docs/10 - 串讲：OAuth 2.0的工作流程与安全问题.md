@@ -6,7 +6,7 @@
 
 ## OAuth 2.0工作流程串讲
 
-![](https://static001.geekbang.org/resource/image/be/2a/beb02a5baf3654c5025238552cd26a2a.jpg?wh=1706%2A498)
+![](https://static001.geekbang.org/resource/image/be/2a/beb02a5baf3654c5025238552cd26a2a.jpg?wh=1706%2A498){: referrerpolicy="no-referrer" }
 
 我们一直在讲OAuth 2.0是一种授权协议，这种协议可以让第三方软件**代表**用户去执行被允许的操作。那么，第三方软件就需要向用户索取**授权**来获得那个令牌。
 

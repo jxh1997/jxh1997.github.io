@@ -10,7 +10,7 @@ Kafka 的高性能话题也算是热点了，如果你面试的公司在并发�
 
 即便在同一个分区内部，Kafka 也进一步利用了分段日志和索引来加速消息查找。在 Kafka 内部，一个分区的日志是由很多个段（segment）组成的，每个段你可以理解成一个文件。同一个 topic 的文件就存放在以 topic 命名的目录下。
 
-![图片](https://static001.geekbang.org/resource/image/5b/af/5b02d02b705bfd1b6afd1000b462bbaf.png?wh=1920x653)
+![图片](https://static001.geekbang.org/resource/image/5b/af/5b02d02b705bfd1b6afd1000b462bbaf.png?wh=1920x653){: referrerpolicy="no-referrer" }
 
 为了快速找到对应的段文件，段日志文件使用了偏移量来命名。假如说一个文件的名字是 N.log，那么就表示这个段文件里第一条消息的偏移量是 N + 1。
 
@@ -23,7 +23,7 @@ Kafka 的高性能话题也算是热点了，如果你面试的公司在并发�
 
 所以整个日志文件目录看上去是这样的。
 
-![图片](https://static001.geekbang.org/resource/image/88/e8/880b85b2c0f64bdb72665b78615335e8.png?wh=1920x783)
+![图片](https://static001.geekbang.org/resource/image/88/e8/880b85b2c0f64bdb72665b78615335e8.png?wh=1920x783){: referrerpolicy="no-referrer" }
 
 以这张图片为例，假如说要查找 topic 为 test\_topic，分区为 1，偏移量为 20000 的消息，那么整个过程是这样的。
 
@@ -40,7 +40,7 @@ Kafka 的高性能话题也算是热点了，如果你面试的公司在并发�
 
 零拷贝（zero copy）是中间件广泛使用的一个技术，它能极大地提高中间件的性能。所谓的零拷贝，就是指没有 CPU 参与的拷贝。要理解零拷贝，要先从一般的读写操作开始讲起。假如说你现在要从磁盘读取内容，然后发送到网络上，那么基本流程如图所示。
 
-![图片](https://static001.geekbang.org/resource/image/4a/15/4ac629727b0538e96aeb2ed0c281ab15.png?wh=1920x1090)
+![图片](https://static001.geekbang.org/resource/image/4a/15/4ac629727b0538e96aeb2ed0c281ab15.png?wh=1920x1090){: referrerpolicy="no-referrer" }
 
 DMA （Direct Memory Access）是一个独立于 CPU 的硬件，所以我们不太在意 DMA 拷贝。NIC（Network Interface Card）就是指网卡。
 
@@ -53,15 +53,15 @@ DMA （Direct Memory Access）是一个独立于 CPU 的硬件，所以我们不
 
 而这里面总共有四次内核态与用户态的切换。
 
-![](https://static001.geekbang.org/resource/image/6a/5d/6a82af6cfb15e83178ec25704e88405d.png?wh=2448x1076)
+![](https://static001.geekbang.org/resource/image/6a/5d/6a82af6cfb15e83178ec25704e88405d.png?wh=2448x1076){: referrerpolicy="no-referrer" }
 
 为什么要那么复杂，能不能不经过应用缓存，直接让磁盘读到内核缓存，然后内核缓存直接写到 NIC 缓存？这样不是非常完美吗？
 
-![图片](https://static001.geekbang.org/resource/image/ee/04/ee3ae14795834184909a34279dc2d704.png?wh=1920x1090)
+![图片](https://static001.geekbang.org/resource/image/ee/04/ee3ae14795834184909a34279dc2d704.png?wh=1920x1090){: referrerpolicy="no-referrer" }
 
 也可以，而这就是零拷贝，对应的内核态-用户态切换，也只剩下了两次。
 
-![图片](https://static001.geekbang.org/resource/image/22/c5/22af5f6b822a629a3847bb6da8e313c5.png?wh=1920x690)
+![图片](https://static001.geekbang.org/resource/image/22/c5/22af5f6b822a629a3847bb6da8e313c5.png?wh=1920x690){: referrerpolicy="no-referrer" }
 
 那么和最原始的操作比起来，零拷贝少了两次内核态与用户态的切换，还少了两次 CPU 拷贝。但是零拷贝本身还是要用到 DMA 拷贝。
 
@@ -73,7 +73,7 @@ DMA （Direct Memory Access）是一个独立于 CPU 的硬件，所以我们不
 
 在网络传输的时候，每一次发送都有一个固定开销，比如说协议头的部分，这个开销大小和具体的协议设计有关。假如说每个请求大小是 1KB，在网络传输的时候，分 100 次传输 1KB 和 1 次传输 100KB，后者也是明显快很多的。前者需要传输 100 次协议头，而后者只需要传输 1 次协议头。
 
-![图片](https://static001.geekbang.org/resource/image/45/ae/45b059b3a720a29a830c5e3edd43bfae.png?wh=1920x645)
+![图片](https://static001.geekbang.org/resource/image/45/ae/45b059b3a720a29a830c5e3edd43bfae.png?wh=1920x645){: referrerpolicy="no-referrer" }
 
 当然，这是指应用层协议，如果是底层协议，比如 TCP，这方面也能节省一些，但是效果不如应用层协议好。
 
@@ -145,7 +145,7 @@ Kafka 本身使用了很多手段来保证高性能，包括零拷贝、page cac
 
 > Kafka 在写入数据的时候就充分利用了顺序写的特性。它针对每一个分区，有一个日志文件 WAL（write-ahead log），这个日志文件是只追加的，也就是顺序写的，因此发消息的性能会很好。MySQL、Redis 和其他消息中间件也采用了类似的技术。
 
-![图片](https://static001.geekbang.org/resource/image/ff/27/ff0cbe809be426d82f115a0c30996127.png?wh=1920x645)
+![图片](https://static001.geekbang.org/resource/image/ff/27/ff0cbe809be426d82f115a0c30996127.png?wh=1920x645){: referrerpolicy="no-referrer" }
 
 紧接着你再补充一点业界早期的讨论。
 
@@ -161,7 +161,7 @@ Kafka 本身使用了很多手段来保证高性能，包括零拷贝、page cac
 >    
 > 举个例子，假如说要写入 100M 的数据，如果只有一个分区，那就是直接顺序写入 100M。但是如果有 100 个分区，每个分区写入 1M，它的性能是要差很多的。因为一个 topic 至少有一个分区，topic 多也会影响 Kafka 的性能。最好是在创建 topic 的时候就规划好分区，但是如果没规划好，还是得考虑解决。
 
-![图片](https://static001.geekbang.org/resource/image/59/36/59a137d035215d702c6db1d56c201236.png?wh=1920x819)
+![图片](https://static001.geekbang.org/resource/image/59/36/59a137d035215d702c6db1d56c201236.png?wh=1920x819){: referrerpolicy="no-referrer" }
 
 这个回答里你提到了一个点，就是分区设置不合理，所以面试官就会追问你如何估计分区数量。这个知识你已经在前面[第 25 讲](https://time.geekbang.org/column/article/685943)学过了，记得复习一下。
 
@@ -175,7 +175,7 @@ Kafka 本身使用了很多手段来保证高性能，包括零拷贝、page cac
 
 > 如果某个 topic 分区太多了用不上，就可以考虑不用其中的一些分区。假设说我们现在有 32 个分区，但是事实上业务本身用不上那么多分区，那么就可以考虑要求发送者只将消息发送到特定的 16 个分区上。当然，能够直接创建新 topic 是最好的。
 
-![图片](https://static001.geekbang.org/resource/image/c3/5c/c37146b35ef503b3dc83dbbd2ac3025c.png?wh=1920x1059)
+![图片](https://static001.geekbang.org/resource/image/c3/5c/c37146b35ef503b3dc83dbbd2ac3025c.png?wh=1920x1059){: referrerpolicy="no-referrer" }
 
 topic 过多的问题，要稍微棘手一点，你可以考虑**合并** topic。
 
@@ -195,7 +195,7 @@ topic 过多的问题，要稍微棘手一点，你可以考虑**合并** topic�
 
 > Kafka 的分区机制也能提高性能。假如说现在 Kafka 没有分区机制，只有 topic，那么可以预计的是不管是读还是写，并发竞争都是 topic 维度的。而在引入了分区机制之后，并发竞争的维度就变成分区了。如果是操作不同的分区，那么完全不需要搞并发控制。
 
-![图片](https://static001.geekbang.org/resource/image/1c/85/1cbd466eac09bba24ce608cd2cf26785.png?wh=1920x905)
+![图片](https://static001.geekbang.org/resource/image/1c/85/1cbd466eac09bba24ce608cd2cf26785.png?wh=1920x905){: referrerpolicy="no-referrer" }
 
 如果你在面试过程中和面试官讲到了并发优化的点，那么你可以用分区这个例子来解释可以通过缩小并发粒度来提高性能。
 
@@ -211,7 +211,7 @@ topic 过多的问题，要稍微棘手一点，你可以考虑**合并** topic�
 
 批量处理是高并发和大数据的常见解决方案。Kafka 为了提高性能，引入端到端的批量发送机制。在发送端，Kafka 的客户端并不是一次只发送一条消息，而是发送一批消息（record batch）。简单来说，就是好几条消息合并在一起发送。
 
-![图片](https://static001.geekbang.org/resource/image/a5/e3/a5acbbc1d81bdbf7365993666a2099e3.png?wh=1920x1182)
+![图片](https://static001.geekbang.org/resource/image/a5/e3/a5acbbc1d81bdbf7365993666a2099e3.png?wh=1920x1182){: referrerpolicy="no-referrer" }
 
 而在 broker 端，Kafka 在存储的时候也是按照批来处理的。你在回答的时候要先解释 Kafka **批量处理**的基本机制。
 
@@ -227,7 +227,7 @@ topic 过多的问题，要稍微棘手一点，你可以考虑**合并** topic�
 >    
 > 另外一方面，批量处理也有利于网络传输。在网络传输中，一个难以避免的问题就是网络协议自身的开销。比如说协议头开销。那么如果发送 100 次请求，就需要传输 100 次协议头。如果 100 个请求合并为一批，那就只需要一个协议头。
 
-![图片](https://static001.geekbang.org/resource/image/03/ce/0390fc774852fe34893f50c86927bace.png?wh=1920x645)
+![图片](https://static001.geekbang.org/resource/image/03/ce/0390fc774852fe34893f50c86927bace.png?wh=1920x645){: referrerpolicy="no-referrer" }
 
 #### 批量处理的兜底技术
 
@@ -241,7 +241,7 @@ topic 过多的问题，要稍微棘手一点，你可以考虑**合并** topic�
 
 Kafka 是彻底地端到端，就是生产者压缩之后发送到 broker，broker 直接存储。当 broker 推送到消费者的时候，消费者解压缩。
 
-![图片](https://static001.geekbang.org/resource/image/2c/1b/2c94c7054eb25955d1fbee719e47101b.png?wh=1920x653)
+![图片](https://static001.geekbang.org/resource/image/2c/1b/2c94c7054eb25955d1fbee719e47101b.png?wh=1920x653){: referrerpolicy="no-referrer" }
 
 > Kafka 为了进一步降低网络传输和存储的压力，还对消息进行了压缩。这种压缩是端到端的压缩，也就是生产者压缩，broker 直接存储压缩后的数据，只有消费者才会解压缩。它带来的好处就是，网络传输的时候传输的数据会更少，存储的时候需要的磁盘空间也更少。当然，缺点就是压缩还是会消耗 CPU。如果生产者和消费者都是 CPU 密集型的应用，那么这种压缩机制反而加重了它们的负担。
 
@@ -255,7 +255,7 @@ Kafka 是彻底地端到端，就是生产者压缩之后发送到 broker，brok
 
 我也建议你从横向角度去分类，比如写下零拷贝再写下使用了零拷贝的相应的中间件。这样能够加深你的理解，你在面试的时候也可以用这个知识来刷亮点。
 
-![](https://static001.geekbang.org/resource/image/5f/40/5f9f06fdae07580aab5124a704943040.png?wh=2326x1914)
+![](https://static001.geekbang.org/resource/image/5f/40/5f9f06fdae07580aab5124a704943040.png?wh=2326x1914){: referrerpolicy="no-referrer" }
 
 ## 思考题
 

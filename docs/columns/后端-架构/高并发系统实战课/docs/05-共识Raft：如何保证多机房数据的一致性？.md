@@ -18,7 +18,7 @@
 
 为了帮你快速熟悉Raft的实现原理，下面我会基于 [Raft官方的例子](https://raft.github.io/)，对Raft进行讲解。
 
-![图片](https://static001.geekbang.org/resource/image/af/23/af3c573401c2c82a3fa4ffac6bff3a23.jpg?wh=1920x1234 "Raft服务状态角色、调用关系、日志")
+![图片](https://static001.geekbang.org/resource/image/af/23/af3c573401c2c82a3fa4ffac6bff3a23.jpg?wh=1920x1234 "Raft服务状态角色、调用关系、日志"){: referrerpolicy="no-referrer" }
 
 如图所示，我们启动五个Raft分布式数据服务：S1、S2、S3、S4、S5，每个节点都有以下三种状态：
 
@@ -30,7 +30,7 @@
 
 那Leader服务是如何选举出来的呢？进入选举模式后，这5个服务会随机等待一段时间。等待时间一到，当前服务先投自己一票，并对当前的任期“term”加 1 （上图中term:4就代表第四任Leader），然后对其他服务发送RequestVote RPC（即请求投票）进行拉票。
 
-![图片](https://static001.geekbang.org/resource/image/d9/23/d9d670acc44806bdca7320d05c610423.jpg?wh=1920x1234 "S1失去联系，S5最先超时发起选举")
+![图片](https://static001.geekbang.org/resource/image/d9/23/d9d670acc44806bdca7320d05c610423.jpg?wh=1920x1234 "S1失去联系，S5最先超时发起选举"){: referrerpolicy="no-referrer" }
 
 收到投票申请的服务，并且**申请服务（即“发送投票申请的服务”）的任期和同步进度都比它超前或相同**，那么它就会投申请服务一票，并把当前的任期更新成最新的任期。同时，这个收到投票申请的服务不再发起投票，会等待其他服务邀请。
 
@@ -38,7 +38,7 @@
 
 被选为Leader的服务会发布广播通知其他服务，并向其他服务同步新的任期和其进度情况。同时，新任Leader会在任职期间周期性发送心跳，保证各个子服务（Follwer）不会因为超时而切换到选举模式。在选举期间，若有服务收到上一任Leader的心跳，则会拒绝（如下图S1）。
 
-![图片](https://static001.geekbang.org/resource/image/7f/08/7f9bf2d92f806e0007ee1e6542212308.jpg?wh=1920x1234 "投票结果返回")
+![图片](https://static001.geekbang.org/resource/image/7f/08/7f9bf2d92f806e0007ee1e6542212308.jpg?wh=1920x1234 "投票结果返回"){: referrerpolicy="no-referrer" }
 
 选举结束后，所有服务都进入数据同步状态。
 
@@ -50,14 +50,14 @@
 
 通常来说，客户端的数据修改请求都会发送到Leader节点（如下图S1）进行统一决策，如果客户端请求发送到了Follower，Follower就会将请求重定向到Leader。那么，Raft是怎么实现同分区数据备份副本的强一致性呢？
 
-![图片](https://static001.geekbang.org/resource/image/b8/5b/b866385e2b4ba21515302bcb1836ab5b.jpg?wh=1920x1234 "多副本同步")  
+![图片](https://static001.geekbang.org/resource/image/b8/5b/b866385e2b4ba21515302bcb1836ab5b.jpg?wh=1920x1234 "多副本同步")  {: referrerpolicy="no-referrer" }
 具体来讲，Leader成功修改数据后，会产生对应的日志，然后Leader会给所有Follower发送单条日志同步信息。只要大多数Follower返回同步成功，Leader就会对预提交的日志进行commit，并向客户端返回修改成功。
 
 接着，Leader在下一次心跳时（消息中leader commit字段），会把当前最新commit的Log index（日志进度）告知给各Follower节点，然后各Follower按照这个index进度对外提供数据，未被Leader最终commit的数据则不会落地对外展示。
 
 如果在数据同步期间，客户端还有其他的数据修改请求发到Leader，那么这些请求会排队，因为这时候的Leader在阻塞等待其他节点回应。
 
-![图片](https://static001.geekbang.org/resource/image/14/a4/140fa27a525163918956514db3d863a4.jpg?wh=1920x1234 "通过日志同步，同时同步Follower目前Leader 的commit index")
+![图片](https://static001.geekbang.org/resource/image/14/a4/140fa27a525163918956514db3d863a4.jpg?wh=1920x1234 "通过日志同步，同时同步Follower目前Leader 的commit index"){: referrerpolicy="no-referrer" }
 
 不过，这种阻塞等待的设计也让Raft算法对网络性能的依赖很大，因为每次修改都要并发请求多个节点，等待大部分节点成功同步的结果。
 
@@ -69,7 +69,7 @@
 
 讲到这我们不难看出，在Raft的数据同步机制中，日志发挥着重要的作用。在同步数据时，Raft采用的日志是一个有顺序的指令日志WAL（Write Ahead Log），类似MySQL的binlog。该日志中记录着每次修改数据的指令和修改任期，并通过Log Index标注了当前是第几条日志，以此作为同步进度的依据。
 
-![图片](https://static001.geekbang.org/resource/image/8d/51/8dea5b9b5a3a62e94a43dc5632ac6e51.jpg?wh=1920x1234 "日志格式")
+![图片](https://static001.geekbang.org/resource/image/8d/51/8dea5b9b5a3a62e94a43dc5632ac6e51.jpg?wh=1920x1234 "日志格式"){: referrerpolicy="no-referrer" }
 
 其中，Leader的日志永远不会删除，所有的Follower都会保持和Leader **完全一致，如果存在差异也会被强制覆盖**。同时，每个日志都有“写入”和“commit”两个阶段，在选举时，每个服务会根据还未commit的Log Index进度，优先选择同步进度最大的节点，以此保证选举出的Leader拥有最新最全的数据。
 
@@ -77,7 +77,7 @@ Leader在任期内向各节点发送同步请求，其实就是按顺序向各�
 
 Leader收到拒绝后，会从后往前一条条找出日志中还未同步的部分或者有差异的部分，然后开始一个个往后覆盖实现同步。
 
-![图片](https://static001.geekbang.org/resource/image/ed/7b/ed2e78bb1634eda6454ea21f73bb3b7b.jpg?wh=1920x1234 "第一阶段找到共同进度点，第二阶段覆盖+追加同步进度")
+![图片](https://static001.geekbang.org/resource/image/ed/7b/ed2e78bb1634eda6454ea21f73bb3b7b.jpg?wh=1920x1234 "第一阶段找到共同进度点，第二阶段覆盖+追加同步进度"){: referrerpolicy="no-referrer" }
 
 Leader和Follower的日志同步进度是通过日志index来确认的。Leader对日志内容和顺序有绝对的决策权，当它发现自己的日志和Follower的日志有差异时，为了确保多个副本的数据是完全一致的，它会强制覆盖Follower的日志。
 
@@ -95,7 +95,7 @@ Leader和Follower的日志同步进度是通过日志index来确认的。Leader�
 
 这里有个小技巧，就是Follower在收到查询请求时，会顺便问一下Leader当前最新commit的log index是什么。如果这个log index大于当前Follower同步的进度，就说明Follower的本地数据不是最新的，这时候Follower就会从Leader获取最新的数据返回给客户端。可见，保证数据强一致性的代价很大。
 
-![](https://static001.geekbang.org/resource/image/8e/99/8eb7510yyb5585977746b9fcd4dbf199.jpg?wh=3330x2141 "Follower保持与Leader进度一致的方式，保证读到的数据和Leader强一致")
+![](https://static001.geekbang.org/resource/image/8e/99/8eb7510yyb5585977746b9fcd4dbf199.jpg?wh=3330x2141 "Follower保持与Leader进度一致的方式，保证读到的数据和Leader强一致"){: referrerpolicy="no-referrer" }
 
 你可能会好奇：如何在业务使用时保证读取数据的强一致性呢？其实我们之前说的Raft同步等待Leader commit log index的机制，已经确保了这一点。我们只需要向Leader正常提交数据修改的操作，Follower读取时拿到的就一定是最新的数据。
 
@@ -107,7 +107,7 @@ Leader和Follower的日志同步进度是通过日志index来确认的。Leader�
 
 由于这种方式的同步代价和延迟都比较大，建议你尽量在数据量和修改量都比较小的场景内使用，行业里也有很多针对不同场景设计的库可以选择，如：parallel-raft、multi-paxos、SOFAJRaft等，更多请参考Raft的[底部开源列表](https://raft.github.io/)。
 
-![图片](https://static001.geekbang.org/resource/image/65/93/65fd6d4d751c7c888468dc7623724a93.jpg?wh=1920x1234)
+![图片](https://static001.geekbang.org/resource/image/65/93/65fd6d4d751c7c888468dc7623724a93.jpg?wh=1920x1234){: referrerpolicy="no-referrer" }
 
 ## 思考题
 

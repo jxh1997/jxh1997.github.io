@@ -44,7 +44,7 @@
 
 为了实现这个目的，我们可以利用LLM构造团队知识门户。按照分层架构表示的知识门户的架构如下图所示：
 
-![](https://static001.geekbang.org/resource/image/67/30/67ef0b7c71e2602a81c1abf91baffc30.jpg?wh=1719x783)
+![](https://static001.geekbang.org/resource/image/67/30/67ef0b7c71e2602a81c1abf91baffc30.jpg?wh=1719x783){: referrerpolicy="no-referrer" }
 
 最基础也是最核心的内容就是知识层，也就是我们在知识过程中提取的所有知识。这里的知识既包含不可言说知识，比如，业务上下文、架构、测试策略等，也可以包含各种显式或隐式知识，比如文档、代码等等。
 
@@ -64,10 +64,10 @@
 
 交互层之上就是知识门户的UI层了，我们在前面讲过，LLM无法构成端到端的流程，那么门户只能以工具集的形式组织，比如下图所示，就是我司AI门户Team AI的样子：
 
-![](https://static001.geekbang.org/resource/image/d3/57/d368441dd8b9a0f46ea87d9be3a65c57.jpg?wh=2752x2153)
+![](https://static001.geekbang.org/resource/image/d3/57/d368441dd8b9a0f46ea87d9be3a65c57.jpg?wh=2752x2153){: referrerpolicy="no-referrer" }
 
 除了分层架构之外，我们也可以按照知识产品（Knowledge Product）的形式来构建门户：  
-![](https://static001.geekbang.org/resource/image/c0/f5/c06087c56948e6675c443af95350b9f5.jpg?wh=1702x863)
+![](https://static001.geekbang.org/resource/image/c0/f5/c06087c56948e6675c443af95350b9f5.jpg?wh=1702x863){: referrerpolicy="no-referrer" }
 
 这样我们就可以把LLM封装为一个个独立的产品，正如我们将单体应用拆分为微服务一样。
 

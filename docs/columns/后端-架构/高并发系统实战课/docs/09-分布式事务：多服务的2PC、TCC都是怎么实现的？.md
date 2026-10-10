@@ -38,7 +38,7 @@ XA协议是一个很流行的分布式事务协议，可以很好地支撑我们
 
 需要说明的是，每个子事务都有多个状态，每个状态的流转情况如下图所示：
 
-![](https://static001.geekbang.org/resource/image/a8/39/a89ce0be085676f4ac493d61de025339.jpg?wh=3988x2416)
+![](https://static001.geekbang.org/resource/image/a8/39/a89ce0be085676f4ac493d61de025339.jpg?wh=3988x2416){: referrerpolicy="no-referrer" }
 
 如上图，子事务有四个阶段的状态：
 
@@ -49,7 +49,7 @@ XA协议是一个很流行的分布式事务协议，可以很好地支撑我们
 
 下面我们来看XA协调两个事务的具体流程，这里我拿最常见的2PC方式为例进行讲解。
 
-![图片](https://static001.geekbang.org/resource/image/5f/da/5f4b724b4db9d7a5d9f642yy23f90fda.jpg?wh=1920x1163 "XA 协调两个服务的分布式事务过程 ")
+![图片](https://static001.geekbang.org/resource/image/5f/da/5f4b724b4db9d7a5d9f642yy23f90fda.jpg?wh=1920x1163 "XA 协调两个服务的分布式事务过程 "){: referrerpolicy="no-referrer" }
 
 如上图所示，在协调两个服务Application 1和Application 2时，业务会先请求事务协调器创建全局事务，同时生成全局事务的唯一标识xid，然后再在事务协调器里分别注册两个子事务，生成每个子事务对应的xid。这里说明一下，xid由gtrid+bqual+formatID组成，多个子事务的gtrid是相同的，但其他部分必须区分开，防止这些服务在一个数据库下。
 
@@ -94,7 +94,7 @@ XA RECOVER [CONVERT XID]
 
 言归正传，我们以购物场景为例，在购物的整个事务流程中，需要协调的服务有三个：**用户钱包、商品库存和用户购物订单，**它们的数据都放在私有的数据库中。
 
-![图片](https://static001.geekbang.org/resource/image/83/ab/83d2c1a7ec17bf844972f208659a95ab.jpg?wh=1920x1163 "用户购物")
+![图片](https://static001.geekbang.org/resource/image/83/ab/83d2c1a7ec17bf844972f208659a95ab.jpg?wh=1920x1163 "用户购物"){: referrerpolicy="no-referrer" }
 
 按照业务流程，用户在购买商品时，系统需要执行扣库存、生成购物订单和扣除用户账户余额的操作 。其中，“扣库存”和“扣除用户账户余额”是为了保证数据的准确和一致性，所以扣减过程中，要在事务操作期间锁定互斥的其他线程操作保证一致性，然后通过2PC方式，对三个服务实现事务协调。
 
@@ -288,7 +288,7 @@ func main() {
 
 而上面两个演示代码的具体执行过程如下图所示：
 
-![图片](https://static001.geekbang.org/resource/image/25/26/253e04da1340acc27772c2f5a4ddd726.jpg?wh=1920x1719 "整体流程图")
+![图片](https://static001.geekbang.org/resource/image/25/26/253e04da1340acc27772c2f5a4ddd726.jpg?wh=1920x1719 "整体流程图"){: referrerpolicy="no-referrer" }
 
 通过流程图你会发现，2PC事务不仅容易理解，实现起来也简单。
 
@@ -328,7 +328,7 @@ TCC是Try-Confirm-Cancel的缩写，从流程上来看，它比2PC多了一个�
 
 上述流程图如下：
 
-![图片](https://static001.geekbang.org/resource/image/ea/6c/ea57dee245fb9d193aa259f56e8abe6c.jpg?wh=1920x1719 "TCC 的实现")
+![图片](https://static001.geekbang.org/resource/image/ea/6c/ea57dee245fb9d193aa259f56e8abe6c.jpg?wh=1920x1719 "TCC 的实现"){: referrerpolicy="no-referrer" }
 
 最后，我们总结一下TCC事务的优点：
 

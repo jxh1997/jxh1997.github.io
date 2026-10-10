@@ -50,7 +50,7 @@ Query OK, 0 rows affected (0.19 sec)
 
 下面这个是官方文档中本地克隆的一个示意图。
 
-![图片](https://static001.geekbang.org/resource/image/6d/50/6d08e4b802b4bce1d5bcf104f227a850.png?wh=907x648)
+![图片](https://static001.geekbang.org/resource/image/6d/50/6d08e4b802b4bce1d5bcf104f227a850.png?wh=907x648){: referrerpolicy="no-referrer" }
 
 执行clone命令的账号需要有backup\_admin权限。
 
@@ -136,7 +136,7 @@ Executed_Gtid_Set: b094c003-8cfa-11ef-bf79-fab81f64ee00:1-2302
 
 下面这个是官方文档中，远程Clone的示意图。
 
-![图片](https://static001.geekbang.org/resource/image/8b/10/8b5ebe4fa145yy92e12d6f8c5aaffd10.png?wh=966x602)
+![图片](https://static001.geekbang.org/resource/image/8b/10/8b5ebe4fa145yy92e12d6f8c5aaffd10.png?wh=966x602){: referrerpolicy="no-referrer" }
 
 使用clone instance命令发起远程克隆。
 
@@ -224,7 +224,7 @@ clone完成后，会自动重启接受者实例。
 
 最后我们来看一下Clone插件是怎么实现数据克隆的。
 
-![图片](https://static001.geekbang.org/resource/image/3c/57/3c90c00846fb65ce50b5b70646b9a657.jpg?wh=1310x543)
+![图片](https://static001.geekbang.org/resource/image/3c/57/3c90c00846fb65ce50b5b70646b9a657.jpg?wh=1310x543){: referrerpolicy="no-referrer" }
 
 参考上面这个图，数据库克隆主要分为几个阶段。
 

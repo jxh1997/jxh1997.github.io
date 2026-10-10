@@ -4,7 +4,7 @@
 
 流程图如下所示：
 
-![](https://static001.geekbang.org/resource/image/58/72/589d13f1d758a44a1af37efaf9dbdc72.jpg?wh=3330x2141 "Session Cache实现的用户鉴权")
+![](https://static001.geekbang.org/resource/image/58/72/589d13f1d758a44a1af37efaf9dbdc72.jpg?wh=3330x2141 "Session Cache实现的用户鉴权"){: referrerpolicy="no-referrer" }
 
 这种方式的好处在于信息都在服务端储存，对客户端不暴露任何用户敏感的数据信息，并且每个登录用户都有共享的缓存空间（Session Cache）。
 
@@ -16,7 +16,7 @@
 
 ## JWT登陆和token校验
 
-常见方式是采用签名加密的token，这是登录的一个行业标准，即JWT（JSON Web Token）：![](https://static001.geekbang.org/resource/image/02/bf/02f2f3aff0f5db68ef952065da2721bf.jpg?wh=3330x2141 "token流程")
+常见方式是采用签名加密的token，这是登录的一个行业标准，即JWT（JSON Web Token）：![](https://static001.geekbang.org/resource/image/02/bf/02f2f3aff0f5db68ef952065da2721bf.jpg?wh=3330x2141 "token流程"){: referrerpolicy="no-referrer" }
 
 上图就是JWT的登陆流程，用户登录后会将用户信息放到一个加密签名的token中，每次请求都把这个串放到header或cookie内带到服务端，服务端直接将这个token解开即可直接获取到用户的信息，无需和用户中心做任何交互请求。
 
@@ -64,7 +64,7 @@ func GenToken(userId uint64, nickname string) (string, error) {
 
 JWT是如何保证数据不会被篡改，并且保证数据的完整性呢，我们先看看它的组成。
 
-![图片](https://static001.geekbang.org/resource/image/24/f6/240a6a36f0fbcd177e990411abbb8df6.jpg?wh=1920x501)
+![图片](https://static001.geekbang.org/resource/image/24/f6/240a6a36f0fbcd177e990411abbb8df6.jpg?wh=1920x501){: referrerpolicy="no-referrer" }
 
 如上图所示，加密签名的token分为三个部分，彼此之间用点来分割，其中，Header用来保存加密算法类型；PayLoad是我们自定义的内容；Signature是防篡改签名。
 
@@ -115,7 +115,7 @@ JWT的token解密很简单，第一段和第二段都是通过base64编码的。
 而验证token是否合法则是通过签名验证完成的，任何信息修改都会无法通过签名验证。要是通过了签名验证，就表明token没有被篡改过，是一个合法的token，可以直接使用。
 
 这个过程如下图所示：  
-![](https://static001.geekbang.org/resource/image/19/8a/19b6179e1ff8ef5a13f0cbf4527ce88a.jpg?wh=3330x2141)
+![](https://static001.geekbang.org/resource/image/19/8a/19b6179e1ff8ef5a13f0cbf4527ce88a.jpg?wh=3330x2141){: referrerpolicy="no-referrer" }
 
 我们可以看到，通过token方式，用户中心压力最大的接口可以下线了，每个业务的服务端只要解开token验证其合法性，就可以拿到用户信息。不过这种方式也有缺点，就是用户如果被拉黑，客户端最快也要在token过期后才能退出登陆，这让我们的管理存在一定的延迟。
 
@@ -129,7 +129,7 @@ JWT的token解密很简单，第一段和第二段都是通过base64编码的。
 
 但是期间如果超过十五分钟还没换到，就会导致客户端登录失败。为了减少这类问题，同时保证客户端长时间离线仍能正常工作，行业内普遍使用双token方式，具体你可以看看后面的流程图：
 
-![](https://static001.geekbang.org/resource/image/de/7c/de29bd40ac360cb06ca6d3e75ac87a7c.jpg?wh=3330x2141)
+![](https://static001.geekbang.org/resource/image/de/7c/de29bd40ac360cb06ca6d3e75ac87a7c.jpg?wh=3330x2141){: referrerpolicy="no-referrer" }
 
 可以看到，这个方案里有两种token：**一种是refresh\_token，用于更换access\_token，有效期是30天；另一种是access\_token，用于保存当前用户信息和权限信息，每隔15分钟更换一次**。如果请求用户中心失败，并且App处于离线状态，只要检测到本地refresh\_token没有过期，系统仍可以继续工作，直到refresh\_token过期为止，然后提示用户重新登陆。这样即使用户中心坏掉了，业务也能正常运转一段时间。
 

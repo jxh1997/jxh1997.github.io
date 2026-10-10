@@ -331,7 +331,7 @@ public interface SqlNode {
 
 对于不同的语法小单元，MyBatis定义不同的SqlNode实现类。
 
-![](https://static001.geekbang.org/resource/image/03/9f/0365945b91a00e3b98d0c09b2665f59f.png?wh=414%2A203)
+![](https://static001.geekbang.org/resource/image/03/9f/0365945b91a00e3b98d0c09b2665f59f.png?wh=414%2A203){: referrerpolicy="no-referrer" }
 
 整个解释器的调用入口在DynamicSqlSource.getBoundSql方法中，它调用了rootSqlNode.apply(context)方法。因为整体的代码结构跟[第72讲](https://time.geekbang.org/column/article/225904)中的例子基本一致，所以每个SqlNode实现类的代码，我就不带你一块阅读了，感兴趣的话你可以自己去看下。
 
@@ -591,7 +591,7 @@ public interface Log {
 
 针对Log接口，MyBatis还提供了各种不同的实现类，分别使用不同的日志框架来实现Log接口。
 
-![](https://static001.geekbang.org/resource/image/95/14/95946f9e9c524cc06279114f7a654f14.png?wh=476%2A227)
+![](https://static001.geekbang.org/resource/image/95/14/95946f9e9c524cc06279114f7a654f14.png?wh=476%2A227){: referrerpolicy="no-referrer" }
 
 这几个实现类的代码结构基本上一致。我把其中的Log4jImpl的源码贴到了这里。我们知道，在适配器模式中，传递给适配器构造函数的是被适配的类对象，而这里是clazz（相当于日志名称name），所以，从代码实现上来讲，它并非标准的适配器模式。但是，从应用场景上来看，这里确实又起到了适配的作用，是典型的适配器模式的应用场景。
 

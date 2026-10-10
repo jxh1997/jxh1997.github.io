@@ -12,13 +12,13 @@
 
 短URL生成器，也称作短链接生成器，就是将一个比较长的URL生成一个比较短的URL，当浏览器通过短URL生成器访问这个短URL的时候，重定向访问到原始的长URL目标服务器，访问时序图如下。
 
-![图片](https://static001.geekbang.org/resource/image/1e/1a/1e72b4e05d0884718b5a7ee2058a061a.jpg?wh=1920x873)
+![图片](https://static001.geekbang.org/resource/image/1e/1a/1e72b4e05d0884718b5a7ee2058a061a.jpg?wh=1920x873){: referrerpolicy="no-referrer" }
 
 对于需要展示短URL的应用程序，由该应用调用短URL生成器生成短URL，并将该短URL展示给用户，用户在浏览器中点击该短URL的时候，请求发送到短URL生成器（短URL生成器以HTTP服务器的方式对外提供服务，短URL域名指向短URL生成器），短URL生成器返回HTTP重定向响应，将用户请求重定向到最初的原始长URL，浏览器访问长URL服务器，完成请求服务。
 
 **短URL生成器的用例图**
 
-![图片](https://static001.geekbang.org/resource/image/79/5f/79b4e289b47b98e796a5b86d6d378b5f.jpg?wh=1920x873)
+![图片](https://static001.geekbang.org/resource/image/79/5f/79b4e289b47b98e796a5b86d6d378b5f.jpg?wh=1920x873){: referrerpolicy="no-referrer" }
 
 1. 用户client程序可以使用短URL生成器Fuxi为每个长URL生成唯一的短URL，并存储起来。
 2. 用户可以访问这个短URL，Fuxi将请求重定向到原始长URL。
@@ -77,7 +77,7 @@ $\\small 64^{6}\\approx680亿$
 
 通常的设计方案是，将长URL利用MD5或者SHA256等单项散列算法，进行Hash计算，得到128bit或者256bit的Hash值。然后对该Hash值进行Base64编码，得到22个或者43个Base64字符，再截取前面的6个字符，就得到短URL了，如图。
 
-![图片](https://static001.geekbang.org/resource/image/a0/10/a04dd6f9f1d916e66aa555c608a4dc10.jpg?wh=1920x288)
+![图片](https://static001.geekbang.org/resource/image/a0/10/a04dd6f9f1d916e66aa555c608a4dc10.jpg?wh=1920x288){: referrerpolicy="no-referrer" }
 
 但是这样得到的短URL，可能会发生Hash冲突，即不同的长URL，计算得到的短URL是相同的（MD5或者SHA256计算得到的Hash值几乎不会冲突，但是Base64编码后再截断的6个字符有可能会冲突）。所以在生成的时候，需要先校验该短URL是否已经映射为其他的长URL，如果是，那么需要重新计算（换单向散列算法，或者换Base64编码截断位置）。重新计算得到的短URL依然可能冲突，需要再重新计算。
 
@@ -99,7 +99,7 @@ $\\small 64^{6}\\approx680亿$
 
 Fuxi的业务逻辑比较简单，相对比较有挑战的就是**高并发的读请求如何处理、预生成的短URL如何存储以及访问**。高并发访问主要通过负载均衡与分布式缓存解决，而海量数据存储则通过HDFS以及HBase来完成。具体架构图如下。
 
-![图片](https://static001.geekbang.org/resource/image/7b/a8/7b4a85e1f5864d284541957a6bff3fa8.jpg?wh=1920x1112)
+![图片](https://static001.geekbang.org/resource/image/7b/a8/7b4a85e1f5864d284541957a6bff3fa8.jpg?wh=1920x1112){: referrerpolicy="no-referrer" }
 
 系统调用可以分成两种情况，一种是用户请求生成短URL的过程；另一种是用户访问短URL，通过Fuxi跳转到长URL的过程。
 
@@ -107,13 +107,13 @@ Fuxi的业务逻辑比较简单，相对比较有挑战的就是**高并发的�
 
 短URL预加载服务器此前已经从短URL预生成文件服务器（HDFS）中加载了一批短URL存放在自己的内存中，这时，只需要从内存中返回一个短URL即可，同时将短URL与长URL的映射关系存储在HBase数据库中，时序图如下。
 
-![图片](https://static001.geekbang.org/resource/image/d6/e3/d66dd516a71dba3a43225b0063127fe3.jpg?wh=1920x720)
+![图片](https://static001.geekbang.org/resource/image/d6/e3/d66dd516a71dba3a43225b0063127fe3.jpg?wh=1920x720){: referrerpolicy="no-referrer" }
 
 对于用户通过客户端请求访问短URL的过程（即输入短URL，请求返回长URL），请求通过负载均衡服务器发送到短URL服务器集群，短URL服务器首先到缓存服务器中查找是否有该短URL，如果有，立即返回对应的长URL，短URL生成服务器构造重定向响应返回给客户端应用。
 
 如果缓存没有用户请求访问的短URL，短URL服务器将访问HBase短URL数据库服务器集群。如果数据库中存在该短URL，短URL服务器会将该短URL写入缓存服务器集群，并构造重定向响应返回给客户端应用。如果HBase中没有该短URL，短URL服务器将构造404响应返回给客户端应用，时序图如下。
 
-![图片](https://static001.geekbang.org/resource/image/bd/12/bdb18fb9931eb8c52379e8eea9690d12.jpg?wh=1920x968)
+![图片](https://static001.geekbang.org/resource/image/bd/12/bdb18fb9931eb8c52379e8eea9690d12.jpg?wh=1920x968){: referrerpolicy="no-referrer" }
 
 过期短URL清理服务器会每个月启动一次，将已经超过有效期（2年）的URL数据删除，并将这些短URL追加写入到短URL预生成文件中。
 
@@ -159,7 +159,7 @@ Wdj4FbOxTw9CHtvPM1
 
 与之对应的URL链表类图如下。
 
-![图片](https://static001.geekbang.org/resource/image/ae/dc/ae5375d4f8abd5d907666c9080875ddc.jpg?wh=1920x541)
+![图片](https://static001.geekbang.org/resource/image/ae/dc/ae5375d4f8abd5d907666c9080875ddc.jpg?wh=1920x541){: referrerpolicy="no-referrer" }
 
 **URLNode**：URL链表元素类，成员变量uRL即短URL字符串，next指向下一个链表元素。
 
@@ -175,15 +175,15 @@ Fuxi允许用户自己定义短URL，即在生成短URL的时候，由用户指�
 
 标准Base64编码表如下。
 
-![图片](https://static001.geekbang.org/resource/image/01/59/017c0d655cd16b3c2f1a05fd65948459.jpg?wh=1920x1227)
+![图片](https://static001.geekbang.org/resource/image/01/59/017c0d655cd16b3c2f1a05fd65948459.jpg?wh=1920x1227){: referrerpolicy="no-referrer" }
 
 其中“+”和“/”在URL中会被编码为“%2B”以及“%2F”，而“%”在写入数据库的时候又和SQL编码规则冲突，需要进行再编码，因此直接使用标准Base64编码进行短URL编码并不合适。URL保留字符编码表如下。
 
-![图片](https://static001.geekbang.org/resource/image/76/3a/7677e6defe8b938ef78cec2394ef793a.png?wh=1814x164)
+![图片](https://static001.geekbang.org/resource/image/76/3a/7677e6defe8b938ef78cec2394ef793a.png?wh=1814x164){: referrerpolicy="no-referrer" }
 
 所以，我们需要针对URL场景对Base64编码进行改造，使用URL保留字符表以外的字符对Base64编码表中的62，63进行编码：将“+”改为“-”，将“/”改为“\_”，Fuxi最终采用的URL Base64编码表如下。
 
-![图片](https://static001.geekbang.org/resource/image/91/1c/916925eb570d1bc38297954a141aa91c.jpg?wh=1920x1227)
+![图片](https://static001.geekbang.org/resource/image/91/1c/916925eb570d1bc38297954a141aa91c.jpg?wh=1920x1227){: referrerpolicy="no-referrer" }
 
 ## 小结
 

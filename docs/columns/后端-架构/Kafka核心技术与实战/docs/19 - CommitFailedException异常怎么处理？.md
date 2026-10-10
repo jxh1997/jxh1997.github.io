@@ -74,7 +74,7 @@ Okay，现在我们已经说完了关于CommitFailedException异常的经典发�
 
 总结一下，今天我们详细讨论了Kafka Consumer端经常碰到的CommitFailedException异常。我们从它的含义说起，再到它出现的时机和场景，以及每种场景下的应对之道。当然，我也留了个悬念，在专栏后面的内容中，我会详细说说多线程消费的实现方式。希望通过今天的分享，你能清晰地掌握CommitFailedException异常发生的方方面面，从而能在今后更有效地应对此异常。
 
-![](https://static001.geekbang.org/resource/image/df/88/df3691cee68c7878efd21e79719bec88.jpg?wh=2069%2A2569)
+![](https://static001.geekbang.org/resource/image/df/88/df3691cee68c7878efd21e79719bec88.jpg?wh=2069%2A2569){: referrerpolicy="no-referrer" }
 
 ## 开放讨论
 

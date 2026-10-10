@@ -32,7 +32,7 @@ TiDB大致就是这个思路，但具体的实现方式会更巧妙一些。
 
 我将这个通讯过程画了下来，希望帮助你理解。
 
-![](https://static001.geekbang.org/resource/image/94/61/946f37b234790208a6643b5703e65d61.jpg?wh=2700%2A1711)
+![](https://static001.geekbang.org/resource/image/94/61/946f37b234790208a6643b5703e65d61.jpg?wh=2700%2A1711){: referrerpolicy="no-referrer" }
 
 三个TiKV节点每次上报心跳时，由主副本（Leader）提供该分片的元数据，这样PD可以获得全量且没有冗余的信息。
 
@@ -52,7 +52,7 @@ CockroachDB采用了P2P架构，每个节点都要保存完整的元数据，这
 
 这里我先告诉你结论，**CockroachDB真的是基于“最终一致性”的元数据实现了强一致性的分布式数据库**。我画了一张图，我们一起走下这个过程。
 
-![](https://static001.geekbang.org/resource/image/3a/23/3afa38b9a29e2ecfa17f6b809c1e2123.jpg?wh=2700%2A1742)
+![](https://static001.geekbang.org/resource/image/3a/23/3afa38b9a29e2ecfa17f6b809c1e2123.jpg?wh=2700%2A1742){: referrerpolicy="no-referrer" }
 
 1. 节点A接到客户端的SQL请求，要查询数据表T1的记录，根据主键范围确定记录可能在分片R1上，而本地元数据显示R1存储在节点B上。
 2. 节点A向节点B发送请求。很不幸，节点A的元数据已经过时，R1已经重新分配到节点C。
@@ -86,7 +86,7 @@ CockroachDB采用了P2P架构，每个节点都要保存完整的元数据，这
 
 以上是单个事务的运行情况。那么，当多事务并行操作时，又是什么样子的呢？我画了张图来演示这个过程。
 
-![](https://static001.geekbang.org/resource/image/c4/2b/c46f44da1ae27ffe6545c3d00964ba2b.jpg?wh=2700%2A1707)
+![](https://static001.geekbang.org/resource/image/c4/2b/c46f44da1ae27ffe6545c3d00964ba2b.jpg?wh=2700%2A1707){: referrerpolicy="no-referrer" }
 
 我们设定这个Raft组由5个节点组成，T1到T5是先后发生的5个事务操作，被发送到这个Raft组。
 
@@ -128,7 +128,7 @@ Raft的顺序投票是一种设计上的权衡，虽然性能有些影响，但�
 
 关于Raft的优化方法，大的思路就是并行和异步化，其实这也是整个分布式系统中常常采用的方法，在第10讲原子协议的优化中我们还会看到类似的案例。
 
-![](https://static001.geekbang.org/resource/image/1a/6e/1a8c2e11b0072edd80c3bd3e5f4dca6e.jpg?wh=2700%2A2314)
+![](https://static001.geekbang.org/resource/image/1a/6e/1a8c2e11b0072edd80c3bd3e5f4dca6e.jpg?wh=2700%2A2314){: referrerpolicy="no-referrer" }
 
 ## 思考题
 

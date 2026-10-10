@@ -24,7 +24,7 @@
 
 这种数据记录模式属于一个key（例如车ID）对应一个value（一组经纬度）。当有很多车辆信息要保存时，就需要有一个集合来保存一系列的key和value。Hash集合类型可以快速存取一系列的key和value，正好可以用来记录一系列车辆ID和经纬度的对应关系，所以，我们可以把不同车辆的ID和它们对应的经纬度信息存在Hash集合中，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/c8/0e/c8d3f1951874da0d916ed51ccdce9e0e.jpg?wh=2461%2A1445)
+![](https://static001.geekbang.org/resource/image/c8/0e/c8d3f1951874da0d916ed51ccdce9e0e.jpg?wh=2461%2A1445){: referrerpolicy="no-referrer" }
 
 同时，Hash类型的HSET操作命令，会根据key来设置相应的value值，所以，我们可以用它来快速地更新车辆变化的经纬度信息。
 
@@ -38,7 +38,7 @@ Sorted Set类型也支持一个key对应一个value的记录模式，其中，ke
 
 用Sorted Set来保存车辆的经纬度信息时，Sorted Set的元素是车辆ID，元素的权重分数是经纬度信息，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/a9/4e/a9a6bc78ea3bb652ef1404020dd2934e.jpg?wh=2356%2A1403)
+![](https://static001.geekbang.org/resource/image/a9/4e/a9a6bc78ea3bb652ef1404020dd2934e.jpg?wh=2356%2A1403){: referrerpolicy="no-referrer" }
 
 这时问题来了，Sorted Set元素的权重分数是一个浮点数（float类型），而一组经纬度包含的是经度和纬度两个值，是没法直接保存为一个浮点数的，那具体该怎么进行保存呢？
 
@@ -66,17 +66,17 @@ Sorted Set类型也支持一个key对应一个value的记录模式，其中，ke
 
 按照这种方法，做完5次分区后，我们把经度值116.37定位在\[112.5, 123.75]这个区间，并且得到了经度值的5位编码值，即11010。这个编码过程如下表所示：
 
-![](https://static001.geekbang.org/resource/image/3c/f2/3cb007yy63c820d6dd2e4999608683f2.jpg?wh=2890%2A850)
+![](https://static001.geekbang.org/resource/image/3c/f2/3cb007yy63c820d6dd2e4999608683f2.jpg?wh=2890%2A850){: referrerpolicy="no-referrer" }
 
 对纬度的编码方式，和对经度的一样，只是纬度的范围是\[-90，90]，下面这张表显示了对纬度值39.86的编码过程。
 
-![](https://static001.geekbang.org/resource/image/65/6d/65f41469866cb94963b4c9afbf2b016d.jpg?wh=2887%2A838)
+![](https://static001.geekbang.org/resource/image/65/6d/65f41469866cb94963b4c9afbf2b016d.jpg?wh=2887%2A838){: referrerpolicy="no-referrer" }
 
 当一组经纬度值都编完码后，我们再把它们的各自编码值组合在一起，组合的规则是：最终编码值的偶数位上依次是经度的编码值，奇数位上依次是纬度的编码值，其中，偶数位从0开始，奇数位从1开始。
 
 我们刚刚计算的经纬度（116.37，39.86）的各自编码值是11010和10111，组合之后，第0位是经度的第0位1，第1位是纬度的第0位1，第2位是经度的第1位1，第3位是纬度的第1位0，以此类推，就能得到最终编码值1110011101，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/4a/87/4a8296e841f18ed4f3a554703ebd5887.jpg?wh=3000%2A1441)
+![](https://static001.geekbang.org/resource/image/4a/87/4a8296e841f18ed4f3a554703ebd5887.jpg?wh=3000%2A1441){: referrerpolicy="no-referrer" }
 
 用了GeoHash编码后，原来无法用一个权重分数表示的一组经纬度（116.37，39.86）就可以用1110011101这一个值来表示，就可以保存为Sorted Set的权重分数了。
 
@@ -91,13 +91,13 @@ Sorted Set类型也支持一个key对应一个value的记录模式，其中，ke
 
 这4个分区对应了4个方格，每个方格覆盖了一定范围内的经纬度值，分区越多，每个方格能覆盖到的地理空间就越小，也就越精准。我们把所有方格的编码值映射到一维空间时，相邻方格的GeoHash编码值基本也是接近的，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/2a/74/2a2a650086acf9700c0603a4be8ceb74.jpg?wh=2187%2A1761)
+![](https://static001.geekbang.org/resource/image/2a/74/2a2a650086acf9700c0603a4be8ceb74.jpg?wh=2187%2A1761){: referrerpolicy="no-referrer" }
 
 所以，我们使用Sorted Set范围查询得到的相近编码值，在实际的地理空间上，也是相邻的方格，这就可以实现LBS应用“搜索附近的人或物”的功能了。
 
 不过，我要提醒你一句，有的编码值虽然在大小上接近，但实际对应的方格却距离比较远。例如，我们用4位来做GeoHash编码，把经度区间\[-180,180]和纬度区间\[-90,90]各分成了4个分区，一共16个分区，对应了16个方格。编码值为0111和1000的两个方格就离得比较远，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/0d/ba/0d64c9765ab72a50abef16a0275bc0ba.jpg?wh=2871%2A2250)
+![](https://static001.geekbang.org/resource/image/0d/ba/0d64c9765ab72a50abef16a0275bc0ba.jpg?wh=2871%2A2250){: referrerpolicy="no-referrer" }
 
 所以，为了避免查询不准确问题，我们可以同时查询给定经纬度所在的方格周围的4个或8个方格。
 
@@ -150,7 +150,7 @@ RedisObject的内部组成包括了type、encoding、lru和refcount 4个元数�
 - refcount：记录了对象的引用计数；
 - \*ptr：是指向数据的指针。
 
-![](https://static001.geekbang.org/resource/image/05/af/05c2d546e507d8a863c002e2173c71af.jpg?wh=1096%2A1521)
+![](https://static001.geekbang.org/resource/image/05/af/05c2d546e507d8a863c002e2173c71af.jpg?wh=1096%2A1521){: referrerpolicy="no-referrer" }
 
 RedisObject结构借助`*ptr`指针，就可以指向不同的数据类型，例如，`*ptr`指向一个SDS或一个跳表，就表示键值对中的值是String类型或Sorted Set类型。所以，我们在定义了新的数据类型后，也只要在RedisObject中设置好新类型的type和encoding，再用`*ptr`指向新类型的实现，就行了。
 
@@ -160,7 +160,7 @@ RedisObject结构借助`*ptr`指针，就可以指向不同的数据类型，例
 
 接下来，我以开发一个名字叫作NewTypeObject的新数据类型为例，来解释下具体的4个操作步骤。
 
-![](https://static001.geekbang.org/resource/image/88/99/88702464f8bc80ea11b26ab157926199.jpg?wh=3000%2A505)
+![](https://static001.geekbang.org/resource/image/88/99/88702464f8bc80ea11b26ab157926199.jpg?wh=3000%2A505){: referrerpolicy="no-referrer" }
 
 **第一步：定义新数据类型的底层结构**
 

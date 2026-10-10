@@ -14,7 +14,7 @@
 
 事务提交的时候，执行器把binlog cache里的完整事务写入到binlog中，并清空binlog cache。状态如图1所示。
 
-![](https://static001.geekbang.org/resource/image/9e/3e/9ed86644d5f39efb0efec595abb92e3e.png?wh=1142%2A748)
+![](https://static001.geekbang.org/resource/image/9e/3e/9ed86644d5f39efb0efec595abb92e3e.png?wh=1142%2A748){: referrerpolicy="no-referrer" }
 
 图1 binlog写盘状态
 
@@ -51,7 +51,7 @@ write 和fsync的时机，是由参数sync\_binlog控制的：
 
 这个问题，要从redo log可能存在的三种状态说起。这三种状态，对应的就是图2 中的三个颜色块。
 
-![](https://static001.geekbang.org/resource/image/9d/d4/9d057f61d3962407f413deebc80526d4.png?wh=1142%2A639)
+![](https://static001.geekbang.org/resource/image/9d/d4/9d057f61d3962407f413deebc80526d4.png?wh=1142%2A639){: referrerpolicy="no-referrer" }
 
 图2 MySQL redo log存储状态
 
@@ -96,7 +96,7 @@ LSN也会写到InnoDB的数据页中，来确保数据页不会被多次执行�
 
 如图3所示，是三个并发事务(trx1, trx2, trx3)在prepare 阶段，都写完redo log buffer，持久化到磁盘的过程，对应的LSN分别是50、120 和160。
 
-![](https://static001.geekbang.org/resource/image/93/cc/933fdc052c6339de2aa3bf3f65b188cc.png?wh=1142%2A2171)
+![](https://static001.geekbang.org/resource/image/93/cc/933fdc052c6339de2aa3bf3f65b188cc.png?wh=1142%2A2171){: referrerpolicy="no-referrer" }
 
 图3 redo log 组提交
 
@@ -113,7 +113,7 @@ LSN也会写到InnoDB的数据页中，来确保数据页不会被多次执行�
 
 为了让一次fsync带的组员更多，MySQL有一个很有趣的优化：拖时间。在介绍两阶段提交的时候，我曾经给你画了一个图，现在我把它截过来。
 
-![](https://static001.geekbang.org/resource/image/98/51/98b3b4ff7b36d6d72e38029b86870551.png?wh=1142%2A856)
+![](https://static001.geekbang.org/resource/image/98/51/98b3b4ff7b36d6d72e38029b86870551.png?wh=1142%2A856){: referrerpolicy="no-referrer" }
 
 图4 两阶段提交
 
@@ -124,7 +124,7 @@ LSN也会写到InnoDB的数据页中，来确保数据页不会被多次执行�
 
 MySQL为了让组提交的效果更好，把redo log做fsync的时间拖到了步骤1之后。也就是说，上面的图变成了这样：
 
-![](https://static001.geekbang.org/resource/image/5a/28/5ae7d074c34bc5bd55c82781de670c28.png?wh=1142%2A1522)
+![](https://static001.geekbang.org/resource/image/5a/28/5ae7d074c34bc5bd55c82781de670c28.png?wh=1142%2A1522){: referrerpolicy="no-referrer" }
 
 图5 两阶段提交细化
 

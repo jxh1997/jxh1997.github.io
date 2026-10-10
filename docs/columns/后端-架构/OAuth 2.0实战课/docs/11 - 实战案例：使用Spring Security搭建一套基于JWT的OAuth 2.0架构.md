@@ -692,15 +692,15 @@ http://localhost:8080/oauth/token?grant_type=password&client_id=userservice1&cli
 
 得到如下图所示结果：
 
-![](https://static001.geekbang.org/resource/image/18/e4/18cd7b24ff152e28806b1176b0a560e4.png?wh=2548%2A1794)
+![](https://static001.geekbang.org/resource/image/18/e4/18cd7b24ff152e28806b1176b0a560e4.png?wh=2548%2A1794){: referrerpolicy="no-referrer" }
 
 再使用[JWT解析工具](http://jwt.io/)看下请求Token中的信息：
 
-![](https://static001.geekbang.org/resource/image/8e/7e/8e4c2dd1931a31197df55cc251b2a07e.png?wh=3006%2A1482)
+![](https://static001.geekbang.org/resource/image/8e/7e/8e4c2dd1931a31197df55cc251b2a07e.png?wh=3006%2A1482){: referrerpolicy="no-referrer" }
 
 可以看到，Token中果然包含了Token增强器加入的userDetails自定义信息。如果我们把公钥粘贴到页面的话，可以看到这个JWT校验成功了：
 
-![](https://static001.geekbang.org/resource/image/4d/ae/4d701319144d3de7c5d743f59e4991ae.png?wh=3054%2A1408)
+![](https://static001.geekbang.org/resource/image/4d/ae/4d701319144d3de7c5d743f59e4991ae.png?wh=3054%2A1408){: referrerpolicy="no-referrer" }
 
 除了本地校验外，还可以访问授权服务器来校验JWT：
 
@@ -710,7 +710,7 @@ http://localhost:8080/oauth/check_token?client_id=userservice1&client_secret=123
 
 得到如下结果：
 
-![](https://static001.geekbang.org/resource/image/28/95/2835c0d2b49ac515c9f6c537dd2f7195.png?wh=2552%2A1730)
+![](https://static001.geekbang.org/resource/image/28/95/2835c0d2b49ac515c9f6c537dd2f7195.png?wh=2552%2A1730){: referrerpolicy="no-referrer" }
 
 ### 客户端授权许可类型
 
@@ -722,15 +722,15 @@ http://localhost:8080/oauth/token?grant_type=client_credentials&client_id=userse
 
 如下图所示，可以直接拿到Token：
 
-![](https://static001.geekbang.org/resource/image/81/e9/81722855fd6935aea594ec62b64bf0e9.png?wh=2546%2A1014)
+![](https://static001.geekbang.org/resource/image/81/e9/81722855fd6935aea594ec62b64bf0e9.png?wh=2546%2A1014){: referrerpolicy="no-referrer" }
 
 这里需要注意的是，并没有提供刷新令牌。这是因为，刷新令牌用于避免访问令牌失效后需要用户再次登录的问题，而客户端授权许可类型没有用户的概念，因此没有刷新令牌，也无法注入额外的userDetails信息。
 
-![](https://static001.geekbang.org/resource/image/fc/da/fcf2b1c1a53ecc33d3a0abc72b6d83da.png?wh=3024%2A1636)
+![](https://static001.geekbang.org/resource/image/fc/da/fcf2b1c1a53ecc33d3a0abc72b6d83da.png?wh=3024%2A1636){: referrerpolicy="no-referrer" }
 
 也可以试一下，如果我们的授权服务器没有开启allowFormAuthenticationForClients参数（允许表单提交认证）的话，客户端的凭证需要通过Basic Auth传过去而不是通过Post：
 
-![](https://static001.geekbang.org/resource/image/ce/6f/ce391c3c93e2131e1cf8fb4e3324b66f.png?wh=2544%2A1330)
+![](https://static001.geekbang.org/resource/image/ce/6f/ce391c3c93e2131e1cf8fb4e3324b66f.png?wh=2544%2A1330){: referrerpolicy="no-referrer" }
 
 ### 授权码许可类型
 
@@ -746,15 +746,15 @@ http://localhost:8080/oauth/authorize?response_type=code&client_id=userservice3&
 
 我们之前已经在数据库中有配置了）。访问后页面会直接跳转到登录界面，我们使用用户名“reader”、密码“reader”来登录：
 
-![](https://static001.geekbang.org/resource/image/73/11/73c3bd926e4e350b220447cd8b97d811.png?wh=2212%2A1424)
+![](https://static001.geekbang.org/resource/image/73/11/73c3bd926e4e350b220447cd8b97d811.png?wh=2212%2A1424){: referrerpolicy="no-referrer" }
 
 由于我们在数据库中设置的是禁用自动批准授权的模式，所以登录后来到了批准界面：
 
-![](https://static001.geekbang.org/resource/image/9c/01/9cac3b06b632220166d7e43607da4901.png?wh=2114%2A548)
+![](https://static001.geekbang.org/resource/image/9c/01/9cac3b06b632220166d7e43607da4901.png?wh=2114%2A548){: referrerpolicy="no-referrer" }
 
 点击同意后可以看到，数据库中也会产生授权通过记录：
 
-![](https://static001.geekbang.org/resource/image/9e/6f/9e942cc7c22ff8b4540e9f6736d56b6f.png?wh=1370%2A302)
+![](https://static001.geekbang.org/resource/image/9e/6f/9e942cc7c22ff8b4540e9f6736d56b6f.png?wh=1370%2A302){: referrerpolicy="no-referrer" }
 
 **第二步，**我们可以看到浏览器转到了百度并且提供给了我们授权码：
 
@@ -764,7 +764,7 @@ https://www.baidu.com/?code=XKkHGY
 
 数据库中也记录了授权码：
 
-![](https://static001.geekbang.org/resource/image/ef/3e/eff235ff90aafb559d6e45b07a4d173e.png?wh=1344%2A254)
+![](https://static001.geekbang.org/resource/image/ef/3e/eff235ff90aafb559d6e45b07a4d173e.png?wh=1344%2A254){: referrerpolicy="no-referrer" }
 
 然后POST访问下面的地址（code参数替换为刚才获得的授权码）：
 
@@ -774,7 +774,7 @@ http://localhost:8080/oauth/token?grant_type=authorization_code&client_id=userse
 
 可以通过授权码换取访问令牌：
 
-![](https://static001.geekbang.org/resource/image/ea/d7/ea401694bf55f83353f7db65d17ab6d7.png?wh=2544%2A1800)
+![](https://static001.geekbang.org/resource/image/ea/d7/ea401694bf55f83353f7db65d17ab6d7.png?wh=2544%2A1800){: referrerpolicy="no-referrer" }
 
 虽然userservice3客户端可以有读权限和写权限，但是因为我们登录的用户reader只有读权限，所以最后拿到也只有读权限。
 
@@ -784,11 +784,11 @@ http://localhost:8080/oauth/token?grant_type=authorization_code&client_id=userse
 
 首先，测试一下我们的安全配置，访问/hello端点不需要认证可以匿名访问：
 
-![](https://static001.geekbang.org/resource/image/76/59/7646fe1e6e4cc9914f79881576126459.png?wh=790%2A220)
+![](https://static001.geekbang.org/resource/image/76/59/7646fe1e6e4cc9914f79881576126459.png?wh=790%2A220){: referrerpolicy="no-referrer" }
 
 访问/user需要身份认证：
 
-![](https://static001.geekbang.org/resource/image/3b/f6/3b22a89392c92187960aecd4bc3cf8f6.png?wh=2302%2A436)
+![](https://static001.geekbang.org/resource/image/3b/f6/3b22a89392c92187960aecd4bc3cf8f6.png?wh=2302%2A436){: referrerpolicy="no-referrer" }
 
 不管以哪种模式拿到访问令牌，我们用具有读权限的访问令牌访问资源服务器的如下地址
 
@@ -800,11 +800,11 @@ http://localhost:8081/user/
 
 可以得到如下结果：
 
-![](https://static001.geekbang.org/resource/image/06/d5/0606fbb094de245d346ed17d9yycd6d5.png?wh=2504%2A1746)
+![](https://static001.geekbang.org/resource/image/06/d5/0606fbb094de245d346ed17d9yycd6d5.png?wh=2504%2A1746){: referrerpolicy="no-referrer" }
 
 以POST方式访问http://localhost:8081/user/，显然是失败的：
 
-![](https://static001.geekbang.org/resource/image/a7/88/a71bcef74da7577aa1529bf2d9546588.png?wh=2552%2A978)
+![](https://static001.geekbang.org/resource/image/a7/88/a71bcef74da7577aa1529bf2d9546588.png?wh=2552%2A978){: referrerpolicy="no-referrer" }
 
 因为这个接口要求有写权限：
 
@@ -816,7 +816,7 @@ public Object write(OAuth2Authentication authentication) {
 
 我们换一个具有读写权限的访问令牌来试试：
 
-![](https://static001.geekbang.org/resource/image/a7/fc/a754a6fdcb9666e07f1b820052a4e2fc.png?wh=2550%2A1230)
+![](https://static001.geekbang.org/resource/image/a7/fc/a754a6fdcb9666e07f1b820052a4e2fc.png?wh=2550%2A1230){: referrerpolicy="no-referrer" }
 
 可以发现，果然访问成功了。这里输出的内容是Token中的userDetails额外信息，说明资源服务器的权限控制有效。
 
@@ -1038,15 +1038,15 @@ http://localhost:8082/ui/securedPage
 
 可以看到，页面自动转到了授权服务器（8080端口）的登录页面：
 
-![](https://static001.geekbang.org/resource/image/05/81/05b76f316304e3ef2d1494bae501c381.png?wh=2074%2A1370)
+![](https://static001.geekbang.org/resource/image/05/81/05b76f316304e3ef2d1494bae501c381.png?wh=2074%2A1370){: referrerpolicy="no-referrer" }
 
 登录后显示了当前用户名和权限：
 
-![](https://static001.geekbang.org/resource/image/7d/37/7d24bc73267506c15f9feyy546557237.png?wh=1162%2A454)
+![](https://static001.geekbang.org/resource/image/7d/37/7d24bc73267506c15f9feyy546557237.png?wh=1162%2A454){: referrerpolicy="no-referrer" }
 
 我们再启动另一个客户端网站，端口改为8083，然后访问同样的地址：
 
-![](https://static001.geekbang.org/resource/image/7a/46/7a50619ace3e40c8ff7c0aa860f11246.png?wh=1038%2A396)
+![](https://static001.geekbang.org/resource/image/7a/46/7a50619ace3e40c8ff7c0aa860f11246.png?wh=1038%2A396){: referrerpolicy="no-referrer" }
 
 可以看到直接是登录状态，单点登录测试成功。是不是很方便？其实，为了达成单点登录的效果，程序在背后自动实现了多次302重定向，整个流程为：
 
@@ -1068,7 +1068,7 @@ http://localhost:8082/ui/remoteCall
 
 会先转到授权服务器登录，登录后自动跳转回来：
 
-![](https://static001.geekbang.org/resource/image/01/27/016f28b7161d2c600197aa2392b0de27.png?wh=832%2A220)
+![](https://static001.geekbang.org/resource/image/01/27/016f28b7161d2c600197aa2392b0de27.png?wh=832%2A220){: referrerpolicy="no-referrer" }
 
 可以看到输出了用户名，对应的资源服务器服务端接口是：
 
@@ -1082,7 +1082,7 @@ public String name(OAuth2Authentication authentication) {
 
 换一个writer用户登录试试，也能得到正确的输出：
 
-![](https://static001.geekbang.org/resource/image/yy/84/yy2bca66c45cefa56d2d727c3a136a84.png?wh=910%2A214)
+![](https://static001.geekbang.org/resource/image/yy/84/yy2bca66c45cefa56d2d727c3a136a84.png?wh=910%2A214){: referrerpolicy="no-referrer" }
 
 ## 总结
 

@@ -49,7 +49,7 @@ Kafka自诞生伊始是以消息引擎系统的面目出现在大众视野中的
 
 说了这么多，我只想阐述这样的一个观点：Apache Kafka从一个优秀的消息引擎系统起家，逐渐演变成现在分布式的流处理平台。你不仅要熟练掌握它作为消息引擎系统的非凡特性及使用技巧，最好还要多了解下其流处理组件的设计与案例应用。
 
-![](https://static001.geekbang.org/resource/image/ea/59/eafc2d9315a8ba858649c1ecd4201459.jpg?wh=2069%2A2560)
+![](https://static001.geekbang.org/resource/image/ea/59/eafc2d9315a8ba858649c1ecd4201459.jpg?wh=2069%2A2560){: referrerpolicy="no-referrer" }
 
 ## 开放讨论
 

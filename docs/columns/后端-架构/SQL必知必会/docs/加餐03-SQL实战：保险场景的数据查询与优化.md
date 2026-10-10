@@ -10,29 +10,29 @@
 
 <!--THE END-->
 
-![](https://static001.geekbang.org/resource/image/cd/45/cd58929f9e0c9b1cfcd4ca0812c0d245.jpg?wh=1790x1064)
+![](https://static001.geekbang.org/resource/image/cd/45/cd58929f9e0c9b1cfcd4ca0812c0d245.jpg?wh=1790x1064){: referrerpolicy="no-referrer" }
 
 - 保险产品表 insurance\_products
 
 <!--THE END-->
 
-![](https://static001.geekbang.org/resource/image/a2/90/a2449943d03e3c430fbdcc275411a990.jpg?wh=1782x964)
+![](https://static001.geekbang.org/resource/image/a2/90/a2449943d03e3c430fbdcc275411a990.jpg?wh=1782x964){: referrerpolicy="no-referrer" }
 
 - 保单表 policies
 
 <!--THE END-->
 
-![](https://static001.geekbang.org/resource/image/28/58/28eafe57eef59f8efa1334b018e25958.jpg?wh=1780x1184)
+![](https://static001.geekbang.org/resource/image/28/58/28eafe57eef59f8efa1334b018e25958.jpg?wh=1780x1184){: referrerpolicy="no-referrer" }
 
 - 续保记录表 renewal\_records
 
 <!--THE END-->
 
-![](https://static001.geekbang.org/resource/image/9b/f6/9b4247e0e84abd1267ff5e85yy908cf6.jpg?wh=1774x960)
+![](https://static001.geekbang.org/resource/image/9b/f6/9b4247e0e84abd1267ff5e85yy908cf6.jpg?wh=1774x960){: referrerpolicy="no-referrer" }
 
 - 续保提醒记录表 renewal\_reminders
 
-![](https://static001.geekbang.org/resource/image/74/e4/74f440af660a378e6f15ac1f716a05e4.jpg?wh=1784x964)
+![](https://static001.geekbang.org/resource/image/74/e4/74f440af660a378e6f15ac1f716a05e4.jpg?wh=1784x964){: referrerpolicy="no-referrer" }
 
 ## **问题设定**
 

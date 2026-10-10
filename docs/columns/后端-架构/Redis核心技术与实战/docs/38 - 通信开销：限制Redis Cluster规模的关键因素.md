@@ -20,7 +20,7 @@ Gossip协议的工作原理可以概括成两点。
 
 下图显示了两个实例间进行PING、PONG消息传递的情况。
 
-![](https://static001.geekbang.org/resource/image/5e/86/5eacfc36c4233ae7c99f80b1511yyb86.jpg?wh=2435%2A890)
+![](https://static001.geekbang.org/resource/image/5e/86/5eacfc36c4233ae7c99f80b1511yyb86.jpg?wh=2435%2A890){: referrerpolicy="no-referrer" }
 
 Gossip协议可以保证在一段时间后，集群中的每一个实例都能获得其它所有实例的状态信息。
 

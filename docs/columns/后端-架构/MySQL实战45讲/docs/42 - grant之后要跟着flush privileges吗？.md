@@ -19,7 +19,7 @@ create user 'ua'@'%' identified by 'pa';
 
 图1就是这个时刻用户ua在user表中的状态。
 
-![](https://static001.geekbang.org/resource/image/7e/35/7e75bbfbca0cb932e1256941c99d5f35.png?wh=1378%2A1542)
+![](https://static001.geekbang.org/resource/image/7e/35/7e75bbfbca0cb932e1256941c99d5f35.png?wh=1378%2A1542){: referrerpolicy="no-referrer" }
 
 图1 mysql.user 数据行
 
@@ -73,7 +73,7 @@ grant all privileges on db1.* to 'ua'@'%' with grant option;
 
 图2就是这个时刻用户ua在db表中的状态。
 
-![](https://static001.geekbang.org/resource/image/32/2e/32cd61ee14ad2f370e1de0fb4e39bb2e.png?wh=1400%2A1180)
+![](https://static001.geekbang.org/resource/image/32/2e/32cd61ee14ad2f370e1de0fb4e39bb2e.png?wh=1400%2A1180){: referrerpolicy="no-referrer" }
 
 图2 mysql.db 数据行
 
@@ -83,7 +83,7 @@ grant all privileges on db1.* to 'ua'@'%' with grant option;
 
 grant操作对于已经存在的连接的影响，在全局权限和基于db的权限效果是不同的。接下来，我们做一个对照试验来分别看一下。
 
-![](https://static001.geekbang.org/resource/image/ae/c7/aea26807c8895961b666a5d96b081ac7.png?wh=1246%2A1320)
+![](https://static001.geekbang.org/resource/image/ae/c7/aea26807c8895961b666a5d96b081ac7.png?wh=1246%2A1320){: referrerpolicy="no-referrer" }
 
 图3 权限操作效果
 
@@ -130,7 +130,7 @@ flush privileges命令会清空acl\_users数组，然后从mysql.user表中读�
 
 这种不一致往往是由不规范的操作导致的，比如直接用DML语句操作系统权限表。我们来看一下下面这个场景：
 
-![](https://static001.geekbang.org/resource/image/90/ec/9031814361be42b7bc084ad2ab2aa3ec.png?wh=1250%2A690)
+![](https://static001.geekbang.org/resource/image/90/ec/9031814361be42b7bc084ad2ab2aa3ec.png?wh=1250%2A690){: referrerpolicy="no-referrer" }
 
 图4 使用flush privileges
 
@@ -140,7 +140,7 @@ flush privileges命令会清空acl\_users数组，然后从mysql.user表中读�
 
 直接操作系统表是不规范的操作，这个不一致状态也会导致一些更“诡异”的现象发生。比如，前面这个通过delete语句删除用户的例子，就会出现下面的情况：
 
-![](https://static001.geekbang.org/resource/image/dd/f1/dd625b6b4eb2dcbdaac73648a1af50f1.png?wh=1140%2A502)
+![](https://static001.geekbang.org/resource/image/dd/f1/dd625b6b4eb2dcbdaac73648a1af50f1.png?wh=1140%2A502){: referrerpolicy="no-referrer" }
 
 图5 不规范权限操作导致的异常
 

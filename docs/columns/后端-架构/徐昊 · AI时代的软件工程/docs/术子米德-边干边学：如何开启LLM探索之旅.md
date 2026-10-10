@@ -39,7 +39,7 @@ TEST(UT_NameOfCategory, CaseNN_verifyBehivorX_byDoABC) {
 
 如果你还不熟悉TDD，可以看看维基百科的示意图，图里对TDD的精髓把握得非常准确。当然，也可以学习极客时间里徐8叉老师的 [TDD课程](https://time.geekbang.org/column/intro/100109401)，据说那门课跟Github的Copilot生日是在同一天。
 
-![](https://static001.geekbang.org/resource/image/9a/03/9ac46542e40e31657eef9ee05f936c03.jpg?wh=2814x1652 "图片来源：https://en.wikipedia.org/wiki/Test-driven_development")
+![](https://static001.geekbang.org/resource/image/9a/03/9ac46542e40e31657eef9ee05f936c03.jpg?wh=2814x1652 "图片来源：https://en.wikipedia.org/wiki/Test-driven_development"){: referrerpolicy="no-referrer" }
 
 我稍微对这个模版做点解释。
 
@@ -84,7 +84,7 @@ verifyPostEventSuccess_byMultiObjectsPostEmergencyFaultEventContinuely
 
 对照软件开发的V模型图，我的探索在谷底，仅仅在代码实现部分有一点探索的心得而已，还得往上爬，继续扩展探索的思路和范围。
 
-![](https://static001.geekbang.org/resource/image/14/99/14751f54195f0acee835398032dd0899.jpg?wh=1900x1051 "图片来源：https://en.wikipedia.org/wiki/V-model_(software_development)")
+![](https://static001.geekbang.org/resource/image/14/99/14751f54195f0acee835398032dd0899.jpg?wh=1900x1051 "图片来源：https://en.wikipedia.org/wiki/V-model_(software_development)"){: referrerpolicy="no-referrer" }
 
 ## 恰当时刻遇到的好课
 
@@ -145,7 +145,7 @@ verifyPostEventSuccess_byMultiObjectsPostEmergencyFaultEventContinuely
 
 为此我甚至找了张图片，放在工位的显眼位置，时刻提醒自己，自己下场练起来，自己的手感热起来，才会有真正的启发和更多的问题。否则的话，学多少遍课程，自己也只会在复杂Complex和庞杂Complicated之间徘徊，永远无法抵达清晰Clear的彼岸。  
 ﻿  
-![](https://static001.geekbang.org/resource/image/80/75/804c9d00069a8d62587aa708yyf4f775.jpg?wh=1990x1028)
+![](https://static001.geekbang.org/resource/image/80/75/804c9d00069a8d62587aa708yyf4f775.jpg?wh=1990x1028){: referrerpolicy="no-referrer" }
 
 ## 种树最好十年前，其次就是在今天
 
@@ -191,7 +191,7 @@ verifyPostEventSuccess_byMultiObjectsPostEmergencyFaultEventContinuely
 
 会写代码这件事情，未来只是电费问题，不再是研发人员雇佣费问题。那么，我们作为与大模型共存的程序员，就像跟照相机共存的画家一样，我们的创造性要去哪里发挥呢？
 
-![](https://static001.geekbang.org/resource/image/1b/7d/1bbb55110910a891dd4d4d94a3883d7d.jpg?wh=7317x2415)  
+![](https://static001.geekbang.org/resource/image/1b/7d/1bbb55110910a891dd4d4d94a3883d7d.jpg?wh=7317x2415)  {: referrerpolicy="no-referrer" }
 课程给出了一些答案，这里也给你分享一句我写给自己的话——**人有人的好处，机器有机器的用处，人要好好想，机器要好好用。**
 
 感谢你看到这里。如果意犹未尽，想继续交流，欢迎在留言区建立联系，一起探讨学习，互相启发思考，再会！

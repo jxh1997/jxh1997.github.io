@@ -12,7 +12,7 @@
 
 关系数据库对业务层开发效率的提升有很大帮助。下面我们先基于一个简单的例子，看看关系数据库有何优点。疫情期间新增了一批能够测量体温的考勤机，通过关系数据库我们新建了用户、考勤机、考勤记录三张表，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/60/25/60870a7eebd59fbcfb87298c3ed31025.jpg?wh=5498%2A2150)
+![](https://static001.geekbang.org/resource/image/60/25/60870a7eebd59fbcfb87298c3ed31025.jpg?wh=5498%2A2150){: referrerpolicy="no-referrer" }
 
 在关系数据库中，表中的每行数据由多个从属于列的单一值（比如数字、字符串）构成。虽然表中可以存放任意行数据，但列却是预先定义且不变的，因此我们很容易通过行、列交汇处的单一值进行关联操作，进而完成各类业务目的不同的查询。比如，业务开发者可以通过下面这行SQL语句，找到体温超过37度的员工，上报其姓名、测量时间以及所在地理位置：
 
@@ -93,11 +93,11 @@ for r in records:
 
 **最后是关系数据库固有的可伸缩性问题，这是各类NoSQL数据库不断诞生的主要原因。**在[\[第21讲\]](https://time.geekbang.org/column/article/252741) 中，我们介绍过沿AKF X轴扩展的复制型主从结构，然而单点主库无法解决数据持续增长引入的性能问题。
 
-![](https://static001.geekbang.org/resource/image/0c/16/0cf179648bf05bf38fb192c7ca797916.png?wh=834%2A791)
+![](https://static001.geekbang.org/resource/image/0c/16/0cf179648bf05bf38fb192c7ca797916.png?wh=834%2A791){: referrerpolicy="no-referrer" }
 
 沿AKF Z轴扩展数据库虽然能够降低数据规模，但分库分表后，单一值关系引申出的ACID事务不能基于高时延、会抖动的网络传输强行实现，否则会导致性能大幅下降，这样的可用性是分布式系统无法接受的。
 
-![](https://static001.geekbang.org/resource/image/44/f4/44c738618f8e947372969be96c525cf4.png?wh=852%2A815)
+![](https://static001.geekbang.org/resource/image/44/f4/44c738618f8e947372969be96c525cf4.png?wh=852%2A815){: referrerpolicy="no-referrer" }
 
 因此，在单机上设计出的关系数据库，难以处理PB级的大数据。而NoSQL数据库放弃了单一值数据模型，非常适合部署在成千上万个节点的分布式环境中。
 

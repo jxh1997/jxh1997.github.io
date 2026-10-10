@@ -60,7 +60,7 @@
 
 如此往复，直到完成全部功能（如下图所示）。
 
-![](https://static001.geekbang.org/resource/image/a7/3d/a70a4edfd0bbd5554175yy832a75d63d.jpg?wh=2284x912)
+![](https://static001.geekbang.org/resource/image/a7/3d/a70a4edfd0bbd5554175yy832a75d63d.jpg?wh=2284x912){: referrerpolicy="no-referrer" }
 
 现在让我们回到最初的问题：测试驱动开发过分强调测试对于程序员的重要性了吗？答案是：并没有！
 
@@ -104,7 +104,7 @@
 
 然后我们将进入实战项目环节。我将以几个技术框架为例（IoC容器、RESTful框架、DB Mapper框架等），展示如何使用TDD的方式从头来实现它们，TDD实战的细节将一览无遗。
 
-![](https://static001.geekbang.org/resource/image/03/48/03d9471cfe3c52c13b678771b1eab348.jpeg?wh=2062x1370)
+![](https://static001.geekbang.org/resource/image/03/48/03d9471cfe3c52c13b678771b1eab348.jpeg?wh=2062x1370){: referrerpolicy="no-referrer" }
 
 ## 开篇寄语
 

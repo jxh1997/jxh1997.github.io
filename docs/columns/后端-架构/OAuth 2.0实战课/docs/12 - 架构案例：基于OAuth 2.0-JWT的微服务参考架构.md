@@ -26,7 +26,7 @@
 
 虽然支持ACME公司业务运作的技术平台很复杂，但是它的核心可以用一个简化的微服务架构图来描述：
 
-![](https://static001.geekbang.org/resource/image/22/ff/228199yya6051f1f62f23547a88be4ff.jpg?wh=1920%2A1080)
+![](https://static001.geekbang.org/resource/image/22/ff/228199yya6051f1f62f23547a88be4ff.jpg?wh=1920%2A1080){: referrerpolicy="no-referrer" }
 
 可以看出，这个微服务架构是运行在Kubernetes集群中的。当然了，这个架构实际上并不一定需要Kubernetes环境，用传统数据中心也可以。另外，它的整体认证授权架构是基于OAuth 2.0/JWT实现的。
 
@@ -101,7 +101,7 @@ BFF服务可以用Node.js开发，也可以用Java/Spring等框架开发。
 
 下面是一个认证授权流程样例。注意，这个只是突出了关键步骤，实际生产的话，还有很多需要完善和优化的地方。另外，为描述简单，这里假定一个成功流程。
 
-![](https://static001.geekbang.org/resource/image/b6/bd/b658befe1da937fa3685b55522487dbd.jpg?wh=1920%2A980)
+![](https://static001.geekbang.org/resource/image/b6/bd/b658befe1da937fa3685b55522487dbd.jpg?wh=1920%2A980){: referrerpolicy="no-referrer" }
 
 在上面的图中，用户对应OAuth 2.0中的资源拥有者，ACME IDP对应OAuth 2.0中的授权服务。另外，前面架构图中的后台微服务（包括BFF和基础领域服务），对应OAuth 2.0中的受保护资源。
 
@@ -118,7 +118,7 @@ BFF服务可以用Node.js开发，也可以用Java/Spring等框架开发。
 
 那接下来，我们再来看看认证授权之后的服务调用流程。同样，这里也只是突出了关键步骤，并假定是一个成功流程。
 
-![](https://static001.geekbang.org/resource/image/c8/4a/c88e46dd26deb76d6yy8f42f83066f4a.jpg?wh=1920%2A980)
+![](https://static001.geekbang.org/resource/image/c8/4a/c88e46dd26deb76d6yy8f42f83066f4a.jpg?wh=1920%2A980){: referrerpolicy="no-referrer" }
 
 1. 用户登录后，在网站上点击查看自己的购物历史记录。
 2. Web应用通过网关调用后台API（查询用户的购物历史记录），请求HTTP header中带上OAuth 2.0令牌（来自用户Session）。
@@ -137,7 +137,7 @@ BFF服务可以用Node.js开发，也可以用Java/Spring等框架开发。
 
 那接下来，我们来看看这个认证授权的流程。同样，这里只是突出了关键步骤，并假定是一个成功流程。
 
-![](https://static001.geekbang.org/resource/image/44/93/443dab973274d8d13c76b2ef4cd1d393.jpg?wh=1920%2A980)
+![](https://static001.geekbang.org/resource/image/44/93/443dab973274d8d13c76b2ef4cd1d393.jpg?wh=1920%2A980){: referrerpolicy="no-referrer" }
 
 01. 用户访问电商App，点击登录。
 02. App生成PKCE相关的code verifier + challenge。
@@ -158,7 +158,7 @@ BFF服务可以用Node.js开发，也可以用Java/Spring等框架开发。
 
 那接下来，我们来看看这个认证授权的流程。同样，这里只是突出了关键步骤，并假设是一个成功流程。
 
-![](https://static001.geekbang.org/resource/image/02/57/02affbdf32f005af65454f3acc4cd957.jpg?wh=1856%2A986)
+![](https://static001.geekbang.org/resource/image/02/57/02affbdf32f005af65454f3acc4cd957.jpg?wh=1856%2A986){: referrerpolicy="no-referrer" }
 
 01. 用户访问这个第三方Web应用，点击登录链接。
 02. Web应用后台向ACME公司的IDP服务发送申请授权码请求（GET /authorize）。

@@ -34,7 +34,7 @@ Redis采用ANSI C语言编写，它和SQLite一样。采用C语言进行编写�
 
 如果我们想要设置某个键的值，使用方法为`set key value`，比如我们想要给name这个键设置值为zhangfei，可以写成`set name zhangfei`。如果想要取某个键的值，可以使用`get key`，比如想取name的值，写成get name即可。
 
-![](https://static001.geekbang.org/resource/image/55/30/554243f80e4029e82ffd60c4b0303030.png?wh=866%2A209)  
+![](https://static001.geekbang.org/resource/image/55/30/554243f80e4029e82ffd60c4b0303030.png?wh=866%2A209)  {: referrerpolicy="no-referrer" }
 哈希（hash）提供了字段和字段值的映射，对应的结构是key-field-value。
 
 如果我们想要设置某个键的哈希值，可以使用`hset key field value`，如果想要给user1设置username为zhangfei，age为28，可以写成下面这样：
@@ -55,7 +55,7 @@ Hmset user1 username zhangfei age 28
 
 如果想要一次获取某个键的多个field字段值，可以使用`hmget key field[field...]`，比如想要取user1的username和age，可以写成`hmget user1 username age`。
 
-![](https://static001.geekbang.org/resource/image/4a/3c/4aac95f8536f67f97f1c913a3633aa3c.png?wh=1122%2A306)  
+![](https://static001.geekbang.org/resource/image/4a/3c/4aac95f8536f67f97f1c913a3633aa3c.png?wh=1122%2A306)  {: referrerpolicy="no-referrer" }
 字符串列表（list）的底层是一个双向链表结构，所以我们可以向列表的两端添加元素，时间复杂度都为O(1)，同时我们也可以获取列表中的某个片段。
 
 如果想要向列表左侧增加元素可以使用：`LPUSH key value [...]`，比如我们给heroList列表向左侧添加zhangfei、guanyu和liubei这三个元素，可以写成：
@@ -73,7 +73,7 @@ RPUSH heroList dianwei lvbu
 
 如果我们想要获取列表中某一片段的内容，使用`LRANGE key start stop`即可，比如我们想要获取heroList从0到4位置的数据，写成`LRANGE heroList 0 4`即可。
 
-![](https://static001.geekbang.org/resource/image/d8/26/d87d2a6b0f858b0a5c88aa4417707a26.png?wh=1366%2A506)  
+![](https://static001.geekbang.org/resource/image/d8/26/d87d2a6b0f858b0a5c88aa4417707a26.png?wh=1366%2A506)  {: referrerpolicy="no-referrer" }
 字符串集合（set）是字符串类型的无序集合，与列表（list）的区别在于集合中的元素是无序的，同时元素不能重复。
 
 如果想要在集合中添加元素，可以使用`SADD key member [...]`，比如我们给heroSet集合添加zhangfei、guanyu、liubei、dianwei和lvbu这五个元素，可以写成：
@@ -97,14 +97,14 @@ SISMEMBER heroSet zhangfei
 SISMEMBER heroSet liubei
 ```
 
-![](https://static001.geekbang.org/resource/image/e6/0f/e69e7249b48194e0f76a8f351287390f.png?wh=1613%2A606)  
+![](https://static001.geekbang.org/resource/image/e6/0f/e69e7249b48194e0f76a8f351287390f.png?wh=1613%2A606)  {: referrerpolicy="no-referrer" }
 我们可以把有序字符串集合（SortedSet，简称ZSET）理解成集合的升级版。实际上ZSET是在集合的基础上增加了一个分数属性，这个属性在添加修改元素的时候可以被指定。每次指定后，ZSET都会按照分数来进行自动排序，也就是说我们在给集合key添加member的时候，可以指定score。
 
 有序集合与列表有一定的相似性，比如这两种数据类型都是有序的，都可以获得某一范围的元素。但它俩在数据结构上有很大的不同，首先列表list是通过双向链表实现的，在操作左右两侧的数据时会非常快，而对于中间的数据操作则相对较慢。有序集合采用hash表的结构来实现，读取排序在中间部分的数据也会很快。同时有序集合可以通过score来完成元素位置的调整，但如果我们想要对列表进行元素位置的调整则会比较麻烦。
 
 如果我们想要在有序集合中添加元素和分数，使用`ZADD key score member [...]`，比如我们给heroScore集合添加下面5个英雄的hp\_max数值，如下表所示：
 
-![](https://static001.geekbang.org/resource/image/2b/54/2b8db8619d37452b4608e8dbe91cba54.png?wh=530%2A320)  
+![](https://static001.geekbang.org/resource/image/2b/54/2b8db8619d37452b4608e8dbe91cba54.png?wh=530%2A320)  {: referrerpolicy="no-referrer" }
 那么我们可以写成下面这样：
 
 ```
@@ -117,7 +117,7 @@ ZADD heroScore 8341 zhangfei 7107 guanyu 6900 liubei 7516 dianwei 7344 lvbu
 
 我们也可以获取某个范围的元素列表。如果想要分数从小到大进行排序，使用`ZRANGE key start stop [WITHSCORES]`，如果分数从大到小进行排序，使用`ZREVRANGE key start stop [WITHSCORES]`。需要注意的是，WITHSCORES是个可选项，如果使用WITHSCORES会将分数一同显示出来，比如我们想要查询heroScore这个有序集合中分数排名前3的英雄及数值，写成`ZREVRANGE heroScore 0 2 WITHSCORES`即可。
 
-![](https://static001.geekbang.org/resource/image/10/85/106083c4b4872fadb6b91f46b3e74485.png?wh=1729%2A617)  
+![](https://static001.geekbang.org/resource/image/10/85/106083c4b4872fadb6b91f46b3e74485.png?wh=1729%2A617)  {: referrerpolicy="no-referrer" }
 除了这5种数据类型以外，Redis还支持位图（Bitmaps）数据结构，在2.8版本之后，增加了基数统计（HyperLogLog），3.2版本之后加入了地理空间（Geospatial）以及索引半径查询的功能，在5.0版本引用了数据流（Streams）数据类型。
 
 ## 如何使用Redis

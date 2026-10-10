@@ -37,7 +37,7 @@
 对于即时聊天的场景来说，用户的消息收发往往会牵涉到多层的服务和资源。因此，要让IM系统也能做到“水平扩展”，我们需要让IM系统涉及到的服务和资源都能够通过快速扩容，来缓解突发流量带来的压力。
 
 我在课程第1讲[“架构与特性：一个完整的IM系统是怎样的？”](https://time.geekbang.org/column/article/127872)中，也有讲过一个典型的IM系统架构是怎样的，你可以参考下图：  
-![](https://static001.geekbang.org/resource/image/14/de/14b44a6b21eab122c76c3b940bdf67de.png?wh=768%2A1080)
+![](https://static001.geekbang.org/resource/image/14/de/14b44a6b21eab122c76c3b940bdf67de.png?wh=768%2A1080){: referrerpolicy="no-referrer" }
 
 客户端通过DNS Server或者HttpDNS，查询接入服务对外提供的公网VIP（虚拟IP）。这个公网VIP通过Keepalived绑定到多台LVS（Linux Virtual Server，Linux虚拟服务器）上，能够实现单台LVS故障后自动切换到另一台。当用户访问这个公网VIP时，就会被路由重定向到真正的LVS上。
 
@@ -57,7 +57,7 @@ LVS运行在操作系统内核态，会按照设定的负载均衡策略，将IP
 
 简单地说就是：在DNS服务器中，针对接入服务域名配置多个VIP；当用户访问接入服务时，DNS服务器就会通过轮询或者其他策略，来从A记录中选择某一个VIP供用户连接。
 
-![](https://static001.geekbang.org/resource/image/19/69/196800b98770b9478eff5af4e3047a69.png?wh=1050%2A830)
+![](https://static001.geekbang.org/resource/image/19/69/196800b98770b9478eff5af4e3047a69.png?wh=1050%2A830){: referrerpolicy="no-referrer" }
 
 比如上图所示：微信长连接通道针对同一个域名进行DNS查询，就返回了多条A记录供接入设备选择。
 
@@ -74,7 +74,7 @@ LVS运行在操作系统内核态，会按照设定的负载均衡策略，将IP
 无状态化的意思就是任意用户随时都可以连接到任意一台接入服务器上，这样我们的接入服务才可以随时进行“水平扩展”。除了接入用户连接外，当服务端有消息需要推送给客户端时，业务逻辑层需要把消息精确推送到具体某个用户连接的网关机上。
 
 要想实现接入层的水平扩展解耦，我们一般可以通过维护一个中央的用户和“所在网关机IP”的映射关系，或者通过网关机IP维度的Topic，来利用消息队列进行精准推送（比如离线消息的拉取）。通过中央的“在线状态”服务，我们就能让接入层和业务层通过这个中央资源来进行交互，让接入层做到无状态化。其实现方式如下图：  
-![](https://static001.geekbang.org/resource/image/06/7f/068b5c069cee8278da755ce41a6dc07f.png?wh=1024%2A768)
+![](https://static001.geekbang.org/resource/image/06/7f/068b5c069cee8278da755ce41a6dc07f.png?wh=1024%2A768){: referrerpolicy="no-referrer" }
 
 用户通过接入服务上线后，接入服务会在中央资源中（比如Redis）记录当前用户在哪台网关机上线。如果业务层有消息需要推送给这个用户时，通过查询这个中央资源，就能知道当前用户连接在哪台网关机上，然后就可以通过网关机的API接口，把消息定向投递推送给用户了。
 
@@ -91,7 +91,7 @@ LVS运行在操作系统内核态，会按照设定的负载均衡策略，将IP
 对于这个关键问题，业界比较常见的解决方式是：对业务层进行“服务化”改造，以此让接入层通过“自动服务发现”，来感知到业务层的变化。
 
 比如，通过Thrift、gRPC、Dubbo、Motan等RPC框架，结合服务发现和健康检查组件，就能对业务层进行“服务化”的改造了。这里我简单画了一张图，来说明一下对业务层“服务化”改造的实现过程。  
-![](https://static001.geekbang.org/resource/image/ef/46/ef89c3369f163d3017c2a3cd81505146.png?wh=768%2A980)
+![](https://static001.geekbang.org/resource/image/ef/46/ef89c3369f163d3017c2a3cd81505146.png?wh=768%2A980){: referrerpolicy="no-referrer" }
 
 业务层的多台服务器在启动上线时，先在“服务注册中心”进行服务注册，登记当前业务机器支持调用的“服务”；启动后，服务注册中心通过“注册中心主动检测”或者“业务服务器主动上报”的方式，定期对服务的可用性进行健康检查，不可用的业务服务器会从注册中心摘除。
 

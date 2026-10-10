@@ -60,7 +60,7 @@
 
 我们先来看一下一些 DPlayer 常用的属性配置。
 
-![](https://static001.geekbang.org/resource/image/f2/8e/f2210339af277f4bdfc3aff314daeb8e.jpg?wh=3530x3797)
+![](https://static001.geekbang.org/resource/image/f2/8e/f2210339af277f4bdfc3aff314daeb8e.jpg?wh=3530x3797){: referrerpolicy="no-referrer" }
 
 DPlayer可以在HTML中使用，也可以在框架中使用，二者大同小异。我们先来学习它在HTML中的使用。
 
@@ -201,9 +201,9 @@ dp.fullScreen.cancel('web');
 
 我们先来看一下成品的效果图。
 
-![](https://static001.geekbang.org/resource/image/e0/b0/e0d38c0dea32b375e560d7ca719db7b0.jpg?wh=2961x1689)
+![](https://static001.geekbang.org/resource/image/e0/b0/e0d38c0dea32b375e560d7ca719db7b0.jpg?wh=2961x1689){: referrerpolicy="no-referrer" }
 
-![](https://static001.geekbang.org/resource/image/57/c2/57edd99af43a028a76519f50b4e500c2.jpg?wh=2961x1600)
+![](https://static001.geekbang.org/resource/image/57/c2/57edd99af43a028a76519f50b4e500c2.jpg?wh=2961x1600){: referrerpolicy="no-referrer" }
 
 视频详情页是由首页的视频列表页点击进入的，链接上会带上当前视频的ID。
 

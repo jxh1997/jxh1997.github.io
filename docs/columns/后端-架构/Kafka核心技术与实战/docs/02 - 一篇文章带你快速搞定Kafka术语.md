@@ -52,7 +52,7 @@ Kafka中的分区机制指的是将每个主题划分成多个分区（Partition
 
 最后我用一张图来展示上面提到的这些概念，希望这张图能够帮助你形象化地理解所有这些概念：
 
-![](https://static001.geekbang.org/resource/image/58/91/58c35d3ab0921bf0476e3ba14069d291.jpg?wh=3752%2A2035)
+![](https://static001.geekbang.org/resource/image/58/91/58c35d3ab0921bf0476e3ba14069d291.jpg?wh=3752%2A2035){: referrerpolicy="no-referrer" }
 
 ## 开放讨论
 

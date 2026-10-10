@@ -4,7 +4,7 @@
 
 网页的起源要追溯到1989年，CERN（欧洲粒子物理研究所）的一个小组提交了一个针对Internet的新协议和一个使用该协议的文档系统，该小组将这个新系统命名为World Wide Web，它的目的是让全球的科学家能够利用Internet交流自己的工作文档。
 
-![](https://static001.geekbang.org/resource/image/f5/ec/f5688dec5f1c321feeacdc18818cf6ec.jpg?wh=2084x1267)
+![](https://static001.geekbang.org/resource/image/f5/ec/f5688dec5f1c321feeacdc18818cf6ec.jpg?wh=2084x1267){: referrerpolicy="no-referrer" }
 
 这个新系统允许Internet上任意一个用户，从众多文档服务计算机的数据库中搜索和获取文档。1990年末，这个新系统的基本框架已经在CERN的一台计算机上开发实现了。1991年，这个系统移植到了其他计算机平台并正式发布。
 
@@ -28,7 +28,7 @@ HTML由标签组成，通过标签，我们可以在网页中插入文字、图�
 **2. CSS**  
 但是，只知道HTML还远远不够，组成网页要有三板斧，分别是 HTML、CSS、JavaScript。我们接着就来看下这第二板斧：CSS。
 
-![](https://static001.geekbang.org/resource/image/c4/53/c425a6fa101418fe8d66d6fb110cd853.jpg?wh=2900x1378)
+![](https://static001.geekbang.org/resource/image/c4/53/c425a6fa101418fe8d66d6fb110cd853.jpg?wh=2900x1378){: referrerpolicy="no-referrer" }
 
 之前我们说过，随着HTML的不断发展，人们对HTML的要求也越来越高，希望它更加丰富、美观，于是CSS就诞生了。
 
@@ -79,7 +79,7 @@ CSS的官方定义是，层叠样式表（英文全称：Cascading Style Sheets�
 
 这段代码可以实现一个简单的HTML页面，下面的图片是对上方代码的拆解，你能清晰地看到页面的整体结构以及不同的块级。核心部分就是body，主要用来展示页面内容。需要明确的是，&lt;html&gt;、&lt;head&gt;、&lt;body&gt;这几个标签必须存在。
 
-![](https://static001.geekbang.org/resource/image/2a/56/2aff1e05d5e2053c8f6d23edb48c6356.jpg?wh=1900x1110)
+![](https://static001.geekbang.org/resource/image/2a/56/2aff1e05d5e2053c8f6d23edb48c6356.jpg?wh=1900x1110){: referrerpolicy="no-referrer" }
 
 让我们来看看都有哪些常用的html标签。
 
@@ -102,7 +102,7 @@ CSS的官方定义是，层叠样式表（英文全称：Cascading Style Sheets�
 
 当页面中点击文字需要跳转到其他链接时，就要用到a标签。比如百度百科里面蓝色的词都是一个链接，点击之后会跳转到这个词的百度百科。
 
-![图片](https://static001.geekbang.org/resource/image/fc/97/fc7f34d7bf7de79c5d662beb9822a197.png?wh=1920x966)
+![图片](https://static001.geekbang.org/resource/image/fc/97/fc7f34d7bf7de79c5d662beb9822a197.png?wh=1920x966){: referrerpolicy="no-referrer" }
 
 ```xml
 <a href="https://www.baidu.com/">百度一下你就知道</a>
@@ -118,7 +118,7 @@ CSS的官方定义是，层叠样式表（英文全称：Cascading Style Sheets�
 
 比如要显示一个展示姓名和年龄的表格。
 
-![](https://static001.geekbang.org/resource/image/67/b1/67a6b9f1f832c6f4197346193d5f2bb1.jpg?wh=2900x1261)
+![](https://static001.geekbang.org/resource/image/67/b1/67a6b9f1f832c6f4197346193d5f2bb1.jpg?wh=2900x1261){: referrerpolicy="no-referrer" }
 
 那么HTML代码就是后面这样。
 
@@ -137,7 +137,7 @@ CSS的官方定义是，层叠样式表（英文全称：Cascading Style Sheets�
 
 当我们需要在页面里用列表罗列同一类事物的时候，比如今天的课程有哪些、去超市要买的购物清单等等，就需要用到有序列表ol标签或无序列表ul标签。需要标注1234序号的，就用ol有序列表，没有序号、都是同一级别的就用无序列表ul。每一个列表项用li标签，后面是具体的实现代码。
 
-![](https://static001.geekbang.org/resource/image/28/72/28dae5406d47c264697f32b4974d6772.jpg?wh=2900x1277)
+![](https://static001.geekbang.org/resource/image/28/72/28dae5406d47c264697f32b4974d6772.jpg?wh=2900x1277){: referrerpolicy="no-referrer" }
 
 ```xml
 <!-->无序列表</-->
@@ -173,11 +173,11 @@ CSS的官方定义是，层叠样式表（英文全称：Cascading Style Sheets�
 
 前面我们说过，CSS是给HTML做装饰的一门语言，那么它究竟都能怎么装饰呢？我们这就来一探究竟。
 
-![](https://static001.geekbang.org/resource/image/ac/7a/acc86fd8ae860fd276de5218af8cd67a.jpg?wh=2824x993)
+![](https://static001.geekbang.org/resource/image/ac/7a/acc86fd8ae860fd276de5218af8cd67a.jpg?wh=2824x993){: referrerpolicy="no-referrer" }
 
 需要修改文字的样式时，我们需要用到装饰文本的相关样式，如颜色、对齐方式、字体、字号、行高等。具体的对应关系你可以参考后面的表格。
 
-![](https://static001.geekbang.org/resource/image/e9/8d/e9c9ce1b654026cd67b4bcb4aa13018d.jpg?wh=3581x1859)
+![](https://static001.geekbang.org/resource/image/e9/8d/e9c9ce1b654026cd67b4bcb4aa13018d.jpg?wh=3581x1859){: referrerpolicy="no-referrer" }
 
 后面是具体代码示例。
 
@@ -193,7 +193,7 @@ font-size:14px;
 
 展示出来就是后面这样。
 
-![图片](https://static001.geekbang.org/resource/image/94/02/942ec10f454f9ed0a819yy95761efc02.png?wh=1382x260)
+![图片](https://static001.geekbang.org/resource/image/94/02/942ec10f454f9ed0a819yy95761efc02.png?wh=1382x260){: referrerpolicy="no-referrer" }
 
 CSS除了可以装饰文本，还能装饰超链接标签，也就是a标签。a标签就是超链接标签，默认字体为蓝色，当我们需要更改链接在不同状态下的颜色时，可以在a标签后面加上状态。
 
@@ -215,7 +215,7 @@ a:active {color:#0000FF;}  /* 鼠标点击时 */
 
 当我们想划分区块时，还可以设置区块的宽、高、内边距、边框、外边距。
 
-![](https://static001.geekbang.org/resource/image/0y/17/0yya689b7297dcb80d659499ab732617.jpg?wh=2071x1135)
+![](https://static001.geekbang.org/resource/image/0y/17/0yya689b7297dcb80d659499ab732617.jpg?wh=2071x1135){: referrerpolicy="no-referrer" }
 
 ```css
  /* 给这个区块设置为 宽300px，边框25px绿色，内边距25px，外边距25px*/

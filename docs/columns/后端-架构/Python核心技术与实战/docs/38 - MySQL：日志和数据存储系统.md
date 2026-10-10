@@ -193,7 +193,7 @@ test_pym
 
 对量化交易而言，我们需要的模块主要有数据系统、策略系统、交易执行系统、线下模型训练、线上风控系统以及实时监控系统。它们之间的对应关系，我画了一张图，你可以参考来理解。
 
-![](https://static001.geekbang.org/resource/image/ca/17/ca5c501186fae46b50b9af9b88980617.png?wh=884%2A688)
+![](https://static001.geekbang.org/resource/image/ca/17/ca5c501186fae46b50b9af9b88980617.png?wh=884%2A688){: referrerpolicy="no-referrer" }
 
 这里的每个子系统都是独立运行的，并且还有许多模块需要迭代更新，所以我们简单保存本地日志显然不是一个明智之举。于是，我们可以专门开一台服务器来运行 MySQL server，并且开放指定端口和其他系统进行交互。
 

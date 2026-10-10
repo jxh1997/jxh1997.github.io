@@ -22,7 +22,7 @@
 
 我把分片机制的两个要点与[第5讲](https://time.geekbang.org/column/article/274908)提到的两种架构风格对应了一下，放到下面的表格中，希望能给你带来更直观的感受。
 
-![](https://static001.geekbang.org/resource/image/69/ab/691fd31dd60df190cc725ae3f2d9ccab.jpg?wh=2700%2A788)
+![](https://static001.geekbang.org/resource/image/69/ab/691fd31dd60df190cc725ae3f2d9ccab.jpg?wh=2700%2A788){: referrerpolicy="no-referrer" }
 
 从表格中可以看出，PGXC只支持静态的Hash分片和Range分片，实现机制较为简单，所以，我就从这里开始展开吧。
 
@@ -32,7 +32,7 @@
 
 Hash分片，就是按照数据记录中指定关键字的Hash值将数据记录映射到不同的分片中。我画了一张图来表示Hash分片的过程。
 
-![](https://static001.geekbang.org/resource/image/yy/60/yycace2bf5c6d8930ac68b1d6c197060.jpg?wh=2700%2A1634)
+![](https://static001.geekbang.org/resource/image/yy/60/yycace2bf5c6d8930ac68b1d6c197060.jpg?wh=2700%2A1634){: referrerpolicy="no-referrer" }
 
 图中的表格部分显示了一个社交网站的记录表，包括主键、用户ID、分享内容和分享时间等字段。假设以用户ID作为关键字进行分片，系统会通过一个Hash函数计算用户ID的Hash值而后取模，分配到对应的分片。模为4的原因是系统一共有四个节点，每个节点作为一个分片。
 
@@ -42,17 +42,17 @@ Hash分片，就是按照数据记录中指定关键字的Hash值将数据记录
 
 要在工业实践中应用一致性Hash算法，首先会引入虚拟节点，每个虚拟节点就是一个分片。为了便于说明，我们在这个案例中将分片数量设定为16。但实际上，因为分片数量决定了集群的最大规模，所以它通常会远大于初始集群节点数。
 
-![](https://static001.geekbang.org/resource/image/b9/ed/b931084d4f365f133765199dbddda9ed.jpg?wh=2700%2A1701)
+![](https://static001.geekbang.org/resource/image/b9/ed/b931084d4f365f133765199dbddda9ed.jpg?wh=2700%2A1701){: referrerpolicy="no-referrer" }
 
 16个分片构成了整个Hash空间，数据记录的主键和节点都要通过Hash函数映射到这个空间。这个Hash空间是一个Hash环。我们换一种方式画图，可以看得更清楚些。
 
-![](https://static001.geekbang.org/resource/image/b4/2a/b4376b54f26b73f66d2bd20b53652e2a.jpg?wh=2700%2A1311)
+![](https://static001.geekbang.org/resource/image/b4/2a/b4376b54f26b73f66d2bd20b53652e2a.jpg?wh=2700%2A1311){: referrerpolicy="no-referrer" }
 
 节点和数据都通过Hash函数映射到Hash环上，数据按照顺时针找到最近的节点。
 
 当我们新增一台服务器，即节点E时，受影响的数据仅仅是新服务器到其环空间中前一台服务器（即沿着逆时针方向的第一台服务器）之间数据。结合我们的示例，只有小红分享的消息从节点B被移动到节点E，其他节点的数据保持不变。此后，节点B只存储Hash值6和7的消息，节点E存储Hash值4和5的消息。
 
-![](https://static001.geekbang.org/resource/image/27/b7/27f8f563bc6d598abdd6b08509dd69b7.jpg?wh=2700%2A1294)
+![](https://static001.geekbang.org/resource/image/27/b7/27f8f563bc6d598abdd6b08509dd69b7.jpg?wh=2700%2A1294){: referrerpolicy="no-referrer" }
 
 Hash函数的优点是数据可以较为均匀地分配到各节点，并发写入性能更好。
 
@@ -62,7 +62,7 @@ Hash函数的优点是数据可以较为均匀地分配到各节点，并发写�
 
 与Hash分片不同，Range分片的特点恰恰是能够加入对于业务的预估。例如，我们用“Location”作为关键字进行分片时，不是以统一的行政级别为标准。因为注册地在北京、上海的用户更多，所以这两个区域可以按照区县设置分片，而海外用户较少，可以按国家设置为分片。这样，分片间的数据更加平衡。
 
-![](https://static001.geekbang.org/resource/image/dc/5f/dcbda640005656263e8fc02d2c06295f.jpg?wh=2700%2A883)
+![](https://static001.geekbang.org/resource/image/dc/5f/dcbda640005656263e8fc02d2c06295f.jpg?wh=2700%2A883){: referrerpolicy="no-referrer" }
 
 但是，这种方式依然是静态的，如果海外业务迅速增长，服务海外用户的分片将承担更大的压力，可能导致性能下降，用户体验不佳。
 
@@ -88,7 +88,7 @@ NewSQL的Range分片，多数是用主键作为关键字来分片的，当然主
 
 还是回到我们社交网站这个例子，根据消息的数量来自动分片，我们可以得到R1、R2、R3三个分片。
 
-![](https://static001.geekbang.org/resource/image/d7/bc/d793d5ded136bfba12ae1996f06285bc.jpg?wh=2700%2A887)
+![](https://static001.geekbang.org/resource/image/d7/bc/d793d5ded136bfba12ae1996f06285bc.jpg?wh=2700%2A887){: referrerpolicy="no-referrer" }
 
 分片也会被均衡地调度到各个节点上，节点间的数据量也保持总体平衡。
 
@@ -140,7 +140,7 @@ PGXC的最小高可靠单元由一个主节点和多个备节点组成，我们�
 
 如果你想更深入地了解Range分片机制，可以研究下[BigTable的论文](https://www2.cs.duke.edu/courses/cps399.28/spring08/papers/osdi06-ChangDeanEtAl-bigtable.pdf)。同时，因为HBase是业界公认的BigTable开源实现，所以你在它的[官方文档](https://hbase.apache.org/book.html#arch.overview)也能找到很多有用的内容。
 
-![](https://static001.geekbang.org/resource/image/55/88/556ca784ab375b295716c8ef17897288.jpg?wh=2700%2A3377)
+![](https://static001.geekbang.org/resource/image/55/88/556ca784ab375b295716c8ef17897288.jpg?wh=2700%2A3377){: referrerpolicy="no-referrer" }
 
 ## 思考题
 

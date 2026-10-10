@@ -8,7 +8,7 @@
 
 我们一直会听到PageCache，简单理解它就是内存。写内存性能肯定是最高的。但是PageCache 并不是万能的，在某些情况下会存在命中率低，导致读写性能不高的情况。遇到这种情况，就需要在业务上进行处理。我们先来看下面这张图：
 
-![](https://static001.geekbang.org/resource/image/58/80/586ac52baff5c8c9e6644da62d962f80.jpg?wh=10666x4844)
+![](https://static001.geekbang.org/resource/image/58/80/586ac52baff5c8c9e6644da62d962f80.jpg?wh=10666x4844){: referrerpolicy="no-referrer" }
 
 如上图所示，应用程序读取文件，会经过应用缓存、PageCache、DISK（硬盘）三层。即应用程序读取文件时，Linux 内核会把从硬盘中读取的文件页面缓存在内存一段时间，这个文件缓存被称为 PageCache。
 
@@ -26,7 +26,7 @@
 
 解决思路来看下图：
 
-![](https://static001.geekbang.org/resource/image/d8/19/d86190bb6cfe6f3c0ba882335b71b219.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/d8/19/d86190bb6cfe6f3c0ba882335b71b219.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 通过前面所学我们知道，NIO 中的 FileChannel 主要和ByteBuffer打交道，mmap直接和缓存打交道，而 Direct IO直接和硬盘打交道。即Direct IO是直接操作硬盘中的数据的，不经过应用缓存和页缓存。
 
@@ -62,7 +62,7 @@ fileChannel.read(buffer,position)； // 指定位置读取 1024byte 的数据
 
 如下图所示，即FileChannel 写的时候经历了应用内存 -&gt; PageCache -&gt; 磁盘三个步骤。
 
-![](https://static001.geekbang.org/resource/image/2e/b6/2e4c7986069cb2f423bd02ce2ef640b6.jpg?wh=10666x6000)  
+![](https://static001.geekbang.org/resource/image/2e/b6/2e4c7986069cb2f423bd02ce2ef640b6.jpg?wh=10666x6000)  {: referrerpolicy="no-referrer" }
 从使用上看，我们通过 filechannel.write 写入数据时，会将数据从应用内存写入到PageCache，此时便认为完成了落盘操作。但实际上，操作系统最终帮我们将 PageCache 的数据自动刷到了硬盘。这也是 FileChannel 提供了一个 force() 方法来通知操作系统进行及时刷盘的原因。
 
 接着我们来看一下 mmap，先看一下它的基本使用方式：
@@ -86,7 +86,7 @@ mmap 是一个把文件映射到内存的操作，因此可以像读写内存一
 
 如下图所示，mmap的写入也是先把数据写入到PageCache，不是直接把数据写到硬盘中。它的底层借助了内存来加速，即 MappedByteBuffer 的 put 实际是对内存进行操作。具体刷盘依赖操作系统定时刷盘或者手动调用 mappedByteBuffer.force() 刷盘。
 
-![](https://static001.geekbang.org/resource/image/f4/c0/f4e05ebbfc34a7d38b0a9c4b332f39c0.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/f4/c0/f4e05ebbfc34a7d38b0a9c4b332f39c0.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 从经验来看，mmap 在内存充足、数据文件较小且相对固定的场景下，性能比 FileChannel 高。**但它有这样几个缺点：**
 
@@ -131,7 +131,7 @@ long preFileSize) throw IOException{
 
 想必这个概念你已经很熟悉了。如下图所示，堆内和堆外的堆是指 JVM 堆，堆内内存就是指JVM堆内部的内存空间，堆外就是指除了JVM堆以外的内存空间。堆内内存加上堆外内存等于总内存。
 
-![](https://static001.geekbang.org/resource/image/4a/8f/4a3c99e3f26992da898eac1788b9a88f.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/4a/8f/4a3c99e3f26992da898eac1788b9a88f.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 虽然概念熟悉，但你知道什么时候使用堆内内存，什么时候使用堆外内存吗?
 
@@ -157,7 +157,7 @@ long preFileSize) throw IOException{
 
 我们来看一下具体的实现思路，来看下图：
 
-![](https://static001.geekbang.org/resource/image/f2/b7/f22cf752b7a1876f42813dc5b58902b7.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/f2/b7/f22cf752b7a1876f42813dc5b58902b7.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 业务线程 T1 到 T6 的数据通过内存将数据发送给IO 线程。然后业务线程进入await 状态，当 IO Thread 收集到一定的数据后，再一起将数据同步刷到硬盘中。最后唤醒T1到T6线程，返回写入成功。
 
@@ -167,7 +167,7 @@ long preFileSize) throw IOException{
 
 另外，在主流的消息队列中，为了避免同步刷盘，常用的方案是**通过多副本机制来实现数据的高可靠**。如下图所示，数据会写入到多个副本中，每个副本只写入到本节点的PageCache，然后就返回成功。因为多台节点同时挂掉的概率很低，所以消息丢失的概率也就很低了。
 
-![](https://static001.geekbang.org/resource/image/27/ba/270e2464868e6cb0a10cacdf2d1820ba.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/27/ba/270e2464868e6cb0a10cacdf2d1820ba.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 ## 新的存储 AEP
 
@@ -202,7 +202,7 @@ SSD 4KB 对齐指的将 SSD 盘的物理扇区和逻辑扇区对齐，从而提�
 
 **底层大致的原理是：**如果读取一次数据，要跨多个物理扇区，那么性能就会下降；如果每次读取刚刚好是读一个物理扇区的数据，那么性能就会很高。我在网上找了两张图来说明一下效果。
 
-![图片](https://static001.geekbang.org/resource/image/9b/f4/9b7c49bb5527974b4733c93c9e65e4f4.png?wh=667x90)![](https://static001.geekbang.org/resource/image/30/5f/30cf525c0acae5c8fcb14f496635705f.png?wh=668x98 "图片来源：https://www.disktool.cn/content-center/ssd-alignment-tool-666.html")
+![图片](https://static001.geekbang.org/resource/image/9b/f4/9b7c49bb5527974b4733c93c9e65e4f4.png?wh=667x90)![](https://static001.geekbang.org/resource/image/30/5f/30cf525c0acae5c8fcb14f496635705f.png?wh=668x98 "图片来源：https://www.disktool.cn/content-center/ssd-alignment-tool-666.html"){: referrerpolicy="no-referrer" }
 
 可以看到，如果读取的刚好是一个物理扇区，那么就不需要跨物理扇区读，读取性能就会更高。当然，这块的细节很多，你如果有兴趣的话可以深入去研究下，这里只是点一下，让你知道有这么个东西。
 

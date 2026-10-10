@@ -32,7 +32,7 @@ SELECT * FROM team LEFT JOIN player ON player.team_id = team.team_id
 
 我之前介绍过如何在Python中使用MySQL，其中会使用到DB API规范（如下图所示）。基于DB API规范，我们可以对数据库进行连接、交互以及异常的处理。
 
-![](https://static001.geekbang.org/resource/image/ef/a4/efd39186177ed0537e6e75dccaf3cba4.png?wh=1730%2A791)  
+![](https://static001.geekbang.org/resource/image/ef/a4/efd39186177ed0537e6e75dccaf3cba4.png?wh=1730%2A791)  {: referrerpolicy="no-referrer" }
 在Python中使用SQLite也会使用到DB API规范，与使用MySQL的交互方式一样，也会用到connection、cursor和exceptions。在Python中集成了SQLite3，直接加载相应的工具包就可以直接使用。下面我们就来看下如何在Python中使用SQLite。
 
 在使用之前我们需要进行引用SQLite，使用：
@@ -135,7 +135,7 @@ conn.close()
 
 除了使用Python操作SQLite之外，在整个操作过程中，我们同样可以使用navicat数据库可视化工具来查看和管理SQLite。
 
-![](https://static001.geekbang.org/resource/image/f2/fe/f2cb51591733d386239f843bd83c8afe.png?wh=1729%2A454)
+![](https://static001.geekbang.org/resource/image/f2/fe/f2cb51591733d386239f843bd83c8afe.png?wh=1729%2A454){: referrerpolicy="no-referrer" }
 
 ## 通过SQLite查询微信的聊天记录
 
@@ -161,7 +161,7 @@ Manifest.db本身是SQLite数据文件，通过SQLite我们能看到文件中包
 SELECT * FROM Files WHERE relativePath LIKE '%MM.sqlite'
 ```
 
-![](https://static001.geekbang.org/resource/image/d1/52/d11e7857bbf1da3a6b4db9c34d561e52.png?wh=1728%2A113)
+![](https://static001.geekbang.org/resource/image/d1/52/d11e7857bbf1da3a6b4db9c34d561e52.png?wh=1728%2A113){: referrerpolicy="no-referrer" }
 
 你能看到在我的微信备份中有2个MM.sqlite文件，这些都是微信的聊天记录。
 
@@ -171,7 +171,7 @@ SELECT * FROM Files WHERE relativePath LIKE '%MM.sqlite'
 
 找到这个文件后，我们可以复制一份，取名为weixin.db，这样就可以使用navicat对这个数据库进行可视化管理，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/64/27/6401a3e7bbcf7757b27233b777934327.png?wh=1730%2A539)  
+![](https://static001.geekbang.org/resource/image/64/27/6401a3e7bbcf7757b27233b777934327.png?wh=1730%2A539)  {: referrerpolicy="no-referrer" }
 微信会把你与每一个人的聊天记录都保存成一张数据表，在数据表中会有MesLocalID、Message、Status等相应的字段，它们分别代表在当前对话中的ID、聊天内容和聊天内容的状态）。
 
 如果聊天对象很多的话，数据表也会有很多，如果想知道都有哪些聊天对象的数据表，可以使用：

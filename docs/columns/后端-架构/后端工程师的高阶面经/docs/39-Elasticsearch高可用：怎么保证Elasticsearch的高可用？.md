@@ -17,7 +17,7 @@ Elasticsearch 的节点可以分成很多种角色，并且一个节点可以扮
 - 协调节点（Coordinating Node）：协调节点负责协调请求的处理过程。一个查询请求会被发送到协调节点上，协调节点确定数据节点，然后让数据节点执行查询，最后协调节点合并数据节点返回的结果集。大多数节点都会兼任这个角色。
 - 数据节点（Data Node）：存储数据的节点。当协调节点发来查询请求的时候，也会执行查询并且把结果返回给协调节点。类似的还有热数据节点（Hot Data Node）、暖数据节点（Warm Data Node）、冷数据节点（Cold Data Node），你从名字就可以看出来，它们只是用于存储不同热度的数据。
 
-![图片](https://static001.geekbang.org/resource/image/43/01/437f24e7d41ce3b5637275814338a101.png?wh=1920x1073)
+![图片](https://static001.geekbang.org/resource/image/43/01/437f24e7d41ce3b5637275814338a101.png?wh=1920x1073){: referrerpolicy="no-referrer" }
 
 给节点设置不同的角色的原则就一条：有钱就专款专用，没钱就兼任。兼任就是指你一个节点扮演了多个角色。意思是，如果有钱有足够的资源，那么你就不要让节点兼任。如果没钱，那么就可以考虑兼任。但是不管怎样，兼任都有可能引起性能问题。
 
@@ -27,7 +27,7 @@ Elasticsearch 的节点可以分成很多种角色，并且一个节点可以扮
 
 在 Elasticsearch 中，写入数据整体上是这样的：
 
-![图片](https://static001.geekbang.org/resource/image/81/ea/8157b61216e79876f316cff1894de0ea.png?wh=1920x1073)
+![图片](https://static001.geekbang.org/resource/image/81/ea/8157b61216e79876f316cff1894de0ea.png?wh=1920x1073){: referrerpolicy="no-referrer" }
 
 我们来简单描述一下这个过程。
 
@@ -46,7 +46,7 @@ Elasticsearch 的节点可以分成很多种角色，并且一个节点可以扮
 3. 告知查询使用新的段。
 4. 等使用老的段的查询都结束了，直接删掉老的段。
 
-![图片](https://static001.geekbang.org/resource/image/bf/b0/bf7b55112853f732c1446cc26d0348b0.png?wh=1920x1073)
+![图片](https://static001.geekbang.org/resource/image/bf/b0/bf7b55112853f732c1446cc26d0348b0.png?wh=1920x1073){: referrerpolicy="no-referrer" }
 
 那么查询怎么知道应该使用合并段了呢？这都依赖于一个统一的机制，就是 Commit Point。你可以理解成，它里面记录了哪些段是可用的。所以当合并段之后，产生一个新的 Commit Point，里面有合并后的段，但是没有被合并的段，就相当于告知了查询使用新的段。
 
@@ -61,7 +61,7 @@ Elasticsearch 的节点可以分成很多种角色，并且一个节点可以扮
 
 不同的是，Translog 是固定间隔刷新到磁盘上的，默认情况下是 5 秒。
 
-![图片](https://static001.geekbang.org/resource/image/66/a1/669a23fdfd9ab728730c3c6eb6bb3da1.png?wh=1920x1073)
+![图片](https://static001.geekbang.org/resource/image/66/a1/669a23fdfd9ab728730c3c6eb6bb3da1.png?wh=1920x1073){: referrerpolicy="no-referrer" }
 
 类似于在 MySQL 里讨论的，Translog 是只追加的，也就是顺序写的，所以效率非常高。它只有在刷新到磁盘上的时候，才会非常慢。
 
@@ -77,7 +77,7 @@ Elasticsearch 的一个索引有多个分片，每个分片又有主从结构。
 - 分片就是分库分表。
 - 每个分片都有主从结构，在分库分表里面，一般也是用主从集群来存储数据。
 
-![图片](https://static001.geekbang.org/resource/image/ab/3d/ab49d4b34d8f67128283ce58426da83d.png?wh=1920x1073)
+![图片](https://static001.geekbang.org/resource/image/ab/3d/ab49d4b34d8f67128283ce58426da83d.png?wh=1920x1073){: referrerpolicy="no-referrer" }
 
 Elasticsearch 会尽量把分片分散在不同的节点上，这一点和 Kafka 尽量把分区分散在不同的 broker 上是一样的，都是为了保证在节点崩溃的时候将影响最小化。
 
@@ -145,7 +145,7 @@ Elasticsearch 最基本的可用性保障就是分片，而且是主从分片。
 
 如果你从来没有研发过 Elasticsearch 插件，那么也可以考虑其他两种策略，一种是在 Elasticsearch 之前加一个网关，查询经过网关的时候会被限流、熔断或者降级。当然，引代理也可以。
 
-![图片](https://static001.geekbang.org/resource/image/ea/b5/eab9aae9887570c74b3b5b2b9d81eeb5.png?wh=1920x867)
+![图片](https://static001.geekbang.org/resource/image/ea/b5/eab9aae9887570c74b3b5b2b9d81eeb5.png?wh=1920x867){: referrerpolicy="no-referrer" }
 
 目前市面上的这方面的产品不多，比较成熟的就是极限网关。所以我建议你用一种自己了解但是没有实践过的话术来说。
 
@@ -169,7 +169,7 @@ Elasticsearch 最基本的可用性保障就是分片，而且是主从分片。
 >    
 > 而实际上，我们的业务对实时性的要求不高。在这种情况下，我引入了消息队列。业务方只是写入数据库就返回。然后我们监听 binlog，并且生成消息丢到 Kafka 上。在这种情况下，Elasticsearch 空闲的话，消费速率就高；如果 Elasticsearch 性能比较差，那么消费就比较慢。这样就起到了削峰和限流的效果。
 
-![图片](https://static001.geekbang.org/resource/image/13/28/13140ccfea580067c7610a677c8cb828.png?wh=1920x1078)
+![图片](https://static001.geekbang.org/resource/image/13/28/13140ccfea580067c7610a677c8cb828.png?wh=1920x1078){: referrerpolicy="no-referrer" }
 
 在这个架构的基础上，还可以考虑引入降级，也就是在 Elasticsearch 真的有性能问题的时候，关闭一部分消费者。
 
@@ -177,7 +177,7 @@ Elasticsearch 最基本的可用性保障就是分片，而且是主从分片。
 >    
 > 那么如果我在监控到 Elasticsearch 性能已经比较差了，比如说写入的时候会遇到超时问题，那么我就把非核心数据消费者停下来。等 Elasticsearch 恢复过来再启动。
 
-![图片](https://static001.geekbang.org/resource/image/12/37/1295e281d220cb19858bc9ba890ba337.png?wh=1920x1078)
+![图片](https://static001.geekbang.org/resource/image/12/37/1295e281d220cb19858bc9ba890ba337.png?wh=1920x1078){: referrerpolicy="no-referrer" }
 
 甚至更加极端一点，如果是在大促或者秒杀这种活动中，你可以把整个数据同步都停掉，让 Elasticsearch 只支持查询操作。如果你所在的业务是电商类的，那么你可以考虑使用这个策略。
 
@@ -193,7 +193,7 @@ Elasticsearch 最基本的可用性保障就是分片，而且是主从分片。
 
 > 要想提高 Elasticsearch 的可用性，就要想办法防止协调节点在遇到大请求的时候崩溃。最简单的做法就是使用纯粹的协调节点。比如说专门部署一批节点，只扮演协调节点的角色。
 
-![图片](https://static001.geekbang.org/resource/image/08/9d/081b69187ea820f3159f05d4c37a5b9d.png?wh=1920x1078)
+![图片](https://static001.geekbang.org/resource/image/08/9d/081b69187ea820f3159f05d4c37a5b9d.png?wh=1920x1078){: referrerpolicy="no-referrer" }
 
 这个思路总体上属于钞能力的范畴，所以你可以接着补充怎么用好这些协调节点，关键词就是**隔离**。
 
@@ -201,7 +201,7 @@ Elasticsearch 最基本的可用性保障就是分片，而且是主从分片。
 >    
 > 这种做法的好处就是，大请求即便把协调节点打崩了，也只会影响到其他大请求。但是占据绝大多数的普通请求，并不会受到影响。
 
-![图片](https://static001.geekbang.org/resource/image/a2/24/a2ea4929e52ee113c6ea8e6ddb97ec24.png?wh=1920x1078)
+![图片](https://static001.geekbang.org/resource/image/a2/24/a2ea4929e52ee113c6ea8e6ddb97ec24.png?wh=1920x1078){: referrerpolicy="no-referrer" }
 
 这种做法的好处是和隔离结合在了一起，因此你可以尝试把话题引导到隔离策略上。
 
@@ -224,7 +224,7 @@ Elasticsearch 最基本的可用性保障就是分片，而且是主从分片。
 - 使用消息队列来保持双写。
 - 在查询的时候，优先使用 A 集群，当确认 A 集群出了问题的时候，切换到 B 集群。
 
-![图片](https://static001.geekbang.org/resource/image/9f/55/9ffb423f52d70d987265e755d28b8555.png?wh=1920x1078)
+![图片](https://static001.geekbang.org/resource/image/9f/55/9ffb423f52d70d987265e755d28b8555.png?wh=1920x1078){: referrerpolicy="no-referrer" }
 
 你抓住关键词**消息队列双写**回答。
 
@@ -238,7 +238,7 @@ Elasticsearch 最基本的可用性保障就是分片，而且是主从分片。
 
 > 为了实现自动切换的效果，我们对 Elasticsearch 的客户端进行了二次封装。在封装之后，正常情况下，会访问集群 A。同时客户端监控集群 A 的响应时间。如果响应时间超出预期，又或者返回了比较多超时响应，客户端就会自动切换到集群 B 上。
 
-![图片](https://static001.geekbang.org/resource/image/fc/7d/fc1c782fafc07197e37c0287151yy77d.png?wh=1920x1078)
+![图片](https://static001.geekbang.org/resource/image/fc/7d/fc1c782fafc07197e37c0287151yy77d.png?wh=1920x1078){: referrerpolicy="no-referrer" }
 
 ## 面试思路总结
 
@@ -251,7 +251,7 @@ Elasticsearch 最基本的可用性保障就是分片，而且是主从分片。
 - 保护协调节点：因为查询总是先到协调节点，而后协调节点再分发个数据节点执行。并且协调节点自己还要处理结果集，所以它也是可用性的瓶颈。最佳策略就是让部分节点只充当协调节点。在这个基础上可以考虑根据请求大小、业务价值来对协调节点进行分组与隔离
 - 双集群：大部分时候，只有不差钱的公司才会考虑为了一点点的可用性提升而引入双集群，这里我介绍了钞能力 CCR 方案和使用消息队列完成双写的双集群方案。
 
-![](https://static001.geekbang.org/resource/image/a0/ec/a070ed9cc66395bcc22a3057bc7945ec.jpg?wh=2130x1987)
+![](https://static001.geekbang.org/resource/image/a0/ec/a070ed9cc66395bcc22a3057bc7945ec.jpg?wh=2130x1987){: referrerpolicy="no-referrer" }
 
 # 思考题
 

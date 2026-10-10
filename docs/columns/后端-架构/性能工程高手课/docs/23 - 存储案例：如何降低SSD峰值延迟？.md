@@ -93,7 +93,7 @@ Trim的使用，虽然带来了**降低SSD损耗**的好处，但也带来了一
 
 下图展示了一个实际生产环境中的性能数据。
 
-![](https://static001.geekbang.org/resource/image/00/76/0032afc607be8d57a6b049bd541a6576.png?wh=4000%2A2058)
+![](https://static001.geekbang.org/resource/image/00/76/0032afc607be8d57a6b049bd541a6576.png?wh=4000%2A2058){: referrerpolicy="no-referrer" }
 
 这是一个采用fstrim而降低IO延迟的例子。横轴是时间，纵轴是对SSD进行读操作的IO延迟。红色箭头是运行fstrim的时间。我们可以看到，在fstrim后，IO延迟大幅度地降低了。
 
@@ -105,7 +105,7 @@ Trim的使用，虽然带来了**降低SSD损耗**的好处，但也带来了一
 
 SSD不断地重写会损坏其存储能力，就如同一口宝刀，不断地征战砍伐后，也会有缺口。这让我想起了唐代诗人马戴写的一首气势磅礴的《出塞词》：“金带连环束战袍，马头冲雪度临洮。卷旗夜劫单于帐，乱斫胡兵缺宝刀。”
 
-![](https://static001.geekbang.org/resource/image/97/b0/973542a2647ce99fb76e06a2416560b0.png?wh=2000%2A1790)
+![](https://static001.geekbang.org/resource/image/97/b0/973542a2647ce99fb76e06a2416560b0.png?wh=2000%2A1790){: referrerpolicy="no-referrer" }
 
 为了延长SSD的寿命，我们可以采用Trim方式，以去除不必要的内部重写。
 

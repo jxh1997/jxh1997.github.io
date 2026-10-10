@@ -12,7 +12,7 @@ ZooKeeper赋予客户端监控znode变更的能力，即所谓的Watch通知功�
 
 依托于这些功能，ZooKeeper常被用来实现**集群成员管理、分布式锁、领导者选举**等功能。Kafka控制器大量使用Watch功能实现对集群的协调管理。我们一起来看一张图片，它展示的是Kafka在ZooKeeper中创建的znode分布。你不用了解每个znode的作用，但你可以大致体会下Kafka对ZooKeeper的依赖。
 
-![](https://static001.geekbang.org/resource/image/4a/fb/4a2ec3372ff5e4639e5e9c780ec7fcfb.jpg?wh=2250%2A2896)
+![](https://static001.geekbang.org/resource/image/4a/fb/4a2ec3372ff5e4639e5e9c780ec7fcfb.jpg?wh=2250%2A2896){: referrerpolicy="no-referrer" }
 
 掌握了ZooKeeper的这些基本知识，现在我们就可以开启对Kafka控制器的讨论了。
 
@@ -54,7 +54,7 @@ Preferred领导者选举主要是Kafka为了避免部分Broker负载过重而提
 
 接下来，我们就详细看看，控制器中到底保存了哪些数据。我用一张图来说明一下。
 
-![](https://static001.geekbang.org/resource/image/21/d4/2174fb81fa7db42122915fee856790d4.jpg?wh=2250%2A3303)
+![](https://static001.geekbang.org/resource/image/21/d4/2174fb81fa7db42122915fee856790d4.jpg?wh=2250%2A3303){: referrerpolicy="no-referrer" }
 
 怎么样，图中展示的数据量是不是很多？几乎把我们能想到的所有Kafka集群的数据都囊括进来了。这里面比较重要的数据有：
 
@@ -72,7 +72,7 @@ Preferred领导者选举主要是Kafka为了避免部分Broker负载过重而提
 
 接下来，我们一起来看一张图，它简单地展示了控制器故障转移的过程。
 
-![](https://static001.geekbang.org/resource/image/fb/7d/fb9c538a27253fe069ff7ea2f02fa17d.jpg?wh=3507%2A1989)
+![](https://static001.geekbang.org/resource/image/fb/7d/fb9c538a27253fe069ff7ea2f02fa17d.jpg?wh=3507%2A1989){: referrerpolicy="no-referrer" }
 
 最开始时，Broker 0是控制器。当Broker 0宕机后，ZooKeeper通过Watch机制感知到并删除了/controller临时节点。之后，所有存活的Broker开始竞选新的控制器身份。Broker 3最终赢得了选举，成功地在ZooKeeper上重建了/controller节点。之后，Broker 3会从ZooKeeper中读取集群元数据信息，并初始化到自己的缓存中。至此，控制器的Failover完成，可以行使正常的工作职责了。
 
@@ -84,7 +84,7 @@ Preferred领导者选举主要是Kafka为了避免部分Broker负载过重而提
 
 鉴于这些原因，社区于0.11版本重构了控制器的底层设计，最大的改进就是，**把多线程的方案改成了单线程加事件队列的方案**。我直接使用社区的一张图来说明。
 
-![](https://static001.geekbang.org/resource/image/90/a3/90be543d426a6a450f360ab40e2734a3.jpg?wh=4160%2A2155)
+![](https://static001.geekbang.org/resource/image/90/a3/90be543d426a6a450f360ab40e2734a3.jpg?wh=4160%2A2155){: referrerpolicy="no-referrer" }
 
 从这张图中，我们可以看到，社区引入了一个**事件处理线程**，统一处理各种控制器事件，然后控制器将原来执行的操作全部建模成一个个独立的事件，发送到专属的事件队列中，供此线程消费。这就是所谓的单线程+队列的实现方式。
 
@@ -104,7 +104,7 @@ Preferred领导者选举主要是Kafka为了避免部分Broker负载过重而提
 
 好了，有关Kafka控制器的内容，我已经讲完了。最后，我再跟你分享一个小窍门。当你觉得控制器组件出现问题时，比如主题无法删除了，或者重分区hang住了，你不用重启Kafka Broker或控制器。有一个简单快速的方式是，去ZooKeeper中手动删除/controller节点。**具体命令是rmr /controller**。这样做的好处是，既可以引发控制器的重选举，又可以避免重启Broker导致的消息处理中断。
 
-![](https://static001.geekbang.org/resource/image/a7/07/a77479402c0fddbf7541d26d72a97707.jpg?wh=2069%2A2580)
+![](https://static001.geekbang.org/resource/image/a7/07/a77479402c0fddbf7541d26d72a97707.jpg?wh=2069%2A2580){: referrerpolicy="no-referrer" }
 
 ## 开放讨论
 

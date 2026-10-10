@@ -55,7 +55,7 @@
 再然后为所有新建的分区发起选举，等待全部分区选举完成。最后，将主题、分区和副本这些元数据保存到 ZooKeeper 中，再通知集群各种节点更新元数据和状态。这时新主题创建完成，给发送创建主题请求的调用方返回创建成功。
 
 以下是上述流程的时序图：  
-![](https://static001.geekbang.org/resource/image/2d/1f/2d42ac2b427e9c1e4yycbef5a702841f.png?wh=705x832)
+![](https://static001.geekbang.org/resource/image/2d/1f/2d42ac2b427e9c1e4yycbef5a702841f.png?wh=705x832){: referrerpolicy="no-referrer" }
 
 为了简化流程便于理解，上图中只绘制了一个 Broker，通常创建主题需要和多个 Broker 通信。
 
@@ -88,7 +88,7 @@
 Controller 职责类似于上面我们提到的中心化管理节点，负责协调整个创建流程并管理元数据变更。ZooKeeper 负责存储元数据。Broker 负责执行实际的分区副本创建操作。
 
 总体的主题创建流程如下图所示：  
-![](https://static001.geekbang.org/resource/image/d7/3b/d753f5acc5f11af4fb18795cb27cec3b.png?wh=2048x679)
+![](https://static001.geekbang.org/resource/image/d7/3b/d753f5acc5f11af4fb18795cb27cec3b.png?wh=2048x679){: referrerpolicy="no-referrer" }
 
 接下来分步骤看一下具体的实现过程。
 
@@ -121,7 +121,7 @@ Broker 收到 `UpdateMetadataRequest` 请求后，会更新缓存在 Broker 本�
 当所有 Broker 都完成分区创建后，主题创建流程就结束了。
 
 以下是详细的时序图：  
-![](https://static001.geekbang.org/resource/image/7b/af/7b1c52b82594dc872f6192cbdfb14baf.png?wh=1210x981)
+![](https://static001.geekbang.org/resource/image/7b/af/7b1c52b82594dc872f6192cbdfb14baf.png?wh=1210x981){: referrerpolicy="no-referrer" }
 
 ## 通过异步配置下发达成最终一致
 

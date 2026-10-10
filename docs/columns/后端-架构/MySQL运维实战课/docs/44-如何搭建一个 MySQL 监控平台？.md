@@ -24,7 +24,7 @@ MySQL的内部运行信息，可以通过状态变量、一些系统命令和系
 
 下面这个表格里，整理了一些常用的监控指标。实际上，你还可以采集更多的指标，这对分析问题有帮助。
 
-![图片](https://static001.geekbang.org/resource/image/fd/9c/fd3b62a6268eeeeeda8d391yy710219c.jpg?wh=1920x5167)
+![图片](https://static001.geekbang.org/resource/image/fd/9c/fd3b62a6268eeeeeda8d391yy710219c.jpg?wh=1920x5167){: referrerpolicy="no-referrer" }
 
 对于InnoDB，有一些重要的信息没有在状态变量中输出，可以从show engine innodb status的输出中解析出一些重要的信息。比如Undo History链表长度、Redo日志的几个序列号、InnoDB存储引擎内的查询数量、Read View的数量。
 
@@ -89,7 +89,7 @@ COUNT_TRANSACTIONS_REMOTE_IN_APPLIER_QUEUE: 0
 
 下面这个表格，对这些指标做了简单的说明。如果冲突检测队列或Applier队列中的事务数超过一定限制，会触发MGR流控，需要重点关注。
 
-![图片](https://static001.geekbang.org/resource/image/03/98/03585fb143284bf5e4fe6a4ae1b9a798.jpg?wh=1920x928)
+![图片](https://static001.geekbang.org/resource/image/03/98/03585fb143284bf5e4fe6a4ae1b9a798.jpg?wh=1920x928){: referrerpolicy="no-referrer" }
 
 从replication\_applier\_status\_by\_coordinator和replication\_applier\_status\_by\_worker表中，还能获取到正在处理的Binlog事件的一些信息。GTID事件中，增加了original\_committed\_timestamp和immediate\_commit\_timestamp信息，分别表示事务在源节点上和中间节点上的提交时间。
 
@@ -147,7 +147,7 @@ from innodb_trx
 
 下面的表格中，整理了慢SQL的关键字段。
 
-![图片](https://static001.geekbang.org/resource/image/07/43/076db5faf4a5e5b4fb848858a777b243.jpg?wh=1902x1114)
+![图片](https://static001.geekbang.org/resource/image/07/43/076db5faf4a5e5b4fb848858a777b243.jpg?wh=1902x1114){: referrerpolicy="no-referrer" }
 
 使用慢SQL，一般无法统计到数据库里执行的全部SQL。有的SQL，单次执行时间可能没有超过long\_query\_time，但是执行的频率特别高。
 
@@ -155,7 +155,7 @@ MySQL 8.0默认开启了performance\_schema，从events\_statements\_summary\_by
 
 下面的表格，对这个表的一些字段做了说明。
 
-![图片](https://static001.geekbang.org/resource/image/f5/b4/f5cda07e714e9f21149c8ca6b4065cb4.jpg?wh=1740x2335)
+![图片](https://static001.geekbang.org/resource/image/f5/b4/f5cda07e714e9f21149c8ca6b4065cb4.jpg?wh=1740x2335){: referrerpolicy="no-referrer" }
 
 可以看到，这个表提供了比较丰富的SQL运行信息。由于这个表很多字段记录的都是累积值，采集程序要做一定的处理，可以得到某一个时间段内的SQL运行情况。
 
@@ -312,17 +312,17 @@ scrape_configs:
 
 启动prometheus后，检查监控指标是否都采集到了。使用浏览器访问prometheus所在服务器的9090端口。
 
-![图片](https://static001.geekbang.org/resource/image/0f/f8/0f328b9e70c22d34f0d22ef9c33abbf8.png?wh=1206x1008)
+![图片](https://static001.geekbang.org/resource/image/0f/f8/0f328b9e70c22d34f0d22ef9c33abbf8.png?wh=1206x1008){: referrerpolicy="no-referrer" }
 
 #### 3. 使用Grafana展示数据
 
 在Grafana中添加Prometheus的数据源。
 
-![图片](https://static001.geekbang.org/resource/image/4c/ac/4c2005eda58eb42bb121cf6b3a343bac.png?wh=1772x668)
+![图片](https://static001.geekbang.org/resource/image/4c/ac/4c2005eda58eb42bb121cf6b3a343bac.png?wh=1772x668){: referrerpolicy="no-referrer" }
 
 Grafana的[网站](https://grafana.com/grafana/dashboards/?search=mysql)上，有很多监控模板可以参考。你可能需要根据自己的偏好，配置一些适合自己使用习惯的监控大屏。
 
-![图片](https://static001.geekbang.org/resource/image/42/21/428c0ef8157832d336466114edcc4621.png?wh=1920x1220)
+![图片](https://static001.geekbang.org/resource/image/42/21/428c0ef8157832d336466114edcc4621.png?wh=1920x1220){: referrerpolicy="no-referrer" }
 
 #### 4. 告警规则和告警消息推送
 
@@ -367,7 +367,7 @@ alerting:
 
 Prometheus会按evaluation\_interval指定的时间运行告警规则。Prometheus Web页面上的Alerts模块可以看到每个告警规则是否触发。
 
-![图片](https://static001.geekbang.org/resource/image/e5/a9/e59ca536d14f78a635a15f61da0e61a9.png?wh=1920x439)
+![图片](https://static001.geekbang.org/resource/image/e5/a9/e59ca536d14f78a635a15f61da0e61a9.png?wh=1920x439){: referrerpolicy="no-referrer" }
 
 告警触发后，Prometheus将告警消息推给alertmananger进行处理。alertmanager是一个单独的程序，在alertmanager.yml中配置告警消息的推送规则。下面这个例子中，告警消息通过webhook发送到钉钉群。
 
@@ -393,7 +393,7 @@ inhibit_rules:
 
 altermanager也提供了一个简易的web，可以用来查看告警和屏蔽告警。
 
-![图片](https://static001.geekbang.org/resource/image/dc/0a/dc309e0192f54df648c011fceed59c0a.png?wh=1920x641)
+![图片](https://static001.geekbang.org/resource/image/dc/0a/dc309e0192f54df648c011fceed59c0a.png?wh=1920x641){: referrerpolicy="no-referrer" }
 
 这个例子中，使用了[prometheus-webhook-dingtalk](https://github.com/timonwong/prometheus-webhook-dingtalk)，将消息推送到钉钉群，下面的配置文件中，url是钉钉群自定义机器人的Webhook地址。
 
@@ -454,7 +454,7 @@ docker run \
 
 访问网站地址（[https://server-ip](https://server-ip)），如果出现登录界面，就说明安装成功了。
 
-![图片](https://static001.geekbang.org/resource/image/7e/10/7efcebdf03124437ddfd08ed6ayy9310.png?wh=964x1116)
+![图片](https://static001.geekbang.org/resource/image/7e/10/7efcebdf03124437ddfd08ed6ayy9310.png?wh=964x1116){: referrerpolicy="no-referrer" }
 
 #### 2. 安装PMM Client
 
@@ -491,11 +491,11 @@ pmm-admin add mysql \
 
 添加采集配置后，如果一切正常，就可以在PMM的web界面查看监控图表了。从界面风格上可以看出，PMM的监控图表也使用了grafana。
 
-![图片](https://static001.geekbang.org/resource/image/08/e8/081bd568f82b02f5c0064d7yy00d00e8.png?wh=1920x851)
+![图片](https://static001.geekbang.org/resource/image/08/e8/081bd568f82b02f5c0064d7yy00d00e8.png?wh=1920x851){: referrerpolicy="no-referrer" }
 
 在查询分析模块（Query Analytics），可以分析数据库中运行的SQL，这里还能看到SQL的执行计划、表结构，使用起来比较方便。
 
-![图片](https://static001.geekbang.org/resource/image/10/72/10d064619e210dfd5beb67592765yy72.png?wh=1920x857)
+![图片](https://static001.geekbang.org/resource/image/10/72/10d064619e210dfd5beb67592765yy72.png?wh=1920x857){: referrerpolicy="no-referrer" }
 
 ## 总结
 

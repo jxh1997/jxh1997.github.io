@@ -27,7 +27,7 @@ updateUser.executeUpdate();
 
 关系数据库系统RDBMS有很多种，但是这些关系数据库的架构基本上差不多，包括支持SQL语法的Hadoop大数据仓库，也基本上都是相似的架构。一个SQL提交到数据库，经过连接器将SQL语句交给语法分析器，生成一个抽象语法树AST；AST经过语义分析与优化器，进行语义优化，使计算过程和需要获取的中间数据尽可能少，然后得到数据库执行计划；执行计划提交给具体的执行引擎进行计算，将结果通过连接器再返回给应用程序。
 
-![](https://static001.geekbang.org/resource/image/fa/17/faec977f77e80f6d116e40735cf21e17.png?wh=1502%2A176)  
+![](https://static001.geekbang.org/resource/image/fa/17/faec977f77e80f6d116e40735cf21e17.png?wh=1502%2A176)  {: referrerpolicy="no-referrer" }
 应用程序提交SQL到数据库执行，首先需要建立与数据库的连接，数据库**连接器**会为每个连接请求分配一块专用的内存空间用于会话上下文管理。建立连接对数据库而言相对比较重，需要花费一定的时间，因此应用程序启动的时候，通常会初始化建立一些数据库连接放在连接池里，这样当处理外部请求执行SQL操作的时候，就不需要花费时间建立连接了。
 
 这些连接一旦建立，不管是否有SQL执行，都会消耗一定的数据库内存资源，所以对于一个大规模互联网应用集群来说，如果启动了很多应用程序实例，这些程序每个都会和数据库建立若干个连接，即使不提交SQL到数据库执行，也就会对数据库产生很大的压力。
@@ -64,7 +64,7 @@ SQL语义分析与优化器就是要将各种复杂嵌套的SQL进行语义等�
 
 语义分析与优化器最后会输出一个执行计划，由执行引擎完成数据查询或者更新。MySQL执行计划的例子如下：
 
-![](https://static001.geekbang.org/resource/image/f8/55/f8dd0ab58f327832485bb412b2ca1b55.png?wh=1698%2A166)  
+![](https://static001.geekbang.org/resource/image/f8/55/f8dd0ab58f327832485bb412b2ca1b55.png?wh=1698%2A166)  {: referrerpolicy="no-referrer" }
 执行引擎是可替换的，只要能够执行这个执行计划就可以了。所以MySQL有多种执行引擎（也叫存储引擎）可以选择，缺省的是InnoDB，此外还有MyISAM、Memory等，我们可以在创建表的时候指定存储引擎。大数据仓库Hive也是这样的架构，Hive输出的执行计划可以在Hadoop上执行。
 
 ## 使用PrepareStatement执行SQL的好处
@@ -111,7 +111,7 @@ select * from users where username = ?;
 
 如下图。
 
-![](https://static001.geekbang.org/resource/image/f4/56/f45e421a8e5172b9bc9fd1709fc98456.png?wh=896%2A506)  
+![](https://static001.geekbang.org/resource/image/f4/56/f45e421a8e5172b9bc9fd1709fc98456.png?wh=896%2A506)  {: referrerpolicy="no-referrer" }
 B+树的节点存储在磁盘上，每个节点存储1000多个数据，这样树的深度最多只要4层，就可存储数亿的数据。如果将树的根节点缓存在内存中，则最多只需要三次磁盘访问就可以检索到需要的索引数据。
 
 B+树只是加快了索引的检索速度，如何通过索引加快数据库记录的查询速度呢？
@@ -120,7 +120,7 @@ B+树只是加快了索引的检索速度，如何通过索引加快数据库记
 
 另一种数据库索引是非聚簇索引，非聚簇索引在叶子节点记录的就不是数据行记录，而是聚簇索引，也就是主键，如下图。
 
-![](https://static001.geekbang.org/resource/image/58/51/580f1aa37880751f81e89d4a53ae3f51.png?wh=894%2A506)  
+![](https://static001.geekbang.org/resource/image/58/51/580f1aa37880751f81e89d4a53ae3f51.png?wh=894%2A506)  {: referrerpolicy="no-referrer" }
 通过B+树在叶子节点找到非聚簇索引a，和索引a在一起存储的是主键1，再根据主键1通过主键（聚簇）索引就可以找到对应的记录r1，这种通过非聚簇索引找到主键索引，再通过主键索引找到行记录的过程也被称作回表。
 
 所以通过索引，可以快速查询到需要的记录，而如果要查询的字段上没有建索引，就只能扫描整张表了，查询速度就会慢很多。

@@ -40,13 +40,13 @@ SET user:id:100 {“name”: “zhangsan”, “gender”: “M”,“city”:"b
 
 `char*`字符数组的结构很简单，就是**一块连续的内存空间，依次存放了字符串中的每一个字符**。比如，下图显示的就是字符串“redis”的`char*`数组结构。
 
-![](https://static001.geekbang.org/resource/image/0f/03/0f8b2de0dc4b30392e155f0bdca0d003.jpg?wh=2000x608)
+![](https://static001.geekbang.org/resource/image/0f/03/0f8b2de0dc4b30392e155f0bdca0d003.jpg?wh=2000x608){: referrerpolicy="no-referrer" }
 
 从图中可以看到，字符数组的最后一个字符是“\\0”，这个字符的作用是什么呢？其实，C语言在对字符串进行操作时，char\*指针只是指向字符数组的起始位置，而**字符数组的结尾位置就用“\\0”表示，意思是指字符串的结束**。
 
 这样一来，C语言标准库中字符串的操作函数，就会通过检查字符数组中是否有“\\0”，来判断字符串是否结束。比如，strlen函数就是一种字符串操作函数，它可以返回一个字符串的长度。这个函数会遍历字符数组中的每一个字符，并进行计数，直到检查的字符为“\\0”。此时，strlen函数会停止计数，返回已经统计到的字符个数。下图显示了strlen函数的执行流程：
 
-![](https://static001.geekbang.org/resource/image/7d/41/7de1b18d30280645c17yydf14afde541.jpg?wh=2000x1125)
+![](https://static001.geekbang.org/resource/image/7d/41/7de1b18d30280645c17yydf14afde541.jpg?wh=2000x1125){: referrerpolicy="no-referrer" }
 
 我们再通过一段代码，来看下**“\\0”结束字符对字符串长度的影响**。这里我创建了两个字符串变量a和b，分别给它们赋值为“red\\0is”和“redis\\0”。然后，我用strlen函数计算这两个字符串长度，如下所示：
 
@@ -102,7 +102,7 @@ SET user:id:100 {“name”: “zhangsan”, “gender”: “M”,“city”:"b
 
 首先，SDS结构里包含了一个字符数组buf\[]，用来保存实际数据。同时，SDS结构里还包含了三个元数据，分别是**字符数组现有长度len**、**分配给字符数组的空间长度alloc**，以及**SDS类型flags**。其中，Redis给len和alloc这两个元数据定义了多种数据类型，进而可以用来表示不同类型的SDS，稍后我会给你具体介绍。下图显示了SDS的结构，你可以先看下。
 
-![](https://static001.geekbang.org/resource/image/77/a3/772d340bfbfe52de3a66fbb011ac22a3.jpg?wh=1891x647)
+![](https://static001.geekbang.org/resource/image/77/a3/772d340bfbfe52de3a66fbb011ac22a3.jpg?wh=1891x647){: referrerpolicy="no-referrer" }
 
 另外，如果你在Redis源码中查找过SDS的定义，那你可能会看到，Redis使用typedef给char\*类型定义了一个别名，这个别名就是sds，如下所示：
 
@@ -163,7 +163,7 @@ sds sdscatlen(sds s, const void *t, size_t len) {
 
 我画了一张图，显示了sdscatlen的执行过程，你可以看下。
 
-![](https://static001.geekbang.org/resource/image/84/3d/845fd7e227f419b1e6c084cdf051ec3d.jpg?wh=2000x1125)
+![](https://static001.geekbang.org/resource/image/84/3d/845fd7e227f419b1e6c084cdf051ec3d.jpg?wh=2000x1125){: referrerpolicy="no-referrer" }
 
 所以，到这里你就能发现，和C语言中的字符串操作相比，SDS通过记录字符数组的使用长度和分配空间大小，避免了对字符串的遍历操作，降低了操作开销，进一步就可以帮助诸多字符串操作更加高效地完成，比如创建、追加、复制、比较等，这一设计思想非常值得我们学习。
 

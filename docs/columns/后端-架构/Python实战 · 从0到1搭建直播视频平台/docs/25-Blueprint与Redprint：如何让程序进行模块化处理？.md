@@ -134,7 +134,7 @@ def publish():
 
 你可以结合后面的图解加深印象。
 
-![](https://static001.geekbang.org/resource/image/be/5f/bea166f905819cca33eb407cc5b0165f.jpg?wh=1811x1268)
+![](https://static001.geekbang.org/resource/image/be/5f/bea166f905819cca33eb407cc5b0165f.jpg?wh=1811x1268){: referrerpolicy="no-referrer" }
 
 了解了概念后，我们还必须全面掌握蓝图的属性，方便以后去编写和设计蓝图。
 
@@ -282,11 +282,11 @@ app.register_blueprint(index_blu)
 
 第五步，在manager.py直接右键选择 run manager，这时我们就可以在控制台上看到启动的地址，如下图所示。
 
-![](https://static001.geekbang.org/resource/image/3d/e0/3df45f5b39b88da01748571yy26df7e0.jpg?wh=2861x691)
+![](https://static001.geekbang.org/resource/image/3d/e0/3df45f5b39b88da01748571yy26df7e0.jpg?wh=2861x691){: referrerpolicy="no-referrer" }
 
 然后我们直接通过浏览器访问 “127.0.0.1:5000” 页面的index，效果图如下。
 
-![](https://static001.geekbang.org/resource/image/1f/fd/1f59442cdf57f1d2ed087815649cc9fd.jpg?wh=2861x691)
+![](https://static001.geekbang.org/resource/image/1f/fd/1f59442cdf57f1d2ed087815649cc9fd.jpg?wh=2861x691){: referrerpolicy="no-referrer" }
 
 到这里就代表我们成功完成了蓝图的搭建，在之后的项目中你就可以应用起来了。当然，我们后边做功能实践时，它也是必要的模块。
 
@@ -298,7 +298,7 @@ app.register_blueprint(index_blu)
 
 我给你画了一个简单的层级关系图，在红图层之下就是视图函数，这一点非常好理解。
 
-![](https://static001.geekbang.org/resource/image/a7/8c/a760d476860071c8bb049d152627a88c.jpg?wh=1920x852)
+![](https://static001.geekbang.org/resource/image/a7/8c/a760d476860071c8bb049d152627a88c.jpg?wh=1920x852){: referrerpolicy="no-referrer" }
 
 我们这就来看看红图的实现，全面了解它的运行机制。
 
@@ -441,11 +441,11 @@ def creat_blueprint_v1():
 
 **第五步**，直接启动命令在浏览器中查看效果。
 
-![](https://static001.geekbang.org/resource/image/28/64/28da069049083e5aa282cdafaaf85164.jpg?wh=2861x571)
+![](https://static001.geekbang.org/resource/image/28/64/28da069049083e5aa282cdafaaf85164.jpg?wh=2861x571){: referrerpolicy="no-referrer" }
 
 这里有个容易踩坑的地方，那就是访问路径。我们已经看到启动的地址为 **127.0.0.1:5000**，但是直接访问你会发现浏览器是 “Not found”，这时候你应该想到，我们在注册蓝图时已经指定了访问前缀，所以应该访问的是 “**127.0.0.1:5000/v1/user**” 这个域名，访问后你会在浏览器中看到页面的效果。
 
-![](https://static001.geekbang.org/resource/image/ba/fb/ba36c41463a0ec7e963ce996c10abafb.jpg?wh=2861x653)
+![](https://static001.geekbang.org/resource/image/ba/fb/ba36c41463a0ec7e963ce996c10abafb.jpg?wh=2861x653){: referrerpolicy="no-referrer" }
 
 进行到这一步，说明操作就成功了，现在你就可以在项目里使用红图了。
 

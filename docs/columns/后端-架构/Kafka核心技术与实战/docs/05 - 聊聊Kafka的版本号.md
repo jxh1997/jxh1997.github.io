@@ -8,7 +8,7 @@
 
 当前Apache Kafka已经迭代到2.2版本，社区正在为2.3.0发版日期进行投票，相信2.3.0也会马上发布。但是稍微有些令人吃惊的是，很多人对于Kafka的版本命名理解存在歧义。比如我们在官网上下载Kafka时，会看到这样的版本：
 
-![](https://static001.geekbang.org/resource/image/c1/23/c10df9e6f72126e9c721fba38e27ac23.png?wh=784%2A208)
+![](https://static001.geekbang.org/resource/image/c1/23/c10df9e6f72126e9c721fba38e27ac23.png?wh=784%2A208){: referrerpolicy="no-referrer" }
 
 于是有些同学就会纳闷，难道Kafka版本号不是2.11或2.12吗？其实不然，前面的版本号是编译Kafka源代码的Scala编译器版本。Kafka服务器端的代码完全由Scala语言编写，Scala同时支持面向对象编程和函数式编程，用Scala写成的源代码编译之后也是普通的“.class”文件，因此我们说Scala是JVM系的语言，它的很多设计思想都是为人称道的。
 
@@ -50,7 +50,7 @@ Kafka从0.7时代演进到0.8之后正式引入了**副本机制**，至此Kafka
 
 我希望现在你对如何选择合适的Kafka版本能做到心中有数了。每个Kafka版本都有它恰当的使用场景和独特的优缺点，切记不要一味追求最新版本。事实上我周围的很多工程师都秉承这样的观念：不要成为最新版本的“小白鼠”。了解了各个版本的差异之后，我相信你一定能够根据自己的实际情况做出最正确的选择。
 
-![](https://static001.geekbang.org/resource/image/9b/d1/9be3f8c5c2930f6482fb43d8bca507d1.jpg?wh=2069%2A2560)
+![](https://static001.geekbang.org/resource/image/9b/d1/9be3f8c5c2930f6482fb43d8bca507d1.jpg?wh=2069%2A2560){: referrerpolicy="no-referrer" }
 
 ## 开放讨论
 

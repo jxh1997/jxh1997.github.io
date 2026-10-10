@@ -200,7 +200,7 @@ MySQL有一系列与文件路径相关的参数，用来指定程序文件的路
 
 datadir指定数据文件的存放路径，默认路径是在构建MySQL二进制时确定的。我建议在配置文件中显式指定datadir。如果因为各种原因需要将数据目录移动到其他路径下，要同步修改datadir参数，否则数据库会无法启动。datadir同时也决定了其他很多文件的存放路径，如innodb系统表空间、innodb REDO日志、binlog、relaylog默认都存放在datadir下。当然，我们可以通过一些参数修改这些文件的存放路径。下面这个表格总结了平时比较常用的文件路径相关的参数。
 
-![图片](https://static001.geekbang.org/resource/image/6a/28/6acb451c80c32a8cd25bbc6cbd57be28.jpg?wh=1920x1052)
+![图片](https://static001.geekbang.org/resource/image/6a/28/6acb451c80c32a8cd25bbc6cbd57be28.jpg?wh=1920x1052){: referrerpolicy="no-referrer" }
 
 ### 设置日志文件
 
@@ -315,7 +315,7 @@ InnoDB存储引擎是MySQL实现事务ACID属性的关键所在，合理地设�
 
 下面这个图中，我们将InnoDB分为4个大的结构，分别是InnoDB Buffer Pool、InnoDB数据文件、Redo Log Buffer、Redo日志。
 
-![图片](https://static001.geekbang.org/resource/image/a2/8c/a274bc40b8fc151dcbe04fb6e7f7ea8c.jpg?wh=1723x1077)
+![图片](https://static001.geekbang.org/resource/image/a2/8c/a274bc40b8fc151dcbe04fb6e7f7ea8c.jpg?wh=1723x1077){: referrerpolicy="no-referrer" }
 
 #### InnoDB Buffer Pool
 
@@ -334,7 +334,7 @@ Buffer Pool的大小通过参数innodb\_buffer\_pool\_size指定，这可能是M
 
 除去上述各类内存，将剩余的内存分配给Buffer Pool。假设我们的服务器总共有100G内存，系统内存按下面这个表格来评估。
 
-![图片](https://static001.geekbang.org/resource/image/68/9b/68fee2a6efc97dfcfc6dcae45049719b.png?wh=1920x1094)
+![图片](https://static001.geekbang.org/resource/image/68/9b/68fee2a6efc97dfcfc6dcae45049719b.png?wh=1920x1094){: referrerpolicy="no-referrer" }
 
 那么，留给InnoDB Buffer Pool的内存为79G，考虑到InnoDB Buffer Pool的管理开销，innodb\_buffer\_pool\_size可设置为75G。当然在真实的业务场景下，MySQL连接线程会动态分配、释放内存，需要根据真实的运行情况，适当地调整内存设置。
 
@@ -367,7 +367,7 @@ InnoDB Buffer Pool中的数据，最终会持久化到数据文件中。InnoDB�
 
 早期版本中，通过参数innodb\_log\_file\_size和innodb\_log\_files\_in\_group控制Redo日志文件的大小和数量。8.0.30后，新增了innodb\_redo\_log\_capacity参数，就不再需要单独设置innodb\_log\_file\_size和innodb\_log\_files\_in\_group了。Redo文件循环使用，随着数据库事务不停地执行，新的Redo日志最终会覆盖老的Redo日志。
 
-![图片](https://static001.geekbang.org/resource/image/94/47/946a1fc95719d7b9999bb084eae13847.jpg?wh=858x374)
+![图片](https://static001.geekbang.org/resource/image/94/47/946a1fc95719d7b9999bb084eae13847.jpg?wh=858x374){: referrerpolicy="no-referrer" }
 
 数据库崩溃恢复时，需要通过Redo日志来恢复数据，那么覆盖老的Redo文件会不会导致数据丢失呢？或者MySQL如何保证覆盖Redo文件不影响数据库恢复？其实只要保证覆盖Redo文件时，数据库的Checkpoint LSN比Redo文件最大的LSN号更大就行了。
 
@@ -393,7 +393,7 @@ mysql> show global status like '%lsn%';
 
 下面以这个表格对InnoDB参数的设置做一个简单的总结。
 
-![图片](https://static001.geekbang.org/resource/image/c7/94/c793b53a1yy146d5621b4b9f7b85fb94.jpg?wh=1578x1550)
+![图片](https://static001.geekbang.org/resource/image/c7/94/c793b53a1yy146d5621b4b9f7b85fb94.jpg?wh=1578x1550){: referrerpolicy="no-referrer" }
 
 ### 其它参数设置
 

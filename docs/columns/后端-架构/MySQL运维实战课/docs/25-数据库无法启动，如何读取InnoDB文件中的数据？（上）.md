@@ -38,7 +38,7 @@ values
 
 解读ibd文件的内容，需要借助一些工具，以十六进制的方式查看文件的内容。这类工具很多，比如UltraEdit。这里我使用了Mac系统下的Hex Fiend。下面这个图就是使用Hex Fiend打开t\_dynamic.ibd文件后显示的内容。
 
-![图片](https://static001.geekbang.org/resource/image/96/c8/96d5bb4da585146f9eyy29fd25daf2c8.png?wh=1566x1068)
+![图片](https://static001.geekbang.org/resource/image/96/c8/96d5bb4da585146f9eyy29fd25daf2c8.png?wh=1566x1068){: referrerpolicy="no-referrer" }
 
 上面这个图里面，最左侧和最上方是地址栏，标注了文件内容的偏移量。右侧是提示区，以文本的形式展示文件内容。我们建的测试表里，存的都是文本数据，在提示区里能看到这些数据。对于我们使用的默认的16K的页面大小，任意一个页面在文件中的偏移量是16K的整数倍，任意一个字节在页面内的偏移量在0x00 - 0x3FFF之间。
 
@@ -59,13 +59,13 @@ InnoDB内部用来表示某个数据的存储地址时，有几种形式：
 
 我们来看一下页面04结尾处的内容，这里存储了页目录，page dir 1存储了infimum记录的地址0x0063，在前面那个图中，你可以找到infimum记录（0x10000 + 0x0063 = 0x10063）。
 
-![图片](https://static001.geekbang.org/resource/image/ef/2a/ef102377ca0dcda9bde73ecaca85682a.png?wh=1302x428)
+![图片](https://static001.geekbang.org/resource/image/ef/2a/ef102377ca0dcda9bde73ecaca85682a.png?wh=1302x428){: referrerpolicy="no-referrer" }
 
 infimum记录前的2个字节（0x00 22)，存储了下一行记录的地址（0x10063 + 0x22 = 0x10085），这就是记录ROW\_001在文件中的物理地址。
 
 当然，进行十六进制的运算时，你可以借助程序员计算器，操作系统内置的计算器一般就够用了。
 
-![图片](https://static001.geekbang.org/resource/image/c1/2a/c19a96fd63f018753b51c2f70a7cbd2a.png?wh=788x928)
+![图片](https://static001.geekbang.org/resource/image/c1/2a/c19a96fd63f018753b51c2f70a7cbd2a.png?wh=788x928){: referrerpolicy="no-referrer" }
 
 ## InnoDB页面格式
 
@@ -77,21 +77,21 @@ InnoDB将数据文件划分为页面（Page）进行管理。每个页面的大�
 
 每个页面都有固定的头部信息，总共占用38字节。为了便于理解，我将页面头部的每个字段都标注在了下面这个示意图中，查看ibd文件的十六进制内容时，结合这个图能帮你直观地定位某个字段的位置。
 
-![图片](https://static001.geekbang.org/resource/image/6a/1e/6a1e73692b23f46b70d71ef76081e81e.png?wh=1208x614)
+![图片](https://static001.geekbang.org/resource/image/6a/1e/6a1e73692b23f46b70d71ef76081e81e.png?wh=1208x614){: referrerpolicy="no-referrer" }
 
 每个字段的具体含义我整理成了下面这个表格。
 
-![图片](https://static001.geekbang.org/resource/image/28/bd/287d35ea3c7961ca95ba2db9d0249abd.png?wh=1920x1339)
+![图片](https://static001.geekbang.org/resource/image/28/bd/287d35ea3c7961ca95ba2db9d0249abd.png?wh=1920x1339){: referrerpolicy="no-referrer" }
 
 页面编号（Page Num）长度为4个字节，可以给2^32个页面进行编号（其中0xFFFFFFFF有特殊含义）。对于16K的页大小，一个表空间最大可能的空间为2^32 * 16K，也就是64T。
 
 头部信息中，type字段用于标识页面中存储的数据类型，常见的页面类型我整理成了下面这个表格，供你参考。
 
-![图片](https://static001.geekbang.org/resource/image/74/f6/74e791c9bee74321d7d18890a9a25bf6.png?wh=1352x1452)
+![图片](https://static001.geekbang.org/resource/image/74/f6/74e791c9bee74321d7d18890a9a25bf6.png?wh=1352x1452){: referrerpolicy="no-referrer" }
 
 下面是页面头部的一个例子。
 
-![图片](https://static001.geekbang.org/resource/image/5a/13/5acdd0f8d35129eb441cd98b323fb313.png?wh=1426x542)
+![图片](https://static001.geekbang.org/resource/image/5a/13/5acdd0f8d35129eb441cd98b323fb313.png?wh=1426x542){: referrerpolicy="no-referrer" }
 
 type为0x45BF，这是一个B+树页面。space id是0x00 00 01 96。从INNODB\_TABLESPACES表可以查到每个表空间的ID，我们的测试表space id是406，转换成十六进制就是0x0196。
 
@@ -113,11 +113,11 @@ mysql> select space, name, space_type, row_format, page_size
 
 每个页面尾部都有固定8个字节的信息。
 
-![图片](https://static001.geekbang.org/resource/image/1b/27/1b87d3945282dbe663ce3e2051d2fb27.png?wh=1920x461)
+![图片](https://static001.geekbang.org/resource/image/1b/27/1b87d3945282dbe663ce3e2051d2fb27.png?wh=1920x461){: referrerpolicy="no-referrer" }
 
 下图是页面的尾部信息，注意checksum和lsn和页面头部是对应的。
 
-![图片](https://static001.geekbang.org/resource/image/22/00/22a85e4c1feac518fccbcafd74c4e200.png?wh=1312x354)
+![图片](https://static001.geekbang.org/resource/image/22/00/22a85e4c1feac518fccbcafd74c4e200.png?wh=1312x354){: referrerpolicy="no-referrer" }
 
 页面头部和尾部都存储了checksum。为什么checksum要存2份呢？因为InnoDB页面数据写到磁盘时，有可能不是一个原子操作。1个InnoDB页面可能对应多个磁盘上的数据块，写数据的过程中，如果部分数据块写成功，而部分数据块写失败，那么页面的数据就不一致了。通过对比页面头部和尾部checksum数据，可以检测数据是否损坏。
 
@@ -125,27 +125,27 @@ mysql> select space, name, space_type, row_format, page_size
 
 前面我们一直在讲，InnoDB中，表的数据以聚簇索引的方式存放，聚簇索引是以主键作为Key的B+树。
 
-![图片](https://static001.geekbang.org/resource/image/23/cf/23e1f0176e3623a2382e55e3b2425bcf.jpg?wh=1920x1065)
+![图片](https://static001.geekbang.org/resource/image/23/cf/23e1f0176e3623a2382e55e3b2425bcf.jpg?wh=1920x1065){: referrerpolicy="no-referrer" }
 
 在InnoDB中，B+树大致结构如上图所示。B+树由根页面（Root Page）、跳转页面（Branch Page）、叶子页面（Leaf Page）组成。如果表中的记录数足够少，那么B+树中可能只有1个页面，这个页面既是根页面，同时也是叶子页面。
 
 B+树页面由头部信息、记录信息、空闲空间、目录项这几部分组成。为了便于理解，我将B+树页面格式画成了下面这个示意图。
 
-![](https://static001.geekbang.org/resource/image/40/77/40ff2914dba520520e6b856859e3ac77.png?wh=1208x616)
+![](https://static001.geekbang.org/resource/image/40/77/40ff2914dba520520e6b856859e3ac77.png?wh=1208x616){: referrerpolicy="no-referrer" }
 
 1. B+树页面头部信息
 
 B+树中，每个页面头部有一些公共信息，具体内容我整理成了下面这个表格。
 
-![图片](https://static001.geekbang.org/resource/image/95/d0/951bfed2febb2e77f776e6202555fed0.jpg?wh=1920x1090)
+![图片](https://static001.geekbang.org/resource/image/95/d0/951bfed2febb2e77f776e6202555fed0.jpg?wh=1920x1090){: referrerpolicy="no-referrer" }
 
 下图是我们的测试表的页面头部信息，图上标注了部分字段。
 
-![图片](https://static001.geekbang.org/resource/image/73/8b/73814f2424d63b4ba91a88c451a1208b.png?wh=1412x634)
+![图片](https://static001.geekbang.org/resource/image/73/8b/73814f2424d63b4ba91a88c451a1208b.png?wh=1412x634){: referrerpolicy="no-referrer" }
 
 表里插入了8行数据，因此records为8。top指向了页面内空闲空间的开始地址（0x10000 + 0x0364 = 0x10364），这实际上也指向了插入的最后一条记录（ROW\_008）的结尾处。
 
-![图片](https://static001.geekbang.org/resource/image/d0/34/d06682b9c596c966aabyyc1052e17b34.png?wh=1264x490)
+![图片](https://static001.geekbang.org/resource/image/d0/34/d06682b9c596c966aabyyc1052e17b34.png?wh=1264x490){: referrerpolicy="no-referrer" }
 
 level为0，index id为0x0305。index id可以从数据字典中查到，我们测试表index id为773，也就是十六进制0x0305。
 
@@ -184,7 +184,7 @@ leaf inode和interior inode分别指向叶子页面和跳转页面这两个段�
 
 记录按B+树索引字段的顺序排列。页面中记录逻辑上按索引字段排序，但是物理存储上不一定有序。随着页面中记录的插入、删除、更新，记录区域内可能存在碎片空间。页面头部信息中的free字段指向最新被删除的记录，garbage字段记录了所有被删除的记录占用的空间。这些碎片空间可以在后续往页面中写入数据时重用，或对页面进行碎片整理后释放出来。
 
-![图片](https://static001.geekbang.org/resource/image/33/aa/3355434a123ba4305b01c84fb8767faa.jpg?wh=1920x1287)
+![图片](https://static001.geekbang.org/resource/image/33/aa/3355434a123ba4305b01c84fb8767faa.jpg?wh=1920x1287){: referrerpolicy="no-referrer" }
 
 3. 空闲空间
 
@@ -194,7 +194,7 @@ leaf inode和interior inode分别指向叶子页面和跳转页面这两个段�
 
 页目录项里存储了页面内记录的偏移地址。每一个目录项占用2个字节，目录项的空间从高往低分配。InnoDB并没有给每一条记录都分配一个目录项，两个相邻的目录项之间，可能存在多条记录，我们把这些记录称为一个记录组。一个记录组里最少存4条记录，最多存8条记录。当然这里有一些例外情况，第一个记录组只有一条记录，也就是infimum记录，最后一个记录组内记录数可能小于4。
 
-![图片](https://static001.geekbang.org/resource/image/64/69/646264e33b6c23ee41bb3e88c8e62569.jpg?wh=1920x820)
+![图片](https://static001.geekbang.org/resource/image/64/69/646264e33b6c23ee41bb3e88c8e62569.jpg?wh=1920x820){: referrerpolicy="no-referrer" }
 
 在页面中查找数据时，目录项有重要的作用。如果没有目录项，那么在页面内查找记录时，只能顺序扫描，扫描需要的时间和记录的数量成正比。使用目录项，就可以采用二分搜索法，这能极大提高性能。另外，页面中的记录组成一个单向链表，按索引顺序扫描记录时非常方便。但是MySQL中还存在按索引逆序扫描的情况，而页面中并没有存储某一条记录的上一条记录的位置信息，这时也需要使用目录项来减少扫描的记录数。
 
@@ -222,18 +222,18 @@ InnoDB的每一行数据都由头部信息和记录信息组成。Dynamic行格�
 
 下面就是一行记录的示意图。
 
-![图片](https://static001.geekbang.org/resource/image/37/1b/373a6facf71b89bbdc85fc1992yy281b.jpg?wh=1920x404)  
+![图片](https://static001.geekbang.org/resource/image/37/1b/373a6facf71b89bbdc85fc1992yy281b.jpg?wh=1920x404)  {: referrerpolicy="no-referrer" }
 图中rec\_ptr指向记录实际数据的起始地址，表中所有的字段按表结构定义中的顺序连续存储。
 
 #### 固定头部信息
 
 每行数据前都有长度固定为5字节的头部信息，格式参考下面这个图。
 
-![](https://static001.geekbang.org/resource/image/e5/aa/e50f0f7496959ba335f922f9970515aa.png?wh=1710x122)
+![](https://static001.geekbang.org/resource/image/e5/aa/e50f0f7496959ba335f922f9970515aa.png?wh=1710x122){: referrerpolicy="no-referrer" }
 
 这里面数据的具体含义我整理成了下面这个表格。
 
-![图片](https://static001.geekbang.org/resource/image/66/bc/663e3f578e6b3a00928f5e97247438bc.png?wh=1604x1540)
+![图片](https://static001.geekbang.org/resource/image/66/bc/663e3f578e6b3a00928f5e97247438bc.png?wh=1604x1540){: referrerpolicy="no-referrer" }
 
 #### version
 
@@ -243,13 +243,13 @@ InnoDB的每一行数据都由头部信息和记录信息组成。Dynamic行格�
 
 每一个可空的字段，需要1比特来标记数据是否为空（null），如果数据为null，则对应的标记位设置为1。null标记字节数是可空字段数除以8，向上取整。
 
-![图片](https://static001.geekbang.org/resource/image/eb/3b/ebe36ddc304fa38be03c60d1f22e103b.jpg?wh=1920x774)
+![图片](https://static001.geekbang.org/resource/image/eb/3b/ebe36ddc304fa38be03c60d1f22e103b.jpg?wh=1920x774){: referrerpolicy="no-referrer" }
 
 #### 变长字段长度列表
 
 对每个可变长度的字段（如varchar，varbinary, char），需要使用1-2字节来存储长度信息。
 
-![图片](https://static001.geekbang.org/resource/image/eb/35/eb916f265824d21ffed35604cc804835.jpg?wh=1920x774)
+![图片](https://static001.geekbang.org/resource/image/eb/35/eb916f265824d21ffed35604cc804835.jpg?wh=1920x774){: referrerpolicy="no-referrer" }
 
 1. 如果字段的最大存储空间不超过255字节，则使用1个字节来存储长度信息。
 2. 如果字段的最大存储空间超过255字节，并且字段中实际存储的数据不超过127字节，则需要使用1个字节来存储长度信息，该字节的最高位比特总是0，剩下的7比特最大可以表示127。
@@ -257,30 +257,30 @@ InnoDB的每一行数据都由头部信息和记录信息组成。Dynamic行格�
 
 2个字节的编码如下图：
 
-![图片](https://static001.geekbang.org/resource/image/2e/df/2e307b2ace4ae2b34f571669a171c4df.png?wh=580x120)
+![图片](https://static001.geekbang.org/resource/image/2e/df/2e307b2ace4ae2b34f571669a171c4df.png?wh=580x120){: referrerpolicy="no-referrer" }
 
 右边字节的最高位置位1，右边字节的第7位用于标识当前字段是否有数据存储在另外的数据页中。右边字节的低6位比特和左边的8比特（0bxxxxxxyyyyyyyy）用于存储字段在当前页面中实际存储的字节数。InnoDB允许的最长行记录为16K，所以14比特刚好可以表示不超过16K的长度。
 
 我们来看一下测试表里前几行记录的存储格式。
 
-![图片](https://static001.geekbang.org/resource/image/8f/1a/8fd6f4c1f06fd829b687aef17ba1951a.png?wh=1510x956)
+![图片](https://static001.geekbang.org/resource/image/8f/1a/8fd6f4c1f06fd829b687aef17ba1951a.png?wh=1510x956){: referrerpolicy="no-referrer" }
 
 - 5字节固定长度头部信息
 
-![图片](https://static001.geekbang.org/resource/image/e2/c3/e22570f8ea99e1d320e21c5134392dc3.png?wh=1660x398)  
+![图片](https://static001.geekbang.org/resource/image/e2/c3/e22570f8ea99e1d320e21c5134392dc3.png?wh=1660x398)  {: referrerpolicy="no-referrer" }
 order字段中保存了记录插入的顺序。row\_001的order是2，row\_003的order是3，row\_002的order是4。
 
 - Null bytes
 
 我们的测试表有4个可空字段，因此null bytes是1字节。
 
-![图片](https://static001.geekbang.org/resource/image/b5/fe/b5fd77cdea4840d908cd4128fa66a6fe.png?wh=1920x596)
+![图片](https://static001.geekbang.org/resource/image/b5/fe/b5fd77cdea4840d908cd4128fa66a6fe.png?wh=1920x596){: referrerpolicy="no-referrer" }
 
 - 变长字段长度列表
 
 变长字段长度列表中的数据是逆向解析的，比如row\_001的数据是0x14 C0 14 C0 0D 05 07，先分别解析出07，05，0D，这都是单字节长度。接下来的C0（0b11000000），最高位是1，因此是双字节长度，实际长度是0xC014第低14位，也就是20。
 
-![图片](https://static001.geekbang.org/resource/image/0d/d5/0d4765fcea679047b73ab63a3a1b48d5.png?wh=1920x1159)
+![图片](https://static001.geekbang.org/resource/image/0d/d5/0d4765fcea679047b73ab63a3a1b48d5.png?wh=1920x1159){: referrerpolicy="no-referrer" }
 
 ```plain
 mysql> select id, length(id), length(c1), length(c2), length(c3), length(c4) 
@@ -302,7 +302,7 @@ compact和dynamic行格式基本一致，只是处理行外存储时有所区别
 
 按官方文档的描述，Redundant行格式会占用更多的空间，但是可能会节省一些CPU。对于Redundant格式，不做详细的介绍了。我把Redundant大致的记录格式放在文章里，如果你有兴趣的话，可以自己创建一些测试表进行观察。
 
-![图片](https://static001.geekbang.org/resource/image/ff/42/fffd7e8e6b13561a757f7376bbfb9e42.jpg?wh=1920x500)
+![图片](https://static001.geekbang.org/resource/image/ff/42/fffd7e8e6b13561a757f7376bbfb9e42.jpg?wh=1920x500){: referrerpolicy="no-referrer" }
 
 Redundant行格式特点：
 
@@ -316,9 +316,9 @@ Redundant行格式特点：
 
 Redundant每行记录头部都有长度固定为6字节的信息，具体内容见下面这个图和表格中的说明。
 
-![](https://static001.geekbang.org/resource/image/88/7a/88e0e2bbc51659c59930cfb52bd6187a.png?wh=1938x102)
+![](https://static001.geekbang.org/resource/image/88/7a/88e0e2bbc51659c59930cfb52bd6187a.png?wh=1938x102){: referrerpolicy="no-referrer" }
 
-![图片](https://static001.geekbang.org/resource/image/51/e1/5137bac0c02d885be7a0304ec4f5b1e1.png?wh=1920x987)
+![图片](https://static001.geekbang.org/resource/image/51/e1/5137bac0c02d885be7a0304ec4f5b1e1.png?wh=1920x987){: referrerpolicy="no-referrer" }
 
 - version字段
 
@@ -383,14 +383,14 @@ insert into t_column_storage(id, c10, c11)
 
 我把这些字段在ibd文件中的存储格式都标注在了下面这个图上。
 
-![图片](https://static001.geekbang.org/resource/image/75/b3/75c49e0351f95c717498f8d02a92bbb3.png?wh=1502x1230)  
-![图片](https://static001.geekbang.org/resource/image/14/eb/14cd5c8ab4889df40295c5f2e9c0beeb.jpg?wh=1920x1030)
+![图片](https://static001.geekbang.org/resource/image/75/b3/75c49e0351f95c717498f8d02a92bbb3.png?wh=1502x1230)  {: referrerpolicy="no-referrer" }
+![图片](https://static001.geekbang.org/resource/image/14/eb/14cd5c8ab4889df40295c5f2e9c0beeb.jpg?wh=1920x1030){: referrerpolicy="no-referrer" }
 
 注1：Datetime类型在InnoDB内部使用了特殊的编码格式。
 
 datetime类型精确到秒（yyyy-mm-dd hh24:mi:ss）的数据，使用5个字节存储，编码格式见下图。
 
-![图片](https://static001.geekbang.org/resource/image/2f/bf/2f1be412fcdb49c0d9a20d474fa946bf.png?wh=1368x158)
+![图片](https://static001.geekbang.org/resource/image/2f/bf/2f1be412fcdb49c0d9a20d474fa946bf.png?wh=1368x158){: referrerpolicy="no-referrer" }
 
 解码方式可以参考下面这段Python代码。
 
@@ -413,19 +413,19 @@ def to_datetime(value):
 
 注2：float、double类型按IEEE 754标准编码后存储。你可以找一些在线工具，查看小数编码后的格式。从下面这个图中，可以看到float和double存储的并不是精确值。
 
-![图片](https://static001.geekbang.org/resource/image/2e/bf/2e512601371ecda1603bdb4aefe7e1bf.png?wh=1332x854)
+![图片](https://static001.geekbang.org/resource/image/2e/bf/2e512601371ecda1603bdb4aefe7e1bf.png?wh=1332x854){: referrerpolicy="no-referrer" }
 
 注3：行长度超过限制后，部分字段需要存储到行外的LOB页面后，行内存储LOB定位器，指向LOB页面。
 
 LOB定位器的存储格式参考下面的图和表格。
 
-![图片](https://static001.geekbang.org/resource/image/d8/49/d8ac21a4f887bae4216c3a75d1b8b149.png?wh=1362x66)
+![图片](https://static001.geekbang.org/resource/image/d8/49/d8ac21a4f887bae4216c3a75d1b8b149.png?wh=1362x66){: referrerpolicy="no-referrer" }
 
-![图片](https://static001.geekbang.org/resource/image/75/14/75d446b028b97fc82ea1d59d00e64e14.png?wh=1920x750)
+![图片](https://static001.geekbang.org/resource/image/75/14/75d446b028b97fc82ea1d59d00e64e14.png?wh=1920x750){: referrerpolicy="no-referrer" }
 
 测试表t\_column\_storage中，row\_005的C10、C11列都存储在行外，具体数据见下表。
 
-![图片](https://static001.geekbang.org/resource/image/2d/27/2d4af8714e3cca8522bfb0158bba6827.png?wh=1920x641)
+![图片](https://static001.geekbang.org/resource/image/2d/27/2d4af8714e3cca8522bfb0158bba6827.png?wh=1920x641){: referrerpolicy="no-referrer" }
 
 ## 总结
 

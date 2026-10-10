@@ -2,12 +2,12 @@
 
 我们知道事务有4个隔离级别，以及可能存在的三种异常问题，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/c2/9b/c2e9a4ce5793b031f3846890d0f6189b.png?wh=1331%2A694)  
+![](https://static001.geekbang.org/resource/image/c2/9b/c2e9a4ce5793b031f3846890d0f6189b.png?wh=1331%2A694)  {: referrerpolicy="no-referrer" }
 在MySQL中，默认的隔离级别是可重复读，可以解决脏读和不可重复读的问题，但不能解决幻读问题。如果我们想要解决幻读问题，就需要采用串行化的方式，也就是将隔离级别提升到最高，但这样一来就会大幅降低数据库的事务并发能力。
 
 有没有一种方式，可以不采用锁机制，而是通过乐观锁的方式来解决不可重复读和幻读问题呢？实际上MVCC机制的设计，就是用来解决这个问题的，它可以在大多数情况下替代行级锁，降低系统的开销。
 
-![](https://static001.geekbang.org/resource/image/56/a0/568bb507e1edb431d8121a2cb5c7caa0.png?wh=1500%2A552)  
+![](https://static001.geekbang.org/resource/image/56/a0/568bb507e1edb431d8121a2cb5c7caa0.png?wh=1500%2A552)  {: referrerpolicy="no-referrer" }
 今天的课程主要包括以下几个方面的内容：
 
 1. MVCC机制的思想是什么？为什么RDBMS会采用MVCC机制？
@@ -60,7 +60,7 @@ UPDATE player SET ...
 
 比如我们有个账户金额表user\_balance，包括三个字段，分别是username用户名、balance余额和bankcard卡号，具体的数据示意如下：
 
-![](https://static001.geekbang.org/resource/image/be/46/bec7af5d84bc7d4295fd205491d85e46.png?wh=904%2A365)  
+![](https://static001.geekbang.org/resource/image/be/46/bec7af5d84bc7d4295fd205491d85e46.png?wh=904%2A365)  {: referrerpolicy="no-referrer" }
 为了方便，我们假设user\_balance表中只有用户A和B有余额，其他人的账户余额均为0。下面我们考虑一个使用场景。
 
 用户A和用户B之间进行转账，此时数据库管理员想要查询user\_balance表中的总金额：
@@ -73,7 +73,7 @@ SELECT SUM(balance) FROM user_balance
 
 情况1：因为需要采用加行锁的方式，用户A给B转账时间等待很久，如下图所示。
 
-![](https://static001.geekbang.org/resource/image/2d/27/2df06836628ce9735364ca932003f927.png?wh=922%2A430)  
+![](https://static001.geekbang.org/resource/image/2d/27/2df06836628ce9735364ca932003f927.png?wh=922%2A430)  {: referrerpolicy="no-referrer" }
 你能看到为了保证数据的一致性，我们需要给统计到的数据行都加上行锁。这时如果A所在的数据行加上了行锁，就不能给B转账了，只能等到所有操作完成之后，释放行锁再继续进行转账，这样就会造成用户事务处理的等待时间过长。
 
 情况2：当我们读取的时候用了加行锁，可能会出现死锁的情况，如下图所示。比如当我们读到A有1000元的时候，此时B开始执行给A转账：
@@ -91,7 +91,7 @@ UPDATE user_balance SET balance=balance+100 WHERE username ='A'
 
 我们会发现此时A被锁住了，而管理员事务还需要对B进行访问，但B被用户事务锁住了，此时就发生了死锁。
 
-![](https://static001.geekbang.org/resource/image/3b/41/3b6c7ae9db7e1952fd9ae264e7147b41.png?wh=886%2A430)  
+![](https://static001.geekbang.org/resource/image/3b/41/3b6c7ae9db7e1952fd9ae264e7147b41.png?wh=886%2A430)  {: referrerpolicy="no-referrer" }
 MVCC可以解决读写互相阻塞的问题，这样提升了效率，同时因为采用了乐观锁的思想，降低了死锁的概率。
 
 ## InnoDB中的MVCC是如何实现的？
@@ -112,13 +112,13 @@ InnoDB的叶子段存储了数据页，数据页中保存了行记录，而在�
 2. db\_trx\_id：操作这个数据的事务ID，也就是最后一个对该数据进行插入或更新的事务ID。
 3. db\_roll\_ptr：回滚指针，也就是指向这个记录的Undo Log信息。
 
-![](https://static001.geekbang.org/resource/image/d1/20/d15a5d0a313492b208d2aad410173b20.png?wh=838%2A178)
+![](https://static001.geekbang.org/resource/image/d1/20/d15a5d0a313492b208d2aad410173b20.png?wh=838%2A178){: referrerpolicy="no-referrer" }
 
 ### Undo Log
 
 InnoDB将行记录快照保存在了Undo Log里，我们可以在回滚段中找到它们，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/47/81/4799c77b8cdfda50e49a391fea727281.png?wh=838%2A538)  
+![](https://static001.geekbang.org/resource/image/47/81/4799c77b8cdfda50e49a391fea727281.png?wh=838%2A538)  {: referrerpolicy="no-referrer" }
 从图中你能看到回滚指针将数据行的所有快照记录都通过链表的结构串联了起来，每个快照的记录都保存了当时的db\_trx\_id，也是那个时间点操作这个数据的事务ID。这样如果我们想要找历史快照，就可以通过遍历回滚指针的方式进行查找。
 
 ## Read View是如何工作的
@@ -134,7 +134,7 @@ InnoDB将行记录快照保存在了Undo Log里，我们可以在回滚段中找
 
 如图所示，trx\_ids为trx2、trx3、trx5和trx8的集合，活跃的最大事务ID（low\_limit\_id）为trx8，活跃的最小事务ID（up\_limit\_id）为trx2。
 
-![](https://static001.geekbang.org/resource/image/a7/00/a7fe7d4a0e25fce469c3d00e5e3ec600.png?wh=760%2A223)  
+![](https://static001.geekbang.org/resource/image/a7/00/a7fe7d4a0e25fce469c3d00e5e3ec600.png?wh=760%2A223)  {: referrerpolicy="no-referrer" }
 假设当前有事务creator\_trx\_id想要读取某个行记录，这个行记录的事务ID为trx\_id，那么会出现以下几种情况。
 
 如果trx\_id &lt; 活跃的最小事务ID（up\_limit\_id），也就是说这个行记录在这些活跃的事务创建之前就已经提交了，那么这个行记录对该事务是可见的。
@@ -155,12 +155,12 @@ InnoDB将行记录快照保存在了Undo Log里，我们可以在回滚段中找
 
 需要说明的是，在隔离级别为读已提交（Read Commit）时，一个事务中的每一次SELECT查询都会获取一次Read View。如表所示：
 
-![](https://static001.geekbang.org/resource/image/5d/5c/5dfd6b7491484ad49efc5f08b214bf5c.png?wh=1203%2A398)  
+![](https://static001.geekbang.org/resource/image/5d/5c/5dfd6b7491484ad49efc5f08b214bf5c.png?wh=1203%2A398)  {: referrerpolicy="no-referrer" }
 你能看到，在读已提交的隔离级别下，同样的查询语句都会重新获取一次Read View，这时如果Read View不同，就可能产生不可重复读或者幻读的情况。
 
 当隔离级别为可重复读的时候，就避免了不可重复读，这是因为一个事务只在第一次SELECT的时候会获取一次Read View，而后面所有的SELECT都会复用这个Read View，如下表所示：
 
-![](https://static001.geekbang.org/resource/image/7b/f2/7b9c80fb892f858e08a64fc8ef7257f2.png?wh=1012%2A341)
+![](https://static001.geekbang.org/resource/image/7b/f2/7b9c80fb892f858e08a64fc8ef7257f2.png?wh=1012%2A341){: referrerpolicy="no-referrer" }
 
 ## InnoDB是如何解决幻读的
 
@@ -168,7 +168,7 @@ InnoDB将行记录快照保存在了Undo Log里，我们可以在回滚段中找
 
 在读已提交的情况下，即使采用了MVCC方式也会出现幻读。如果我们同时开启事务A和事务B，先在事务A中进行某个条件范围的查询，读取的时候采用排它锁，在事务B中增加一条符合该条件范围的数据，并进行提交，然后我们在事务A中再次查询该条件范围的数据，就会发现结果集中多出一个符合条件的数据，这样就出现了幻读。
 
-![](https://static001.geekbang.org/resource/image/4f/cb/4f112ba8411db336f58c8db9c9e8f0cb.png?wh=864%2A485)  
+![](https://static001.geekbang.org/resource/image/4f/cb/4f112ba8411db336f58c8db9c9e8f0cb.png?wh=864%2A485)  {: referrerpolicy="no-referrer" }
 出现幻读的原因是在读已提交的情况下，InnoDB只采用记录锁（Record Locking）。这里要介绍下InnoDB三种行锁的方式：
 
 1. 记录锁：针对单个行记录添加锁。
@@ -179,7 +179,7 @@ InnoDB将行记录快照保存在了Undo Log里，我们可以在回滚段中找
 
 还是这个例子，我们能看到当我们想要插入球员艾利克斯·伦（身高2.16米）的时候，事务B会超时，无法插入该数据。这是因为采用了Next-Key锁，会将height&gt;2.08的范围都进行锁定，就无法插入符合这个范围的数据了。然后事务A重新进行条件范围的查询，就不会出现幻读的情况。
 
-![](https://static001.geekbang.org/resource/image/3b/4e/3b876d3a4d5c11352ba10cebf9c7ab4e.png?wh=1816%2A1018)
+![](https://static001.geekbang.org/resource/image/3b/4e/3b876d3a4d5c11352ba10cebf9c7ab4e.png?wh=1816%2A1018){: referrerpolicy="no-referrer" }
 
 ## 总结
 
@@ -189,7 +189,7 @@ InnoDB将行记录快照保存在了Undo Log里，我们可以在回滚段中找
 
 MVCC是一种机制，MySQL、Oracle、SQL Server和PostgreSQL的实现方式均有不同，我们在学习的时候，更主要的是要理解MVCC的设计思想。
 
-![](https://static001.geekbang.org/resource/image/4f/5a/4f1cb2414cae9216ee6b3a5fa19a855a.jpg?wh=2366%2A2313)  
+![](https://static001.geekbang.org/resource/image/4f/5a/4f1cb2414cae9216ee6b3a5fa19a855a.jpg?wh=2366%2A2313)  {: referrerpolicy="no-referrer" }
 最后给你留几道思考题吧，为什么隔离级别为读未提交时，不适用于MVCC机制呢？第二个问题是，读已提交和可重复读这两个隔离级别的Read View策略有何不同？
 
 欢迎你在评论区写下你的思考，也欢迎把这篇文章分享给你的朋友或者同事，让我们一起来学习进步。

@@ -10,7 +10,7 @@
 
 为什么我们会需要服务注册与发现呢？你设想这样一个场景，你的服务部署在不同的机房、不同的机器上，监听不同的端口。现在你的客户端收到了一个请求，要发送给服务端，那么你的客户端怎么知道哪些服务端能够处理这个请求呢？
 
-![](https://static001.geekbang.org/resource/image/be/90/be4c280fcdb6d64cfd5fd2649cfd0990.png?wh=2262x1352)
+![](https://static001.geekbang.org/resource/image/be/90/be4c280fcdb6d64cfd5fd2649cfd0990.png?wh=2262x1352){: referrerpolicy="no-referrer" }
 
 举一个例子，你去一个陌生的城市出差，下班了想去吃个火锅，还得是重庆火锅。那么你怎么知道这个城市哪里有重庆火锅？
 
@@ -18,7 +18,7 @@
 
 那么我们现在就容易理解基本的服务注册与发现模型了。
 
-![](https://static001.geekbang.org/resource/image/3d/88/3dc0cb7a9cb57a19526d305614967a88.png?wh=2238x1352)
+![](https://static001.geekbang.org/resource/image/3d/88/3dc0cb7a9cb57a19526d305614967a88.png?wh=2238x1352){: referrerpolicy="no-referrer" }
 
 你可以看一下我给出的这张图，你要牢牢记住这张图还有里面的具体步骤。
 
@@ -40,13 +40,13 @@
 3. 客户端收到通知之后，新来的请求就不会再给该服务端发过去。
 4. 服务端等待一段时间之后，暂停服务并下线。
 
-![](https://static001.geekbang.org/resource/image/4f/e5/4f0c79c6e93e9c9f0cd5182218bc10e5.png?wh=2242x1340)
+![](https://static001.geekbang.org/resource/image/4f/e5/4f0c79c6e93e9c9f0cd5182218bc10e5.png?wh=2242x1340){: referrerpolicy="no-referrer" }
 
 需要注意的是，服务端必须要等待一段时间才能下线。因为从它通知注册中心自己要下线，到客户端收到通知，是有一段延时的，这段延时就是服务端要等待的最小时间。
 
 如果你觉得这些步骤很复杂，那么我可以教你一个小技巧。你可以把整个模型看作是三角形，三个顶点分别是客户端、注册中心和服务端。三角形的三条边分别是客户端-注册中心，注册中心-服务端，客户端-服务端。而后面我们讨论的高可用方案，无非就是仔细思考三角形的任何一个顶点，或者任何一条边出问题了该怎么办。
 
-![](https://static001.geekbang.org/resource/image/28/aa/28b257dcbab7c5c3bce8a2c6fb7604aa.png?wh=2244x1348)
+![](https://static001.geekbang.org/resource/image/28/aa/28b257dcbab7c5c3bce8a2c6fb7604aa.png?wh=2244x1348){: referrerpolicy="no-referrer" }
 
 ## 面试准备
 
@@ -73,7 +73,7 @@
 
 在说第一个步骤的时候，我提到“主要是定位信息”。既然用到了关键词“主要”，那自然有不那么主要的数据。非主要数据取决于微服务框架的功能特性。例如常见的分组功能，就是依赖于服务端在注册的时候同时注册自己的分组信息。
 
-![](https://static001.geekbang.org/resource/image/8f/64/8f249118549d96856dc7068fb919d664.png?wh=2244x1348)
+![](https://static001.geekbang.org/resource/image/8f/64/8f249118549d96856dc7068fb919d664.png?wh=2244x1348){: referrerpolicy="no-referrer" }
 
 所以你可以用一个例子来解释，关键词是**分组**。
 
@@ -92,7 +92,7 @@
 ### 服务端崩溃检测
 
 我在基本模型里面说到在正常情况下，服务端下线都需要通知注册中心。那么万一服务端宕机了呢？比如说运维大哥不小心一脚把服务器电源线踢掉了，服务器直接停电了。在这种情况下，服务端是没办法通知注册中心的，注册中心自然也就不会通知客户端。那么客户端就会继续把请求发送给服务端，而这些请求显然都会失败。  
-![](https://static001.geekbang.org/resource/image/ee/43/ee1e78cc51d9f3c5010c2fdf8dced843.png?wh=2244x1348)
+![](https://static001.geekbang.org/resource/image/ee/43/ee1e78cc51d9f3c5010c2fdf8dced843.png?wh=2244x1348){: referrerpolicy="no-referrer" }
 
 因此为了提高可用性，需要让注册中心尽快发现服务端已经崩溃了，而后通知客户端。所以问题的关键就在于**注册中心怎么判断服务端已经崩溃了。**
 
@@ -100,7 +100,7 @@
 
 但是，如果注册中心和服务端之间的网络出现偶发性的抖动，那么心跳也会失败。此时服务端并没有真的崩溃，还活得好好的。
 
-![](https://static001.geekbang.org/resource/image/1d/7e/1d5e31f804a0f70a7f48767e1774cf7e.png?wh=2238x1352)
+![](https://static001.geekbang.org/resource/image/1d/7e/1d5e31f804a0f70a7f48767e1774cf7e.png?wh=2238x1352){: referrerpolicy="no-referrer" }
 
 显然，心跳断了则服务端崩溃的判断并不能成立。这时候你可能会想到能不能多发几次心跳呢？答案是可以，但是次数越多，心跳间隔越长，注册中心断定服务端已经崩溃的时间就越长。而时间越长，就有越多请求发送给服务端。万一这个时候服务端真的崩溃了，这些请求都会失败。所以这就陷入两难境地了。要么是误以为服务端崩溃，要么是误以为服务端还活着。
 
@@ -108,11 +108,11 @@
 
 一方面，注册中心在和服务端进行心跳的时候失败了，就要**立刻通知客户端**该服务端已经不可用了，那么客户端就不会再发请求过来。
 
-![](https://static001.geekbang.org/resource/image/93/85/93bd54dee1ca2a896811c25aae1da285.png?wh=2242x1352)
+![](https://static001.geekbang.org/resource/image/93/85/93bd54dee1ca2a896811c25aae1da285.png?wh=2242x1352){: referrerpolicy="no-referrer" }
 
 另外一方面，**注册中心还要继续往服务端发心跳**。如果只是偶发性的心跳失败，那么注册中心后面心跳是肯定能够连上的，这时候注册中心再通知客户端这个服务端是可用的。
 
-![](https://static001.geekbang.org/resource/image/77/3b/77c80fb1519962604eae95357f260a3b.png?wh=2238x1348)
+![](https://static001.geekbang.org/resource/image/77/3b/77c80fb1519962604eae95357f260a3b.png?wh=2238x1348){: referrerpolicy="no-referrer" }
 
 不过注册中心并不是无限制发心跳直到连接上，而是发了一段时间之后发现心跳还是失败就不再发了，这意味着注册中心认定服务端彻底崩溃了。在彻底崩溃的场景下，注册中心不需要再次通知客户端，因为在之前注册中心就已经通知过了。
 
@@ -142,7 +142,7 @@
 
 在前一个亮点里面，你已经知道从服务端崩溃到客户端最终知道是有一段延时的。在这段延时内，客户端还是会把请求发送到已经崩溃的服务端节点上。
 
-![](https://static001.geekbang.org/resource/image/ed/8c/eda58e1f3958e182daee3a47e7ecb68c.png?wh=2242x1344)
+![](https://static001.geekbang.org/resource/image/ed/8c/eda58e1f3958e182daee3a47e7ecb68c.png?wh=2242x1344){: referrerpolicy="no-referrer" }
 
 所以你要紧接着前面刷的亮点继续回答，关键词是**换节点**，也就是所谓的 **failover**。
 
@@ -150,7 +150,7 @@
 
 > 这个时候需要客户端来做一些容错。一般的策略是客户端在发现调不通之后，应该尝试换另外一个节点进行重试。如果客户端上的服务发现组件或者负载均衡器能够根据调用结果来做一些容错的话，那么它们应该要尝试将这个节点挪出可用节点列表，在短时间内不要再使用这个节点了。后面再考虑将这个节点挪回去。
 
-![](https://static001.geekbang.org/resource/image/ea/8f/eac0a80b59d9ea0be7afaeb67df9d38f.png?wh=2238x1342)
+![](https://static001.geekbang.org/resource/image/ea/8f/eac0a80b59d9ea0be7afaeb67df9d38f.png?wh=2238x1342){: referrerpolicy="no-referrer" }
 
 在上面那段话中，我留了两个口子。第一个是延时怎么计算，非常简单，你从图里面就能看出来。
 
@@ -160,11 +160,11 @@
 
 显然，如果注册中心最终发现服务端崩溃，然后通知了客户端，那么客户端就不用放回去了。等到注册中心发现服务端再次恢复了，那么注册中心会通知客户端，此时客户端更新可用节点列表就可以了。
 
-![](https://static001.geekbang.org/resource/image/bd/b3/bd662b5087aaec8f7c3b24171ced4eb3.png?wh=2242x1350)
+![](https://static001.geekbang.org/resource/image/bd/b3/bd662b5087aaec8f7c3b24171ced4eb3.png?wh=2242x1350){: referrerpolicy="no-referrer" }
 
 但是有一种情况是需要客户端主动检测的。这种情况就是服务端节点还活着，注册中心也还活着，唯独**客户端和服务端之间的网络有问题**，导致客户端调用不通。
 
-![](https://static001.geekbang.org/resource/image/1e/c1/1e6f7a380e3572372f3b2a65e565a9c1.png?wh=2238x1350)
+![](https://static001.geekbang.org/resource/image/1e/c1/1e6f7a380e3572372f3b2a65e565a9c1.png?wh=2238x1350){: referrerpolicy="no-referrer" }
 
 在这种情况下，类似于注册中心和服务端心跳失败，客户端也要朝着那个疑似崩溃的服务端节点继续发送心跳。如果心跳成功了，就将节点放回可用列表。如果连续几次心跳都没有成功，那么就不用放回去了，直接认为这个节点已经崩溃了。
 
@@ -201,7 +201,7 @@
 
 最后我再提醒一下，如果你觉得服务注册与发现实在难以记忆，可以**把整个模型想成是一个三角形，而解决高可用问题的关键就是这个三角形任何一条边出问题了该怎么办**。我非常建议你画一画这个三角形，并且手写一下你能想到的各种容错措施。
 
-![](https://static001.geekbang.org/resource/image/yy/07/yy1e0ab00fc4b83c15f400ca71e03b07.jpg?wh=2360x1855)
+![](https://static001.geekbang.org/resource/image/yy/07/yy1e0ab00fc4b83c15f400ca71e03b07.jpg?wh=2360x1855){: referrerpolicy="no-referrer" }
 
 ## 思考题
 

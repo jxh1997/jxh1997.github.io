@@ -8,7 +8,7 @@
 
 在当前版本，Pulsar 集群构建和元数据存储的核心依旧是 ZooKeeper，同时社区也支持了弱ZooKeeper化改造。如下图所示，Pulsar Broker 集群的构建思路和 Kafka 是一致的，都是通过 ZooKeeper 来完成节点发现和集群的元数据管理。
 
-![](https://static001.geekbang.org/resource/image/d4/62/d4090c7722effb453b5c965753736d62.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/d4/62/d4090c7722effb453b5c965753736d62.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 从实现角度来看，Broker 启动时会在 ZooKeeper 上的对应目录创建名称为 BrokerIP + Port 的子节点，并在这个子节点上存储Broker相关信息，从而完成节点注册。Pulsar Broker 的节点信息是存储在 ZooKeeper 上的 /loadbalance/brokers 节点上，目录结构如下所示：
 
@@ -44,7 +44,7 @@ namespace, pulsar, schemas, stream, zookeeper]
 
 弱 ZooKeeper 就是允许将 ZooKeeper 替换为其他的单机或分布式协调服务。目前支持ZooKeeper、etcd、RocksDB、内存四种方案。
 
-![](https://static001.geekbang.org/resource/image/1d/f6/1d3e7239b09cb9e7531a97a1722f05f6.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/1d/f6/1d3e7239b09cb9e7531a97a1722f05f6.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 如上图所示，基于etcd的方案是当前集群化部署的推荐方案。etcd底层存储是B树的结构，在硬盘层面的读取性能较高，不一定要把数据加载到内存中，所以存储容量不受单机的限制。
 
@@ -83,7 +83,7 @@ public interface MetadataStore extends AutoCloseable {
 
 接下来我们来看一张图，你应该在[第13讲](https://time.geekbang.org/column/article/676532)中看到过。
 
-![](https://static001.geekbang.org/resource/image/78/05/78a924ae3908e10cf78ef1afa4d22605.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/78/05/78a924ae3908e10cf78ef1afa4d22605.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 如上图所示，每条消息是一个 Entry ，一批 Entry 组成一个 Ledger ，一批 Ledger 组成一个分区。 所以当数据不断写入分区时，Broker 会根据条件来不停地创建分区维度的 Ledger。这个条件通常是 Ledger 的固定长度，另外当 Ledger 写入流断开时，也会创建新的 Ledger。
 
@@ -107,17 +107,17 @@ Pulsar 提供了**传输加密**、**身份认证**、**资源鉴权**、**端�
 
 从代码实现的角度，Pulsar 是使用 [netty-tcnative](https://github.com/netty/netty-tcnative) 库在 Broker 中实现支持 TLS 的。在部署层面，Pulsar 支持在 Pulsar Broker 和 Pulsar Proxy 组件开启TLS。即如果要支持 TLS 传输，既可以通过配置 Proxy 来支持，也可以通过 Broker 来支持。Pulsar Proxy 是 Pulsar 内核自带的一个代理模块，可以理解是一个负载均衡。
 
-![](https://static001.geekbang.org/resource/image/c0/9d/c0c1416023b7507521c6be3yya0c099d.jpg?wh=10666x3676)
+![](https://static001.geekbang.org/resource/image/c0/9d/c0c1416023b7507521c6be3yya0c099d.jpg?wh=10666x3676){: referrerpolicy="no-referrer" }
 
 ### 端到端加密
 
 除了支持 TLS 传输加密，Pulsar 还支持数据端到端加密。即在生产者端加密消息，然后在消费者端解密消息，从而保证数据在 Broker 保存的是经过加密后的数据，这能有效避免存储在 Broker 中的数据被泄露。
 
-![](https://static001.geekbang.org/resource/image/13/d8/13d504f85955949ayyd70a40a1a615d8.jpg?wh=10666x4071)
+![](https://static001.geekbang.org/resource/image/13/d8/13d504f85955949ayyd70a40a1a615d8.jpg?wh=10666x4071){: referrerpolicy="no-referrer" }
 
 从实现的角度，Pulsar 会使用**动态生成的对称会话密钥**来加密数据。来看下图，这是 Pulsar 在生产者端加密消息，然后在消费者端解密消息的流程图。
 
-![](https://static001.geekbang.org/resource/image/6e/b8/6e7cb22e58f11644149d9d769b355eb8.png?wh=2198x532 "图片来源：https://pulsar.apache.org/docs/3.0.x/security-encryption/")
+![](https://static001.geekbang.org/resource/image/6e/b8/6e7cb22e58f11644149d9d769b355eb8.png?wh=2198x532 "图片来源：https://pulsar.apache.org/docs/3.0.x/security-encryption/"){: referrerpolicy="no-referrer" }
 
 如上图所示：
 
@@ -163,7 +163,7 @@ authorizationProvider=org.apache.pulsar.broker.authorization.MultiRolesTokenAuth
 
 从实现上看，认证组件完成认证后会将客户端和角色（Role）关联，即客户端不管使用的是 Auth2.0、JWT 或 Kerberos 认证方式，当通过认证后都会关联一个Role。然后再根据这个 Role 携带的权限信息来进行鉴权。
 
-![](https://static001.geekbang.org/resource/image/0a/de/0ae88481b3cbcbb96623a8519c0f01de.jpg?wh=10666x5163)
+![](https://static001.geekbang.org/resource/image/0a/de/0ae88481b3cbcbb96623a8519c0f01de.jpg?wh=10666x5163){: referrerpolicy="no-referrer" }
 
 Pulsar 的 Role 分为超级用户和普通用户。超级用户有集群的所有权限，如创建、删除租户，并且对所有租户具有访问权限，超级用户需要在Broker的配置文件中进行配置。
 
@@ -200,7 +200,7 @@ Pulsar的指标模块采用的是当前业界最常用的方案。如果你在�
 
 接下来我们用一张表格，针对进阶篇的所有知识点，从四个主流消息队列的角度来做一个原理概览性的总结。建议收藏！
 
-![](https://static001.geekbang.org/resource/image/51/03/5168b25e17b36bcd1eef9b0f10c13f03.jpg?wh=4760x4378)
+![](https://static001.geekbang.org/resource/image/51/03/5168b25e17b36bcd1eef9b0f10c13f03.jpg?wh=4760x4378){: referrerpolicy="no-referrer" }
 
 ## 思考题
 

@@ -13,7 +13,7 @@
 - Proxy，就是前面提到的SideCar，与应用程序部署在同一个主机上，应用程序之间的调用都通过Proxy来转发，目前支持HTTP/1.1、HTTP/2、gRPC以及TCP请求。
 - Control Plane，与Proxy通信，来实现各种服务治理功能，包括三个基本组件：Pilot、Mixer以及Citadel。
 
-![](https://static001.geekbang.org/resource/image/00/84/00613758a46fe1341089ce11ef8a0f84.png?wh=874%2A668)  
+![](https://static001.geekbang.org/resource/image/00/84/00613758a46fe1341089ce11ef8a0f84.png?wh=874%2A668)  {: referrerpolicy="no-referrer" }
 （图片来源：[https://istio.io/docs/concepts/what-is-istio/arch.svg](https://istio.io/docs/concepts/what-is-istio/arch.svg)）
 
 下面我来详细分解Istio架构，看看每一个组件的作用和工作原理。
@@ -37,7 +37,7 @@ Pilot的作用是实现流量控制，它通过向Envoy下发各种指令来实�
 - 抽象模型层，对服务的注册信息、流量控制规则等进行抽象，使其描述与平台无关。
 - 平台适配层，用于适配各个平台如Kubernetes、Mesos、Cloud Foundry等，把平台特定的注册信息、资源信息等转换成抽象模型层定义的平台无关的描述。
 
-![](https://static001.geekbang.org/resource/image/4e/7e/4e78a1b7532df205939f7a4b0f7a047e.png?wh=811%2A522)  
+![](https://static001.geekbang.org/resource/image/4e/7e/4e78a1b7532df205939f7a4b0f7a047e.png?wh=811%2A522)  {: referrerpolicy="no-referrer" }
 （图片来源：[https://istio.io/docs/concepts/traffic-management/PilotAdapters.svg](https://istio.io/docs/concepts/traffic-management/PilotAdapters.svg)）
 
 那么具体来讲，Pilot是如何实现流量管理功能的呢？
@@ -48,14 +48,14 @@ Pilot的作用是实现流量控制，它通过向Envoy下发各种指令来实�
 
 除此之外，Proxy还会定期检查缓存的服务提供者节点的健康状况，当某个节点连续多次健康检查失败就会被从Proxy从缓存的服务提供者节点列表中剔除。
 
-![](https://static001.geekbang.org/resource/image/f4/07/f41656a5d6dbe6294adb984f03bffd07.png?wh=862%2A729)  
+![](https://static001.geekbang.org/resource/image/f4/07/f41656a5d6dbe6294adb984f03bffd07.png?wh=862%2A729)  {: referrerpolicy="no-referrer" }
 （图片来源：[https://istio.io/docs/concepts/traffic-management/LoadBalancing.svg](https://istio.io/docs/concepts/traffic-management/LoadBalancing.svg)）
 
 2.请求路由
 
 Pilot可以对服务进行版本和环境的细分，服务B包含两个版本v1.5和v2.0-alpha，其中v1.5是生产环境运行的版本，而v2.0-alpha是灰度环境运行的版本。当需要做A/B测试时，希望灰度服务B的1%流量运行v2.0-alpha版本，就可以通过调用Pilot提供的Rules API，Pilot就会向Proxy下发路由规则，Proxy在转发请求时就按照给定的路由规则，把1%的流量转发给服务B的v2.0-alpha版本，99%的流量转发给服务B的v1.5版本。
 
-![](https://static001.geekbang.org/resource/image/34/34/34376392a318948e6d6efa9ac61cbe34.png?wh=852%2A705)  
+![](https://static001.geekbang.org/resource/image/34/34/34376392a318948e6d6efa9ac61cbe34.png?wh=852%2A705)  {: referrerpolicy="no-referrer" }
 （图片来源：[https://istio.io/docs/concepts/traffic-management/ServiceModel\_Versions.svg](https://istio.io/docs/concepts/traffic-management/ServiceModel_Versions.svg)）
 
 3.超时重试
@@ -146,7 +146,7 @@ spec:
 
 Mixer的作用是实现策略控制和监控日志收集等功能，实现方式是每一次Proxy转发的请求都要调用Mixer，它的架构请见下图。而且Mixer的实现是可扩展的，通过适配层来适配不同的后端平台，这样的话Istio的其他部分就不需要关心各个基础设施比如日志系统、监控系统的实现细节。
 
-![](https://static001.geekbang.org/resource/image/13/7c/1340fd4a4f05a977669aff367fc2697c.png?wh=636%2A464)  
+![](https://static001.geekbang.org/resource/image/13/7c/1340fd4a4f05a977669aff367fc2697c.png?wh=636%2A464)  {: referrerpolicy="no-referrer" }
 （图片来源：[https://istio.io/docs/concepts/policies-and-telemetry/topology-without-cache.svg](https://istio.io/docs/concepts/policies-and-telemetry/topology-without-cache.svg)）
 
 理论上每一次的服务调用Proxy都需要调用Mixer，一方面检查调用的合法性，一方面要上报服务的监控信息和日志信息，所以这就要求Mixer必须是高可用和低延迟的，那么Mixer是如何做到的呢？下图是它的实现原理，从图中你可以看到Mixer实现了两级的缓存结构：
@@ -154,7 +154,7 @@ Mixer的作用是实现策略控制和监控日志收集等功能，实现方式
 - Proxy端的本地缓存。为了减少Proxy对Mixer的调用以尽量降低服务调用的延迟，在Proxy这一端会有一层本地缓存，但由于Proxy作为SideCar与每个服务实例部署在同一个节点上，所以不能对服务节点有太多的内存消耗，所以就限制了Proxy本地缓存的大小和命中率。
 - Mixer的本地缓存。Mixer是独立运行的，所以可以在Mixer这一层使用大容量的本地缓存，从而减少对后端基础设施的调用，一方面可以减少延迟，另一方面也可以最大限度减少后端基础设施故障给服务调用带来的影响。
 
-![](https://static001.geekbang.org/resource/image/c5/72/c5a213195ef50de213bc44b401725772.png?wh=851%2A622)  
+![](https://static001.geekbang.org/resource/image/c5/72/c5a213195ef50de213bc44b401725772.png?wh=851%2A622)  {: referrerpolicy="no-referrer" }
 （图片来源：[https://istio.io/docs/concepts/policies-and-telemetry/topology-with-cache.svg](https://istio.io/docs/concepts/policies-and-telemetry/topology-with-cache.svg)）
 
 那么Mixer是如何实现策略控制和监控日志收集功能呢？
@@ -214,7 +214,7 @@ Citadel的作用是保证服务之间访问的安全，它的工作原理见下�
 - Proxy与Proxy之间的调用使用双向TLS认证来保证服务调用的安全。
 - 最后由Mixer来管理授权和审计。
 
-![](https://static001.geekbang.org/resource/image/bf/44/bfcb6885e5446508e041355665d6c444.png?wh=1009%2A490)  
+![](https://static001.geekbang.org/resource/image/bf/44/bfcb6885e5446508e041355665d6c444.png?wh=1009%2A490)  {: referrerpolicy="no-referrer" }
 （图片来源：[https://istio.io/docs/concepts/security/architecture.svg](https://istio.io/docs/concepts/security/architecture.svg)）
 
 ## 总结

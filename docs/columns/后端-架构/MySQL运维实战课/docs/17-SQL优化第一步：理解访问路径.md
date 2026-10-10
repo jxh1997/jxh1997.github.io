@@ -9,7 +9,7 @@
 3. SQL执行引擎根据执行计划，按一定的步骤，调用存储引擎接口获取数据，执行表连接、排序等操作，生成结果集。
 4. 将结果集发送给客户端。
 
-![图片](https://static001.geekbang.org/resource/image/74/78/748d265eb3b0e5b737eb9fa9aa473d78.jpg?wh=1602x766)
+![图片](https://static001.geekbang.org/resource/image/74/78/748d265eb3b0e5b737eb9fa9aa473d78.jpg?wh=1602x766){: referrerpolicy="no-referrer" }
 
 在这一讲和接下来的几讲中，我将围绕**优化器、执行计划、SQL执行引擎**，把SQL优化讲透。
 
@@ -25,7 +25,7 @@ InnoDB对行的长度有一定的限制，每行记录的长度不能超过页�
 
 下面是数据页的一个示意图。
 
-![图片](https://static001.geekbang.org/resource/image/72/72/72a4feaf9698db6a9579cc86af1bc872.jpg?wh=1236x743)
+![图片](https://static001.geekbang.org/resource/image/72/72/72a4feaf9698db6a9579cc86af1bc872.jpg?wh=1236x743){: referrerpolicy="no-referrer" }
 
 ### 数据段
 
@@ -33,14 +33,14 @@ InnoDB对行的长度有一定的限制，每行记录的长度不能超过页�
 
 InnoDB中，表的数据以聚簇索引的方式，存储在一个数据段（Segment）中，一个数据段由一系列区块（Extent）组成。每个区块由64个16K的连续的页面组成。
 
-![图片](https://static001.geekbang.org/resource/image/58/4a/5807fc6962f4fde46b8c43f0d938d04a.jpg?wh=1282x431)
+![图片](https://static001.geekbang.org/resource/image/58/4a/5807fc6962f4fde46b8c43f0d938d04a.jpg?wh=1282x431){: referrerpolicy="no-referrer" }
 
 ### 索引
 
 **索引是用来快速检索数据的一种结构。**InnoDB支持的索引类型包括B+树索引、全文索引、空间索引、Hash索引。我们课程中，说索引的时候，一般默认是指 **B+ 树结构的索引**。全文索引、空间索引、Hash索引不做过多介绍。
 
 B+树索引是一种Key-Value结构，通过Key可以快速查找到对应的Value。B+树索引由根页面（Root）、分支页面（Branch）和叶子页面（Leaf）组成一棵树的结构。InnoDB中，索引页面的大小由参数innodb\_page\_size控制，默认为16K。  
-![图片](https://static001.geekbang.org/resource/image/fd/42/fd11b330fc90b2fbe0b7ec821665a942.jpg?wh=1442x826)  
+![图片](https://static001.geekbang.org/resource/image/fd/42/fd11b330fc90b2fbe0b7ec821665a942.jpg?wh=1442x826)  {: referrerpolicy="no-referrer" }
 每个索引页面内存储了一系列索引条目，格式为（Key，Value），这些记录按Key的顺序排列。每个索引页面里可容纳的条目数量跟条目的长度相关。一个索引页内最少存储2行记录，因为如果索引页内只有1行记录，就无法构成树的结构了，这也是InnoDB限制一行记录最大长度的根本原因。
 
 索引中Key包含了哪些字段呢？这是由索引的定义决定的。比如对于下面的这个表，索引idx\_a中，Key就包括字段了a、b、id。Value中存了什么呢？在分支页面中，Value存了下一层索引页面的编号（Page No），页面编号就是页面在数据文件中的地址。而在叶子页面中，Value又是什么呢？对于InnoDB的二级索引，你可以认为叶子页面中不存Value，而对于聚簇索引，Value是表里面的所有字段。聚簇索引的含义后面会具体介绍。
@@ -59,7 +59,7 @@ create table t_index(
 
 注：在InnoDB的实现上，每一层最左侧页面中的第一个索引条目有一点特殊，Key值比k(1)小的记录，也要到这个索引条目指向的下一层页面中查找。
 
-![图片](https://static001.geekbang.org/resource/image/55/48/5545fe8fc75656f9b938a5afb2f70948.jpg?wh=1400x808)  
+![图片](https://static001.geekbang.org/resource/image/55/48/5545fe8fc75656f9b938a5afb2f70948.jpg?wh=1400x808)  {: referrerpolicy="no-referrer" }
 而下一层的索引页面中，每个页面中的索引条目，又将区间划分为更小的范围。假设我们需要查找Key为Kx的记录。
 
 ```plain
@@ -88,13 +88,13 @@ create table t_user(
 
 下面是聚簇索引的一个示意图，分支页面中的索引条目为 (id, page num)，叶子页面中，索引条目为 (id, db\_trx\_id, db\_roll\_ptr, user\_name, …）。这里的 db\_trx\_id、db\_roll\_ptr 是InnoDB中的隐藏字段，后续的课程中还会详细介绍。
 
-![图片](https://static001.geekbang.org/resource/image/7e/6f/7ee87b17ba7bb96b4fe00a46b564dd6f.jpg?wh=1796x833)
+![图片](https://static001.geekbang.org/resource/image/7e/6f/7ee87b17ba7bb96b4fe00a46b564dd6f.jpg?wh=1796x833){: referrerpolicy="no-referrer" }
 
 #### 二级索引
 
 下面是索引idx\_username的一个示意图，分支页面中，索引条目为 (username, id, page num），叶子页面中，索引条目为 (username, id）。
 
-![图片](https://static001.geekbang.org/resource/image/09/54/09dea79a57325beff273bae8ea508754.jpg?wh=1782x829)
+![图片](https://static001.geekbang.org/resource/image/09/54/09dea79a57325beff273bae8ea508754.jpg?wh=1782x829){: referrerpolicy="no-referrer" }
 
 虽然索引idx\_username的定义中只有username字段，但是我们把username和id拼在一起看作是Key字段。username可能有重复值，但是username和id拼在一起，就不会重复了。
 
@@ -102,7 +102,7 @@ create table t_user(
 
 我们来看一下B+树索引的结构，索引记录在页面中有序存放，每个索引页通过Next和Prev指针指向相邻的页面。
 
-![图片](https://static001.geekbang.org/resource/image/ef/6d/ef9be3b9c91a39ab3c9fa782dfdf476d.jpg?wh=1580x895)
+![图片](https://static001.geekbang.org/resource/image/ef/6d/ef9be3b9c91a39ab3c9fa782dfdf476d.jpg?wh=1580x895){: referrerpolicy="no-referrer" }
 
 在上图展示的3个相邻的叶子页面中，Page i中的记录总是小于Page j中的记录，Page j中的记录总是小于Page k中的记录，依次扫描i、j、k这3个页面得到的记录（Ki1，Ki2，…，Kj1，Kj2，…，Kk1，Kk2，…）已经是有序的。
 
@@ -126,7 +126,7 @@ create table tab(
 
 组合索引的结构实际上和单列索引是一样的，只不过索引条目由更多的字段组成。我们来看一下组合索引idx\_abc局部结构的示意图。
 
-![图片](https://static001.geekbang.org/resource/image/0a/60/0aa8102417f9e606bf12b6a72a22d960.jpg?wh=1814x1066)  
+![图片](https://static001.geekbang.org/resource/image/0a/60/0aa8102417f9e606bf12b6a72a22d960.jpg?wh=1814x1066)  {: referrerpolicy="no-referrer" }
 组合索引中，索引条目也是按顺序存放的。
 
 我们来考虑组合索引idx\_abc的两条索引记录：记录1（A1，B1，C1，ID1）和记录2（A2，B2，C2，ID2），如何比较这两条记录的大小？
@@ -186,7 +186,7 @@ select * from tab where a = 'a' and c = 'c'
 select * from tab where a = 'Aj' 
 ```
 
-![图片](https://static001.geekbang.org/resource/image/46/14/466038532e7d5796ed58ff294a0d4a14.jpg?wh=1840x1072)  
+![图片](https://static001.geekbang.org/resource/image/46/14/466038532e7d5796ed58ff294a0d4a14.jpg?wh=1840x1072)  {: referrerpolicy="no-referrer" }
 执行过程大致如下：
 
 1. 根据where条件，定位到记录所在的最开始的那个叶子页面。
@@ -219,7 +219,7 @@ select * from tab where A > Aj
 
 这2个语句都要根据边界值Aj来定位扫描的开始位置，语句1从记录 (Aj, B2, C1,I Di2) 开始扫描。语句2从记录 (Ak, B3, C, IDk3) 开始扫描。
 
-![图片](https://static001.geekbang.org/resource/image/ae/0b/ae481f65bd4f5be735a1ef6ed7123f0b.jpg?wh=1840x936)
+![图片](https://static001.geekbang.org/resource/image/ae/0b/ae481f65bd4f5be735a1ef6ed7123f0b.jpg?wh=1840x936){: referrerpolicy="no-referrer" }
 
 #### 索引逆序扫描
 
@@ -229,7 +229,7 @@ select * from tab where A > Aj
 select * from tab where A = Aj order by B desc
 ```
 
-![图片](https://static001.geekbang.org/resource/image/d2/58/d2c662152c8427f66d7ea7493d09fc58.jpg?wh=1812x993)
+![图片](https://static001.geekbang.org/resource/image/d2/58/d2c662152c8427f66d7ea7493d09fc58.jpg?wh=1812x993){: referrerpolicy="no-referrer" }
 
 由于索引中的条目都是有序的，在字段A的值固定的情况下，字段B是有序的，因此只需要按索引条目的顺序反向扫描就可以了。
 
@@ -371,7 +371,7 @@ select * from tab where C1 = x and C3 = y
 
 嵌套循环连接是MySQL中最早支持的连接算法。
 
-![图片](https://static001.geekbang.org/resource/image/bd/db/bd0230cb1152498f7e81250705484bdb.jpg?wh=1442x836)  
+![图片](https://static001.geekbang.org/resource/image/bd/db/bd0230cb1152498f7e81250705484bdb.jpg?wh=1442x836)  {: referrerpolicy="no-referrer" }
 上面这个就是嵌套循环连接的一个示意图，执行步骤大致是：
 
 1. 使用驱动表Tab\_1的条件定位到满足条件的记录。
@@ -388,7 +388,7 @@ select * from tab where C1 = x and C3 = y
 
 在嵌套循环连接算法下，如果被驱动表没有合适的索引可以使用，那么从驱动表每获取一行记录，都要全表扫描一次被驱动表。这种情况下，MySQL使用了块嵌套循环（BNL）策略，先将驱动表中的一批数据缓存到Join Buffer中，然后再全表扫描被驱动表，和Join Buffer中的记录进行匹配。MySQL 8.0在块嵌套循环的基础上，支持了哈希连接算法。
 
-![图片](https://static001.geekbang.org/resource/image/fe/e9/feb076d58yy1a2e3fd0f26bfc621c4e9.jpg?wh=1650x864)
+![图片](https://static001.geekbang.org/resource/image/fe/e9/feb076d58yy1a2e3fd0f26bfc621c4e9.jpg?wh=1650x864){: referrerpolicy="no-referrer" }
 
 哈希连接算法的执行步骤大致为：
 
@@ -402,7 +402,7 @@ select * from tab where C1 = x and C3 = y
 
 实际上，到8.0版本为止，MySQL并不支持排序合并连接。
 
-![图片](https://static001.geekbang.org/resource/image/5c/69/5cf786f5fd77c39608423cc1c4061469.jpg?wh=1664x830)
+![图片](https://static001.geekbang.org/resource/image/5c/69/5cf786f5fd77c39608423cc1c4061469.jpg?wh=1664x830){: referrerpolicy="no-referrer" }
 
 合并排序连接算法的执行步骤大致为：
 

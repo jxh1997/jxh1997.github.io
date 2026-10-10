@@ -116,7 +116,7 @@ sentinelHandleRedisInstance会调用sentinelCheckSubjectivelyDown函数，检查
 
 下图也展示了sentinelHandleRedisInstance函数执行的基本逻辑。
 
-![](https://static001.geekbang.org/resource/image/68/6b/6889167080a11c0506fe13b8f5c0586b.jpg?wh=2000x1125)
+![](https://static001.geekbang.org/resource/image/68/6b/6889167080a11c0506fe13b8f5c0586b.jpg?wh=2000x1125){: referrerpolicy="no-referrer" }
 
 现在，我们就了解了sentinelHandleRedisInstance函数的基本执行过程。
 

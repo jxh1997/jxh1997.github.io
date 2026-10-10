@@ -20,7 +20,7 @@
 
 SNLJ是最简单粗暴的算法，所以也称为Simple Nested-Loop Join。有些资料中会用NLJ指代SNLJ。
 
-![](https://static001.geekbang.org/resource/image/eb/a6/eb3865308b203ab1e16b98e5831b76a6.jpg?wh=2700%2A1638)
+![](https://static001.geekbang.org/resource/image/eb/a6/eb3865308b203ab1e16b98e5831b76a6.jpg?wh=2700%2A1638){: referrerpolicy="no-referrer" }
 
 SNLJ的执行过程是这样的：
 
@@ -34,7 +34,7 @@ SNLJ的执行过程是这样的：
 
 BNJ是对SNLJ的一种优化，改进点就是减少Inner表的全表扫描次数。BNJ的变化主要在于步骤1，读取Outer表时不再只取一条记录，而是读取一个批次的x条记录，加载到内存中。这样执行一次Inner表的全表扫描就可以比较x条记录。在MySQL中，这个x对应一个叫做Join Buffer的设置项，它直接影响了BNJ的执行效率。
 
-![](https://static001.geekbang.org/resource/image/dd/32/dd9fd8424774265bf31741c2862cd832.jpg?wh=2700%2A1663)
+![](https://static001.geekbang.org/resource/image/dd/32/dd9fd8424774265bf31741c2862cd832.jpg?wh=2700%2A1663){: referrerpolicy="no-referrer" }
 
 与SNLJ相比，BNJ虽然在时间复杂度都是O(m\*n)（m和n分别是Outer表和Inner表的记录行数），但磁盘I/O的开销却明显降低了，所以效果优于SNLJ。
 
@@ -42,7 +42,7 @@ BNJ是对SNLJ的一种优化，改进点就是减少Inner表的全表扫描次�
 
 你应该也注意到了，SNLJ和BNJ都是直接在数据行上扫描，并没有使用索引。所以，这两种算法的磁盘I/O开销还是比较大的。
 
-![](https://static001.geekbang.org/resource/image/df/93/dfd3484bb9f27685a8e36febb6322693.jpg?wh=2700%2A1672)
+![](https://static001.geekbang.org/resource/image/df/93/dfd3484bb9f27685a8e36febb6322693.jpg?wh=2700%2A1672){: referrerpolicy="no-referrer" }
 
 Index Lookup Join（ILJ）就是在BNJ的基础上使用了索引，算法执行过程是这样的：
 
@@ -64,7 +64,7 @@ Index Lookup Join（ILJ）就是在BNJ的基础上使用了索引，算法执行
 1. 第一阶段是排序，就是对Outer表和Inner表进行排序，排序的依据就是每条记录在连接键上的数值。
 2. 第二阶段就是归并，因为两张表已经按照同样的顺序排列，所以Outer表和Inner表各一次循环遍历就能完成比对工作了。
 
-![](https://static001.geekbang.org/resource/image/2d/7c/2dc317241f1294607b323b4fb43e567c.jpg?wh=2700%2A1659)
+![](https://static001.geekbang.org/resource/image/2d/7c/2dc317241f1294607b323b4fb43e567c.jpg?wh=2700%2A1659){: referrerpolicy="no-referrer" }
 
 简单来说，SMJ就是先要把两个数据集合变成两个数据序列，也就是有序的数据单元，然后再做循环比对。这样算下来，它的计算成本是两次排序再加两次循环。你可能会觉得奇怪，这成本是不是比NLJ还要高呀？
 
@@ -78,7 +78,7 @@ Index Lookup Join（ILJ）就是在BNJ的基础上使用了索引，算法执行
 
 Simple Hash Join，也称为经典哈希连接（Classic Hash Join），它的执行过程包括建立阶段（Build Phase）和探测阶段（Probe Phase）。
 
-![](https://static001.geekbang.org/resource/image/9a/56/9a98c6fc5552405ba40bf4ce74804a56.jpg?wh=2700%2A1685)
+![](https://static001.geekbang.org/resource/image/9a/56/9a98c6fc5552405ba40bf4ce74804a56.jpg?wh=2700%2A1685){: referrerpolicy="no-referrer" }
 
 1. 建立阶段
 
@@ -96,7 +96,7 @@ Simple Hash Join，也称为经典哈希连接（Classic Hash Join），它的�
 
 GHJ算法与SHJ的不同之处在于，GHJ正视了哈希表大于内存这个问题，将哈希表分块缓存在磁盘上。GHJ中的Grace并不是指某项技术，而是首个采用该算法的数据库的名字。
 
-![](https://static001.geekbang.org/resource/image/da/5e/daa0f237fd7ffa739f1f24fedfb8d15e.jpg?wh=2700%2A1685)
+![](https://static001.geekbang.org/resource/image/da/5e/daa0f237fd7ffa739f1f24fedfb8d15e.jpg?wh=2700%2A1685){: referrerpolicy="no-referrer" }
 
 GHJ算法的执行过程，也是分为两个阶段。
 
@@ -124,7 +124,7 @@ Hybrid Hash Join，也就是混合哈希，字面上是指Simple Hash Join和Gra
 
 但并不是所有分布式数据库都采用引入外部组件的方式，比如OceanBase就在原有设计中拓展了并行执行框架，实现了更复杂的任务调度，在存储节点间也可以直接进行数据交换。
 
-![](https://static001.geekbang.org/resource/image/69/fa/690bd7ac4133edebb43ac6a3a1863bfa.jpg?wh=2700%2A2025)
+![](https://static001.geekbang.org/resource/image/69/fa/690bd7ac4133edebb43ac6a3a1863bfa.jpg?wh=2700%2A2025){: referrerpolicy="no-referrer" }
 
 OceanBase大致也是P2P架构，每个Observer部署了相同的服务，在运行过程中，动态的承担不同角色。图中一个Observer节点承担了入口处的查询协调器，其他节点作为子查询协调器，上面的工作线程是真正的任务执行者。
 
@@ -144,7 +144,7 @@ OceanBase大致也是P2P架构，每个Observer部署了相同的服务，在运
 
 下面这张图体现了小表广播的过程。
 
-![](https://static001.geekbang.org/resource/image/ef/24/efcb024e2413077018958bdbb1d66424.jpg?wh=2700%2A1614)
+![](https://static001.geekbang.org/resource/image/ef/24/efcb024e2413077018958bdbb1d66424.jpg?wh=2700%2A1614){: referrerpolicy="no-referrer" }
 
 动态方式和并行执行引擎有直接的联系，例如Spark并行执行引擎中的Broadcast Hash Join就是先采用动态广播方式，而后在每个节点上再执行哈希连接。
 
@@ -182,7 +182,7 @@ select A.C1,B.C2 from A,B where A.C1=B.C1;
 
 关联计算是查询场景中比较复杂的操作，即使面向OLTP场景的传统单体数据库也没有完善的处理，比如MySQL直到8.0版本才支持Hash Join。而分布式数据库也由于自身定位不同，对关联算法支持程度存在差异。总的来说，越倾向于支持OLAP场景，对关联算法的支持度也就越高。
 
-![](https://static001.geekbang.org/resource/image/ca/a7/cab2cf6bc91f261b273d614336086fa7.jpg?wh=2700%2A2674)
+![](https://static001.geekbang.org/resource/image/ca/a7/cab2cf6bc91f261b273d614336086fa7.jpg?wh=2700%2A2674){: referrerpolicy="no-referrer" }
 
 ## 思考题
 

@@ -10,7 +10,7 @@
 
 ElasticJob的架构采取的是去中心化设计，也就是说，ElasticJob在集群部署时，各个节点之间没有主从之分，它们的地位都是平等的。并且，ElasticJob的调度侧重对数据进行分布式处理（也就是数据分片机制），在调度每一个任务之前需要先计算分片信息，然后才能下发给集群内的其他节点来执行。实际部署效果图如下：
 
-![图片](https://static001.geekbang.org/resource/image/7c/25/7cdb21b91a10d1501f49ed7fdee2d925.jpg?wh=1920x646)
+![图片](https://static001.geekbang.org/resource/image/7c/25/7cdb21b91a10d1501f49ed7fdee2d925.jpg?wh=1920x646){: referrerpolicy="no-referrer" }
 
 在这张图中，order-service-job应用中创建了两个定时任务job-1和job-2，而且order-service-job这个应用部署在两台机器上，也就是说，我们拥有两个调度执行器。那么问题来了，job-1和job-2的分片信息由哪个节点来计算呢？
 
@@ -20,7 +20,7 @@ ElasticJob的架构采取的是去中心化设计，也就是说，ElasticJob在
 
 当一个任务需要被调度时，调度器会首先将任务注册到ZooKeeper中，具体操作为在ZooKeeper中创建对应的节点。ElasticJob中的任务在ZooKeeper中的目录布局如下：
 
-![图片](https://static001.geekbang.org/resource/image/b2/65/b29ee902d616533bb69b23e7cdf96865.jpg?wh=1920x1329)
+![图片](https://static001.geekbang.org/resource/image/b2/65/b29ee902d616533bb69b23e7cdf96865.jpg?wh=1920x1329){: referrerpolicy="no-referrer" }
 
 简单说明一下各个节点的用途。
 
@@ -32,13 +32,13 @@ ElasticJob的架构采取的是去中心化设计，也就是说，ElasticJob在
 
 创建好对应的节点之后，就要根据不同的业务处理注册事件监听了。在ElasticJob中，根据不同的任务会创建如下事件监听管理器，从而完成核心功能：
 
-![图片](https://static001.geekbang.org/resource/image/80/ae/80f7a4191c11248c01f44ff30a5f25ae.png?wh=804x206)
+![图片](https://static001.geekbang.org/resource/image/80/ae/80f7a4191c11248c01f44ff30a5f25ae.png?wh=804x206){: referrerpolicy="no-referrer" }
 
 我们这节课重点关注的是ElectionListenerManager的实现细节，掌握基于ZooKeeper事件通知的编程技巧。
 
 ElectionListenerManager会在内部进行事件注册：
 
-![图片](https://static001.geekbang.org/resource/image/4c/1c/4c021dca25f495a67d4412558c3d561c.png?wh=1920x556)
+![图片](https://static001.geekbang.org/resource/image/4c/1c/4c021dca25f495a67d4412558c3d561c.png?wh=1920x556){: referrerpolicy="no-referrer" }
 
 事件注册的底层使用的是ZooKeeper的watch，每一个监听器在一个特定的节点处监听，一旦节点信息发生变化，ZooKeeper就会通知执行注册的事件监听器，执行对应的业务处理。
 
@@ -72,7 +72,7 @@ CuratorFramework client是Curator的框架客户端。latchPath则是锁节点�
 
 当Leader所在进程宕机后，在锁节点路径（/leader/election/latch）中创建的临时顺序节点会被删除，并且删除事件能够被其他节点感知，继而能够及时重新选举Leader，实现Leader的高可用。
 
-![图片](https://static001.geekbang.org/resource/image/f8/54/f8026e8e96763516aff25cff93cc6c54.jpg?wh=1920x1214)
+![图片](https://static001.geekbang.org/resource/image/f8/54/f8026e8e96763516aff25cff93cc6c54.jpg?wh=1920x1214){: referrerpolicy="no-referrer" }
 
 经过上面两个步骤，我们就基于ZooKeeper轻松实现了分布式环境下集群的选举功能。我们再来总结一下基于ZooKeeper事件监听机制的编程要点。
 
@@ -96,13 +96,13 @@ CuratorFramework client是Curator的框架客户端。latchPath则是锁节点�
 
 首先我们来图解一下当时的需求：
 
-![图片](https://static001.geekbang.org/resource/image/31/68/31b065dfc2ac0db83910b2a32eb0fd68.jpg?wh=1920x625)
+![图片](https://static001.geekbang.org/resource/image/31/68/31b065dfc2ac0db83910b2a32eb0fd68.jpg?wh=1920x625){: referrerpolicy="no-referrer" }
 
 我们解读一下具体的实现思路。
 
 第一步，在压测任务配置界面中，提供对应的配置项，将本次压测任务需要关联的消费组存储到数据库中，同时持久到ZooKeeper的一个指定目录中，如下图所示：
 
-![图片](https://static001.geekbang.org/resource/image/5e/38/5e53392c4fae74755e6f8964c250c738.png?wh=1794x722)
+![图片](https://static001.geekbang.org/resource/image/5e/38/5e53392c4fae74755e6f8964c250c738.png?wh=1794x722){: referrerpolicy="no-referrer" }
 
 ZooKeeper中的目录设计结构如下。
 
@@ -199,7 +199,7 @@ public static void subscribe(String consumerGroup, MessageListener listener)
 
 这是因为，为了便于高效运维，我们对主题、消费组的使用方屏蔽了集群相关的信息，你可以看看下面这个场景：
 
-![图片](https://static001.geekbang.org/resource/image/9d/74/9d02103fa5faa197a4yyb63a1f4f3674.jpg?wh=1920x747)
+![图片](https://static001.geekbang.org/resource/image/9d/74/9d02103fa5faa197a4yyb63a1f4f3674.jpg?wh=1920x747){: referrerpolicy="no-referrer" }
 
 你能在不重启应用的情况下将order\_topic从A集群迁移到B集群吗？
 
@@ -209,7 +209,7 @@ public static void subscribe(String consumerGroup, MessageListener listener)
 
 我们公司已经把这个项目开源了，具体的实现代码你可以打开链接查看（[ZMS开源项目](https://github.com/ZTO-Express/zms/tree/master/zms-client/src/main/java/com/zto/zms/client/producer)）。
 
-![图片](https://static001.geekbang.org/resource/image/7e/0c/7ebac62759557035b675137815dd660c.png?wh=997x576)
+![图片](https://static001.geekbang.org/resource/image/7e/0c/7ebac62759557035b675137815dd660c.png?wh=997x576){: referrerpolicy="no-referrer" }
 
 ## 总结
 

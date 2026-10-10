@@ -6,7 +6,7 @@
 
 你好，我是徐昊。到目前为止，我们用11节课展示了一个测试驱动开发的例子，并围绕这个例子讲解了测试驱动的核心概念与要点。如下图所示：
 
-![](https://static001.geekbang.org/resource/image/1y/cf/1yye9ba1e213355e1c1d7ba5a7497ccf.jpg?wh=2062x1370)
+![](https://static001.geekbang.org/resource/image/1y/cf/1yye9ba1e213355e1c1d7ba5a7497ccf.jpg?wh=2062x1370){: referrerpolicy="no-referrer" }
 
 ## 代码评点
 

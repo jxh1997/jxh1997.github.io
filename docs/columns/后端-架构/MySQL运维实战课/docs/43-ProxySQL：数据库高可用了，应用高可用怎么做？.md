@@ -14,7 +14,7 @@ ProxySQL支持MySQL传统的主备复制架构，也支持MGR架构。
 
 客户端使用标准的MySQL协议访问ProxySQL，在客户端眼里，ProxySQL和MySQL没有大的区别。ProxySQL根据访问的用户、执行的SQL语句，将请求转发给后端MySQL，SQL执行完成后，再由ProxySQL将结果返回到客户端。
 
-![图片](https://static001.geekbang.org/resource/image/5e/40/5ef6c62e2cd7cce08c5c18bc5bb17b40.jpg?wh=1130x907)
+![图片](https://static001.geekbang.org/resource/image/5e/40/5ef6c62e2cd7cce08c5c18bc5bb17b40.jpg?wh=1130x907){: referrerpolicy="no-referrer" }
 
 ## ProxySQL安装部署
 
@@ -130,7 +130,7 @@ mysql> show databases;
 
 常用的一些配置表，我整理到了这个表格中，后续我会通过一些具体的例子来介绍这些表的使用方法。
 
-![图片](https://static001.geekbang.org/resource/image/0a/7e/0a1cfb18ffcf961f127fec498c31187e.png?wh=1506x1334)
+![图片](https://static001.geekbang.org/resource/image/0a/7e/0a1cfb18ffcf961f127fec498c31187e.png?wh=1506x1334){: referrerpolicy="no-referrer" }
 
 使用ProxySQL，一般要完成下面这几项内容的配置。
 
@@ -174,13 +174,13 @@ save mysql variables to disk;
 
 接下来我们通过一些使用场景，来看看怎么配置ProxySQL。例子中，会用到两个MySQL集群，一个是普通的主备复制集群，一个是MGR集群。
 
-![图片](https://static001.geekbang.org/resource/image/6b/c0/6ba48f8bf9da5966096807da4b7dccc0.png?wh=1920x1057)
+![图片](https://static001.geekbang.org/resource/image/6b/c0/6ba48f8bf9da5966096807da4b7dccc0.png?wh=1920x1057){: referrerpolicy="no-referrer" }
 
 ### 场景1：使用Proxysql实现读写分离
 
 我们把下面这个MySQL数据复制集群配置到ProxySQL中。
 
-![图片](https://static001.geekbang.org/resource/image/f2/30/f2777afdaa47f3f339199f6009abc730.jpg?wh=1244x664)
+![图片](https://static001.geekbang.org/resource/image/f2/30/f2777afdaa47f3f339199f6009abc730.jpg?wh=1244x664){: referrerpolicy="no-referrer" }
 
 #### 配置hostgroup
 
@@ -694,7 +694,7 @@ ProxySQL作为一个程序，本身也可能出现故障。部署ProxySQL的服�
 
 我们来看解决办法。你可以在多台服务器上部署ProxySQL，在ProxySQL前再加一层负载均衡（如使用LVS或其他网络层的技术），从而消除ProxySQL的单点。
 
-![图片](https://static001.geekbang.org/resource/image/36/ca/3654072765f00ee62a2fb7f95285a7ca.jpg?wh=1344x974)
+![图片](https://static001.geekbang.org/resource/image/36/ca/3654072765f00ee62a2fb7f95285a7ca.jpg?wh=1344x974){: referrerpolicy="no-referrer" }
 
 部署多台ProxySQL后，需要保证配置信息同步。不然就可能会引起客户端访问出错。可以使用ProxySQL自带的集群功能，来实现多个节点之间的配置信息同步。
 
@@ -754,23 +754,23 @@ ProxySQL的配置主要通过一些配置表来实现。这里我对文章中用
 
 ### mysql\_servers
 
-![图片](https://static001.geekbang.org/resource/image/59/8f/5926bf91221e0a9fd9028ca63a3b3f8f.png?wh=1518x1406)
+![图片](https://static001.geekbang.org/resource/image/59/8f/5926bf91221e0a9fd9028ca63a3b3f8f.png?wh=1518x1406){: referrerpolicy="no-referrer" }
 
 ### mysql\_users
 
-![图片](https://static001.geekbang.org/resource/image/b0/dc/b00d47234ce3276dab01a285abb00bdc.png?wh=1518x1440)
+![图片](https://static001.geekbang.org/resource/image/b0/dc/b00d47234ce3276dab01a285abb00bdc.png?wh=1518x1440){: referrerpolicy="no-referrer" }
 
 ### mysql\_query\_rules
 
-![图片](https://static001.geekbang.org/resource/image/9d/6f/9d0c9607f8127e64fef00982be82b36f.png?wh=1620x1532)
+![图片](https://static001.geekbang.org/resource/image/9d/6f/9d0c9607f8127e64fef00982be82b36f.png?wh=1620x1532){: referrerpolicy="no-referrer" }
 
 ### mysql\_replication\_hostgroups
 
-![图片](https://static001.geekbang.org/resource/image/c9/f2/c9c36e35e9608yy0928yy587b56ce6f2.png?wh=1920x764)
+![图片](https://static001.geekbang.org/resource/image/c9/f2/c9c36e35e9608yy0928yy587b56ce6f2.png?wh=1920x764){: referrerpolicy="no-referrer" }
 
 ### mysql\_group\_replication\_hostgroups
 
-![图片](https://static001.geekbang.org/resource/image/1a/39/1a777fa64274d8f256eebccf7d722839.png?wh=1470x1374)
+![图片](https://static001.geekbang.org/resource/image/1a/39/1a777fa64274d8f256eebccf7d722839.png?wh=1470x1374){: referrerpolicy="no-referrer" }
 
 ## 总结
 

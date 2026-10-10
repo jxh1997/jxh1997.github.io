@@ -67,27 +67,27 @@ SQLServer比较适合大型的企业级应用，很多学校也会使用。SQLSe
 
 考虑到电脑系统的不同，我们先来看一下Windows和macOS环境下的版本选择，如果你的系统是Windows，参考下面的图片选择就可以。
 
-![](https://static001.geekbang.org/resource/image/e7/ca/e7c84d00dda41d85a724d007c677c6ca.jpg?wh=1335x965)
+![](https://static001.geekbang.org/resource/image/e7/ca/e7c84d00dda41d85a724d007c677c6ca.jpg?wh=1335x965){: referrerpolicy="no-referrer" }
 
 macOS的选择可以参考后面截图里的选项。
 
-![](https://static001.geekbang.org/resource/image/f6/a2/f635f8468e2d6912de64f292c5b5dea2.jpg?wh=2864x1399)
+![](https://static001.geekbang.org/resource/image/f6/a2/f635f8468e2d6912de64f292c5b5dea2.jpg?wh=2864x1399){: referrerpolicy="no-referrer" }
 
 下面我以Windows系统为案例，演示一下整个安装的过程，让你对安装的过程有一个大致的了解。
 
 下载好前面提到的安装包之后，为了后续操作方便，我们统一把MySQL安装在D:\\mysql 这个文件夹下，这个安装路径你也可以自己选择。初始文件的内容截图我也贴在了后面，可以看一下。
 
-![](https://static001.geekbang.org/resource/image/34/f8/34b7fbcfebded2042eac73de5a99bbf8.jpg?wh=1900x655)
+![](https://static001.geekbang.org/resource/image/34/f8/34b7fbcfebded2042eac73de5a99bbf8.jpg?wh=1900x655){: referrerpolicy="no-referrer" }
 
 下载完成之后我们直接解压文件即可。然后，在解压文件中找到 **bin文件**，复制该文件的路径，我们需要这个文件路径完成环境配置，这样才能支持后续使用。这里你同样可以参考后面的截图。
 
-![](https://static001.geekbang.org/resource/image/2b/d4/2b70fd0d38385293d9d362bf72bc06d4.jpg?wh=2000x1699)
+![](https://static001.geekbang.org/resource/image/2b/d4/2b70fd0d38385293d9d362bf72bc06d4.jpg?wh=2000x1699){: referrerpolicy="no-referrer" }
 
 在环境配置这一步，你应该比较熟悉了，像之前的Python应用你也需要安装并配置，它们是一样的过程，同样要在控制面板中的高级系统设置里设置。然后我们需要在系统属性的级选项中，点击环境变量。
 
 下一步就是在系统变量中找到path，点击编辑，在path的变量值后面加上我们之前复制的bin文件路径。这里需要注意的是，**添加bin文件路径之前，记得先给上一个路径加上英文格式的分号“；”。**
 
-![](https://static001.geekbang.org/resource/image/c3/7b/c3cc187e54f0510f23501856d9e8b77b.jpg?wh=1585x803)
+![](https://static001.geekbang.org/resource/image/c3/7b/c3cc187e54f0510f23501856d9e8b77b.jpg?wh=1585x803){: referrerpolicy="no-referrer" }
 
 配置好环境变量后，下一步就是创建一个新的my.ini文件，该文件的用途是初始化MySQL数据库。my.ini文件中代码是后面这样，你可以参考一下。相信对照里面的详细注释，你很容易就能明白每个属性的作用。
 
@@ -114,15 +114,15 @@ sql_mode = NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
 
 创建好文件以后，就进入到了初始化的环节。我们需要进入cmd命令行，通过命令进入bin文件路径下。然后输入命令 mysqld --initialize来完成数据库的初始化。具体的执行效果如下图所示。
 
-![](https://static001.geekbang.org/resource/image/6c/6a/6c6f687a93b4de2ab33e1229b1628b6a.jpg?wh=2761x1200)
+![](https://static001.geekbang.org/resource/image/6c/6a/6c6f687a93b4de2ab33e1229b1628b6a.jpg?wh=2761x1200){: referrerpolicy="no-referrer" }
 
 初始化完成后，你会发现多出了一个data文件夹。data文件中有一个后缀为 .err的文件，里面存放的是初始化登录mysql的密码。
 
-![](https://static001.geekbang.org/resource/image/58/54/588fcb8274eb8a76511a280b7c423c54.jpg?wh=1689x622)
+![](https://static001.geekbang.org/resource/image/58/54/588fcb8274eb8a76511a280b7c423c54.jpg?wh=1689x622){: referrerpolicy="no-referrer" }
 
 我们用记事本方式打开 .err文件，就能找到其中存储的用户名和密码。我们需要这个账户和密码去启动MySQL的服务。
 
-![](https://static001.geekbang.org/resource/image/e1/31/e199932b0a7ed206b1723b35cf212331.jpg?wh=1401x547)
+![](https://static001.geekbang.org/resource/image/e1/31/e199932b0a7ed206b1723b35cf212331.jpg?wh=1401x547){: referrerpolicy="no-referrer" }
 
 再之后就是启动MySQL服务。我们需要在bin目录下输入后面的命令。
 
@@ -132,7 +132,7 @@ net start mysql
 
 对应的启动效果图我也放在了下面，你可以看一下。
 
-![](https://static001.geekbang.org/resource/image/12/d9/129b29e333af450yy6454b24d8b846d9.jpg?wh=2700x854)
+![](https://static001.geekbang.org/resource/image/12/d9/129b29e333af450yy6454b24d8b846d9.jpg?wh=2700x854){: referrerpolicy="no-referrer" }
 
 服务启动以后，我们就能登录MySQL了，登录数据库的具体执行命令是后面这样，你可以直接使用。
 
@@ -146,7 +146,7 @@ mysql -uroot -p
 
 按回车执行后，就会显示Enter password的字样，我们在这段文字后面输入 .err文件中给出的密码即可。如果输入以后显示后面截图里的字样，就代表登录成功了。
 
-![](https://static001.geekbang.org/resource/image/53/8f/53a169ae7c32b3712bbfcee2fbbeb38f.jpg?wh=2761x1200)
+![](https://static001.geekbang.org/resource/image/53/8f/53a169ae7c32b3712bbfcee2fbbeb38f.jpg?wh=2761x1200){: referrerpolicy="no-referrer" }
 
 登录成功后，我们可以修改自己的root账户的密码，具体的执行代码如下。
 
@@ -156,11 +156,11 @@ alter user 'root'@'localhost' identified with mysql_native_password by 'flask_pr
 
 最后，我们还需要设置MySQL服务。这个操作同样要在我的电脑的管理选项中，选择服务与应用程序，点击进入之后选择**“服务”**。
 
-![](https://static001.geekbang.org/resource/image/fa/b7/fa531bce5940102ded3b3d1259b259b7.jpg?wh=1987x1479)
+![](https://static001.geekbang.org/resource/image/fa/b7/fa531bce5940102ded3b3d1259b259b7.jpg?wh=1987x1479){: referrerpolicy="no-referrer" }
 
 然后，我们要在列表中找到 **“MySQL”**。之前我们已经使用语句 net start mysql 启动服务了，所以这里我们可以把启动类型设置为“自动”。
 
-![](https://static001.geekbang.org/resource/image/bc/7e/bc64cf8218aabaa083b487f532a23c7e.jpg?wh=2600x1865)
+![](https://static001.geekbang.org/resource/image/bc/7e/bc64cf8218aabaa083b487f532a23c7e.jpg?wh=2600x1865){: referrerpolicy="no-referrer" }
 
 到这里我们就成功实现了MySQL的安装和服务启动。
 
@@ -177,11 +177,11 @@ alter user 'root'@'localhost' identified with mysql_native_password by 'flask_pr
 
 下载安装成功之后，我们打开对应的界面，直接点击“连接”选择MySQL，对应的界面效果如下图所示。
 
-![](https://static001.geekbang.org/resource/image/b8/f5/b81a1667c0ab79481b24a09ba1878cf5.jpg?wh=2898x931)
+![](https://static001.geekbang.org/resource/image/b8/f5/b81a1667c0ab79481b24a09ba1878cf5.jpg?wh=2898x931){: referrerpolicy="no-referrer" }
 
 在“连接设置”页面中，我们需要输入连接名称、主机名、端口、用户名和密码。这一块的配置我们前面都已经设置好了，这时候只需要填入即可。具体的效果图如下。
 
-![](https://static001.geekbang.org/resource/image/f4/1a/f4a570cdebb3c50d37e4f88fc76bb51a.jpg?wh=2940x1510)
+![](https://static001.geekbang.org/resource/image/f4/1a/f4a570cdebb3c50d37e4f88fc76bb51a.jpg?wh=2940x1510){: referrerpolicy="no-referrer" }
 
 完成信息输入之后，你就可以点击“测试连接”按钮。如果连接成功，将会弹出一个“成功连接到服务器”的提示框；如果连接失败，则会弹出一个错误提示框，你就需要检查输入的连接信息是否正确。
 
@@ -197,7 +197,7 @@ alter user 'root'@'localhost' identified with mysql_native_password by 'flask_pr
 
 这里我为你梳理了一张表，整理了MySQL数据库的核心概念和数据库的四大操作，供你复习参考。
 
-![](https://static001.geekbang.org/resource/image/79/f2/79f49f0fed51e8fb4d3cb1425b8a0ff2.jpg?wh=3634x2778)
+![](https://static001.geekbang.org/resource/image/79/f2/79f49f0fed51e8fb4d3cb1425b8a0ff2.jpg?wh=3634x2778){: referrerpolicy="no-referrer" }
 
 学习了核心概念和四大操作之后，我们还完成了MySQL的安装与服务启动，只要你耐心跟着我的步骤操作一定可以搞定。另外，我也给你讲解了可视化工具navicat premium的安装和应用。这些安装配置都非常好上手，希望你在课后一定要自己实践一下，这样才能更加熟练地掌握数据库的应用。
 

@@ -31,7 +31,7 @@
 
 如下所示的图例中，就展示了客户端和服务器端在交互过程中，不同类请求和Reactor模型事件的对应关系，你可以看下。
 
-![](https://static001.geekbang.org/resource/image/d6/aa/d657443ded5c64a9yy32414e5e87eeaa.jpg?wh=1657x795)
+![](https://static001.geekbang.org/resource/image/d6/aa/d657443ded5c64a9yy32414e5e87eeaa.jpg?wh=1657x795){: referrerpolicy="no-referrer" }
 
 好，在了解了Reactor模型的三类事件后，你现在可能还有一个疑问：这三类事件是由谁来处理的呢？
 
@@ -43,7 +43,7 @@
 
 下图就展示了这三个角色之间的关系，以及它们和事件的关系，你可以看下。
 
-![](https://static001.geekbang.org/resource/image/92/bb/926dea7b8925819f383efaf6f82c4fbb.jpg?wh=1831x644)
+![](https://static001.geekbang.org/resource/image/92/bb/926dea7b8925819f383efaf6f82c4fbb.jpg?wh=1831x644){: referrerpolicy="no-referrer" }
 
 事实上，这三个角色都是Reactor模型中要实现的功能的抽象。当我们遵循Reactor模型开发服务器端的网络框架时，就需要在编程的时候，在代码功能模块中实现reactor、acceptor和handler的逻辑。
 
@@ -59,7 +59,7 @@
 
 比如说，当有连接事件发生时，服务器程序需要调用acceptor处理函数，创建和客户端的连接。而当有读事件发生时，就表明有读或写请求发送到了服务器端，服务器程序就要调用具体的请求处理函数，从客户端连接中读取请求内容，进而就完成了读事件的处理。这里你可以参考下面给出的图例，其中显示了事件驱动框架的基本执行过程：
 
-![](https://static001.geekbang.org/resource/image/43/f4/432ec0735720dbf151e7d8bbd8c6d0f4.jpg?wh=1502x939)
+![](https://static001.geekbang.org/resource/image/43/f4/432ec0735720dbf151e7d8bbd8c6d0f4.jpg?wh=1502x939){: referrerpolicy="no-referrer" }
 
 那么到这里，你应该就已经了解了**Reactor模型的基本工作机制**：客户端的不同类请求会在服务器端触发连接、读、写三类事件，这三类事件的监听、分发和处理又是由reactor、acceptor、handler三类角色来完成的，然后这三类角色会通过事件驱动框架来实现交互和事件处理。
 
@@ -216,7 +216,7 @@ static int aeApiPoll(aeEventLoop *eventLoop, struct timeval *tvp) {
 
 为了让你更加清晰地理解，事件驱动框架是如何实现最终对epoll\_wait的调用，这里我也放了一张示意图，你可以看看整个调用链是如何工作和实现的。
 
-![](https://static001.geekbang.org/resource/image/92/e0/923921e50b117247de69fe6c657845e0.jpg?wh=1672x983)
+![](https://static001.geekbang.org/resource/image/92/e0/923921e50b117247de69fe6c657845e0.jpg?wh=1672x983){: referrerpolicy="no-referrer" }
 
 OK，现在我们就已经在aeMain函数中，看到了aeProcessEvents函数被调用，并用于捕获和分发事件的基本处理逻辑。
 
@@ -228,7 +228,7 @@ OK，现在我们就已经在aeMain函数中，看到了aeProcessEvents函数被
 
 具体来说，在initServer函数的执行过程中，initServer函数会根据启用的IP端口个数，为每个IP端口上的网络事件，调用aeCreateFileEvent，创建对AE\_READABLE事件的监听，并且注册AE\_READABLE事件的处理handler，也就是acceptTcpHandler函数。这一过程如下图所示：
 
-![](https://static001.geekbang.org/resource/image/a3/98/a37876d1e4330668ff8cab34af4d6098.jpg?wh=1349x833)
+![](https://static001.geekbang.org/resource/image/a3/98/a37876d1e4330668ff8cab34af4d6098.jpg?wh=1349x833){: referrerpolicy="no-referrer" }
 
 所以这里我们可以看到，**AE\_READABLE事件就是客户端的网络连接事件，而对应的处理函数就是接收TCP连接请求**。下面的示例代码中，显示了initServer中调用aeCreateFileEvent的部分片段，你可以看下：
 
@@ -264,7 +264,7 @@ Redis一直被称为单线程架构，按照我们通常的理解，单个线程
 
 为了方便你从代码层面掌握Redis事件驱动框架的实现，我总结了一个表格，其中列出了Redis事件驱动框架的主要函数和功能、它们所属的C文件，以及这些函数本身是在Redis代码结构中的哪里被调用。你可以使用这张表格，来巩固今天这节课学习的事件驱动框架。
 
-![](https://static001.geekbang.org/resource/image/66/64/66a020e9a6404fe5cef14eeab2deb364.jpg?wh=2000x872)
+![](https://static001.geekbang.org/resource/image/66/64/66a020e9a6404fe5cef14eeab2deb364.jpg?wh=2000x872){: referrerpolicy="no-referrer" }
 
 最后，我也再强调下，这节课我们主要关注的是，事件驱动框架的基本运行流程，并以客户端连接事件为例，将框架主循环、事件捕获分发和事件注册的关键步骤串起来，给你做了介绍。Redis事件驱动框架监听处理的事件，还包括客户端请求、服务器端写数据以及周期性操作等，这也是我下一节课要和你一起学习的主要内容。
 

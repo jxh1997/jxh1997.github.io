@@ -37,7 +37,7 @@ SET(id, current)
 
 如果我们对临界区代码的执行没有控制机制，就会出现数据更新错误。在刚才的例子中，假设现在有两个客户端A和B，同时执行刚才的临界区代码，就会出现错误，你可以看下下面这张图。
 
-![](https://static001.geekbang.org/resource/image/dc/5c/dce821cd00c1937b4aab1f130424335c.jpg?wh=2925%2A1801)
+![](https://static001.geekbang.org/resource/image/dc/5c/dce821cd00c1937b4aab1f130424335c.jpg?wh=2925%2A1801){: referrerpolicy="no-referrer" }
 
 可以看到，客户端A在t1时读取库存值10并扣减1，在t2时，客户端A还没有把扣减后的库存值9写回Redis，而在此时，客户端B读到库存值10，也扣减了1，B记录的库存值也为9了。等到t3时，A往Redis写回了库存值9，而到t4时，B也写回了库存值9。
 
@@ -61,7 +61,7 @@ UNLOCK()
 
 如下图所示，当客户端A加锁执行操作时，客户端B、C就需要等待。A释放锁后，假设B拿到锁，那么C还需要继续等待，所以，t1时段内只有A能访问共享数据，t2时段内只有B能访问共享数据，系统的并发性能当然就下降了。
 
-![](https://static001.geekbang.org/resource/image/84/25/845b4694700264482d64a3dbb7a36525.jpg?wh=2620%2A1414)
+![](https://static001.geekbang.org/resource/image/84/25/845b4694700264482d64a3dbb7a36525.jpg?wh=2620%2A1414){: referrerpolicy="no-referrer" }
 
 和加锁类似，原子操作也能实现并发控制，但是原子操作对系统并发性能的影响较小，接下来，我们就来了解下Redis中的原子操作。
 

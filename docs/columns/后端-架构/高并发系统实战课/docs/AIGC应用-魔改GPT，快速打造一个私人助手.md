@@ -55,7 +55,7 @@ curl https://api.openai.com/v1/chat/completions \
 
 目前OpenAI提供的模型主要是后面图里这些，还有更多其他选型你可以查看[官方文档](https://platform.openai.com/docs/models/overview)。
 
-![](https://static001.geekbang.org/resource/image/57/78/574a12ffb815edbd0223337c03818678.png?wh=1644x886)
+![](https://static001.geekbang.org/resource/image/57/78/574a12ffb815edbd0223337c03818678.png?wh=1644x886){: referrerpolicy="no-referrer" }
 
 可以看到，这个列表中还有其他模型可以选，那为什么我们还是选择了GPT3.5这个模型作为后续演示的基础呢？
 
@@ -171,7 +171,7 @@ curl https://api.openai.com/v1/embeddings \
 
 保存好文字段向量生成和文字内容以后，我们再聊聊用户进行私有库资料查找的过程会发生什么。
 
-![](https://static001.geekbang.org/resource/image/6b/45/6b29088f59c2b681bf70259945b3e345.jpg?wh=4000x2940 "向量库知识查找和问答知识填喂")
+![](https://static001.geekbang.org/resource/image/6b/45/6b29088f59c2b681bf70259945b3e345.jpg?wh=4000x2940 "向量库知识查找和问答知识填喂"){: referrerpolicy="no-referrer" }
 
 当我们用户提问或需要数据时，可以先通过 Embedding API 处理用户提问，得到问题的 1536 个向量。然后，用向量结果到本地向量库进行 Cosine算法查找（匹配度建议在 0.8 以上），找出近似度超过相关的文字段，提供给ChatGPT参考使用。
 
@@ -191,7 +191,7 @@ curl https://api.openai.com/v1/embeddings \
 
 常见的实现方式很简单，就是实现类似Map Reduce的分段汇总方式去对数据加工，具体就是把文本按长度切成多段，每段加上提问的问题后，再请求ChatGPT做分段汇总。当我们拿到每一段文本的汇总结果后，将结果再次加上问题做最终汇总。可以看到，这个功能实现很简单，为了帮助你理解，我简单画了个树形汇总实现数据的流向。
 
-![](https://static001.geekbang.org/resource/image/60/ca/609e9ca77fa5ea063d571fae2bfd9dca.jpg?wh=4000x2413)
+![](https://static001.geekbang.org/resource/image/60/ca/609e9ca77fa5ea063d571fae2bfd9dca.jpg?wh=4000x2413){: referrerpolicy="no-referrer" }
 
 这个功能在LangChain内已经实现了，我们只需要在调用chain的时候，指定使用什么type的chain即可。其他类型的chain如何工作你可以参考[这里的链接](https://python.langchain.com/en/latest/modules/chains/index_examples/summarize.htm) ，后面的代码中也有类似的实现。
 

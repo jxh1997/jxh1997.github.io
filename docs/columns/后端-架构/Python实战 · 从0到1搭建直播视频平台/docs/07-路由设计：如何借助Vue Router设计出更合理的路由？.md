@@ -413,9 +413,9 @@ router.afterEach((to, from) => {
 
 在这里我们需要考虑一个问题：因为我们大部分的页面都使用相同的Header，为了减少重复工作。我们需要将Header和Footer写成公共组件。展示效果是后面这样。
 
-![](https://static001.geekbang.org/resource/image/09/51/09969fa83abdbb1c3c0bd8e7d93f4f51.jpg?wh=2619x1003)
+![](https://static001.geekbang.org/resource/image/09/51/09969fa83abdbb1c3c0bd8e7d93f4f51.jpg?wh=2619x1003){: referrerpolicy="no-referrer" }
 
-![](https://static001.geekbang.org/resource/image/a5/52/a5f3b10466b5605eaea7b090a29a1752.jpg?wh=2923x989)
+![](https://static001.geekbang.org/resource/image/a5/52/a5f3b10466b5605eaea7b090a29a1752.jpg?wh=2923x989){: referrerpolicy="no-referrer" }
 
 接下来，我们把Header和Footer定义成组件，然后定义一个模版，让其他内容根据路由地址展示在中间。
 
@@ -567,7 +567,7 @@ export default router;
 
 我们首先启动项目，打开localhost:8080会显示首页。
 
-![](https://static001.geekbang.org/resource/image/e1/b5/e1539d1bd4098059c5e5b8b59af552b5.jpg?wh=3183x1211)
+![](https://static001.geekbang.org/resource/image/e1/b5/e1539d1bd4098059c5e5b8b59af552b5.jpg?wh=3183x1211){: referrerpolicy="no-referrer" }
 
 然后点击右上角的登陆，就会跳转到登陆页。这里我们使用标签直接来实现，点击登陆，标签中的to属性表示目标路由的链接，有了它用户就会直接通过路由跳转进入login页面，标签里的“/login”就是对应的登陆页面的路由。
 
@@ -575,7 +575,7 @@ export default router;
 <router-link to="/login">登陆</routerlink>
 ```
 
-![](https://static001.geekbang.org/resource/image/30/58/301988fa2fe8cac0d41afd0a48159858.jpg?wh=3183x1431)
+![](https://static001.geekbang.org/resource/image/30/58/301988fa2fe8cac0d41afd0a48159858.jpg?wh=3183x1431){: referrerpolicy="no-referrer" }
 
 我们再来说说平台的登陆功能设计，在用户登陆成功之后，需要再次回到平台的首页，也就是我们刚访问过的路由，我们直接通过router.go(-1)的方法回到上一页。
 
@@ -583,7 +583,7 @@ export default router;
 this.$router.go(-1)
 ```
 
-![](https://static001.geekbang.org/resource/image/9a/a3/9a68b186f2a682419246485548cafda3.jpg?wh=3043x1820)
+![](https://static001.geekbang.org/resource/image/9a/a3/9a68b186f2a682419246485548cafda3.jpg?wh=3043x1820){: referrerpolicy="no-referrer" }
 
 我们继续思考后面这个问题。在平台的首页，用户点击某一个视频，想要查看详情，应该如何来实现呢？
 
@@ -595,13 +595,13 @@ this.$router.push("/video/detail/" + video.id);
 
 到这里，我们就实现了平台视频页到视频详情页的跳转，同时路由里也会携带上视频的id（方便我们通过id查询相关信息）。这时，对应的路由呈现就会变成“localhost:8080/#/video/detail/10001”，具体呈现方式你可以参考后面的截图。
 
-![](https://static001.geekbang.org/resource/image/1e/4b/1e5b9585511192a27d154d0117956f4b.jpg?wh=2834x1820)
+![](https://static001.geekbang.org/resource/image/1e/4b/1e5b9585511192a27d154d0117956f4b.jpg?wh=2834x1820){: referrerpolicy="no-referrer" }
 
 点击Header右上角的用户头像，这里我们如果提前放置了与用户相关的菜单，点击头像就可以直接显示菜单详情。
 
 这里的路由跳转非常多，那这一部分我们该如何实现呢？具体的界面效果我也放在了下面。
 
-![](https://static001.geekbang.org/resource/image/5c/c8/5c28a55007ddd40abce35c9cbe16e9c8.jpg?wh=2834x1678)
+![](https://static001.geekbang.org/resource/image/5c/c8/5c28a55007ddd40abce35c9cbe16e9c8.jpg?wh=2834x1678){: referrerpolicy="no-referrer" }
 
 不难发现，这里每一个菜单都有点击事件，例如我们想要跳转到个人中心页面，这时候点击个人中心就需要调用router.push()方法实现页面跳转，代码如下。
 

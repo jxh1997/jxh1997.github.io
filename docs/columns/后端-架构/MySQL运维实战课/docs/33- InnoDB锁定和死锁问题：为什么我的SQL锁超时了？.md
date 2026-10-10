@@ -68,11 +68,11 @@ InnoDB中的锁，还可以分为表锁、意向锁、行锁和自增ID锁。这
 
 <!--THE END-->
 
-![图片](https://static001.geekbang.org/resource/image/2b/4a/2b7ee784c3a7yyb7b95355167902284a.jpg?wh=1920x2573)
+![图片](https://static001.geekbang.org/resource/image/2b/4a/2b7ee784c3a7yyb7b95355167902284a.jpg?wh=1920x2573){: referrerpolicy="no-referrer" }
 
 - data\_lock\_waits
 
-![图片](https://static001.geekbang.org/resource/image/c7/c7/c74d6d5ebd7e39085a496b46234d73c7.png?wh=1700x1304)
+![图片](https://static001.geekbang.org/resource/image/c7/c7/c74d6d5ebd7e39085a496b46234d73c7.png?wh=1700x1304){: referrerpolicy="no-referrer" }
 
 ### 表锁
 
@@ -146,7 +146,7 @@ InnoDB为什么要使用意向锁呢？
 
 考虑这么一种情况，会话1锁定了表tab中的一行数据，在会话1提交前，会话2想使用lock tables命令锁住tab表。如果没有意向锁，InnoDB怎么判断会话2能不能获取到这个表锁呢？
 
-![图片](https://static001.geekbang.org/resource/image/11/25/11e0a33659c8fcb17c25e1784bc51b25.png?wh=1772x552)
+![图片](https://static001.geekbang.org/resource/image/11/25/11e0a33659c8fcb17c25e1784bc51b25.png?wh=1772x552){: referrerpolicy="no-referrer" }
 
 不过实际上，在上面这个场景中，MySQL使用了元数据锁。从Processlist中可以发现会话2的状态是“Waiting for table metadata lock”，从metadata\_locks表也可以查到会话2在等待元数据锁。
 
@@ -302,7 +302,7 @@ GAP锁用于锁住索引中相邻记录之间的区间。GAP锁的lock\_mode为�
 
 在实现上，GAP锁加在索引叶子节点中的记录上。在测试表中，索引idx\_b有3条用户记录，形成了4个区间。
 
-![图片](https://static001.geekbang.org/resource/image/d5/29/d5e708f4daf4bcfd8d9d6fc19bc2de29.jpg?wh=1368x646)
+![图片](https://static001.geekbang.org/resource/image/d5/29/d5e708f4daf4bcfd8d9d6fc19bc2de29.jpg?wh=1368x646){: referrerpolicy="no-referrer" }
 
 下面是GAP锁的一个例子。
 
@@ -446,7 +446,7 @@ mysql> select thread_id, index_name, lock_type, lock_mode, lock_data, lock_statu
 
 下面的表格中记录了不同模式的锁之间的兼容性。
 
-![图片](https://static001.geekbang.org/resource/image/26/f3/261b8e72a59c8f829ca2bb0f2135ecf3.png?wh=1920x738)
+![图片](https://static001.geekbang.org/resource/image/26/f3/261b8e72a59c8f829ca2bb0f2135ecf3.png?wh=1920x738){: referrerpolicy="no-referrer" }
 
 1. 表级别的意向锁IX、IS之间互相兼容。表级别的意向锁和记录锁之间兼容。
 2. 表级别的排他锁和任何其他锁都不兼容。表级别的共享锁只和共享模式的锁兼容。如果一个会话持有了某个表的表级别排他锁，则其它会话无法以共享或排他模式对该表加任何锁。如果一个会话持有了某个表的表级别共享锁，则其它会话无法得到该表的排他模式的任何锁。
@@ -461,7 +461,7 @@ MySQL是怎么给记录加锁的呢？这跟SQL语句的执行过程息息相关
 
 步骤1：将游标定位到叶子节点中的某条记录。
 
-![图片](https://static001.geekbang.org/resource/image/b9/79/b91b020d1205bb31ddf5a9d240d70779.jpg?wh=812x410)
+![图片](https://static001.geekbang.org/resource/image/b9/79/b91b020d1205bb31ddf5a9d240d70779.jpg?wh=812x410){: referrerpolicy="no-referrer" }
 
 上图这个图里的是一个索引的叶子页面。在使用索引顺序扫描时，有几种不同的情况。
 
@@ -471,7 +471,7 @@ MySQL是怎么给记录加锁的呢？这跟SQL语句的执行过程息息相关
 
 如果使用锁索引逆序扫描（比如语句是select * from t where k &gt;= Kj order by k desc），那么情况会有一点不同。
 
-![图片](https://static001.geekbang.org/resource/image/8a/49/8a4b0c0bbe8be095e60d33e114ffcd49.jpg?wh=803x396)
+![图片](https://static001.geekbang.org/resource/image/8a/49/8a4b0c0bbe8be095e60d33e114ffcd49.jpg?wh=803x396){: referrerpolicy="no-referrer" }
 
 - 如果边界条件为K &lt; Kj，那么游标指向Pos 2。
 - 如果边界条件为K &lt;= Kj，那么游标指向Pos 3。
@@ -495,7 +495,7 @@ select * from tab
 where K > Ks and K < Kt
 ```
 
-![图片](https://static001.geekbang.org/resource/image/66/fc/660cc324a6b3f8b3ef4f9610fb9873fc.jpg?wh=948x378)  
+![图片](https://static001.geekbang.org/resource/image/66/fc/660cc324a6b3f8b3ef4f9610fb9873fc.jpg?wh=948x378)  {: referrerpolicy="no-referrer" }
 其中Ki &lt; Ks &lt; Kt &lt; Kj。游标开始时指向Pos 0，并且范围扫描的右边界Kt &lt; Kj，说明索引中没有满足查询条件的记录。这种情况下，InnoDB会返回一个特殊的标记（DB\_RECORD\_NOT\_FOUND）给Server层。
 
 2. Server层根据InnoDB层的返回值进行后续处理。
@@ -530,7 +530,7 @@ insert into test_lock2 values
   ('pk32', 'a70', 'b30', 1, 0);
 ```
 
-![图片](https://static001.geekbang.org/resource/image/98/64/984715a849abd88ab10d81byydedd264.jpg?wh=1028x474)
+![图片](https://static001.geekbang.org/resource/image/98/64/984715a849abd88ab10d81byydedd264.jpg?wh=1028x474){: referrerpolicy="no-referrer" }
 
 #### 情况1：使用普通索引执行等值匹配。
 
@@ -738,7 +738,7 @@ mysql> select index_name, lock_type, lock_mode, lock_data from data_locks;
 +------------+-----------+---------------+-----------+
 ```
 
-![图片](https://static001.geekbang.org/resource/image/d9/60/d98f70e5f9cfa3fd4d182b2ba059a360.jpg?wh=852x321)
+![图片](https://static001.geekbang.org/resource/image/d9/60/d98f70e5f9cfa3fd4d182b2ba059a360.jpg?wh=852x321){: referrerpolicy="no-referrer" }
 
 如果SQL语句的边界条件在聚簇索引中并不存在，则还是跟使用普通索引时一样，需要锁定相关的区间。
 
@@ -819,7 +819,7 @@ mysql> select index_name, lock_type, lock_mode, lock_data
 +------------+-----------+---------------+---------------+
 ```
 
-![图片](https://static001.geekbang.org/resource/image/c4/e0/c427f29839a0d57ce4c590205fc748e0.jpg?wh=1040x481)
+![图片](https://static001.geekbang.org/resource/image/c4/e0/c427f29839a0d57ce4c590205fc748e0.jpg?wh=1040x481){: referrerpolicy="no-referrer" }
 
 在这个例子中，游标先定位到索引记录(b20, pk23)，然后获取该记录的下一条记录，也就是记录(b30, pk31)的GAP锁。然后再根据索引逆序分别获取记录(b20, pk23)、(b20, pk22)、(b20, pk21)、(b10, k12)的next-key锁。在处理记录(b10, pk12)时，发现该记录已经不在索引扫描范围内，因此结束处理。
 
@@ -958,7 +958,7 @@ insert into test_lock2(id, a,b,c,d)
 values('pk25', 'a99', 'b20', 0,0);
 ```
 
-![图片](https://static001.geekbang.org/resource/image/79/22/79626df040e2ea428b5138f7160dc922.jpg?wh=996x425)
+![图片](https://static001.geekbang.org/resource/image/79/22/79626df040e2ea428b5138f7160dc922.jpg?wh=996x425){: referrerpolicy="no-referrer" }
 
 如果记录(b30, pk31)之前的GAP已经被其他会话锁定（GAP锁或Next-key锁），insert就需要等待。
 
@@ -1183,7 +1183,7 @@ mysql>  select * from test_lck2;
 
 开启两个会话，按顺序执行SQL。
 
-![图片](https://static001.geekbang.org/resource/image/63/e5/63fc2899532ce97e49d0c07cbb5c99e5.png?wh=1380x1422)
+![图片](https://static001.geekbang.org/resource/image/63/e5/63fc2899532ce97e49d0c07cbb5c99e5.png?wh=1380x1422){: referrerpolicy="no-referrer" }
 
 从死锁日志里可以看出。
 

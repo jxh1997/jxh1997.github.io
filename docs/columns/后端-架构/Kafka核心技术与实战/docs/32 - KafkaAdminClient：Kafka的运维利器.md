@@ -54,7 +54,7 @@ compile group: 'org.apache.kafka', name: 'kafka-clients', version: '2.3.0'
 
 值得一提的是，AdminClient在内部大量使用生产者-消费者模式将请求生成与处理解耦。我在下面这张图中大致描述了它的工作原理。
 
-![](https://static001.geekbang.org/resource/image/bd/88/bd820c9c2a5fb554561a9f78d6543c88.jpg?wh=2968%2A1836)
+![](https://static001.geekbang.org/resource/image/bd/88/bd820c9c2a5fb554561a9f78d6543c88.jpg?wh=2968%2A1836){: referrerpolicy="no-referrer" }
 
 如图所示，前端主线程会创建名为Call的请求对象实例。该实例有两个主要的任务。
 
@@ -160,7 +160,7 @@ try (AdminClient client = AdminClient.create(props)) {
 
 好了，我们来小结一下。社区于0.11版本正式推出了Java客户端版的AdminClient工具，该工具提供了几十种运维操作，而且它还在不断地演进着。如果可以的话，你最好统一使用AdminClient来执行各种Kafka集群管理操作，摒弃掉连接ZooKeeper的那些工具。另外，我建议你时刻关注该工具的功能完善情况，毕竟，目前社区对AdminClient的变更频率很高。
 
-![](https://static001.geekbang.org/resource/image/06/f0/068a8cb7ea769799e60ad7f5a80a9bf0.jpg?wh=2069%2A2560)
+![](https://static001.geekbang.org/resource/image/06/f0/068a8cb7ea769799e60ad7f5a80a9bf0.jpg?wh=2069%2A2560){: referrerpolicy="no-referrer" }
 
 ## 开放讨论
 

@@ -18,7 +18,7 @@
 
 你可以先看看我画的这张图：
 
-![图片](https://static001.geekbang.org/resource/image/4e/f0/4ec5c84yy26af476210e1e653c01aff0.jpg?wh=1920x553)
+![图片](https://static001.geekbang.org/resource/image/4e/f0/4ec5c84yy26af476210e1e653c01aff0.jpg?wh=1920x553){: referrerpolicy="no-referrer" }
 
 客户端在发送内容之前需要先将待发送的内容序列化为二进制流。例如，上图发送了两个包，第一个包的二进制流是0110，第二个包的二进制流是00110011。这时，服务端读取数据的情形可能有两种。
 
@@ -33,7 +33,7 @@
 
 从这里你也可以看出，网络编程中通常涉及编码、往网络中写数据（Write）、从网络中读取数据（Read）、解码、业务逻辑处理、发送响应结果和接受响应结果等步骤，你可以看下下面这张图，加深理解：
 
-![图片](https://static001.geekbang.org/resource/image/48/4f/487acd1670a4b7578e1bf50cfaa0334f.jpg?wh=1920x652)
+![图片](https://static001.geekbang.org/resource/image/48/4f/487acd1670a4b7578e1bf50cfaa0334f.jpg?wh=1920x652){: referrerpolicy="no-referrer" }
 
 那如何制订通信协议呢？
 
@@ -41,7 +41,7 @@
 
 业界最为经典的协议设计方法是**协议头+Body的设计理念**，如图所示：
 
-![图片](https://static001.geekbang.org/resource/image/f7/a8/f7df1794aac442388868b51d24948da8.jpg?wh=1804x551)
+![图片](https://static001.geekbang.org/resource/image/f7/a8/f7df1794aac442388868b51d24948da8.jpg?wh=1804x551){: referrerpolicy="no-referrer" }
 
 这里有几个关键点，你需要注意一下：
 
@@ -51,7 +51,7 @@
 
 为了更直观地给你展示，我直接以一个简单的 RPC 通信场景为例，实现类似Dubbo服务远程服务调用，通信协议设计如下图所示：
 
-![图片](https://static001.geekbang.org/resource/image/eb/6a/eb61c11e8675a604585f56b7f020436a.jpg?wh=1920x703)
+![图片](https://static001.geekbang.org/resource/image/eb/6a/eb61c11e8675a604585f56b7f020436a.jpg?wh=1920x703){: referrerpolicy="no-referrer" }
 
 这里我们演示的是基于Header+Body的设计模式，接受端从网络中读取到字节后解码的流程。接受端将读取到的数据存储在一个接收缓冲区，在Netty中称为累积缓冲区。
 
@@ -65,7 +65,7 @@
 
 Netty的线程模型采取的是业界的主流线程模型，也就是主从多Reactor模型：
 
-![图片](https://static001.geekbang.org/resource/image/b1/yy/b117c06b91c299ca835d7613d351a2yy.jpg?wh=1920x1090)
+![图片](https://static001.geekbang.org/resource/image/b1/yy/b117c06b91c299ca835d7613d351a2yy.jpg?wh=1920x1090){: referrerpolicy="no-referrer" }
 
 它的设计重点主要包括下面这几个方面。
 
@@ -221,13 +221,13 @@ public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
 
 Netty网络读流程就讲到这里了，我们用一张流程图结束网络读取部分的讲解：
 
-![图片](https://static001.geekbang.org/resource/image/96/87/963f0b7a9b44b16c2d36e0c859110f87.jpg?wh=1920x921)
+![图片](https://static001.geekbang.org/resource/image/96/87/963f0b7a9b44b16c2d36e0c859110f87.jpg?wh=1920x921){: referrerpolicy="no-referrer" }
 
 接下来，我们一起看看Netty的网络写入流程。
 
 基于Netty网络模型，通常会使用一个业务线程池来执行业务操作，业务执行完成后，需要通过网络将响应结果提交给对应的IO线程，再通过IO线程将数据返回给客户端，其过程大致如下：
 
-![图片](https://static001.geekbang.org/resource/image/4d/f8/4d23a22e05fe908b9e31cdecde8bfbf8.jpg?wh=1920x761)
+![图片](https://static001.geekbang.org/resource/image/4d/f8/4d23a22e05fe908b9e31cdecde8bfbf8.jpg?wh=1920x761){: referrerpolicy="no-referrer" }
 
 那在代码实现层面，业务线程与IO线程是怎么协作的呢？我们带着这个问题，继续深入研究Netty的网络写入流程。
 
@@ -437,7 +437,7 @@ private void write(Object msg, boolean flush, ChannelPromise promise) {
 
 为了方便你深入阅读Netty相关源码，我还给你整理了Netty写入的流程图：
 
-## ![图片](https://static001.geekbang.org/resource/image/a2/57/a24e94e0078c9cdf1ace4e0541300b57.jpg?wh=1920x1780)
+## ![图片](https://static001.geekbang.org/resource/image/a2/57/a24e94e0078c9cdf1ace4e0541300b57.jpg?wh=1920x1780){: referrerpolicy="no-referrer" }
 
 ## Netty编程实战
 
@@ -449,13 +449,13 @@ Netty通常会用在中间件开发、即时通信（IM）、游戏服务器、�
 
 在深入RocketMQ网络层具体实践之前，我们先来看一下RocketMQ的网络交互流程：
 
-![图片](https://static001.geekbang.org/resource/image/c3/b3/c340d40bd519295b10bf6f678d338db3.jpg?wh=1449x634)
+![图片](https://static001.geekbang.org/resource/image/c3/b3/c340d40bd519295b10bf6f678d338db3.jpg?wh=1449x634){: referrerpolicy="no-referrer" }
 
 **基于Netty进行网络编程，我们通常需要编写客户端代码、服务端代码和通信协议。**
 
 我们先来看Netty客户端编程的通用示例：
 
-![图片](https://static001.geekbang.org/resource/image/7c/d6/7cf85b0fb4cbc0d918d831e454488fd6.png?wh=1026x536)
+![图片](https://static001.geekbang.org/resource/image/7c/d6/7cf85b0fb4cbc0d918d831e454488fd6.png?wh=1026x536){: referrerpolicy="no-referrer" }
 
 这里我们需要注意五个关键点。
 
@@ -467,13 +467,13 @@ Netty通常会用在中间件开发、即时通信（IM）、游戏服务器、�
 
 再来看一下客户端如何创建连接，其代码片段如下：
 
-![图片](https://static001.geekbang.org/resource/image/a5/ce/a5c5894e50c6a7e338d30ca6f93749ce.png?wh=1920x765)
+![图片](https://static001.geekbang.org/resource/image/a5/ce/a5c5894e50c6a7e338d30ca6f93749ce.png?wh=1920x765){: referrerpolicy="no-referrer" }
 
 客户端通过调用Bootstrap的connect方法尝试与服务端建立连接，该方法会立即返回一个Future而无须等待连接建立，所以该方法调用结束后并不一定成功创建了连接。但是连接只有在创建成功之后才能被用来发送和读取数据，所以这里我们需要再调用Future对象的awaitUninterruptibly方法等待连接成功建立。
 
 客户端与服务端建立连接后，就可以通过连接向服务端发送请求了：
 
-![图片](https://static001.geekbang.org/resource/image/0b/4a/0be5fc1365b53ec04434b392b549yy4a.png?wh=1920x1283)
+![图片](https://static001.geekbang.org/resource/image/0b/4a/0be5fc1365b53ec04434b392b549yy4a.png?wh=1920x1283){: referrerpolicy="no-referrer" }
 
 这里主要有四个实现要点。
 
@@ -481,7 +481,7 @@ Netty通常会用在中间件开发、即时通信（IM）、游戏服务器、�
 
 <!--THE END-->
 
-![图片](https://static001.geekbang.org/resource/image/74/52/74f03de29817d3cda8ce983dbb953552.jpg?wh=1920x571)
+![图片](https://static001.geekbang.org/resource/image/74/52/74f03de29817d3cda8ce983dbb953552.jpg?wh=1920x571){: referrerpolicy="no-referrer" }
 
 2. 通过调用Channel的writeAndFlush方法，**将数据写入到网络中。也就是说，不需要在发送数据之前先注册写事件。**然后基于Future模式添加事件监听器，在收到返回结构后，ResponseFuture中的状态会被更新。
 3. 同步发送的实现模板，通过调用ResponseFuture获取等待结果，如果使用异步发送模式，就在第三步执行用户定义的回调函数。
@@ -491,7 +491,7 @@ Netty通常会用在中间件开发、即时通信（IM）、游戏服务器、�
 
 首先，创建相关线程组，代码片段如下：
 
-![图片](https://static001.geekbang.org/resource/image/db/ab/db5c63a641afab60fdb56185225546ab.png?wh=1233x737)
+![图片](https://static001.geekbang.org/resource/image/db/ab/db5c63a641afab60fdb56185225546ab.png?wh=1233x737){: referrerpolicy="no-referrer" }
 
 这里分别创建了3个线程组。
 
@@ -501,19 +501,19 @@ Netty通常会用在中间件开发、即时通信（IM）、游戏服务器、�
 
 下一步，使用Netty提供的ServerBootstrap对象创建Netty服务端，示例代码如下所示：
 
-![图片](https://static001.geekbang.org/resource/image/a0/43/a01ca20a4ff9bb8ea901d64225ef8043.png?wh=1253x509)
+![图片](https://static001.geekbang.org/resource/image/a0/43/a01ca20a4ff9bb8ea901d64225ef8043.png?wh=1253x509){: referrerpolicy="no-referrer" }
 
 上面的代码基本都是模版代码，少数不同点就是需要自己实现编码器、解码器和业务处理Handler。其中，编码器、解码器其实就是实现通信协议，而ServerHandler就是服务端业务处理器。
 
 再下一步，服务端在指定接口建立监听，等待客户端连接：
 
-![图片](https://static001.geekbang.org/resource/image/6a/f7/6a9a5763e671c9512ea80dbbcab77df7.png?wh=944x193)
+![图片](https://static001.geekbang.org/resource/image/6a/f7/6a9a5763e671c9512ea80dbbcab77df7.png?wh=944x193){: referrerpolicy="no-referrer" }
 
 ServerBootstrap的bind方法是一个非阻塞方法，调用sync()方法会变成阻塞方法，它需要等待服务端启动完成。
 
 最后一步就是编写服务端业务处理Handler了：
 
-![图片](https://static001.geekbang.org/resource/image/73/2c/73a4383e93717b0813c62e490624b12c.png?wh=966x465)
+![图片](https://static001.geekbang.org/resource/image/73/2c/73a4383e93717b0813c62e490624b12c.png?wh=966x465){: referrerpolicy="no-referrer" }
 
 服务端处理器需要接收客户端请求，所以通常需要实现channelRead事件。通常业务Handler是在解码器之后执行，所以业务Handler中channelRead方法接收到的参数已经是通信协议中定义的具体模型，也就是请求对象了。后面就是根据该请求对象中的内容，执行对应的业务逻辑了。业务Handler会在defaultEventExecutorGroup线程组中执行，为了提高解码的性能，避免业务逻辑与IO操作相互影响，通常会将业务执行派发到业务线程池。
 

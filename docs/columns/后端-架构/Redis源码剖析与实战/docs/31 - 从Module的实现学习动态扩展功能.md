@@ -123,7 +123,7 @@ dictAdd(modules,ctx.module->name,ctx.module); //把加载的模块添加到全�
 
 我在这里画了张图，展示了main函数加载新模块的过程，你可以再回顾下。
 
-![图片](https://static001.geekbang.org/resource/image/81/a9/8171506a203ea26c4967ce225fea56a9.jpg?wh=1920x1080)
+![图片](https://static001.geekbang.org/resource/image/81/a9/8171506a203ea26c4967ce225fea56a9.jpg?wh=1920x1080){: referrerpolicy="no-referrer" }
 
 从刚才介绍的main函数加载新增模块的过程中，你可以看到，模块框架会在模块文件中，会查找RedisModule\_OnLoad函数。**RedisModule\_OnLoad是每个新增模块都必须包含的函数，它是扩展模块框架加载新增模块的入口。**通过这个函数，我们可以把新增的模块命令注册到Redis的命令表中，从而可以在Redis中使用新增命令。这个函数的原型如下所示：
 
@@ -270,7 +270,7 @@ struct redisCommand {
 
 下图就展示了RM\_CreateCommand函数添加代理命令时，代理命令和模块新增命令之间的关系，你可以看下。
 
-![图片](https://static001.geekbang.org/resource/image/7e/50/7e9479c89f89ce58ed477bdc8b476150.jpg?wh=1920x1080)
+![图片](https://static001.geekbang.org/resource/image/7e/50/7e9479c89f89ce58ed477bdc8b476150.jpg?wh=1920x1080){: referrerpolicy="no-referrer" }
 
 下面的代码也展示了RM\_CreateCommand函数创建代理命令，并在Redis命令表中添加代理命令的基本执行逻辑，你可以再回顾下。
 

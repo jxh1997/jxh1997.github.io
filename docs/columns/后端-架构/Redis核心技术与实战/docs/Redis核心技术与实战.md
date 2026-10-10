@@ -4,7 +4,7 @@ Redis 作为具备高性能、高可靠和高可扩展性的典型键值数据�
 
 除此之外，蒋德钧还会具体分析常见的问题以及应对方案，讲解 Redis 在典型场景（比如缓存、秒杀）中的应用，让你能够快速掌握行之有效的实战经验，并应用在自己的 Redis 项目中，全方位提升你的实战能力。
 
-![](https://static001.geekbang.org/resource/image/70/b4/70a5bc1ddc9e3579a2fcb8a5d44118b4.jpeg)
+![](https://static001.geekbang.org/resource/image/70/b4/70a5bc1ddc9e3579a2fcb8a5d44118b4.jpeg){: referrerpolicy="no-referrer" }
 
 课程主体分为 4 大模块。
 

@@ -12,7 +12,7 @@
 
 那流处理和批处理究竟该如何区分呢？下面这张图应该能帮助你快速且直观地理解它们的区别。
 
-![](https://static001.geekbang.org/resource/image/2f/b2/2f8e72ce532cf1d05306cb8b78510bb2.png?wh=1837%2A1340)
+![](https://static001.geekbang.org/resource/image/2f/b2/2f8e72ce532cf1d05306cb8b78510bb2.png?wh=1837%2A1340){: referrerpolicy="no-referrer" }
 
 好了，现在我来详细解释一下流处理和批处理的区别。
 
@@ -84,7 +84,7 @@ Java客户端库的定位既可以说是特色，也可以说是一个缺陷。�
 
 我画了一张图来展示每个Kafka Streams实例内部的构造，从这张图中，我们可以看出，每个实例都由一个消费者实例、特定的流处理逻辑，以及一个生产者实例组成，而这些实例中的消费者实例，共同构成了一个消费者组。
 
-![](https://static001.geekbang.org/resource/image/4d/4d/4de6620323d74aa537127c5405bac54d.jpg?wh=2416%2A2037)
+![](https://static001.geekbang.org/resource/image/4d/4d/4de6620323d74aa537127c5405bac54d.jpg?wh=2416%2A2037){: referrerpolicy="no-referrer" }
 
 通过这个机制，Kafka Streams应用同时实现了**高伸缩性和高容错性**，而这一切都是自动提供的，不需要你手动实现。
 
@@ -114,7 +114,7 @@ Spark官网上明确指出了**用户若要实现与Kafka的EOS，必须自己�
 
 两阶段提交（2-Phase Commit，2PC）机制是一种分布式事务机制，用于实现分布式系统上跨多个节点事务的原子性提交。下面这张图来自于神书“Designing Data-Intensive Applications”中关于2PC讲解的章节。它清晰地描述了一次成功2PC的过程。在这张图中，两个数据库参与到分布式事务的提交过程中，它们各自做了一些变更，现在需要使用2PC来保证两个数据库的变更被原子性地提交。如图所示，2PC被分为两个阶段：Prepare阶段和Commit阶段。只有完整地执行了这两个阶段，这个分布式事务才算是提交成功。
 
-![](https://static001.geekbang.org/resource/image/eb/c4/eb979df60ca9a2d2bb811febbe4545c4.png?wh=2880%2A962)
+![](https://static001.geekbang.org/resource/image/eb/c4/eb979df60ca9a2d2bb811febbe4545c4.png?wh=2880%2A962){: referrerpolicy="no-referrer" }
 
 分布式系统中的2PC常见于数据库内部实现或以XA事务的方式供各种异质系统使用。Kafka也借鉴了2PC的思想，在Kafka内部实现了基于2PC的事务机制。
 
@@ -122,7 +122,7 @@ Spark官网上明确指出了**用户若要实现与Kafka的EOS，必须自己�
 
 下图展示了一个典型的Kafka Streams应用的执行逻辑。
 
-![](https://static001.geekbang.org/resource/image/3a/44/3a0cd5a5b04ea5d7c7c082ecd9d63144.jpg?wh=1857%2A1811)
+![](https://static001.geekbang.org/resource/image/3a/44/3a0cd5a5b04ea5d7c7c082ecd9d63144.jpg?wh=1857%2A1811){: referrerpolicy="no-referrer" }
 
 通常情况下，一个Kafka Streams需要执行5个步骤：
 
@@ -144,7 +144,7 @@ Spark官网上明确指出了**用户若要实现与Kafka的EOS，必须自己�
 
 在专栏后面的内容中，我会详细介绍如何使用Kafka Streams API实现实时计算，并跟你分享一个实际的案例，希望这些能激发你对Kafka Streams的兴趣，并为你以后的探索奠定基础。
 
-![](https://static001.geekbang.org/resource/image/d2/0e/d2d0b922414c3776d34523946feeae0e.jpg?wh=2069%2A2560)
+![](https://static001.geekbang.org/resource/image/d2/0e/d2d0b922414c3776d34523946feeae0e.jpg?wh=2069%2A2560){: referrerpolicy="no-referrer" }
 
 ## 开放讨论
 

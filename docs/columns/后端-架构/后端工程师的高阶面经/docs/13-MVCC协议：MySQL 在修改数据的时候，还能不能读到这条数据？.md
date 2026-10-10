@@ -12,7 +12,7 @@ MVCC（Multi-Version Concurrency Control）中文叫做多版本并发控制协�
 
 数据库和一般的应用有一个很大的区别，就是**数据库即便是读，也不能被写阻塞住。**试想一下，如果一个线程准备执行 UPDATE 一行数据，如果这时候阻塞住了所有的 SELECT 语句，那么这个性能你能接受吗？
 
-![图片](https://static001.geekbang.org/resource/image/a0/02/a031e076bb10c09dff987230ac68df02.png?wh=1920x787)
+![图片](https://static001.geekbang.org/resource/image/a0/02/a031e076bb10c09dff987230ac68df02.png?wh=1920x787){: referrerpolicy="no-referrer" }
 
 显然接受不了，所以数据库要有一种机制，避免读写阻塞。在理解了为什么 MVCC 必不可少之后，现在你需要进一步了解一个和 MVCC 紧密关联的概念：**隔离级别**。
 
@@ -26,19 +26,19 @@ MySQL 的隔离级别有四个。
 
 <!--THE END-->
 
-![](https://static001.geekbang.org/resource/image/47/fc/475451d533257d436459775e714e9bfc.png?wh=2464x1118)
+![](https://static001.geekbang.org/resource/image/47/fc/475451d533257d436459775e714e9bfc.png?wh=2464x1118){: referrerpolicy="no-referrer" }
 
 2. **读已提交**（Read Committed，简写 RC）是指一个事务只能看到已经提交的事务的修改。这意味着**如果在事务执行过程中有别的事务提交了，那么事务还是能够看到别的事务最新提交的修改。**
 
 <!--THE END-->
 
-![](https://static001.geekbang.org/resource/image/a7/75/a7c6736fa83ebc72715044257739f975.png?wh=2464x1200)
+![](https://static001.geekbang.org/resource/image/a7/75/a7c6736fa83ebc72715044257739f975.png?wh=2464x1200){: referrerpolicy="no-referrer" }
 
 3. **可重复读**（Repeatable Read，简写 RR）是指在这一个事务内部读同一个数据多次，读到的结果都是同一个。这意味着即便**在事务执行过程中有别的事务提交，这个事务依旧看不到别的事务提交的修改**。这是 MySQL 默认的隔离级别。
 
 <!--THE END-->
 
-![图片](https://static001.geekbang.org/resource/image/37/5d/37e7909f2a72a63d0538bf32ceb4ca5d.png?wh=1920x954)
+![图片](https://static001.geekbang.org/resource/image/37/5d/37e7909f2a72a63d0538bf32ceb4ca5d.png?wh=1920x954){: referrerpolicy="no-referrer" }
 
 4. **串行化**（Serializable）是指事务对数据的读写都是串行化的。
 
@@ -50,11 +50,11 @@ MySQL 的隔离级别有四个。
 - **不可重复读**是指在一个事务执行过程中，对同一行数据读到的结果不同。
 - **幻读**是指在事务执行过程中，别的事务插入了新的数据并且提交了，然后事务在后续步骤中读到了这个新的数据。
 
-![图片](https://static001.geekbang.org/resource/image/0a/f3/0a0b5343f602f202b75084187c74cff3.png?wh=1920x867)
+![图片](https://static001.geekbang.org/resource/image/0a/f3/0a0b5343f602f202b75084187c74cff3.png?wh=1920x867){: referrerpolicy="no-referrer" }
 
 我们可以用一个表来描述隔离级别和这三种读异常的关系。
 
-![图片](https://static001.geekbang.org/resource/image/3c/4b/3cec4b180e2a0a92bc6aa1c0d2de2c4b.png?wh=1920x750)
+![图片](https://static001.geekbang.org/resource/image/3c/4b/3cec4b180e2a0a92bc6aa1c0d2de2c4b.png?wh=1920x750){: referrerpolicy="no-referrer" }
 
 这里尤其要注意一点，就是理论上来说可重复读是没有解决幻读的。但是 MySQL 因为使用了临键锁，因此它的可重复读隔离级别已经解决了幻读问题。你在面试的过程中不要忘了强调这一点。
 
@@ -73,15 +73,15 @@ MySQL 的隔离级别有四个。
 
 假设最开始我插入了一行数据，我插入数据的这个事务的 ID 是 100，那么这个时候数据行看起来是这样的。
 
-![图片](https://static001.geekbang.org/resource/image/fc/eb/fcb04eaf546734e2a0e3143063cc81eb.png?wh=1920x507)
+![图片](https://static001.geekbang.org/resource/image/fc/eb/fcb04eaf546734e2a0e3143063cc81eb.png?wh=1920x507){: referrerpolicy="no-referrer" }
 
 假设有一个事务 A 拿到了 ID 101，然后把 x 的值修改为 15，那么就会变成这样。
 
-![图片](https://static001.geekbang.org/resource/image/a5/19/a5cdc04ab6b35170c298a9ffffba9f19.png?wh=1920x709)
+![图片](https://static001.geekbang.org/resource/image/a5/19/a5cdc04ab6b35170c298a9ffffba9f19.png?wh=1920x709){: referrerpolicy="no-referrer" }
 
 这个时候，事务 A 修改后的 roll\_ptr 会指向初始状态的数据。假如现在再来一个事务 B 拿到 ID 102 ，要把数据 x 修改成 20，那么就会变成下面这样。
 
-![图片](https://static001.geekbang.org/resource/image/fc/ae/fc2f56b6dec20bbc2524ec8f479fd3ae.png?wh=1920x1037)
+![图片](https://static001.geekbang.org/resource/image/fc/ae/fc2f56b6dec20bbc2524ec8f479fd3ae.png?wh=1920x1037){: referrerpolicy="no-referrer" }
 
 这条链就是大名鼎鼎的版本链。这个版本链存储在所谓的 undolog 里面，undolog 我们下一节课会详细讨论。
 
@@ -104,29 +104,29 @@ Read View **只用于已提交读和可重复读**两个隔离级别，它用于
 
 在已提交读的隔离级别下，每一次查询语句都会重新生成一个 Read View。这意味着在事务执行过程中，Read View 是在不断变动的。现在我们来看一个例子，假如说现在已经有三个事务了，状态分别是已提交、未提交、未提交。
 
-![图片](https://static001.geekbang.org/resource/image/28/d2/28d8fa3fca19cd6aa074060a166949d2.png?wh=1920x1035)
+![图片](https://static001.geekbang.org/resource/image/28/d2/28d8fa3fca19cd6aa074060a166949d2.png?wh=1920x1035){: referrerpolicy="no-referrer" }
 
 假如说现在新开了一个事务 A，分配给它的 ID 是 4。如果这个时候 A 开始查询 x 的值，那么 MySQL 会创建一个新的 Read View，其中 `m_ids = 2,3`。事务 A 发现最后一个已经提交的是事务 `trx_id = 1`，对应的 x 的值是 1。于是事务 A 读到 x = 1。
 
-![](https://static001.geekbang.org/resource/image/c2/d5/c226080b4a200eeecd01a623365dd2d5.png?wh=1920x1035)
+![](https://static001.geekbang.org/resource/image/c2/d5/c226080b4a200eeecd01a623365dd2d5.png?wh=1920x1035){: referrerpolicy="no-referrer" }
 
 如果这个时候事务 2 提交了，事务 A 再次读取 x，这个时候 MySQL **又会生成一个新的 Read View** `m_ids=3`。因此事务 A 会读取到 x = 4。
 
-![](https://static001.geekbang.org/resource/image/e2/4e/e2f5cf70f686e1cd9e67b8f90d5e9e4e.png?wh=2464x1324)
+![](https://static001.geekbang.org/resource/image/e2/4e/e2f5cf70f686e1cd9e67b8f90d5e9e4e.png?wh=2464x1324){: referrerpolicy="no-referrer" }
 
 ### Read View 与可重复读
 
 在可重复读的隔离级别下，数据库会在事务开始的时候生成一个 Read View。这意味着整个 Read View 在事务执行过程中都是稳定不变的。我们用前面的例子来说明，就是在事务 A 开始的时候就会创建出来一个 Read View `m_ids=2,3`。
 
-![图片](https://static001.geekbang.org/resource/image/7a/6c/7a7e1a1b069dbab48dbb52939ecffe6c.png?wh=1920x1035)
+![图片](https://static001.geekbang.org/resource/image/7a/6c/7a7e1a1b069dbab48dbb52939ecffe6c.png?wh=1920x1035){: referrerpolicy="no-referrer" }
 
 如果这时候事务 A 去读 x 的数据，毫无疑问，读出来的是 x=1。
 
-![图片](https://static001.geekbang.org/resource/image/c2/d5/c226080b4a200eeecd01a623365dd2d5.png?wh=1920x1035)
+![图片](https://static001.geekbang.org/resource/image/c2/d5/c226080b4a200eeecd01a623365dd2d5.png?wh=1920x1035){: referrerpolicy="no-referrer" }
 
 如果这时候事务 2 提交了，然后事务 A 想要再去读 x 的值，Read View 不会发生变化，还是 `m_ids = 2,3`。所以你可以看到，虽然事务 2 提交了，但是事务 A 完全不知道这回事，因此它还是读到 x=1。
 
-![图片](https://static001.geekbang.org/resource/image/9d/33/9d5c4983202b2077b53579c8eddfc733.png?wh=1920x1035)
+![图片](https://static001.geekbang.org/resource/image/9d/33/9d5c4983202b2077b53579c8eddfc733.png?wh=1920x1035){: referrerpolicy="no-referrer" }
 
 万一这时候有一个新事务 ID = 5 开始了，并且也提交了。那么事务 A 并不会读取这个新事务的数据，因为新事务 ID 已经大于事务 A 的 ID 了（5 &gt; 4），事务 A 知道这是一个比它还要晚的事务，所以会忽略新的事务的修改。
 
@@ -134,8 +134,8 @@ Read View **只用于已提交读和可重复读**两个隔离级别，它用于
 
 我把前面的内容整合在一起，画成了图，你可以参考。
 
-![图片](https://static001.geekbang.org/resource/image/03/0a/0370dd5c3b73da1a06e62e175ae2410a.png?wh=1920x1071)  
-![图片](https://static001.geekbang.org/resource/image/61/7a/619e22884e6719182afaf90ba92a4c7a.png?wh=1920x1045)
+![图片](https://static001.geekbang.org/resource/image/03/0a/0370dd5c3b73da1a06e62e175ae2410a.png?wh=1920x1071)  {: referrerpolicy="no-referrer" }
+![图片](https://static001.geekbang.org/resource/image/61/7a/619e22884e6719182afaf90ba92a4c7a.png?wh=1920x1045){: referrerpolicy="no-referrer" }
 
 这里我只提到了 m\_ids，实际上和 Read View 相关的概念还有三个。
 
@@ -145,7 +145,7 @@ Read View **只用于已提交读和可重复读**两个隔离级别，它用于
 
 那么可见性如下图所示：
 
-![图片](https://static001.geekbang.org/resource/image/cd/19/cd9e5fc6dccb166f3894ce0a7fb27f19.png?wh=1920x659)
+![图片](https://static001.geekbang.org/resource/image/cd/19/cd9e5fc6dccb166f3894ce0a7fb27f19.png?wh=1920x659){: referrerpolicy="no-referrer" }
 
 m\_up\_limit\_id 在左边，而 m\_low\_limit\_id 在右边，你不要记错了。实际上，m\_up\_limit\_id 和 m\_low\_limit\_id 你记不住也没关系，它不影响你对 MVCC 和 ReadView 核心逻辑的理解。
 
@@ -226,7 +226,7 @@ m\_up\_limit\_id 在左边，而 m\_low\_limit\_id 在右边，你不要记错�
 
 不过幻读是没有办法通过业务改造来解决的。但是在业务层面上，幻读一般不会被认为是一个问题，原因有两点：一是你分不清是不是幻读。比如说你在事务 A 里面读到了一条数据，你判断不出来它是在事务 A 开始之前就插入的，还是在事务 A 开始之后，事务 B 才插入并且提交的。
 
-![图片](https://static001.geekbang.org/resource/image/73/e6/73ae591deec6d782d2e690f0585565e6.png?wh=1920x905)
+![图片](https://static001.geekbang.org/resource/image/73/e6/73ae591deec6d782d2e690f0585565e6.png?wh=1920x905){: referrerpolicy="no-referrer" }
 
 二是事务提交往往意味着业务已经结束，所以读到一个已经提交的事务的数据，不会损害业务的正确性。也就是说，如果事务 A 在开始之后，事务 B 才插入数据并且提交。那么这个时候事务 A 完全可以认为事务 B 所在的整个业务已经结束了，那么读出来也没什么问题。
 
@@ -258,7 +258,7 @@ m\_up\_limit\_id 在左边，而 m\_low\_limit\_id 在右边，你不要记错�
 - 为什么要调整为已提交读？主要原因有两个：一是因为业务用不上，二是为了提升性能。
 - 在调整之后真的需要可重复读隔离级别该怎么办？你就按照我给出的话术回答就好了。
 
-![](https://static001.geekbang.org/resource/image/3e/e0/3ef1f8997756f958930d73ec310c9fe0.png?wh=2772x2592)
+![](https://static001.geekbang.org/resource/image/3e/e0/3ef1f8997756f958930d73ec310c9fe0.png?wh=2772x2592){: referrerpolicy="no-referrer" }
 
 ## 思考题
 

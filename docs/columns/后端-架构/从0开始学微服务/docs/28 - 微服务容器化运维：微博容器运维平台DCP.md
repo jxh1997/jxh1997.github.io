@@ -6,7 +6,7 @@
 
 首先我们先来看看DCP的架构设计，从下面这张架构图你可以看到，DCP的架构主要分为四个部分：基础设施层、主机层、调度层、编排层，对应的分别解决前面提到的容器运维平台建设的几个关键问题：基础设施层用于解决镜像仓库的问题，主机层主要解决如何进行资源调度的问题，调度层主要解决容器如何在资源上创建的问题，编排层主要解决容器如何运作以对外提供服务的问题。下面我们来看各层的详细设计。
 
-![](https://static001.geekbang.org/resource/image/10/64/101e6beb60f0bc482ef6cb0e793d5864.png?wh=834%2A568)
+![](https://static001.geekbang.org/resource/image/10/64/101e6beb60f0bc482ef6cb0e793d5864.png?wh=834%2A568){: referrerpolicy="no-referrer" }
 
 ## 基础设施层
 
@@ -14,13 +14,13 @@ DCP中基础设施层主要用于提供各种基础设施，以保证其他层�
 
 正如[专栏第26期](http://time.geekbang.org/column/article/42167)我讲的那样，DCP以开源镜像仓库Harbor为基础搭建了私有的镜像仓库，不过由于微博业务的特征，为了应对随时可能到来的突发峰值流量的冲击，需要随时随地能够扩容服务池。但在内网冗余度不足的时候，也不得不借助公有云来实现，因此服务不仅在内网私有云上有部署，在阿里云上也有部署，这样的话从阿里云申请的主机也需要从镜像仓库中拉取镜像。此时，如果镜像仓库只在内网部署的话，就需要跨专线去拉取镜像，但如果上百台服务器同时拉取镜像，带宽占用很可能达到上百G，由于专线带宽是有限的，显然这样不可取。为此，正确的做法就像下图中那样，在阿里云机房也部署一套镜像仓库，并且通过Harbor的主从复制机制与内网的镜像仓库保持同步。同时，为了做到负载均衡，每个机房内部都部署了多个Harbor节点，内网节点访问内网镜像仓库会通过LVS进行负载均衡，阿里云上节点访问阿里云镜像仓库会通过SLB进行负载均衡，以满足镜像仓库的带宽需求。
 
-![](https://static001.geekbang.org/resource/image/d3/d2/d3bbd465ed4b053082b011d12be9acd2.png?wh=954%2A426)
+![](https://static001.geekbang.org/resource/image/d3/d2/d3bbd465ed4b053082b011d12be9acd2.png?wh=954%2A426){: referrerpolicy="no-referrer" }
 
 ## 主机层
 
 DCP中主机层的功能主要是为了完成资源的调度，也就是针对不同的集群，完成主机的创建、成本的管理以及配置初始化工作，也叫Pluto层。前面提到过微博业务不仅在内网私有云上有部署，而且在阿里云上也有部署，为此Pluto需要适配不同底层提供的创建主机的API，进行成本核算并且进行配置初始化操作。Pluto层的架构你可以参看下图，我来详细讲一下。
 
-![](https://static001.geekbang.org/resource/image/fc/e7/fc32ede78147d2c19cd51fb4f597b3e7.png?wh=410%2A391)
+![](https://static001.geekbang.org/resource/image/fc/e7/fc32ede78147d2c19cd51fb4f597b3e7.png?wh=410%2A391){: referrerpolicy="no-referrer" }
 
 1.主机创建
 
@@ -30,11 +30,11 @@ Pluto在创建主机时，主要有两个来源，一个是内部物理机组成
 
 <!--THE END-->
 
-![](https://static001.geekbang.org/resource/image/ec/c0/ec5e29cf71a8b55ed136f18ce786dac0.png?wh=670%2A193)
+![](https://static001.geekbang.org/resource/image/ec/c0/ec5e29cf71a8b55ed136f18ce786dac0.png?wh=670%2A193){: referrerpolicy="no-referrer" }
 
 - 除了有单账户调用的并发限制，还会有可用区的库存限制、安全组库存限制以及vSwitch库存限制，所以在实际使用阿里云API创建ECS时，当机器规模较大，如果直接指定使用某个可用区、安全组和vSwitch，就可能因为库存原因导致创建失败。微博一开始就使用了这种方案，但在突发峰值流量来临时，往往要创建几百台甚至上千台的阿里云ECS，为此经常会因为以上限制导致创建失败。后来针对可用区、安全组以及vSwitch都做了多可用区、多安全组以及多vSwtich配置，在出现库存不够时，就自动切换到别的地方来创建，极大提高了大规模ECS创建的成功率。
 
-![](https://static001.geekbang.org/resource/image/56/3c/5650102ded876d26c6abde1b97678e3c.png?wh=706%2A467)
+![](https://static001.geekbang.org/resource/image/56/3c/5650102ded876d26c6abde1b97678e3c.png?wh=706%2A467){: referrerpolicy="no-referrer" }
 
 2.成本管理
 
@@ -50,7 +50,7 @@ Pluto在创建主机时，主要有两个来源，一个是内部物理机组成
 
 主机创建完成后，还要进行一些基础软件的安装以及配置修改等工作，这就是配置初始化的过程。以阿里云创建的ECS为例，如果短时间内创建了上千台ECS，这个时候配置初始化的工作量会非常大，需要同时给上千台ECS下发配置文件并安装基础软件，同时还需要记录每台ECS的初始化状态到DB，以便查询是否初始化成功。下图描述了初始化的过程，DCP在进行主机配置初始化时，会通过Ansible向所有主机下发配置文件和基础软件，并通过自定义callback queue，把每台主机的初始化状态异步写入到DB中，避免上百台机器同时并发写入DB造成死锁。
 
-![](https://static001.geekbang.org/resource/image/98/c3/98dd72c57190af3502e037e32fc4b8c3.png?wh=790%2A350)
+![](https://static001.geekbang.org/resource/image/98/c3/98dd72c57190af3502e037e32fc4b8c3.png?wh=790%2A350){: referrerpolicy="no-referrer" }
 
 ## 调度层
 
@@ -60,7 +60,7 @@ DCP中调度层的主要功能是在可用的主机上创建容器。由于微�
 - 当发起容器调度时，Roam根据IDC参数请求Consul，得到该IDC的Swarm Manager信息。
 - Roam访问该IDC内的Swarm Manager，Swarm Manager再访问Consul获取Swarm Client信息，并根据Roam传递的调度策略从Swarm Client中选择节点创建容器。
 
-![](https://static001.geekbang.org/resource/image/68/bb/68d80a9dac56519d38730c7359e93bbb.png?wh=853%2A505)
+![](https://static001.geekbang.org/resource/image/68/bb/68d80a9dac56519d38730c7359e93bbb.png?wh=853%2A505){: referrerpolicy="no-referrer" }
 
 ## 编排层
 
@@ -77,7 +77,7 @@ DCP通过模板来管理容器的创建，一个服务如果需要进行扩容�
 
 它的含义是执行这个扩容任务时，会自动执行ID为1707061842070000和1703271821000000的扩容任务，并且按照每扩容10台容器分别扩容2台和3台依赖容器的比例来执行。
 
-![](https://static001.geekbang.org/resource/image/20/7e/20e3c0c7d1eca4738979a675a866d87e.png?wh=1118%2A1260)
+![](https://static001.geekbang.org/resource/image/20/7e/20e3c0c7d1eca4738979a675a866d87e.png?wh=1118%2A1260){: referrerpolicy="no-referrer" }
 
 2.服务发现
 
@@ -86,19 +86,19 @@ DCP通过模板来管理容器的创建，一个服务如果需要进行扩容�
 - HTTP服务。考虑到传统的基于Nginx的配置Reload机制实现的服务发现方式，在高并发访问的情况下，会导致吞吐量下降10%左右，如果业务频繁变更的话，就会受到影响。为此，DCP在实际业务中基于Nginx和Consul研发了一种可行的解决方案[nginx-upsync-module](https://github.com/weibocom/nginx-upsync-module)，并且已经开源。
 - Motan RPC服务。Motan RPC服务在启动时，会向注册中心Config Service注册服务，并且注册中心支持多IDC部署。像下图所描述的那样，正常情况下服务消费者会访问同一个IDC内的服务提供者，并且支持在故障的时候，可以切换到其他IDC。
 
-![](https://static001.geekbang.org/resource/image/95/3b/9519bcc735da020dd24b64ba74a41a3b.png?wh=699%2A287)
+![](https://static001.geekbang.org/resource/image/95/3b/9519bcc735da020dd24b64ba74a41a3b.png?wh=699%2A287){: referrerpolicy="no-referrer" }
 
 3.自动扩缩容
 
 DCP系统实现自动扩缩容主要依靠的是容量决策支持系统，由容量决策支持系统来实时监控系统的容量。如下图所示，一旦容量决策支持系统检测到某个服务需要进行扩容，就会创建扩容任务，Config Watcher会监控到扩容任务，并通知CronTrigger有调度策略变更。CronTrigger接到扩容任务，就会调用Scheduler来具体执行扩容。同时还可以通过API来修改、查询扩缩容的信息，也可以通过UI来操作。
 
-![](https://static001.geekbang.org/resource/image/7d/54/7d20839ac42bc38fc887875a1397b054.png?wh=952%2A608)
+![](https://static001.geekbang.org/resource/image/7d/54/7d20839ac42bc38fc887875a1397b054.png?wh=952%2A608){: referrerpolicy="no-referrer" }
 
 ## 总结
 
 今天我给你讲解了微博容器运维平台DCP的架构，主要包括基础设施层、主机层、调度层以及编排层，并详细介绍了每一层的功能实现，以及各自承担的不同职能。下面这张图是一次完整扩容流程，包括了资源评估、配额评估、初始化、容器调度、部署服务、服务依赖、服务发现以及自动扩缩容等，DCP正是通过把这些过程串联起来，实现容器运维的。
 
-![](https://static001.geekbang.org/resource/image/54/ed/5499780f1f12d9b3940988377dae80ed.png?wh=766%2A404)
+![](https://static001.geekbang.org/resource/image/54/ed/5499780f1f12d9b3940988377dae80ed.png?wh=766%2A404){: referrerpolicy="no-referrer" }
 
 ## 思考题
 

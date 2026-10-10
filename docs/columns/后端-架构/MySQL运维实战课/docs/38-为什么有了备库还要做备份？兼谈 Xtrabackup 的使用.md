@@ -278,7 +278,7 @@ rm /data/backup/backup0625.xbstream
 
 下面介绍Xtrabackup增量备份的基本步骤。例子中，我们先做一个全量备份，然后再做了2个增量备份。
 
-![图片](https://static001.geekbang.org/resource/image/48/fd/48c7cf3d963f6c4a94c30babf55a93fd.png?wh=1454x332)
+![图片](https://static001.geekbang.org/resource/image/48/fd/48c7cf3d963f6c4a94c30babf55a93fd.png?wh=1454x332){: referrerpolicy="no-referrer" }
 
 1. 先进行一次全量备份。
 
@@ -529,7 +529,7 @@ chown mysql:mysql /data/full_restore/log/alert.log
 
 如果需要将恢复出来的实例作为备库，加入到原有的复制架构中，可以分为两种情况。
 
-![图片](https://static001.geekbang.org/resource/image/c9/29/c9f1fb4d7bcbyyb5f11aaa1804ae7629.jpg?wh=1116x478)
+![图片](https://static001.geekbang.org/resource/image/c9/29/c9f1fb4d7bcbyyb5f11aaa1804ae7629.jpg?wh=1116x478){: referrerpolicy="no-referrer" }
 
 如上图所示，备份在实例备1上进行。可以将新恢复出来的实例作为备1的备库，也可以将新恢复出来的实例作为主库的备库。
 
@@ -591,7 +591,7 @@ error connecting to master 'rep@172.16.121.234:3380' - retry-time: 60 retries: 1
 
 恢复增量备份时，需要先对基础全量备份进行恢复，然后再依次按增量备份的时间进行恢复。
 
-![图片](https://static001.geekbang.org/resource/image/94/46/94650250d7a108693c7c37c65fdccd46.jpg?wh=1513x367)
+![图片](https://static001.geekbang.org/resource/image/94/46/94650250d7a108693c7c37c65fdccd46.jpg?wh=1513x367){: referrerpolicy="no-referrer" }
 
 这个例子中，相关备份文件的目录结构如下：
 
@@ -784,13 +784,13 @@ chown  -R mysql:mysql /data/full_restore
 
 Xtrabckup通过直接读取数据库物理文件的方式来实现备份。我们将这种备份方式称为物理备份。xtrabackup备份时，数据库可以正常访问，进行读写操作，我们称之为热备份或在线备份。由于备份过程中数据库文件可能会不断地发生变化，不同时刻读取到的数据块可能会存在不一致的情况。xtrabackup会将备份期间生成redo日志备份到单独的文件，基于innodb redo机制，可以将所有数据块的状态恢复到一个一致的状态。
 
-![图片](https://static001.geekbang.org/resource/image/17/e2/1737beyy1d2cbc91c437e467f2434de2.jpg?wh=1093x329)
+![图片](https://static001.geekbang.org/resource/image/17/e2/1737beyy1d2cbc91c437e467f2434de2.jpg?wh=1093x329){: referrerpolicy="no-referrer" }
 
 如上图所示，备份开始时，数据库处于状态Vi，备份过程中，数据库的状态不断变化，备份完成时，数据库的状态为Vn。
 
 Xtrabackup备份开始时，启动一个Redo复制线程，然后再启动一些线程，Copy InnoDB数据文件。InnoDB数据文件Copy完成后，获取全局锁（FLUSH TABLES WITH READ LOCK），复制其他文件，如MyISAM表、系统数据库中的一些文件。最后获取Binlog位点，结束备份。
 
-![图片](https://static001.geekbang.org/resource/image/db/36/dbded4ca094dece8cb3ee38fdf819236.jpg?wh=1428x595)
+![图片](https://static001.geekbang.org/resource/image/db/36/dbded4ca094dece8cb3ee38fdf819236.jpg?wh=1428x595){: referrerpolicy="no-referrer" }
 
 虽然Xtrabackup使用了热备份，但是备份的一些阶段中，也可能会获取一些锁。
 

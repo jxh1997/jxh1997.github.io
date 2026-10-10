@@ -10,7 +10,7 @@
 
 那么，接下来，我们就一起从即时消息更细化的实现角度来看一看，给一个已有系统增加即时消息功能，大致上都有哪些具体工作。
 
-![](https://static001.geekbang.org/resource/image/1c/28/1c38c735ff95d2df0ca15040394f6f28.png?wh=1965%2A1637)
+![](https://static001.geekbang.org/resource/image/1c/28/1c38c735ff95d2df0ca15040394f6f28.png?wh=1965%2A1637){: referrerpolicy="no-referrer" }
 
 如果为原有的业务系统增加实时消息模块，在不需要重建账号体系的前提下，整体上大概包括几块内容：
 
@@ -42,11 +42,11 @@
 
 <!--THE END-->
 
-![](https://static001.geekbang.org/resource/image/b5/8f/b50954d72596da912c510d8b556b408f.jpg?wh=1369%2A211)
+![](https://static001.geekbang.org/resource/image/b5/8f/b50954d72596da912c510d8b556b408f.jpg?wh=1369%2A211){: referrerpolicy="no-referrer" }
 
 - 索引表
 
-![](https://static001.geekbang.org/resource/image/0b/01/0b4a032608bdd2b56fa7c826d8cc9601.jpg?wh=1377%2A299)
+![](https://static001.geekbang.org/resource/image/0b/01/0b4a032608bdd2b56fa7c826d8cc9601.jpg?wh=1377%2A299){: referrerpolicy="no-referrer" }
 
 比如张三给李四发了一条“你好”的消息，那么这个动作会向内容表存储一条消息。这条消息内容是这样的：ID为1001，消息内容是“你好”，消息类型是文本消息，还有当时消息创建的时间。
 
@@ -69,7 +69,7 @@
 
 - 最近联系人表
 
-![](https://static001.geekbang.org/resource/image/49/4c/49c11075b4732b492e900aab58770c4c.jpg?wh=1381%2A271)
+![](https://static001.geekbang.org/resource/image/49/4c/49c11075b4732b492e900aab58770c4c.jpg?wh=1381%2A271){: referrerpolicy="no-referrer" }
 
 还是刚才那个例子，张三给李四发完消息后，除了在内容表和索引表插入记录，还会更新各自的最近联系人表，这里需要分别更新张三的最近联系人表和李四的最近联系人表。
 
@@ -92,7 +92,7 @@
 1. IM服务端提供一个HTTP协议的API接口，客户端需要发送消息时，调用这个接口把消息发给IM服务端。
 2. 客户端和IM服务端维护一个TCP长连接，客户端有消息发送时，会以私有协议来封装这条要发送的消息，然后通过这个TCP长连接把消息发给IM服务端。
 
-![](https://static001.geekbang.org/resource/image/3a/47/3a685f9d3f363cb7f748b73b6f8a6147.png?wh=1614%2A1310)
+![](https://static001.geekbang.org/resource/image/3a/47/3a685f9d3f363cb7f748b73b6f8a6147.png?wh=1614%2A1310){: referrerpolicy="no-referrer" }
 
 所以，发送通道的实现相对比较简单，**重点在于：IM服务端提供消息发送的API，发送方可以通过任意方式调用到这个API，把消息发出去即可。**
 
@@ -102,7 +102,7 @@
 
 下面，我画了一张图来说明接收通道的业务逻辑，目前业界在消息接收通道的实现上较多采用的方式是下面这样的。
 
-![](https://static001.geekbang.org/resource/image/41/33/41bd1f4c74e980f88cd1a2247f292133.png?wh=1637%2A2456)
+![](https://static001.geekbang.org/resource/image/41/33/41bd1f4c74e980f88cd1a2247f292133.png?wh=1637%2A2456){: referrerpolicy="no-referrer" }
 
 解释一下这张图。
 

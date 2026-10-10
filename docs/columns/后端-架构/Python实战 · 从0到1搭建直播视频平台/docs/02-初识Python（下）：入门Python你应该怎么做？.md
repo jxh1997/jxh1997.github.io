@@ -131,7 +131,7 @@ dtype: object
 
 DataFrame是二维数组结构，像table列表一样，它的数据结构也是数组包裹数组的形式。通过data的格式，我们就能清楚地看到它的结构特点。我们通过变量df来获取 ‘Name’ 和 ‘Age’ 的值，可以看到，输出的结构为列表，这和 Series 是有明显区别的。
 
-![](https://static001.geekbang.org/resource/image/51/cd/5142f6961eed796c3f5dac594a3e5dcd.jpg?wh=3664x2177)
+![](https://static001.geekbang.org/resource/image/51/cd/5142f6961eed796c3f5dac594a3e5dcd.jpg?wh=3664x2177){: referrerpolicy="no-referrer" }
 
 ```python
 import pandas as pd
@@ -170,7 +170,7 @@ plot(x, y)
 show()
 ```
 
-![](https://static001.geekbang.org/resource/image/64/b7/649ea568d478087d522f1d427f4432b7.jpg?wh=2230x785)
+![](https://static001.geekbang.org/resource/image/64/b7/649ea568d478087d522f1d427f4432b7.jpg?wh=2230x785){: referrerpolicy="no-referrer" }
 
 此外，柱状图也是非常常用的一种图表。柱状图是一种用矩形柱来表示数据分类的图表，它的高度与其所表示的数值成正比关系。柱状图可以直观地展示了不同类别之间的比较关系，图表的水平轴 X 指定被比较的类别，垂直轴 Y 则表示具体类别的值。
 
@@ -191,7 +191,7 @@ ax.bar(langs,students)
 plt.show()
 ```
 
-![](https://static001.geekbang.org/resource/image/1b/ea/1b2747996039f0342d7de8107259faea.jpg?wh=2063x1477)
+![](https://static001.geekbang.org/resource/image/1b/ea/1b2747996039f0342d7de8107259faea.jpg?wh=2063x1477){: referrerpolicy="no-referrer" }
 
 还有一种较为常见的一种可视化效果图：散点图。散点图主要用于在水平轴和垂直轴上绘制数据点，例如它可以表现因变量随自变量变化的趋势。
 
@@ -222,7 +222,7 @@ plt.legend()
 plt.show()
 ```
 
-![](https://static001.geekbang.org/resource/image/c1/9e/c158aaa4f02edf80c040aa202ed7f09e.jpg?wh=1990x1340)
+![](https://static001.geekbang.org/resource/image/c1/9e/c158aaa4f02edf80c040aa202ed7f09e.jpg?wh=1990x1340){: referrerpolicy="no-referrer" }
 
 刚才，我们讲解了数据分析板块常用的一些库的应用，相信你会对Python数据分析有一些新的认识。当然我们这里只举了一些非常简单的示例，课后你还需要继续深挖，继续进步。
 
@@ -236,13 +236,13 @@ plt.show()
 
 我们都知道各类开发语言都有自己特有的框架，框架在优化开发效率的同时，也让项目管理更加完善。每个框架都有自己的特点，这也是在做项目开发的过程中，开发者需要重点关注的问题。下面我们一起来看一下这两个框架有什么不同之处，以及我们在开发过程中如何进行选择。
 
-![](https://static001.geekbang.org/resource/image/8b/e1/8be937d5960d7a0b87e5e5bd406242e1.jpg?wh=2153x1211)
+![](https://static001.geekbang.org/resource/image/8b/e1/8be937d5960d7a0b87e5e5bd406242e1.jpg?wh=2153x1211){: referrerpolicy="no-referrer" }
 
 我们先来了解一下Django框架。Django 是一个由 Python 编写的 Web 应用框架。Django框架采用的是MTV模式，它是在MVC模式基础上的一种变形。
 
 那什么是MVC模型呢？它指的是 Model（模型）+ View（视图）+ Controller（控制器）的设计模式。MVC的优势就是可以很好地管理各个模块，将视图与数据模块分离开，不仅在模块管理上非常便捷，也非常有利于后期的代码修改。MVC的架构图如下。
 
-![](https://static001.geekbang.org/resource/image/67/c1/671f01037fd49dedc1f10e97a18de4c1.jpg?wh=2023x1134)
+![](https://static001.geekbang.org/resource/image/67/c1/671f01037fd49dedc1f10e97a18de4c1.jpg?wh=2023x1134){: referrerpolicy="no-referrer" }
 
 在后端项目开发中，如果选用Django，开发者只要写很少的代码，就可以快速完成网站大部分模块的开发。
 
@@ -250,7 +250,7 @@ plt.show()
 
 类比一下，如果Django是精装修的房子，自带齐全的豪华家具、功能强大的家电，我们可以拎包入住；那Flask就类似于毛坯房，我们需要自己找材料，做装修，选家具。材料和家具的种类倒是非常丰富，并且都是现成免费的，我们可以直接拿过去用。
 
-![](https://static001.geekbang.org/resource/image/2d/60/2dc082b51e36b06d5b8e4b09715cbd60.jpg?wh=2510x1413)
+![](https://static001.geekbang.org/resource/image/2d/60/2dc082b51e36b06d5b8e4b09715cbd60.jpg?wh=2510x1413){: referrerpolicy="no-referrer" }
 
 由于Flask框架简洁轻量易扩展，使用起来更灵活，更适合初学者完成渐进式的学习。所以后续的课程中我们会更全面、细致地学习Flask框架。等你学会Flask之后，再来学习Django就会发现非常轻松，可以说是一通百通的。在生产实践当中，我们可以根据项目特点合理选择框架。
 

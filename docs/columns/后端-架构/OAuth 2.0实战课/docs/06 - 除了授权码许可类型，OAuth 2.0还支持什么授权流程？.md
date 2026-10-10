@@ -22,7 +22,7 @@
 
 接下来，我们一起看下这种许可类型的流程，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/cd/e9/cd596cfd73a42449a39342f951c5cce9.png?wh=1662%2A1054 "图1 资源拥有者凭据许可类型的流程")
+![](https://static001.geekbang.org/resource/image/cd/e9/cd596cfd73a42449a39342f951c5cce9.png?wh=1662%2A1054 "图1 资源拥有者凭据许可类型的流程"){: referrerpolicy="no-referrer" }
 
 步骤1：当用户访问第三方软件小兔时，会提示输入用户名和密码。索要用户名和密码，就是资源拥有者凭据许可类型的特点。
 
@@ -76,7 +76,7 @@ if("password".equals(grantType)){
 
 我们还是以小明使用小兔软件为例，来看下客户端凭据许可的整个授权流程，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/cb/ff/cbc8cc1e03cb1d0a2f945ffd9dbb37ff.png?wh=1498%2A748 "图2 客户端凭据许可授权流程")
+![](https://static001.geekbang.org/resource/image/cb/ff/cbc8cc1e03cb1d0a2f945ffd9dbb37ff.png?wh=1498%2A748 "图2 客户端凭据许可授权流程"){: referrerpolicy="no-referrer" }
 
 另外一点呢，因为授权过程没有了资源拥有者小明的参与，小兔软件的后端服务可以随时发起access\_token的请求，所以这种授权许可也不需要刷新令牌。
 
@@ -128,7 +128,7 @@ if("client_credentials".equals(grantType)){
 
 因此，**隐式许可授权流程的安全性会降低很多**。在授权流程中，没有服务端的小兔软件相当于是嵌入到了浏览器中，访问浏览器的过程相当于接触了小兔软件的全部，因此我用虚线框来表示小兔软件，整个授权流程如下图所示：
 
-![](https://static001.geekbang.org/resource/image/c9/y0/c957860d09beb8777c59978f3b9e2yy0.png?wh=1492%2A730 "图3 隐式许可授权流程")
+![](https://static001.geekbang.org/resource/image/c9/y0/c957860d09beb8777c59978f3b9e2yy0.png?wh=1492%2A730 "图3 隐式许可授权流程"){: referrerpolicy="no-referrer" }
 
 接下来，我使用Servlet的Get请求来模拟这个流程，一起看看相关的示例代码。
 
@@ -188,7 +188,7 @@ if("token".equals(responseType)){
 
 加上前面我们讲的授权码许可类型，我们一共讲了4种授权许可类型，它们最显著的区别就是**获取访问令牌access\_token的方式不同**。最后，我通过一张表格来对比下：
 
-![](https://static001.geekbang.org/resource/image/3e/4d/3ee0ceff6c543157a51aae985756454d.jpg?wh=2000%2A1225 "图4 OAuth 2.0的4种授权许可类型对比")
+![](https://static001.geekbang.org/resource/image/3e/4d/3ee0ceff6c543157a51aae985756454d.jpg?wh=2000%2A1225 "图4 OAuth 2.0的4种授权许可类型对比"){: referrerpolicy="no-referrer" }
 
 除了上面这张表格所展现的4种授权许可类型的区别之外，我希望你还能记住以下两点。
 

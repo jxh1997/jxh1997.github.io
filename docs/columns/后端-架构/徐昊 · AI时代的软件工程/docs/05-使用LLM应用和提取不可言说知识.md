@@ -23,7 +23,7 @@
 请为"查找所有计算机学院的学生"生成MySQL的查询语句
 ```
 
-![](https://static001.geekbang.org/resource/image/93/64/933118b63e6babf99346830c343f3a64.jpg?wh=1492x1591)
+![](https://static001.geekbang.org/resource/image/93/64/933118b63e6babf99346830c343f3a64.jpg?wh=1492x1591){: referrerpolicy="no-referrer" }
 
 这个时候如果我希望LLM改写这个SQL的一些细节，比如不要带表名之类的，我们会再次向LLM提问或修改描述。此时，我们并不是真的处在复杂模式，我们对于要做的修改有清晰的认识，所以我们处在清晰的认知模式中。而交互上表现为复杂模式，只是为了应对LLM的不确定性。
 
@@ -122,7 +122,7 @@ API
 
 对于返回的结果，你可以着重看一下LLM这次返回的时候，生成的样式和里面的任务，以及和前面的符合度是怎样的。
 
-![](https://static001.geekbang.org/resource/image/93/bf/9321c569d3f01a51e3145a599c705abf.jpg?wh=1597x2485)
+![](https://static001.geekbang.org/resource/image/93/bf/9321c569d3f01a51e3145a599c705abf.jpg?wh=1597x2485){: referrerpolicy="no-referrer" }
 
 由于处在庞杂模式时，对于要处理的问题有明确的认知，但是解决方案依赖于我们分析的结果。我们与LLM交互模式是借助通过**思维链（或类似的技术）指导知识生成**，明确LLM将要进行的工作。当我们与LLM就将要进行的任务达成一致，就可以按照这个共识，让LLM负责生成最后的结果。
 
@@ -152,17 +152,17 @@ API
 
 这时候LLM的返回结果也变得很有意思：
 
-![](https://static001.geekbang.org/resource/image/ca/af/ca7d64d162d2d22943230a510e71b3af.jpg?wh=1633x2475)
+![](https://static001.geekbang.org/resource/image/ca/af/ca7d64d162d2d22943230a510e71b3af.jpg?wh=1633x2475){: referrerpolicy="no-referrer" }
 
 对比这个结果和庞杂模式下的结果，就会发现复杂模式下还需要进一步的迭代与反馈，才能达到可用的状态。**这很形象地表现了未被充分学习和已经被充分学习的不可言说知识在LLM上的差别，也就是说能够转化为CoT（或类似技术）的，就是已经被充分学习了的不可言说知识。**因而，**不可言说知识的提取就是提取CoT的过程**。
 
-![](https://static001.geekbang.org/resource/image/c6/f9/c67f927fb12be60e4f753c0369a58ff9.jpg?wh=1403x541)
+![](https://static001.geekbang.org/resource/image/c6/f9/c67f927fb12be60e4f753c0369a58ff9.jpg?wh=1403x541){: referrerpolicy="no-referrer" }
 
 在上面的例子里，我们会发现，影响任务拆分效果的不可言说知识，是关于架构的知识。因而，我们可以在与LLM反馈学习的过程中，补充架构相关的知识，以提高任务列表的质量。
 
 除了通过反馈学习提取不可言说知识之外，发现并学习已经被提取出来的不可言说知识，也是复杂模式下一种重要的行为模式。目前比较流行的方式是使用**检索增强生成（Retrieval Augmented Generated， RAG）。**
 
-![](https://static001.geekbang.org/resource/image/8a/ea/8a4ec1667fa837e187d710c0a77c40ea.jpg?wh=1705x772 "RAG 架构")
+![](https://static001.geekbang.org/resource/image/8a/ea/8a4ec1667fa837e187d710c0a77c40ea.jpg?wh=1705x772 "RAG 架构"){: referrerpolicy="no-referrer" }
 
 在RAG架构下，我们提出的问题并不会被直接处理，而是根据提问的问题，首先从知识库中检索相关的片段，再将对应片段综合，生成最终的prompt，提供给LLM进行回答。它包含根据问题**检索、依据结果增强**以及增强之后**生成**三个部分，因此而得名。
 
@@ -177,7 +177,7 @@ API
 请先生成任务列表，并解释为什么这么拆分。
 ```
 
-![](https://static001.geekbang.org/resource/image/62/bb/62c08d1653db79ec00fb2422084561bb.jpg?wh=1588x2483)
+![](https://static001.geekbang.org/resource/image/62/bb/62c08d1653db79ec00fb2422084561bb.jpg?wh=1588x2483){: referrerpolicy="no-referrer" }
 
 ## 小结
 

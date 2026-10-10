@@ -17,7 +17,7 @@ Codis集群中包含了4类关键组件。
 
 我用一张图来展示下Codis集群的架构和关键组件。
 
-![](https://static001.geekbang.org/resource/image/c7/a5/c726e3c5477558fa1dba13c6ae8a77a5.jpg?wh=2913%2A1835)
+![](https://static001.geekbang.org/resource/image/c7/a5/c726e3c5477558fa1dba13c6ae8a77a5.jpg?wh=2913%2A1835){: referrerpolicy="no-referrer" }
 
 我来给你具体解释一下Codis是如何处理请求的。
 
@@ -29,7 +29,7 @@ Codis集群中包含了4类关键组件。
 
 我来用一张图展示这个处理流程：
 
-![](https://static001.geekbang.org/resource/image/f7/e5/f76df33a4eba1ebddfd5450745yy83e5.jpg?wh=2620%2A1817)
+![](https://static001.geekbang.org/resource/image/f7/e5/f76df33a4eba1ebddfd5450745yy83e5.jpg?wh=2620%2A1817){: referrerpolicy="no-referrer" }
 
 好了，了解了Codis集群架构和基本流程后，接下来，我就围绕影响切片集群使用效果的4方面技术因素：数据分布、集群扩容和数据迁移、客户端兼容性、可靠性保证，来和你聊聊它们的具体设计选择和原理，帮你掌握Codis的具体用法。
 
@@ -47,7 +47,7 @@ Codis集群中包含了4类关键组件。
 
 我来举个例子。下图显示的就是数据、Slot和codis server的映射保存关系。其中，Slot 0和1被分配到了server1，Slot 2分配到server2，Slot 1022和1023被分配到server8。当客户端访问key 1和key 2时，这两个数据的CRC32值对1024取模后，分别是1和1022。因此，它们会被保存在Slot 1和Slot 1022上，而Slot 1和Slot 1022已经被分配到codis server 1和8上了。这样一来，key 1和key 2的保存位置就很清楚了。
 
-![](https://static001.geekbang.org/resource/image/77/yy/77cb1b860cfa5aac9f0a0f7b780fbeyy.jpg?wh=2621%2A1259)
+![](https://static001.geekbang.org/resource/image/77/yy/77cb1b860cfa5aac9f0a0f7b780fbeyy.jpg?wh=2621%2A1259){: referrerpolicy="no-referrer" }
 
 数据key和Slot的映射关系是客户端在读写数据前直接通过CRC32计算得到的，而Slot和codis server的映射关系是通过分配完成的，所以就需要用一个存储系统保存下来，否则，如果集群有故障了，映射关系就会丢失。
 
@@ -55,7 +55,7 @@ Codis集群中包含了4类关键组件。
 
 你可以看下这张图，它显示了路由表的分配和使用过程。
 
-![](https://static001.geekbang.org/resource/image/d1/b1/d1a53f8b23d410f320ef145fd47c97b1.jpg?wh=2861%2A1864)
+![](https://static001.geekbang.org/resource/image/d1/b1/d1a53f8b23d410f320ef145fd47c97b1.jpg?wh=2861%2A1864){: referrerpolicy="no-referrer" }
 
 在数据分布的实现方法上，Codis和Redis Cluster很相似，都采用了key映射到Slot、Slot再分配到实例上的机制。
 
@@ -86,7 +86,7 @@ Codis集群按照Slot的粒度进行数据迁移，我们来看下迁移的基�
 
 我画了下面这张图，显示了数据迁移的流程，你可以看下加深理解。
 
-![](https://static001.geekbang.org/resource/image/e0/6b/e01c7806b51b196097c393a079436d6b.jpg?wh=2083%2A1875)
+![](https://static001.geekbang.org/resource/image/e0/6b/e01c7806b51b196097c393a079436d6b.jpg?wh=2083%2A1875){: referrerpolicy="no-referrer" }
 
 针对刚才介绍的单个数据的迁移过程，Codis实现了两种迁移模式，分别是同步迁移和异步迁移，我们来具体看下。
 
@@ -116,7 +116,7 @@ Codis集群按照Slot的粒度进行数据迁移，我们来看下迁移的基�
 
 此时，codis proxy的访问连接信息都会保存在Zookeeper上。所以，当新增了proxy后，Zookeeper上会有最新的访问列表，客户端也就可以从Zookeeper上读取proxy访问列表，把请求发送给新增的proxy。这样一来，客户端的访问压力就可以在多个proxy上分担处理了，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/70/23/707767936a6fb2d7686c84d81c048423.jpg?wh=3000%2A1617)
+![](https://static001.geekbang.org/resource/image/70/23/707767936a6fb2d7686c84d81c048423.jpg?wh=3000%2A1617){: referrerpolicy="no-referrer" }
 
 好了，到这里，我们就了解了Codis集群中的数据分布、集群扩容和数据迁移的方法，这都是切片集群中的关键机制。
 
@@ -148,7 +148,7 @@ codis server其实就是Redis实例，只不过增加了和集群操作相关的
 
 下图展示的是配置了server group的Codis集群架构。在Codis集群中，我们通过部署server group和哨兵集群，实现codis server的主从切换，提升集群可靠性。
 
-![](https://static001.geekbang.org/resource/image/02/4a/0282beb10f5c42c1f12c89afbe03af4a.jpg?wh=3000%2A1992)
+![](https://static001.geekbang.org/resource/image/02/4a/0282beb10f5c42c1f12c89afbe03af4a.jpg?wh=3000%2A1992){: referrerpolicy="no-referrer" }
 
 因为codis proxy和Zookeeper这两个组件是搭配在一起使用的，所以，接下来，我们再来看下这两个组件的可靠性。
 
@@ -162,7 +162,7 @@ codis server其实就是Redis实例，只不过增加了和集群操作相关的
 
 到这里，Codis和Redis Cluster这两种切片集群方案我们就学完了，我把它们的区别总结在了一张表里，你可以对比看下。
 
-![](https://static001.geekbang.org/resource/image/8f/b8/8fec8c2f76e32647d055ae6ed8cfbab8.jpg?wh=2880%2A1166)
+![](https://static001.geekbang.org/resource/image/8f/b8/8fec8c2f76e32647d055ae6ed8cfbab8.jpg?wh=2880%2A1166){: referrerpolicy="no-referrer" }
 
 最后，在实际应用的时候，对于这两种方案，我们该怎么选择呢？我再给你提4条建议。
 

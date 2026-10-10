@@ -16,7 +16,7 @@
 
 我们知道用户故事不是凭空产生的，而是根据用户的角色画像、整体解决方案以及用户旅程，拆分出来的。那么验收条件，实际就是在当前用户故事语境下，用户旅程或整体解决方案的细化和拆分。
 
-![](https://static001.geekbang.org/resource/image/4a/91/4a551e33a58955bd1079f5d891e64391.jpg?wh=2000x1125)
+![](https://static001.geekbang.org/resource/image/4a/91/4a551e33a58955bd1079f5d891e64391.jpg?wh=2000x1125){: referrerpolicy="no-referrer" }
 
 在不知道用户旅程和整体解决方案之前，我们是无法给出验收条件的。仍然以我们前面的用户故事为例：
 
@@ -76,13 +76,13 @@
 
 那么让我们看一个具体的例子。TQA的形式无法通过ChatGPT直接使用，需要构造一个Agent调用ChatGPT的API完成。
 
-![](https://static001.geekbang.org/resource/image/10/76/10d6b699347f2b25e334d03ac4a1f476.jpg?wh=2068x1709)
+![](https://static001.geekbang.org/resource/image/10/76/10d6b699347f2b25e334d03ac4a1f476.jpg?wh=2068x1709){: referrerpolicy="no-referrer" }
 
 如上图所示，这个Agent分成三个部分，分别是用户故事、业务上下文以及与LLM交互的部分。
 
 后面这个例子展示了我们如何利用这个Agent，让LLM尝试理解我们给出的用户故事，并对用户故事进行提问。
 
-![](https://static001.geekbang.org/resource/image/91/87/91cyy9afba6115f4651340798e6cbb87.jpg?wh=2068x1724)
+![](https://static001.geekbang.org/resource/image/91/87/91cyy9afba6115f4651340798e6cbb87.jpg?wh=2068x1724){: referrerpolicy="no-referrer" }
 
 我们与LLM的问答摘录如下， H表示人（Human），L表示LLM：
 

@@ -38,7 +38,7 @@ static class ResourceServlet extends HttpServlet {
 
 在这个Spike的基础上，我们可以进一步细化架构的愿景：
 
-![](https://static001.geekbang.org/resource/image/c4/4b/c4yyfbbe0e0361571e7352f4eefc474b.jpg?wh=2284x1285)
+![](https://static001.geekbang.org/resource/image/c4/4b/c4yyfbbe0e0361571e7352f4eefc474b.jpg?wh=2284x1285){: referrerpolicy="no-referrer" }
 
 ## 明确调用栈顺序
 
@@ -46,8 +46,8 @@ static class ResourceServlet extends HttpServlet {
 
 根据Spike的结果，我们可以得到这部分的架构愿景和调用栈顺序：
 
-![](https://static001.geekbang.org/resource/image/69/f9/69187acce0858b870364248b0f5f99f9.jpg?wh=2284x1285)  
-![](https://static001.geekbang.org/resource/image/10/a1/102dee363b2a45734c24ee4ef20c39a1.jpg?wh=2284x1285)  
+![](https://static001.geekbang.org/resource/image/69/f9/69187acce0858b870364248b0f5f99f9.jpg?wh=2284x1285)  {: referrerpolicy="no-referrer" }
+![](https://static001.geekbang.org/resource/image/10/a1/102dee363b2a45734c24ee4ef20c39a1.jpg?wh=2284x1285)  {: referrerpolicy="no-referrer" }
 如上图所示，为大致的组件划分。
 
 - ResourceServlet：以Servlet的形式作为入口，处理Http请求。

@@ -14,13 +14,13 @@
 
 那ES是怎么来解决搜索问题的呢？我们来举个例子说明一下，假设我们有这样两个商品，一个是烟台红富士苹果，一个是苹果手机iPhone XS Max。
 
-![](https://static001.geekbang.org/resource/image/28/0a/28a9b198c9b10a3b4d50a77d8fea6c0a.jpg?wh=4266%2A1233)
+![](https://static001.geekbang.org/resource/image/28/0a/28a9b198c9b10a3b4d50a77d8fea6c0a.jpg?wh=4266%2A1233){: referrerpolicy="no-referrer" }
 
 这个表里面的DOCID就是唯一标识一条记录的ID，和数据库里面的主键是类似的。
 
 为了能够支持快速地全文搜索，ES中对于文本采用了一种特殊的索引：倒排索引（Inverted Index）。那我们看一下在ES中，这两条商品数据倒排索引长什么样？请看下面这个表。
 
-![](https://static001.geekbang.org/resource/image/6f/1c/6fcdd7e10c3e72b2abe635c8a5a6ff1c.jpg?wh=4266%2A2734)
+![](https://static001.geekbang.org/resource/image/6f/1c/6fcdd7e10c3e72b2abe635c8a5a6ff1c.jpg?wh=4266%2A2734){: referrerpolicy="no-referrer" }
 
 可以看到，这个倒排索引的表，它是以单词作为索引的Key，然后每个单词的倒排索引的值是一个列表，这个列表的元素就是含有这个单词的商品记录的DOCID。
 
@@ -28,7 +28,7 @@
 
 当我们搜索关键字“苹果手机”的时候，ES会对关键字也进行分词，比如说，“苹果手机”被分为“苹果”和“手机”。然后，ES会在倒排索引中去搜索我们输入的每个关键字分词，搜索结果应该是：
 
-![](https://static001.geekbang.org/resource/image/71/c2/7191b2ba0e28d8b7db9871213664a6c2.jpg?wh=4266%2A607)
+![](https://static001.geekbang.org/resource/image/71/c2/7191b2ba0e28d8b7db9871213664a6c2.jpg?wh=4266%2A607){: referrerpolicy="no-referrer" }
 
 666和888这两条记录都能匹配上搜索的关键词，但是888这个商品比666这个商品匹配度更高，因为它两个单词都能匹配上，所以按照匹配度把结果做一个排序，最终返回的搜索结果就是：
 
@@ -48,7 +48,7 @@
 
 理解了倒排索引的原理之后，我们一起用ES构建一个商品索引，简单实现一个商品搜索系统。虽然ES是为搜索而生的，但本质上，它仍然是一个存储系统。ES里面的一些概念，基本上都可以在关系数据库中找到对应的名词，为了便于你快速理解这些概念，我把这些概念的对应关系列出来，你可以对照理解。
 
-![](https://static001.geekbang.org/resource/image/cd/df/cdbfcc01166ad3a1fd2a12791d0079df.jpg?wh=4266%2A1024)
+![](https://static001.geekbang.org/resource/image/cd/df/cdbfcc01166ad3a1fd2a12791d0079df.jpg?wh=4266%2A1024){: referrerpolicy="no-referrer" }
 
 在ES里面，数据的逻辑结构类似于MongoDB，每条数据称为一个**DOCUMENT**，简称DOC。DOC就是一个JSON对象，DOC中的每个JSON字段，在ES中称为**FIELD**，把一组具有相同字段的DOC存放在一起，存放它们的逻辑容器叫**INDEX**，这些DOC的JSON结构称为**MAPPING**。这里面最不好理解的就是这个INDEX，它实际上类似于MySQL中表的概念，而不是我们通常理解的用于查找数据的索引。
 
@@ -97,7 +97,7 @@ curl -X POST "localhost:9200/_analyze?pretty" -H 'Content-Type: application/json
 
 为了能实现商品搜索，我们需要先把商品信息存放到ES中，首先我们先定义存放在ES中商品的数据结构，也就是MAPPING。
 
-![](https://static001.geekbang.org/resource/image/e6/99/e6cadb1ad8311de9772e673161f94999.jpg?wh=4266%2A631)
+![](https://static001.geekbang.org/resource/image/e6/99/e6cadb1ad8311de9772e673161f94999.jpg?wh=4266%2A631){: referrerpolicy="no-referrer" }
 
 我们这个MAPPING只要两个字段就够了，sku\_id就是商品ID，title保存商品的标题，当用户在搜索商品的时候，我们在ES中来匹配商品标题，返回符合条件商品的sku\_id列表。ES默认提供了标准的RESTful接口，不需要客户端，直接使用HTTP协议就可以访问，这里我们使用[curl](https://curl.haxx.se/docs/manpage.html)通过命令行来操作ES。
 

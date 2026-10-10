@@ -21,11 +21,11 @@
 
 这个语言的文法大概在 2012 年就已经被加入到七牛的代码库，后来有个同事根据这个 DSL 文法写了第一版本 qiniutest 程序。在决定推广用这个 DSL 来进行测试的过程中，我们对 DSL 不断地进行了调整和加强。虽然总体思路没有变化，但最终定稿的 DSL 与最初版本有较大的差异。目前来说，我已经可以十分确定地说，这个DSL可以满足 90% 以上的测试需求。它被推荐做为七牛内部的首选测试方案。
 
-![](https://static001.geekbang.org/resource/image/45/82/45e35f9cf7ab35fea48b6135160c0a82.png?wh=865%2A242)
+![](https://static001.geekbang.org/resource/image/45/82/45e35f9cf7ab35fea48b6135160c0a82.png?wh=865%2A242){: referrerpolicy="no-referrer" }
 
 上图是这套 DSL 的 “hello world” 程序。它的执行预期是：下载 www.qiniu.com 首页，要求返回的 HTTP 状态码为 200。如果返回非 200，测试失败；否则测试通过，输出返回包的正文内容（resp.body 变量）。输出 resp.body 的内容通常是调试需要，而不是测试需要。自动化测试是不需要向屏幕去输出什么的。
 
-![](https://static001.geekbang.org/resource/image/c7/ac/c761fdaac0a959f13a5ee14d4eaddaac.png?wh=865%2A664)
+![](https://static001.geekbang.org/resource/image/c7/ac/c761fdaac0a959f13a5ee14d4eaddaac.png?wh=865%2A664){: referrerpolicy="no-referrer" }
 
 我们再看该 DSL 的一个 “quick start（快速入门）” 样例。以 # 开始的内容是程序的注释部分。这里有一个很长很长的注释，描述了一个基本的 HTTP 请求测试的构成。后面我们会对这部分内容进行详细展开，这里暂时跳过。
 
@@ -135,11 +135,11 @@ match <expected-status-code> $(resp.code)
 
 这里我们引入了一个新的指令：match 指令。
 
-![](https://static001.geekbang.org/resource/image/ba/c4/bac83312bf630b33c40f1f28ab1d3dc4.png?wh=865%2A486)
+![](https://static001.geekbang.org/resource/image/ba/c4/bac83312bf630b33c40f1f28ab1d3dc4.png?wh=865%2A486){: referrerpolicy="no-referrer" }
 
 七牛所有 HTTP 返回包匹配的匹配文法，都可以用这个 match 来表达：
 
-![](https://static001.geekbang.org/resource/image/52/60/52a851227b667cc52b8ada69667b4060.png?wh=865%2A443)
+![](https://static001.geekbang.org/resource/image/52/60/52a851227b667cc52b8ada69667b4060.png?wh=865%2A443){: referrerpolicy="no-referrer" }
 
 所以本质上来说，我们只需要一个不带参数的 ret，加上 match 指令，就可以搞定所有的返回包匹配过程。这也是我们为什么说 match 指令是这套 DSL 中最核心的概念的原因。
 
@@ -185,7 +185,7 @@ json '{
 
 除了服务器 Host 需要参数化外，其他常见的参数化需求是 用户名/密码、AK/SK 等。AK/SK 这样的信息非常敏感，如果在测试脚本里面硬编码这些信息，将不利于测试脚本代码的入库。一个典型的测试环境参数化后的测试脚本样例如下：
 
-![](https://static001.geekbang.org/resource/image/a2/fb/a2d588df5daf9cb3535569a6f404acfb.png?wh=715%2A538)
+![](https://static001.geekbang.org/resource/image/a2/fb/a2d588df5daf9cb3535569a6f404acfb.png?wh=715%2A538){: referrerpolicy="no-referrer" }
 
 其中，env 指令用于取环境变量对应的值（返回值类型是 string），envdecode 指令则是先取得环境变量对应的值，然后对值进行 json decode 得到相应的 object/dictionary。有了`$(env)` 这个对象`(object)`，就可以通过它获得各种测试环境参数，比如 `$(env.FooHost)`、`$(env.AK)`、`$(env.SK)` 等。
 

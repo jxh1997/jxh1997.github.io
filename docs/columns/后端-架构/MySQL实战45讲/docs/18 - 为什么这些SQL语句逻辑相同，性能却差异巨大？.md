@@ -32,7 +32,7 @@ mysql> select count(*) from tradelog where month(t_modified)=7;
 
 下面是这个t\_modified索引的示意图。方框上面的数字就是month()函数对应的值。
 
-![](https://static001.geekbang.org/resource/image/3e/86/3e30d9a5e67f711f5af2e2599e800286.png?wh=1142%2A856)
+![](https://static001.geekbang.org/resource/image/3e/86/3e30d9a5e67f711f5af2e2599e800286.png?wh=1142%2A856){: referrerpolicy="no-referrer" }
 
 图1 t\_modified索引示意图
 
@@ -50,7 +50,7 @@ mysql> select count(*) from tradelog where month(t_modified)=7;
 
 接下来，我们使用explain命令，查看一下这条SQL语句的执行结果。
 
-![](https://static001.geekbang.org/resource/image/27/55/27c2f5ff3549b18ba37a28f4919f3655.png?wh=1637%2A143)
+![](https://static001.geekbang.org/resource/image/27/55/27c2f5ff3549b18ba37a28f4919f3655.png?wh=1637%2A143){: referrerpolicy="no-referrer" }
 
 图2 explain 结果
 
@@ -97,7 +97,7 @@ mysql> select * from tradelog where tradeid=110717;
 
 验证结果如图3所示。
 
-![](https://static001.geekbang.org/resource/image/2b/14/2b67fc38f1651e2622fe21d49950b214.png?wh=289%2A142)
+![](https://static001.geekbang.org/resource/image/2b/14/2b67fc38f1651e2622fe21d49950b214.png?wh=289%2A142){: referrerpolicy="no-referrer" }
 
 图3 MySQL中字符串和数字转换的效果示意图
 
@@ -164,7 +164,7 @@ insert into trade_detail values(11, 'aaaaaaac', 4, 'commit');
 mysql> select d.* from tradelog l, trade_detail d where d.tradeid=l.tradeid and l.id=2; /*语句Q1*/
 ```
 
-![](https://static001.geekbang.org/resource/image/ad/22/adfe464af1d15f3261b710a806c0fa22.png?wh=1412%2A171)
+![](https://static001.geekbang.org/resource/image/ad/22/adfe464af1d15f3261b710a806c0fa22.png?wh=1412%2A171){: referrerpolicy="no-referrer" }
 
 图4 语句Q1的explain 结果
 
@@ -177,7 +177,7 @@ mysql> select d.* from tradelog l, trade_detail d where d.tradeid=l.tradeid and 
 
 接下来，我们看下这个explain结果表示的执行流程：
 
-![](https://static001.geekbang.org/resource/image/82/a9/8289c184c8529acea0269a7460dc62a9.png?wh=1142%2A856)
+![](https://static001.geekbang.org/resource/image/82/a9/8289c184c8529acea0269a7460dc62a9.png?wh=1142%2A856){: referrerpolicy="no-referrer" }
 
 图5 语句Q1的执行过程
 
@@ -225,7 +225,7 @@ CONVERT()函数，在这里的意思是把输入的字符串转成utf8mb4字符�
 mysql>select l.operator from tradelog l , trade_detail d where d.tradeid=l.tradeid and d.id=4;
 ```
 
-![](https://static001.geekbang.org/resource/image/92/11/92cb498ceb3557e41700fae53ce9bd11.png?wh=1328%2A194)
+![](https://static001.geekbang.org/resource/image/92/11/92cb498ceb3557e41700fae53ce9bd11.png?wh=1328%2A194){: referrerpolicy="no-referrer" }
 
 图6 explain 结果
 
@@ -267,7 +267,7 @@ alter table trade_detail modify tradeid varchar(32) CHARACTER SET utf8mb4 defaul
 mysql> select d.* from tradelog l , trade_detail d where d.tradeid=CONVERT(l.tradeid USING utf8) and l.id=2; 
 ```
 
-![](https://static001.geekbang.org/resource/image/aa/d6/aa844a7bf35d330b9ec96fc159331bd6.png?wh=1332%2A187)
+![](https://static001.geekbang.org/resource/image/aa/d6/aa844a7bf35d330b9ec96fc159331bd6.png?wh=1332%2A187){: referrerpolicy="no-referrer" }
 
 图7 SQL语句优化后的explain结果
 

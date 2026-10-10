@@ -115,7 +115,7 @@ Kafka“**主动检测不支持的情况并抛出异常，避免系统产生不�
 
 接下来，我们分析拉取消息的流程。这个流程的时序图如下（点击图片可放大查看）：
 
-![](https://static001.geekbang.org/resource/image/4b/96/4be9e6aa9890e66bc4e26f0c318f8d96.png?wh=996%2A473)
+![](https://static001.geekbang.org/resource/image/4b/96/4be9e6aa9890e66bc4e26f0c318f8d96.png?wh=996%2A473){: referrerpolicy="no-referrer" }
 
 我们对着时序图来分析它的实现流程。在KafkaConsumer.poll()方法(对应源码1179行)的实现里面，可以看到主要是先后调用了2个私有方法：
 
@@ -168,7 +168,7 @@ Kafka“**主动检测不支持的情况并抛出异常，避免系统产生不�
 
 类图（点击图片可放大查看）：
 
-![](https://static001.geekbang.org/resource/image/7b/a2/7b9e26b50308a377c62e741f844c0fa2.png?wh=1215%2A439)
+![](https://static001.geekbang.org/resource/image/7b/a2/7b9e26b50308a377c62e741f844c0fa2.png?wh=1215%2A439){: referrerpolicy="no-referrer" }
 
 ## 小结
 

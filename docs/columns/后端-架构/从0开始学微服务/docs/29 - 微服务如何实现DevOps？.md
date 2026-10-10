@@ -8,7 +8,7 @@
 
 没错，DevOps的思想正是如此。在我看来，DevOps是一种新型的业务研发流程，业务的开发人员不仅需要负责业务代码的开发，还需要负责业务的测试以及上线发布等全生命周期，真正做到掌控服务全流程。DevOps就是下图中心的部分，集开发、测试和运维三者角色于一体。
 
-![](https://static001.geekbang.org/resource/image/ad/7e/ad0ca1f08ca2c5fa6abc15741b01597e.png?wh=367%2A307)
+![](https://static001.geekbang.org/resource/image/ad/7e/ad0ca1f08ca2c5fa6abc15741b01597e.png?wh=367%2A307){: referrerpolicy="no-referrer" }
 
 而要实现DevOps，就必须开发完成代码开发后，能自动进行测试，测试通过后，能自动发布到线上。对应的这两个过程就是CI和CD，具体来讲就是：
 
@@ -23,7 +23,7 @@ DevOps的关键是如何实现代码开发自测通过，自动部署到测试�
 
 目前业界比较通用的实现DevOps的方案主要有两种，一种是使用[Jenkins](https://jenkins.io/)，一种是使用[Git](https://gitlab.com/)[L](https://gitlab.com/)[ab](https://gitlab.com/)。微博就主要使用的是GitLab来实现DevOps，下面我就从微博一个服务的开发、测试到上线的具体流程，看看是如何实现DevOps的。
 
-![](https://static001.geekbang.org/resource/image/a6/52/a6dc7759695e8e685b2e1de1653ec952.png?wh=892%2A246)
+![](https://static001.geekbang.org/resource/image/a6/52/a6dc7759695e8e685b2e1de1653ec952.png?wh=892%2A246){: referrerpolicy="no-referrer" }
 
 从上面图中你可以看到，一个服务的发布流程主要包含了三个步骤。
 

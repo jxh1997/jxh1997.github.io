@@ -35,7 +35,7 @@
 根据业务描述，为系统建立模型。可以添加你认为必要的实体和关系。并将模型表示为mermaid的class diagram
 ```
 
-![](https://static001.geekbang.org/resource/image/40/f6/406aed45e7c82941a0b957c4aec78cf6.jpg?wh=1263x1990)
+![](https://static001.geekbang.org/resource/image/40/f6/406aed45e7c82941a0b957c4aec78cf6.jpg?wh=1263x1990){: referrerpolicy="no-referrer" }
 
 同样，我们也可以使用LLM辅助我们提取这个**概念字典**。我们可以设计这样的任务模板：
 
@@ -58,13 +58,13 @@
 
 使用上面的任务模板，我们可以获得这样的概念字典：
 
-![](https://static001.geekbang.org/resource/image/16/12/16ce209a14735d1d1011de2bf8b79112.jpg?wh=1362x1035)
+![](https://static001.geekbang.org/resource/image/16/12/16ce209a14735d1d1011de2bf8b79112.jpg?wh=1362x1035){: referrerpolicy="no-referrer" }
 
 当然这里有些概念并不十分准确，比如**学籍注册**，显然是个分词错误。这些错误在反馈中也不难修正。
 
 在得到**概念字典**之后，我们就可以将概念字典与任务模板结合，完成建模。然后再使用模型检查和模型展开，帮助我们验证模型的适用性。过程与之前的过程类似，就不在此重复了。我们需要重点强调的是，**这个辅助建模过程的转变**。
 
-![](https://static001.geekbang.org/resource/image/2e/f3/2ec17aefcd3c73369e7766417289e9f3.jpg?wh=1894x1080)
+![](https://static001.geekbang.org/resource/image/2e/f3/2ec17aefcd3c73369e7766417289e9f3.jpg?wh=1894x1080){: referrerpolicy="no-referrer" }
 
 在最开始的时候，我们完全使用**复杂认知模式（Complex）**，依靠反馈循环辅助我们完成建模的过程。而当我们发现LLM给出的反馈，可以构成**概念字典**时。我们的关注点，就变成了如何有效地生成**概念字典**。也就是，我们从**探测性的模型生成转向了有针对性的知识生成（Generated Knowledge）**。这实际是一种认知提升的体现，我们也由此逐渐进入到**庞杂认知模式（Complicated）。**
 
@@ -117,7 +117,7 @@
 
 让GPT使用四色建模法得到的概念字典是这样的：
 
-![](https://static001.geekbang.org/resource/image/97/bf/972c73b13bf05a261c1ca4fd7bcd35bf.jpg?wh=1385x1357)
+![](https://static001.geekbang.org/resource/image/97/bf/972c73b13bf05a261c1ca4fd7bcd35bf.jpg?wh=1385x1357){: referrerpolicy="no-referrer" }
 
 这次生成的结果就要比之前好了很多，因为我们让它明确标记了建模的类型到底是什么类型。
 
@@ -135,7 +135,7 @@
 
 LLM先利用学习集合提取其中的模型，然后再用测试集合中的用户故事，验证模型的适用性。
 
-![](https://static001.geekbang.org/resource/image/34/74/34a1edfc011d6c60ce36cdf9b0f60674.jpg?wh=1948x1080)
+![](https://static001.geekbang.org/resource/image/34/74/34a1edfc011d6c60ce36cdf9b0f60674.jpg?wh=1948x1080){: referrerpolicy="no-referrer" }
 
 在我们给出的例子中，我们并没有区分不同的用户故事，通篇都使用了相同的用户故事。但在实际工作中，我们通常使用 **Epic用户故事**提取模型，然后再利用更细粒度的用户故事对模型加以验证。
 

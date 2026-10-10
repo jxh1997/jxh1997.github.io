@@ -14,7 +14,7 @@ Redis会持久化保存数据到磁盘，这个过程要依赖文件系统来完
 
 那么，接下来，我再从这两个层面，继续给你介绍，如何进一步解决Redis变慢的问题。
 
-![](https://static001.geekbang.org/resource/image/cd/06/cd026801924e197f5c79828c368cd706.jpg?wh=4242%2A3039)
+![](https://static001.geekbang.org/resource/image/cd/06/cd026801924e197f5c79828c368cd706.jpg?wh=4242%2A3039){: referrerpolicy="no-referrer" }
 
 ## 文件系统：AOF模式
 
@@ -24,7 +24,7 @@ Redis会持久化保存数据到磁盘，这个过程要依赖文件系统来完
 
 write只要把日志记录写到内核缓冲区，就可以返回了，并不需要等待日志实际写回到磁盘；而fsync需要把日志记录写回到磁盘后才能返回，时间较长。下面这张表展示了三种写回策略所执行的系统调用。
 
-![](https://static001.geekbang.org/resource/image/9f/a4/9f1316094001ca64c8dfca37c2c49ea4.jpg?wh=2720%2A598)
+![](https://static001.geekbang.org/resource/image/9f/a4/9f1316094001ca64c8dfca37c2c49ea4.jpg?wh=2720%2A598){: referrerpolicy="no-referrer" }
 
 当写回策略配置为everysec和always时，Redis需要调用fsync把日志写回磁盘。但是，这两种写回策略的具体执行情况还不太一样。
 
@@ -40,13 +40,13 @@ write只要把日志记录写到内核缓冲区，就可以返回了，并不需
 
 为了帮助你理解，我再画一张图来展示下在磁盘压力小和压力大的时候，fsync后台子线程和主线程受到的影响。
 
-![](https://static001.geekbang.org/resource/image/2a/a6/2a47b3f6fd7beaf466a675777ebd28a6.jpg?wh=3000%2A1557)
+![](https://static001.geekbang.org/resource/image/2a/a6/2a47b3f6fd7beaf466a675777ebd28a6.jpg?wh=3000%2A1557){: referrerpolicy="no-referrer" }
 
 好了，说到这里，你已经了解了，由于fsync后台子线程和AOF重写子进程的存在，主IO线程一般不会被阻塞。但是，如果在重写日志时，AOF重写子进程的写入量比较大，fsync线程也会被阻塞，进而阻塞主线程，导致延迟增加。现在，我来给出排查和解决建议。
 
 首先，你可以检查下Redis配置文件中的appendfsync配置项，该配置项的取值表明了Redis实例使用的是哪种AOF日志写回策略，如下所示：
 
-![](https://static001.geekbang.org/resource/image/ba/e9/ba770d1f25ffae79a101c13b9f8aa9e9.jpg?wh=2738%2A601)
+![](https://static001.geekbang.org/resource/image/ba/e9/ba770d1f25ffae79a101c13b9f8aa9e9.jpg?wh=2738%2A601){: referrerpolicy="no-referrer" }
 
 如果AOF写回策略使用了everysec或always配置，请先确认下业务方对数据可靠性的要求，明确是否需要每一秒或每一个操作都记日志。有的业务方不了解Redis AOF机制，很可能就直接使用数据可靠性最高等级的always配置了。其实，在有些场景中（例如Redis用于缓存），数据丢了还可以从后端数据库中获取，并不需要很高的数据可靠性。
 

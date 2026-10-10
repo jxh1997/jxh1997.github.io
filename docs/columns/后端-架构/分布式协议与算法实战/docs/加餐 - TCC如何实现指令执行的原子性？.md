@@ -16,7 +16,7 @@
 
 因为我的目的地是北京，所以如果只有一张机票订购成功，肯定是不行的，这个系统必须保障2个订票操作的事务要么全部成功，要么全部不成功。那么该如何实现2个订票操作的事务呢？
 
-![](https://static001.geekbang.org/resource/image/7c/3b/7ca6e1def38b2ba6873711d8f283dc3b.jpg?wh=1142%2A418)
+![](https://static001.geekbang.org/resource/image/7c/3b/7ca6e1def38b2ba6873711d8f283dc3b.jpg?wh=1142%2A418){: referrerpolicy="no-referrer" }
 
 带着这个问题，我们进入今天的学习，先来了解一下什么是TCC。
 
@@ -36,15 +36,15 @@
 
 首先，订票系统调用2个航空公司的机票预留接口，向2个航空公司申请机票预留。
 
-![](https://static001.geekbang.org/resource/image/e1/74/e149ed696a360b1761c6571a2a96d374.jpg?wh=1142%2A763)
+![](https://static001.geekbang.org/resource/image/e1/74/e149ed696a360b1761c6571a2a96d374.jpg?wh=1142%2A763){: referrerpolicy="no-referrer" }
 
 如果两个机票都预留成功，那么订票系统将执行确认操作，也就是订购机票。
 
-![](https://static001.geekbang.org/resource/image/8e/3e/8ea845eeb2032e7af2876ace81605a3e.jpg?wh=1142%2A760)
+![](https://static001.geekbang.org/resource/image/8e/3e/8ea845eeb2032e7af2876ace81605a3e.jpg?wh=1142%2A760){: referrerpolicy="no-referrer" }
 
 但如果此时有机票没有预留成功（比如深圳航空的从深圳到上海的机票），那这时该怎么办呢？这时订票系统就需要通过撤销接口来撤销订票请求。
 
-![](https://static001.geekbang.org/resource/image/52/c0/52f65a9202f3619dfeac1ba0e2acf8c0.jpg?wh=1142%2A750)
+![](https://static001.geekbang.org/resource/image/52/c0/52f65a9202f3619dfeac1ba0e2acf8c0.jpg?wh=1142%2A750){: referrerpolicy="no-referrer" }
 
 你看这样，我们就实现了订票操作的事务了。TCC是不是也很容易理解呢？答案是肯定的，那它难在哪儿呢？
 
@@ -54,7 +54,7 @@
 
 我在一开始提到，当我接收到外部指令时，需要实现操作1、2、3，其中任何一个操作失败，我都需要暂停指令执行，将系统恢复到操作未执行状态，然后再重试。
 
-![](https://static001.geekbang.org/resource/image/ea/07/eab5cfdf9a5d622f29ced94a4790c207.jpg?wh=1142%2A671)
+![](https://static001.geekbang.org/resource/image/ea/07/eab5cfdf9a5d622f29ced94a4790c207.jpg?wh=1142%2A671){: referrerpolicy="no-referrer" }
 
 其中，操作1、2、3的含义具体如下。
 
@@ -84,7 +84,7 @@
 
 在这里，你可以看到，确认操作是预留操作的下一个操作，而撤销操作则是用来撤销已执行的预留操作对系统产生的影响，类似在复制粘贴时，我们通过“Ctrl Z”撤销“Ctrl V”操作的执行，就像下图的样子。而这是理解TCC的关键，我希望你能注意到。
 
-![](https://static001.geekbang.org/resource/image/8b/1b/8b5fbc120651924ffccc862e5bafyy1b.jpg?wh=1142%2A442)
+![](https://static001.geekbang.org/resource/image/8b/1b/8b5fbc120651924ffccc862e5bafyy1b.jpg?wh=1142%2A442){: referrerpolicy="no-referrer" }
 
 这样一来，在操作1、2、3的预留操作执行结束，如果预留操作都执行成功了，那么我将执行确认操作，继续向下执行。但如果预留操作只是部分执行成功，那么我将执行撤销操作，取消预留操作执行对系统产生的影响。通过这种方式（指令对应的操作要么全部执行，要么全部不执行），我就能实现指令执行的原子性了。
 

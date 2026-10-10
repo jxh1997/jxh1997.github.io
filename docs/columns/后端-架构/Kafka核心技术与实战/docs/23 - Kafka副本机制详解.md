@@ -22,7 +22,7 @@
 
 接下来我们来看一张图，它展示的是一个有3台Broker的Kafka集群上的副本分布情况。从这张图中，我们可以看到，主题1分区0的3个副本分散在3台Broker上，其他主题分区的副本也都散落在不同的Broker上，从而实现数据冗余。
 
-![](https://static001.geekbang.org/resource/image/3b/77/3b5f28c6d19b2c6fe592b2b78d3ebc77.jpg?wh=3109%2A1485)
+![](https://static001.geekbang.org/resource/image/3b/77/3b5f28c6d19b2c6fe592b2b78d3ebc77.jpg?wh=3109%2A1485){: referrerpolicy="no-referrer" }
 
 ## 副本角色
 
@@ -30,7 +30,7 @@
 
 基于领导者的副本机制的工作原理如下图所示，我来简单解释一下这张图里面的内容。
 
-![](https://static001.geekbang.org/resource/image/38/c2/381eda4b56991d52727934be7c7e6ec2.jpg?wh=3591%2A1508)
+![](https://static001.geekbang.org/resource/image/38/c2/381eda4b56991d52727934be7c7e6ec2.jpg?wh=3591%2A1508){: referrerpolicy="no-referrer" }
 
 第一，在Kafka中，副本分成两类：领导者副本（Leader Replica）和追随者副本（Follower Replica）。每个分区在创建时都要选举一个副本，称为领导者副本，其余的副本自动称为追随者副本。
 
@@ -66,7 +66,7 @@
 
 另外，能够进入到ISR的追随者副本要满足一定的条件。至于是什么条件，我先卖个关子，我们先来一起看看下面这张图。
 
-![](https://static001.geekbang.org/resource/image/52/5f/521ff90472a5fd2e6cfac0e6176aa75f.jpg?wh=3506%2A1040)
+![](https://static001.geekbang.org/resource/image/52/5f/521ff90472a5fd2e6cfac0e6176aa75f.jpg?wh=3506%2A1040){: referrerpolicy="no-referrer" }
 
 图中有3个副本：1个领导者副本和2个追随者副本。Leader副本当前写入了10条消息，Follower1副本同步了其中的6条消息，而Follower2副本只同步了其中的3条消息。现在，请你思考一下，对于这2个追随者副本，你觉得哪个追随者副本与Leader不同步？
 
@@ -96,7 +96,7 @@
 
 今天，我主要跟你分享了Apache Kafka的副本机制以及它们实现的原理。坦率地说，我觉得有些地方可能讲浅了，如果要百分之百地了解Replication，你还是要熟读一下Kafka相应的源代码。不过你也不用担心，在专栏后面的内容中，我会专门从源码角度分析副本机制，特别是Follower副本从Leader副本拉取消息的全过程。从技术深度上来说，那一讲应该算是本专栏中最贴近技术内幕的分析了，你一定不要错过。
 
-![](https://static001.geekbang.org/resource/image/d7/72/d75c01661ca5367cfd23ad92cc10e372.jpg?wh=2069%2A2535)
+![](https://static001.geekbang.org/resource/image/d7/72/d75c01661ca5367cfd23ad92cc10e372.jpg?wh=2069%2A2535){: referrerpolicy="no-referrer" }
 
 ## 开放讨论
 

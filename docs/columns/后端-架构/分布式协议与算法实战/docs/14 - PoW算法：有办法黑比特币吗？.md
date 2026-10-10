@@ -20,7 +20,7 @@
 
 具体的工作量证明过程，就像下图中的样子：
 
-![](https://static001.geekbang.org/resource/image/83/59/837a01a9d5adef33caa9eeea69143b59.jpg?wh=1142%2A303)
+![](https://static001.geekbang.org/resource/image/83/59/837a01a9d5adef33caa9eeea69143b59.jpg?wh=1142%2A303){: referrerpolicy="no-referrer" }
 
 请求方做了一些运算，解决了某个问题，然后把运算结果发送给验证方，进行核验，验证方根据运算结果，就能判断请求方是否做了相关的工作。
 
@@ -68,7 +68,7 @@ bb2f0f297fe9d3b8669b6b4cec3bff99b9de596c46af2e4c4a504cfe1372dc52  -
 - 区块头（Block Head）：区块头主要由上一个区块的哈希值、区块体的哈希值、4字节的随机数（nonce）等组成的。
 - 区块体（Block Body）：区块包含的交易数据，其中的第一笔交易是Coinbase交易，这是一笔激励矿工的特殊交易。
 
-![](https://static001.geekbang.org/resource/image/a0/1d/a0d4cfff95de26e64d85189dd47eee1d.jpg?wh=1142%2A520)
+![](https://static001.geekbang.org/resource/image/a0/1d/a0d4cfff95de26e64d85189dd47eee1d.jpg?wh=1142%2A520){: referrerpolicy="no-referrer" }
 
 我想说的是，拥有80字节固定长度的区块头，就是用于区块链工作量证明的哈希运算中输入字符串，而且通过双重SHA256哈希运算（也就是对SHA256哈希运算的结果，再执行一次哈希运算），计算出的哈希值，只有小于目标值（target），才是有效的，否则哈希值是无效的，必须重算。
 
@@ -76,13 +76,13 @@ bb2f0f297fe9d3b8669b6b4cec3bff99b9de596c46af2e4c4a504cfe1372dc52  -
 
 计算出符合条件的哈希值后，矿工就会把这个信息广播给集群中所有其他节点，其他节点验证通过后，会将这个区块加入到自己的区块链中，最终形成一串区块链，就像下图的样子：
 
-![](https://static001.geekbang.org/resource/image/5a/9b/5afbe81873d69fc9dcd986d11c5c369b.jpg?wh=1142%2A361)
+![](https://static001.geekbang.org/resource/image/5a/9b/5afbe81873d69fc9dcd986d11c5c369b.jpg?wh=1142%2A361){: referrerpolicy="no-referrer" }
 
 最后，我想说的是，算力越强，系统大概率会越先计算出这个哈希值。这也就意味着，如果坏人们掌握了51%的算力，就可以发起51%攻击，比如，实现双花（Double Spending），也就是说，同一份钱花2次。
 
 具体说的话，就是攻击者掌握了较多的算力，能挖掘一条比原链更长的攻击链，并将攻击链向全网广播，这时呢，按照约定，节点将接受更长的链，也就是攻击链，丢弃原链。就像下图的样子：
 
-![](https://static001.geekbang.org/resource/image/15/5a/15ae8837e42aaef0f8ee2e4227bf115a.jpg?wh=1142%2A594)
+![](https://static001.geekbang.org/resource/image/15/5a/15ae8837e42aaef0f8ee2e4227bf115a.jpg?wh=1142%2A594){: referrerpolicy="no-referrer" }
 
 需要你注意的是，即使攻击者只有30%的算力，他也有可能连续计算出多个区块的哈希值，挖掘出更长的攻击链，发动攻击； 另外，即使攻击者拥有51%的算力，他也有可能半天无法计算出一个区块的哈希值，也就是攻击失败。也就是说，能否计算出符合条件的哈希值，有一定的概率性，但长久来看，攻击者攻击成功的概率等同于攻击者算力的权重。
 

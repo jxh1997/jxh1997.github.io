@@ -12,7 +12,7 @@ mysql> select * from T where ID=10；
 
 下面我给出的是MySQL的基本架构示意图，从中你可以清楚地看到SQL语句在MySQL的各个功能模块中的执行过程。
 
-![](https://static001.geekbang.org/resource/image/0d/d9/0d2070e8f84c4801adbfa03bda1f98d9.png?wh=1920%2A1440)
+![](https://static001.geekbang.org/resource/image/0d/d9/0d2070e8f84c4801adbfa03bda1f98d9.png?wh=1920%2A1440){: referrerpolicy="no-referrer" }
 
 MySQL的逻辑架构图
 
@@ -45,7 +45,7 @@ mysql -h$ip -P$port -u$user -p
 
 连接完成后，如果你没有后续的动作，这个连接就处于空闲状态，你可以在show processlist命令中看到它。文本中这个图是show processlist的结果，其中的Command列显示为“Sleep”的这一行，就表示现在系统里面有一个空闲连接。
 
-![](https://static001.geekbang.org/resource/image/f2/ed/f2da4aa3a672d48ec05df97b9f992fed.png?wh=875%2A163)  
+![](https://static001.geekbang.org/resource/image/f2/ed/f2da4aa3a672d48ec05df97b9f992fed.png?wh=875%2A163)  {: referrerpolicy="no-referrer" }
 客户端如果太长时间没动静，连接器就会自动将它断开。这个时间是由参数wait\_timeout控制的，默认值是8小时。
 
 如果在连接被断开之后，客户端再次发送请求的话，就会收到一个错误提醒： Lost connection to MySQL server during query。这时候如果你要继续，就需要重连，然后再执行请求了。

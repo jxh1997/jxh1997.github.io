@@ -22,12 +22,12 @@ OLAP称之为联机分析处理，它是对已经存储在数据库中的数据�
 
 数据集中包括了以下字段，具体的含义如下：
 
-![](https://static001.geekbang.org/resource/image/e7/e0/e717facd7cd53e7e2cfb714937347fe0.png?wh=646%2A530)  
+![](https://static001.geekbang.org/resource/image/e7/e0/e717facd7cd53e7e2cfb714937347fe0.png?wh=646%2A530)  {: referrerpolicy="no-referrer" }
 训练集给出了891名乘客幸存与否的结果，以及相关的乘客信息。通过训练集，我们可以对数据进行建模形成一个分类器，从而对测试集中的乘客生存情况进行预测。不过今天我们并不讲解数据分析的模型，而是来看下在数据分析之前，如何对数据进行清洗。
 
 首先，我们可以通过Navicat将CSV文件导入到MySQL数据库中，然后浏览下数据集中的前几行，可以发现数据中存在缺失值的情况还是很明显的。
 
-![](https://static001.geekbang.org/resource/image/54/77/54b1d91f186945bcbb7f3a5df3575e77.png?wh=1729%2A438)  
+![](https://static001.geekbang.org/resource/image/54/77/54b1d91f186945bcbb7f3a5df3575e77.png?wh=1729%2A438)  {: referrerpolicy="no-referrer" }
 数据存在数据缺失值是非常常见的情况，此外我们还需要考虑数据集中某个字段是否存在单位标识不统一，数值是否合法，以及数据是否唯一等情况。要考虑的情况非常多，这里我将数据清洗中需要考虑的规则总结为4个关键点，统一起来称之为“完全合一”准则，你可以[点这里](https://time.geekbang.org/column/article/76307)看一下。
 
 “完全合一”是个通用的准则，针对具体的数据集存在的问题，我们还需要对症下药，采取适合的解决办法，甚至为了后续分析方便，有时我们还需要将字符类型的字段替换成数值类型，比如我们想做一个Steam游戏用户的数据分析，统计数据存储在两张表上，一个是user\_game数据表，记录了用户购买的各种Steam游戏，其中数据表中的game\_title字段表示玩家购买的游戏名称，它们都采用英文字符的方式。另一个是game数据表，记录了游戏的id、游戏名称等。因为这两张表存在关联关系，实际上在user\_game数据表中的game\_title对应了game数据表中的name，这里我们就可以用game数据表中的id替换掉原有的game\_title。替换之后，我们在进行数据清洗和质量评估的时候也会更清晰，比如如果还存在某个game\_title没有被替换的情况，就证明这款游戏在game数据表中缺少记录。
@@ -36,7 +36,7 @@ OLAP称之为联机分析处理，它是对已经存储在数据库中的数据�
 
 了解了数据清洗的原则之后，下面我们就用SQL对泰坦尼克号数据集中的训练集进行数据清洗，也就是train.csv文件。我们先将这个文件导入到titanic\_train数据表中：
 
-![](https://static001.geekbang.org/resource/image/5d/b5/5ddd7c23f942cc2f90ed9621cb751eb5.png?wh=1397%2A134)
+![](https://static001.geekbang.org/resource/image/5d/b5/5ddd7c23f942cc2f90ed9621cb751eb5.png?wh=1397%2A134){: referrerpolicy="no-referrer" }
 
 ### 检查完整性
 
@@ -59,7 +59,7 @@ FROM titanic_train
 
 运行结果：
 
-![](https://static001.geekbang.org/resource/image/42/bb/42d6d85c533707c29bda5a7cf95ad6bb.png?wh=698%2A105)  
+![](https://static001.geekbang.org/resource/image/42/bb/42d6d85c533707c29bda5a7cf95ad6bb.png?wh=698%2A105)  {: referrerpolicy="no-referrer" }
 不过这种方式适用于字段个数较少的情况，如果一个数据表存在几十个，甚至更多的字段，那么采用这种方式既麻烦又容易出错。这时我们可以采用存储过程的方式，用程序来进行字段的空值检查，代码如下：
 
 ```
@@ -158,7 +158,7 @@ SELECT COUNT(cabin), COUNT(DISTINCT(cabin)) FROM titanic_train
 
 运行结果：
 
-![](https://static001.geekbang.org/resource/image/37/13/379348df1bdd00235646df78ebc54f13.png?wh=891%2A132)  
+![](https://static001.geekbang.org/resource/image/37/13/379348df1bdd00235646df78ebc54f13.png?wh=891%2A132)  {: referrerpolicy="no-referrer" }
 从结果中能看出Cabin字段的数值分布很广，而且根据常识，我们也可以知道船舱位置每个人的差异会很大，这里既不能删除掉记录航，又不能采用均值或者高频的方式填充空值，实际上这些空值即无法填充，也无法对后续分析结果产生影响，因此我们可以不处理这些空值，保留即可。
 
 然后我们来看下Embarked字段，这里有2个空值，我们可以采用该字段中高频值作为填充，首先我们先了解字段的分布情况使用：
@@ -169,7 +169,7 @@ SELECT COUNT(*), embarked FROM titanic_train GROUP BY embarked
 
 运行结果：
 
-![](https://static001.geekbang.org/resource/image/0e/cc/0efcdf6248e65e482502dbe313c6efcc.png?wh=803%2A282)  
+![](https://static001.geekbang.org/resource/image/0e/cc/0efcdf6248e65e482502dbe313c6efcc.png?wh=803%2A282)  {: referrerpolicy="no-referrer" }
 我们可以直接用S来对缺失值进行填充：
 
 ```
@@ -182,7 +182,7 @@ UPDATE titanic_train SET embarked = 'S' WHERE embarked IS NULL
 
 在这个过程中，我们需要观察每一列的数值情况，同时查看每个字段的类型。
 
-![](https://static001.geekbang.org/resource/image/46/77/46d0be3acf6bf3526284cf4e56202277.png?wh=1730%2A692)  
+![](https://static001.geekbang.org/resource/image/46/77/46d0be3acf6bf3526284cf4e56202277.png?wh=1730%2A692)  {: referrerpolicy="no-referrer" }
 因为数据是直接从CSV文件中导进来的，所以每个字段默认都是VARCHAR(255)类型，但很明显PassengerID、Survived、Pclass和Sibsp应该设置为INT类型，Age和Fare应该设置为DECIMAL类型，这样更方便后续的操作。使用下面的SQL命令即可：
 
 ```
@@ -214,10 +214,10 @@ ALTER TABLE titanic_train CHANGE Fare Fare DECIMAL(7,4) NOT NULL;
 
 然后选择我们的数据库以及数据表名称，在下面可以找到Import MySQL Data按钮，选中后将数据表导入到Excel文件中。
 
-![](https://static001.geekbang.org/resource/image/69/f0/69aa90c22d9ecf107271e1dee38675f0.png?wh=1730%2A732)  
+![](https://static001.geekbang.org/resource/image/69/f0/69aa90c22d9ecf107271e1dee38675f0.png?wh=1730%2A732)  {: referrerpolicy="no-referrer" }
 在“插入”选项中找到“数据透视图”，这里我们选中Survived、Sex和Embarked字段，然后将Survive字段放到图例（系列）栏中，将Sex字段放到求和值栏中，可以看到呈现出如下的数据透视表：
 
-![](https://static001.geekbang.org/resource/image/03/74/03b27cf20f5e3dc313014c1018121174.png?wh=1506%2A900)  
+![](https://static001.geekbang.org/resource/image/03/74/03b27cf20f5e3dc313014c1018121174.png?wh=1506%2A900)  {: referrerpolicy="no-referrer" }
 从这个透视表中你可以清晰地了解到用户生存情况（Survived）与Embarked字段的关系，当然你也可以通过数据透视图进行其他字段之间关系的探索。
 
 为了让你能更好地理解操作的过程，我录制了一段操作视频。

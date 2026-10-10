@@ -82,7 +82,7 @@ public class Context {
 
 任务列表状态为：
 
-![](https://static001.geekbang.org/resource/image/ce/a1/ce5cab496bda4a51f449689ac6bedfa1.jpg?wh=6905x10949)
+![](https://static001.geekbang.org/resource/image/ce/a1/ce5cab496bda4a51f449689ac6bedfa1.jpg?wh=6905x10949){: referrerpolicy="no-referrer" }
 
 ## 视频演示
 

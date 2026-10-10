@@ -135,7 +135,7 @@ while(1) {
 
 我也画了下面这张图，展示了IOThreadMain函数的基本流程，你可以看下。
 
-![](https://static001.geekbang.org/resource/image/03/5a/03232ff01d8b0fca4af0981b7097495a.jpg?wh=2000x1125)
+![](https://static001.geekbang.org/resource/image/03/5a/03232ff01d8b0fca4af0981b7097495a.jpg?wh=2000x1125){: referrerpolicy="no-referrer" }
 
 好了，到这里你应该就了解了，每一个IO线程运行时，都会不断检查是否有等待它处理的客户端。如果有，就根据操作类型，从客户端读取数据或是将数据写回客户端。你可以看到，这些操作都是Redis要和客户端完成的IO操作，所以，这也是为什么我们把这些线程称为IO线程的原因。
 
@@ -262,7 +262,7 @@ void clientInstallWriteHandler(client *c) {
 
 为了便于你更好地理解，我画了一张图，展示了Redis推迟客户端写操作的函数调用关系，你可以再回顾下。
 
-![](https://static001.geekbang.org/resource/image/67/50/672977e056fba83aba183f82600c6d50.jpg?wh=2000x949)
+![](https://static001.geekbang.org/resource/image/67/50/672977e056fba83aba183f82600c6d50.jpg?wh=2000x949){: referrerpolicy="no-referrer" }
 
 不过，当Redis使用clients\_pending\_read和clients\_pending\_write两个列表，保存了推迟执行的客户端后，**这些客户端又是如何分配给多IO线程执行的呢？**这就和下面两个函数相关了。
 
@@ -279,7 +279,7 @@ void clientInstallWriteHandler(client *c) {
 
 这个过程如下图所示，你可以看下。
 
-![](https://static001.geekbang.org/resource/image/b8/87/b823cf93b7dcyy10069136c4a5c78787.jpg?wh=2000x969)
+![](https://static001.geekbang.org/resource/image/b8/87/b823cf93b7dcyy10069136c4a5c78787.jpg?wh=2000x969){: referrerpolicy="no-referrer" }
 
 handleClientsWithPendingReadsUsingThreads函数的主要执行逻辑可以分成四步。
 
@@ -300,7 +300,7 @@ return 0;
 
 我画了下面这张图，展示了这个分配结果，你可以再看下。
 
-![](https://static001.geekbang.org/resource/image/3e/cc/3ea75f26c5c1fb527e4ec99fe07a4ccc.jpg?wh=2000x790)
+![](https://static001.geekbang.org/resource/image/3e/cc/3ea75f26c5c1fb527e4ec99fe07a4ccc.jpg?wh=2000x790){: referrerpolicy="no-referrer" }
 
 以下代码展示的就是以轮询方式将客户端分配给IO线程的执行逻辑：
 
@@ -375,7 +375,7 @@ while(listLength(server.clients_pending_read)) {
 
 好了，到这里，你就了解了clients\_pending\_read列表中的待读客户端，是如何经过以上四个步骤来分配给IO线程进行处理的。下图展示了这个主要过程，你可以再回顾下。
 
-![](https://static001.geekbang.org/resource/image/1b/45/1b4bb7d5367d9184a9eacefbabfe3345.jpg?wh=2000x1125)
+![](https://static001.geekbang.org/resource/image/1b/45/1b4bb7d5367d9184a9eacefbabfe3345.jpg?wh=2000x1125){: referrerpolicy="no-referrer" }
 
 那么，接下来，我们再来看下待写客户端的分配和处理。
 

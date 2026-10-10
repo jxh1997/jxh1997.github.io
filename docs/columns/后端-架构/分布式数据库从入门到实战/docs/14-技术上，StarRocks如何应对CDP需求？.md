@@ -20,7 +20,7 @@ StarRocks在设计和架构上参考了Impala、Presto这类MPP分析引擎的�
 
 我们先来看看一个典型的StarRocks集群有哪些组件，每个组件的负责什么功能。
 
-![图片](https://static001.geekbang.org/resource/image/37/63/37609e9166cddbb9ff110482ef667963.png?wh=1774x749)
+![图片](https://static001.geekbang.org/resource/image/37/63/37609e9166cddbb9ff110482ef667963.png?wh=1774x749){: referrerpolicy="no-referrer" }
 
 第一个叫做FE（Frontend），FE人如其名，从功能上来说，类似餐馆的“传菜员”，接收前端的请求并处理后传递给BE。从图中可以看到，FE包含两个组件：**Catalog Manager和Coordinator。**
 
@@ -79,7 +79,7 @@ FE节点有几种角色类型：Leader、Follower、Observer。其中，Leader�
 
 当BE节点扩缩容时，StarRocks会自动进行Tablet的迁移，当有新的节点加入时，一些Tablet会自动分配到新节点上，这样可以让数据在整个集群中更均匀地分布。而当节点减少时，原本在即将下线的机器上的Tablet会被自动移动到其他节点上，确保数据的备份副本数量保持不变。
 
-![图片](https://static001.geekbang.org/resource/image/32/43/32babeb68fa3a664b0659da044496b43.png?wh=1584x830 "图片源于网络")
+![图片](https://static001.geekbang.org/resource/image/32/43/32babeb68fa3a664b0659da044496b43.png?wh=1584x830 "图片源于网络"){: referrerpolicy="no-referrer" }
 
 上面这个图就是一个典型的案例。先基于时间分区，然后每个分区又分为了4个Tablet，每个Tablet有3个副本，均衡的分布在不同的BE上。
 

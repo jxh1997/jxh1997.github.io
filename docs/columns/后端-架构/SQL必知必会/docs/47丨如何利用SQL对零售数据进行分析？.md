@@ -19,10 +19,10 @@ PostgreSQL是免费开源的对象-关系数据库（ORDBMS），它的稳定性
 SQLFlow是蚂蚁金服于2019年开源的机器学习工具，我们通过使用SQL就可以完成机器学习算法的调用，你可以将SQLFlow理解为机器学习的翻译器。我们在SELECT之后加上TRAIN从句就可以完成机器学习模型的训练，在SELECT语句之后加上PREDICT就可以使用模型来进行预测。这些算法模型既包括了传统的机器学习模型，也包括了基于Tensorflow、PyTorch等框架的深度学习模型。
 
 从下图中你也能看出SQLFlow的使用过程，首先我们可以通过Jupyter notebook来完成SQL语句的交互。SQLFlow支持了多种SQL引擎，包括MySQL、Oracle、Hive、SparkSQL和Flink等，这样我们就可以通过SQL语句从这些DBMS中抽取数据，然后选择想要进行的机器学习算法（包括传统机器学习和深度学习模型）进行训练和预测。不过这个工具刚刚上线，工具、文档、社区还有很多需要完善的地方。  
-![](https://static001.geekbang.org/resource/image/e5/fd/e50038152a1b4e7a9940919be9634dfd.jpg?wh=478%2A742)  
+![](https://static001.geekbang.org/resource/image/e5/fd/e50038152a1b4e7a9940919be9634dfd.jpg?wh=478%2A742)  {: referrerpolicy="no-referrer" }
 最后一个方法是SQL+Python，也是我们今天要讲解的内容。刚才介绍的工具可以说既是SQL查询数据的入口，也是数据分析、机器学习的入口。不过这些模块耦合度高，也可能存在使用的问题。一方面工具会很大，比如在安装SQLFlow的时候，采用Docker方式（下图为使用Docker安装sqlflow的过程）进行安装，整体需要下载的文件会超过2G。同时，在进行机器学习算法调参、优化的时候也存在灵活度差的情况。因此最直接的方式，还是将SQL与机器学习模块分开，采用SQL读取数据，然后通过Python来进行机器学习的处理。
 
-![](https://static001.geekbang.org/resource/image/38/c8/38864b57d8d65728439b730d57d841c8.png?wh=1338%2A663)
+![](https://static001.geekbang.org/resource/image/38/c8/38864b57d8d65728439b730d57d841c8.png?wh=1338%2A663){: referrerpolicy="no-referrer" }
 
 ## 案例：挖掘零售数据中的频繁项集与关联规则
 
@@ -38,7 +38,7 @@ SQLFlow是蚂蚁金服于2019年开源的机器学习工具，我们通过使用
 
 我们来看个例子理解一下，下面是5笔用户的订单，以及每笔订单购买的商品：
 
-![](https://static001.geekbang.org/resource/image/58/38/58d7791f7b1fe08f810e9e630b03bf38.png?wh=852%2A355)  
+![](https://static001.geekbang.org/resource/image/58/38/58d7791f7b1fe08f810e9e630b03bf38.png?wh=852%2A355)  {: referrerpolicy="no-referrer" }
 在这个例子中，“牛奶”出现了4次，那么这5笔订单中“牛奶”的支持度就是4/5=0.8。同样“牛奶+面包”出现了3次，那么这5笔订单中“牛奶+面包”的支持度就是3/5=0.6。
 
 同时，我们还需要理解一个概念叫做“置信度”，它表示的是当你购买了商品A，会有多大的概率购买商品B，在这个例子中，置信度（牛奶→啤酒）=2/4=0.5，代表如果你购买了牛奶，会有50%的概率会购买啤酒；置信度（啤酒→牛奶）=2/3=0.67，代表如果你购买了啤酒，有67%的概率会购买牛奶。
@@ -110,7 +110,7 @@ print('关联规则：', rules)
 
 我在文章中举了一个购物篮分析的例子，如下图所示，其中（牛奶、面包、尿布）的支持度是多少呢？
 
-![](https://static001.geekbang.org/resource/image/a1/e6/a1767ae691f2c18d02f8009a687ba1e6.png?wh=850%2A361)  
+![](https://static001.geekbang.org/resource/image/a1/e6/a1767ae691f2c18d02f8009a687ba1e6.png?wh=850%2A361)  {: referrerpolicy="no-referrer" }
 欢迎你在评论区写下你的思考，也欢迎把这篇文章分享给你的朋友或者同事，一起交流一下。
 <div><strong>精选留言（10）</strong></div><ul>
 <li><span>mickey</span> 👍（19） 💬（2）<p>import numpy as np

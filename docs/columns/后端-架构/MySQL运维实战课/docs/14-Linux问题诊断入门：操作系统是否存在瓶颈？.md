@@ -8,7 +8,7 @@ Linux中有很多查看CPU使用率的工具，top就是其中比较常用的一
 
 你可以看一下top命令的输出。
 
-![图片](https://static001.geekbang.org/resource/image/80/d9/80a25ff51dd2c42fd166860c33df18d9.png?wh=1148x480)
+![图片](https://static001.geekbang.org/resource/image/80/d9/80a25ff51dd2c42fd166860c33df18d9.png?wh=1148x480){: referrerpolicy="no-referrer" }
 
 我们主要关注几点：
 
@@ -29,7 +29,7 @@ us是用户态的CPU使用率，sy是内核的CPU使用率，id是CPU空闲率�
 mpstat -P ALL 3
 ```
 
-![图片](https://static001.geekbang.org/resource/image/86/32/86c498f4893f796fbee557a7f478cf32.png?wh=1372x222)
+![图片](https://static001.geekbang.org/resource/image/86/32/86c498f4893f796fbee557a7f478cf32.png?wh=1372x222){: referrerpolicy="no-referrer" }
 
 ## 内存
 
@@ -44,11 +44,11 @@ Swap:             0           0           0
 
 free命令输出以下指标：
 
-![图片](https://static001.geekbang.org/resource/image/a1/00/a18b9e0b1cdf2daf93eb0c8218e7ed00.png?wh=1920x1076)
+![图片](https://static001.geekbang.org/resource/image/a1/00/a18b9e0b1cdf2daf93eb0c8218e7ed00.png?wh=1920x1076){: referrerpolicy="no-referrer" }
 
 这几个指标满足这个公式：total = used + buff + cached + free
 
-![图片](https://static001.geekbang.org/resource/image/a0/5c/a02bbf391f5c90ffe36c8f15bc883d5c.png?wh=896x182)
+![图片](https://static001.geekbang.org/resource/image/a0/5c/a02bbf391f5c90ffe36c8f15bc883d5c.png?wh=896x182){: referrerpolicy="no-referrer" }
 
 平时我们经常会监控内存使用率， 一般使用公式（1 - available / total） * 100%来计算内存使用率。
 
@@ -99,7 +99,7 @@ Pss:                2924 kB
 
 <!--THE END-->
 
-![图片](https://static001.geekbang.org/resource/image/9b/98/9beafef112d9febcc3d06c2d2d761f98.png?wh=1140x554)
+![图片](https://static001.geekbang.org/resource/image/9b/98/9beafef112d9febcc3d06c2d2d761f98.png?wh=1140x554){: referrerpolicy="no-referrer" }
 
 - PageTables：页表占用的空间。在大内存机器上，有时PageTables会占用大量内存。使用多进程模式数据库如Oracle时，这个问题会比较突出。开启大页可以有效地避免这个问题。
 
@@ -107,7 +107,7 @@ Pss:                2924 kB
 
 下面这个图标识了通常消耗内存最大的几个部分，包括Buffer/Cache，匿名页（AnonPages）。
 
-![图片](https://static001.geekbang.org/resource/image/48/6a/48077b199e445abyy016bd2c7806ae6a.jpg?wh=1136x540)
+![图片](https://static001.geekbang.org/resource/image/48/6a/48077b199e445abyy016bd2c7806ae6a.jpg?wh=1136x540){: referrerpolicy="no-referrer" }
 
 根据内存的不同用途，回收时需要采取不同的方式：
 
@@ -138,7 +138,7 @@ procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----
 
 下面是sar -B的输出。
 
-![图片](https://static001.geekbang.org/resource/image/0e/29/0ed6cd80f82afb6effaca0b54bb97c29.png?wh=682x262)
+![图片](https://static001.geekbang.org/resource/image/0e/29/0ed6cd80f82afb6effaca0b54bb97c29.png?wh=682x262){: referrerpolicy="no-referrer" }
 
 服务器内存资源特别紧张，使用前面提到的几种方式都无法回收足够的内存时，可能还会触发OOM-Killer。OOM-Killer会通过一定的规则Kill掉一些进程，以此来释放内存。我们可以使用dmesg命令或到系统日志（如/var/log/messages)中查看是否有OOM出现。
 
@@ -180,11 +180,11 @@ procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----
 
 数据库是IO密集型的应用，在数据库服务器中，磁盘IO比较容易成为瓶颈。使用iostat命令可以大致了解系统当前磁盘IO的情况。
 
-![图片](https://static001.geekbang.org/resource/image/3f/40/3f9b04b35155e7acd3b823a0913b7140.png?wh=1716x690)
+![图片](https://static001.geekbang.org/resource/image/3f/40/3f9b04b35155e7acd3b823a0913b7140.png?wh=1716x690){: referrerpolicy="no-referrer" }
 
 iostat命令为系统里的每个磁盘设备都提供了几个基本的指标。
 
-![图片](https://static001.geekbang.org/resource/image/4f/81/4fbe5c985318c275a0e1d4a6a63efe81.png?wh=1736x1504)
+![图片](https://static001.geekbang.org/resource/image/4f/81/4fbe5c985318c275a0e1d4a6a63efe81.png?wh=1736x1504){: referrerpolicy="no-referrer" }
 
 使用iostat时，我们主要关注几点：
 
@@ -198,7 +198,7 @@ iostat命令为系统里的每个磁盘设备都提供了几个基本的指标�
 
 有时候我们可能需要知道到底是谁发起的IO请求，可以使用iotop工具，下图是iotop命令的输出，可以看出大部分IO请求是mysqld发起的。
 
-![图片](https://static001.geekbang.org/resource/image/23/b0/23410ce489ba9e2c9df4e73f94b40fb0.png?wh=1504x546)
+![图片](https://static001.geekbang.org/resource/image/23/b0/23410ce489ba9e2c9df4e73f94b40fb0.png?wh=1504x546){: referrerpolicy="no-referrer" }
 
 ## 文件系统
 
@@ -263,7 +263,7 @@ Linux 3.10.0-1160.el7.x86_64 (172-16-121-234) 	06/18/2024 	_x86_64_	(4 CPU)
 # netstat -nltp
 ```
 
-![图片](https://static001.geekbang.org/resource/image/a0/ff/a0e927829fee650e54b44e0ef77ebcff.png?wh=1376x416)
+![图片](https://static001.geekbang.org/resource/image/a0/ff/a0e927829fee650e54b44e0ef77ebcff.png?wh=1376x416){: referrerpolicy="no-referrer" }
 
 ## 进程资源限制
 
@@ -315,7 +315,7 @@ Max open files            20005                20005                files
 
 日志管理工具（比较常用的有rsyslogd）会将日志存储到日志文件中。不同发行版本的Linux可能会将日志存放到不同的默认文件中，不过一般都会放到/var/log目录下。
 
-![图片](https://static001.geekbang.org/resource/image/83/f4/83cdd7511e0878ca1ba68bc677e1ddf4.png?wh=1920x883)
+![图片](https://static001.geekbang.org/resource/image/83/f4/83cdd7511e0878ca1ba68bc677e1ddf4.png?wh=1920x883){: referrerpolicy="no-referrer" }
 
 systemd的日志可以使用journalctl查看，下面是一些使用场景。
 

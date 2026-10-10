@@ -22,7 +22,7 @@ Redis作为一个Client-Server架构的数据库，其源码中少不了用来�
 2. 调用bind函数，将主动套接字和当前服务器的IP和监听端口进行绑定；
 3. 调用listen函数，将主动套接字转换为监听套接字，开始监听客户端的连接。
 
-![](https://static001.geekbang.org/resource/image/ea/05/eaf5b29b824994a6e9e3bc5bfdeb1a05.jpg?wh=1631x604)
+![](https://static001.geekbang.org/resource/image/ea/05/eaf5b29b824994a6e9e3bc5bfdeb1a05.jpg?wh=1631x604){: referrerpolicy="no-referrer" }
 
 在完成上述三步之后，服务器端就可以接收客户端的连接请求了。为了能及时地收到客户端的连接请求，我们可以运行一个循环流程，在该流程中调用accept函数，用于接收客户端连接请求。
 
@@ -126,7 +126,7 @@ typedef struct {
 
 我也画了张图，展示了使用select函数进行网络通信的基本流程，你可以看下。
 
-![](https://static001.geekbang.org/resource/image/49/9f/49b513c6b9f9a440e8883ff93b33b49f.jpg?wh=2000x1125)
+![](https://static001.geekbang.org/resource/image/49/9f/49b513c6b9f9a440e8883ff93b33b49f.jpg?wh=2000x1125){: referrerpolicy="no-referrer" }
 
 下面的代码展示的是使用select函数，进行并发客户端处理的关键步骤和主要函数调用：
 
@@ -220,7 +220,7 @@ pollfd结构体中要监听和实际发生的事件类型，是通过以下三�
 
 我画了下面这张图，展示了使用poll函数的流程，你可以学习掌握下。
 
-![](https://static001.geekbang.org/resource/image/b1/19/b1dab536cc9509f476db2c527fdea619.jpg?wh=2000x1125)
+![](https://static001.geekbang.org/resource/image/b1/19/b1dab536cc9509f476db2c527fdea619.jpg?wh=2000x1125){: referrerpolicy="no-referrer" }
 
 另外，为了便于你掌握在代码中使用poll函数，我也写了一份示例代码，如下所示：
 
@@ -315,7 +315,7 @@ struct epoll_event
 
 我画了一张图，展示了使用epoll进行网络通信的流程，你可以看下。
 
-![](https://static001.geekbang.org/resource/image/1e/fb/1ee730305558d9d83ff8e52eb4d966fb.jpg?wh=2000x1050)
+![](https://static001.geekbang.org/resource/image/1e/fb/1ee730305558d9d83ff8e52eb4d966fb.jpg?wh=2000x1050){: referrerpolicy="no-referrer" }
 
 下面的代码展示了使用epoll函数的流程，你也可以看下。
 
@@ -371,7 +371,7 @@ while (1) {
 
 这节课，我是以最常用的Linux操作系统为例，给你具体介绍了Linux系统提供的三种IO多路复用机制，分别是select、poll和epoll。这三种机制在能监听的描述符数量和查找就绪描述符的方法上是不一样的，你可以重点参考下图，来掌握它们的不同之处。这些差异，其实也决定了epoll相比于select和poll来说，效率更高，也应用更广泛。
 
-![](https://static001.geekbang.org/resource/image/c0/5c/c04feac38f984a0c407985ec793ca95c.jpg?wh=2000x827)
+![](https://static001.geekbang.org/resource/image/c0/5c/c04feac38f984a0c407985ec793ca95c.jpg?wh=2000x827){: referrerpolicy="no-referrer" }
 
 最后我想说的是，虽然这节课我没有给你介绍Redis的源码，但是学习IO多路复用的机制和使用流程，其实就是掌握Redis事件驱动框架的基础。Redis的[ae\_select.c](https://github.com/redis/redis/tree/5.0/src/ae_select.c)和[ae\_epoll.c](https://github.com/redis/redis/tree/5.0/src/ae_epoll.c)文件，就分别使用了select和epoll这两种机制，实现IO多路复用。而在接下来的第10、11两节课上，我还会给分别你介绍，Redis事件驱动框架是如何基于epoll进行封装开发和运行的，以及Redis事件驱动框架的事件类型和处理方法。这样一来，你就能对Redis事件驱动框架的底层支撑、框架运行和事件类型与处理，有个全面的掌握了。
 

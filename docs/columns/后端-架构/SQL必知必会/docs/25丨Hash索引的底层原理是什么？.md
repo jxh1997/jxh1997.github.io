@@ -64,7 +64,7 @@ print('检索时间：',time_end-time_start)
 
 我们来看下Hash索引的示意图：
 
-![](https://static001.geekbang.org/resource/image/d8/b6/d8ef0bc1ea85b9e5408fcf0126b2a2b6.png?wh=832%2A742)  
+![](https://static001.geekbang.org/resource/image/d8/b6/d8ef0bc1ea85b9e5408fcf0126b2a2b6.png?wh=832%2A742)  {: referrerpolicy="no-referrer" }
 键值key通过Hash映射找到桶bucket。在这里桶（bucket）指的是一个能存储一条或多条记录的存储单位。一个桶的结构包含了一个内存指针数组，桶中的每行数据都会指向下一行，形成链表结构，当遇到Hash冲突时，会在桶中进行键值的查找。
 
 那么什么是Hash冲突呢？
@@ -77,7 +77,7 @@ Hash值的字节数多的话可以是16位、32位等，比如采用MD5函数就
 
 我们模拟一下Hash索引。关键字如下所示，每个字母的内部编码为字母的序号，比如A为01，Y为25。我们统计内部编码平方的第8-11位（从前向后）作为Hash值：
 
-![](https://static001.geekbang.org/resource/image/6b/3d/6bff085844127931e59e6faa368e223d.png?wh=1086%2A352)
+![](https://static001.geekbang.org/resource/image/6b/3d/6bff085844127931e59e6faa368e223d.png?wh=1086%2A352){: referrerpolicy="no-referrer" }
 
 ## Hash索引与B+树索引的区别
 
@@ -97,7 +97,7 @@ Hash值的字节数多的话可以是16位、32位等，比如采用MD5函数就
 
 另外MySQL的InnoDB存储引擎还有个“自适应Hash索引”的功能，就是当某个索引值使用非常频繁的时候，它会在B+树索引的基础上再创建一个Hash索引，这样让B+树也具备了Hash索引的优点。
 
-![](https://static001.geekbang.org/resource/image/88/90/8893fcfee2c8c374e9c7ae7e66f2cf90.jpg?wh=3341%2A2302)  
+![](https://static001.geekbang.org/resource/image/88/90/8893fcfee2c8c374e9c7ae7e66f2cf90.jpg?wh=3341%2A2302)  {: referrerpolicy="no-referrer" }
 今天的内容到这里就结束了，我留两道思考题吧。查找某个固定值时Hash索引比B+树更快，为什么MySQL还要采用B+树的存储索引呢？另外，当两个关键字的Hash值相同时会发生什么？
 
 欢迎你在评论区写下你的思考，我会和你一起交流，也欢迎把这篇文章分享给你的朋友或者同事，一起交流一下。

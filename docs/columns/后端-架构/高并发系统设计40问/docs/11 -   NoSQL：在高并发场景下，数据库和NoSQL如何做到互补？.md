@@ -58,7 +58,7 @@ MemTable在累积到一定规模时，它会被刷新生成一个新的文件，
 
 当从LSM树里面读数据时，我们首先从MemTable中查找数据，如果数据没有找到，再从SSTable中查找数据。因为存储的数据都是有序的，所以查找的效率是很高的，只是因为数据被拆分成多个SSTable，所以读取的效率会低于B+树索引。
 
-![](https://static001.geekbang.org/resource/image/b4/eb/b4c9c93f22edae091740fa1606d109eb.jpg?wh=1142%2A652)
+![](https://static001.geekbang.org/resource/image/b4/eb/b4c9c93f22edae091740fa1606d109eb.jpg?wh=1142%2A652){: referrerpolicy="no-referrer" }
 
 和LSM树类似的算法有很多，比如说TokuDB使用的名为Fractal tree的索引结构，它们的核心思想就是将随机IO变成顺序的IO，从而提升写入的性能。
 
@@ -78,11 +78,11 @@ MemTable在累积到一定规模时，它会被刷新生成一个新的文件，
 
 倒排索引是指将记录中的某些列做分词，然后形成的分词与记录ID之间的映射关系。比如说，你的垂直电商项目里面有以下记录：
 
-![](https://static001.geekbang.org/resource/image/20/57/201ffbb6da51e04894d8dee7eaeb5d57.jpg?wh=1142%2A311)
+![](https://static001.geekbang.org/resource/image/20/57/201ffbb6da51e04894d8dee7eaeb5d57.jpg?wh=1142%2A311){: referrerpolicy="no-referrer" }
 
 那么，我们将商品名称做简单的分词，然后建立起分词和商品ID的对应关系，就像下面展示的这样：
 
-![](https://static001.geekbang.org/resource/image/c9/2f/c919944bcdfd1f1ce576790fc496a62f.jpg?wh=1142%2A452)
+![](https://static001.geekbang.org/resource/image/c9/2f/c919944bcdfd1f1ce576790fc496a62f.jpg?wh=1142%2A452){: referrerpolicy="no-referrer" }
 
 这样，如果用户搜索电冰箱，就可以给他展示商品ID为1和3的两件商品了。
 
@@ -101,7 +101,7 @@ MemTable在累积到一定规模时，它会被刷新生成一个新的文件，
 
 <!--THE END-->
 
-![](https://static001.geekbang.org/resource/image/e8/80/e8cb47c8cc556fce058f7c5cf06d4780.jpg?wh=1142%2A663)
+![](https://static001.geekbang.org/resource/image/e8/80/e8cb47c8cc556fce058f7c5cf06d4780.jpg?wh=1142%2A663){: referrerpolicy="no-referrer" }
 
 - 其三是负载均衡，就是当MongoDB发现Shard之间数据分布不均匀，会启动Balancer进程对数据做重新的分配，最终让不同Shard Server的数据可以尽量的均衡。当我们的Shard Server存储空间不足需要扩容时，数据会自动被移动到新的Shard Server上，减少了数据迁移和验证的成本。
 

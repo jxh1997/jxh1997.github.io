@@ -12,7 +12,7 @@
 
 2016年的一篇论文将我们这种朴素的理解提升到理论层面，这就是RUM猜想。RUM猜想来自论文“[Designing Access Methods: The RUM Conjecture](https://stratos.seas.harvard.edu/files/stratos/files/rum.pdf)”（Manos Athanassoulis et al.(2016)），同时被SIGMOD和EDBT收录。它说的是，对任何数据结构来说，在Read Overhead（读）、Update Overhead（写） 和 Memory or Storage Overhead（存储） 中，同时优化两项时，需要以另一项劣化作为代价。论文用一幅图展示了常见数据结构在这三个优化方向中的位置，这里我摘录下来便于你理解。
 
-![](https://static001.geekbang.org/resource/image/ea/15/eafcd1bd0c76c600f576b4a364bf7f15.png?wh=2406%2A1308 "引自Manos Athanassoulis et al.(2016)")
+![](https://static001.geekbang.org/resource/image/ea/15/eafcd1bd0c76c600f576b4a364bf7f15.png?wh=2406%2A1308 "引自Manos Athanassoulis et al.(2016)"){: referrerpolicy="no-referrer" }
 
 在这张图中，我们可以看到两个非常熟悉的数据结构B-Tree和LSM，它们被用于分布式数据库的存储引擎中，前者（实际是B+Tree，B-Tree的变体）主要用于PGXC，后者则主要用于NewSQL。这是不是代表PGXC就是要针对读操作，而NewSQL是针对写操作呢？并没有这么简单，还是要具体分析数据结构的使用过程。
 
@@ -28,11 +28,11 @@ B+Tree是对读操作优化的存储结构，能够支持高效的范围扫描�
 
 下面这张图中展示了一棵高度为2的B+Tree，数据存储在5个页表中，每页可存放4条记录。为了方便你理解，我略去了叶子节点指向数据的指针以及叶子节点之间的顺序指针。
 
-![](https://static001.geekbang.org/resource/image/6b/c8/6bd6149970b0b760bf61a80fea54ffc8.jpg?wh=2700%2A1019)
+![](https://static001.geekbang.org/resource/image/6b/c8/6bd6149970b0b760bf61a80fea54ffc8.jpg?wh=2700%2A1019){: referrerpolicy="no-referrer" }
 
 B+Tree由内节点（InterNode）和叶节点（LeafNode）两类节点构成，前者仅包含索引信息，后者则携带了指向数据的指针。当插入一个索引值为70的记录，由于对应页表的记录已满，需要对B+Tree重新排列，变更其父节点所在页表的记录，并调整相邻页表的记录。完成重新分布后的效果如下：
 
-![](https://static001.geekbang.org/resource/image/60/46/6069eba71bb31754e85940d34526ae46.jpg?wh=2700%2A1223)
+![](https://static001.geekbang.org/resource/image/60/46/6069eba71bb31754e85940d34526ae46.jpg?wh=2700%2A1223){: referrerpolicy="no-referrer" }
 
 在这个写入过程中存在两个问题：
 
@@ -60,7 +60,7 @@ B+Tree由内节点（InterNode）和叶节点（LeafNode）两类节点构成，
 
 LSM-Tree（Log Structured-Merge Tree）由Patrick O’Neil在1996年的[同名论文](http://db.cs.berkeley.edu/cs286/papers/lsm-acta1996.pdf)中首先提出。而后Google在[Bigtable](https://www2.cs.duke.edu/courses/cps399.28/current/papers/osdi06-ChangDeanEtAl-bigtable.pdf)（Fay Chang et al.(2008)）中使用了这个模型，它的大致处理过程如下图所示：
 
-![](https://static001.geekbang.org/resource/image/21/39/21dc63cef862c71f5614445cb6477839.png?wh=2184%2A1164 "引自Fay Chang et al.(2008)")
+![](https://static001.geekbang.org/resource/image/21/39/21dc63cef862c71f5614445cb6477839.png?wh=2184%2A1164 "引自Fay Chang et al.(2008)"){: referrerpolicy="no-referrer" }
 
 系统接收到写操作后会记录日志（Tablet Log）并将数据写入内存（Memtable），这时写操作就可以返回成功了。而在系统接收到读操作时，会在内存和磁盘文件中查找对应的数据。
 
@@ -68,7 +68,7 @@ LSM-Tree（Log Structured-Merge Tree）由Patrick O’Neil在1996年的[同名�
 
 的确，这中间还少了重要的一步，就是数据落盘的过程，这也是LSM-Tree最有特点的设计。其实，LSM是分成三步完成了数据的落盘。
 
-![](https://static001.geekbang.org/resource/image/71/8e/71ae4696ce4d5cbbfedfc6f5d9f0518e.jpg?wh=2700%2A1423)
+![](https://static001.geekbang.org/resource/image/71/8e/71ae4696ce4d5cbbfedfc6f5d9f0518e.jpg?wh=2700%2A1423){: referrerpolicy="no-referrer" }
 
 1. 第一步已经说过了，就是写入Memtable，同时记录Tablet Log；
 2. 当Memtable的数据达到一定阈值后，系统会把其冻结并将其中的数据顺序写入磁盘上的有序文件（Sorted String Table，SSTable）中，这个操作被称为Flush；当然，执行这个动作的同时，系统会同步创建一个新的Memtable，处理写入请求。
@@ -112,23 +112,23 @@ Leveled就是这个思路，它的设计核心就是将数据分成一系列Key�
 
 <!--THE END-->
 
-![](https://static001.geekbang.org/resource/image/40/ac/404015015046166f426ab3f159864bac.jpg?wh=2700%2A1276)
+![](https://static001.geekbang.org/resource/image/40/ac/404015015046166f426ab3f159864bac.jpg?wh=2700%2A1276){: referrerpolicy="no-referrer" }
 
 2. 通常系统会通过指定SSTable数量和大小的方式控制每一个层的数据总量。当L0超过预定文件数量，就会触发L0向L1的Compact。因为在L0的SSTable中Key是交叉的，所以要读取L0的所有SSTable，写入L1，完成后再删除L0文件。从L1开始，SSTable都是保证Key不重叠的。
 
 <!--THE END-->
 
-![](https://static001.geekbang.org/resource/image/a7/95/a7c9c1ca7723cfaa180461c1b3a8fd95.jpg?wh=2700%2A1271)
+![](https://static001.geekbang.org/resource/image/a7/95/a7c9c1ca7723cfaa180461c1b3a8fd95.jpg?wh=2700%2A1271){: referrerpolicy="no-referrer" }
 
 3. 随着L1层数据量的增多，SSTable可能会重新划分边界，目的是保证数据相对均衡的存储。
 
 <!--THE END-->
 
-![](https://static001.geekbang.org/resource/image/f6/d6/f65536e12e95565ebe36c1596c53f9d6.jpg?wh=2700%2A1267)
+![](https://static001.geekbang.org/resource/image/f6/d6/f65536e12e95565ebe36c1596c53f9d6.jpg?wh=2700%2A1267){: referrerpolicy="no-referrer" }
 
 4. 由于L1的文件大小和数量也是受限的，所以随着数据量的增加又会触发L1向L2的Compact。因为L1的文件是不重叠的，所以不用所有L1的文件都参与Compact，这就延缓了磁盘I/O的开销。而L2的单个文件容量会更大，通常从L1开始每层的存储数据量以10倍的速度增长。这样，每次Ln到L(n+1)的compact只会涉及少数的SSTable，间隔的时间也会越来越长。
 
-![](https://static001.geekbang.org/resource/image/8c/50/8c891780dd19146d4454a6636c052c50.jpg?wh=2700%2A1548)
+![](https://static001.geekbang.org/resource/image/8c/50/8c891780dd19146d4454a6636c052c50.jpg?wh=2700%2A1548){: referrerpolicy="no-referrer" }
 
 说完处理流程，我们再从RUM三个角度来分析下。
 
@@ -150,7 +150,7 @@ Leveled策略对写放大是有明显改善的，除了L0以外，每次更新�
 
 到这里我们已经介绍了存储结构的实现原理和它们在单体数据库中的运转过程。在分布式数据库中，数据存储是在每个数据节点上各自进行的，所以原理和过程是完全一样的。因此，TiDB和CockroachDB干脆直接使用RocksDB作为单机存储引擎。在这两个分布式数据库的架构中，RocksDB都位于Raft协议之下，承担具体的数据落地工作。
 
-![](https://static001.geekbang.org/resource/image/19/9f/19a017c90e3cb51c59a96f54563f019f.jpg?wh=2700%2A1155)
+![](https://static001.geekbang.org/resource/image/19/9f/19a017c90e3cb51c59a96f54563f019f.jpg?wh=2700%2A1155){: referrerpolicy="no-referrer" }
 
 他们为什么选择RocksDB呢？CockroachDB的官方解释是，他们的选择完全不是因为要考虑LSM的写优化能力，而是因为RocksDB作为一个成熟的单机存储引擎，可以加速CockroachDB的开发过程，而RocksDB本身也非常优秀，是他们能找到的最好选择。另一方面，TiDB虽然没有提到选择一个写优化的存储引擎是否有特殊意义，但同样也认为RocksDB 是一个非常优秀开源项目，可以满足他们对单机引擎的各种要求。
 
@@ -184,7 +184,7 @@ OceanBase的优化还停留在工程层面，那么还有没有更好的理论�
 
 WiscKey的主要设计思想是，在SSTable的重写过程中，核心工作是对Key进行整理，保证多个SSTable的Key范围不重叠，且内部有序。而这个过程中Value的重写是没有太大价值的，而从实践看，Value占用的存储空间远远大于Key。这意味着大量的写操作和空间成本被浪费了。所以WiscKey提出将Value从SSTable中分离出来单独存储，这样就降低了写放大系数。
 
-![](https://static001.geekbang.org/resource/image/d0/a9/d0eda0529ce4c9796f777c95d46914a9.png?wh=2418%2A958 "引自Lanyue Lu et al.(2016)")
+![](https://static001.geekbang.org/resource/image/d0/a9/d0eda0529ce4c9796f777c95d46914a9.png?wh=2418%2A958 "引自Lanyue Lu et al.(2016)"){: referrerpolicy="no-referrer" }
 
 Value单独存储的问题是按照Key连续读取数据时，对应的Value并不是连续存储，磁盘寻址成本增大。而WiscKey的设计前提是使用SSD替换HDD，SSD的随机读写效率接近于顺序读写，所以能够保持较高的整体效率。事实上，过高的写放大也会严重缩短SSD的使用寿命。WiscKey就是针对SSD提出的存储模型。
 
@@ -228,7 +228,7 @@ CockroachDB替换存储引擎的另一个原因是，RocksDB的代码量日益�
 
 我的一点建议是，记下这些存储模型虽然重要，但更加关键的是对RUM猜想的深入思考，因为架构设计的精髓就在于做出适当的取舍。
 
-![](https://static001.geekbang.org/resource/image/5b/32/5bbd48e644e90fda6ce91a0360e7e332.jpg?wh=2700%2A2916)
+![](https://static001.geekbang.org/resource/image/5b/32/5bbd48e644e90fda6ce91a0360e7e332.jpg?wh=2700%2A2916){: referrerpolicy="no-referrer" }
 
 ## 思考题
 

@@ -6,7 +6,7 @@
 
 这里，我再放一次上一篇文章中讲到的双M结构的主备切换流程图。
 
-![](https://static001.geekbang.org/resource/image/89/cc/89290bbcf454ff9a3dc5de42a85a69cc.png?wh=1142%2A880)
+![](https://static001.geekbang.org/resource/image/89/cc/89290bbcf454ff9a3dc5de42a85a69cc.png?wh=1142%2A880){: referrerpolicy="no-referrer" }
 
 图 1 MySQL主备切换流程--双M结构
 
@@ -102,7 +102,7 @@ seconds\_behind\_master的计算方法是这样的：
 
 这个切换流程，一般是由专门的HA系统来完成的，我们暂时称之为可靠性优先流程。
 
-![](https://static001.geekbang.org/resource/image/54/4a/54f4c7c31e6f0f807c2ab77f78c8844a.png?wh=1142%2A880)
+![](https://static001.geekbang.org/resource/image/54/4a/54f4c7c31e6f0f807c2ab77f78c8844a.png?wh=1142%2A880){: referrerpolicy="no-referrer" }
 
 图2 MySQL可靠性优先主备切换流程
 
@@ -145,7 +145,7 @@ insert into t(c) values(5);
 
 图3是**可用性优先策略，且binlog\_format=mixed**时的切换流程和数据结果。
 
-![](https://static001.geekbang.org/resource/image/37/3a/3786bd6ad37faa34aca25bf1a1d8af3a.png?wh=1142%2A880)
+![](https://static001.geekbang.org/resource/image/37/3a/3786bd6ad37faa34aca25bf1a1d8af3a.png?wh=1142%2A880){: referrerpolicy="no-referrer" }
 
 图3 可用性优先策略，且binlog\_format=mixed
 
@@ -164,7 +164,7 @@ insert into t(c) values(5);
 
 图4中我画出了详细过程，你可以自己再分析一下。
 
-![](https://static001.geekbang.org/resource/image/b8/43/b8d2229b2b40dd087fd3b111d1bdda43.png?wh=1142%2A880)
+![](https://static001.geekbang.org/resource/image/b8/43/b8d2229b2b40dd087fd3b111d1bdda43.png?wh=1142%2A880){: referrerpolicy="no-referrer" }
 
 图4 可用性优先策略，且binlog\_format=row
 
@@ -192,7 +192,7 @@ insert into t(c) values(5);
 
 假设，主库A和备库B间的主备延迟是30分钟，这时候主库A掉电了，HA系统要切换B作为主库。我们在主动切换的时候，可以等到主备延迟小于5秒的时候再启动切换，但这时候已经别无选择了。
 
-![](https://static001.geekbang.org/resource/image/55/8b/553b7fc2d0dce3ec78bb595e1806eb8b.png?wh=1142%2A880)
+![](https://static001.geekbang.org/resource/image/55/8b/553b7fc2d0dce3ec78bb595e1806eb8b.png?wh=1142%2A880){: referrerpolicy="no-referrer" }
 
 图5 可靠性优先策略，主库不可用
 
@@ -222,7 +222,7 @@ insert into t(c) values(5);
 
 假设，现在你看到你维护的一个备库，它的延迟监控的图像类似图6，是一个45°斜向上的线段，你觉得可能是什么原因导致呢？你又会怎么去确认这个原因呢？
 
-![](https://static001.geekbang.org/resource/image/cf/71/cf5ea52aa3b26ef56c567125197fa171.png?wh=1142%2A880)
+![](https://static001.geekbang.org/resource/image/cf/71/cf5ea52aa3b26ef56c567125197fa171.png?wh=1142%2A880){: referrerpolicy="no-referrer" }
 
 图6 备库延迟
 
@@ -236,7 +236,7 @@ insert into t(c) values(5);
 
 另一种场景是，有三个节点的时候，如图7所示，trx1是在节点 B执行的，因此binlog上的server\_id就是B，binlog传给节点 A，然后A和A’搭建了双M结构，就会出现循环复制。
 
-![](https://static001.geekbang.org/resource/image/f9/71/f968192ce2f436c939dd702b8f409771.png?wh=1142%2A880)
+![](https://static001.geekbang.org/resource/image/f9/71/f968192ce2f436c939dd702b8f409771.png?wh=1142%2A880){: referrerpolicy="no-referrer" }
 
 图7 三节点循环复制
 

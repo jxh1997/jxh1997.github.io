@@ -10,7 +10,7 @@
 
 如下图所示，RocketMQ由 **Producer**、**NameServer**、**Broker**、**Consumer** 四大模块组成。其中，NameServer是RocketMQ的元数据存储组件。另外，在RocketMQ 5.0后，还增加了Proxy模块，用来支持gRPC协议，并为后续的计算存储分离架构做准备。
 
-![](https://static001.geekbang.org/resource/image/6a/38/6af4ab5debc9535849ab7da3e5022f38.jpg?wh=10666x4161)
+![](https://static001.geekbang.org/resource/image/6a/38/6af4ab5debc9535849ab7da3e5022f38.jpg?wh=10666x4161){: referrerpolicy="no-referrer" }
 
 RocketMQ有Topic、MessageQueue、Group的概念，一个Topic可以包含一个或多个MessageQueue，一个Group 可以订阅一个或多个Topic。MessageQueue是具体消息数据的存储单元，订阅的时候通过Group来管理消费订阅关系。
 
@@ -28,7 +28,7 @@ RocketMQ有Topic、MessageQueue、Group的概念，一个Topic可以包含一个
 
 这是在Proxy组件上完成了对gRPC协议的支持，用的是[第03讲](https://time.geekbang.org/column/article/670596)的代理（Proxy）模式。即Broker依旧只支持Remoting协议，如果需要支持gRPC协议，那么就需要单独部署Proxy组件。
 
-![](https://static001.geekbang.org/resource/image/b1/c9/b1b45ffe1bf5e2870e53124815440dc9.jpg?wh=10666x4063)
+![](https://static001.geekbang.org/resource/image/b1/c9/b1b45ffe1bf5e2870e53124815440dc9.jpg?wh=10666x4063){: referrerpolicy="no-referrer" }
 
 在传输层协议方面，Remoting和gRPC都是基于TCP协议传输的。Remoting 直接基于四层的TCP协议通信，gRPC是基于七层的HTTP2协议通信，不过 HTTP2 底层也是基于TCP，它们本质上都是应用层的协议。
 
@@ -38,7 +38,7 @@ RocketMQ有Topic、MessageQueue、Group的概念，一个Topic可以包含一个
 
 关于Remoting协议的细节，我们在[第03讲](https://time.geekbang.org/column/article/670596)介绍协议时已经详细讲述了，这里不再重复。下面我们来聊一下gRPC协议，先来看一下gRPC的架构图。
 
-![图片](https://static001.geekbang.org/resource/image/b9/a3/b961c1a2a899610d7c0e0b5f24dcd0a3.png?wh=800x480 "图片来源：https://www.wallarm.com/what/the-concept-of-grpc")
+![图片](https://static001.geekbang.org/resource/image/b9/a3/b961c1a2a899610d7c0e0b5f24dcd0a3.png?wh=800x480 "图片来源：https://www.wallarm.com/what/the-concept-of-grpc"){: referrerpolicy="no-referrer" }
 
 如上图所示，gRPC 分为Client端和Server端，底层基于HTTP2通信，内置了编解码模块，也定义好了Client和Server之间的调用方式，同时支持TLS加密，是一个完整的RPC框架。所以我们可以看到它在底层已经实现了网络通信、协议的设计、编解码框架等所有基础的工作。从使用的角度来说，gRPC 提供了各个语言的开发库，只需要集成对应语言的开发库，即可完成网络模块的开发，很轻便。详情情况你可以参考 [gRPC 各语言官方文档](https://grpc.io/docs/languages/)。
 
@@ -52,7 +52,7 @@ RocketMQ 同 RabbitMQ 一样，数据存储模块也分为元数据存储和消�
 
 先来看一下元数据存储。RocketMQ 的元数据信息实际是存储在Broker上的，Broker启动时将数据上报到NameServer模块中汇总缓存。NameServer是一个简单的TCP Server，专门用来接收、存储、分发 Broker 上报的元数据信息。这些元数据信息是存储在NameServer内存中的，NameServer不会持久化去存储这些数据。
 
-![](https://static001.geekbang.org/resource/image/27/53/278f259567c197cb42b8134880d0cb53.jpg?wh=10666x5489)
+![](https://static001.geekbang.org/resource/image/27/53/278f259567c197cb42b8134880d0cb53.jpg?wh=10666x5489){: referrerpolicy="no-referrer" }
 
 如上图所示，Broker 启动或删除时，会调用NameServer的注册和退出接口，每个Broker都会存储自己节点所属的元数据信息（比如有哪些Topic、哪些Queue 在本节点上），在Broker启动时，会把全量的数据上报到 NameServer 中。
 
@@ -66,11 +66,11 @@ RocketMQ 同 RabbitMQ 一样，数据存储模块也分为元数据存储和消�
 
 RocketMQ 消息数据的最小存储单元是MessageQueue，也就是我们常说的Queue或Partition。Topic可以包含一个或多个MessageQueue，数据写入到Topic后，最终消息会分发到对应的MessageQueue中存储。
 
-![](https://static001.geekbang.org/resource/image/0d/79/0dc590cca3709d82e04d3561e9223879.jpg?wh=10666x4366)
+![](https://static001.geekbang.org/resource/image/0d/79/0dc590cca3709d82e04d3561e9223879.jpg?wh=10666x4366){: referrerpolicy="no-referrer" }
 
 在底层的文件存储方面，并不是一个MessageQueue对应一个文件存储的，而是一个节点对应一个总的存储文件，单个Broker 节点下所有的队列共用一个日志数据文件（CommitLog）来存储，和RabbitMQ采用的是同一种存储结构。存储结构如下图所示：
 
-![图片](https://static001.geekbang.org/resource/image/e5/69/e54d8fb1dffecbc91b978728b48a5369.png?wh=1142x763 "图片来源：https://github.com/apache/rocketmq/blob/develop/docs/cn/image/rocketmq_design_1.png")
+![图片](https://static001.geekbang.org/resource/image/e5/69/e54d8fb1dffecbc91b978728b48a5369.png?wh=1142x763 "图片来源：https://github.com/apache/rocketmq/blob/develop/docs/cn/image/rocketmq_design_1.png"){: referrerpolicy="no-referrer" }
 
 图中主要包含 CommitLog、ConsumeQueue、IndexFile 三个跟消息存储相关的文件，下面我们来简单了解一下。
 
@@ -90,7 +90,7 @@ RocketMQ 消息数据的最小存储单元是MessageQueue，也就是我们常�
 
 RocketMQ的客户端连接服务端是需要经过客户端寻址的。如下图所示，首先和NameServer 完成寻址，拿到Topic/MessageQueue和Broker的对应关系后，接下来才会和Broker进行交互。
 
-![](https://static001.geekbang.org/resource/image/c3/c8/c37175b6ba7ec1fc369f561e849b4fc8.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/c3/c8/c37175b6ba7ec1fc369f561e849b4fc8.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 ### 生产端
 
@@ -120,16 +120,16 @@ RocketMQ 默认是通过消费分组机制来消费的。即在客户端消费�
 
 **消息粒度负载均衡**是指同一消费者分组内的多个消费者，将按照消息粒度平均分摊主题中的所有消息。即同一个队列中的消息，会被平均分配给多个消费者共同消费。
 
-![](https://static001.geekbang.org/resource/image/bb/59/bb949f7cde7e5c710b7232b9978f3759.jpg?wh=10666x4626)
+![](https://static001.geekbang.org/resource/image/bb/59/bb949f7cde7e5c710b7232b9978f3759.jpg?wh=10666x4626){: referrerpolicy="no-referrer" }
 
 **队列粒度负载均衡**是指同一消费者分组内的多个消费者，将按照队列粒度消费消息，即每个队列仅被一个消费者消费。
 
-![](https://static001.geekbang.org/resource/image/27/be/278ceayydfbe148a7c7767497b5ccdbe.jpg?wh=10666x6000)  
+![](https://static001.geekbang.org/resource/image/27/be/278ceayydfbe148a7c7767497b5ccdbe.jpg?wh=10666x6000)  {: referrerpolicy="no-referrer" }
 消息粒度负载均衡就是我们之前在[第08讲](https://time.geekbang.org/column/article/673672)讲到的共享消费模式，而队列粒度负载均衡就是独占消费模式。大部分情况下，我推荐你优先使用队列粒度负载均衡。
 
 当消费端消费数据成功后，就需要保存消费进度信息。RocketMQ通过提交消费位点信息来保存消费进度。在服务端，RocketMQ会为每个消费分组维护一份消费位点信息，信息中会保存消费的**最大位点、最小位点、当前消费位点**等内容。
 
-![](https://static001.geekbang.org/resource/image/db/42/db391cae3483d129fe5fc1d31eb2d242.jpg?wh=10666x4259)  
+![](https://static001.geekbang.org/resource/image/db/42/db391cae3483d129fe5fc1d31eb2d242.jpg?wh=10666x4259)  {: referrerpolicy="no-referrer" }
 从实现来看，客户端消费完数据后，就会调用Broker的消费位点更新接口，提交当前消费的位点信息。
 
 在服务端，消息被某个消费者消费完成后，不会立即在队列中被删除，以便当消费者客户端停止又再次重新上线时，会严格按照服务端保存的消费进度继续处理消息。如果服务端保存的历史位点信息已过期被删除，此时消费位点向前移动至服务端存储的最小位点。
@@ -144,7 +144,7 @@ RocketMQ原生不支持HTTP协议的生产消费，但是在一些云厂商的�
 
 客户端 SDK 会集成调用服务端这些接口的逻辑。命令行工具就是通过客户端SDK来完成管控操作，也可以在代码中通过SDK来执行管控操作。
 
-![](https://static001.geekbang.org/resource/image/93/5e/9353b611ea01ff5b0a91fd6e6d510d5e.jpg?wh=10666x3716)
+![](https://static001.geekbang.org/resource/image/93/5e/9353b611ea01ff5b0a91fd6e6d510d5e.jpg?wh=10666x3716){: referrerpolicy="no-referrer" }
 
 ## 总结
 

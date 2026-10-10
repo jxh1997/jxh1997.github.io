@@ -22,7 +22,7 @@ RabbitMQ 有插件支持延迟消息功能，而 RocketMQ 和 Kafka 则只能自
 
 RabbitMQ 有一个延迟消息的插件 rabbitmq\_delayed\_message\_exchange，只需要启用这个插件就可以使用延迟消息。这个插件的基本原理也比较简单，就是实现了一个 exchange。这个 exchange 控制住了消息什么时候会被真的投递到队列里。
 
-![图片](https://static001.geekbang.org/resource/image/47/56/476cfa5ff52291c158ed891641cd8f56.png?wh=1920x882)
+![图片](https://static001.geekbang.org/resource/image/47/56/476cfa5ff52291c158ed891641cd8f56.png?wh=1920x882){: referrerpolicy="no-referrer" }
 
 如上图所示，消息会先暂时存储在 exchange 里面。它使用的是 Mnesia 来存储，如果你不知道 Mnesia 是什么，就直观地把它看作一个基于文件的数据库。
 
@@ -39,7 +39,7 @@ RabbitMQ 有一个延迟消息的插件 rabbitmq\_delayed\_message\_exchange，�
 
 简单来说，就是开发者准备一个队列 delay\_queue，为这个 delay\_queue 设置过期时间，这个 delay\_queue 不需要消费者。然后把你真实的业务 biz\_queue 绑定到这个 delay\_queue，作为它的死信队列。
 
-![图片](https://static001.geekbang.org/resource/image/13/aa/1347e67374197cf37fa0a75a3930b2aa.png?wh=1920x827)
+![图片](https://static001.geekbang.org/resource/image/13/aa/1347e67374197cf37fa0a75a3930b2aa.png?wh=1920x827){: referrerpolicy="no-referrer" }
 
 生产者发送消息到 delay\_queue，因为没有消费者，所以消息会过期。过期之后的消息被转发到死信队列，也就是 biz\_queue 里面。这时候消费者就能拿到消息了。
 
@@ -67,7 +67,7 @@ RabbitMQ 有一个延迟消息的插件 rabbitmq\_delayed\_message\_exchange，�
 
 利用定时任务来实现延迟消息是最好、最简单的办法。对于一个延迟消息来说，一个延迟到 30 分钟后才可以被消费的消息，也可以认为是 30 分钟后才可以发送。也就是说，你可以设定一个定时任务，这个任务会在 30 分钟后把消息发送到消息服务器上。
 
-![图片](https://static001.geekbang.org/resource/image/c7/67/c70beb212c1773a0d6ae4cdbec908067.png?wh=1920x938)
+![图片](https://static001.geekbang.org/resource/image/c7/67/c70beb212c1773a0d6ae4cdbec908067.png?wh=1920x938){: referrerpolicy="no-referrer" }
 
 所以你可以这么介绍这个方案。
 
@@ -83,7 +83,7 @@ RabbitMQ 有一个延迟消息的插件 rabbitmq\_delayed\_message\_exchange，�
 
 这种方案应该算是很简单，而且也很好用的方案。你可以看一下它的基本架构图。
 
-![图片](https://static001.geekbang.org/resource/image/96/27/966ba2212123df97e89a64cee30c6f27.png?wh=1920x1026)
+![图片](https://static001.geekbang.org/resource/image/96/27/966ba2212123df97e89a64cee30c6f27.png?wh=1920x1026){: referrerpolicy="no-referrer" }
 
 这里关键的角色是 delay\_topic 和延迟消费组。
 
@@ -109,7 +109,7 @@ RabbitMQ 有一个延迟消息的插件 rabbitmq\_delayed\_message\_exchange，�
 
 在这个方案中，因为消费者睡眠了，睡眠期间不会消费消息，所以 Kafka 就会判定这个消费者已经崩溃了，就会触发 rebalance。发生 rebalance 之后，等消费者再恢复过来，就不知道又会被分配到哪个分区，那么之前的睡眠就可以认为是白睡了。
 
-![图片](https://static001.geekbang.org/resource/image/5e/d3/5edc1d0f01fc70cf287b5eaa3c0be0d3.png?wh=1920x1026)
+![图片](https://static001.geekbang.org/resource/image/5e/d3/5edc1d0f01fc70cf287b5eaa3c0be0d3.png?wh=1920x1026){: referrerpolicy="no-referrer" }
 
 为了避免这个问题，就需要确保在睡眠期间不会触发 rebalance。因此需要利用 Kafka 的暂停（Pause）功能，在睡眠结束之后，再恢复（Resume）。注意，Kafka 的暂停功能相当于拉取 0 条数据，并不是说不拉数据，也就是说还是会发起 Poll 调用。
 
@@ -137,11 +137,11 @@ RabbitMQ 有一个延迟消息的插件 rabbitmq\_delayed\_message\_exchange，�
 
 如果是先提交，那么就会出现消息提交了，但是还来不及转发 biz\_topic 就宕机的情况，这显然不能容忍。
 
-![图片](https://static001.geekbang.org/resource/image/b1/be/b1dd9f1cf49c9262961b24ccfc93d9be.png?wh=1920x763)
+![图片](https://static001.geekbang.org/resource/image/b1/be/b1dd9f1cf49c9262961b24ccfc93d9be.png?wh=1920x763){: referrerpolicy="no-referrer" }
 
 但是如果先转发 biz\_topic，然后提交。那如果提交之前宕机了，后面恢复过来，又会转发一次。好在多发一次并不是什么问题，因为你可以要求业务消费者确保自己的逻辑是幂等的。
 
-![图片](https://static001.geekbang.org/resource/image/84/70/847d5581d890acc4ab0705a3e2fb1a70.png?wh=1920x796)
+![图片](https://static001.geekbang.org/resource/image/84/70/847d5581d890acc4ab0705a3e2fb1a70.png?wh=1920x796){: referrerpolicy="no-referrer" }
 
 其实，即便是非延迟消息，还是需要消费者保证自己的逻辑是幂等的。因为本身发送者就存在重复发送的可能，不然没办法确保消息一定投递到 消息服务器上。
 
@@ -171,7 +171,7 @@ RabbitMQ 有一个延迟消息的插件 rabbitmq\_delayed\_message\_exchange，�
 
 你可以看一下基于 MySQL 方案的基本架构图。
 
-![图片](https://static001.geekbang.org/resource/image/39/02/39c3c328e69d641ede4496df15921f02.png?wh=1920x1038)
+![图片](https://static001.geekbang.org/resource/image/39/02/39c3c328e69d641ede4496df15921f02.png?wh=1920x1038){: referrerpolicy="no-referrer" }
 
 这个方案里面的关键点是创建一个 delay\_topic，业务发送者把消息发送到这个 topic 里面，消息里面带上了需要延迟的时间。里面有一个延迟消费者，它会消费 delay\_topic 里面的消息，转储到数据库中。还有一个延迟发送者，它会轮询数据库里的消息，把已经可以转发出去的消息转发到真正的 biz\_topic 上。发送完之后，延迟发送者把数据库的状态更新成已发送。最后业务消费者消费 biz\_topic。
 
@@ -193,7 +193,7 @@ RabbitMQ 有一个延迟消息的插件 rabbitmq\_delayed\_message\_exchange，�
 
 表交替要复杂一点，但是也很好用。表交替的意思是你准备两个表，然后交替写、交替查询。比如说你今天用 tab\_0，明天用 tab\_1。当你用 tab\_1 的时候你就可以直接清空（TRUNCATE）tab\_0 的数据，反过来也是这样。这种按天交替的方案对延迟时间是有限制的，延迟时间不能超过一天。
 
-![图片](https://static001.geekbang.org/resource/image/45/b5/45ff4ff8be3946a632da084fd5785fb5.png?wh=1920x1025)
+![图片](https://static001.geekbang.org/resource/image/45/b5/45ff4ff8be3946a632da084fd5785fb5.png?wh=1920x1025){: referrerpolicy="no-referrer" }
 
 > 还可以考虑使用表交替方案，也就是说准备两个表 tab\_0、tab\_1。那么最开始的时候可以读写 tab\_0，然后换成读写 tab\_1。每次交替的时候，都可以把之前使用的数据 TRUNCATE 掉。TRUNCATE 本身很快，所以没什么性能问题。
 
@@ -211,13 +211,13 @@ RabbitMQ 有一个延迟消息的插件 rabbitmq\_delayed\_message\_exchange，�
 
 这个你可能难以理解，我给你举个例子，比如说我有一个消息发送给 biz\_topic\_1，要求是一分钟后发出去。那么不管这个消息被存在哪个表，延迟发送者都可以找出来，然后转发到 biz\_topic\_1。
 
-![图片](https://static001.geekbang.org/resource/image/6a/fe/6ae7d6fd200bb1eb1f7d9e90cd3c58fe.png?wh=1920x831)
+![图片](https://static001.geekbang.org/resource/image/6a/fe/6ae7d6fd200bb1eb1f7d9e90cd3c58fe.png?wh=1920x831){: referrerpolicy="no-referrer" }
 
 当然你的回答也引到了另一个亮点，就是消息有序性。
 
 > 要想做到延迟消息有序性，有一个比较简单的方案。在分库分表的时候，确保同一个 biz\_topic 的消息都落到同一张表里面。并且最开始发送到 delay\_topic 上也是按照 biz\_topic 的名字来选择分区的，那么就可以保证延迟消息转发到 biz\_topic 上跟它们被发送到 delay\_topic 上是一样的。
 
-![图片](https://static001.geekbang.org/resource/image/53/e5/53b3c70cd46cab2f17a0f981e50e57e5.png?wh=1920x1022)
+![图片](https://static001.geekbang.org/resource/image/53/e5/53b3c70cd46cab2f17a0f981e50e57e5.png?wh=1920x1022){: referrerpolicy="no-referrer" }
 
 到这里，你还剩下一个可以同时在延迟消费者和延迟发送者上使用的策略：批量操作。
 
@@ -239,7 +239,7 @@ RabbitMQ 有一个延迟消息的插件 rabbitmq\_delayed\_message\_exchange，�
 
 当然，如果你本身不是使用 Kafka 的，这些方案也是有参考价值的。比如说你用 RabbitMQ，但是 RabbitMQ 已有的插件缺陷太多，你完全可以使用我后面描述的 MySQL 方案做一个类似的插件出来。
 
-![](https://static001.geekbang.org/resource/image/3f/62/3ff0d0d408e4520a1e2c0e9a40303562.jpg?wh=3169x3008)
+![](https://static001.geekbang.org/resource/image/3f/62/3ff0d0d408e4520a1e2c0e9a40303562.jpg?wh=3169x3008){: referrerpolicy="no-referrer" }
 
 ## 思考题
 

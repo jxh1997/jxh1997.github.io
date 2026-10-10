@@ -12,7 +12,7 @@
 
 Pull（拉）模型是指客户端通过不断轮询的方式向服务端拉取数据。它是消息队列中使用最广泛和最基本的模型，主流的消息队列都支持这个模型。
 
-![](https://static001.geekbang.org/resource/image/f8/b9/f8cb7308f06113f96b53bbc1f986d2b9.jpg?wh=10666x3070)
+![](https://static001.geekbang.org/resource/image/f8/b9/f8cb7308f06113f96b53bbc1f986d2b9.jpg?wh=10666x3070){: referrerpolicy="no-referrer" }
 
 它的好处是客户端根据自身的处理速度去拉取数据，不会对客户端和服务端造成额外的风险和负载压力。缺点是可能会出现大量无效返回的Pull调用，另外消费及时性不够，无法满足一些需要全链路低耗时的场景。
 
@@ -20,7 +20,7 @@ Pull（拉）模型是指客户端通过不断轮询的方式向服务端拉取�
 
 来看下图的场景，当Topic1数据已经被消费完，此时如果消费者频繁来拉取数据并立即返回结果，客户端就会不停地重复请求服务端。当空数据请求特别多的时候，就会造成资源损耗，不利于提高吞吐，也有可能导致负载问题。
 
-![](https://static001.geekbang.org/resource/image/d1/d8/d13569ac0196a12bbd9d05e812c987d8.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/d1/d8/d13569ac0196a12bbd9d05e812c987d8.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 为了解决这个问题，正常的思路是在客户端根据一定策略进行等待和回避。这样做的话，就会出现如何设置等待时间的问题，客户端等待时间设置不合理就会出现消费不及时的情况。
 
@@ -44,13 +44,13 @@ Pull（拉）模型是指客户端通过不断轮询的方式向服务端拉取�
 
 Push（推）模型是为了解决消费及时性而提出来的。这个模型的本意是指当服务端有数据时会主动推给客户端，让数据的消费更加及时。理想中的思路如下图所示，即当服务端有数据以后，会主动推动给各个消费者。这个思路是非常好的，随着事件模型的发展，为了解决消费的及时性，很多消息队列都希望支持Push模型。
 
-![](https://static001.geekbang.org/resource/image/d2/12/d287737b178a9a6fd61c27a24b0db512.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/d2/12/d287737b178a9a6fd61c27a24b0db512.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 在实际的Push模型的实现上，一般有 Broker 内置 Push 功能、Broker 外独立实现 Push 功能的组件、在客户端实现伪 Push 功能三种思路。
 
 **第一种，Broker** **内置** **Push** **功能是指在Broker中内置标准的** **Push** **的能力，由服务端向客户端主动推送数据。**
 
-![](https://static001.geekbang.org/resource/image/22/05/2220e23cba67a3e392b48c02c3462505.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/22/05/2220e23cba67a3e392b48c02c3462505.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 这种方案的好处是Broker自带Push能力，无需重复开发和部署。Broker 内部可以感知到数据堆积情况，可以保证消息被及时消费。缺点是当消费者很多时，内核需要主动维护很多与第三方的长连接，并且需要处理各种客户端异常，比如客户端卡住、接收慢、处理慢等情况。这些推送数据、异常处理、连接维护等工作需要消耗很多的系统资源，在性能上容易对Broker形成反压，导致Broker本身的性能和稳定性出现问题。
 
@@ -58,7 +58,7 @@ Push（推）模型是为了解决消费及时性而提出来的。这个模型�
 
 **第二种，Broker外独立实现Push功能的组件是指独立于Broker提供一个专门实现推模型的组件。**通过先 Pull 数据，再将数据 Push 给客户端，从而简化客户端的使用，提高数据消费的及时性。
 
-![](https://static001.geekbang.org/resource/image/6d/3b/6db5181a1714e327c375de7eae4a293b.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/6d/3b/6db5181a1714e327c375de7eae4a293b.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 这种方案的好处是将Push组件独立部署，解决了 Broker 的性能和稳定性问题，也能实现Push的效果。缺点是虽然实现了Push的模型，但其本质还是先Pull再Push，从全链路来看，还是会存在延时较高的问题，并且需要单独开发独立的 Push 组件，开发和运维成本较高。
 
@@ -66,7 +66,7 @@ Push（推）模型是为了解决消费及时性而提出来的。这个模型�
 
 **第三种，在客户端实现伪Push功能是指在客户端内部维护内存队列，SDK 底层通过Pull模型从服务端拉取数据存储到客户端的内存队列中。**然后通过回调的方式，触发用户设置的回调函数，将数据推送给应用程序，在使用体验上看就是 Push 的效果。
 
-![](https://static001.geekbang.org/resource/image/06/b1/06ed827d2681386d9cef461d7a5ee7b1.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/06/b1/06ed827d2681386d9cef461d7a5ee7b1.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 这种方案的好处在于通过客户端底层的封装，从用户体验看是Push模型的效果，解决用户代码层面的不断轮询问题，降低了用户的使用复杂度。缺点是底层依旧是Pull模型，还是得通过不断轮询的方式去服务端拉取数据，就会遇到 Pull 模型遇到的问题。
 
@@ -82,7 +82,7 @@ Pop模型想解决的是客户端实现较重，重平衡会暂停消费并且�
 
 从实现上来看，它将分区分配的工作移到了服务端，在服务端完成了消费者的分区分配、进度管理，然后暴露出了新的Pop和ACK接口。客户端调用Pop接口去拿取数据，消费成功后调用ACK去确认数据。这和 HTTP 的 Request 和 Response 的使用模型一致。
 
-![](https://static001.geekbang.org/resource/image/7f/45/7f6f8e8603b1c9af0c594ec3b954c845.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/7f/45/7f6f8e8603b1c9af0c594ec3b954c845.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 ## 分区消费模式的设计
 
@@ -92,19 +92,19 @@ Pop模型想解决的是客户端实现较重，重平衡会暂停消费并且�
 
 **独占消费是指一个分区在同一个时间只能被一个消费者消费。**在消费者启动时，会分配消费者和分区之间的消费关系。当消费者数量和分区数量都没有变化的情况下，两者之间的分配关系不会变动。当分配关系变动时，一个分组也只能被一个消费者消费，这个消费者可能是当前的，也可能是新的。如果消费者数量大于分区数量，则会有消费者被空置；反之，如果分区数量大于消费者数量，一个消费者则可以同时消费多个分区。
 
-![](https://static001.geekbang.org/resource/image/e1/8d/e1996c88f34fe02a23c65ce487e89b8d.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/e1/8d/e1996c88f34fe02a23c65ce487e89b8d.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 独占消费的好处是可以保证分区维度的消费是有序的。缺点是当数据出现倾斜、单个消费者出现性能问题或hang住时，会导致有些分区堆积严重。现在大部分消息队列默认支持的就是独占消费的类型，比如Kafka、RocketMQ、Pulsar等。
 
 **共享消费是指单个分区的数据可以同时被多个消费者消费。**即分区的数据会依次投递给不同的消费者，一条数据只会投递给一个消费者。
 
-![](https://static001.geekbang.org/resource/image/2b/5b/2b565d4a50802225d74c0b7f4304ef5b.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/2b/5b/2b565d4a50802225d74c0b7f4304ef5b.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 这种方式的好处是，可以避免单个消费者的性能和稳定性问题导致分区的数据堆积。缺点是无法保证数据的顺序消费。这种模式一般用在对数据的有序性无要求的场景，比如日志。
 
 **广播消费是指一条数据要能够被多个消费者消费到。**即分区中的一条数据可以投递给所有的消费者，这种方式是需要广播消费的场景。
 
-![](https://static001.geekbang.org/resource/image/bb/cb/bb2b39c0762baaa2283438b280caa2cb.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/bb/cb/bb2b39c0762baaa2283438b280caa2cb.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 实现广播消费一般有内核实现广播消费的模型、使用不同的消费分组消费和指定分区消费三种技术思路。
 
@@ -112,13 +112,13 @@ Pop模型想解决的是客户端实现较重，重平衡会暂停消费并且�
 2. 使用不同的消费分组对数据进行消费，指通过创建不同的消费者组消费同一个Topic或分区，不同的消费分组管理自己的消费进度，消费到同一条消息，从而实现广播消费的效果。
 3. 指定分区消费，是指每个消费者指定分区进行消费，在本地记录消费位点，从而实现不同消费者消费同一条数据，达到广播消费的效果。
 
-三种方案的优劣对比如下：![](https://static001.geekbang.org/resource/image/f5/92/f59f74ff20f77192c9f6b50abc5d6c92.jpg?wh=1484x458)在常见的消息队列产品中，Pulsar支持的Share消费模型就是第一种实现思路。Kafka和RocketMQ主要支持第二和第三种实现思路。
+三种方案的优劣对比如下：![](https://static001.geekbang.org/resource/image/f5/92/f59f74ff20f77192c9f6b50abc5d6c92.jpg?wh=1484x458)在常见的消息队列产品中，Pulsar支持的Share消费模型就是第一种实现思路。Kafka和RocketMQ主要支持第二和第三种实现思路。{: referrerpolicy="no-referrer" }
 
 **灾备消费是独占消费的升级版，在保持独占消费可以支持顺序消费的基础上，同时加入灾备的消费者。**当消费者出现问题的时候，灾备消费者加入工作，继续保持独占顺序消费。
 
 好处是既能保持独占顺序消费，又能保证容灾能力。缺点是无法解决消费倾斜的性能问题，另外还需要准备一个消费者来做灾备，使用成本较高。
 
-![](https://static001.geekbang.org/resource/image/24/88/24c795441bd156a1b6bd1a99d312c388.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/24/88/24c795441bd156a1b6bd1a99d312c388.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 业界还有一些其他用得比较少的消费模式，如果你有兴趣，可以去研究一下各个主流消息队列（如 Kafka、RocketMQ、Pulsar等）的实现。
 

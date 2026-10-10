@@ -10,7 +10,7 @@
 
 Kafka 使用 WAL （write-ahead-log）日志来存储消息。每个分区都有一个对应的日志文件，新的消息会被追加到文件的末尾，而已经加入日志里的消息，就不会再被修改了。
 
-![图片](https://static001.geekbang.org/resource/image/73/70/73ef185e2011f444026cff4d140caf70.png?wh=1920x806)
+![图片](https://static001.geekbang.org/resource/image/73/70/73ef185e2011f444026cff4d140caf70.png?wh=1920x806){: referrerpolicy="no-referrer" }
 
 每个消息在分区日志里都有一个唯一的偏移量（offset），用来标识消息在分区里的位置。**Kafka 保证同一分区内的消息顺序，但不保证不同分区之间的顺序**。
 
@@ -24,7 +24,7 @@ Kafka 使用 WAL （write-ahead-log）日志来存储消息。每个分区都有
 
 你需要注意一点语义上的差别，这里说生产者生产消息的顺序，不是指你创建出来消息那个实例的先后顺序，而是指broker收到的顺序。比如说你有两个生产者，一个生产者先生产了 msg1，另外一个生产者生产了 msg2，但是 msg2 先发到了broker上。那么实际上我们认为 msg2 是先于 msg1 的。
 
-![图片](https://static001.geekbang.org/resource/image/26/f7/2682e2f251a64e06e24ae7012337e8f7.png?wh=1920x941)
+![图片](https://static001.geekbang.org/resource/image/26/f7/2682e2f251a64e06e24ae7012337e8f7.png?wh=1920x941){: referrerpolicy="no-referrer" }
 
 如果你要求的是两个生产者，一个生产者一定要先于另外一个生产者发送一条消息，那么这实际上已经超出了消息队列要解决的问题的范畴了，它属于在分布式环境下如何协调不同节点按照先后顺序执行一定的步骤这个问题范畴。有序消息强调的是某个 topic 内，而不是跨 topic 的有序消息。
 
@@ -62,7 +62,7 @@ Kafka 使用 WAL （write-ahead-log）日志来存储消息。每个分区都有
 
 我在前置知识里面已经说了 Kafka 分区是如何存储数据的。所以你很容易就猜到第一个解决方案，就是每一个 topic 只使用一个分区，也就是所谓的单分区解决方案。
 
-![图片](https://static001.geekbang.org/resource/image/d5/23/d5b8898e6905940312cedee64fa7e523.png?wh=1920x941)
+![图片](https://static001.geekbang.org/resource/image/d5/23/d5b8898e6905940312cedee64fa7e523.png?wh=1920x941){: referrerpolicy="no-referrer" }
 
 所以你可以简单介绍这个方案。
 
@@ -74,7 +74,7 @@ Kafka 使用 WAL （write-ahead-log）日志来存储消息。每个分区都有
 
 > 这种只有一个分区的方案性能差，没办法支撑高并发。对于生产端来说，所有的消息都在一个分区上，也同时意味着所有的消息都发送到了同一个broker上，这个服务器很可能撑不住压力；对于消费端来说，只有一个分区，那么就只能有一个消费者消费，很容易出现消息积压的问题。
 
-![图片](https://static001.geekbang.org/resource/image/37/b3/377e7d99d997ea28f29e7ce17fd232b3.png?wh=1920x941)
+![图片](https://static001.geekbang.org/resource/image/37/b3/377e7d99d997ea28f29e7ce17fd232b3.png?wh=1920x941){: referrerpolicy="no-referrer" }
 
 既然你说了这个点，自然就是为了引出改进方案。不过改进方案都有一个基本的前提，消息需要保持有序，但不是全局有序，而是同一个业务内有序。
 
@@ -90,7 +90,7 @@ Kafka 使用 WAL （write-ahead-log）日志来存储消息。每个分区都有
 
 这里说的顺序，就是同一个业务内的顺序。所以我们可以考虑在异步消费时，当消费者从队列取出来消息之后，把同一个业务的消息丢到同一个队列里。你可以看一下整体的架构图。
 
-![图片](https://static001.geekbang.org/resource/image/0c/f2/0c23f9fa9600707333d3f4c9efafc3f2.png?wh=1920x916)
+![图片](https://static001.geekbang.org/resource/image/0c/f2/0c23f9fa9600707333d3f4c9efafc3f2.png?wh=1920x916){: referrerpolicy="no-referrer" }
 
 图中有一个消费者负责从 Kafka 里拉取消息，然后发送到基于内存的队列里面。在发送的时候，它会根据 id 做一个简单的取余操作来筛选队列。然后工作线程从队列里面拿取消息，真正执行业务逻辑。
 
@@ -116,7 +116,7 @@ Kafka 使用 WAL （write-ahead-log）日志来存储消息。每个分区都有
 
 面试官自然就会追问，怎么保证同一个业务的消息必然发送到同一个分区呢？做法也很简单，只需要生产者在发送消息的时候，根据业务特征，比如说业务 ID 计算出目标分区，在发送的时候显式地指定分区就可以了。
 
-![图片](https://static001.geekbang.org/resource/image/ed/80/ed75cffc180df3eccf3dbfe1f0977880.png?wh=1920x989)
+![图片](https://static001.geekbang.org/resource/image/ed/80/ed75cffc180df3eccf3dbfe1f0977880.png?wh=1920x989){: referrerpolicy="no-referrer" }
 
 这里你抓住关键词**计算分区**回答。
 
@@ -130,7 +130,7 @@ Kafka 使用 WAL （write-ahead-log）日志来存储消息。每个分区都有
 
 这个缺点很容易理解，因为发送方要按照业务特征来选择分区，自然就容易导致一些分区有很多数据，而另外一些分区数据很少。而如果某个分区有很多数据的话，消费者来不及消费也是正常的事情。
 
-![图片](https://static001.geekbang.org/resource/image/16/79/1621e78eafde1138214b080ba3974579.png?wh=1920x917)
+![图片](https://static001.geekbang.org/resource/image/16/79/1621e78eafde1138214b080ba3974579.png?wh=1920x917){: referrerpolicy="no-referrer" }
 
 > 数据不均匀一般是业务造成的。在我们的方案里面，分区是根据业务特征来选择的，那么自然有一些分区有很多数据，有一些分区数据很少。比如说万一我们不小心把热点用户的消息都发到了同一个分区里面，那么这个分区的 QPS 就会很高，消费者也不一定来得及消费，就可能引起消息积压。
 
@@ -148,7 +148,7 @@ Kafka 使用 WAL （write-ahead-log）日志来存储消息。每个分区都有
 
 整个架构如图：
 
-![图片](https://static001.geekbang.org/resource/image/9c/93/9c0e58fe55c8b65d4c2b28f836971393.png?wh=1920x820)
+![图片](https://static001.geekbang.org/resource/image/9c/93/9c0e58fe55c8b65d4c2b28f836971393.png?wh=1920x820){: referrerpolicy="no-referrer" }
 
 你抓住关键词**槽**回答。
 
@@ -166,7 +166,7 @@ Kafka 使用 WAL （write-ahead-log）日志来存储消息。每个分区都有
 
 你只要通过调整不同分区之间的间隔，就能控制分区上的数据分布。
 
-![图片](https://static001.geekbang.org/resource/image/8c/71/8c9fd7c86f8830ec3aaf542192909271.png?wh=1920x1144)
+![图片](https://static001.geekbang.org/resource/image/8c/71/8c9fd7c86f8830ec3aaf542192909271.png?wh=1920x1144){: referrerpolicy="no-referrer" }
 
 > 另外一种思路是使用一致性哈希算法来筛选分区。首先要根据数据分布的整体情况，把分区分布在哈希环上，确保每一个分区上的数据分布大体上是均匀的。如果一部分哈希值上数据较多，就多插入几个分区节点。然后根据业务特征计算一个哈希值，从哈希环上找到对应的分区。
 
@@ -180,7 +180,7 @@ Kafka 使用 WAL （write-ahead-log）日志来存储消息。每个分区都有
 
 你可以结合下面这张图来理解。
 
-![图片](https://static001.geekbang.org/resource/image/12/69/125a0070a6d42117e6bbb5e728d58569.png?wh=1920x1023)
+![图片](https://static001.geekbang.org/resource/image/12/69/125a0070a6d42117e6bbb5e728d58569.png?wh=1920x1023){: referrerpolicy="no-referrer" }
 
 在面试的时候，你可以先介绍这个缺点，关键词是**增加分区会引起消息失序**，同时补充一个例子。
 
@@ -227,7 +227,7 @@ Kafka 使用 WAL （write-ahead-log）日志来存储消息。每个分区都有
 
 RabbitMQ 和 RocketMQ 里面消息有序性的解法也是差不多的。不同的是，在 RabbitMQ 里面使用的是 queue，因为 RabbitMQ 没有分区的概念。而 RocketMQ 里面内置了有序消息的功能，底层原理也基本相似。
 
-![](https://static001.geekbang.org/resource/image/8y/5c/8yy49b0e01ae1e565c7a4d97c5175c5c.jpg?wh=2933x1896)
+![](https://static001.geekbang.org/resource/image/8y/5c/8yy49b0e01ae1e565c7a4d97c5175c5c.jpg?wh=2933x1896){: referrerpolicy="no-referrer" }
 
 ## 思考题
 

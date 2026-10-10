@@ -18,7 +18,7 @@ MySQL提供了几个参数来配置这个时序，我们先看一下默认情况
 
 默认情况下，MySQL采用异步复制的方式，执行事务操作的线程不会等复制Binlog的线程。具体的时序你可以看下面这个图：
 
-![](https://static001.geekbang.org/resource/image/63/3f/6359155a64c1a62cb5fe23f10946d23f.jpg?wh=1142%2A423)
+![](https://static001.geekbang.org/resource/image/63/3f/6359155a64c1a62cb5fe23f10946d23f.jpg?wh=1142%2A423){: referrerpolicy="no-referrer" }
 
 MySQL主库在收到客户端提交事务的请求之后，会先写入Binlog，然后再提交事务，更新存储引擎中的数据，事务提交完成后，给客户端返回操作成功的响应。同时，从库会有一个专门的复制线程，从主库接收Binlog，然后把Binlog写到一个中继日志里面，再给主库返回复制成功的响应。
 
@@ -66,7 +66,7 @@ MySQL主库在收到客户端提交事务的请求之后，会先写入Binlog，
 
 存储系统中的数据称为状态（也就是MySQL中的数据），状态的全量备份称为快照（Snapshot），就像给数据拍个照片一样。我们按照顺序记录更新存储系统的每条操作命令，就是操作日志（Commit Log，也就是MySQL中的Binlog）。你可以对照下面这张图来理解上面这些抽象的概念。
 
-![](https://static001.geekbang.org/resource/image/83/7a/83e34a8b9d4f81391e327172e5a2497a.jpg?wh=1142%2A446)
+![](https://static001.geekbang.org/resource/image/83/7a/83e34a8b9d4f81391e327172e5a2497a.jpg?wh=1142%2A446){: referrerpolicy="no-referrer" }
 
 复制数据的时候，只要基于一个快照，按照顺序执行快照之后的所有操作日志，就可以得到一个完全一样的状态。在从节点持续地从主节点上复制操作日志并执行，就可以让从节点上的状态数据和主节点保持同步。
 

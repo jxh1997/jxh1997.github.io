@@ -20,7 +20,7 @@
 
 而我们今天要说的LSM（Log-Structured Merge-Tree，日志结构合并树），利用了MOR（Merge-On-Read）写入的优点，同时又通过Compact来避免了MOR读取时需要读取多个文件的缺点，被很多存储引擎用来提升写入性能。
 
-![](https://static001.geekbang.org/resource/image/26/ba/267ecb49f5b1e022b9aca5d2835e90ba.jpg?wh=2136x1026)
+![](https://static001.geekbang.org/resource/image/26/ba/267ecb49f5b1e022b9aca5d2835e90ba.jpg?wh=2136x1026){: referrerpolicy="no-referrer" }
 
 **理解了LSM，一定会让你更快速地定位各种问题原因**，比如写入放大、读取延迟或者合并策略配置不当，甚至你也可以在你自己的一些应用设计中采用类似的架构，用各种手段平衡读写、平衡时间与空间、平衡性能与准确性等等。
 
@@ -32,7 +32,7 @@ LSM树的出现是为了解决磁盘随机I/O速度过慢的问题，将数据�
 
 我们先看下LSM的架构。
 
-![图片](https://static001.geekbang.org/resource/image/83/b9/8332995375106483daa8fd431e854db9.png?wh=1870x1203)
+![图片](https://static001.geekbang.org/resource/image/83/b9/8332995375106483daa8fd431e854db9.png?wh=1870x1203){: referrerpolicy="no-referrer" }
 
 你看，HBase数据写入的时候，无论是新增数据还是更新删除数据，都会先写入内存中称之为MemStore的组件。而MemStore在内存中会使用一个有序的数据结构，比如跳表，给这些写入的数据排好序。
 
@@ -141,7 +141,7 @@ public class RatioCompactPolicy {
 
 代码执行如下图所示。
 
-![图片](https://static001.geekbang.org/resource/image/0d/b0/0d38e8c1be6cf9c500c9c54fb4b776b0.png?wh=791x182)
+![图片](https://static001.geekbang.org/resource/image/0d/b0/0d38e8c1be6cf9c500c9c54fb4b776b0.png?wh=791x182){: referrerpolicy="no-referrer" }
 
 从结果我们也可以看出，这个策略挑出了待合并文件中的小文件，过滤掉了大文件。也就是从文件列表 L=\[8200, 4300, 160, 150, 80, 70, 30, 20, 5] 中过滤掉了8200、4300这两个大文件，而挑出其他剩下的小文件做了合并。
 
@@ -169,7 +169,7 @@ public class RatioCompactPolicy {
 
 换句话说，就是有时布隆过滤器会告诉你某样东西可能存在，但实际上并不存在，就像“排他目录”可能错误地暗示一本书是在图书馆里，还需要你亲自去书架上确认有没有这本书一样。
 
-![](https://static001.geekbang.org/resource/image/45/38/450c63e1c032136a5eyy75114e348838.png?wh=1836x1036)  
+![](https://static001.geekbang.org/resource/image/45/38/450c63e1c032136a5eyy75114e348838.png?wh=1836x1036)  {: referrerpolicy="no-referrer" }
 那为什么会出现这种情况呢？我们看上面这张图，布隆过滤器使用一个位图作为数据存储结构。
 
 以一个基于行键的布隆过滤器为例。

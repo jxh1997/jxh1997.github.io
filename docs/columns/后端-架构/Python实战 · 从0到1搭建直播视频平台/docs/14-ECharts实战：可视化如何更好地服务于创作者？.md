@@ -18,11 +18,11 @@ ECharts则有所不同，ECharts使用Canvas来绘制图形，兼容IE6及以上
 
 分析完D3.js和ECharts的优缺点，为了让你更容易上手，并且能够契合更多的可视化场景，我们视频平台里的可视化部分都会采用ECharts来实现。
 
-![](https://static001.geekbang.org/resource/image/cd/e5/cd6ff2aa2617b42097eef7b6706f1de5.jpg?wh=2866x1620)
+![](https://static001.geekbang.org/resource/image/cd/e5/cd6ff2aa2617b42097eef7b6706f1de5.jpg?wh=2866x1620){: referrerpolicy="no-referrer" }
 
 接下来我们看看ECharts有哪些特性吧！以下内容参考 [ECharts官网](https://echarts.apache.org/zh/index.html)。这里我帮你提炼了核心内容，方便你快速抓住重点。
 
-![](https://static001.geekbang.org/resource/image/61/3d/612d37fc9b468ca5346c15d5d7ec253d.jpg?wh=3628x2260)
+![](https://static001.geekbang.org/resource/image/61/3d/612d37fc9b468ca5346c15d5d7ec253d.jpg?wh=3628x2260){: referrerpolicy="no-referrer" }
 
 通过前面这张表，我们全面了解了ECharts的特性，也看到了它能够呈现的图表样式，能够满足非常多的数据可视化场景。接下来，我们就通过官网这个最直接的学习渠道来学习应用ECharts。
 
@@ -30,7 +30,7 @@ ECharts则有所不同，ECharts使用Canvas来绘制图形，兼容IE6及以上
 
 虽然官网上ECharts整体内容比较多，但是我帮你梳理过后，你就会知道怎样学习才会更加系统高效了。
 
-![](https://static001.geekbang.org/resource/image/3d/de/3dd13d2f29cc1bb62b5d81a9c96464de.jpg?wh=2784x1118)
+![](https://static001.geekbang.org/resource/image/3d/de/3dd13d2f29cc1bb62b5d81a9c96464de.jpg?wh=2784x1118){: referrerpolicy="no-referrer" }
 
 最重要的就是使用手册、API、配置项手册这三项，建议你课后再仔细阅读一下。其中使用频率比较高的就是配置项手册，因为在ECharts实现的过程中，配置项设置这一步必不可少，所以我们必须要对常见配置的作用心中有数。
 
@@ -40,17 +40,17 @@ ECharts则有所不同，ECharts使用Canvas来绘制图形，兼容IE6及以上
 
 我们来看看具体的应用流程。首先一进入示例库，我们就能看到非常多的案例，我们只需点击想要的案例，进入编辑页面，就可以直接去修改相关的数据和配置项，并且看到相应的展示效果。
 
-![图片](https://static001.geekbang.org/resource/image/fe/2e/fe60d723386aba938db34c7b53a2412e.png?wh=1920x982)
+![图片](https://static001.geekbang.org/resource/image/fe/2e/fe60d723386aba938db34c7b53a2412e.png?wh=1920x982){: referrerpolicy="no-referrer" }
 
 这里我们选取第一个折线图的案例，进入编辑页面。在界面的左侧是具体的实现代码，参考代码我们很容易分析出xAxis和yAxis的意思，它们分别代表了X轴和Y轴。
 
 那么 type: ‘category’ 是什么用途呢？
 
-![](https://static001.geekbang.org/resource/image/73/ae/73016c4491c856080f29fb9fbd7355ae.jpg?wh=2834x1548)
+![](https://static001.geekbang.org/resource/image/73/ae/73016c4491c856080f29fb9fbd7355ae.jpg?wh=2834x1548){: referrerpolicy="no-referrer" }
 
 这时候配置项手册就能派上用场了。我们找到手册搜索 “category”，就能明确它的功能和含义了，就像后面截图展示的这样。
 
-![](https://static001.geekbang.org/resource/image/5e/56/5ebe2be37b739dbaa9bbaae3e6facc56.jpg?wh=2554x1398)
+![](https://static001.geekbang.org/resource/image/5e/56/5ebe2be37b739dbaa9bbaae3e6facc56.jpg?wh=2554x1398){: referrerpolicy="no-referrer" }
 
 当然这只是开胃菜，重点是你在应用时养成良好的学习方式，在不断发现问题和解决问题的过程中熟悉ECharts的基础用法。如果你追求更酷炫的效果，即便你前期对ECharts还不太熟练，也不妨多看看各类案例，比较一下它们的功能和呈现样式，上手多感受一下，这样你的学习效果会更好。
 
@@ -58,11 +58,11 @@ ECharts则有所不同，ECharts使用Canvas来绘制图形，兼容IE6及以上
 
 我们先来看一下最终呈现的效果，然后再一起完成从0到1的实现过程。
 
-![](https://static001.geekbang.org/resource/image/1a/43/1a9d12bdfb8c2b1b1e4013bfbeed5043.jpg?wh=2862x1534)
+![](https://static001.geekbang.org/resource/image/1a/43/1a9d12bdfb8c2b1b1e4013bfbeed5043.jpg?wh=2862x1534){: referrerpolicy="no-referrer" }
 
 我帮你系统梳理了日常使用率非常高的配置项，你可以参考后面的表格。
 
-![](https://static001.geekbang.org/resource/image/bf/bd/bf49a9df2e0yy949b6db1867793537bd.jpg?wh=3878x3535)
+![](https://static001.geekbang.org/resource/image/bf/bd/bf49a9df2e0yy949b6db1867793537bd.jpg?wh=3878x3535){: referrerpolicy="no-referrer" }
 
 当然，就像前面我说的那样，表里的内容你没必要全部记住，这些属性你可以直接在配置项手册里找到详细介绍。
 
@@ -275,7 +275,7 @@ methods: {
 
 后面这张图就是绘制视图的效果。
 
-![](https://static001.geekbang.org/resource/image/b7/ae/b7c372277094e330c1a6b43fd8a305ae.jpg?wh=1990x1568)
+![](https://static001.geekbang.org/resource/image/b7/ae/b7c372277094e330c1a6b43fd8a305ae.jpg?wh=1990x1568){: referrerpolicy="no-referrer" }
 
 这样我们就轻松完成了视图的呈现，是不是非常简单呢？
 

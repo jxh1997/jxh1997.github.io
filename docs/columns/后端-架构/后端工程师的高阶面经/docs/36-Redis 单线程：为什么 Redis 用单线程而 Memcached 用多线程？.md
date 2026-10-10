@@ -49,7 +49,7 @@
 
 而在 Linux 系统里面，套接字就是一个普通的文件描述符，因此 epoll 本质上是管着一堆文件描述符。
 
-![图片](https://static001.geekbang.org/resource/image/53/a9/538e2c314e88be9f07b0970694cc94a9.png?wh=1920x933)
+![图片](https://static001.geekbang.org/resource/image/53/a9/538e2c314e88be9f07b0970694cc94a9.png?wh=1920x933){: referrerpolicy="no-referrer" }
 
 你记住：**epoll = CRUD 文件描述符**。
 
@@ -66,7 +66,7 @@
 > 2. epoll\_ctl：管理 epoll 里面的那些文件描述符，简单说就是增删改 epoll 里面的文件描述符。
 > 3. epoll\_wait：根据你的要求，返回符合条件的文件描述符，也就是查。
 
-![图片](https://static001.geekbang.org/resource/image/b4/74/b4678e40fe7591f84366334626400a74.png?wh=1920x955)
+![图片](https://static001.geekbang.org/resource/image/b4/74/b4678e40fe7591f84366334626400a74.png?wh=1920x955){: referrerpolicy="no-referrer" }
 
 那么显然你可以猜到，如果你写一个从网络中读取数据的程序，看起来应该是这样的。
 
@@ -86,19 +86,19 @@ while true {
 
 > 需要注意的是，epoll 并不是在我发起 epoll 调用的时候才把文件描述符挪到就绪列表的。而是在 epoll 创建之后，不管你有没有发起 epoll\_wait 调用，只要文件描述符满足条件了，就会被挪到就绪列表。
 
-![图片](https://static001.geekbang.org/resource/image/75/d5/75eda1514e3a2fcfce0a186c91dab6d5.png?wh=1920x1078)
+![图片](https://static001.geekbang.org/resource/image/75/d5/75eda1514e3a2fcfce0a186c91dab6d5.png?wh=1920x1078){: referrerpolicy="no-referrer" }
 
 ### 发起 epoll 调用
 
 因此，当你发起 epoll\_wait 的时候，有两种情况。第一种情况是就绪列表里面有符合条件的套接字，直接给你。
 
-![图片](https://static001.geekbang.org/resource/image/28/ee/28717b3031f7095a542833d2d5d8b9ee.png?wh=1920x912)
+![图片](https://static001.geekbang.org/resource/image/28/ee/28717b3031f7095a542833d2d5d8b9ee.png?wh=1920x912){: referrerpolicy="no-referrer" }
 
 第二种情况就是就绪列表里面没有符合条件的套接字，这时候传入不同的超时时间，会有不同的响应。记住关键词，-1 永远阻塞，0 立刻返回，正数等待直到超时。
 
 > 如果在发起超时调用的时候，传入的超时时间是 -1，那么调用者会被阻塞，直到有满足条件的文件描述符。如果传入的超时时间是 0，那么会立刻返回，不管有没有满足条件的文件描述符。如果传入的是正数 N，那么就会等待最多 N 毫秒，直到有数据或者超时。
 
-![图片](https://static001.geekbang.org/resource/image/bb/a7/bbfabdf280e94a698d017144b2ee9fa7.png?wh=1920x1078)
+![图片](https://static001.geekbang.org/resource/image/bb/a7/bbfabdf280e94a698d017144b2ee9fa7.png?wh=1920x1078){: referrerpolicy="no-referrer" }
 
 ### 亮点：epoll 与中断
 
@@ -116,7 +116,7 @@ while true {
 
 我们先来看 select。你发起 select 调用的时候会传给 select 一堆代表连接的文件描述符，内核会帮你检查这些文件描述符。
 
-![图片](https://static001.geekbang.org/resource/image/12/bb/12f8325f3d73f1a20805b16dfe1576bb.png?wh=1920x984)
+![图片](https://static001.geekbang.org/resource/image/12/bb/12f8325f3d73f1a20805b16dfe1576bb.png?wh=1920x984){: referrerpolicy="no-referrer" }
 
 它和 epoll 的区别是，你必须要发起 select 调用，内核才会一个个帮你问。也就是说，select 调用缺乏 epoll 那种即便你不调用 epoll\_wait，epoll 也会把准备好的文件描述符放到就绪列表的机制。一句话来说，就是 **epoll 会提前帮你准备好符合条件的文件描述符，但是 select 不会。**
 
@@ -133,7 +133,7 @@ select(readfds, writefds, excepfds) // 从这些描述符里面挑出符合条�
 
 三者的区别我列了一个表格，你在面试的时候可以强调一下和性能有关的几个点。
 
-![图片](https://static001.geekbang.org/resource/image/ce/10/ceb8dbe7356b809897fa1f343f75de10.jpg?wh=1920x645)
+![图片](https://static001.geekbang.org/resource/image/ce/10/ceb8dbe7356b809897fa1f343f75de10.jpg?wh=1920x645){: referrerpolicy="no-referrer" }
 
 在面试中你主要面 epoll 的细节，poll 和 select 你大概提一下就可以。一般情况下你能解释清楚 epoll，就能赢得竞争优势了。
 
@@ -147,11 +147,11 @@ Reactor 模式也是广泛使用的 IO 模式，它的性能很好，Redis 也�
 
 一般来说，客户端和服务端的 IO 交互主要有两类事件：连接事件和读写事件。那么 Reactor 里面的分发器就是把连接事件交给 Acceptor，把读写事件交给对应的 Handler。这些 Handler 最终会调用到你真正需要读写数据的业务代码。
 
-![图片](https://static001.geekbang.org/resource/image/b8/22/b8a2993394fcdc987689e276ff4c4b22.png?wh=1920x809)
+![图片](https://static001.geekbang.org/resource/image/b8/22/b8a2993394fcdc987689e276ff4c4b22.png?wh=1920x809){: referrerpolicy="no-referrer" }
 
 结合前面讲的 epoll，你基本上就能猜到，Redis 的 Reactor 就是调用了 epoll，拿到创建连接的套接字，或者可读写的套接字，转发给后面的 Acceptor 或者 Handler。
 
-![图片](https://static001.geekbang.org/resource/image/a9/d2/a995172ff330b92d25yy295a6yy559d2.png?wh=1920x875)
+![图片](https://static001.geekbang.org/resource/image/a9/d2/a995172ff330b92d25yy295a6yy559d2.png?wh=1920x875){: referrerpolicy="no-referrer" }
 
 在搞清楚这一点之后，接下来你就能够理解各种 Reactor 的变种了。变种基本上可以分成三类。
 
@@ -159,7 +159,7 @@ Reactor 模式也是广泛使用的 IO 模式，它的性能很好，Redis 也�
 - 把 Handler 做成多线程。
 - 把 Reactor 做成多线程。Reactor 的主线程只监听连接创建的事件，监听到了就交给其他线程处理。其他线程则是监听读写事件，然后调用对应的 Handler 处理。
 
-![图片](https://static001.geekbang.org/resource/image/63/da/6353266286333db7e09f312c7e9ed1da.png?wh=1920x1078)
+![图片](https://static001.geekbang.org/resource/image/63/da/6353266286333db7e09f312c7e9ed1da.png?wh=1920x1078){: referrerpolicy="no-referrer" }
 
 Redis 的特殊之处在于，Redis 是单线程的。也就是说，Reactor、Handler、Acceptor 都只是一个逻辑上的区分，实际上都是同一个线程。
 
@@ -215,7 +215,7 @@ Redis 的特殊之处在于，Redis 是单线程的。也就是说，Reactor、H
 
 如果刨除 Redis 主线程和 IO 线程之间的交互细节，那么多线程模式下的 Redis 的 Reactor 和 epoll 结合在一起的形式就是像图片里展示的这样。
 
-![图片](https://static001.geekbang.org/resource/image/3e/40/3ef2dec04c2a9b3e9cb0b1de1f72a940.png?wh=1920x1078)
+![图片](https://static001.geekbang.org/resource/image/3e/40/3ef2dec04c2a9b3e9cb0b1de1f72a940.png?wh=1920x1078){: referrerpolicy="no-referrer" }
 
 你这样介绍整个设计。
 
@@ -256,7 +256,7 @@ Redis 的特殊之处在于，Redis 是单线程的。也就是说，Reactor、H
 
 要强调的一点就是，今天这部分内容用于面试应该是够了，毕竟在面试的时候很少有面试官会要求你答出 Redis 的源码究竟是怎么实现的。不过我还是建议你如果有时间的话，去看看 Redis 的底层源码，这样会对这节课的内容有更深刻的理解。。
 
-![](https://static001.geekbang.org/resource/image/dc/0f/dc0b8a3e2549f6f17d92c838f141ba0f.jpg?wh=2266x2460)
+![](https://static001.geekbang.org/resource/image/dc/0f/dc0b8a3e2549f6f17d92c838f141ba0f.jpg?wh=2266x2460){: referrerpolicy="no-referrer" }
 
 ## 思考题
 

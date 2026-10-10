@@ -32,7 +32,7 @@
 
 也就是说，在这一刻，除了功能点之外，我们出现了两个功能上下文：ComponentProvider和ContextConfig。很自然地，连带着分解任务的方式也发生了改变。如下图所示：
 
-![](https://static001.geekbang.org/resource/image/4d/1a/4d1a32142d699ce14f770fc35ac5331a.jpg?wh=2284x1212)  
+![](https://static001.geekbang.org/resource/image/4d/1a/4d1a32142d699ce14f770fc35ac5331a.jpg?wh=2284x1212)  {: referrerpolicy="no-referrer" }
 同时，我们的项目还发生过两次重大的**模型调整**：
 
 - 第一次是在引入Provider接口的时候。也就是除了能够直接对组件依赖外，还可以通过Provider获取组件的工厂。
@@ -78,7 +78,7 @@ public interface ComponentProvider<T> {
 
 这也进一步帮助我们理解了软件的需求，帮助我们进一步有效率地分解了任务。如下图所示：
 
-![](https://static001.geekbang.org/resource/image/f7/aa/f7b358b01a14b6407ab2f88f3f1102aa.jpg?wh=2284x1210)  
+![](https://static001.geekbang.org/resource/image/f7/aa/f7b358b01a14b6407ab2f88f3f1102aa.jpg?wh=2284x1210)  {: referrerpolicy="no-referrer" }
 带来的结果是，任务列表发生了更为剧烈的改变：
 
 - 自定义Qualifier的依赖（最开始的任务）
@@ -117,7 +117,7 @@ public interface ComponentProvider<T> {
 
 我们通过**重组测试**，从结构上梳理并记录了这些改变。如下图所示：
 
-![](https://static001.geekbang.org/resource/image/e0/9c/e09ce21672d1639fec4c51b11fb11a9c.jpeg?wh=1920x1080)
+![](https://static001.geekbang.org/resource/image/e0/9c/e09ce21672d1639fec4c51b11fb11a9c.jpeg?wh=1920x1080){: referrerpolicy="no-referrer" }
 
 这种对于核心模型的调整是**痛苦的**，在很多情况下，意味着软件需要重写。我们展示了如何通过**重构**来完成这种改写，所以请**重点回看**与重构有关的章节，**反思**我们是如何做到的。
 

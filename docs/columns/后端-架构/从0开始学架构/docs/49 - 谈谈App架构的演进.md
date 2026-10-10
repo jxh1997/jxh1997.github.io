@@ -39,11 +39,11 @@ Hybrid App能够较好的平衡“用户体验”和“快速开发”两个复�
 
 以手机淘宝为例，阿里确认“All in无线”战略后，手机淘宝定位为阿里集团移动端的“航空母舰”，上面承载了非常多的子业务，下图是淘宝的首页第一屏，相关的子业务初步估计就有10个以上。
 
-![](https://static001.geekbang.org/resource/image/4a/8c/4a5a9e9db6351b2a86afa6a564c21b8c.png?wh=1080%2A2160)
+![](https://static001.geekbang.org/resource/image/4a/8c/4a5a9e9db6351b2a86afa6a564c21b8c.png?wh=1080%2A2160){: referrerpolicy="no-referrer" }
 
 再以微信为例，作为腾讯在移动互联网的“航空母舰”，其业务也是非常的多，如下图，“发现”tab页就有7个子业务。
 
-![](https://static001.geekbang.org/resource/image/a0/e0/a0f224e4f6fe331a00c9007bea4a68e0.png?wh=1080%2A2160)
+![](https://static001.geekbang.org/resource/image/a0/e0/a0f224e4f6fe331a00c9007bea4a68e0.png?wh=1080%2A2160){: referrerpolicy="no-referrer" }
 
 这么多业务集中在一个App上，每个业务又在不断地扩展，后续又可能会扩展新的业务，并且每个业务就是一个独立的团队负责开发，因此整个App的可扩展性引入了新的复杂度问题。
 

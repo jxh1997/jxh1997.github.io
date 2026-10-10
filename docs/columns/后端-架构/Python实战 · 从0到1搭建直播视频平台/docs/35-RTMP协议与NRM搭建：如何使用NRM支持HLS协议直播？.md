@@ -14,7 +14,7 @@ NRM是Nginx的第三方模块，它的开发由第三方开发者研发维护。
 
 为了帮你熟练地应用NRM，我们还需要了解它的功能特点，我们可以从直播流管理、直播流分发、负载均衡、安全性和可定制性这五个方面来把握。具体你可以参考后面的表格。
 
-![](https://static001.geekbang.org/resource/image/ce/5a/ced044133f017d02f563a862daba835a.jpg?wh=3504x1721)
+![](https://static001.geekbang.org/resource/image/ce/5a/ced044133f017d02f563a862daba835a.jpg?wh=3504x1721){: referrerpolicy="no-referrer" }
 
 ## NRM的优势
 
@@ -40,7 +40,7 @@ RTMP（Real-Time Messaging Protocol）是一种实时消息传输协议。它是
 
 RTMP-c的实时性较强，延迟在1-2s内。RTMP适用于多种应用场景，如直播、视频播放、数据传输、实时通信等，你可以参考我整理的表格。
 
-![](https://static001.geekbang.org/resource/image/9d/0c/9db9bf754a814181cbbd683b1d39510c.jpg?wh=3401x1539)
+![](https://static001.geekbang.org/resource/image/9d/0c/9db9bf754a814181cbbd683b1d39510c.jpg?wh=3401x1539){: referrerpolicy="no-referrer" }
 
 接下来，我带你梳理一下RTMP协议的客户端和服务端建立连接流程，也就是RTMP协议握手的过程。
 
@@ -53,7 +53,7 @@ RTMP-c的实时性较强，延迟在1-2s内。RTMP适用于多种应用场景，
 在RTMP协议中，这三个chunk的大小是固定的，而且不包含头文件。这种握手方式相对简单，但是可以确保握手过程稳定可靠。
 
 整个握手过程可以拆解为三步，我们分别来看看每一步具体执行了什么动作。  
-![](https://static001.geekbang.org/resource/image/d1/ef/d1cdb5731e699ceb36e096237b4986ef.jpg?wh=4942x5260)
+![](https://static001.geekbang.org/resource/image/d1/ef/d1cdb5731e699ceb36e096237b4986ef.jpg?wh=4942x5260){: referrerpolicy="no-referrer" }
 
 第一步，客户端发送一个RTMP请求连接消息（C0/C1）给服务器，其中包含用于建立连接的参数，如IP地址、端口号和协议版本等。
 
@@ -73,7 +73,7 @@ HLS（HTTP Live Streaming）是一种基于HTTP协议的流媒体传输协议，
 
 HLS协议能够将直播流分割为多个小的HTTP文件，通过TCP协议进行传输。这种传输方式可以适应不同的网络状况，实现更加稳定和可靠的流媒体传输。另外，为满足不同应用场景的需求，HLS协议还支持多种音视频编码格式（如AAC、H.264等）。HLS协议的适用场景，你同样可以参考后面的表格。
 
-![](https://static001.geekbang.org/resource/image/67/2c/67caa938aea14f183c66aea511f7302c.jpg?wh=3408x1559)
+![](https://static001.geekbang.org/resource/image/67/2c/67caa938aea14f183c66aea511f7302c.jpg?wh=3408x1559){: referrerpolicy="no-referrer" }
 
 不难发现，HLS直播协议的优势在于强大的低延迟、多编码格式、分布式直播等能力，还有它可以支持移动端直播。
 
@@ -97,7 +97,7 @@ git clone https://github.com/arut/nginx-rtmp-module.git
 
 当然你还可以选择另一种下载方式：在GitHub中打开Nginx-rtmp-module的首页，点击“code”，在下拉菜单选择 “Download.zip” 下载压缩包，即可直接完成下载，然后把它放到我们自己的服务器里。后面是操作截图，你可以参考一下。
 
-![](https://static001.geekbang.org/resource/image/97/17/975b1d26c4d1637eff27b2ee9e2a2d17.jpg?wh=2876x1626)
+![](https://static001.geekbang.org/resource/image/97/17/975b1d26c4d1637eff27b2ee9e2a2d17.jpg?wh=2876x1626){: referrerpolicy="no-referrer" }
 
 当然，你也可以使用wget命令下载并解压。
 
@@ -138,7 +138,7 @@ rtmp {
 ```
 
 因为配置文件涉及到的配置项比较多，为了方便你学习，我直接整理成了表格。  
-![](https://static001.geekbang.org/resource/image/e1/6f/e12e6aaae3c4bfe7235baf5b34yy426f.jpg?wh=3733x2260)
+![](https://static001.geekbang.org/resource/image/e1/6f/e12e6aaae3c4bfe7235baf5b34yy426f.jpg?wh=3733x2260){: referrerpolicy="no-referrer" }
 
 因为HLS协议是基于HTTP协议的，所以无法通过RTMP协议头访问HLS的M3U8文件。为了配置对HLS的访问操作，我们还要完成一个关键操作——修改http中的server模块。
 
@@ -158,7 +158,7 @@ server {
 ```
 
 你可以看看配置内容，核心配置项的解释如下表。  
-![](https://static001.geekbang.org/resource/image/0d/11/0dde68f592d882dc7c3f78629d693d11.jpg?wh=3656x1211)
+![](https://static001.geekbang.org/resource/image/0d/11/0dde68f592d882dc7c3f78629d693d11.jpg?wh=3656x1211){: referrerpolicy="no-referrer" }
 
 完成前面的配置后，我们就可以启动Nginx了，别忘了指定Nginx服务器的可执行文件路径，这样才能让对应的配置生效。具体的命令如下所示。
 
@@ -168,7 +168,7 @@ server {
 
 然后我们查看Nginx的进程，如果出现后面截图里的执行效果，这就代表服务启动成功了。
 
-![](https://static001.geekbang.org/resource/image/99/3a/991825c4885e98b7c90eacf1b2a43a3a.jpg?wh=2600x437)
+![](https://static001.geekbang.org/resource/image/99/3a/991825c4885e98b7c90eacf1b2a43a3a.jpg?wh=2600x437){: referrerpolicy="no-referrer" }
 
 到这里，我们就安装搭建好了Nginx-rtmp-module，还用它支持了HLS协议直播。下节课我们继续学习如何实现推拉流，让直播动起来，敬请期待。
 

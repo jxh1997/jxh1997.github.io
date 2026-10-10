@@ -110,7 +110,7 @@ JSON是一种强大的描述语言，能够描述复杂的数据结构。例如�
 
 文档数据库的这个特点，特别适合电商和游戏这类的业务场景。以电商为例，不同商品的属性差异很大。例如，冰箱的属性和笔记本电脑的属性差异非常大，如下图所示。
 
-![](https://static001.geekbang.org/resource/image/81/6e/81c57d42e269521ba4b671cac345066e.jpg?wh=2342%2A710)![](https://static001.geekbang.org/resource/image/83/e7/83614dfae6106ae3d08yy5a8b3bda5e7.jpg?wh=2328%2A714)
+![](https://static001.geekbang.org/resource/image/81/6e/81c57d42e269521ba4b671cac345066e.jpg?wh=2342%2A710)![](https://static001.geekbang.org/resource/image/83/e7/83614dfae6106ae3d08yy5a8b3bda5e7.jpg?wh=2328%2A714){: referrerpolicy="no-referrer" }
 
 即使是同类商品也有不同的属性。例如，LCD和LED显示器，两者有不同的参数指标。这种业务场景如果使用关系数据库来存储数据，就会很麻烦，而使用文档数据库，会简单、方便许多，扩展新的属性也更加容易。
 
@@ -144,7 +144,7 @@ JSON是一种强大的描述语言，能够描述复杂的数据结构。例如�
 
 我举一个具体的例子来看看关系型数据库为何无法满足全文搜索的要求。假设我们做一个婚恋网站，其主要目的是帮助程序员找朋友，但模式与传统婚恋网站不同，是“程序员发布自己的信息，用户来搜索程序员”。程序员的信息表设计如下：
 
-![](https://static001.geekbang.org/resource/image/d9/39/d93121cecabc2182edb68bebfc467f39.jpg?wh=4038%2A1602)
+![](https://static001.geekbang.org/resource/image/d9/39/d93121cecabc2182edb68bebfc467f39.jpg?wh=4038%2A1602){: referrerpolicy="no-referrer" }
 
 我们来看一下这个简单业务的搜索场景：
 
@@ -174,13 +174,13 @@ JSON是一种强大的描述语言，能够描述复杂的数据结构。例如�
 
 正排索引示例：
 
-![](https://static001.geekbang.org/resource/image/5f/87/5fe73007957ecfcca009fd81f673df87.jpg?wh=3708%2A1624 "注：文章内容仅为示范，文章内 [br] 实际上存储的是几千字的内容")
+![](https://static001.geekbang.org/resource/image/5f/87/5fe73007957ecfcca009fd81f673df87.jpg?wh=3708%2A1624 "注：文章内容仅为示范，文章内 [br] 实际上存储的是几千字的内容"){: referrerpolicy="no-referrer" }
 
 正排索引适用于根据文档名称来查询文档内容。例如，用户在网站上单击了“面向对象葵花宝典是什么”，网站根据文章标题查询文章的内容展示给用户。
 
 倒排索引示例：
 
-![](https://static001.geekbang.org/resource/image/ea/f6/ea5dc300ec9c556dc13790b69f4d60f6.jpg?wh=3692%2A1601 "注：表格仅为示范，不是完整的倒排索引表格，[br] 实际上的倒排索引有成千上万行，因为每个单词就是一个索引")
+![](https://static001.geekbang.org/resource/image/ea/f6/ea5dc300ec9c556dc13790b69f4d60f6.jpg?wh=3692%2A1601 "注：表格仅为示范，不是完整的倒排索引表格，[br] 实际上的倒排索引有成千上万行，因为每个单词就是一个索引"){: referrerpolicy="no-referrer" }
 
 倒排索引适用于根据关键词来查询文档内容。例如，用户只是想看“设计”相关的文章，网站需要将文章内容中包含“设计”一词的文章都搜索出来展示给用户。
 

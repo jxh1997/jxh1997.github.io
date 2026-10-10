@@ -26,7 +26,7 @@ Redis为我们提供了一个经典的Hash表实现方案。针对哈希冲突�
 
 如下图所示，key1经过哈希计算和哈希值取模后，就对应哈希桶1，类似的，key3和key16分别对应哈希桶7和桶4。
 
-![](https://static001.geekbang.org/resource/image/08/2f/08ac157a8fbf4d22f8a5217bfea79a2f.jpg?wh=2000x1029)
+![](https://static001.geekbang.org/resource/image/08/2f/08ac157a8fbf4d22f8a5217bfea79a2f.jpg?wh=2000x1029){: referrerpolicy="no-referrer" }
 
 从图上我们还可以看到，需要写入Hash表的键空间一共有16个键，而Hash表的空间大小只有8个元素，这样就会导致有些键会对应到相同的哈希桶中。
 
@@ -36,7 +36,7 @@ Redis为我们提供了一个经典的Hash表实现方案。针对哈希冲突�
 
 比如下图中，key3和key100都被映射到了Hash表的桶5中，这样，当桶5只能保存一个key时，key3和key100就会有一个key无法保存到哈希表中了。
 
-![](https://static001.geekbang.org/resource/image/04/d8/04322775d11cea97049bcd4dd8109bd8.jpg?wh=2000x889)
+![](https://static001.geekbang.org/resource/image/04/d8/04322775d11cea97049bcd4dd8109bd8.jpg?wh=2000x889){: referrerpolicy="no-referrer" }
 
 那么我们该如何解决哈希冲突呢？可以考虑使用以下两种解决方案：
 
@@ -85,7 +85,7 @@ typedef struct dictEntry {
 
 别着急，我就拿刚才的例子来说明一下，key3和key100都被映射到了Hash表的桶5中。而当使用了链式哈希，桶5就不会只保存key3或key100，而是会用一个链表把key3和key100连接起来，如下图所示。当有更多的key被映射到桶5时，这些key都可以用链表串接起来，以应对哈希冲突。
 
-![](https://static001.geekbang.org/resource/image/28/85/281919546bb9cf97cd70718072389585.jpg?wh=2000x866)
+![](https://static001.geekbang.org/resource/image/28/85/281919546bb9cf97cd70718072389585.jpg?wh=2000x866){: referrerpolicy="no-referrer" }
 
 这样，当我们要查询key100时，可以先通过哈希函数计算，得到key100的哈希值被映射到了桶5中。然后，我们再逐一比较桶5中串接的key，直到查找到key100。如此一来，我们就能在链式哈希中找到所查的哈希项了。
 
@@ -116,7 +116,7 @@ typedef struct dict {
 
 这里我画了一张图，以便于你理解ht\[0]和ht\[1]交替使用的过程。
 
-![](https://static001.geekbang.org/resource/image/1b/7f/1bc5b729yy127de43e0548ce0b6e6c7f.jpg?wh=2000x1125)
+![](https://static001.geekbang.org/resource/image/1b/7f/1bc5b729yy127de43e0548ce0b6e6c7f.jpg?wh=2000x1125){: referrerpolicy="no-referrer" }
 
 好，那么在了解了Redis交替使用两个Hash表实现rehash的基本思路后，我们还需要明确的是：在实现rehash时，都需要解决哪些问题？我认为主要有以下三点：
 
@@ -192,7 +192,7 @@ void updateDictResizePolicy(void) {
 
 因此，当我们往Redis中写入新的键值对或是修改键值对时，Redis都会判断下是否需要进行rehash。这里你可以参考下面给出的示意图，其中就展示了\_dictExpandIfNeeded被调用的关系。
 
-![](https://static001.geekbang.org/resource/image/90/11/90c261fce9dfe604e29239ba283cef11.jpg?wh=2000x969)
+![](https://static001.geekbang.org/resource/image/90/11/90c261fce9dfe604e29239ba283cef11.jpg?wh=2000x969){: referrerpolicy="no-referrer" }
 
 好了，简而言之，Redis中触发rehash操作的关键，就是\_dictExpandIfNeeded函数和updateDictResizePolicy函数。**\_dictExpandIfNeeded函数**会根据Hash表的负载因子以及能否进行rehash的标识，判断是否进行rehash，而**updateDictResizePolicy函数**会根据RDB和AOF的执行情况，启用或禁用rehash。
 
@@ -258,7 +258,7 @@ dictRehash函数的整体逻辑包括两部分：
 
 我画了下面这张图，展示了dictRehash的主要执行流程，你可以看下。
 
-![](https://static001.geekbang.org/resource/image/e5/d1/e54b90dc143ba7e6eae2cda418ce20d1.jpg?wh=2000x1125)
+![](https://static001.geekbang.org/resource/image/e5/d1/e54b90dc143ba7e6eae2cda418ce20d1.jpg?wh=2000x1125){: referrerpolicy="no-referrer" }
 
 同时，你也可以通过下面代码，来了解dictRehash函数的主要执行逻辑。
 
@@ -353,7 +353,7 @@ while(n-- && d->ht[0].used != 0) {
 
 其中，dictAddRaw和dictGenericDelete函数，分别对应了往Redis中增加和删除键值对，而后三个函数则对应了在Redis中进行查询操作。下图展示了这些函数间的调用关系：
 
-![](https://static001.geekbang.org/resource/image/05/0a/050cdce01b19a8d03834c18d1feab20a.jpg?wh=2000x820)
+![](https://static001.geekbang.org/resource/image/05/0a/050cdce01b19a8d03834c18d1feab20a.jpg?wh=2000x820){: referrerpolicy="no-referrer" }
 
 但你要注意，不管是增删查哪种操作，这5个函数调用的\_dictRehashStep函数，给dictRehash传入的循环次数变量n的值都为1，下面的代码就显示了这一传参的情况。
 

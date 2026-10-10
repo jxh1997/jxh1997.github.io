@@ -10,7 +10,7 @@
 
 我们先来看下SQL在Oracle中的执行过程：
 
-![](https://static001.geekbang.org/resource/image/4b/70/4b43aeaf9bb0fe2d576757d3fef50070.png?wh=1176%2A420)  
+![](https://static001.geekbang.org/resource/image/4b/70/4b43aeaf9bb0fe2d576757d3fef50070.png?wh=1176%2A420)  {: referrerpolicy="no-referrer" }
 从上面这张图中可以看出，SQL语句在Oracle中经历了以下的几个步骤。
 
 1. 语法检查：检查SQL拼写是否正确，如果不正确，Oracle会报语法错误。
@@ -52,7 +52,7 @@ Oracle中采用了共享池来判断SQL语句是否存在缓存和执行计划�
 
 首先MySQL是典型的C/S架构，即Client/Server架构，服务器端程序使用的mysqld。整体的MySQL流程如下图所示：
 
-![](https://static001.geekbang.org/resource/image/c4/9e/c4b24ef2377e0d233af69925b0d7139e.png?wh=900%2A480)  
+![](https://static001.geekbang.org/resource/image/c4/9e/c4b24ef2377e0d233af69925b0d7139e.png?wh=900%2A480)  {: referrerpolicy="no-referrer" }
 你能看到MySQL由三层组成：
 
 1. 连接层：客户端和服务器端建立连接，客户端发送SQL至服务器端；
@@ -61,7 +61,7 @@ Oracle中采用了共享池来判断SQL语句是否存在缓存和执行计划�
 
 其中SQL层与数据库文件的存储方式无关，我们来看下SQL层的结构：
 
-![](https://static001.geekbang.org/resource/image/30/79/30819813cc9d53714c08527e282ede79.jpg?wh=466%2A598)
+![](https://static001.geekbang.org/resource/image/30/79/30819813cc9d53714c08527e282ede79.jpg?wh=466%2A598){: referrerpolicy="no-referrer" }
 
 1. 查询缓存：Server如果在查询缓存中发现了这条SQL语句，就会直接将结果返回给客户端；如果没有，就进入到解析器阶段。需要说明的是，因为查询缓存往往效率不高，所以在MySQL8.0之后就抛弃了这个功能。
 2. 解析器：在解析器中对SQL语句进行语法分析、语义分析。
@@ -84,8 +84,8 @@ Oracle中采用了共享池来判断SQL语句是否存在缓存和执行计划�
 
 我们刚才了解了SQL语句在Oracle和MySQL中的执行流程，实际上完整的Oracle和MySQL结构图要复杂得多：
 
-![](https://static001.geekbang.org/resource/image/d9/74/d99e951b69a692c7f075dd21116d3574.png?wh=1680%2A1296)  
-![](https://static001.geekbang.org/resource/image/9b/7f/9b515e012856099b05d9dc3a5eaabe7f.png?wh=1875%2A1219)  
+![](https://static001.geekbang.org/resource/image/d9/74/d99e951b69a692c7f075dd21116d3574.png?wh=1680%2A1296)  {: referrerpolicy="no-referrer" }
+![](https://static001.geekbang.org/resource/image/9b/7f/9b515e012856099b05d9dc3a5eaabe7f.png?wh=1875%2A1219)  {: referrerpolicy="no-referrer" }
 如果你只是简单地把MySQL和Oracle看成数据库管理系统软件，从外部看难免会觉得“晦涩难懂”，毕竟组织结构太多了。我们在学习的时候，还需要具备抽象的能力，抓取最核心的部分：SQL的执行原理。因为不同的DBMS的SQL的执行原理是相通的，只是在不同的软件中，各有各的实现路径。
 
 既然一条SQL语句会经历不同的模块，那我们就来看下，在不同的模块中，SQL执行所使用的资源（时间）是怎样的。下面我来教你如何在MySQL中对一条SQL语句的执行时间进行分析。
@@ -96,7 +96,7 @@ Oracle中采用了共享池来判断SQL语句是否存在缓存和执行计划�
 mysql> select @@profiling;
 ```
 
-![](https://static001.geekbang.org/resource/image/bc/c1/bcbfdd58b908dc8820fb57d00ff4dcc1.png?wh=861%2A386)  
+![](https://static001.geekbang.org/resource/image/bc/c1/bcbfdd58b908dc8820fb57d00ff4dcc1.png?wh=861%2A386)  {: referrerpolicy="no-referrer" }
 profiling=0代表关闭，我们需要把profiling打开，即设置为1：
 
 ```
@@ -111,14 +111,14 @@ mysql> select * from wucai.heros;
 
 查看当前会话所产生的所有profiles：
 
-![](https://static001.geekbang.org/resource/image/d9/bf/d9445abcde0f3b38488afe21aca8e9bf.png?wh=1352%2A425)  
+![](https://static001.geekbang.org/resource/image/d9/bf/d9445abcde0f3b38488afe21aca8e9bf.png?wh=1352%2A425)  {: referrerpolicy="no-referrer" }
 你会发现我们刚才执行了两次查询，Query ID分别为1和2。如果我们想要获取上一次查询的执行时间，可以使用：
 
 ```
 mysql> show profile;
 ```
 
-![](https://static001.geekbang.org/resource/image/09/7d/09ef901a55ffcd32ed263d82e3cf1f7d.png?wh=1729%2A1520)  
+![](https://static001.geekbang.org/resource/image/09/7d/09ef901a55ffcd32ed263d82e3cf1f7d.png?wh=1729%2A1520)  {: referrerpolicy="no-referrer" }
 当然你也可以查询指定的Query ID，比如：
 
 ```
@@ -131,7 +131,7 @@ mysql> show profile for query 2;
 
 你可以使用select version()来查看MySQL的版本情况。
 
-![](https://static001.geekbang.org/resource/image/08/1a/0815cf2a78889b947cb498622377c21a.png?wh=644%2A383)
+![](https://static001.geekbang.org/resource/image/08/1a/0815cf2a78889b947cb498622377c21a.png?wh=644%2A383){: referrerpolicy="no-referrer" }
 
 ## 总结
 
@@ -141,7 +141,7 @@ mysql> show profile for query 2;
 
 但Oracle和MySQL在进行SQL的查询上面有软件实现层面的差异。Oracle提出了共享池的概念，通过共享池来判断是进行软解析，还是硬解析。而在MySQL中，8.0以后的版本不再支持查询缓存，而是直接执行解析器→优化器→执行器的流程，这一点从MySQL中的show profile里也能看到。同时MySQL的一大特色就是提供了各种存储引擎以供选择，不同的存储引擎有各自的使用场景，我们可以针对每张表选择适合的存储引擎。
 
-![](https://static001.geekbang.org/resource/image/02/f1/02719a80d54a174dec8672d1f87295f1.jpg?wh=3341%2A1671)  
+![](https://static001.geekbang.org/resource/image/02/f1/02719a80d54a174dec8672d1f87295f1.jpg?wh=3341%2A1671)  {: referrerpolicy="no-referrer" }
 今天的内容到这里就结束了，你能说一下Oracle中的绑定变量是什么，使用它有什么优缺点吗？MySQL的存储引擎是一大特色，其中MyISAM和InnoDB都是常用的存储引擎，这两个存储引擎的特性和使用场景分别是什么？
 
 最后留一道选择题吧，解析后的SQL语句在Oracle的哪个区域中进行缓存？

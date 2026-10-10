@@ -21,7 +21,7 @@
 
 N表示副本数，又叫做复制因子（Replication Factor）。也就是说，N表示集群中同一份数据有多少个副本，就像下图的样子：
 
-![](https://static001.geekbang.org/resource/image/8a/bb/8a582c39e4795429a986955a6a1c9ebb.jpg?wh=1142%2A575 "图1")
+![](https://static001.geekbang.org/resource/image/8a/bb/8a582c39e4795429a986955a6a1c9ebb.jpg?wh=1142%2A575 "图1"){: referrerpolicy="no-referrer" }
 
 从图中你可以看到，在这个三节点的集群中，DATA-1有2个副本，DATA-2有3个副本，DATA-3有1个副本。也就是说，副本数可以不等于节点数，不同的数据可以有不同的副本数。
 
@@ -30,7 +30,7 @@ N表示副本数，又叫做复制因子（Replication Factor）。也就是说�
 当我们指定了副本后，就可以对副本数据进行读写操作了。那么这么多副本，你要如何执行读写操作呢？先来看一看写操作，也就是W。
 
 W，又称写一致性级别（Write Consistency Level），表示成功完成W个副本更新，才完成写操作：  
-![](https://static001.geekbang.org/resource/image/1b/7b/1b175952d815d40de45c0d0aba99ac7b.jpg?wh=1142%2A548 "图2")
+![](https://static001.geekbang.org/resource/image/1b/7b/1b175952d815d40de45c0d0aba99ac7b.jpg?wh=1142%2A548 "图2"){: referrerpolicy="no-referrer" }
 
 从图中你可以看到，DATA-2的写副本数为2，也就说，对DATA-2执行写操作时，完成了2个副本的更新（比如节点A、C），才完成写操作。
 
@@ -38,7 +38,7 @@ W，又称写一致性级别（Write Consistency Level），表示成功完成W�
 
 R，又称读一致性级别（Read Consistency Level），表示读取一个数据对象时需要读R个副本。你可以这么理解，读取指定数据时，要读R副本，然后返回R个副本中最新的那份数据：
 
-![](https://static001.geekbang.org/resource/image/5b/5c/5b634d40032cceeffcbc66c3e177735c.jpg?wh=1142%2A586 "图3")
+![](https://static001.geekbang.org/resource/image/5b/5c/5b634d40032cceeffcbc66c3e177735c.jpg?wh=1142%2A586 "图3"){: referrerpolicy="no-referrer" }
 
 从图中你可以看到，DATA-2的读副本数为2。也就是说，客户端读取DATA-2的数据时，需要读取2个副本中的数据，然后返回最新的那份数据。
 

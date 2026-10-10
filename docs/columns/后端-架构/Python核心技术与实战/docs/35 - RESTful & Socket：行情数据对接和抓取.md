@@ -14,9 +14,9 @@
 
 显然，最直观的操作就是，把买卖订单分成两个表，按照价格由高到低排列。下面的图，就是买入和卖出的委托表。
 
-![](https://static001.geekbang.org/resource/image/6b/2d/6bade6ffe3b8d439b7826cbe6d84a22d.png?wh=1282%2A388)
+![](https://static001.geekbang.org/resource/image/6b/2d/6bade6ffe3b8d439b7826cbe6d84a22d.png?wh=1282%2A388){: referrerpolicy="no-referrer" }
 
-![](https://static001.geekbang.org/resource/image/0d/4c/0d7f5bcbb766097b84b7ad36d2b26a4c.png?wh=1272%2A344)
+![](https://static001.geekbang.org/resource/image/0d/4c/0d7f5bcbb766097b84b7ad36d2b26a4c.png?wh=1272%2A344){: referrerpolicy="no-referrer" }
 
 如果最高的买入价格小于最低的卖出价格，那就不会有任何交易发生。这通常是你看到的委托列表的常态。
 
@@ -36,7 +36,7 @@
 - 中间的大字部分，9994.10 USD是当前的市场价格，也就是上一次成交交易的价格。
 - 下面绿色部分的含义与上半部分类似，不过指的是买入委托和对应的数量。
 
-![](https://static001.geekbang.org/resource/image/74/1e/740e88e95dcab334652f8761ca58171e.png?wh=932%2A964)
+![](https://static001.geekbang.org/resource/image/74/1e/740e88e95dcab334652f8761ca58171e.png?wh=932%2A964){: referrerpolicy="no-referrer" }
 
 Gemini的委托账本，来自[https://cryptowat.ch](https://cryptowat.ch)
 
@@ -142,11 +142,11 @@ Websocket closed
 
 通过输出可以看出，我们在连续发送的同时，也在不断地接受消息。这并没有像REST一样，每发送一个请求，要等待服务器完成请求、完全回复之后，再进行下一个请求。换句话说，**我们在请求的同时也在接受消息**，这也就是前面所说的”全双工“。
 
-![](https://static001.geekbang.org/resource/image/7b/b6/7bbb7936b56dcae7f1e5dfbc644b4fb6.png?wh=1876%2A2491)
+![](https://static001.geekbang.org/resource/image/7b/b6/7bbb7936b56dcae7f1e5dfbc644b4fb6.png?wh=1876%2A2491){: referrerpolicy="no-referrer" }
 
 REST（HTTP）单工请求响应的示意图
 
-![](https://static001.geekbang.org/resource/image/9d/4c/9d4072dedfd5944a08e3bbee5059194c.png?wh=1681%2A2596)
+![](https://static001.geekbang.org/resource/image/9d/4c/9d4072dedfd5944a08e3bbee5059194c.png?wh=1681%2A2596){: referrerpolicy="no-referrer" }
 
 Websocket全双工请求响应的示意图
 

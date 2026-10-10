@@ -21,7 +21,7 @@
 
 那么，当有多个客户端（比如客户端1、2）访问这个系统，试图创建同一个只读变量（比如X），客户端1试图创建值为3的X，客户端2试图创建值为7的X，这样要如何达成共识，实现各节点上X值的一致呢？带着这个问题，我们进入今天的学习。
 
-![](https://static001.geekbang.org/resource/image/93/67/93a9fa0a75c23971066dc791389b8567.jpg?wh=1142%2A424 "图1")
+![](https://static001.geekbang.org/resource/image/93/67/93a9fa0a75c23971066dc791389b8567.jpg?wh=1142%2A424 "图1"){: referrerpolicy="no-referrer" }
 
 在一些经典的算法中，你会看到一些既形象又独有的概念（比如二阶段提交协议中的协调者），Basic Paxos算法也不例外。为了帮助人们更好地理解Basic Paxos算法，兰伯特在讲解时，也使用了一些独有而且比较重要的概念，提案、准备（Prepare）请求、接受（Accept）请求、角色等等，其中最重要的就是“角色”。因为角色是对Basic Paxos中最核心的三个功能的抽象，比如，由接受者（Acceptor）对提议的值进行投票，并存储接受的值。
 
@@ -29,7 +29,7 @@
 
 在Basic Paxos中，有提议者（Proposer）、接受者（Acceptor）、学习者（Learner）三种角色，他们之间的关系如下：
 
-![](https://static001.geekbang.org/resource/image/77/42/77be9903f7cbe980e5a6e77412d2ad42.jpg?wh=1142%2A620 "图2")
+![](https://static001.geekbang.org/resource/image/77/42/77be9903f7cbe980e5a6e77412d2ad42.jpg?wh=1142%2A620 "图2"){: referrerpolicy="no-referrer" }
 
 看着是不是有些复杂，其实并不难理解：
 
@@ -38,7 +38,7 @@
 
 讲到这儿，你可能会有疑惑：前面不是说接收客户端请求的节点是提议者吗？这里怎么又是接受者呢？这是因为一个节点（或进程）可以身兼多个角色。想象一下，一个3节点的集群，1个节点收到了请求，那么该节点将作为提议者发起二阶段提交，然后这个节点和另外2个节点一起作为接受者进行共识协商，就像下图的样子：
 
-![](https://static001.geekbang.org/resource/image/3f/fe/3fed0fe5682f97f0a9249cf9519d09fe.jpg?wh=1142%2A590 "图3")
+![](https://static001.geekbang.org/resource/image/3f/fe/3fed0fe5682f97f0a9249cf9519d09fe.jpg?wh=1142%2A590 "图3"){: referrerpolicy="no-referrer" }
 
 - **学习者（Learner）**：被告知投票的结果，接受达成共识的值，存储保存，不参与投票的过程。一般来说，学习者是数据备份节点，比如“Master-Slave”模型中的Slave，被动地接受数据，容灾备份。
 
@@ -64,20 +64,20 @@
 
 先来看第一个阶段，首先客户端1、2作为提议者，分别向所有接受者发送包含提案编号的准备请求：
 
-![](https://static001.geekbang.org/resource/image/64/54/640219532d0fcdffc08dbd1b3b3f0454.jpg?wh=1142%2A456 "图4")
+![](https://static001.geekbang.org/resource/image/64/54/640219532d0fcdffc08dbd1b3b3f0454.jpg?wh=1142%2A456 "图4"){: referrerpolicy="no-referrer" }
 
 **你要注意，在准备请求中是不需要指定提议的值的，只需要携带提案编号就可以了，这是很多同学容易产生误解的地方。**
 
 接着，当节点A、B收到提案编号为1的准备请求，节点C收到提案编号为5的准备请求后，将进行这样的处理：
 
-![](https://static001.geekbang.org/resource/image/5b/7a/5b6fcc5af76ad53e62c433e2589b6d7a.jpg?wh=1142%2A445 "图5")
+![](https://static001.geekbang.org/resource/image/5b/7a/5b6fcc5af76ad53e62c433e2589b6d7a.jpg?wh=1142%2A445 "图5"){: referrerpolicy="no-referrer" }
 
 - 由于之前没有通过任何提案，所以节点A、B将返回一个 “尚无提案”的响应。也就是说节点A和B在告诉提议者，我之前没有通过任何提案呢，并承诺以后不再响应提案编号小于等于1的准备请求，不会通过编号小于1的提案。
 - 节点C也是如此，它将返回一个 “尚无提案”的响应，并承诺以后不再响应提案编号小于等于5的准备请求，不会通过编号小于5的提案。
 
 另外，当节点A、B收到提案编号为5的准备请求，和节点C收到提案编号为1的准备请求的时候，将进行这样的处理过程：
 
-![](https://static001.geekbang.org/resource/image/ec/24/ecf9a5872201e875a2e0417c32ec2d24.jpg?wh=1142%2A439 "图6")
+![](https://static001.geekbang.org/resource/image/ec/24/ecf9a5872201e875a2e0417c32ec2d24.jpg?wh=1142%2A439 "图6"){: referrerpolicy="no-referrer" }
 
 - 当节点A、B收到提案编号为5的准备请求的时候，因为提案编号5大于它们之前响应的准备请求的提案编号1，而且两个节点都没有通过任何提案，所以它将返回一个 “尚无提案”的响应，并承诺以后不再响应提案编号小于等于5的准备请求，不会通过编号小于5的提案。
 - 当节点C收到提案编号为1的准备请求的时候，由于提案编号1小于它之前响应的准备请求的提案编号5，所以丢弃该准备请求，不做响应。
@@ -86,14 +86,14 @@
 
 第二个阶段也就是接受阶段，首先客户端1、2在收到大多数节点的准备响应之后，会分别发送接受请求：
 
-![](https://static001.geekbang.org/resource/image/70/89/70de602cb4b52de7545f05c5485deb89.jpg?wh=1142%2A434 "图7")
+![](https://static001.geekbang.org/resource/image/70/89/70de602cb4b52de7545f05c5485deb89.jpg?wh=1142%2A434 "图7"){: referrerpolicy="no-referrer" }
 
 - 当客户端1收到大多数的接受者（节点A、B）的准备响应后，根据响应中提案编号最大的提案的值，设置接受请求中的值。因为该值在来自节点A、B的准备响应中都为空（也就是图5中的“尚无提案”），所以就把自己的提议值3作为提案的值，发送接受请求\[1, 3]。
 - 当客户端2收到大多数的接受者的准备响应后（节点A、B和节点C），根据响应中提案编号最大的提案的值，来设置接受请求中的值。因为该值在来自节点A、B、C的准备响应中都为空（也就是图5和图6中的“尚无提案”），所以就把自己的提议值7作为提案的值，发送接受请求\[5, 7]。
 
 当三个节点收到2个客户端的接受请求时，会进行这样的处理：
 
-![](https://static001.geekbang.org/resource/image/f8/45/f836c40636d26826fc04a51a5945d545.jpg?wh=1142%2A430 "图8")
+![](https://static001.geekbang.org/resource/image/f8/45/f836c40636d26826fc04a51a5945d545.jpg?wh=1142%2A430 "图8"){: referrerpolicy="no-referrer" }
 
 - 当节点A、B、C收到接受请求\[1, 3]的时候，由于提案的提案编号1小于三个节点承诺能通过的提案的最小提案编号5，所以提案\[1, 3]将被拒绝。
 - 当节点A、B、C收到接受请求\[5, 7]的时候，由于提案的提案编号5不小于三个节点承诺能通过的提案的最小提案编号5，所以就通过提案\[5, 7]，也就是接受了值7，三个节点就X值为7达成了共识。

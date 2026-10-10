@@ -44,11 +44,11 @@ Buffer Pool越大，扫描LRU链表和FLUSH链表需要的时间越长，而且�
 
 下面是AHI的一个示意图，AHI中，Key是索引记录或索引记录的前缀，Value指向索引叶子页面中的索引条目。
 
-![图片](https://static001.geekbang.org/resource/image/39/0a/399c3c303dd7dea7fef1b355a74aa80a.jpg?wh=1440x685)
+![图片](https://static001.geekbang.org/resource/image/39/0a/399c3c303dd7dea7fef1b355a74aa80a.jpg?wh=1440x685){: referrerpolicy="no-referrer" }
 
 在为某个索引页面建立Hash索引时，InnoDB会给这个索引页面中的所有记录都创建Hash索引。
 
-![图片](https://static001.geekbang.org/resource/image/47/13/479defd15cf1dec2ef59e707c76f8b13.jpg?wh=948x596)
+![图片](https://static001.geekbang.org/resource/image/47/13/479defd15cf1dec2ef59e707c76f8b13.jpg?wh=948x596){: referrerpolicy="no-referrer" }
 
 开启AHI后，InnoDB需要维护AHI，这带来一定的开销。查询如果能使用到hash索引，可以提升查询的性能。在具体的应用场景下，AHI是否能提升数据库的整体性能，需要通过实际的测试才能确定。
 
@@ -99,19 +99,19 @@ InnoDB怎么判断要给某个叶子页面创建Hash索引呢？
 
 下面是官方文档中，Change Buffer的一个示意图。
 
-![图片](https://static001.geekbang.org/resource/image/94/bb/94a2ef6c5df8ca881a90b7b9b6d7d8bb.png?wh=1278x876)
+![图片](https://static001.geekbang.org/resource/image/94/bb/94a2ef6c5df8ca881a90b7b9b6d7d8bb.png?wh=1278x876){: referrerpolicy="no-referrer" }
 
 change buffer只对非唯一索引生效。对于唯一索引，写入数据时需要判断新数据是否和老数据有冲突，所以需要将索引页加载到内存中进行判断，因此没有必要将写入操作缓存到change buffer中。
 
 参数innodb\_change\_buffer\_max\_size控制change buffer允许使用的最大内存，默认为innodb buffer pool大小的25%。参数innodb\_change\_buffering用于控制将哪些操作缓存到change buffer中，参数可设置的值请参考下面这个表格。
 
-![图片](https://static001.geekbang.org/resource/image/69/52/6901c45eef87677729f8b70231fc0552.png?wh=1920x949)
+![图片](https://static001.geekbang.org/resource/image/69/52/6901c45eef87677729f8b70231fc0552.png?wh=1920x949){: referrerpolicy="no-referrer" }
 
 8.0中innodb\_change\_buffering默认设置为all，不过在8.4版本中，默认值改成了none，这可能是由于SSD磁盘的大量使用，减少了Change Buffer的重要性。如果要关闭change buffer，建议先进行性能测试，评估对应用的影响。
 
 Change Buffer本身是一个B+树，存储在系统表空间中。Change Buffer中记录的格式我整理到了下面这个表格中。
 
-![图片](https://static001.geekbang.org/resource/image/83/1f/8380cea567807c23d178945c7474a51f.png?wh=1920x1048)
+![图片](https://static001.geekbang.org/resource/image/83/1f/8380cea567807c23d178945c7474a51f.png?wh=1920x1048){: referrerpolicy="no-referrer" }
 
 change buffer记录以space id和page number为前缀，所以对同一个二级索引页面的操作，在change buffer中存储在相邻的位置。
 
@@ -119,15 +119,15 @@ change buffer记录以space id和page number为前缀，所以对同一个二级
 
 Change Buffer位图信息中，记录了每个索引页面的剩余空间信息。位图页和数据页存储在相同的表空间中。数据文件中，每256M连续空间中的第二个页面用来存储位图信息。
 
-![图片](https://static001.geekbang.org/resource/image/4c/ec/4c0a5a8b1ac6896b82494914fb64ccec.jpg?wh=735x451)
+![图片](https://static001.geekbang.org/resource/image/4c/ec/4c0a5a8b1ac6896b82494914fb64ccec.jpg?wh=735x451){: referrerpolicy="no-referrer" }
 
 每个索引页面使用4bit来描述页面状态，这些信息的含义参考下面这个表格。
 
-![图片](https://static001.geekbang.org/resource/image/6d/9b/6d4a5f8f90b5773d863cacc0d122439b.png?wh=1920x928)
+![图片](https://static001.geekbang.org/resource/image/6d/9b/6d4a5f8f90b5773d863cacc0d122439b.png?wh=1920x928){: referrerpolicy="no-referrer" }
 
 每个Page需要4bit的位图信息，那么存放16384个页面的位图信息需要8192字节，1个16K的IBUF位图页面足够存放这些信息。根据页面编号可直接获取对应的位图信息。
 
-![图片](https://static001.geekbang.org/resource/image/b7/42/b72105f7a790e3534b50ca2ae7bb7e42.jpg?wh=875x576)
+![图片](https://static001.geekbang.org/resource/image/b7/42/b72105f7a790e3534b50ca2ae7bb7e42.jpg?wh=875x576){: referrerpolicy="no-referrer" }
 
 ### change buffer合并
 
@@ -148,7 +148,7 @@ Double write buffer是用来保障数据可靠性的一种机制。有些系统�
 
 下图是脏页刷新写Double Write文件的一个示意图。
 
-![图片](https://static001.geekbang.org/resource/image/ab/04/ab96c470c05b09aecfdf4a4592e39004.jpg?wh=1336x892)
+![图片](https://static001.geekbang.org/resource/image/ab/04/ab96c470c05b09aecfdf4a4592e39004.jpg?wh=1336x892){: referrerpolicy="no-referrer" }
 
 1. 先在Double Write Buffer积攒一批脏页。
 2. 脏页写入Double Write文件中。

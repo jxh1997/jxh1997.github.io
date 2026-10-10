@@ -32,7 +32,7 @@
 
 下面是我特意为专栏画的一张思维导图，可以帮你迅速了解这个专栏的知识结构体系是什么样的。专栏大致从六个方面展开，包括Kafka入门、Kafka的基本使用、客户端详解、Kafka原理介绍、Kafka运维与监控以及高级Kafka应用。
 
-![](https://static001.geekbang.org/resource/image/8b/95/8b28137150c70d66200f649e26ff2395.jpg?wh=1804%2A1132)
+![](https://static001.geekbang.org/resource/image/8b/95/8b28137150c70d66200f649e26ff2395.jpg?wh=1804%2A1132){: referrerpolicy="no-referrer" }
 
 - 专栏的第一部分我会介绍消息引擎这类系统大致的原理和用途，以及作为优秀消息引擎代表的Kafka在这方面的表现。
 - 第二部分则重点探讨Kafka如何用于生产环境，特别是线上环境方案的制定。

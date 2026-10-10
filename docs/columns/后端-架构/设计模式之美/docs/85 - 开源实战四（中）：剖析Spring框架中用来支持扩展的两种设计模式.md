@@ -275,7 +275,7 @@ public interface BeanPostProcessor {
 
 通过上面的分析，我们基本上弄清楚了Spring Bean的整个生命周期（创建加销毁）。针对这个过程，我画了一张图，你可以结合着刚刚讲解一块看下。
 
-![](https://static001.geekbang.org/resource/image/ca/4d/cacaf86b03a9432a4885385d2869264d.jpg?wh=2693%2A1352)
+![](https://static001.geekbang.org/resource/image/ca/4d/cacaf86b03a9432a4885385d2869264d.jpg?wh=2693%2A1352){: referrerpolicy="no-referrer" }
 
 不过，你可能会说，这里哪里用到了模板模式啊？模板模式不是需要定义一个包含模板方法的抽象模板类，以及定义子类实现模板方法吗？
 

@@ -6,7 +6,7 @@
 
 我在前面讲过，微博的服务化框架采用的是自研的Motan，Motan诞生于2013年，出于微博平台业务单体化架构拆分为微服务改造的需求，在结合当时的开源服务化框架和自身实际的需求，选择了采用自研的方式。而且由于微博平台的业务采用的是Java语言开发，所以Motan早期只支持Java语言。后期随着微博业务的高速发展，越来越多的PHP业务开始登上舞台，于是在微博的流量体系中，主要是三股服务之间的相互调用：一个是Java与Java语言，一个是PHP和Java语言，一个是PHP和PHP语言。Java应用之间的调用采用的是Motan协议，而Java应用与PHP、PHP与PHP应用之间采用的都是HTTP协议。我回忆了一下当时一次PHP与Java之间的HTTP调用过程，大致需要经过DNS解析、四层LVS负载均衡、七层Nginx负载均衡，最后才能调用Java应用本身。
 
-![](https://static001.geekbang.org/resource/image/8c/04/8cafb3bc4c314e5df40a80f8aee3cc04.png?wh=228%2A411)
+![](https://static001.geekbang.org/resource/image/8c/04/8cafb3bc4c314e5df40a80f8aee3cc04.png?wh=228%2A411){: referrerpolicy="no-referrer" }
 
 从上面这张图可以看出，一次HTTP调用的链路相当长，从我的实践来看，经常会遇到好几个问题。
 
@@ -18,13 +18,13 @@
 
 因此，迫切需要一种支持跨语言调用的服务化框架，使得跨语言应用之间的调用能够像Java应用之间的调用一样，不需要经过其他中间链路转发，做到直接交互，就像下图描述的那样。
 
-![](https://static001.geekbang.org/resource/image/6b/fe/6b54bcf17039645c3034dce373a053fe.png?wh=500%2A206)
+![](https://static001.geekbang.org/resource/image/6b/fe/6b54bcf17039645c3034dce373a053fe.png?wh=500%2A206){: referrerpolicy="no-referrer" }
 
 ## Yar协议的初步尝试
 
 为此，微博最开始考虑基于Motan框架进行扩展，使其支持PHP语言的Yar协议，下面是扩展后的架构图。这个架构的思路是PHP客户端的服务发现通过Nginx来支持，经过Nginx把PHP的Yar协议请求转发给服务端，由于Motan框架中了适配Yar协议，服务端会把PHP的Yar协议请求转换成Motan请求来处理，处理完后再转成Yar协议的返回值经过Nginx返回给客户端。
 
-![](https://static001.geekbang.org/resource/image/d7/3c/d7d21afa6d37bf5f55a831a25fdef83c.png?wh=741%2A487)
+![](https://static001.geekbang.org/resource/image/d7/3c/d7d21afa6d37bf5f55a831a25fdef83c.png?wh=741%2A487){: referrerpolicy="no-referrer" }
 
 但这种架构主要存在两个问题。
 
@@ -36,7 +36,7 @@
 
 时间往后推演，gRPC横空出世，它良好的跨语言特性，以及高效的序列化格式的特性吸引了我们，于是便开始考虑在Motan中集成gRPC，来作为跨语言通信的协议。当时设计了下图的架构，这个架构的思路是利用gRPC来生成PHP语言的Client，然后在Motan框架中加入对gRPC协议的支持，这样的话PHP语言的Client就可以通过gRPC请求来调用Java服务。
 
-![](https://static001.geekbang.org/resource/image/02/2a/02de374239ba3b0ea10cc9192821552a.png?wh=574%2A313)
+![](https://static001.geekbang.org/resource/image/02/2a/02de374239ba3b0ea10cc9192821552a.png?wh=574%2A313){: referrerpolicy="no-referrer" }
 
 但在我们的实际测试中，发现微博的业务场景并不适合gRPC协议，因为gRPC协议高度依赖PB序列化，而PHP对PB的兼容性不是很好，在微博的业务场景下一个接口返回值有可能超过几十KB，此时在PHP Client端PB数据结构解析成JSON对象的耗时甚至达到几十毫秒，这对业务来说是不可接受的。而且gRPC当时还不支持PHP作为Server对外提供服务，也不满足微博这部分业务场景的需要。
 
@@ -44,13 +44,13 @@
 
 考虑到PHP语言本身没有常驻内存控制的能力，在实现服务注册和发现以及其他各种服务框架功能时，仅靠PHP-FPM进程本身难以实现，因此需要一个统一常驻内存的进程来帮助完成服务框架的各种功能。一开始我们考虑过使用本地守护进程和OpenResty的Timer来实现服务发现，但其他服务框架的功能不太好实现，比如专栏前面提到的各种复杂的负载均衡策略、双发、熔断等。为此，我们希望通过一个Agent也就是代理，来帮助PHP进程来完成服务框架的各种功能，PHP进程本身只需要负责运行业务逻辑的代码，以及最简单的Motan协议解析。基于这个思路，当时我们设计了下面这个架构，它的思路就是在PHP进程的本地也部署一个Agent，PHP进程发出去的请求都经过Agent进行处理后，再发给对应的Java应用。
 
-![](https://static001.geekbang.org/resource/image/a7/5c/a75e0cd4b3e9aa355a6caec951e5845c.png?wh=669%2A334)
+![](https://static001.geekbang.org/resource/image/a7/5c/a75e0cd4b3e9aa355a6caec951e5845c.png?wh=669%2A334){: referrerpolicy="no-referrer" }
 
 ## 向Service Mesh迈进
 
 2017年，就在我们开始采用Agent方案对业务进行改造，以支持PHP应用调用Java应用服务化的时候，Service Mesh的概念突然火热起来，并随着Istio的发布风靡业界。相信经过我前面对Service Mesh的讲解，你一定会发现这里的Agent不恰恰就是Service Mesh中的SideCar吗？没错，我们跨语言调用的解决方案竟然与Service Mesh的理念不谋而合。借鉴Service Mesh的思想，我们也对Agent方案进一步演化，不仅客户端的调用需要经过本地的Agent处理后再转发给服务端，服务端在处理前也需要经过本地的Agent，最后再由服务端业务逻辑处理，下面是它的架构图。如此一来，业务只需要进行集成最简单的Motan协议解析，而不需要关心其他服务框架功能，可以理解为业务只需要集成一个轻量级的Client用于Motan协议解析，而繁杂的服务框架功能全都由Agent来实现，从而实现业务与框架功能的解耦。
 
-![](https://static001.geekbang.org/resource/image/78/91/78c53f81b72dc818d90400160b573d91.png?wh=621%2A287)
+![](https://static001.geekbang.org/resource/image/78/91/78c53f81b72dc818d90400160b573d91.png?wh=621%2A287){: referrerpolicy="no-referrer" }
 
 从上面的图中你可以看出，这个架构与上一期我们聊的Istio大体思路相同，但是区别还是很明显的，可以概括为以下几点：
 

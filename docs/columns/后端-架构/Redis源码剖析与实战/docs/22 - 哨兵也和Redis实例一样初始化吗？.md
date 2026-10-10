@@ -122,7 +122,7 @@ struct sentinelState {
 
 到这里，哨兵实例配置项的初始化工作就完成了。下图展示了这个初始化过程，你可以再回顾下。
 
-![图片](https://static001.geekbang.org/resource/image/6e/ac/6e692yy58da223d98b2d4d390c8e97ac.jpg?wh=1920x819)
+![图片](https://static001.geekbang.org/resource/image/6e/ac/6e692yy58da223d98b2d4d390c8e97ac.jpg?wh=1920x819){: referrerpolicy="no-referrer" }
 
 接下来，main函数还会调用initServer函数完成server本身的初始化操作，这部分哨兵实例也是会执行的。然后，main函数就会调用**sentinelIsRunning函数**（在sentinel.c文件中）启动哨兵实例。
 
@@ -132,7 +132,7 @@ sentinelIsRunning函数的执行逻辑比较简单，它首先会确认哨兵实
 
 最后，sentinelIsRunning函数会调用sentinelGenerateInitialMonitorEvents函数（在sentinel.c文件中），给每个被监听的主节点发送事件信息。下图展示了sentinelIsRunning函数的基本执行流程，你可以看下。
 
-![图片](https://static001.geekbang.org/resource/image/6a/bd/6a0241e822b02db8d907f7fdda48cebd.jpg?wh=1920x1080)
+![图片](https://static001.geekbang.org/resource/image/6a/bd/6a0241e822b02db8d907f7fdda48cebd.jpg?wh=1920x1080){: referrerpolicy="no-referrer" }
 
 那么，**sentinelIsRunning函数是如何获取到主节点的地址信息呢？**
 
@@ -228,7 +228,7 @@ if (fmt[0] == '%' && fmt[1] == '@') {
 
 下面的图展示了sentinelEvent函数的执行流程，你可以再回顾下。
 
-![图片](https://static001.geekbang.org/resource/image/8f/6a/8f50ed685a3c66b34a2d1b2697b6e96a.jpg?wh=1920x1080)
+![图片](https://static001.geekbang.org/resource/image/8f/6a/8f50ed685a3c66b34a2d1b2697b6e96a.jpg?wh=1920x1080){: referrerpolicy="no-referrer" }
 
 好了，到这里，哨兵实例的初始化就基本完成了。接下来，哨兵就会和主节点进行通信，监听主节点的状态变化，我会在接下来的课程中给你具体介绍它们之间的通信过程。
 

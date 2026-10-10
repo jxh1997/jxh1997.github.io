@@ -30,15 +30,15 @@ swnd = min(cwnd, rwnd)
 
 虽然指数级提升发送速度很快，但互联网中的很多资源体积并不大，多数场景下，在传输速度没有达到最大时，资源就已经下载完了。下图是2010年Google对Web对象大小的CDF累积分布统计，大多数对象在10KB左右。
 
-![](https://static001.geekbang.org/resource/image/1a/23/1a93f6622d30ef5a138b37ce7f94e323.png?wh=1368%2A644 "图片来源：《An Argument for Increasing TCP's Initial Contestion Window》")
+![](https://static001.geekbang.org/resource/image/1a/23/1a93f6622d30ef5a138b37ce7f94e323.png?wh=1368%2A644 "图片来源：《An Argument for Increasing TCP's Initial Contestion Window》"){: referrerpolicy="no-referrer" }
 
 这样，当MSS是1KB时，多数HTTP请求至少包含10个报文，即使以指数级增加拥塞窗口，也需要至少4个RTT才能传输完，参见下图：
 
-![](https://static001.geekbang.org/resource/image/86/5c/865b14ad43c828fdf494b541bb810f5c.png?wh=865%2A779)
+![](https://static001.geekbang.org/resource/image/86/5c/865b14ad43c828fdf494b541bb810f5c.png?wh=865%2A779){: referrerpolicy="no-referrer" }
 
 因此，2013年TCP的初始拥塞窗口调整到了10个MSS（参见[RFC6928](https://tools.ietf.org/html/rfc6928)），这样1个RTT内就可以传输10KB的请求。然而，如果你需要传输的对象体积更大，BDP带宽时延积很大时，完全可以继续提高初始拥塞窗口的大小。下图是2014年、2017年全球主要CDN厂商初始拥塞窗口的变化，可见，随着网速的增加，初始拥塞窗口也变得更大了。
 
-[![](https://static001.geekbang.org/resource/image/20/d2/20bdd4477ed2d837d398a3b43020abd2.png?wh=1027%2A733 "图片来源：https://blog.imaginea.com/look-at-tcp-initcwnd-cdns/")](https://blog.imaginea.com/look-at-tcp-initcwnd-cdns/)
+[![](https://static001.geekbang.org/resource/image/20/d2/20bdd4477ed2d837d398a3b43020abd2.png?wh=1027%2A733 "图片来源：https://blog.imaginea.com/look-at-tcp-initcwnd-cdns/")](https://blog.imaginea.com/look-at-tcp-initcwnd-cdns/){: referrerpolicy="no-referrer" }
 
 因此，你可以根据网络状况和传输对象的大小，调整初始拥塞窗口的大小。调整前，先要清楚你的服务器现在的初始拥塞窗口是多大。你可以通过ss命令查看当前拥塞窗口：
 
@@ -77,7 +77,7 @@ swnd = min(cwnd, rwnd)
 
 那什么是快速恢复呢？我们不妨把网络看成一个容器（上一讲中说过它可以容纳BDP字节的报文），每当接收方从网络中取出一个报文，发送方就可以增加一个报文。当发送方接收到重复ACK时，可以推断有失序报文离开了网络，到达了接收方的缓冲区，因此可以再多发送一个报文。如下图所示：
 
-![](https://static001.geekbang.org/resource/image/92/d9/92980476c93766887cc260f03c5d50d9.png?wh=992%2A795)
+![](https://static001.geekbang.org/resource/image/92/d9/92980476c93766887cc260f03c5d50d9.png?wh=992%2A795){: referrerpolicy="no-referrer" }
 
 这里你要注意：第6个报文在慢启动阶段丢失，接收方收到失序的第7个报文会触发快速重传算法，它必须立刻返回ACK6。而发送方接收到第1个重复ACK6报文时，就从慢启动进入了快速重传阶段，**此刻的重复ACK不会扩大拥塞窗口。**当连续收到3个ACK6时，发送方会重发报文6，并把慢启动阈值和拥塞窗口都降到之前的一半：3个MSS，再进入快速恢复阶段。按照规则，由于收到3个重复ACK，所以拥塞窗口会增加3个MSS。之后收到的2个ACK，让拥塞窗口增加到了8个MSS，直到收到期待的ACK12，发送方才会进入拥塞避免阶段。
 
@@ -99,13 +99,13 @@ net.ipv4.tcp_congestion_control = cubic
 
 上文介绍的是传统拥塞控制算法，它是以丢包作为判断拥塞的依据。然而，网络刚出现拥塞时并不会丢包，而真的出现丢包时，拥塞已经非常严重了。如下图所示，像路由器这样的网络设备，都会有缓冲队列应对突发的、超越处理能力的流量：
 
-![](https://static001.geekbang.org/resource/image/47/85/4732f8f97aefcb26334f4e7d1d096185.png?wh=957%2A532)
+![](https://static001.geekbang.org/resource/image/47/85/4732f8f97aefcb26334f4e7d1d096185.png?wh=957%2A532){: referrerpolicy="no-referrer" }
 
 当缓冲队列为空时，传输速度最快。一旦队列开始积压，每个报文的传输时间需要增加排队时间，网速就变慢了。而当队列溢出时，才会出现丢包，基于丢包的拥塞控制算法在这个时间点进入拥塞避免阶段，显然太晚了。因为升高的网络时延降低了用户体验，而且从丢包到重发这段时间，带宽也会出现下降。
 
 进行拥塞控制的最佳时间点，是缓冲队列刚出现积压的时刻，**此时，网络时延会增高，但带宽维持不变，这两个数值的变化可以给出明确的拥塞信号**，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/2c/ca/2cbda9079294ed5da6617f0f0e83acca.png?wh=521%2A720 "图片来源网络：传输速度_RTT与飞行报文的关系")
+![](https://static001.geekbang.org/resource/image/2c/ca/2cbda9079294ed5da6617f0f0e83acca.png?wh=521%2A720 "图片来源网络：传输速度_RTT与飞行报文的关系"){: referrerpolicy="no-referrer" }
 
 这种以测量带宽、时延来确定拥塞的方法，在丢包率较高的网络中应用效果尤其好。2016年Google推出的BBR算法（全称Bottleneck Bandwidth and Round-trip propagation time），就是测量驱动的拥塞控制算法，它在YouTube站点上应用后使得网络时延下降了20%以上，传输带宽也有5%左右的提升。
 

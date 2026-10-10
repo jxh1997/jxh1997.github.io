@@ -26,7 +26,7 @@ order by n;
 
 之前我们提到过，InnoDB中表和索引都是B+树的结构，下面就是B+树的一个简单示意图。
 
-![图片](https://static001.geekbang.org/resource/image/e1/61/e13e508ac2e765a9620c1918590c7d61.jpg?wh=1384x701)  
+![图片](https://static001.geekbang.org/resource/image/e1/61/e13e508ac2e765a9620c1918590c7d61.jpg?wh=1384x701)  {: referrerpolicy="no-referrer" }
 B+树由根节点（root page）、分支节点（branch page）和叶子节点（leaf page）组成。每个页面由头部信息和页面记录组成。分支页面的记录中，有指向下一个层级的页面编号。页面头部还记录了同一层级中相邻页面的编号，这些页面组成一个双向链表。页面记录包含Key和Value两个部分。对于主键，Key就是组成Primary Key的字段，分支页面中的Value值是页面编号（Page Number），叶子页面中，Value值包括隐藏字段DB\_TRX\_ID，DB\_ROLL\_PTR，以及表结构中Primary Key之外的字段。
 
 二级索引中，分支页面中的记录由索引定义中的字段、主键字段和页面编号组成，而叶子页面中的记录由索引字段和主键字段组成。
@@ -87,7 +87,7 @@ order by t2.name, t4.ordinal_position
 
 聚簇索引的根页面编号是0x04，Page 4的内容见下面这个图，图上标注了一些关键信息。
 
-![图片](https://static001.geekbang.org/resource/image/bd/91/bd7242f6f1017fdd6d70ef4b5d3aaa91.png?wh=1506x1290)
+![图片](https://static001.geekbang.org/resource/image/bd/91/bd7242f6f1017fdd6d70ef4b5d3aaa91.png?wh=1506x1290){: referrerpolicy="no-referrer" }
 
 - index id为0x030A，也就是778，和元数据中查到的一样。
 - level为2，这棵B+树的高度为3层。
@@ -98,7 +98,7 @@ order by t2.name, t4.ordinal_position
 
 从根页面，我们得到了分支页面的编号，我们来看一下其中一个分支页面Page C6的内容。
 
-![图片](https://static001.geekbang.org/resource/image/1d/8d/1d2b2b5330c8f50eef7396dfec27868d.png?wh=1438x1124)
+![图片](https://static001.geekbang.org/resource/image/1d/8d/1d2b2b5330c8f50eef7396dfec27868d.png?wh=1438x1124){: referrerpolicy="no-referrer" }
 
 - Level为1。
 - Prev为null，说明这是Level 1中的第一个页面。Next为Page C7。
@@ -109,7 +109,7 @@ order by t2.name, t4.ordinal_position
 
 从分支页面中，我们知道了叶子页面的编号，我们来看一下页面07的内容。
 
-![图片](https://static001.geekbang.org/resource/image/1a/13/1a10c27f422b42fdd6ff5764ba06da13.png?wh=1522x928)
+![图片](https://static001.geekbang.org/resource/image/1a/13/1a10c27f422b42fdd6ff5764ba06da13.png?wh=1522x928){: referrerpolicy="no-referrer" }
 
 - Level为0，说明这是一个叶子页面。
 - records为0x14，说明页面内有20条记录。因为每行记录比较长，页面内只存了20条记录。
@@ -118,7 +118,7 @@ order by t2.name, t4.ordinal_position
 
 如果把整个聚簇索引画出来，大概就是下面这个图。
 
-![](https://static001.geekbang.org/resource/image/db/9e/db053b7ce72878ebff7469096d15449e.png?wh=826x1133)
+![](https://static001.geekbang.org/resource/image/db/9e/db053b7ce72878ebff7469096d15449e.png?wh=826x1133){: referrerpolicy="no-referrer" }
 
 ## 二级索引结构
 
@@ -128,13 +128,13 @@ order by t2.name, t4.ordinal_position
 
 我们已经从数据字典中查到，索引idx\_a的根页面为Page 05。下图就是Page 05的内容。
 
-![图片](https://static001.geekbang.org/resource/image/7a/4f/7a23fbd253cbd755cfa6f575538e8b4f.png?wh=1552x1020)
+![图片](https://static001.geekbang.org/resource/image/7a/4f/7a23fbd253cbd755cfa6f575538e8b4f.png?wh=1552x1020){: referrerpolicy="no-referrer" }
 
 ### Branch
 
 下图展示了第一个分支页面Page C9的内容。
 
-![图片](https://static001.geekbang.org/resource/image/d8/8a/d8b5e0fd61ce4725c53e244b9337de8a.png?wh=1560x1270)
+![图片](https://static001.geekbang.org/resource/image/d8/8a/d8b5e0fd61ce4725c53e244b9337de8a.png?wh=1560x1270){: referrerpolicy="no-referrer" }
 
 - prev为空，next指向Page CA。
 - records为0x26，说明页面内有38条记录。
@@ -145,7 +145,7 @@ order by t2.name, t4.ordinal_position
 
 叶子页面Page 0B的内容展示在下面这个图中。
 
-![图片](https://static001.geekbang.org/resource/image/9d/b5/9db30102a3541b17baf34e45bfc2f8b5.png?wh=1560x1252)
+![图片](https://static001.geekbang.org/resource/image/9d/b5/9db30102a3541b17baf34e45bfc2f8b5.png?wh=1560x1252){: referrerpolicy="no-referrer" }
 
 - Prev为null，next指向页面Page 0C。
 - records为0x26，页面内有38条记录。
@@ -156,15 +156,15 @@ order by t2.name, t4.ordinal_position
 
 InnoDB每个索引都由2个段（Segment）组成，在索引的根页面中，记录了这2个段的段描述符的地址。测试表t\_btree的两个索引的段描述符地址我整理到了下面这个表格中。
 
-![图片](https://static001.geekbang.org/resource/image/e2/ae/e2cd0c88b27d1b6b23824459f6835eae.png?wh=1920x995)
+![图片](https://static001.geekbang.org/resource/image/e2/ae/e2cd0c88b27d1b6b23824459f6835eae.png?wh=1920x995){: referrerpolicy="no-referrer" }
 
 ### 段描述符（INODE）
 
-InnoDB使用段来管理空间，段描述符（inode）记录了段的相关信息，inode中的信息我整理到了下面这个表格中。![图片](https://static001.geekbang.org/resource/image/65/20/65ca6239f24092ebe19d46977d7ba620.png?wh=1920x1116)
+InnoDB使用段来管理空间，段描述符（inode）记录了段的相关信息，inode中的信息我整理到了下面这个表格中。![图片](https://static001.geekbang.org/resource/image/65/20/65ca6239f24092ebe19d46977d7ba620.png?wh=1920x1116){: referrerpolicy="no-referrer" }
 
 下面这个图里面，展示了聚簇索引的2个段的描述符。
 
-![图片](https://static001.geekbang.org/resource/image/ed/37/eddd6fa1dd45110551a8bc8baa786b37.png?wh=1516x1106)
+![图片](https://static001.geekbang.org/resource/image/ed/37/eddd6fa1dd45110551a8bc8baa786b37.png?wh=1516x1106){: referrerpolicy="no-referrer" }
 
 - 聚簇索引跳转页面段的ID为3，段内总共有5个页面（包括根页面），编号分别是04、C6、C7、C8、CB。 这和我们在聚簇索引根页面中看到的一致。
 - 聚簇索引叶子页面段ID为4。Not Full链表中有一个区（Extent），使用了15个页面。Full链表中有7个区（Extent）。
@@ -185,22 +185,22 @@ InnoDB使用段来管理空间，段描述符（inode）记录了段的相关信
 
 InnoDB的数据文件中存在大量双向链表结构，这些链表结构上是一样的，都由链表基节点和链表节点组成。链表基节占用16字节，由下面这3个字段组成。
 
-![图片](https://static001.geekbang.org/resource/image/55/1a/55eb7427268c2918dbb4537584459f1a.png?wh=1920x647)
+![图片](https://static001.geekbang.org/resource/image/55/1a/55eb7427268c2918dbb4537584459f1a.png?wh=1920x647){: referrerpolicy="no-referrer" }
 
 链表节点占用12个字节，由下面这2个字段组成。
 
-![图片](https://static001.geekbang.org/resource/image/00/3b/00ecde2460ee55c714a6c88544ed863b.png?wh=1920x485)  
+![图片](https://static001.geekbang.org/resource/image/00/3b/00ecde2460ee55c714a6c88544ed863b.png?wh=1920x485)  {: referrerpolicy="no-referrer" }
 下图是InnoDB物理文件中双向链表的一个示意图，基节点中记录了链表头部节点和尾部节点，所有节点通过prev和next指针连接在一起。
 
-![图片](https://static001.geekbang.org/resource/image/72/7a/7214fd9e359f513f9a69ebbe22208d7a.jpg?wh=1654x843)
+![图片](https://static001.geekbang.org/resource/image/72/7a/7214fd9e359f513f9a69ebbe22208d7a.jpg?wh=1654x843){: referrerpolicy="no-referrer" }
 
 我们来看一下测试表t\_btree聚簇索引Leaf段中的几个链表。
 
-![图片](https://static001.geekbang.org/resource/image/92/5e/924ae628aec1d5f2ae8d853b263a775e.png?wh=1920x942)
+![图片](https://static001.geekbang.org/resource/image/92/5e/924ae628aec1d5f2ae8d853b263a775e.png?wh=1920x942){: referrerpolicy="no-referrer" }
 
 我们来看一下FULL链表在物理文件中的存储方式，下面这个图中，标注了Full链表中的区描述符。
 
-![图片](https://static001.geekbang.org/resource/image/2d/a6/2d748c18e4acb2e3c1e5f5994c195ca6.png?wh=1522x1250)
+![图片](https://static001.geekbang.org/resource/image/2d/a6/2d748c18e4acb2e3c1e5f5994c195ca6.png?wh=1522x1250){: referrerpolicy="no-referrer" }
 
 - segment id为4。
 - prev和next指向链表中相邻的区。
@@ -211,7 +211,7 @@ InnoDB的数据文件中存在大量双向链表结构，这些链表结构上�
 
 将Full链表中的所有区都整理出来，可以得到下面这个图。
 
-![](https://static001.geekbang.org/resource/image/47/57/47fb6fb175c0d47dc6c69799a3144e57.jpg?wh=1340x587)
+![](https://static001.geekbang.org/resource/image/47/57/47fb6fb175c0d47dc6c69799a3144e57.jpg?wh=1340x587){: referrerpolicy="no-referrer" }
 
 ## 表空间管理
 
@@ -236,7 +236,7 @@ mysql> select space, name, row_format, space_type
 
 表空间分为几种不同的类型，我整理成了下面这个表格。
 
-![图片](https://static001.geekbang.org/resource/image/b1/cf/b1873507902c365b3688dbc63da72dcf.png?wh=1920x1167)
+![图片](https://static001.geekbang.org/resource/image/b1/cf/b1873507902c365b3688dbc63da72dcf.png?wh=1920x1167){: referrerpolicy="no-referrer" }
 
 ### InnoDB数据文件格式
 
@@ -248,7 +248,7 @@ InnoDB中，除了系统表空间，其它每个表空间都是由1个数据文�
 
 InnoDB以Page为最小单位来分配空间，每个Page的大小由参数innodb\_page\_size指定。该参数只能在数据库初始化之前配置，数据库初始化完成后，不能再修改。InnoDB Page大小可设置为4K、8K、16K、32K或64K，默认为16K。后续我们以16K的Page大小来分析。
 
-![图片](https://static001.geekbang.org/resource/image/cb/50/cb6235396e856b3914709770f6c10a50.jpg?wh=1044x406)
+![图片](https://static001.geekbang.org/resource/image/cb/50/cb6235396e856b3914709770f6c10a50.jpg?wh=1044x406){: referrerpolicy="no-referrer" }
 
 #### Extent
 
@@ -260,12 +260,12 @@ InnoDB中每一个索引（包括聚簇索引）都由2个段（Segment）组成
 
 数据文件的第一个页面称为文件头（FSP Header），里面存储了整个表空间的相关信息。文件头的具体存储格式，可以参考下面这个图和表格。
 
-![图片](https://static001.geekbang.org/resource/image/67/13/6712a58fda74f37977527ce740701a13.png?wh=1206x644)  
-![图片](https://static001.geekbang.org/resource/image/ba/5f/ba5d78a0d5b87482a1218c097c5de75f.png?wh=1542x1518)
+![图片](https://static001.geekbang.org/resource/image/67/13/6712a58fda74f37977527ce740701a13.png?wh=1206x644)  {: referrerpolicy="no-referrer" }
+![图片](https://static001.geekbang.org/resource/image/ba/5f/ba5d78a0d5b87482a1218c097c5de75f.png?wh=1542x1518){: referrerpolicy="no-referrer" }
 
 表空间文件分为3个区域，FSP Header中的highest page initialized和highest page字段分别记录已初始化空间和未初始化空间的最大页面编号。
 
-![图片](https://static001.geekbang.org/resource/image/e0/e7/e09afbc1f5289974684907byy189dfe7.jpg?wh=1038x512)  
+![图片](https://static001.geekbang.org/resource/image/e0/e7/e09afbc1f5289974684907byy189dfe7.jpg?wh=1038x512)  {: referrerpolicy="no-referrer" }
 已初始化空间区域内的区（Extent），要么加入到FSP Header头部的3个链表中，要么已经分配给某个段（Segment）。未初始化空间区域内的区还没有被格式化，也就是这些区还没有加入到任何链表中。当需要分配空间时，可以将这个区域内的区加入到FSP Header中的空闲列表中，然后再分配给某个表或索引。如果数据文件内的区都已经被使用，分配空间时就需要先扩充文件的长度。
 
 FSP Header维护了几个重要的链表。
@@ -298,16 +298,16 @@ FULL\_INODES链表用来跟踪已经完全被使用的INODE页面。
 
 区描述符记录了区的使用情况。数据文件中每一个区都有一个对应的区描述符（XDES）。每一个区描述符占用40字节，具体信息可以参考下面这个表格。
 
-![图片](https://static001.geekbang.org/resource/image/ea/e0/ea25e00d399cc665c9598c60dae73ae0.png?wh=1920x1257)
+![图片](https://static001.geekbang.org/resource/image/ea/e0/ea25e00d399cc665c9598c60dae73ae0.png?wh=1920x1257){: referrerpolicy="no-referrer" }
 
 FSP HEADER中，存储了256个区描述符，可以管理256M空间。如果数据文件超过256M，则每256M的第一个页面都会用来存储区描述符。
 
-![图片](https://static001.geekbang.org/resource/image/08/cb/080d495ddb91f33e2e567522ce15b2cb.jpg?wh=1146x863)  
+![图片](https://static001.geekbang.org/resource/image/08/cb/080d495ddb91f33e2e567522ce15b2cb.jpg?wh=1146x863)  {: referrerpolicy="no-referrer" }
 数据文件中，每256M空间开头的第一个区有点特殊，因为这些区的第一个页面总是用来存放区描述符，第二个页面总是用来存放ibuf位图信息，因此这些区都是碎片区。
 
 我把测试表的第一个页面放在了下面这个图中，对一些重要的字段做了标注。
 
-![图片](https://static001.geekbang.org/resource/image/6b/68/6b40218f186d9ab10e0c4c70d7b37568.png?wh=1522x926)
+![图片](https://static001.geekbang.org/resource/image/6b/68/6b40218f186d9ab10e0c4c70d7b37568.png?wh=1522x926){: referrerpolicy="no-referrer" }
 
 - type为8，也就是FIL\_PAGE\_TYPE\_FSP\_HDR。
 - highest page为0x04C0，转换字节数是0x4C0 * 16K = 19M，刚好是ibd文件的大小。
@@ -318,7 +318,7 @@ FSP HEADER中，存储了256个区描述符，可以管理256M空间。如果数
 
 Page 2是一个Inode页面，页面内容参考下面这个图。
 
-![图片](https://static001.geekbang.org/resource/image/00/71/00c4111b6632a297aace1fc7be3c7071.png?wh=1484x1084)
+![图片](https://static001.geekbang.org/resource/image/00/71/00c4111b6632a297aace1fc7be3c7071.png?wh=1484x1084){: referrerpolicy="no-referrer" }
 
 - type为3，也就是FIL\_PAGE\_INODE
 - prev和next分别指向相邻的Inode页面，这里只有一个inode页面，所以prev和next都为空。

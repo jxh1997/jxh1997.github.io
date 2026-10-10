@@ -91,7 +91,7 @@ Actor 模型的核心就是 Actor。那什么是 Actor 呢？为了便于理解�
 
 更详细的流程参见下面的时序图：
 
-![](https://static001.geekbang.org/resource/image/4d/eb/4d3a7f4a2945fc09f66344dc2925e4eb.jpg?wh=577x1009)
+![](https://static001.geekbang.org/resource/image/4d/eb/4d3a7f4a2945fc09f66344dc2925e4eb.jpg?wh=577x1009){: referrerpolicy="no-referrer" }
 
 可以看到，使用 Actor 实现这个并发场景非常简单，每个 Actor 的逻辑都很简单，自然而然地就解决了棘手的共享内存并发问题。
 

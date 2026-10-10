@@ -36,7 +36,7 @@
 
 首先，Kafka将动态Broker参数保存在ZooKeeper中，具体的znode路径如下图所示。
 
-![](https://static001.geekbang.org/resource/image/67/59/67125a22a27028e18bab9f03a6664859.png)
+![](https://static001.geekbang.org/resource/image/67/59/67125a22a27028e18bab9f03a6664859.png){: referrerpolicy="no-referrer" }
 
 我来解释一下图中的内容。changes是用来实时监测动态参数变更的，不会保存参数值；topics是用来保存Kafka主题级别参数的。虽然它们不属于动态Broker端参数，但其实它们也是能够动态变更的。
 
@@ -46,7 +46,7 @@ users和clients则是用于动态调整客户端配额（Quota）的znode节点�
 
 我们一起来看一张图片，它展示的是我的一个Kafka集群环境上的动态Broker端参数。
 
-![](https://static001.geekbang.org/resource/image/c4/7c/c4154989775023afb619f2fdb07f6f7c.png)
+![](https://static001.geekbang.org/resource/image/c4/7c/c4154989775023afb619f2fdb07f6f7c.png){: referrerpolicy="no-referrer" }
 
 在这张图中，我首先查看了/config/brokers下的子节点，我们可以看到，这里面有&lt; default &gt;节点和名为0、1的子节点。&lt; default &gt;节点中保存了我设置的cluster-wide范围参数；0和1节点中分别保存了我为Broker 0和Broker 1设置的per-broker参数。
 
@@ -129,9 +129,9 @@ Configs for broker 1 are:
 
 刚刚我只是举了一个参数的例子，如果你想要知道动态Broker参数都有哪些，一种方式是在Kafka官网中查看Broker端参数列表，另一种方式是直接运行无参数的kafka-configs脚本，该脚本的说明文档会告诉你当前动态Broker参数都有哪些。我们可以先来看看下面这两张图。
 
-![](https://static001.geekbang.org/resource/image/40/f1/400532989c3214f00a2f764fe7983cf1.png)
+![](https://static001.geekbang.org/resource/image/40/f1/400532989c3214f00a2f764fe7983cf1.png){: referrerpolicy="no-referrer" }
 
-![](https://static001.geekbang.org/resource/image/eb/67/eb99853bca3d91ad3a53db5dbe3e3b67.png)
+![](https://static001.geekbang.org/resource/image/eb/67/eb99853bca3d91ad3a53db5dbe3e3b67.png){: referrerpolicy="no-referrer" }
 
 看到有这么多动态Broker参数，你可能会问：这些我都需要调整吗？你能告诉我最常用的几个吗？根据我的实际使用经验，我来跟你分享一些有较大几率被动态调整值的参数。
 
@@ -155,7 +155,7 @@ Configs for broker 1 are:
 
 好了，我们来小结一下。今天，我们重点讨论了Kafka 1.1.0版本引入的动态Broker参数。这类参数最大的好处在于，无需重启Broker，就可以令变更生效，因此能够极大地降低运维成本。除此之外，我还给出了动态参数的保存机制和设置方法。在专栏的后面，我还会给出动态参数设置的另一种方法，敬请期待。
 
-![](https://static001.geekbang.org/resource/image/22/74/22ef35547f9bddb8d56bdb350fd52f74.jpg)
+![](https://static001.geekbang.org/resource/image/22/74/22ef35547f9bddb8d56bdb350fd52f74.jpg){: referrerpolicy="no-referrer" }
 
 ## 开放讨论
 

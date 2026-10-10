@@ -17,7 +17,7 @@ HBase和关系型数据库一样，以数据表的形式组织数据。一张表
 
 数据在表中以行键的字典序排序，像这张图一样。
 
-![图片](https://static001.geekbang.org/resource/image/13/18/1365a088c0a20dd9f863ff3b7fa31c18.png?wh=1280x361)
+![图片](https://static001.geekbang.org/resource/image/13/18/1365a088c0a20dd9f863ff3b7fa31c18.png?wh=1280x361){: referrerpolicy="no-referrer" }
 
 1. 行键类似关系型数据库主键，通过行键可以定位到一行数据。对HBase来说，通过行键来读取单行或者多行数据最高效。当然，它也支持基于行键区间的扫描。
 2. HBase是一个宽列族存储数据库，数据按列族聚簇存储在一起。虽然HBase是列式存储数据库，但不建议一个表有多个列族。所以，在单个列族的情况下，基本上就跟行式存储类似了。
@@ -45,7 +45,7 @@ HBase不提供多表关联查询的能力，所以比较适合单表存储能搞
 
 HBase数据分布像下面这张图一样，每个分区大小很均匀，而且是均衡地分布在集群的各个节点上。这里需要注意的是，如果集群节点做了扩容，HBase可能需要一定的时间来将分区进行relocate以及本地化，达到最佳性能。
 
-![图片](https://static001.geekbang.org/resource/image/47/7c/47d3f4ac438f58d1c3a405e251cb8d7c.png?wh=1280x658)
+![图片](https://static001.geekbang.org/resource/image/47/7c/47d3f4ac438f58d1c3a405e251cb8d7c.png?wh=1280x658){: referrerpolicy="no-referrer" }
 
 总结一下，分区是HBase中数据分布与负载均衡的最小单元，HBase能够自动帮我们拆分、合并这些分区。当数据量增长到当前机器配置无法支撑的情况时，我们只需要在集群中增加一些服务器节点，HBase就可以自动帮我们迁移分区、平衡数据与请求。
 
@@ -57,7 +57,7 @@ HBase数据分布像下面这张图一样，每个分区大小很均匀，而且
 
 先来看一张HBase集群的架构图。
 
-![图片](https://static001.geekbang.org/resource/image/25/c8/2523abc9ab99580717ced62a2c1397c8.png?wh=2212x1452)
+![图片](https://static001.geekbang.org/resource/image/25/c8/2523abc9ab99580717ced62a2c1397c8.png?wh=2212x1452){: referrerpolicy="no-referrer" }
 
 可以看到，这里涉及3个物理组件。Master对应进程HMaster，RegionServer对应进程HRegionServer以及Zookeeper，以及存储上HBase所依赖的Hadoop DFS组件。
 
@@ -103,7 +103,7 @@ WAL类似关系型数据库的Redo日志，数据写入MemStore之前，会将�
 
 最后我用一棵树来结合整理一下HBase逻辑上的表、分区和物理上存储模型的关系。
 
-![图片](https://static001.geekbang.org/resource/image/27/b3/276b252f91e6f35492524a899e4a1bb3.png?wh=3708x2164)
+![图片](https://static001.geekbang.org/resource/image/27/b3/276b252f91e6f35492524a899e4a1bb3.png?wh=3708x2164){: referrerpolicy="no-referrer" }
 
 再强调一点，HBase本身并不提供存储功能，而是基于HDFS存储。StoreFile在HDFS中对应HFile，WAL生成的日志对应HLog。因为是基于HDFS存储数据，因此在进行分区迁移时，无需真正移动数据。然而，换个角度看，这也意味着HBase与HDFS紧密耦合，无法实现存储与计算的分离，节省成本。
 

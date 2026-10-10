@@ -14,7 +14,7 @@
 
 比如说有一些场景是缓存计算时间很长的结果，但是大部分请求都是小请求，也就是都不会命中缓存，这种时候缓存命中率可能连一半都没有。但是因为这些小请求计算很快，所以走实时计算响应时间也能接受，而且实时计算的数据更加准确。
 
-![图片](https://static001.geekbang.org/resource/image/8y/73/8yy71b8106121d5d9f992542c65a6e73.png?wh=1920x799)
+![图片](https://static001.geekbang.org/resource/image/8y/73/8yy71b8106121d5d9f992542c65a6e73.png?wh=1920x799){: referrerpolicy="no-referrer" }
 
 ## 实现过期机制的一般思路
 
@@ -26,7 +26,7 @@
 - 定期删除：是指每隔一段时间就遍历对象，找到已经过期的对象删除掉。  
   针对这四种思路的优缺点，你可以参考下面的表格。
 
-![图片](https://static001.geekbang.org/resource/image/5e/ae/5e46e9e857e289ace47d67aa50640fae.png?wh=1920x787)
+![图片](https://static001.geekbang.org/resource/image/5e/ae/5e46e9e857e289ace47d67aa50640fae.png?wh=1920x787){: referrerpolicy="no-referrer" }
 
 大部分的缓存框架，比如Redis，它们都使用了懒惰删除和定期删除结合的策略。定时删除和延迟队列对于缓存这种场景来说，性能太差。
 
@@ -87,7 +87,7 @@
 2. 修改过期时间需要调整延迟队列中各个 key 的顺序。
 3. 延迟队列一般需要一个线程配合使用，如果引入这个线程，那么 Redis 就需要做更多并发控制，性能会下降。
 
-![图片](https://static001.geekbang.org/resource/image/f1/84/f13d9ea81e9587yyfef7421cf84d6084.png?wh=1920x799)
+![图片](https://static001.geekbang.org/resource/image/f1/84/f13d9ea81e9587yyfef7421cf84d6084.png?wh=1920x799){: referrerpolicy="no-referrer" }
 
 总的来说，你在回答的时候可以抓住关键点**性能**来回答。
 
@@ -103,7 +103,7 @@
 
 假如说现在 Redis 有 100 万 key，那么显然 Redis 在定期删除过期 key 的时候，是不可能遍历完这 100 万个 key 的。而 Redis 也确实没有遍历全部的 key，简单来说 Redis 会在每一个循环中遍历 DB。如果当次定期删除循环没有遍历完全部 DB，那么下一个循环就会从当次最后遍历的 DB 的下一个继续遍历下去。
 
-![图片](https://static001.geekbang.org/resource/image/51/68/517fc00a423affbe5cb88989659a3a68.png?wh=1920x799)
+![图片](https://static001.geekbang.org/resource/image/51/68/517fc00a423affbe5cb88989659a3a68.png?wh=1920x799){: referrerpolicy="no-referrer" }
 
 针对每一个 DB，都会有这样一个步骤。
 
@@ -127,7 +127,7 @@
 
 > 随机只是为了保证每个 key 都有一定概率被抽查到。假设说我们在每个 DB 内部都是从头遍历的话，那么如果每次遍历到中间，就没时间了，那么 DB 后面的 key 你可能永远也遍历不到。
 
-![图片](https://static001.geekbang.org/resource/image/62/cc/627222a024ca0c871d1e74a214c32acc.png?wh=1920x799)
+![图片](https://static001.geekbang.org/resource/image/62/cc/627222a024ca0c871d1e74a214c32acc.png?wh=1920x799){: referrerpolicy="no-referrer" }
 
 你可以进一步总结大部分缓存控制开销的套路，也就是**控制时间或者控制个数**。
 
@@ -141,7 +141,7 @@
 
 假如说 hz 的值是 N，那么就意味着每 1/N 秒就会执行一次后台任务。举例来说，如果 hz=10，那么就意味着每 100ms 执行一次后台任务。
 
-![图片](https://static001.geekbang.org/resource/image/21/76/210422533009e84bb629a06677221c76.png?wh=1920x799)
+![图片](https://static001.geekbang.org/resource/image/21/76/210422533009e84bb629a06677221c76.png?wh=1920x799){: referrerpolicy="no-referrer" }
 
 正常来说，Redis 这个值不要超过 100。越大就意味着后台任务执行的频率越高，CPU 使用率越高。
 
@@ -159,7 +159,7 @@
 
 注意，从库和主库的区别是，主库发现 key 过期后会执行删除操作。但是从库不会，从库会等待主库的删除命令。
 
-![图片](https://static001.geekbang.org/resource/image/43/be/43187e3a40c4ddae59e7c81d453df0be.png?wh=1920x799)
+![图片](https://static001.geekbang.org/resource/image/43/be/43187e3a40c4ddae59e7c81d453df0be.png?wh=1920x799){: referrerpolicy="no-referrer" }
 
 有时候面试官可能会问你，如果一个 key 过期了，那么还能不能拿到这个 key 的值？这时候你就应该知道，面试官问的是这个 Bug，你区分回答 3.2 之前的行为和 3.2 之后的行为就可以。
 
@@ -179,7 +179,7 @@ RDB 简单来说就是快照文件，也就是当 Redis 执行 SAVE 或者 BGSAV
 
 AOF 是之前我们就提到过的 Append Only File。Redis 用这个文件来逐条记录执行的修改数据的命令。不管 Redis 是定期删除，还是懒惰删除过期 key，**Redis 都会记录一条 DEL 命令**。
 
-![图片](https://static001.geekbang.org/resource/image/2e/7d/2e6975c57615715b55e0cd7a7f22c57d.png?wh=1920x682)
+![图片](https://static001.geekbang.org/resource/image/2e/7d/2e6975c57615715b55e0cd7a7f22c57d.png?wh=1920x682){: referrerpolicy="no-referrer" }
 
 因为每一条修改命令都要记录，所以 AOF 就会很大。这时候 Redis 就会考虑重写整个 AOF，也就是直接把整个内存中的数据写下来，写完就可以把之前的 AOF 文件都删了。在重写过程中，Redis 会忽略已经过期的 key。
 
@@ -193,7 +193,7 @@ AOF 是之前我们就提到过的 Append Only File。Redis 用这个文件来�
 
 所以在实践中就是根据你希望的缓存命中率来确定缓存过期时间。缓存命中率越高，就需要越多的缓存容量，越长的过期时间。
 
-![图片](https://static001.geekbang.org/resource/image/d5/bb/d57232565685c07e10ffec2ba0e70ebb.png?wh=1920x806)
+![图片](https://static001.geekbang.org/resource/image/d5/bb/d57232565685c07e10ffec2ba0e70ebb.png?wh=1920x806){: referrerpolicy="no-referrer" }
 
 所以你要**先揭示这三者之间的关系**，然后通过一个简单的例子说明你是如何确定具体的过期时间的。
 
@@ -268,7 +268,7 @@ AOF 是之前我们就提到过的 Append Only File。Redis 用这个文件来�
 - 从库是怎么处理过期 key 的？查询返回 NULL，删除等主库命令。
 - Redis 持久化怎么处理过期 key？对于 RDB 来说，主库不读不写，从库原封不动。对于 AOF 来说，正常追加 DEL 命令，重写则是不管。
 
-![](https://static001.geekbang.org/resource/image/1b/1e/1b3ac9cffdaa5b02bd4cyy0058cfc11e.jpg?wh=1948x2327)
+![](https://static001.geekbang.org/resource/image/1b/1e/1b3ac9cffdaa5b02bd4cyy0058cfc11e.jpg?wh=1948x2327){: referrerpolicy="no-referrer" }
 
 ## 思考题
 

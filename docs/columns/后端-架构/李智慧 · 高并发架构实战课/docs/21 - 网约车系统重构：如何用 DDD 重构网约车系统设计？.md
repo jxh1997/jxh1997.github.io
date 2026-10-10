@@ -16,15 +16,15 @@ Udi使用微服务架构，开始的时候业务比较简单，几个微服务�
 
 但是如果我们说要对C2C电子商务这个领域进行建模设计，那么这个范围就太大了，不知道该如何下手。所以通常的做法是把整个领域拆分成多个**子域**，比如用户、商品、订单、库存、物流、发票等。强相关的多个子域组成一个**限界上下文**，它是对业务领域范围的描述，对于系统实现而言，限界上下文相当于是一个子系统或者一个模块。限界上下文和子域共同组成组织的领域，如下：
 
-![图片](https://static001.geekbang.org/resource/image/29/fb/297fa4e7e64e9fcdf91e600f28d56cfb.jpg?wh=1280x917)
+![图片](https://static001.geekbang.org/resource/image/29/fb/297fa4e7e64e9fcdf91e600f28d56cfb.jpg?wh=1280x917){: referrerpolicy="no-referrer" }
 
 不同的限界上下文，也就是不同的子系统或者模块之间会有各种的交互合作。如何设计这些交互合作呢？DDD使用**上下文映射图**来完成，如下：
 
-![图片](https://static001.geekbang.org/resource/image/b6/a6/b661e8bfabe968794ae80d01b81f73a6.jpg?wh=1920x593)
+![图片](https://static001.geekbang.org/resource/image/b6/a6/b661e8bfabe968794ae80d01b81f73a6.jpg?wh=1920x593){: referrerpolicy="no-referrer" }
 
 在DDD中，领域模型对象也被称为**实体**。先通过业务分析，识别出实体对象，然后通过相关的业务逻辑，设计实体的属性和方法。而限界上下文和上下文映射图则是微服务设计的关键，通常在实践中，限界上下文被设计为微服务，而上下文映射图就是微服务之间的依赖关系。具体设计过程如下图：
 
-![图片](https://static001.geekbang.org/resource/image/cc/31/cc4aac65f24bfcfd2f965973070f3331.jpg?wh=1920x1279)
+![图片](https://static001.geekbang.org/resource/image/cc/31/cc4aac65f24bfcfd2f965973070f3331.jpg?wh=1920x1279){: referrerpolicy="no-referrer" }
 
 首先，领域专家和团队一起讨论分析业务领域，确认业务期望，将业务分解成若干个业务场景。然后，针对每个场景画UML活动图，活动图中包含泳道，通过高内聚原则对功能逻辑不断调整，使功能和泳道之间的归属关系变得更加清晰合理。**这些泳道最终就是限界上下文，泳道内的功能就是将来微服务的功能边界，泳道之间的调用流程关系，就是将来微服务之间的依赖关系，即上下文映射图。**
 
@@ -38,31 +38,31 @@ Udi使用微服务架构，开始的时候业务比较简单，几个微服务�
 
 首先分析我们的业务领域，通过头脑/事件风暴的形式，收集领域内的所有事件/命令，并识别事件/命令的发起方即对应的实体。最后识别出来的实体以及相关活动如下表：
 
-![图片](https://static001.geekbang.org/resource/image/09/29/09e53a303016b07a49da69aec0145729.jpg?wh=1920x1412)
+![图片](https://static001.geekbang.org/resource/image/09/29/09e53a303016b07a49da69aec0145729.jpg?wh=1920x1412){: referrerpolicy="no-referrer" }
 
 基于核心实体模型，绘制实体关系图，如下：
 
-![图片](https://static001.geekbang.org/resource/image/4f/81/4fc8ebe70deae09e043194b27e15ed81.png?wh=768x493)
+![图片](https://static001.geekbang.org/resource/image/4f/81/4fc8ebe70deae09e043194b27e15ed81.png?wh=768x493){: referrerpolicy="no-referrer" }
 
 在实体间关系明确且完整的前提下，我们就可以针对各个业务场景，绘制场景活动图。活动图比较多，这里仅用拼车场景作为示例，如下：
 
-![图片](https://static001.geekbang.org/resource/image/86/1b/8611bb0513340f6a0a46946ba34a8f1b.png?wh=1254x2248)
+![图片](https://static001.geekbang.org/resource/image/86/1b/8611bb0513340f6a0a46946ba34a8f1b.png?wh=1254x2248){: referrerpolicy="no-referrer" }
 
 依据各种重要场景的活动图，参考团队职责范围，结合微服务重用性考虑及非功能需求，产生限界上下文如下表：
 
-![图片](https://static001.geekbang.org/resource/image/59/93/597f2ccf6576d1acc4868600b66eea93.jpg?wh=1920x1709)
+![图片](https://static001.geekbang.org/resource/image/59/93/597f2ccf6576d1acc4868600b66eea93.jpg?wh=1920x1709){: referrerpolicy="no-referrer" }
 
 针对每个限界上下文进一步设计其内部的聚合、聚合根、实体、值对象、功能边界。以订单限界上下文为例：
 
-![图片](https://static001.geekbang.org/resource/image/99/e9/99452cc01307c21866a662ae1fe37ce9.jpg?wh=1920x1591)
+![图片](https://static001.geekbang.org/resource/image/99/e9/99452cc01307c21866a662ae1fe37ce9.jpg?wh=1920x1591){: referrerpolicy="no-referrer" }
 
 上述订单实体的属性和功能如下表：
 
-![图片](https://static001.geekbang.org/resource/image/ec/29/ecd11ebbec719a3b1beed7d7f8103029.jpg?wh=1920x954)
+![图片](https://static001.geekbang.org/resource/image/ec/29/ecd11ebbec719a3b1beed7d7f8103029.jpg?wh=1920x954){: referrerpolicy="no-referrer" }
 
 最后，在实现层面，设计对应的微服务架构如下图：
 
-![图片](https://static001.geekbang.org/resource/image/e3/41/e3efb97e6376f10774d99dd8d5cd8b41.png?wh=1188x998)
+![图片](https://static001.geekbang.org/resource/image/e3/41/e3efb97e6376f10774d99dd8d5cd8b41.png?wh=1188x998){: referrerpolicy="no-referrer" }
 
 这是一个基于领域模型的分层架构，最下层为聚合根对象，组合实体与值对象，完成核心业务逻辑处理。上面一层为领域服务层，主要调用聚合根对象完成订单子域的业务，根据业务情况，也会在这一层和其他微服务通信，完成更复杂的、超出当前实体职责的业务，所以这一层也是一个聚合层。
 

@@ -12,7 +12,7 @@
 
 具体的架构如下图所示：
 
-![](https://static001.geekbang.org/resource/image/1c/45/1c2cc4298788d157851d08b5a49e9b45.jpg?wh=1142%2A825)
+![](https://static001.geekbang.org/resource/image/1c/45/1c2cc4298788d157851d08b5a49e9b45.jpg?wh=1142%2A825){: referrerpolicy="no-referrer" }
 
 这个架构比较简单，App的服务端整体上就一个应用，由移动团队来维护所有对外接口，服务端内部有很多Jar包，比如商品搜索、商品详情、购物车等等，这些Jar包包含了各个业务线的业务逻辑及数据库访问，它们由各个业务线的开发者负责提供。
 
@@ -52,7 +52,7 @@
 
 整体架构如下图所示：
 
-![](https://static001.geekbang.org/resource/image/2e/a5/2e91cb605d041f27523d7183aae053a5.jpg?wh=1142%2A825)
+![](https://static001.geekbang.org/resource/image/2e/a5/2e91cb605d041f27523d7183aae053a5.jpg?wh=1142%2A825){: referrerpolicy="no-referrer" }
 
 对于各个业务团队来说，他们现在走向了前台，每个团队负责各个业务线的App接口。他们一般采取这样的做法，一方面，他们以Web应用的方式，为PC端浏览器提供访问；另一方面，针对移动端的访问需求，他们在Web应用里面，增加了一些REST接口，直接供App访问。在这里，移动接口和Web应用在同一个工程里开发，作为同一个应用进行部署和运行。
 
@@ -90,7 +90,7 @@
 
 拆分后的架构如下图所示：
 
-![](https://static001.geekbang.org/resource/image/b3/bd/b3ad4bbf52ed59e676d488642ffab4bd.jpg?wh=1142%2A476)
+![](https://static001.geekbang.org/resource/image/b3/bd/b3ad4bbf52ed59e676d488642ffab4bd.jpg?wh=1142%2A476){: referrerpolicy="no-referrer" }
 
 这样拆分的结果是，原来大的服务端变成了3个应用，包括一个App端接口应用，一个PC端Web应用，还有一个核心业务逻辑服务，3个部分都是独立维护和部署的。
 
@@ -104,7 +104,7 @@
 
 如下图所示：
 
-![](https://static001.geekbang.org/resource/image/d0/ec/d0e1b34d0f908391e1253fd1f93689ec.jpg?wh=1142%2A940)
+![](https://static001.geekbang.org/resource/image/d0/ec/d0e1b34d0f908391e1253fd1f93689ec.jpg?wh=1142%2A940){: referrerpolicy="no-referrer" }
 
 在这里，App前端会通过**移动网关**来访问服务端接口。这里的网关主要就是负责处理通用的系统级功能，包括通信协议适配、安全、监控、日志等等；网关处理完之后，会通过接口路由模块，转发请求到内部的各个业务服务，比如搜索服务、详情页服务、购物车服务等等。
 

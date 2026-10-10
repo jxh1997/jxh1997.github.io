@@ -133,7 +133,7 @@ type AppendEntriesRequest struct {
 
 首先，在初始状态下，集群中所有的节点都处于跟随者状态，函数runFollower()运行，大致的执行步骤，就像下图的样子：
 
-![](https://static001.geekbang.org/resource/image/28/15/28753c692659fa4017c6a943c3d05b15.jpg?wh=1142%2A723)
+![](https://static001.geekbang.org/resource/image/28/15/28753c692659fa4017c6a943c3d05b15.jpg?wh=1142%2A723){: referrerpolicy="no-referrer" }
 
 我带你走一遍这五个步骤，便于你加深印象。
 
@@ -145,7 +145,7 @@ type AppendEntriesRequest struct {
 
 当节点推举自己为候选人之后，函数runCandidate()执行，大致的执行步骤，如图所示：
 
-![](https://static001.geekbang.org/resource/image/98/4d/989efd10cdff6825356b8a4310e5704d.jpg?wh=1142%2A784)
+![](https://static001.geekbang.org/resource/image/98/4d/989efd10cdff6825356b8a4310e5704d.jpg?wh=1142%2A784){: referrerpolicy="no-referrer" }
 
 同样的，我们走一遍这个过程，加深一下印象。
 
@@ -156,7 +156,7 @@ type AppendEntriesRequest struct {
 
 当节点当选为领导者后，函数runLeader()就执行了：
 
-![](https://static001.geekbang.org/resource/image/17/3e/17619089bc683d8a1a2bd20bf678503e.jpg?wh=1142%2A998)
+![](https://static001.geekbang.org/resource/image/17/3e/17619089bc683d8a1a2bd20bf678503e.jpg?wh=1142%2A998){: referrerpolicy="no-referrer" }
 
 整个过程，主要有4个步骤。
 
@@ -211,7 +211,7 @@ type Log struct {
 
 日志复制是由领导者发起，在runLeader()函数中执行的，主要有这样几个步骤。
 
-![](https://static001.geekbang.org/resource/image/c2/63/c2aa9f2c31571e8cdc4dbe13ef210663.jpg?wh=1142%2A540)
+![](https://static001.geekbang.org/resource/image/c2/63/c2aa9f2c31571e8cdc4dbe13ef210663.jpg?wh=1142%2A540){: referrerpolicy="no-referrer" }
 
 1. 在 runLeader()函数中，调用startStopReplication()函数，执行日志复制功能。
 2. 启动一个新协程，调用replicate()函数，执行日志复制相关的功能。
@@ -225,7 +225,7 @@ type Log struct {
 
 领导者复制完日志后，跟随者会接收日志并开始处理日志。跟随者接收和处理日志，是在runFollower()函数中执行的，主要有这样几个步骤。
 
-![](https://static001.geekbang.org/resource/image/99/96/99458f26ef6387bc8b20b16380d46896.jpg?wh=1142%2A573)
+![](https://static001.geekbang.org/resource/image/99/96/99458f26ef6387bc8b20b16380d46896.jpg?wh=1142%2A573){: referrerpolicy="no-referrer" }
 
 1. 在runFollower()函数中，调用processRPC()函数，处理接收到的RPC消息。
 2. 在processRPC()函数中，调用appendEntries()函数，处理接收到的日志复制RPC请求。

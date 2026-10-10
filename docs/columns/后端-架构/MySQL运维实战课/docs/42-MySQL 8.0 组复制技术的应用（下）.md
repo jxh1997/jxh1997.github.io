@@ -20,7 +20,7 @@ MGR集群中，提交事务前，需要将事务广播到集群中，等集群�
 
 通过冲突检测的事务，在源节点上可以进行提交。在其他节点上，事务消息中的Binlog写入到Relay Log中。协调线程和Worker线程负责事务的应用。借助官方文档中的组复制的示意图，我标注了事务执行的三个阶段，你可以看一下。
 
-![图片](https://static001.geekbang.org/resource/image/b3/cb/b3d014cdf68126cd961e8305aaa4c8cb.png?wh=1350x620)
+![图片](https://static001.geekbang.org/resource/image/b3/cb/b3d014cdf68126cd961e8305aaa4c8cb.png?wh=1350x620){: referrerpolicy="no-referrer" }
 
 ## 发送消息
 
@@ -28,7 +28,7 @@ MGR集群中，提交事务前，需要将事务广播到集群中，等集群�
 
 MySQL在代码的特定位置处加入钩子函数（HOOK），插件通过实现钩子函数，来完成特定的目的。Group replication插件实现了事务处理中的一些钩子，来完成MGR的功能。我在表格中整理了group replication实现的钩子函数，你可以看一下。
 
-![图片](https://static001.geekbang.org/resource/image/1b/98/1b4950a5a9c760c4705eac5cba01cc98.png?wh=1526x1386)
+![图片](https://static001.geekbang.org/resource/image/1b/98/1b4950a5a9c760c4705eac5cba01cc98.png?wh=1526x1386){: referrerpolicy="no-referrer" }
 
 ### 事务消息
 
@@ -39,7 +39,7 @@ MySQL在代码的特定位置处加入钩子函数（HOOK），插件通过实�
 
 a) 对事务中修改的每一行数据，根据所修改表的主键和唯一索引，按固定格式拼接得到一串数据。拼接格式可以参考下面这张图。
 
-![图片](https://static001.geekbang.org/resource/image/71/a0/715db506d43b31699ddb4b67db10d3a0.png?wh=1400x182)  
+![图片](https://static001.geekbang.org/resource/image/71/a0/715db506d43b31699ddb4b67db10d3a0.png?wh=1400x182)  {: referrerpolicy="no-referrer" }
 b) 计算拼接得到的数据的hash值。
 
 c) 将hash值加入到writeset。
@@ -52,7 +52,7 @@ writeset和snapshot\_version用来检测不同节点上事务修改的数据是�
 
 MGR集群中的节点，通过GCS（Group Communication System）来发送和接收消息。
 
-![图片](https://static001.geekbang.org/resource/image/4a/32/4a61f2d75a2b417edc6b92d7072ebd32.jpg?wh=1660x1041)
+![图片](https://static001.geekbang.org/resource/image/4a/32/4a61f2d75a2b417edc6b92d7072ebd32.jpg?wh=1660x1041){: referrerpolicy="no-referrer" }
 
 消息处理主要由几个线程来完成。
 
@@ -213,7 +213,7 @@ end:
 
 对于事务消息，会经过applier线程内部的流水线，依次进行处理。流水线上的三个模块分别是Event\_cataloger、Certification\_handler、Applier\_handler。
 
-![图片](https://static001.geekbang.org/resource/image/2b/9a/2b107079186f59f3d5d5941ae899bd9a.png?wh=1658x228)
+![图片](https://static001.geekbang.org/resource/image/2b/9a/2b107079186f59f3d5d5941ae899bd9a.png?wh=1658x228){: referrerpolicy="no-referrer" }
 
 其中Certification\_handler一个很重要的工作，是执行事务的冲突检测。Applier\_handler会把通过冲突检测的事务的Binlog，写入到Relay Log中。Applier\_handler只是将Binlog写到Relay Log中，这些Binlog，最终会通过数据复制中的SQL线程和Worker线程来执行。
 
@@ -223,7 +223,7 @@ MGR开启多主模式后，每个节点都能修改数据。多个节点同时�
 
 我们通过一个例子来理解冲突检测算法。
 
-![图片](https://static001.geekbang.org/resource/image/32/02/323d0e81b440c80e973f58f76a840202.jpg?wh=1658x1208)
+![图片](https://static001.geekbang.org/resource/image/32/02/323d0e81b440c80e973f58f76a840202.jpg?wh=1658x1208){: referrerpolicy="no-referrer" }
 
 上面这张图中，节点A和节点B在差不多同一个时间都开启了一个事务，修改了同一个表的同一行记录。
 
@@ -245,7 +245,7 @@ Applier线程依次处理这两个事务。假设处理事务1时，没有发现
 
 我们再来看另外一个场景，节点A和节点B还是执行了同样的两个事务。
 
-![图片](https://static001.geekbang.org/resource/image/14/eb/140892f6156b6c1fd7838d4a153aaaeb.jpg?wh=1676x1509)
+![图片](https://static001.geekbang.org/resource/image/14/eb/140892f6156b6c1fd7838d4a153aaaeb.jpg?wh=1676x1509){: referrerpolicy="no-referrer" }
 
 这次，节点B的事务稍微晚了一些执行，执行的时候，节点A的事务1已经复制到了节点B，并且在节点B提交了。因此，节点B执行事务2的时候，快照版本是{…, gtid1, gtid2, gtid3 }。
 
@@ -293,7 +293,7 @@ Applier线程在对事务2进行冲突检测时，从认证数据库中获取到
 
 如果一致性等级设置为BEFORE，那么事务启动时，需要先等排在当前事务前面的事务全部应用完成后才能开始执行。从备库上读取数据时，将一致性等级设置为BEFORE，可以保证读取到数据的正确版本。比如下面图里的这些事务，如果备节点上一致性等级设置为BEFORE，那么事务3执行时，会等待事务2应用完成，因此能读取到正确的数据。
 
-![图片](https://static001.geekbang.org/resource/image/1a/95/1ac61d7fec586db620c64557yy45d895.jpg?wh=1145x258)
+![图片](https://static001.geekbang.org/resource/image/1a/95/1ac61d7fec586db620c64557yy45d895.jpg?wh=1145x258){: referrerpolicy="no-referrer" }
 
 这个设置会影响备节点上读取数据的性能。
 
@@ -311,7 +311,7 @@ Applier线程在对事务2进行冲突检测时，从认证数据库中获取到
 
 如果会话的一致性等级设置为BEFORE或BEFORE\_AND\_AFTER，那么开启事务前，需要先向MGR集群广播一条同步消息（Sync\_before\_execution\_message)，本节点收到并处理这条同步消息后，获取applier通道接收到的事务的GTID SET，然后等待applier通道中的事务全部回放完成。
 
-![图片](https://static001.geekbang.org/resource/image/3e/45/3ed71f7a1d7361b071030953d60a0545.jpg?wh=1434x1176)
+![图片](https://static001.geekbang.org/resource/image/3e/45/3ed71f7a1d7361b071030953d60a0545.jpg?wh=1434x1176){: referrerpolicy="no-referrer" }
 
 使用同步消息的主要目的是等待本节点先处理完成同步消息之前的消息，也就是要等集群中排在前事务前面的那些事务，Binlog都同步到了本地的Relay Log中，然后再等待Relay Log中的事务执行完成，才开始执行当前事务。
 
@@ -321,7 +321,7 @@ Applier线程在对事务2进行冲突检测时，从认证数据库中获取到
 
 如果会话的一致性等级设置为AFTER或BEFORE\_AND\_AFTER，那么事务提交前，需要等待MGR集群中的其他节点完成提交，准确地说，是等待这个事务，在其他节点上都完成Prepare后，才能在本地节点完成提交。
 
-![图片](https://static001.geekbang.org/resource/image/ac/8a/ac1935c7ac4b7aa88e25fc1bf067998a.jpg?wh=1744x1190)
+![图片](https://static001.geekbang.org/resource/image/ac/8a/ac1935c7ac4b7aa88e25fc1bf067998a.jpg?wh=1744x1190){: referrerpolicy="no-referrer" }
 
 实现方式可以参考上面这张图。
 
@@ -372,7 +372,7 @@ mysql> show variables like '%flow_control%';
 
 下面这个表格中，整理了流控依赖的指标。
 
-![图片](https://static001.geekbang.org/resource/image/95/0e/9521464a5e430e59b171afe8dcc7330e.png?wh=1920x1145)
+![图片](https://static001.geekbang.org/resource/image/95/0e/9521464a5e430e59b171afe8dcc7330e.png?wh=1920x1145){: referrerpolicy="no-referrer" }
 
 流控模块还需确定限流的配额（quota\_size），也就是一个流控周期内集群中允许提交的事务数。配额主要基于集群中处理能力最弱的节点来计算，大致逻辑如下：
 

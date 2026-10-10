@@ -21,11 +21,11 @@ RPC调用的原理与此类似，我习惯把服务消费者叫作**客户端**�
 
 HTTP通信是基于应用层HTTP协议的，而HTTP协议又是基于传输层TCP协议的。一次HTTP通信过程就是发起一次HTTP调用，而一次HTTP调用就会建立一个TCP连接，经历一次下图所示的“[三次握手](http://condor.depaul.edu/jkristof/technotes/tcp.html)”的过程来建立连接。
 
-![](https://static001.geekbang.org/resource/image/61/bd/61bfb298c82c441681fb88b7519ecebd.jpg?wh=806%2A535)
+![](https://static001.geekbang.org/resource/image/61/bd/61bfb298c82c441681fb88b7519ecebd.jpg?wh=806%2A535){: referrerpolicy="no-referrer" }
 
 完成请求后，再经历一次“四次挥手”的过程来断开连接。
 
-![](https://static001.geekbang.org/resource/image/cb/6f/cb614475054bc5895013748c1139a66f.jpg?wh=852%2A568)
+![](https://static001.geekbang.org/resource/image/cb/6f/cb614475054bc5895013748c1139a66f.jpg?wh=852%2A568){: referrerpolicy="no-referrer" }
 
 **2. Socket通信**
 
@@ -38,7 +38,7 @@ Socket通信是基于TCP/IP协议的封装，建立一次Socket连接至少需�
 
 直接理解可能有点抽象，你可以把这个过程套入前面我举的“打电话”的例子，可以方便你理解Socket通信过程。
 
-![](https://static001.geekbang.org/resource/image/14/94/14362fab592dee5226bb498e3e46e994.jpg?wh=280%2A354)
+![](https://static001.geekbang.org/resource/image/14/94/14362fab592dee5226bb498e3e46e994.jpg?wh=280%2A354){: referrerpolicy="no-referrer" }
 
 当客户端和服务端建立网络连接后，就可以发起请求了。但网络不一定总是可靠的，经常会遇到网络闪断、连接超时、服务端宕机等各种异常，通常的处理手段有两种。
 
@@ -73,7 +73,7 @@ Socket通信是基于TCP/IP协议的封装，建立一次Socket连接至少需�
 
 以HTTP协议为例，下图展示了一段采用HTTP协议传输的数据响应报文，主要分为消息头和消息体两部分，其中消息头中存放的是协议的公共字段，比如Server代表是服务端服务器类型、Content-Length代表返回数据的长度、Content-Type代表返回数据的类型；消息体中存放的是具体的返回结果，这里就是一段HTML网页代码。
 
-![](https://static001.geekbang.org/resource/image/e2/b7/e2b3614e1ea94b08b903d00757a3feb7.png?wh=1194%2A852)
+![](https://static001.geekbang.org/resource/image/e2/b7/e2b3614e1ea94b08b903d00757a3feb7.png?wh=1194%2A852){: referrerpolicy="no-referrer" }
 
 ## 数据该如何序列化和反序列化？
 

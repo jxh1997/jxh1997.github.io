@@ -14,7 +14,7 @@
 
 在SQL中，我们可以使用WHERE子句对条件进行筛选，在此之前，你需要了解WHERE子句中的比较运算符。这些比较运算符的含义你可以参见下面这张表格：
 
-![](https://static001.geekbang.org/resource/image/3a/e0/3a2667784b4887ef15becc7056f3d3e0.png?wh=799%2A545)
+![](https://static001.geekbang.org/resource/image/3a/e0/3a2667784b4887ef15becc7056f3d3e0.png?wh=799%2A545){: referrerpolicy="no-referrer" }
 
 实际上你能看到，同样的含义可能会有多种表达方式，比如小于等于，可以是（&lt;=），也可以是不大于（!&gt;）。同样不等于，可以用（&lt;&gt;），也可以用（!=），它们的含义都是相同的，但这些符号的顺序都不能颠倒，比如你不能写（=&lt;）。需要注意的是，你需要查看使用的DBMS是否支持，不同的DBMS支持的运算符可能是不同的，比如Access不支持（!=），不等于应该使用（&lt;&gt;）。在MySQL中，不支持（!&gt;）（!&lt;）等。
 
@@ -30,7 +30,7 @@ SQL：SELECT name, hp_max FROM heros WHERE hp_max > 6000
 
 运行结果（41条记录）：
 
-![](https://static001.geekbang.org/resource/image/9f/c1/9f639dfe0bd9dbfc63944447f92e47c1.png?wh=790%2A323)
+![](https://static001.geekbang.org/resource/image/9f/c1/9f639dfe0bd9dbfc63944447f92e47c1.png?wh=790%2A323){: referrerpolicy="no-referrer" }
 
 想要查询所有最大生命值在5399到6811之间的英雄：
 
@@ -40,7 +40,7 @@ SQL：SELECT name, hp_max FROM heros WHERE hp_max BETWEEN 5399 AND 6811
 
 运行结果：（41条记录）
 
-![](https://static001.geekbang.org/resource/image/4b/60/4b11a5f32f3f2807c8278f8d5637d460.png?wh=798%2A324)
+![](https://static001.geekbang.org/resource/image/4b/60/4b11a5f32f3f2807c8278f8d5637d460.png?wh=798%2A324){: referrerpolicy="no-referrer" }
 
 需要注意的是`hp_max`可以取值到最小值和最大值，即5399和6811。
 
@@ -56,7 +56,7 @@ SQL：SELECT name, hp_max FROM heros WHERE hp_max IS NULL
 
 我刚才介绍了比较运算符，如果我们存在多个WHERE条件子句，可以使用逻辑运算符：
 
-![](https://static001.geekbang.org/resource/image/ae/c1/aeed170c57ae1e5378fbee9f8fb6a8c1.png?wh=796%2A272)
+![](https://static001.geekbang.org/resource/image/ae/c1/aeed170c57ae1e5378fbee9f8fb6a8c1.png?wh=796%2A272){: referrerpolicy="no-referrer" }
 
 我们还是通过例子来看下这些逻辑运算符的使用，同样采用heros这张表的数据查询。
 
@@ -68,7 +68,7 @@ SQL：SELECT name, hp_max, mp_max FROM heros WHERE hp_max > 6000 AND mp_max > 17
 
 运行结果：（23条记录）
 
-![](https://static001.geekbang.org/resource/image/85/4e/859e7e9fcf28a30f9189ef81cfe7284e.png?wh=821%2A323)
+![](https://static001.geekbang.org/resource/image/85/4e/859e7e9fcf28a30f9189ef81cfe7284e.png?wh=821%2A323){: referrerpolicy="no-referrer" }
 
 如果AND和OR同时存在WHERE子句中会是怎样的呢？假设我们想要查询最大生命值加最大法力值大于8000的英雄，或者最大生命值大于6000并且最大法力值大于1700的英雄。
 
@@ -78,7 +78,7 @@ SQL：SELECT name, hp_max, mp_max FROM heros WHERE (hp_max+mp_max) > 8000 OR hp_
 
 运行结果：（33条记录）
 
-![](https://static001.geekbang.org/resource/image/05/ae/052c1fb7031d025d5e0c0027177187ae.png?wh=823%2A322)
+![](https://static001.geekbang.org/resource/image/05/ae/052c1fb7031d025d5e0c0027177187ae.png?wh=823%2A322){: referrerpolicy="no-referrer" }
 
 你能看出来相比于上一个条件查询，这次的条件查询多出来了10个英雄，这是因为我们放宽了条件，允许最大生命值+最大法力值大于8000的英雄显示出来。另外你需要注意到，当WHERE子句中同时存在OR和AND的时候，AND执行的优先级会更高，也就是说SQL会优先处理AND操作符，然后再处理OR操作符。
 
@@ -90,7 +90,7 @@ SQL：SELECT name, hp_max, mp_max FROM heros WHERE ((hp_max+mp_max) > 8000 OR hp
 
 运行结果：
 
-![](https://static001.geekbang.org/resource/image/1a/c9/1a41124faad3aac6e8170a72e65de5c9.png?wh=820%2A325)
+![](https://static001.geekbang.org/resource/image/1a/c9/1a41124faad3aac6e8170a72e65de5c9.png?wh=820%2A325){: referrerpolicy="no-referrer" }
 
 所以当WHERE子句中同时出现AND和OR操作符的时候，你需要考虑到执行的先后顺序，也就是两个操作符执行的优先级。一般来说()优先级最高，其次优先级是AND，然后是OR。
 
@@ -111,7 +111,7 @@ ORDER BY (hp_max + mp_max) DESC
 
 这是运行结果（6条记录）：
 
-![](https://static001.geekbang.org/resource/image/70/8e/7048f6ff11215b6d0113b2370103828e.png?wh=981%2A369)
+![](https://static001.geekbang.org/resource/image/70/8e/7048f6ff11215b6d0113b2370103828e.png?wh=981%2A369){: referrerpolicy="no-referrer" }
 
 ## 使用通配符进行过滤
 
@@ -125,7 +125,7 @@ SQL：SELECT name FROM heros WHERE name LIKE '%太%'
 
 运行结果：（2条记录）
 
-![](https://static001.geekbang.org/resource/image/b1/18/b18de17c2517d7c06c56f324309c4c18.png?wh=199%2A183)  
+![](https://static001.geekbang.org/resource/image/b1/18/b18de17c2517d7c06c56f324309c4c18.png?wh=199%2A183)  {: referrerpolicy="no-referrer" }
 需要说明的是不同DBMS对通配符的定义不同，在Access中使用的是（\*）而不是（%）。另外关于字符串的搜索可能是需要区分大小写的，比如`'liu%'`就不能匹配上`'LIU BEI'`。具体是否区分大小写还需要考虑不同的DBMS以及它们的配置。
 
 如果我们想要匹配单个字符，就需要使用下划线(*)通配符。（%）和（*）的区别在于，（%）代表零个或多个字符，而（\_）只代表一个字符。比如我们想要查找英雄名除了第一个字以外，包含‘太’字的英雄有哪些。
@@ -136,7 +136,7 @@ SQL：SELECT name FROM heros WHERE name LIKE '_%太%'
 
 运行结果（1条记录）：
 
-![](https://static001.geekbang.org/resource/image/ab/65/ab30c809327a81ee00ce4989e7815065.png?wh=197%2A123)
+![](https://static001.geekbang.org/resource/image/ab/65/ab30c809327a81ee00ce4989e7815065.png?wh=197%2A123){: referrerpolicy="no-referrer" }
 
 因为太乙真人的太是第一个字符，而`_%太%`中的太不是在第一个字符，所以匹配不到“太乙真人”，只可以匹配上“东皇太一”。
 
@@ -152,7 +152,7 @@ SQL：SELECT name FROM heros WHERE name LIKE '_%太%'
 
 你可能认为学习SQL并不难，掌握这些语法就可以对数据进行筛选查询。但实际工作中不同人写的SQL语句的查询效率差别很大，保持高效率的一个很重要的原因，就是要避免全表扫描，所以我们会考虑在WHERE及ORDER BY涉及到的列上增加索引。
 
-![](https://static001.geekbang.org/resource/image/fb/50/fbd79c2c90a58891b498e7f29d935050.jpg?wh=3341%2A1713)
+![](https://static001.geekbang.org/resource/image/fb/50/fbd79c2c90a58891b498e7f29d935050.jpg?wh=3341%2A1713){: referrerpolicy="no-referrer" }
 
 你能说一下WHERE子句中比较运算符、逻辑运算符和通配符这三者各自的作用吗？以heros数据表为例，请你编写SQL语句，对英雄名称、主要定位、次要定位、最大生命和最大法力进行查询，筛选条件为：主要定位是坦克或者战士，并且次要定位不为空，同时满足最大生命值大于8000或者最大法力小于1500的英雄，并且按照最大生命和最大法力之和从高到底的顺序进行排序。
 

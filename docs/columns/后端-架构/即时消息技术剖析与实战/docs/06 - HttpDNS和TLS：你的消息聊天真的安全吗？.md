@@ -52,7 +52,7 @@
 
 当然，调度精准的另一个前提是HttpDNS服务自身需要有比较全的IP库来支持。目前很多大厂也基本都支持HttpDNS为主，运营商LocalDNS为辅的模式了，像很多第三方云厂商也提供对外的HttpDNS解析服务。HttpDNS的实现架构如下图：
 
-![](https://static001.geekbang.org/resource/image/75/73/75ed50f7ba71865a8b68f1bdb376fe73.png?wh=1965%2A1392)
+![](https://static001.geekbang.org/resource/image/75/73/75ed50f7ba71865a8b68f1bdb376fe73.png?wh=1965%2A1392){: referrerpolicy="no-referrer" }
 
 这里介绍一下这张图。用户的请求不再通过运营商来查询域名的解析，而是通过HTTP独立提供的一个方法来进行查询，这个HTTP接口后端再去向权威DNS请求，以及去做一个数据的同步。
 

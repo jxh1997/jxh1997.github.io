@@ -90,7 +90,7 @@ void propagateExpire(redisDb *db, robj *key, int lazy) {
 
 为了便于你更直观地理解这个流程，我也画了一张图，你可以参考下。
 
-![](https://static001.geekbang.org/resource/image/74/9f/74200fb7ccbcb0cyya8cff7189e5009f.jpg?wh=1852x858)
+![](https://static001.geekbang.org/resource/image/74/9f/74200fb7ccbcb0cyya8cff7189e5009f.jpg?wh=1852x858){: referrerpolicy="no-referrer" }
 
 这样接下来，freeMemoryIfNeeded函数就会开始执行删除操作。
 
@@ -249,7 +249,7 @@ if (de) {
 
 另外，你也可以根据下图来整体回顾下这个执行过程。
 
-![](https://static001.geekbang.org/resource/image/2e/cb/2ec7fcd7a52f4d5e1f2cf78bd44e5acb.jpg?wh=2000x916)
+![](https://static001.geekbang.org/resource/image/2e/cb/2ec7fcd7a52f4d5e1f2cf78bd44e5acb.jpg?wh=2000x916){: referrerpolicy="no-referrer" }
 
 好，那么现在，我们也就了解了基于异步删除的数据淘汰过程，实际上会根据要删除的键值对包含的元素个数，来决定是实际使用后台线程还是主线程来进行删除操作。
 
@@ -368,7 +368,7 @@ void decrRefCount(robj *o) {
 
 我也画了一张图，来展示decrRefCount函数的基本执行逻辑，你可以看下。
 
-![](https://static001.geekbang.org/resource/image/1e/74/1e242ba4cf7bc7b5a34543bfea6d7474.jpg?wh=2000x865)
+![](https://static001.geekbang.org/resource/image/1e/74/1e242ba4cf7bc7b5a34543bfea6d7474.jpg?wh=2000x865){: referrerpolicy="no-referrer" }
 
 所以说，基于同步删除的数据淘汰过程，其实就是通过dictDelete函数，将被淘汰键值对从全局哈希表移除，并通过dictFreeKey、dictFreeVal和zfree三个函数来释放内存空间。而通过以上内容的学习，你就已经知道释放value空间的函数是decrRefCount函数，它会根据value的引用计数和类型，最终调用不同数据类型的释放函数来完成内存空间的释放。
 

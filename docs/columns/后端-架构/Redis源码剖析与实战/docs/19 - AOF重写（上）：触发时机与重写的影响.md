@@ -158,7 +158,7 @@ int rewriteAppendOnlyFileBackground(void) {
 
 下图就展示了rewriteAppendOnlyFileBackground函数执行的基本逻辑、主进程和AOF重写子进程各自执行的内容，以及主进程和子进程间的通信过程，你可以再来整体回顾下。
 
-![](https://static001.geekbang.org/resource/image/01/dd/01ce2381652fee284c081f7a376006dd.jpg?wh=2000x1125)
+![](https://static001.geekbang.org/resource/image/01/dd/01ce2381652fee284c081f7a376006dd.jpg?wh=2000x1125){: referrerpolicy="no-referrer" }
 
 到这里，我们就大概掌握了AOF重写的基本执行过程。但是在这里，你可能还会有疑问，比如说，AOF重写的子进程和父进程，它们之间的通信过程是怎么样的呢？
 

@@ -27,7 +27,7 @@
 
 我们假设从上到下是按照时间顺序执行的，同一行语句是在同一时刻执行的。
 
-![](https://static001.geekbang.org/resource/image/5e/97/5e716ba1d464c8224c1c1f36135d0e97.png?wh=943%2A362)
+![](https://static001.geekbang.org/resource/image/5e/97/5e716ba1d464c8224c1c1f36135d0e97.png?wh=943%2A362){: referrerpolicy="no-referrer" }
 
 图1 会话A、B、C的执行流程
 
@@ -82,7 +82,7 @@ Redis的数据不能永久地留在内存里，所以你会找一个地方把这
 
 我们一起来看看这个时序图。
 
-![](https://static001.geekbang.org/resource/image/39/33/39898af053695dad37227d71ae288e33.png?wh=731%2A268)
+![](https://static001.geekbang.org/resource/image/39/33/39898af053695dad37227d71ae288e33.png?wh=731%2A268){: referrerpolicy="no-referrer" }
 
 图2 会话A、B执行时序图
 
@@ -92,7 +92,7 @@ Redis的数据不能永久地留在内存里，所以你会找一个地方把这
 
 你一定会说，这是因为我们执行新增记录逻辑时候，是先写数据表，再改Redis计数。而读的时候是先读Redis，再读数据表，这个顺序是相反的。那么，如果保持顺序一样的话，是不是就没问题了？我们现在把会话A的更新顺序换一下，再看看执行结果。
 
-![](https://static001.geekbang.org/resource/image/5c/db/5c2f786beae1d8917cdc5033b7bf0bdb.png?wh=741%2A323)
+![](https://static001.geekbang.org/resource/image/5c/db/5c2f786beae1d8917cdc5033b7bf0bdb.png?wh=741%2A323){: referrerpolicy="no-referrer" }
 
 图3 调整顺序后，会话A、B的执行时序图
 
@@ -118,7 +118,7 @@ Redis的数据不能永久地留在内存里，所以你会找一个地方把这
 
 所谓以子之矛攻子之盾，现在我们就利用“事务”这个特性，把问题解决掉。
 
-![](https://static001.geekbang.org/resource/image/9e/e3/9e4170e2dfca3524eb5e92adb8647de3.png?wh=719%2A392)
+![](https://static001.geekbang.org/resource/image/9e/e3/9e4170e2dfca3524eb5e92adb8647de3.png?wh=719%2A392){: referrerpolicy="no-referrer" }
 
 图4 会话A、B的执行时序图
 

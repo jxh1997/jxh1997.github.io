@@ -190,7 +190,7 @@ where id in (
 
 EXPLAIN的输出中包含以下字段：
 
-![图片](https://static001.geekbang.org/resource/image/10/cb/108b835cb05b6873ee6b2ae13abfbdcb.jpg?wh=1920x1274)
+![图片](https://static001.geekbang.org/resource/image/10/cb/108b835cb05b6873ee6b2ae13abfbdcb.jpg?wh=1920x1274){: referrerpolicy="no-referrer" }
 
 ### ID
 

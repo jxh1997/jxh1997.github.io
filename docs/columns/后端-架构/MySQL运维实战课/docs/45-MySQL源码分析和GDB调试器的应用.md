@@ -143,23 +143,23 @@ include目录里是InnoDB代码使用的一些头文件。
 
 fil0types.h中定义了InnoDB页面的基本格式，这里定义了页面头部和尾部中各个字段在页面内的偏移地址。
 
-![图片](https://static001.geekbang.org/resource/image/9e/ae/9eac015161963d542f6a045c13af91ae.png?wh=1310x1148)
+![图片](https://static001.geekbang.org/resource/image/9e/ae/9eac015161963d542f6a045c13af91ae.png?wh=1310x1148){: referrerpolicy="no-referrer" }
 
 fsp0fsp.h中定义了文件头（Space Header）的格式，还定义了Inode、区描述符（XDES）等这些用来管理文件空间的数据结构的存储格式。
 
-![图片](https://static001.geekbang.org/resource/image/c4/73/c4201d80fff8378c9d4429a290de5373.png?wh=1326x1314)
+![图片](https://static001.geekbang.org/resource/image/c4/73/c4201d80fff8378c9d4429a290de5373.png?wh=1326x1314){: referrerpolicy="no-referrer" }
 
 page0types.h中定义了B+树页面头的格式。
 
-![图片](https://static001.geekbang.org/resource/image/e1/66/e194558ca269e784f7824c6831051166.png?wh=1302x888)
+![图片](https://static001.geekbang.org/resource/image/e1/66/e194558ca269e784f7824c6831051166.png?wh=1302x888){: referrerpolicy="no-referrer" }
 
 在代码里搜索这里定义的常量，能很快找到使用这些常量的代码，就能理解这些字段的作用。比如搜索PAGE\_HEAP\_TOP，看到函数page\_mem\_alloc\_heap中会写入这个字段（page0page.cc 243行）。
 
-![图片](https://static001.geekbang.org/resource/image/4e/e4/4e9d538b4b123fec083ba273bebc0ae4.png?wh=1454x1162)
+![图片](https://static001.geekbang.org/resource/image/4e/e4/4e9d538b4b123fec083ba273bebc0ae4.png?wh=1454x1162){: referrerpolicy="no-referrer" }
 
 再搜索page\_mem\_alloc\_heap，发现这个函数在insert时被调用（page0cur.cc page\_cur\_insert\_rec\_low），然后就可以看到insert的记录是怎么写到数据块中了（参考page\_cur\_insert\_rec\_low中标了编号的几行代码注释）。
 
-![图片](https://static001.geekbang.org/resource/image/16/34/161017495c4be2412ebfb699dyy9c434.png?wh=1604x1254)
+![图片](https://static001.geekbang.org/resource/image/16/34/161017495c4be2412ebfb699dyy9c434.png?wh=1604x1254){: referrerpolicy="no-referrer" }
 
 根据这几个头文件，再到代码中搜索和分析使用了这些常量的一些代码，就能整理出[25](https://time.geekbang.org/column/article/804972)、[26](https://time.geekbang.org/column/article/816184)这两讲中的页面物理格式了。
 
@@ -167,7 +167,7 @@ page0types.h中定义了B+树页面头的格式。
 
 rem目录下是定义和操作行记录格式的代码。rem0rec.cc里定义了InnoDB支持的两大类行格式，一类是REDUNDANT格式，也就是注释中的“OLD STYLE”，另一类是Compact类型，包括compact、dynamic、compressed，也就是注释中的“NEW STYLE”。
 
-![图片](https://static001.geekbang.org/resource/image/3b/ce/3b07c08973f62046a21be87cb18ebace.png?wh=1170x1208)
+![图片](https://static001.geekbang.org/resource/image/3b/ce/3b07c08973f62046a21be87cb18ebace.png?wh=1170x1208){: referrerpolicy="no-referrer" }
 
 #### page
 
@@ -207,11 +207,11 @@ fsp目录中是InnoDB表空间管理的相关代码，包括分配页面、释�
 
 hander目录下是MySQL 存储引擎Handler接口的实现代码。MySQL Server层调用InnoDB Handler代码，读取或写入数据，提交或回滚事务。类ha\_innobase中实现了访问InnoDB数据的函数。
 
-![图片](https://static001.geekbang.org/resource/image/0f/b1/0fd58956828d9fe5de56d4844fbf07b1.png?wh=1356x1446)
+![图片](https://static001.geekbang.org/resource/image/0f/b1/0fd58956828d9fe5de56d4844fbf07b1.png?wh=1356x1446){: referrerpolicy="no-referrer" }
 
 函数innodb\_init中设置了一系列给server层调用的函数。加载InnoDB插件时调用这个函数。
 
-![图片](https://static001.geekbang.org/resource/image/08/00/08318a717cyydc968c660e5dceebac00.png?wh=1324x1274)
+![图片](https://static001.geekbang.org/resource/image/08/00/08318a717cyydc968c660e5dceebac00.png?wh=1324x1274){: referrerpolicy="no-referrer" }
 
 #### log
 
@@ -241,7 +241,7 @@ srv目录下，包括了InnoDB一些服务线程的代码，如srv\_master\_thre
 
 这里，我介绍一款轻量，但功能强大的源代码编辑器，VSCode。安装上C/C++扩展后，使用VSCode可以方便地分析MySQL源码。VSCode还可以整合编译、调试工具，不过这里我只用了代码分析功能。如果你有兴趣，也可以尝试在VSCode中整合调试工具。
 
-![图片](https://static001.geekbang.org/resource/image/7c/49/7c3a51702a365f9e8ebf135c87b09a49.png?wh=1232x1108)
+![图片](https://static001.geekbang.org/resource/image/7c/49/7c3a51702a365f9e8ebf135c87b09a49.png?wh=1232x1108){: referrerpolicy="no-referrer" }
 
 ### 使用VSCode分析代码
 
@@ -251,33 +251,33 @@ srv目录下，包括了InnoDB一些服务线程的代码，如srv\_master\_thre
 
 innobase/trx/trx0trx.cc中有一个函数trx\_recover\_for\_mysql，看起来和崩溃恢复有关，我们就从这个函数开始分析。
 
-![图片](https://static001.geekbang.org/resource/image/37/2d/3758b4b80b540bb194a699ab430b8b2d.png?wh=1438x1246)
+![图片](https://static001.geekbang.org/resource/image/37/2d/3758b4b80b540bb194a699ab430b8b2d.png?wh=1438x1246){: referrerpolicy="no-referrer" }
 
 这个函数的逻辑比较简单，就是统计trx\_sys-&gt;rw\_trx\_list中状态为TRX\_STATE\_PREPARED的事务，函数的返回值就是Prepared状态的事务数。
 
 这里还调用了一个函数get\_info\_about\_prepared\_transaction，可以直接跳转到函数的定义中。这里还有一点值得注意，函数get\_info\_about\_prepared\_transaction的第一个参数，传入了一个指针，指向trx\_list的第N个元素，调用这个函数后，就把第N个Prepared状态的事务加到了trx\_list中。
 
-![图片](https://static001.geekbang.org/resource/image/e5/00/e568f3a25665d79a15992db0464b9500.png?wh=1300x726)
+![图片](https://static001.geekbang.org/resource/image/e5/00/e568f3a25665d79a15992db0464b9500.png?wh=1300x726){: referrerpolicy="no-referrer" }
 
 #### 链表trx\_sys-&gt;rw\_trx\_list的数据从哪里来？
 
 那么数据库启动时，rw\_trx\_list里的数据是从哪里来的呢？使用查找功能（CMD + SHIFT + F）进行搜索，发现trx0trx.cc中有一处代码会往这个列表中插入数据（UT\_LIST\_ADD\_FIRST）。
 
-![图片](https://static001.geekbang.org/resource/image/a3/27/a3287ceb3f5584786b0543b8e975b427.png?wh=1104x1284)
+![图片](https://static001.geekbang.org/resource/image/a3/27/a3287ceb3f5584786b0543b8e975b427.png?wh=1104x1284){: referrerpolicy="no-referrer" }
 
 查看代码，这里只是封装了一个函数trx\_add\_to\_rw\_trx\_list。
 
-![图片](https://static001.geekbang.org/resource/image/f7/7e/f7a6df33afd59051f08810339e0e6f7e.png?wh=1216x382)
+![图片](https://static001.geekbang.org/resource/image/f7/7e/f7a6df33afd59051f08810339e0e6f7e.png?wh=1216x382){: referrerpolicy="no-referrer" }
 
 接下来要看哪些地方调用了这个函数。这里可以使用全局搜索，也可以使用“查找所有引用”（快捷键ALT + SHIFT + F12）。
 
-![图片](https://static001.geekbang.org/resource/image/44/9d/4493a08f7276c0e2ffa2fb19fa50389d.png?wh=1100x398)
+![图片](https://static001.geekbang.org/resource/image/44/9d/4493a08f7276c0e2ffa2fb19fa50389d.png?wh=1100x398){: referrerpolicy="no-referrer" }
 
 调用这个函数的地方不多，分别查看后，trx\_sys\_init\_at\_db\_start应该是我们想找的函数。
 
 **函数trx\_sys\_init\_at\_db\_start**
 
-![图片](https://static001.geekbang.org/resource/image/fb/f6/fb8641c87924d985ed64409c8f12d6f6.png?wh=1244x1282)
+![图片](https://static001.geekbang.org/resource/image/fb/f6/fb8641c87924d985ed64409c8f12d6f6.png?wh=1244x1282){: referrerpolicy="no-referrer" }
 
 这个函数中主要做了几件事情。
 
@@ -285,13 +285,13 @@ innobase/trx/trx0trx.cc中有一个函数trx\_recover\_for\_mysql，看起来和
 
 <!--THE END-->
 
-![图片](https://static001.geekbang.org/resource/image/6f/a4/6f6faac61ea3a23563e7521ab9byy7a4.png?wh=1228x634)
+![图片](https://static001.geekbang.org/resource/image/6f/a4/6f6faac61ea3a23563e7521ab9byy7a4.png?wh=1228x634){: referrerpolicy="no-referrer" }
 
 - 事务加到trxs，按事务ID排序后，加到trx\_sys-&gt;rw\_trx\_list中。
 
 当然，你还可以继续分析回滚段、Undo段中的数据怎么读取。
 
-![图片](https://static001.geekbang.org/resource/image/1b/53/1bcf3712cd2d54b41294aff1f19a5753.png?wh=1184x920)
+![图片](https://static001.geekbang.org/resource/image/1b/53/1bcf3712cd2d54b41294aff1f19a5753.png?wh=1184x920){: referrerpolicy="no-referrer" }
 
 函数trx\_resurrect中用到了rseg-&gt;insert\_undo\_list，rseg-&gt;update\_undo\_list，分析这几个列表的数据怎么添加，最终可能会发现下面这个调用链路。这里我就不具体展开了。
 
@@ -316,21 +316,21 @@ mysqld_main -> process_bootstrap -> dd::init -> Dictionary_impl::init
 
 回到trx\_recover\_for\_mysql这个函数，谁调用了这个函数呢？很快就找到了innobase\_xa\_recover。
 
-![图片](https://static001.geekbang.org/resource/image/c3/c2/c3ece1379b6d0df0fa8f86b3dff6e1c2.png?wh=1248x678)
+![图片](https://static001.geekbang.org/resource/image/c3/c2/c3ece1379b6d0df0fa8f86b3dff6e1c2.png?wh=1248x678){: referrerpolicy="no-referrer" }
 
 谁调用了innobase\_xa\_recover呢？你会发现代码中并没有直接调用这个函数。但是innodb\_init中，这个函数赋值给了innobase\_hton-&gt;recover这个函数指针。执行innobase\_hton-&gt;recover时，实际上就是在执行innobase\_xa\_recover。
 
-![图片](https://static001.geekbang.org/resource/image/e1/56/e1c715bde8252792d1390a08bcbe6e56.png?wh=1276x378)
+![图片](https://static001.geekbang.org/resource/image/e1/56/e1c715bde8252792d1390a08bcbe6e56.png?wh=1276x378){: referrerpolicy="no-referrer" }
 
 你可以试着查一下hton-&gt;recover在哪里调用。直接搜索innobase\_hton-&gt;recover或hton-&gt;recover找不到调用的地方，因为在调用的地方，变量名不是innobase\_hton或hton。改成搜索“-&gt;recover(”，可以找到调用的地方。
 
-![图片](https://static001.geekbang.org/resource/image/89/ce/89f66432686e33f3ed487b40d997d5ce.png?wh=1096x816)
+![图片](https://static001.geekbang.org/resource/image/89/ce/89f66432686e33f3ed487b40d997d5ce.png?wh=1096x816){: referrerpolicy="no-referrer" }
 
 **recover\_one\_ht**
 
 recover\_one\_ht中调用了ht-&gt;recover。我们已经知道，调用recover时，会把Prepared状态的事务加到trx链表中，也就是这里的info-&gt;list中。
 
-![图片](https://static001.geekbang.org/resource/image/11/b6/1181ac9378f0fe25cf1a26c32aa2b8b6.png?wh=1294x1390)
+![图片](https://static001.geekbang.org/resource/image/11/b6/1181ac9378f0fe25cf1a26c32aa2b8b6.png?wh=1294x1390){: referrerpolicy="no-referrer" }
 
 208行的循环中，依次处理每一个事务，调用函数recover\_one\_external\_trx或recover\_one\_internal\_trx恢复事务。这个专栏中，没有涉及到XA事务，这里只分析recover\_one\_internal\_trx。
 
@@ -338,37 +338,37 @@ recover\_one\_ht中调用了ht-&gt;recover。我们已经知道，调用recover�
 
 函数recover\_one\_internal\_trx中，会判断info.commit\_list中是否有当前处理的事务的XID，如果有，就执行ht.commit\_by\_xid提交事务，如果没有，就执行ht.rollback\_by\_xid回滚事务。
 
-![图片](https://static001.geekbang.org/resource/image/4a/19/4a4f8046233534b781bfa72ceea02519.png?wh=1480x1310)
+![图片](https://static001.geekbang.org/resource/image/4a/19/4a4f8046233534b781bfa72ceea02519.png?wh=1480x1310){: referrerpolicy="no-referrer" }
 
 **commit\_list**
 
 接下来我们要分析commit\_list。commit\_list作为参数传给ha\_recover函数。
 
-![图片](https://static001.geekbang.org/resource/image/9f/db/9fd2c3745097cdf69698d7da27c524db.png?wh=1236x702)
+![图片](https://static001.geekbang.org/resource/image/9f/db/9fd2c3745097cdf69698d7da27c524db.png?wh=1236x702){: referrerpolicy="no-referrer" }
 
 **Binlog\_recovery::recover**
 
 ha\_recover由函数Binlog\_recovery::recover调用，传入的参数是this-&gt;m\_internal\_xids。这里的this，就是Binlog\_recovery对象。
 
-![图片](https://static001.geekbang.org/resource/image/a5/50/a50bf808bda0b7bec7dbc4dcc41f7d50.png?wh=1306x448)
+![图片](https://static001.geekbang.org/resource/image/a5/50/a50bf808bda0b7bec7dbc4dcc41f7d50.png?wh=1306x448){: referrerpolicy="no-referrer" }
 
 **m\_interal\_xids**
 
 再搜索m\_internal\_xids，可以找到Binlog\_recovery::process\_xid\_event函数中会把XID加进来。
 
-![图片](https://static001.geekbang.org/resource/image/38/87/380d8b2648e4bb7058802fe61fd60f87.png?wh=1250x552)
+![图片](https://static001.geekbang.org/resource/image/38/87/380d8b2648e4bb7058802fe61fd60f87.png?wh=1250x552){: referrerpolicy="no-referrer" }
 
 **Binlog\_recovery::recover**
 
 Binlog\_recovery::recover函数中会调用process\_xid\_event。64行的循环中，读取Binlog文件中的每一事件，如果读取到一个XID事件，就把XID加到m\_interal\_xids中。
 
-![图片](https://static001.geekbang.org/resource/image/a2/3f/a2ac3d05570e55614c6a89ed8a3e1a3f.png?wh=1308x1246)
+![图片](https://static001.geekbang.org/resource/image/a2/3f/a2ac3d05570e55614c6a89ed8a3e1a3f.png?wh=1308x1246){: referrerpolicy="no-referrer" }
 
 **open\_binlog**
 
 Binlog\_recovery::recover在函数open\_binlog中调用。open\_binlog判断当前的Binlog是不是数据库崩溃时在使用的，这实际上是根据Binlog头部的FORMAT\_DESCRIPTION\_EVENT事件中，是否有LOG\_EVENT\_BINLOG\_IN\_USE\_F标记来判断的。如果有这个标记，就执行Binlog\_recovery::recover，读取Binlog中的所有XID，调用ha\_recover处理Prepared状态的事务。
 
-![图片](https://static001.geekbang.org/resource/image/a5/f1/a59c65225cb7e682f14d48d2d8786df1.png?wh=1324x962)
+![图片](https://static001.geekbang.org/resource/image/a5/f1/a59c65225cb7e682f14d48d2d8786df1.png?wh=1324x962){: referrerpolicy="no-referrer" }
 
 继续分析，能找到下面这个调用链路。
 
@@ -381,7 +381,7 @@ mysqld_main -> init_server_components -> open_binlog
 
 继续搜索trx\_sys-&gt;rw\_trx\_list，还能找到活动的事务的处理过程。
 
-![图片](https://static001.geekbang.org/resource/image/62/a7/62b5096ed7b7abe15e45aa9be3ae21a7.png?wh=1920x1006)
+![图片](https://static001.geekbang.org/resource/image/62/a7/62b5096ed7b7abe15e45aa9be3ae21a7.png?wh=1920x1006){: referrerpolicy="no-referrer" }
 
 从代码中，还能找到下面这个调用链路。
 
@@ -392,7 +392,7 @@ trx_recovery_rollback_thread -> trx_recovery_rollback
 
 trx\_recovery\_rollback\_thread是回滚线程的主函数，这个线程在srv\_start\_threads\_after\_ddl\_recovery中创建。
 
-![图片](https://static001.geekbang.org/resource/image/8d/82/8d701f49fc516e79f3e50047b8d79482.png?wh=1312x710)
+![图片](https://static001.geekbang.org/resource/image/8d/82/8d701f49fc516e79f3e50047b8d79482.png?wh=1312x710){: referrerpolicy="no-referrer" }
 
 调用链路大概这这样的。
 
@@ -484,7 +484,7 @@ Thread 44 "connection" hit Breakpoint 1, do_command (thd=0x7fa5d8017480)
 (gdb) break /root/buildenv/mysql-8.0.40/sql/sql_parse.cc:1440
 ```
 
-![图片](https://static001.geekbang.org/resource/image/23/2b/235a75620a9b87c287yy949a9c11512b.png?wh=1306x638)
+![图片](https://static001.geekbang.org/resource/image/23/2b/235a75620a9b87c287yy949a9c11512b.png?wh=1306x638){: referrerpolicy="no-referrer" }
 
 类似这样，你可以继续单步跟踪执行。因为我们知道查询数据时，会调用row\_search\_mvcc获取记录，因此就给函数row\_search\_mvcc设置一个断点。
 
@@ -504,11 +504,11 @@ Thread 44 "connection" hit Breakpoint 3, row_search_mvcc (buf=0x7fa5d8008420 "\3
 
 查看调用堆，可以看到很多函数调用。
 
-![图片](https://static001.geekbang.org/resource/image/47/ae/4773982b0775803a5d866247acd3e0ae.png?wh=1494x1172)
+![图片](https://static001.geekbang.org/resource/image/47/ae/4773982b0775803a5d866247acd3e0ae.png?wh=1494x1172){: referrerpolicy="no-referrer" }
 
 经过一些分析，发现sql\_union.cc的1771行可能有我们感兴趣的代码。
 
-![图片](https://static001.geekbang.org/resource/image/2e/c9/2e7d23a7f353b85210019c0b2b96d9c9.png?wh=1184x1234)
+![图片](https://static001.geekbang.org/resource/image/2e/c9/2e7d23a7f353b85210019c0b2b96d9c9.png?wh=1184x1234){: referrerpolicy="no-referrer" }
 
 在函数ExecuteIteratorQuery中，可以看到SQL引擎的一个基本执行过程。
 
@@ -521,17 +521,17 @@ Thread 44 "connection" hit Breakpoint 3, row_search_mvcc (buf=0x7fa5d8008420 "\3
 
 回到前面这个调用栈，可以发现一些线索。
 
-![图片](https://static001.geekbang.org/resource/image/5c/a7/5cd8d59d0e84300355ef80189b137ca7.png?wh=1492x494)
+![图片](https://static001.geekbang.org/resource/image/5c/a7/5cd8d59d0e84300355ef80189b137ca7.png?wh=1492x494){: referrerpolicy="no-referrer" }
 
 handler::ha\_index\_first有一个buf参数，分析代码（row\_search\_mvcc）后可以知道，InnoDB是将查到的记录写到了这个buf中。
 
 这个参数是IndexScanIterator::Read中传入的。
 
-![图片](https://static001.geekbang.org/resource/image/eb/1e/ebb83f5c085e32621d9b75e6dc344b1e.png?wh=950x594)
+![图片](https://static001.geekbang.org/resource/image/eb/1e/ebb83f5c085e32621d9b75e6dc344b1e.png?wh=950x594){: referrerpolicy="no-referrer" }
 
 这个m\_record又是从哪里来的呢？这是IndexScanIterator类的一个成员，在构造函数中初始化成table-&gt;record\[0]。
 
-![图片](https://static001.geekbang.org/resource/image/de/05/ded72d8b98ebcced2b121ae854f22505.png?wh=1372x706)
+![图片](https://static001.geekbang.org/resource/image/de/05/ded72d8b98ebcced2b121ae854f22505.png?wh=1372x706){: referrerpolicy="no-referrer" }
 
 我们可以在IndexScanIterator的构造函数上加一个断点。
 
@@ -552,13 +552,13 @@ Thread 44 "connection" hit Breakpoint 5, IndexScanIterator<false>::IndexScanIter
 
 就可以看到这样的调用栈，看起来是在优化SQL的时候传进来的table变量。
 
-![图片](https://static001.geekbang.org/resource/image/f9/b8/f9da9c2237c9c3ba4e652f80a8192fb8.png?wh=1504x1170)
+![图片](https://static001.geekbang.org/resource/image/f9/b8/f9da9c2237c9c3ba4e652f80a8192fb8.png?wh=1504x1170){: referrerpolicy="no-referrer" }
 
 这里的table是一个重要的结构，我们说的Open table cache里缓存的，是不是就是这个table结构呢？
 
 可以用print命令查看变量table的值。
 
-![图片](https://static001.geekbang.org/resource/image/04/d8/049979a61c499491c564a3f3fed2b1d8.png?wh=1440x392)
+![图片](https://static001.geekbang.org/resource/image/04/d8/049979a61c499491c564a3f3fed2b1d8.png?wh=1440x392){: referrerpolicy="no-referrer" }
 
 好了，这个调试案例就先到这儿。借助GDB，我们分析了一个简单的SELECT语句执行的基本步骤，我们还知道了MySQL Server层和InnoDB存储引擎之间，是通过TABLE结构体的record buffer来传递数据的。
 
@@ -604,7 +604,7 @@ Breakpoint 3 at 0x4b5afee: file /root/buildenv/mysql-8.0.40/storage/innobase/log
 
 会先运行Redo恢复。
 
-![图片](https://static001.geekbang.org/resource/image/ed/39/edd683ddaed1dbfc96138e1c61d3cc39.png?wh=1462x826)
+![图片](https://static001.geekbang.org/resource/image/ed/39/edd683ddaed1dbfc96138e1c61d3cc39.png?wh=1462x826){: referrerpolicy="no-referrer" }
 
 运行fininish命令，执行完recv\_recovery\_from\_checkpoint\_start后，可以接着调试。
 
@@ -624,7 +624,7 @@ Value returned is $1 = DB_SUCCESS
 
 gdb的功能很强大，我把一些基本的命令整理到了下面这个表格中。可以使用命令的简称，比如执行c就是执行continue命令。
 
-![](https://static001.geekbang.org/resource/image/e0/26/e0e511f84ab77a348fe6eaebb6b74826.jpg?wh=1928x1412)
+![](https://static001.geekbang.org/resource/image/e0/26/e0e511f84ab77a348fe6eaebb6b74826.jpg?wh=1928x1412){: referrerpolicy="no-referrer" }
 
 ## 总结
 

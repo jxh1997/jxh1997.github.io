@@ -58,7 +58,7 @@ Redis通常是作为缓存在数据库层前端部署，就需要能够快速地
 
 根据微博的技术分享，我画了一张他们使用RocksDB辅助Redis实现扩容的架构图：
 
-![](https://static001.geekbang.org/resource/image/c0/b0/c0fdb8248a3362afd29d3efe8b6b21b0.jpg?wh=2143%2A1511)
+![](https://static001.geekbang.org/resource/image/c0/b0/c0fdb8248a3362afd29d3efe8b6b21b0.jpg?wh=2143%2A1511){: referrerpolicy="no-referrer" }
 
 从图中可以看到，Redis是用异步线程在RocksDB中读写数据。
 
@@ -93,7 +93,7 @@ RocksDB可以实现快速写入数据，同时使用内存缓存部分数据，�
 
 按照我的理解，画了一张示意图，显示了微博Redis服务化集群的架构，你可以看下。
 
-![](https://static001.geekbang.org/resource/image/58/ff/58dc7b26b8b0a1df4fd1faeee24618ff.jpg?wh=2672%2A1873)
+![](https://static001.geekbang.org/resource/image/58/ff/58dc7b26b8b0a1df4fd1faeee24618ff.jpg?wh=2672%2A1873){: referrerpolicy="no-referrer" }
 
 从Redis服务化的实践中，我们可以知道，当多个业务线有共同的Redis使用需求时，提供平台级服务是一种通用做法，也就是服务化。
 

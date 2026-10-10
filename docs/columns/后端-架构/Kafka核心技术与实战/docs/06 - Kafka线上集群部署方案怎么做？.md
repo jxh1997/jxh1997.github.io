@@ -80,7 +80,7 @@ Kafka集群到底需要多大的存储空间？这是一个非常经典的规划
 
 所谓“兵马未动，粮草先行”。与其盲目上马一套Kafka环境然后事后费力调整，不如在一开始就思考好实际场景下业务所需的集群环境。在考量部署方案时需要通盘考虑，不能仅从单个维度上进行评估。相信今天我们聊完之后，你对如何规划Kafka生产环境一定有了一个清晰的认识。现在我来总结一下今天的重点：
 
-![](https://static001.geekbang.org/resource/image/ba/04/bacf5700e4b145328f4d977575f28904.jpg?wh=3769%2A1533)
+![](https://static001.geekbang.org/resource/image/ba/04/bacf5700e4b145328f4d977575f28904.jpg?wh=3769%2A1533){: referrerpolicy="no-referrer" }
 
 ## 开放讨论
 

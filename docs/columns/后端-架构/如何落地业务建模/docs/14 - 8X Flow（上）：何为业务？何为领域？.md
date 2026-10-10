@@ -42,7 +42,7 @@
 
 统一模式与复制模式出自**四种业务运营模型**，最早由IBM在上世纪八十年代发明用以描述不同业务模式间的差异，以及需要何种IT能力来支撑与其对应的模式，后来被商学院教程广泛采纳，就成了一个讨论业务模式与IT诉求的非常有用的宏观模型。如下图所示：
 
-![](https://static001.geekbang.org/resource/image/48/07/48bf61723a09b1b05407de2d97f20c07.jpg?wh=2000x1125)
+![](https://static001.geekbang.org/resource/image/48/07/48bf61723a09b1b05407de2d97f20c07.jpg?wh=2000x1125){: referrerpolicy="no-referrer" }
 
 对于四种业务运营模型，我在这里还是做个简单的说明。你可以将流程标准化看做是否需要强制使用同样的业务流程；而将流程整合度，看做是否需要使用同一数据源。那么我们就可以这么来理解了：
 
@@ -89,7 +89,7 @@
 
 那么，企业版不过就是在内容管理系统上，提供了另一套运营系统而已。如下图所示：
 
-![](https://static001.geekbang.org/resource/image/38/c0/38f4af6a80a833960a64e6b1d28074c0.jpg?wh=2000x1125)
+![](https://static001.geekbang.org/resource/image/38/c0/38f4af6a80a833960a64e6b1d28074c0.jpg?wh=2000x1125){: referrerpolicy="no-referrer" }
 
 由此我们就发现了一个常用的架构模式，可以把**系统分解为两部分：与运营无关的部分；提供运营能力的部分。**
 
@@ -159,7 +159,7 @@
 
 对于业务系统来说，除了可以使用事件建模法之外，还有没有其他的方式，可以让我们更好地从“盈利”的角度来展开业务维度？此外，在我们常见的领域系统中，有哪些可以使用非对象模型以更好地描述问题？
 
-![](https://static001.geekbang.org/resource/image/39/68/390d9cd901bef56e37f655da16789368.jpg?wh=1500x1798)
+![](https://static001.geekbang.org/resource/image/39/68/390d9cd901bef56e37f655da16789368.jpg?wh=1500x1798){: referrerpolicy="no-referrer" }
 
 欢迎在留言区写下你的想法和思考，我会和你交流。我们下节课继续8X Flow的学习！
 <div><strong>精选留言（15）</strong></div><ul>

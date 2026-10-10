@@ -12,7 +12,7 @@
 
 Dubbo的服务注册与发现机制如[下图](https://dubbo.apache.org/imgs/architecture.png)所示：
 
-![图片](https://static001.geekbang.org/resource/image/a1/3b/a15364103e405767efbca0719959773b.png?wh=899x531)
+![图片](https://static001.geekbang.org/resource/image/a1/3b/a15364103e405767efbca0719959773b.png?wh=899x531){: referrerpolicy="no-referrer" }
 
 Dubbo中主要包括四类角色，它们分别是注册中心（Registry）、服务调用者&amp;消费端（Consumer）、服务提供者（Provider）和监控中心（Monitor）。
 
@@ -26,7 +26,7 @@ Dubbo官方提供了多种注册中心，我们选择使用最为普遍的ZooKee
 
 我们先来看一下Zookeeper注册中心中的数据存储目录结构。
 
-![图片](https://static001.geekbang.org/resource/image/af/eb/af1712a5fb964c02b6199bb75f21d2eb.png?wh=782x155)
+![图片](https://static001.geekbang.org/resource/image/af/eb/af1712a5fb964c02b6199bb75f21d2eb.png?wh=782x155){: referrerpolicy="no-referrer" }
 
 可以看到，它的目录组织结构为 /dubbo/{ServiceName}，其中，ServiceName表示一个具体的服务，通常用包名+类名表示，在每一个服务名下又会创建四个目录，它们分别是：
 
@@ -47,7 +47,7 @@ Dubbo官方提供了多种注册中心，我们选择使用最为普遍的ZooKee
 
 接下来我们再来看看服务调用。Dubbo的服务调用设计十分优雅，其实现原理图如下：
 
-![图片](https://static001.geekbang.org/resource/image/4d/93/4d4a8605fb86c23575d7e72bf5480b93.jpg?wh=1826x990)
+![图片](https://static001.geekbang.org/resource/image/4d/93/4d4a8605fb86c23575d7e72bf5480b93.jpg?wh=1826x990){: referrerpolicy="no-referrer" }
 
 服务调用重点阐述的是客户端发起一个RPC服务调用时的所有实现细节，**它包括服务发现、故障转移、路由转发、负载均衡等方面，是Dubbo实现灰度发布、多环境隔离的理论指导。**
 
@@ -61,7 +61,7 @@ Dubbo默认提供了随机、加权随机、最少活跃连接、一致性Hash�
 
 所谓路由机制，是指设置一定的规则对服务提供者列表进行过滤。负载均衡时，只在经过了路由机制的服务提供者列表中进行选择。为了更好地理解路由机制的工作原理，你可以看看下面这张示意图：
 
-![图片](https://static001.geekbang.org/resource/image/e3/ab/e3556fc21cc5676e15cb5290523475ab.jpg?wh=1920x951)
+![图片](https://static001.geekbang.org/resource/image/e3/ab/e3556fc21cc5676e15cb5290523475ab.jpg?wh=1920x951){: referrerpolicy="no-referrer" }
 
 我们为查找用户信息服务设置了一条路由规则，即“查询机构ID为102的查询用户请求信息将被发送到新版本（192.168.3.102）上。**具体的做法是，在进行负载均衡之前先执行路由选择，按照路由规则对原始的服务提供者列表进行过滤，从中挑选出符合要求的提供者列表，然后再进行负载均衡。**
 
@@ -81,7 +81,7 @@ Dubbo提供了下面五种策略：
 
 我们先看看Dubbo的网络通信模型，如下图所示：
 
-![图片](https://static001.geekbang.org/resource/image/ed/59/ed2899d0c47c307f43e40ac7d6788959.jpg?wh=1104x322)
+![图片](https://static001.geekbang.org/resource/image/ed/59/ed2899d0c47c307f43e40ac7d6788959.jpg?wh=1104x322){: referrerpolicy="no-referrer" }
 
 Dubbo的网络通信模型主要包括**网络通信协议和线程派发机制（Dispatcher）**两部分。
 
@@ -122,7 +122,7 @@ Dubbo的扩展设计主要是基于SPI设计理念，我们来看下具体的实
 
 Dubbo所有的底层能力都通过接口来定义。用户在扩展时只需要实现对应的接口，定义一个统一的扩展目录（META-INF.dubbo.internal）存放所有的扩展定义即可。要注意的是，目录下的文件名是需要扩展的接口的全名，像下图这样：
 
-![图片](https://static001.geekbang.org/resource/image/88/92/88b945687b4e4f3b286a70c11b606192.png?wh=1276x291)
+![图片](https://static001.geekbang.org/resource/image/88/92/88b945687b4e4f3b286a70c11b606192.png?wh=1276x291){: referrerpolicy="no-referrer" }
 
 在初次使用对应接口实例时，可以扫描扩展目录中的文件，并根据文件中存储的key-value初始化具体的实例。
 
@@ -130,13 +130,13 @@ Dubbo所有的底层能力都通过接口来定义。用户在扩展时只需要
 
 具体的做法只需要在dubbo-rpc模块中添加一个dubbo-rpc-grpc模块，然后使用gRPC实现org.apache.dubbo.rpc.protocol接口，并将其配置在扩展目录中：
 
-![图片](https://static001.geekbang.org/resource/image/aa/39/aa4df0df4f85c2dd69b5f6338bd05339.png?wh=1029x278)
+![图片](https://static001.geekbang.org/resource/image/aa/39/aa4df0df4f85c2dd69b5f6338bd05339.png?wh=1029x278){: referrerpolicy="no-referrer" }
 
 面对gRPC这么强大的功能扩展机制，绝大部分人应该和我一样，都是作为中间件的应用人员，不需要使用模块级别的扩展机制。我们通常只是结合应用场景来进行功能扩展。
 
 Dubbo在业务功能级别的扩展可以通过Filter机制来实现。Filter的工作机制如下：
 
-![图片](https://static001.geekbang.org/resource/image/f8/5b/f8c442f9769948db206c0cc5fc92f15b.jpg?wh=1920x577)
+![图片](https://static001.geekbang.org/resource/image/f8/5b/f8c442f9769948db206c0cc5fc92f15b.jpg?wh=1920x577){: referrerpolicy="no-referrer" }
 
 这里，**过滤器链的执行时机是在服务消费者发起远程RPC请求之前。**最先执行的是消费端的过滤器链，每一个过滤器可以设置执行顺序。**服务端在解码之后、执行业务逻辑之前，也会首先调用过滤器链。**
 
@@ -150,13 +150,13 @@ Dubbo在业务功能级别的扩展可以通过Filter机制来实现。Filter的
 
 其中API模块通常定义统一的服务接口，而Consumer、Provider模块都需要显示依赖API模块。这种设计理念虽然将Provider与Consumer进行了解耦合，但对API模块形成了强依赖，如果API模块发生改变，Provider和Consumer必须同时改变。也就是说，一旦API模块发生变化，服务调用方、服务消费方都需要重新部署，这对应用发布来说非常不友好。特别是在网关领域，几乎是不可接受的，如下图所示：
 
-![图片](https://static001.geekbang.org/resource/image/29/b7/29c50882210f4b473effc086b14749b7.jpg?wh=1920x594)
+![图片](https://static001.geekbang.org/resource/image/29/b7/29c50882210f4b473effc086b14749b7.jpg?wh=1920x594){: referrerpolicy="no-referrer" }
 
 公司的微服务在不停地演进，如果网关需要跟着API模块不停地发布新版本，网关的可用性和稳定性都将受到极大挑战。怎么解决这个问题呢？
 
 这就要说到Dubbo的机制了。泛化调用具体实现原理如下：
 
-![图片](https://static001.geekbang.org/resource/image/2d/6d/2ddd22669748ee4b8cc1028878c5fc6d.jpg?wh=1920x706)
+![图片](https://static001.geekbang.org/resource/image/2d/6d/2ddd22669748ee4b8cc1028878c5fc6d.jpg?wh=1920x706){: referrerpolicy="no-referrer" }
 
 当服务消费端发生调用时，我们使用Map来存储一个具体的请求参数对象，然后传输到服务提供方。由于服务提供方引入了模型相关的Jar，服务提供方在执行业务方法之前，需要将Map转化成具体的模型对象，然后再执行业务逻辑。
 

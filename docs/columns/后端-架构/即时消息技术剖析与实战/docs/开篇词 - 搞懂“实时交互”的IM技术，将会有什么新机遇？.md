@@ -14,7 +14,7 @@
 
 微博因为其多重的业务需求，在许多业务中都应用到了IM技术，目前除了我负责的消息箱和直播互动业务外，还有其他业务也逐渐来通过我们的IM通用服务，提升各自业务的用户体验。
 
-![](https://static001.geekbang.org/resource/image/a3/b4/a398742dac1db7c8931a1e20c2dee5b4.jpg?wh=791%2A509)
+![](https://static001.geekbang.org/resource/image/a3/b4/a398742dac1db7c8931a1e20c2dee5b4.jpg?wh=791%2A509){: referrerpolicy="no-referrer" }
 
 为什么这么多场景都用到了IM技术呢，IM的技术究竟是什么呢？
 
@@ -48,7 +48,7 @@
 
 另外，从技术的角度来看，IM技术在后端的实现上并不是孤立存在的，实际上，我们可以认为IM技术是众多前后端技术的一个综合体，只不过和其它业务相比，由于自身使用场景在某些技术点上有更多侧重。
 
-![](https://static001.geekbang.org/resource/image/00/fc/004bd32b14df6fd8bd4569e2844428fc.png?wh=1024%2A768)
+![](https://static001.geekbang.org/resource/image/00/fc/004bd32b14df6fd8bd4569e2844428fc.png?wh=1024%2A768){: referrerpolicy="no-referrer" }
 
 在整个IM系统的实现上深度用到了**网络、数据库、缓存、加密、消息队列**等后端必备知识。架构设计中也在**大规模分布式、高并发、一致性架构设计**等方面有众多成熟的解决方案。
 
@@ -116,7 +116,7 @@
 
 你可以给我留言，我们一起讨论。
 
-![](https://static001.geekbang.org/resource/image/e5/21/e565d0438340c0596f9ba9f0470e7f21.jpg?wh=1110%2A659)
+![](https://static001.geekbang.org/resource/image/e5/21/e565d0438340c0596f9ba9f0470e7f21.jpg?wh=1110%2A659){: referrerpolicy="no-referrer" }
 <div><strong>精选留言（15）</strong></div><ul>
 <li><span>C家族铁粉</span> 👍（49） 💬（5）<p>下午好，能否说一下具体用到的技术和编程语言呢～</p>2019-08-26</li><br/><li><span>felix</span> 👍（27） 💬（5）<p>telegram为什么可以支持几万人的群？它和微信有哪些技术上的不同点？</p>2019-08-26</li><br/><li><span>德德</span> 👍（22） 💬（2）<p>期待Go语言的示例</p>2019-08-26</li><br/><li><span>A2020</span> 👍（18） 💬（2）<p>开一个git仓库，java的为演示版，其他语言的版本，可交由学员来完成，不知道这种方式是否可行</p>2019-08-27</li><br/><li><span>恰同学少年</span> 👍（10） 💬（2）<p>老师，课程中会有阅读回执多端登录的讲解与实战吗？</p>2019-08-27</li><br/><li><span>Geek_4587d5</span> 👍（9） 💬（1）<p>大神好，这个课程实例主要用什么语言开发</p>2019-08-26</li><br/><li><span>leslie</span> 👍（8） 💬（1）<p>有以下几个问题需要老师解答一下：  
 1.这门课会可以使用或者说涉及的编程语言是什么，掌握程度是什么

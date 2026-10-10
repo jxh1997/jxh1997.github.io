@@ -8,7 +8,7 @@
 
 Elasticsearch 的索引和之前你已经学习过的数据库索引比起来，还是有很大不同的，它使用的是倒排索引。所谓的倒排索引是相对于“正排”索引而言的。在一般的文件系统中，索引是文档映射到关键字，而倒排索引正相反，是从关键字映射到了文档。
 
-![图片](https://static001.geekbang.org/resource/image/db/cd/db5821d3c177ba83963442c6c8fd56cd.png?wh=1920x659)
+![图片](https://static001.geekbang.org/resource/image/db/cd/db5821d3c177ba83963442c6c8fd56cd.png?wh=1920x659){: referrerpolicy="no-referrer" }
 
 所以你可以想到，假如说没有倒排索引，你想要找到包含关键字“Elasticsearch”的文档，那么你需要遍历所有的文档，然后筛选出包含了“Elasticsearch”关键字的文档。而有了倒排索引，你就可以直接从关键字出发，找到“Elasticsearch”关键字对应的文档。
 
@@ -17,7 +17,7 @@ Elasticsearch 依赖于 Lucene 来维护索引，它的基本原理也很简单�
 - 每当写入一个新的文档的时候，根据文档的每一个字段，Elasticsearch 会使用分词器，把每个字段的值切割成一个个关键词，每一个关键词也叫做 Term。
 - 切割之后，Elasticsearch 会统计每一个关键词出现的频率，构建一个关键词到文档 ID、出现频率、位置的映射，这个也叫做 posting list。
 
-![图片](https://static001.geekbang.org/resource/image/78/a1/783b9379ce3343539e47538931f74da1.png?wh=1920x1078)
+![图片](https://static001.geekbang.org/resource/image/78/a1/783b9379ce3343539e47538931f74da1.png?wh=1920x1078){: referrerpolicy="no-referrer" }
 
 从图片里你可以看出来几个关键点。
 
@@ -28,7 +28,7 @@ Elasticsearch 依赖于 Lucene 来维护索引，它的基本原理也很简单�
 
 假如说你要查询的是 desc 里包含 Hello 这个关键字的文档，你首先就要在关键词表格里面找到 Hello 这一条。如果关键词都是随机的，那么肯定很难找。如果让你来设计，你肯定会让 Elasticsearch 把这些关键词排序，比如说按照字母来排序。
 
-![图片](https://static001.geekbang.org/resource/image/8f/17/8fdf66553bd000487331a9af23f25417.png?wh=1920x719)
+![图片](https://static001.geekbang.org/resource/image/8f/17/8fdf66553bd000487331a9af23f25417.png?wh=1920x719){: referrerpolicy="no-referrer" }
 
 当然，Elasticsearch 的设计者明显要高明很多。这种类似于查找单词的东西，在业界早就有成熟的方案，那就是前缀树（Trie Tree），也叫做字典树，而这个“关键词表格”在 Elasticsearch 里面叫做 Term Dictionary。它们的目标是尽可能地把全部关键词组成的索引整个装进内存里。之所以是尽可能，而不是一定，是因为部分字段的关键词会非常多，确实装不进去。所以连前缀树都觉得这样的空间开销受不了。
 
@@ -36,7 +36,7 @@ Elasticsearch 依赖于 Lucene 来维护索引，它的基本原理也很简单�
 
 假如说你现在有两个关键词 cat 和 ct，两种数据结构看起来是这样的。
 
-![图片](https://static001.geekbang.org/resource/image/dd/3c/dd4539e68e797fb64908b8874a56c63c.png?wh=1920x1076)
+![图片](https://static001.geekbang.org/resource/image/dd/3c/dd4539e68e797fb64908b8874a56c63c.png?wh=1920x1076){: referrerpolicy="no-referrer" }
 
 这个图更加接近真实数据结构的定义，所以有点难以理解。你可以认为当你找到 3 的时候，如果是经过 0-1-3，那么你知道前缀是 ct，并且你能够得到 ct 在 Term Dictionary 的位置。
 
@@ -46,7 +46,7 @@ Elasticsearch 依赖于 Lucene 来维护索引，它的基本原理也很简单�
 
 而在 Block 或者 Floor Block 内部，都是通过遍历来查找对应的关键词的。因此整个结构看起来是下面这样的。
 
-![图片](https://static001.geekbang.org/resource/image/1a/25/1aea13d83dbe83f5798ff822bfcdcd25.png?wh=1920x1076)
+![图片](https://static001.geekbang.org/resource/image/1a/25/1aea13d83dbe83f5798ff822bfcdcd25.png?wh=1920x1076){: referrerpolicy="no-referrer" }
 
 因此你可以把这个查找关键词的过程理解成两步。
 
@@ -111,7 +111,7 @@ Elasticsearch 依赖于 Lucene 来维护索引，它的基本原理也很简单�
 >    
 > 后来我考虑到这个业务对数据一致性的要求不是很高，我就把实时同步修改成了异步同步，也就是定时扫描数据库中发生变化的数据，然后批量提交变更数据到 Elasticsearch。这个异步任务我设置的是每秒钟同步一次，和原来每一次写请求都要操作 Elasticsearch 比起来，压力小多了。同时业务方的响应时间也下降了 50%。
 
-![图片](https://static001.geekbang.org/resource/image/d5/1a/d577326d07bef64d0d4fd9e987ef4a1a.png?wh=1920x1076)
+![图片](https://static001.geekbang.org/resource/image/d5/1a/d577326d07bef64d0d4fd9e987ef4a1a.png?wh=1920x1076){: referrerpolicy="no-referrer" }
 
 这种单个转批次的方案还可以用在 Kafka 和 Elasticsearch 结合使用的方案中。也就是有些公司的架构把数据写入到 Elasticsearch 的时候，并不是直接写入的，而是统一写入到 Kafka，然后再由一些消费者把 Kafka 里的数据写入到 Elasticsearch。
 
@@ -129,7 +129,7 @@ Elasticsearch 依赖于 Lucene 来维护索引，它的基本原理也很简单�
 >    
 > 而且，我还引入了一个降级机制。正常我们公司的日志是全量同步的，但是如果发现 Elasticsearch 有问题，就会触发降级，触发降级的时候就会先丢弃 INFO 级别的日志。运行一段时间之后，如果 Elasticsearch 还是没能恢复正常，就把WARN 级别的也丢弃。
 
-![图片](https://static001.geekbang.org/resource/image/f1/1a/f1b6e3daa4c0dda7a4f8935db2dd591a.png?wh=1920x1076)
+![图片](https://static001.geekbang.org/resource/image/f1/1a/f1b6e3daa4c0dda7a4f8935db2dd591a.png?wh=1920x1076){: referrerpolicy="no-referrer" }
 
 这一个方案亮点在于你把调整批次和降级结合在一起，能体现你综合运用各种手段解决实际问题的能力。
 
@@ -145,7 +145,7 @@ Elasticsearch 依赖于 Lucene 来维护索引，它的基本原理也很简单�
 >    
 > 当然，这样做的代价就是有一些查询需要再次查询数据库。但是我评估过这个，受影响的请求不足 10%，所以这个结果还是可以接受的。
 
-![图片](https://static001.geekbang.org/resource/image/a7/6b/a74b74de9162b9896ab98efb7022ce6b.png?wh=1920x1076)
+![图片](https://static001.geekbang.org/resource/image/a7/6b/a74b74de9162b9896ab98efb7022ce6b.png?wh=1920x1076){: referrerpolicy="no-referrer" }
 
 少同步一些数据，就意味着你的索引所需的内存、磁盘更少，所以查询速度也会更快。紧接着补充一个 reindex 的改进计划。
 
@@ -169,7 +169,7 @@ Elasticsearch 依赖于 Lucene 来维护索引，它的基本原理也很简单�
 >    
 > 这部分我们是借助了新出来的索引生命周期特性来实现的。比如说我们的日志，就是三天内的数据都在热节点上，三天之后就是迁移到了冷节点上。这个过程都是自动的，不需要人工介入。
 
-![图片](https://static001.geekbang.org/resource/image/54/99/54593b79e7134bcf8a12bd3d58191599.png?wh=1920x908)
+![图片](https://static001.geekbang.org/resource/image/54/99/54593b79e7134bcf8a12bd3d58191599.png?wh=1920x908){: referrerpolicy="no-referrer" }
 
 利用生命周期管理功能实现冷热数据分离操作起来还是很简单的，你可以考虑通过 Kibana 来直接在界面傻瓜式操作。而且一些云服务厂商也提供了这种功能，使用起来都很便捷。
 
@@ -229,7 +229,7 @@ Elasticsearch 需要非常多的文件描述符，所以正常来说都需要把
 
 如果你的工作经历里面出现了这个课程里没有讨论过的中间件，你也可以按照类似的思路去准备面试用的性能优化方案。当然，要是你所在公司的运维团队非常强，你就直接问他们是如何优化性能的就可以，在面试中你同样用得上。
 
-![](https://static001.geekbang.org/resource/image/a7/78/a78d02695d35a674daf4a75874d2de78.jpg?wh=2176x2059)
+![](https://static001.geekbang.org/resource/image/a7/78/a78d02695d35a674daf4a75874d2de78.jpg?wh=2176x2059){: referrerpolicy="no-referrer" }
 
 ## 思考题
 

@@ -32,7 +32,7 @@
 
 如果这个时候用户G被攻击者软件A诱导而点击了这个恶意页面，那结果就是，极客时间使用codeA值去继续OAuth 2.0的流程了。这其实就走完了一个CSRF攻击的过程，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/f1/fe/f12446c76ffcbb58b8ce00c3f874f8fe.png?wh=1282%2A1052 "图1 CSRF攻击过程")
+![](https://static001.geekbang.org/resource/image/f1/fe/f12446c76ffcbb58b8ce00c3f874f8fe.png?wh=1282%2A1052 "图1 CSRF攻击过程"){: referrerpolicy="no-referrer" }
 
 如果我们将OAuth 2.0用于了身份认证，那么就会造成严重的后果，因为用户G使用的极客时间的**授权上下文环境**跟攻击者软件A的**授权上下文环境**绑定在了一起。为了解释两个上下文环境绑定在一起可能带来的危害，我们还是拿极客时间来举例。
 
@@ -62,7 +62,7 @@ XSS攻击的主要手段是将恶意脚本注入到请求的输入中，攻击�
 
 当请求抵达受保护资源服务时，系统需要做校验，比如第三方软件身份合法性校验、访问令牌access\_token的校验，如果这些信息都不能被校验通过，受保护资源服务就会返回错误的信息。
 
-![](https://static001.geekbang.org/resource/image/07/93/076a8f694f76b8a65cc105b54c280e93.png?wh=1306%2A760 "图2 XSS攻击过程")
+![](https://static001.geekbang.org/resource/image/07/93/076a8f694f76b8a65cc105b54c280e93.png?wh=1306%2A760 "图2 XSS攻击过程"){: referrerpolicy="no-referrer" }
 
 大多数情况下，受保护资源都是把输入的内容，比如app\_id invalid、access\_token invalid ，再回显一遍，这时就会被XSS攻击者捕获到机会。试想下，如果攻击者传入了一些恶意的、搜集用户数据的JavaScript 代码，受保护资源服务直接原路返回到用户的页面上，那么当用户触发到这些代码的时候就会遭受到攻击。
 
@@ -78,7 +78,7 @@ CSRF攻击、XSS攻击是我从OWASP网站上挑选的两个最为熟知的两�
 
 还是以我们的“小兔打单软件”为例，第三方开发者开发了这款打单软件，目前有两个商家A和商家B购买并使用。现在小兔打单软件上面提供了根据订单ID查询订单数据的功能，如下图所示。
 
-![](https://static001.geekbang.org/resource/image/42/77/42c7534227ffcd72f05db518e6b76577.png?wh=1406%2A608 "图3 水平越权发生场景")
+![](https://static001.geekbang.org/resource/image/42/77/42c7534227ffcd72f05db518e6b76577.png?wh=1406%2A608 "图3 水平越权发生场景"){: referrerpolicy="no-referrer" }
 
 商家A和商家B分别给小兔打单软件应用做了授权，也就是说，小兔打单软件可以获取商家A和商家B的订单数据。此时没有任何问题，**那么商家A可以获取商家B的订单数据吗？**答案是，极有可能的。
 
@@ -86,7 +86,7 @@ CSRF攻击、XSS攻击是我从OWASP网站上挑选的两个最为熟知的两�
 
 此时，如果受保护资源服务没有对商家ID和订单ID做归属判断，就有可能发生商家A获取商家B订单数据的问题，造成水平越权问题。
 
-![](https://static001.geekbang.org/resource/image/0e/4f/0eaa1a1c991ee25406a85e9dfa17b64f.png?wh=996%2A878 "图4 水平越权示例图")
+![](https://static001.geekbang.org/resource/image/0e/4f/0eaa1a1c991ee25406a85e9dfa17b64f.png?wh=996%2A878 "图4 水平越权示例图"){: referrerpolicy="no-referrer" }
 
 发生水平越权问题的根本原因，还是开发人员的认知与意识不够。如果认知与意识跟得上，那在设计之初增加归属关系判断，比如上面提到的订单ID和商家ID的归属关系判断，就能在很大程度上避免这个漏洞。
 
@@ -109,7 +109,7 @@ CSRF攻击、XSS攻击是我从OWASP网站上挑选的两个最为熟知的两�
 
 如果有一个用户G对第三方软件B，比如极客时间，进行授权并产生了一个授权码codeB，但并没有对攻击者软件A授权。此时，软件A是不能访问用户G的所有数据的。但这时，如果软件A获取了这个codeB，是不是就能够在没有获得用户G授权的情况下访问用户G的数据了？整个过程如下图所示。
 
-![](https://static001.geekbang.org/resource/image/7d/7b/7d464d5a0c49a77862fef10f77cf057b.png?wh=1690%2A926 "图5 授权码失窃攻击过程")
+![](https://static001.geekbang.org/resource/image/7d/7b/7d464d5a0c49a77862fef10f77cf057b.png?wh=1690%2A926 "图5 授权码失窃攻击过程"){: referrerpolicy="no-referrer" }
 
 **这时问题的根源就在于两点：**
 
@@ -134,7 +134,7 @@ CSRF攻击、XSS攻击是我从OWASP网站上挑选的两个最为熟知的两�
 
 好了，我们继续看下接下来的攻击流程：
 
-![](https://static001.geekbang.org/resource/image/04/41/04d71e6a8d32fe8b516db7e7424bf141.png?wh=1610%2A1260 "图6 重定向URI被篡改的攻击过程")
+![](https://static001.geekbang.org/resource/image/04/41/04d71e6a8d32fe8b516db7e7424bf141.png?wh=1610%2A1260 "图6 重定向URI被篡改的攻击过程"){: referrerpolicy="no-referrer" }
 
 首先，黑客将构造的攻击页面放到对应的hacker.html上，也就是`https://time.geekbang.org/page/hacker.html`上 ，同时构造出了一个新的重定向URI，即`https://time.geekbang.org/page/welcome/back.html../hacker.html`。
 
@@ -168,7 +168,7 @@ https://oauth-server.com/auth?respons_type=code&client_id=CLIENTID&redirect_uri=
 
 最后，我还整理了一张知识脑图，总结了这5种攻击方式的内容，来帮助你理解与记忆。
 
-![](https://static001.geekbang.org/resource/image/47/7f/479c2f3945d7a8e186f91f58b89db57f.jpg?wh=1920%2A1063)
+![](https://static001.geekbang.org/resource/image/47/7f/479c2f3945d7a8e186f91f58b89db57f.jpg?wh=1920%2A1063){: referrerpolicy="no-referrer" }
 
 ## 思考题
 

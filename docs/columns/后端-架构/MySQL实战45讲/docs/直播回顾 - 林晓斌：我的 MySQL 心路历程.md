@@ -110,7 +110,7 @@ Flashcache实现，把SSD当作物理盘的二级缓存，可以提升性能。�
 这本书的其中两位译者（彭立勋、翟卫祥）是我原团队的小伙伴，有着非常丰富的MySQL源码开发经验，他们对MySQL的深刻理解，让这本书保持了跟原作英文版同样高的质量。
 
 极客时间的编辑说，他们已经和出版社沟通，为我们专栏的用户争取到了全网最低价，仅限3天，你可以直接[点击链接](time://mall?url=https%3A%2F%2Fh5.youzan.com%2Fv2%2Fgoods%2F27413vk03dzk8)购买。  
-![](https://static001.geekbang.org/resource/image/ce/c8/cebd662dab97995a7718c4a38009cfc8.png?wh=1500%2A660)
+![](https://static001.geekbang.org/resource/image/ce/c8/cebd662dab97995a7718c4a38009cfc8.png?wh=1500%2A660){: referrerpolicy="no-referrer" }
 
 # DBA的修炼
 

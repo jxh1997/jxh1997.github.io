@@ -8,7 +8,7 @@
 
 要想知道这个问题的答案，我们首先需要了解JVM的构造。JVM主要由类加载器、运行时数据区、执行引擎三个部分组成。
 
-![](https://static001.geekbang.org/resource/image/62/0a/62faabeecafe565cbd806022b2aa9c0a.jpg?wh=575%2A682)  
+![](https://static001.geekbang.org/resource/image/62/0a/62faabeecafe565cbd806022b2aa9c0a.jpg?wh=575%2A682)  {: referrerpolicy="no-referrer" }
 运行时数据区主要包括方法区、堆、Java栈、程序计数寄存器。
 
 方法区主要存放从磁盘加载进来的类字节码，而在程序运行过程中创建的类实例则存放在堆里。程序运行的时候，实际上是以线程为单位运行的，当JVM进入启动类的main方法的时候，就会为应用程序创建一个主线程，main方法里的代码就会被这个主线程执行，每个线程有自己的Java栈，栈里存放着方法运行期的局部变量。而当前线程执行到哪一行字节码指令，这个信息则被存放在程序计数寄存器。
@@ -19,7 +19,7 @@
 
 程序计数寄存器一开始存放的是main方法的第一行代码位置，JVM的执行引擎根据这个位置去方法区的对应位置加载这行代码指令，将其解释为自身所在平台的CPU指令后交给CPU执行。如果在main方法里调用了其他方法，那么在进入其他方法的时候，会在Java栈中为这个方法创建一个新的栈帧，当线程在这个方法内执行的时候，方法内的局部变量都存放在这个栈帧里。当这个方法执行完毕退出的时候，就把这个栈帧从Java栈中出栈，这样当前栈帧，也就是堆栈的栈顶就又回到了main方法的栈帧，使用这个栈帧里的变量，继续执行main方法。这样，即使main方法和f方法都定义相同的变量，JVM也不会弄错。这部分内容我们在第一篇已经讨论过，JVM作为一个machine，和操作系统的处理线程栈的的方法是一样的。
 
-![](https://static001.geekbang.org/resource/image/a3/d9/a3de9184bfbd97546c291067d3106cd9.png?wh=1510%2A400)  
+![](https://static001.geekbang.org/resource/image/a3/d9/a3de9184bfbd97546c291067d3106cd9.png?wh=1510%2A400)  {: referrerpolicy="no-referrer" }
 Java的线程安全常常让人困惑，你可以试着从Java栈的角度去理解，所有在方法内定义的基本类型变量，都会被每个运行这个方法的线程放入自己的栈中，线程的栈彼此隔离，所以这些变量一定是线程安全的。如果在方法里创建了一个对象实例，这个对象实例如果没有被方法返回或者放入某些外部的对象容器中的话，也就是说这个对象的引用没有离开这个方法，虽然这个对象被放置在堆中，但是这个对象不会被其他线程访问到，也是线程安全的。
 
 相反，像Servlet这样的类，在Web容器中创建以后，会被传递给每个访问Web应用的用户线程执行，这个类就不是线程安全的。但这并不意味着一定会引发线程安全问题，如果Servlet类里没有成员变量，即使多线程同时执行这个Servlet实例的方法，也不会造成成员变量冲突。这种对象被称作无状态对象，也就是说对象不记录状态，执行这个对象的任何方法都不会改变对象的状态，也就不会有线程安全问题了。事实上，Web开发实践中，常见的Service类、DAO类，都被设计成无状态对象，所以虽然我们开发的Web应用都是多线程的应用，因为Web容器一定会创建多线程来执行我们的代码，但是我们开发中却可以很少考虑线程安全的问题。
@@ -46,23 +46,23 @@ JVM通过一种可达性分析算法进行垃圾对象的识别，具体过程�
 
 回收前：
 
-![](https://static001.geekbang.org/resource/image/91/f7/91e9bd4f5370fc22ec90ea7e093f3bf7.png?wh=1488%2A304)  
+![](https://static001.geekbang.org/resource/image/91/f7/91e9bd4f5370fc22ec90ea7e093f3bf7.png?wh=1488%2A304)  {: referrerpolicy="no-referrer" }
 清理：
 
-![](https://static001.geekbang.org/resource/image/fc/03/fc259afcfb7bce6276c04656d4da8203.png?wh=1452%2A180)  
+![](https://static001.geekbang.org/resource/image/fc/03/fc259afcfb7bce6276c04656d4da8203.png?wh=1452%2A180)  {: referrerpolicy="no-referrer" }
 压缩：
 
-![](https://static001.geekbang.org/resource/image/70/20/7040ed39531687afcb17f6b444101420.png?wh=1452%2A146)  
+![](https://static001.geekbang.org/resource/image/70/20/7040ed39531687afcb17f6b444101420.png?wh=1452%2A146)  {: referrerpolicy="no-referrer" }
 复制：
 
-![](https://static001.geekbang.org/resource/image/7b/94/7b6a99a9bd7f9941ea4ae19a738cde94.png?wh=1414%2A126)  
+![](https://static001.geekbang.org/resource/image/7b/94/7b6a99a9bd7f9941ea4ae19a738cde94.png?wh=1414%2A126)  {: referrerpolicy="no-referrer" }
 JVM在具体进行垃圾回收的时候，会进行分代回收。绝大多数的Java对象存活时间都非常短，很多时候就是在一个方法内创建对象，对象引用放在栈中，当方法调用结束，栈帧出栈的时候，这个对象就失去引用了，成为垃圾。针对这种情况，JVM将堆空间分成新生代（young）和老年代（old）两个区域，创建对象的时候，只在新生代创建，当新生代空间不足的时候，只对新生代进行垃圾回收，这样需要处理的内存空间就比较小，垃圾回收速度就比较快。
 
 新生代又分为Eden区、From区和To区三个区域，每次垃圾回收都是扫描Eden区和From区，将存活对象复制到To区，然后交换From区和To区的名称引用，下次垃圾回收的时候继续将存活对象从From区复制到To区。当一个对象经过几次新生代垃圾回收，也就是几次从From区复制到To区以后，依然存活，那么这个对象就会被复制到老年代区域。
 
 当老年代空间已满，也就是无法将新生代中多次复制后依然存活的对象复制进去的时候，就会对新生代和老年代的内存空间进行一次全量垃圾回收，即Full GC。所以根据应用程序的对象存活时间，合理设置老年代和新生代的空间比例对JVM垃圾回收的性能有很大影响，JVM设置老年代新生代比例的参数是-XX:NewRatio。
 
-![](https://static001.geekbang.org/resource/image/a5/f4/a5c3dbd6e992822d253f4d16b05555f4.png?wh=610%2A430)  
+![](https://static001.geekbang.org/resource/image/a5/f4/a5c3dbd6e992822d253f4d16b05555f4.png?wh=610%2A430)  {: referrerpolicy="no-referrer" }
 JVM中，具体执行垃圾回收的垃圾回收器有四种。
 
 **第一种是Serial 串行垃圾回收器**，这是JVM早期的垃圾回收器，只有一个线程执行垃圾回收。
@@ -75,7 +75,7 @@ JVM中，具体执行垃圾回收的垃圾回收器有四种。
 
 **最后一种是G1 垃圾回收器**，它将整个堆空间分成多个子区域，然后在这些子区域上各自独立进行垃圾回收，在回收过程中垃圾回收线程和用户线程也是并发运行。G1综合了以前几种垃圾回收器的优势，适用于各种场景，是未来主要的垃圾回收器。
 
-![](https://static001.geekbang.org/resource/image/49/34/492f81e739aba5664ebaf0e08b467134.png?wh=941%2A512)
+![](https://static001.geekbang.org/resource/image/49/34/492f81e739aba5664ebaf0e08b467134.png?wh=941%2A512){: referrerpolicy="no-referrer" }
 
 ## 小结
 

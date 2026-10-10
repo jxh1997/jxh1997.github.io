@@ -14,7 +14,7 @@ NIO是什么呢？简单来说，NIO就是一种新型IO编程模式，它的特
 
 MySQL的客户端(mysql-connector-java)采用的就是BIO模式，它的工作机制如下图所示：
 
-![图片](https://static001.geekbang.org/resource/image/ef/c7/effdb1302033dc76c329315cece78fc7.jpg?wh=1920x1195)
+![图片](https://static001.geekbang.org/resource/image/ef/c7/effdb1302033dc76c329315cece78fc7.jpg?wh=1920x1195){: referrerpolicy="no-referrer" }
 
 我们模拟场景，向MySQL服务端查询表中的数据，这时会经过四个步骤。
 
@@ -38,7 +38,7 @@ BIO的IO模型在等待数据阶段、数据传输阶段都会阻塞。其实，
 
 虽然MySQL客户端主要使用的是BIO模型，但是我们可以演示一下MySQL Client采用NIO与MySQL服务端通信的样子：
 
-![图片](https://static001.geekbang.org/resource/image/0e/9f/0ebecd5267cd3757fb776eede5b8059f.jpg?wh=1920x1188)
+![图片](https://static001.geekbang.org/resource/image/0e/9f/0ebecd5267cd3757fb776eede5b8059f.jpg?wh=1920x1188){: referrerpolicy="no-referrer" }
 
 NIO与BIO的不同点在于，在调用read方法时，如果服务端没有返回数据，该方法不会阻塞当前调用线程，read方法的返回值会为本次网络调用实际读取到的字节数量。也就是说，客户端调用一次read方法，如果本次没有读取到数据，线程可以继续处理其他事情，然后在需要数据的时候再次调用，但是在数据返回的过程中同样会阻塞线程。这也是NIO全名的由来：同步非阻塞IO。
 
@@ -54,7 +54,7 @@ NIO提供了在数据等待阶段的灵活性，但如果需要客户端反复�
 
 BIO领域一种经典的设计范式是**每个请求对应一个线程。**我们就用这种思想设计一下游戏的服务端，设计图如下：
 
-![图片](https://static001.geekbang.org/resource/image/b3/b2/b39791473269ff1065d3f9a3c6c330b2.jpg?wh=1920x950)
+![图片](https://static001.geekbang.org/resource/image/b3/b2/b39791473269ff1065d3f9a3c6c330b2.jpg?wh=1920x950){: referrerpolicy="no-referrer" }
 
 游戏服务端后端的设计思想是：采用长连接模式。每当一个客户端上线，服务端就会为请求创建一个线程，在独立的线程中和客户端进行网络读写，一旦客户端下线，就会关闭对应的线程。
 
@@ -66,7 +66,7 @@ BIO领域一种经典的设计范式是**每个请求对应一个线程。**我�
 
 我们再来看下NIO模式。基于NIO模式设计的游戏服务端模型如下图所示：
 
-![图片](https://static001.geekbang.org/resource/image/3e/a3/3ee3a797a3cc288e2426345331a02ba3.jpg?wh=1920x1381)
+![图片](https://static001.geekbang.org/resource/image/3e/a3/3ee3a797a3cc288e2426345331a02ba3.jpg?wh=1920x1381){: referrerpolicy="no-referrer" }
 
 基于NIO，在业界有一种标准的线程模型Reactor，在这节课的后半部分我们还会详细介绍，这里我们先说明一下NIO的优势。
 
@@ -88,7 +88,7 @@ BIO领域一种经典的设计范式是**每个请求对应一个线程。**我�
 
 与此同时，我们为了保证数据库服务端的可用性，通常需要强制限制客户端能使用的连接数量。这就注定了数据库客户端没有需要支持大量连接的诉求，在这个场景下，客户端使用阻塞型IO对保护数据库服务端更有优势。
 
-![](https://static001.geekbang.org/resource/image/55/29/55dc0801a13342c4600c14cfeb7d1c29.jpg?wh=1920x738)
+![](https://static001.geekbang.org/resource/image/55/29/55dc0801a13342c4600c14cfeb7d1c29.jpg?wh=1920x738){: referrerpolicy="no-referrer" }
 
 简单说明一下。假设业务代码存在缺陷，导致需要执行一条SQL语句来获取大量数据。这时，我们要尝试从数据库连接池中获取连接，并通过这个连接向MySQL服务端发送SQL语句。由于这条SQL语句的执行性能很差，这条连接在客户端一直被阻塞，无法继续发送更多的SQL。另外如果数据库连接池中没有空闲连接，再尝试获取连接时还需要等待连接被释放，服务器缓慢的执行速度确保了客户端不能持续发送新的请求，对保护数据库服务器大有裨益。
 
@@ -108,7 +108,7 @@ BIO领域一种经典的设计范式是**每个请求对应一个线程。**我�
 
 Reactor主从多Reactor模型的架构设计如下图所示：
 
-![图片](https://static001.geekbang.org/resource/image/54/bd/54782abb1c48e90807d6338f21dfb4bd.jpg?wh=1920x1209)
+![图片](https://static001.geekbang.org/resource/image/54/bd/54782abb1c48e90807d6338f21dfb4bd.jpg?wh=1920x1209){: referrerpolicy="no-referrer" }
 
 说明一下各个角色的职责。
 
@@ -120,7 +120,7 @@ Reactor主从多Reactor模型的架构设计如下图所示：
 
 我们再通过一个网络通信图进一步理解Reactor线程模型。
 
-![图片](https://static001.geekbang.org/resource/image/60/f9/6004a2b6759f46a249ce1bc95ce0e7f9.jpg?wh=1920x1081)
+![图片](https://static001.geekbang.org/resource/image/60/f9/6004a2b6759f46a249ce1bc95ce0e7f9.jpg?wh=1920x1081){: referrerpolicy="no-referrer" }
 
 网络通信的交互过程通常包括下面六个步骤。
 
@@ -148,7 +148,7 @@ Reactor主从多Reactor模型的架构设计如下图所示：
 
 我们先来看一下Reactor模型的时序图，从全局把握整体脉络：
 
-![图片](https://static001.geekbang.org/resource/image/4f/c5/4f4d7df4cd4b21e6fd1b03ec44ce4ac5.jpg?wh=1920x861)
+![图片](https://static001.geekbang.org/resource/image/4f/c5/4f4d7df4cd4b21e6fd1b03ec44ce4ac5.jpg?wh=1920x861){: referrerpolicy="no-referrer" }
 
 这里核心的流程有三个。
 

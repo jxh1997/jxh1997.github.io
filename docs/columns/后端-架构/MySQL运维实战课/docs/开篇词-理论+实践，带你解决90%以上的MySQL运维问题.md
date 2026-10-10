@@ -12,7 +12,7 @@
 
 ## 如何学好 MySQL 运维？
 
-![图片](https://static001.geekbang.org/resource/image/38/6a/38e4bcc4771a3f5a5eb932c0fe30ba6a.png?wh=1920x1226)
+![图片](https://static001.geekbang.org/resource/image/38/6a/38e4bcc4771a3f5a5eb932c0fe30ba6a.png?wh=1920x1226){: referrerpolicy="no-referrer" }
 
 在我的这段职业生涯中可以看到，去IOE战略之后，MySQL一直是我工作中的重心，这也间接地反映了一直以来的行业大趋势。到现在为止，MySQL仍然是最受企业和开发者欢迎的开源数据库，根据2022年Slintel网站的统计数据，MySQL市场份额占比仍在43.04%，2022年中国开发者调查报告数据中也显示我国73%的开发者都在使用MySQL。
 
@@ -34,7 +34,7 @@
 
 为了达到这个目标，我把课程的内容分为四个章节。
 
-![图片](https://static001.geekbang.org/resource/image/b0/db/b014602d205e3e65460cffb9393e12db.jpg?wh=1920x1164)
+![图片](https://static001.geekbang.org/resource/image/b0/db/b014602d205e3e65460cffb9393e12db.jpg?wh=1920x1164){: referrerpolicy="no-referrer" }
 
 ### 第一章 基础运维篇
 

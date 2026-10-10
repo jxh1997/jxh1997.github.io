@@ -14,7 +14,7 @@ PBFT算法非常实用，是一种能在实际场景中落地的拜占庭容错�
 
 假设苏秦再一次带队抗秦，这一天，苏秦和4个国家的4位将军赵、魏、韩、楚商量军机要事，结果刚商量完没多久苏秦就接到了情报，情报上写道：联军中可能存在一个叛徒。这时，苏秦要如何下发作战指令，保证忠将们正确、一致地执行下发的作战指令，而不是被叛徒干扰呢？
 
-![](https://static001.geekbang.org/resource/image/24/d3/2493047e33459cfa85843dd194ddced3.jpg?wh=1142%2A595)
+![](https://static001.geekbang.org/resource/image/24/d3/2493047e33459cfa85843dd194ddced3.jpg?wh=1142%2A595){: referrerpolicy="no-referrer" }
 
 带着这个问题，我们正式进入今天的学习。
 
@@ -34,19 +34,19 @@ PBFT算法非常实用，是一种能在实际场景中落地的拜占庭容错�
 
 我们先来看看如何通过PBFT算法，解决苏秦面临的共识问题。先假设苏秦制定的作战指令是进攻，而楚是叛徒（为了演示方便）：
 
-![](https://static001.geekbang.org/resource/image/8a/37/8a6fe551e5b99a28e0fed8105ed5cc37.jpg?wh=1142%2A599 "图1")
+![](https://static001.geekbang.org/resource/image/8a/37/8a6fe551e5b99a28e0fed8105ed5cc37.jpg?wh=1142%2A599 "图1"){: referrerpolicy="no-referrer" }
 
 需要你注意的是，所有的消息都是签名消息，也就是说，消息发送者的身份和消息内容都是无法伪造和篡改的（比如，楚无法伪造一个假装来自赵的消息）。
 
 首先，苏秦联系赵，向赵发送包含作战指令“进攻”的请求（就像下图的样子）。
 
-![](https://static001.geekbang.org/resource/image/5d/76/5da99fcab9c99b92351e05aca9a9a976.jpg?wh=1142%2A450 "图2")
+![](https://static001.geekbang.org/resource/image/5d/76/5da99fcab9c99b92351e05aca9a9a976.jpg?wh=1142%2A450 "图2"){: referrerpolicy="no-referrer" }
 
 当赵接收到苏秦的请求之后，会执行三阶段协议（Three-phase protocol）。
 
 - 赵将进入预准备（Pre-prepare）阶段，构造包含作战指令的预准备消息，并广播给其他将军（魏、韩、楚）。
 
-![](https://static001.geekbang.org/resource/image/40/2f/40669f5c4bcaffbac446475251f1fa2f.jpg?wh=1142%2A455 "图3")
+![](https://static001.geekbang.org/resource/image/40/2f/40669f5c4bcaffbac446475251f1fa2f.jpg?wh=1142%2A455 "图3"){: referrerpolicy="no-referrer" }
 
 那么在这里，我想问你一个问题：魏、韩、楚，收到消息后，能直接执行指令吗？
 
@@ -54,7 +54,7 @@ PBFT算法非常实用，是一种能在实际场景中落地的拜占庭容错�
 
 - 接收到预准备消息之后，魏、韩、楚将进入准备（Prepare）阶段，并分别广播包含作战指令的准备消息给其他将军。比如，魏广播准备消息给赵、韩、楚（如图所示）。为了方便演示，我们假设叛徒楚想通过不发送消息，来干扰共识协商（你能看到，图中的楚是没有发送消息的）。
 
-![](https://static001.geekbang.org/resource/image/12/43/12063907d531486261c42691ebc52c43.jpg?wh=1142%2A465 "图4")
+![](https://static001.geekbang.org/resource/image/12/43/12063907d531486261c42691ebc52c43.jpg?wh=1142%2A465 "图4"){: referrerpolicy="no-referrer" }
 
 然后，当某个将军收到2f个一致的包含作战指令的准备消息后，会进入提交（Commit）阶段（这里的2f包括自己，其中f为叛徒数，在我的演示中是1）。在这里，我也给你提一个问题：这个时候该将军（比如魏）可以直接执行指令吗？
 
@@ -64,11 +64,11 @@ PBFT算法非常实用，是一种能在实际场景中落地的拜占庭容错�
 
 <!--THE END-->
 
-![](https://static001.geekbang.org/resource/image/8a/b4/8a0f34d9098d361f114f91db8c4b1cb4.jpg?wh=1142%2A458 "图5")
+![](https://static001.geekbang.org/resource/image/8a/b4/8a0f34d9098d361f114f91db8c4b1cb4.jpg?wh=1142%2A458 "图5"){: referrerpolicy="no-referrer" }
 
 - 最后，当某个将军收到2f + 1个验证通过的提交消息后（包括自己，其中f为叛徒数，在我的演示中为1），也就是说，大部分的将军们已经达成共识，这时可以执行作战指令了，那么该将军将执行苏秦的作战指令，执行完毕后发送执行成功的消息给苏秦。
 
-![](https://static001.geekbang.org/resource/image/c7/4a/c7e8f7152487f65ba14569c50f08254a.jpg?wh=1142%2A376 "图6")
+![](https://static001.geekbang.org/resource/image/c7/4a/c7e8f7152487f65ba14569c50f08254a.jpg?wh=1142%2A376 "图6"){: referrerpolicy="no-referrer" }
 
 最后，当苏秦收到f+1个相同的响应（Reply）消息时，说明各位将军们已经就作战指令达成了共识，并执行了作战指令（其中f为叛徒数，在我的演示中为1）。
 

@@ -62,7 +62,7 @@
 
 我用一张图片，展示一下Redis的关键机制和操作系统、分布式系统的对应知识点。
 
-![](https://static001.geekbang.org/resource/image/a0/2c/a0f558fbf9105817744ee2c44230c62c.jpg?wh=2381%2A1140)
+![](https://static001.geekbang.org/resource/image/a0/2c/a0f558fbf9105817744ee2c44230c62c.jpg?wh=2381%2A1140){: referrerpolicy="no-referrer" }
 
 AOF日志的刷盘时机和操作系统的fsync机制、高速页缓存的刷回有关，而网络框架跟epoll有关，RDB生成和AOF重写与fork、写时复制有关（我在前面第3、4、5讲上讲过它们的关联）。
 

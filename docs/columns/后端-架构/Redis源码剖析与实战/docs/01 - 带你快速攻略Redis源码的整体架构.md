@@ -31,7 +31,7 @@
 
 这部分代码的一个显著特点，就是**它们可以独立于Redis src目录下的功能源码进行编译**，也就是说，它们可以独立于Redis存在和发展。下面这张图显示了deps目录下的子目录内容。
 
-![](https://static001.geekbang.org/resource/image/42/c7/4278463fb96f165bf41d6a97ff3216c7.jpg?wh=1945x726)
+![](https://static001.geekbang.org/resource/image/42/c7/4278463fb96f165bf41d6a97ff3216c7.jpg?wh=1945x726){: referrerpolicy="no-referrer" }
 
 那么，为什么在Redis源码结构中会有第三方代码库目录呢？其实主要有两方面的原因。
 
@@ -51,7 +51,7 @@ Redis作为Client-Server架构的系统，访问Redis离不开客户端的支撑
 
 这个目录里面**包含了Redis所有功能模块的代码文件，也是Redis源码的重要组成部分**。同样，我们先来看下src目录下的子目录结构。
 
-![](https://static001.geekbang.org/resource/image/d7/26/d7ac6b01af49047409db5d9e16b6e826.jpg?wh=2187x487)
+![](https://static001.geekbang.org/resource/image/d7/26/d7ac6b01af49047409db5d9e16b6e826.jpg?wh=2187x487){: referrerpolicy="no-referrer" }
 
 我们会发现，src目录下只有一个modules子目录，其中包含了一个实现Redis module的示例代码。剩余的源码文件都是在src目录下，没有再分下一级子目录。
 
@@ -69,13 +69,13 @@ Redis实现的测试代码可以分成四部分，分别是**单元测试**（�
 
 不过在tests目录中，除了有针对特定功能模块的测试代码外，还有一些代码是**用来支撑测试功能**的，这些代码在assets、helpers、modules、support四个目录中。这里我画了这张图，展示了tests目录下的代码结构和层次，你可以参考下。
 
-![](https://static001.geekbang.org/resource/image/cc/5e/ccb2feae193e4911cc68a0ccb755ac5e.jpg?wh=2250x1111)
+![](https://static001.geekbang.org/resource/image/cc/5e/ccb2feae193e4911cc68a0ccb755ac5e.jpg?wh=2250x1111){: referrerpolicy="no-referrer" }
 
 ### utils目录
 
 在Redis开发过程中，还有一些功能属于辅助性功能，包括用于创建Redis Cluster的脚本、用于测试LRU算法效果的程序，以及可视化rehash过程的程序。在Redis代码结构中，这些功能代码都被归类到了utils目录中统一管理。下图展示了utils目录下的主要子目录，你可以看下。
 
-![](https://static001.geekbang.org/resource/image/3b/b2/3b7933e5f1740ccdc3870ee554faf4b2.jpg?wh=2250x1039)
+![](https://static001.geekbang.org/resource/image/3b/b2/3b7933e5f1740ccdc3870ee554faf4b2.jpg?wh=2250x1039){: referrerpolicy="no-referrer" }
 
 所以，当我们在开发系统时，就可以学习Redis的代码结构，也把和系统相关的辅助性功能划归到utils目录中统一管理。
 
@@ -83,7 +83,7 @@ Redis实现的测试代码可以分成四部分，分别是**单元测试**（�
 
 最后呢，你也可以再次整体回顾下Redis源码的总体结构层次，如下图所示。
 
-![](https://static001.geekbang.org/resource/image/59/35/5975c57d9ac404fe3a774ea28a7ac935.jpg?wh=2238x811)
+![](https://static001.geekbang.org/resource/image/59/35/5975c57d9ac404fe3a774ea28a7ac935.jpg?wh=2238x811){: referrerpolicy="no-referrer" }
 
 好，在了解了Redis的代码目录和层次以后，接下来，我们还需要重点学习下功能模块的源码文件（即src目录下的文件内容），这有助于我们在后续课程中学习Redis的相关设计思想时，能够快速找到对应的源码文件。
 
@@ -113,7 +113,7 @@ Redis对TCP网络通信的Socket连接、设置等操作进行了封装，这些
 
 这里我也给你总结了与服务器实例相关的功能模块及对应的代码文件，你可以看下。
 
-![](https://static001.geekbang.org/resource/image/51/df/514e63ce6947d382fe7a3152c1c989df.jpg?wh=2250x882)
+![](https://static001.geekbang.org/resource/image/51/df/514e63ce6947d382fe7a3152c1c989df.jpg?wh=2250x882){: referrerpolicy="no-referrer" }
 
 那么，在了解了Redis服务器实例的主要功能代码之后，我们再从Redis内存数据库这一特性维度，来梳理下与它相关的代码文件。
 
@@ -125,7 +125,7 @@ Redis数据库提供了丰富的键值对类型，其中包括了String、List�
 
 不过，因为Redis实现的底层数据结构非常多，所以这里我把这些底层结构和它们对应的键值对类型，以及相应的代码文件列在了下表中，你可以用这张表来快速定位代码文件。
 
-![](https://static001.geekbang.org/resource/image/0b/57/0be4769a748a22dae5760220d9c05057.jpg?wh=2000x1125)
+![](https://static001.geekbang.org/resource/image/0b/57/0be4769a748a22dae5760220d9c05057.jpg?wh=2000x1125){: referrerpolicy="no-referrer" }
 
 除了实现了诸多的数据类型以外，Redis作为数据库，还实现了对键值对的新增、查询、修改和删除等操作接口，这部分功能是在**db.c文件**实现的。
 
@@ -143,7 +143,7 @@ Redis数据库提供了丰富的键值对类型，其中包括了String、List�
 
 同样，这里我也把和Redis数据库数据类型与操作相关的功能模块及代码文件，总结成了一张图，你可以看下。
 
-![](https://static001.geekbang.org/resource/image/15/f0/158fa224d6a49c7d4702ce3f07dbeff0.jpg?wh=1938x768)
+![](https://static001.geekbang.org/resource/image/15/f0/158fa224d6a49c7d4702ce3f07dbeff0.jpg?wh=1938x768){: referrerpolicy="no-referrer" }
 
 ### 高可靠性和高可扩展性
 

@@ -14,7 +14,7 @@
 
 在设计阶段，我们需要回答的问题就是极客中台的愿景是什么？包含哪些内容？从哪儿开始落地？完成设计阶段，应该就能清晰地知道如何开始进行中台建设，可以让团队开始中台MVP的开发工作了。如果对于什么是MVP不太清楚，不用担心，后续会介绍到。
 
-![](https://static001.geekbang.org/resource/image/3e/96/3ea5329ad50cd68abfdc26ccadb31996.jpeg?wh=1920%2A1080)
+![](https://static001.geekbang.org/resource/image/3e/96/3ea5329ad50cd68abfdc26ccadb31996.jpeg?wh=1920%2A1080){: referrerpolicy="no-referrer" }
 
 ## 确定中台产品愿景
 
@@ -38,7 +38,7 @@
 
 这里有一个问题，还是要提一下，**愿景的价值和难点就在于充分收敛**。但我见过很多企业的愿景虽然也用了电梯演讲的方式，但是结果满满地铺了一面墙，看着虽然震撼，但是其实效果是大打折扣的，毕竟我们也没法在一个电梯时间复述完一整面墙的内容。还是那句话，做加法易，做减法难。
 
-![](https://static001.geekbang.org/resource/image/69/26/6981179d4364844f8bb0987f375cd826.png?wh=1614%2A736)
+![](https://static001.geekbang.org/resource/image/69/26/6981179d4364844f8bb0987f375cd826.png?wh=1614%2A736){: referrerpolicy="no-referrer" }
 
 ## 确定业务梳理范围
 
@@ -46,7 +46,7 @@
 
 但是，同样是企业级的原因，此时我们面对的问题往往就是不知道该从哪里下手。毕竟中台有企业级属性，就算是业务梳理也会涉及到企业的全业务线，而且是端到端全流程的梳理工作，工作量之大也往往让人望而却步。
 
-![](https://static001.geekbang.org/resource/image/0c/d8/0c0bebb1e31e240c0446df0547a25ad8.jpeg?wh=1020%2A765)
+![](https://static001.geekbang.org/resource/image/0c/d8/0c0bebb1e31e240c0446df0547a25ad8.jpeg?wh=1020%2A765){: referrerpolicy="no-referrer" }
 
 是不是所有的业务线都要梳理？是不是端到端的所有阶段都要梳理？业务梳理要到什么样的粒度？这些都是经常面对的问题。
 
@@ -70,7 +70,7 @@
 
 再在这个聚焦的区域中进行业务梳理和展开，就会更加有效率和聚焦。
 
-![](https://static001.geekbang.org/resource/image/6a/c4/6a4ed7864f1bd56d5e6d02e00b4851c4.png?wh=1568%2A1162)
+![](https://static001.geekbang.org/resource/image/6a/c4/6a4ed7864f1bd56d5e6d02e00b4851c4.png?wh=1568%2A1162){: referrerpolicy="no-referrer" }
 
 ## 细粒度业务梳理
 
@@ -82,23 +82,23 @@
 
 举个例子，往往时间比较长的业务线都会有非常复杂的审批审核流程。但是审核和审批流程其实只是一种解决方案，要解决的问题可能是过程造假或是其他的一些内部风险和问题。复杂的审批流程也往往是信息化时代甚至是更早的纸质时代的过程管控的产物，由于信息化更多只是将线下的流程线上化，所以一直延续至今，而且为了高度复刻还原纸质时代的流程，还非常中国特色地出现了各种的奇怪的审批逻辑，例如会签等等。
 
-![](https://static001.geekbang.org/resource/image/15/16/15592b4bc1f1d373ca82995aa6c7cb16.jpeg?wh=1020%2A765)
+![](https://static001.geekbang.org/resource/image/15/16/15592b4bc1f1d373ca82995aa6c7cb16.jpeg?wh=1020%2A765){: referrerpolicy="no-referrer" }
 
 但是如果我们重新回到问题域，重新思考问题本身，我们就发现可能在当今这个数字化的时代，在大数据和AI已经广泛应用的今天，甚至可能不再需要流程审批这样一个过程。通过新的技术，我们可以用实时的审计分析或是风险识别来发现业务过程中的一些异常，甚至通过完全的自动化，消除中间人员参与的环节，从根本上解决这些问题，从而真正发挥数字化的威力。
 
-![](https://static001.geekbang.org/resource/image/8f/d3/8f50128f984d74d884e4db9c4a5d01d3.jpeg?wh=1020%2A765)
+![](https://static001.geekbang.org/resource/image/8f/d3/8f50128f984d74d884e4db9c4a5d01d3.jpeg?wh=1020%2A765){: referrerpolicy="no-referrer" }
 
 这种回到问题域本身，回到问题的原点，基于用户需求在当前的业务及技术条件下，重新设计解决方案的思维方法，可以避开上面提到的业务债陷阱，也多用于创新型业务的设计过程，而这种思维方式也大量参考和借鉴了**设计思维**（Design Thinking）的方法。
 
 所以和基于现状的传统业务流程梳理不同，我们在业务梳理过程中大量地采用了基于**设计思维**，结合**用户体验地图**（User Journey Map）和**服务蓝图**（Service Map）的方式。回到业务本身，从问题域出发，以用户为中心，进行用户体验设计和业务服务蓝图的梳理，从效果上来看也是非常不错的。
 
-![](https://static001.geekbang.org/resource/image/84/dd/845e745812f67622748606332a5f80dd.jpeg?wh=1020%2A765)
+![](https://static001.geekbang.org/resource/image/84/dd/845e745812f67622748606332a5f80dd.jpeg?wh=1020%2A765){: referrerpolicy="no-referrer" }
 
 当然不是说哪种方法更好，不同的工具和方法有不同的适用场景和优劣势，如果都能灵活掌握，甚至可以结合使用，充分发挥出各自的优势。
 
 通过范围内的业务架构梳理，再结合最后的跨场景通用能力的分析，我们就可以对关注领域的业务全貌有了一定深入的了解，并且可以识别出不同业务线中一些可复用的业务数据、业务功能与业务流程。而这些通用的业务数据、业务功能、业务流程经过加工分析就形成了中台的具体需求。对于这些需求，我们是通过**用户故事**（User Story）的方式描述的。
 
-![](https://static001.geekbang.org/resource/image/ef/df/ef05adf4c6f819ad8f1484471c8515df.jpeg?wh=1020%2A765)
+![](https://static001.geekbang.org/resource/image/ef/df/ef05adf4c6f819ad8f1484471c8515df.jpeg?wh=1020%2A765){: referrerpolicy="no-referrer" }
 
 ## 确定MVP
 
@@ -110,7 +110,7 @@
 
 为了实现MVP，保证做出来的MVP可用，我们在业务需求上采用端到端纵向切分的方式，结合需求优先级的多维度评分排序，最终确定MVP的需求范围，而最终落地的形式可能就是第一个迭代的用户故事列表。
 
-![](https://static001.geekbang.org/resource/image/50/17/5078b8d84d2ddd763086d3a0a6819a17.jpeg?wh=1020%2A765)
+![](https://static001.geekbang.org/resource/image/50/17/5078b8d84d2ddd763086d3a0a6819a17.jpeg?wh=1020%2A765){: referrerpolicy="no-referrer" }
 
 那已经有了具体的用户故事列表，是不是我们就可以开始着手开发了呢。先别急，有两个事情，我们建议在开始中台建设之前就需要考虑，那就是运营计划和度量指标。
 
@@ -124,7 +124,7 @@
 
 所以提前考量运营计划尤其是接入计划，尽量使用合理的接入计划（我看到有很多企业把这个接入计划叫作上车计划，非常形象）来规避一些风险，对于中台产品的建设也非常关键。具体的运营策略，在下一篇中讲为你展开介绍。
 
-![](https://static001.geekbang.org/resource/image/a0/1b/a0ff9f1ab999ce681327bda4adb0b01b.jpeg?wh=1020%2A765)
+![](https://static001.geekbang.org/resource/image/a0/1b/a0ff9f1ab999ce681327bda4adb0b01b.jpeg?wh=1020%2A765){: referrerpolicy="no-referrer" }
 
 ## 度量前置：定义验证指标
 
@@ -132,13 +132,13 @@
 
 首先，我们先来看看一般我们常用的有哪些指标。我把市面上最常见到的产品度量指标，分为了四个大类，也就是战略类、用户类、市场拓展类与降本提效类。基于每一个维度展开，都能找到很多的常用度量指标。
 
-![](https://static001.geekbang.org/resource/image/22/43/22771d9d06434a8f289387b701397643.jpeg?wh=1020%2A765)
+![](https://static001.geekbang.org/resource/image/22/43/22771d9d06434a8f289387b701397643.jpeg?wh=1020%2A765){: referrerpolicy="no-referrer" }
 
 而对于中台来讲，难就难在与市场和用户之间还隔着一层前台，所以在度量上就不如直接接触用户的前台系统这么清晰。但是我们讲中台是为前台业务赋能的，又不能脱离开业务，单纯只在技术上做一些度量，例如接口稳定性和接口数量等，这样也不符合中台对于业务支撑赋能的定位和价值。
 
 所以我们一般在考虑中台的度量指标的时候，还是把战略价值和业务价值作为出发点，开始拆解和推导，并且按照干系人关注点的不同，用多维度、多层次的指标设计来审视中台建设的效果。这里要强调一下，虽然维度和视角不同，我们要保证所有指标体现的中台建设目标必须是一个。
 
-![](https://static001.geekbang.org/resource/image/ae/11/ae40951f0b750773536ae307085c8f11.jpeg?wh=1020%2A765)
+![](https://static001.geekbang.org/resource/image/ae/11/ae40951f0b750773536ae307085c8f11.jpeg?wh=1020%2A765){: referrerpolicy="no-referrer" }
 
 而具体到实施方法，因为每一个中台产品都是不一样的，所以很难给一个标准的答案。在实操过程中，建议你多换位思考，多问几个“怎么（How）”。相信你比较熟悉5Why分析法，这里我们可以稍微改一下，用**5How**来驱动验证指标的设计。
 

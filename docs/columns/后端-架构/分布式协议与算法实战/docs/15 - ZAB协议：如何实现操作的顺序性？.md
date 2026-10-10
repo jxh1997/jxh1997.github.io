@@ -21,7 +21,7 @@ Created /geekbang/time
 
 假如节点A、B、C组成的一个分布式集群，我们要设计一个算法，来保证指令（比如X、Y）执行的顺序性，比如，指令X在指令Y之前执行，那么我们该如何设计这个算法呢？
 
-![](https://static001.geekbang.org/resource/image/55/c9/55dc6f6bf822db027858b8b4fdb89cc9.jpg?wh=1142%2A847 "图1")
+![](https://static001.geekbang.org/resource/image/55/c9/55dc6f6bf822db027858b8b4fdb89cc9.jpg?wh=1142%2A847 "图1"){: referrerpolicy="no-referrer" }
 
 带着这个问题，我们进入今天的内容。
 
@@ -31,15 +31,15 @@ Created /geekbang/time
 
 首先节点A是领导者，提案编号为1，提议了指令X、Y，对应的序号分别为101和102，但是因为网络故障，指令只成功复制到了节点A。
 
-![](https://static001.geekbang.org/resource/image/3e/f3/3ed203904d35eaf0bd5162262c1b4ef3.jpg?wh=1142%2A409 "图2")
+![](https://static001.geekbang.org/resource/image/3e/f3/3ed203904d35eaf0bd5162262c1b4ef3.jpg?wh=1142%2A409 "图2"){: referrerpolicy="no-referrer" }
 
 假设这时节点A故障了，新当选的领导者为节点B。节点B当选领导者后，需要先作为学习者了解目前已被选定的指令。节点B学习之后，发现当前被选定指令的最大序号为100（因为节点A故障了，它被选定指令的最大序号102，无法被节点B发现），那么它可以从序号101开始提议新的指令。这时它接收到客户端请求，并提议了指令Z，指令Z被成功复制到节点B、C。
 
-![](https://static001.geekbang.org/resource/image/77/12/77f94aa5dec044ffc1a61547cb10f112.jpg?wh=1142%2A365 "图3")
+![](https://static001.geekbang.org/resource/image/77/12/77f94aa5dec044ffc1a61547cb10f112.jpg?wh=1142%2A365 "图3"){: referrerpolicy="no-referrer" }
 
 假设这时节点B故障了，节点A恢复了，选举出领导者C后，节点B故障也恢复了。节点C当选领导者后，需要先作为学习者了解目前已被选定的指令，这时它执行Basic Paxos的准备阶段，就会发现之前选定的值（比如Z、Y），然后发送接受请求，最终在序号101、102处达成共识的指令是Z、Y。就像下图的样子。
 
-![](https://static001.geekbang.org/resource/image/e6/c4/e6c27d879025ef6943a5985da1351bc4.jpg?wh=1142%2A402 "图4")
+![](https://static001.geekbang.org/resource/image/e6/c4/e6c27d879025ef6943a5985da1351bc4.jpg?wh=1142%2A402 "图4"){: referrerpolicy="no-referrer" }
 
 在这里，你可以看到，原本预期的指令是X、Y，最后变成了Z、Y。讲到这儿，你应该可以知道，为什么用Multi-Paxos不能达到我们想要的结果了吧？
 
@@ -70,11 +70,11 @@ Node does not exist: /geekbang/time
 
 首先，需要你注意的是，在ZAB中，写操作必须在主节点（比如节点A）上执行。如果客户端访问的节点是备份节点（比如节点B），它会将写请求转发给主节点。如图所示：
 
-![](https://static001.geekbang.org/resource/image/77/6f/770c39b4ea339799bc3ca4a0b0d8266f.jpg?wh=1142%2A478 "图5")
+![](https://static001.geekbang.org/resource/image/77/6f/770c39b4ea339799bc3ca4a0b0d8266f.jpg?wh=1142%2A478 "图5"){: referrerpolicy="no-referrer" }
 
 接着，当主节点接收到写请求后，它会基于写请求中的指令（也就是X，Y），来创建一个提案（Proposal），并使用一个唯一的ID来标识这个提案。这里我说的唯一的ID就是指事务标识符（Transaction ID，也就是zxid），就像下图的样子。
 
-![](https://static001.geekbang.org/resource/image/d0/9b/d0063fa9275ce0a114ace27db326d19b.jpg?wh=1142%2A387 "图6")
+![](https://static001.geekbang.org/resource/image/d0/9b/d0063fa9275ce0a114ace27db326d19b.jpg?wh=1142%2A387 "图6"){: referrerpolicy="no-referrer" }
 
 从图中你可以看到，X、Y对应的事务标识符分别为&lt;1, 1&gt;和&lt;1, 2&gt;，这两个标识符是什么含义呢？
 
@@ -87,13 +87,13 @@ Node does not exist: /geekbang/time
 
 在创建完提案之后，主节点会基于TCP协议，并按照顺序将提案广播到其他节点。这样就能保证先发送的消息，会先被收到，保证了消息接收的顺序性。
 
-![](https://static001.geekbang.org/resource/image/e5/96/e525af146900c892e0c002affa77d496.jpg?wh=1142%2A403 "图7")
+![](https://static001.geekbang.org/resource/image/e5/96/e525af146900c892e0c002affa77d496.jpg?wh=1142%2A403 "图7"){: referrerpolicy="no-referrer" }
 
 你看这张图，X一定在Y之前到达节点B、C。
 
 然后，当主节点接收到指定提案的“大多数”的确认响应后，该提案将处于提交状态（Committed），主节点会通知备份节点提交该提案。
 
-![](https://static001.geekbang.org/resource/image/1d/19/1d3950b6d91845789cce1f0569969419.jpg?wh=1142%2A423 "图8")
+![](https://static001.geekbang.org/resource/image/1d/19/1d3950b6d91845789cce1f0569969419.jpg?wh=1142%2A423 "图8"){: referrerpolicy="no-referrer" }
 
 在这里，需要你注意的是，主节点提交提案是有顺序性的。主节点根据事务标识符大小，按照顺序提交提案，如果前一个提案未提交，此时主节点是不会提交后一个提案的。也就是说，指令X一定会在指令Y之前提交。
 
@@ -101,7 +101,7 @@ Node does not exist: /geekbang/time
 
 最后我想补充的是，当写操作执行完后，接下来你可能需要执行读操作了。你需要注意，为了提升读并发能力，Zookeeper提供的是最终一致性，也就是读操作可以在任何节点上执行，客户端会读到旧数据：
 
-![](https://static001.geekbang.org/resource/image/d4/1c/d405381e5fad12730149baa4fae63e1c.jpg?wh=1142%2A536 "图9")
+![](https://static001.geekbang.org/resource/image/d4/1c/d405381e5fad12730149baa4fae63e1c.jpg?wh=1142%2A536 "图9"){: referrerpolicy="no-referrer" }
 
 如果客户端必须要读到最新数据，怎么办呢？Zookeeper提供了一个解决办法，那就是sync命令。你可以在执行读操作前，先执行sync命令，这样客户端就能读到最新数据了：
 

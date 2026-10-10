@@ -6,7 +6,7 @@
 
 当代软件开发的基本思想是通过迭代的方式增量开发系统。在每个迭代结束后，根据收集到的反馈，调整目标和方向。这种方式下，开发人员能够利用前序迭代中学习到的知识，在后续迭代中改进交付的流程和结果。
 
-![](https://static001.geekbang.org/resource/image/d3/5b/d3abf967c2cbd0170c4d19af6957e85b.jpg?wh=1451x805)
+![](https://static001.geekbang.org/resource/image/d3/5b/d3abf967c2cbd0170c4d19af6957e85b.jpg?wh=1451x805){: referrerpolicy="no-referrer" }
 
 迭代交付的关键在于，不要一开始就想实现全部的功能和需求，而是从一部分核心需求开始，通过持续的反馈，不断增强和演进当前的软件，调整目标和计划，直到整个系统做完为止。
 
@@ -32,7 +32,7 @@
 > 请使用JavaScript编写一个贪吃蛇的游戏  
 > 然后ChatGPT就能够生成差不多的代码：
 
-![](https://static001.geekbang.org/resource/image/f2/1b/f2e9a67a3031d0e6063b6d8c82f15f1b.jpg?wh=1499x5881)
+![](https://static001.geekbang.org/resource/image/f2/1b/f2e9a67a3031d0e6063b6d8c82f15f1b.jpg?wh=1499x5881){: referrerpolicy="no-referrer" }
 
 这一方面得益于ChatGPT丰富的训练语料，但更多是由于在互联网上有很多关于贪吃蛇的规则描述、示例代码等知识沉淀。也就是关于贪吃蛇的业务知识早就存在于互联网之上了，我们无需额外准备这些知识了。**这里效率提升的主因并不是LLM，而是包含在训练语料中的知识**。**因而我们无法跳过知识管理这一步，让LLM直接帮助我们生成我们想要的代码。**
 

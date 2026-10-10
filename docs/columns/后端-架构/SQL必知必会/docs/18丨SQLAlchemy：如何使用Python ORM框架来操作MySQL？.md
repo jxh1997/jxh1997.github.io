@@ -10,7 +10,7 @@ Python还有另一种方式可以与MySQL进行交互，这种方式采用的是
 
 在讲解ORM框架之前，我们需要先了解什么是持久化。如下图所示，持久化层在业务逻辑层和数据库层起到了衔接的作用，它可以将内存中的数据模型转化为存储模型，或者将存储模型转化为内存中的数据模型。
 
-![](https://static001.geekbang.org/resource/image/b9/5b/b9dafd636ec586704bb8488d9b2faa5b.jpg?wh=655%2A506)
+![](https://static001.geekbang.org/resource/image/b9/5b/b9dafd636ec586704bb8488d9b2faa5b.jpg?wh=655%2A506){: referrerpolicy="no-referrer" }
 
 你可能会想到，我们在讲事务的4大特性ACID时，提到过持久性。你可以简单地理解为，持久性就是将对象数据永久存储在数据库中。通常我们将数据库的作用理解为永久存储，将内存理解为暂时存储。我们在程序的层面操作数据，其实都是把数据放到内存中进行处理，如果需要数据就会通过持久化层，从数据库中取数据；如果需要保存数据，就是将对象数据通过持久化层存储到数据库中。
 
@@ -30,7 +30,7 @@ ORM框架帮我们适配了各种DBMS，同时我们也可以选择不同的ORM�
 
 一个Model映射到一个数据表，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/d9/95/d9ea5e64198554061c729ffb97561795.jpg?wh=634%2A454)  
+![](https://static001.geekbang.org/resource/image/d9/95/d9ea5e64198554061c729ffb97561795.jpg?wh=634%2A454)  {: referrerpolicy="no-referrer" }
 从这张图上你能直观地看到，ORM的作用就是建立了对象关系映射。模型的每个属性代表数据表中的一个字段，我们通过操作类实例对象，对数据表中的数据行进行增删改查等操作。
 
 第二个是SQLALchemy，它也是Python中常用的ORM框架之一。它提供了SQL工具包及ORM工具，如果你想用支持ORM和支持原生SQL两种方式的工具，那么SQLALchemy是很好的选择。另外SQLALchemy的社区更加活跃，这对项目实施会很有帮助。
@@ -70,10 +70,10 @@ class Player(Base):
 
 这里需要说明的是，`__tablename__` 指明了模型对应的数据表名称，即player数据表。同时我们在Player模型中对采用的变量名进行定义，变量名需要和数据表中的字段名称保持一致，否则会找不到数据表中的字段。在SQLAlchemy中，我们采用Column对字段进行定义，常用的数据类型如下：
 
-![](https://static001.geekbang.org/resource/image/d6/42/d6f02460647f34fba692e8a61b80a042.png?wh=970%2A394)  
+![](https://static001.geekbang.org/resource/image/d6/42/d6f02460647f34fba692e8a61b80a042.png?wh=970%2A394)  {: referrerpolicy="no-referrer" }
 除了指定Column的数据类型以外，我们也可以指定Column的参数，这些参数可以帮我们对对象创建列约束：
 
-![](https://static001.geekbang.org/resource/image/45/dd/458d77c980f2ac7b9e8e34dd75eac8dd.png?wh=975%2A208)  
+![](https://static001.geekbang.org/resource/image/45/dd/458d77c980f2ac7b9e8e34dd75eac8dd.png?wh=975%2A208)  {: referrerpolicy="no-referrer" }
 这里需要说明的是，如果你使用相应的数据类型，那么需要提前在SQLAlchemy中进行引用，比如：
 
 ```
@@ -197,7 +197,7 @@ session.close()
 
 当然除了学习掌握SQLAlalchemy这个Python ORM工具以外，我还希望你能了解到ORM的价值和不足。如果项目本身不大，那么自己动手写SQL语句会比较简单，你可以不使用ORM工具，而是直接使用上节课讲到的mysql-connector。但是随着项目代码量的增加，为了在业务逻辑层与数据库底层进行松耦合，采用ORM框架是更加适合的。
 
-![](https://static001.geekbang.org/resource/image/6c/f3/6cffd2ac3be05210ace5cd753ee4aff3.jpg?wh=3341%2A2164)  
+![](https://static001.geekbang.org/resource/image/6c/f3/6cffd2ac3be05210ace5cd753ee4aff3.jpg?wh=3341%2A2164)  {: referrerpolicy="no-referrer" }
 我今天讲解了SQLAlalchemy工具的使用，为了更好地让你理解，我出一道练习题吧。还是针对player数据表，请你使用SQLAlalchemy工具查询身高为2.08米的球员，并且将这些球员的身高修改为2.09。
 
 欢迎你在评论区写下你的答案，也欢迎把这篇文章分享给你的朋友或者同事，一起交流。

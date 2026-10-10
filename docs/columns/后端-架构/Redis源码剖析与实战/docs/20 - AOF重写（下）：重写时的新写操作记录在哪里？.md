@@ -16,7 +16,7 @@
 
 其实，管道创建的这块缓冲区就像一个先进先出的队列一样，写数据的进程写到队列尾部，而读数据的进程则从队列头读取。下图就展示了两个进程使用管道进行数据通信的过程，你可以看下。
 
-![图片](https://static001.geekbang.org/resource/image/c1/ff/c16041a949bcef79fcb87805214715ff.jpg?wh=1768x465)
+![图片](https://static001.geekbang.org/resource/image/c1/ff/c16041a949bcef79fcb87805214715ff.jpg?wh=1768x465){: referrerpolicy="no-referrer" }
 
 好了，了解了管道的基本功能后，我们再来看下使用管道时需要注意的一个关键点。**管道中的数据在一个时刻只能向一个方向流动**，这也就是说，如果父进程A往管道中写入了数据，那么此时子进程B只能从管道中读取数据。类似的，如果子进程B往管道中写入了数据，那么此时父进程A只能从管道中读取数据。而如果父子进程间需要同时进行数据传输通信，我们就需要创建两个管道了。
 
@@ -60,7 +60,7 @@ int main() 
 
 这里，为了便于你理解，我也画了一张图，你可以参考。
 
-![图片](https://static001.geekbang.org/resource/image/4a/a7/4a7932d7a371cfc610bb6d79fe0e96a7.jpg?wh=1920x1080)
+![图片](https://static001.geekbang.org/resource/image/4a/a7/4a7932d7a371cfc610bb6d79fe0e96a7.jpg?wh=1920x1080){: referrerpolicy="no-referrer" }
 
 好了，现在你就了解了如何使用管道来进行父子进程的通信了。那么下面，我们就来看下在AOF重写过程中，重写子进程是如何用管道和主进程（也就是它的父进程）进行通信的。
 
@@ -132,7 +132,7 @@ server.aof_pipe_read_ack_from_parent = fds[4];
 
 下图也展示了aofCreatePipes函数的基本执行流程，你可以再回顾下。
 
-![图片](https://static001.geekbang.org/resource/image/39/18/3966573fd97e10f41e9bbbcc6e919718.jpg?wh=1920x1080)
+![图片](https://static001.geekbang.org/resource/image/39/18/3966573fd97e10f41e9bbbcc6e919718.jpg?wh=1920x1080){: referrerpolicy="no-referrer" }
 
 好了，了解了AOF重写过程中的管道个数和用途后，下面我们再来看下这些管道具体是如何使用的。
 
@@ -204,7 +204,7 @@ while(1) {
 
 下图也展示了这个过程，你可以再来回顾下。
 
-![图片](https://static001.geekbang.org/resource/image/ef/a9/efe1a110e7062e17aa964a3b1781bfa9.jpg?wh=1920x1080)
+![图片](https://static001.geekbang.org/resource/image/ef/a9/efe1a110e7062e17aa964a3b1781bfa9.jpg?wh=1920x1080){: referrerpolicy="no-referrer" }
 
 然后，我们接着来看下重写子进程，是如何从管道中读取父进程发送的命令操作的。
 
@@ -292,7 +292,7 @@ if (syncRead(server.aof_pipe_read_ack_from_parent,&byte,1,5000) != 1  || byte !=
 
 下图也展示了ACK管道的使用过程，你可以再回顾下。
 
-![图片](https://static001.geekbang.org/resource/image/41/59/416bb56f2c5af3bac4f2c4374300c459.jpg?wh=1920x1080)
+![图片](https://static001.geekbang.org/resource/image/41/59/416bb56f2c5af3bac4f2c4374300c459.jpg?wh=1920x1080){: referrerpolicy="no-referrer" }
 
 这样一来，重写子进程和主进程之间就通过两个ACK管道，相互确认重写过程结束了。
 

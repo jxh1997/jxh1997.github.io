@@ -8,7 +8,7 @@ Schema 翻译过来是“模式”的意思。它表示的是**数据结构定�
 
 如下图所示，默认情况下消息数据在生产者、Broker、Consumer 的全流程中，代码层面没有对消息内容格式进行限制或校验。
 
-![](https://static001.geekbang.org/resource/image/0f/59/0f757ba92e14a277dfb7276547fe7459.jpg?wh=10666x2707)
+![](https://static001.geekbang.org/resource/image/0f/59/0f757ba92e14a277dfb7276547fe7459.jpg?wh=10666x2707){: referrerpolicy="no-referrer" }
 
 因此存在的问题是：消费者和生产者需要线下对齐数据格式，然后消费者根据约定的消息格式编写相应的处理逻辑。当生产端的数据格式或者某个字段的数据类型发生变化时，如果没有及时通知下游消费者，消费者就会无法解析数据，导致数据消费异常。
 
@@ -59,7 +59,7 @@ CREATE TABLE IF person(
 
 带着这五个问题，我们来看一张架构图。
 
-![](https://static001.geekbang.org/resource/image/ae/3d/aedcda34522a5908c6603ca4cd150a3d.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/ae/3d/aedcda34522a5908c6603ca4cd150a3d.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 从图中可以看到，在当前消息队列架构的基础上，我们引入了一个新的组件：Schema Register，即 Schema 注册中心。SchemaRegister 的作用是**持久化保存具体的 Schema 信息，并提供接口给客户端增删改查** **Scheme** **信息**。
 
@@ -79,7 +79,7 @@ Schema Register 也称为 Schema 注册中心。它的功能是存储数据，�
 
 所以，Schema Register 本质上是一个Server，由计算逻辑层和存储层两部分组成。计算逻辑层负责提供增删改查的接口支持对Schema 信息的操作，持久层负责分布式、持久化存储Schema信息。
 
-![](https://static001.geekbang.org/resource/image/10/dd/1054ea6629c3bd948d6d4220f84830dd.jpg?wh=10666x5069)
+![](https://static001.geekbang.org/resource/image/10/dd/1054ea6629c3bd948d6d4220f84830dd.jpg?wh=10666x5069){: referrerpolicy="no-referrer" }
 
 从技术上看，Schema Register 有独立部署和Broker内核集成两种实现形态。
 
@@ -93,7 +93,7 @@ Schema Register 也称为 Schema 注册中心。它的功能是存储数据，�
 
 **Broker** **内核集成**是指在 Broker 内核实现Schema Register。如下图所示，即在Broker 上提供四层或七层的接口来满足 Schema 信息的增删改查等操作，同时集群内部创建一个内部Topic来保存Schema信息。
 
-![](https://static001.geekbang.org/resource/image/5a/04/5a44e28ecb7612ae2bbea3d7dd01e404.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/5a/04/5a44e28ecb7612ae2bbea3d7dd01e404.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 所以这种方案的技术实现思路大致如下：
 
@@ -150,7 +150,7 @@ Schema Register 也称为 Schema 注册中心。它的功能是存储数据，�
 
 所以如下图所示，一个Schema的具体结构可以是这样的。
 
-![](https://static001.geekbang.org/resource/image/ee/84/eeaff9e412d15c41ec4f18257a03e384.jpg?wh=10666x3238)
+![](https://static001.geekbang.org/resource/image/ee/84/eeaff9e412d15c41ec4f18257a03e384.jpg?wh=10666x3238){: referrerpolicy="no-referrer" }
 
 当然这个Schema 格式只是一个基础，实际场景中还需要更多的字段来表达更多信息。所以在实现上，还需要进行一定的扩展。
 
@@ -158,7 +158,7 @@ Schema Register 也称为 Schema 注册中心。它的功能是存储数据，�
 
 所以如下图所示，Topic 中肯定会存在前后数据的Schema 不一样的情况。
 
-![](https://static001.geekbang.org/resource/image/c8/6f/c894f4bcbac3c8d5f5095e244459296f.jpg?wh=10666x4037)
+![](https://static001.geekbang.org/resource/image/c8/6f/c894f4bcbac3c8d5f5095e244459296f.jpg?wh=10666x4037){: referrerpolicy="no-referrer" }
 
 那么当生产者发送消息时，每条消息就需要携带所属的SchemaID和Version标记。此时：
 
@@ -167,7 +167,7 @@ Schema Register 也称为 Schema 注册中心。它的功能是存储数据，�
 
 所以，在消息的协议结构中，就需要增加SchemaID和SchemaVersion两个字段。
 
-![](https://static001.geekbang.org/resource/image/df/f0/df8209793caaa86f09c528163c83cdf0.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/df/f0/df8209793caaa86f09c528163c83cdf0.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 下面我们来看一下 Broker 端是如何集成 Schema 的。
 
@@ -175,7 +175,7 @@ Schema Register 也称为 Schema 注册中心。它的功能是存储数据，�
 
 先来回顾一下上面的那张架构图。
 
-![](https://static001.geekbang.org/resource/image/ae/3d/aedcda34522a5908c6603ca4cd150a3d.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/ae/3d/aedcda34522a5908c6603ca4cd150a3d.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 从 Broker 的角度来看，它对Schema的支持主要分为以下四个部分：
 
@@ -258,7 +258,7 @@ props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
 
 来看下面这张架构图：
 
-![](https://static001.geekbang.org/resource/image/71/0a/71decc3687708a2250e5e3b18b87140a.png?wh=1874x938 "图片来源：https://github.com/apache/rocketmq-schema-registry")
+![](https://static001.geekbang.org/resource/image/71/0a/71decc3687708a2250e5e3b18b87140a.png?wh=1874x938 "图片来源：https://github.com/apache/rocketmq-schema-registry"){: referrerpolicy="no-referrer" }
 
 如图所示，可以看到RocketMQ 在原先架构中引入了Schema Registry 用于保存Schema信息，也可以看到 Schema Registry 和 Broker 是分开部署的。
 
@@ -266,7 +266,7 @@ Schema Registry 通过 SpingBoot 开发了 HTTP 服务，提供了 Restful 接�
 
 RocketMQ的 Schema 格式如下：
 
-![](https://static001.geekbang.org/resource/image/eb/a8/ebb7e335abe6f49a04a26f98b15ab8a8.jpg?wh=1760x1134)
+![](https://static001.geekbang.org/resource/image/eb/a8/ebb7e335abe6f49a04a26f98b15ab8a8.jpg?wh=1760x1134){: referrerpolicy="no-referrer" }
 
 下面我们来看一下SchemaIDL的内容示例，可以看到，它包含 `name` 和 `id` 两个字段，`name` 和 `id` 都是字符串类型，`id` 的默认值为0。
 
@@ -295,7 +295,7 @@ RocketMQ的 Schema 格式如下：
 
 先来看生产者示例：
 
-![](https://static001.geekbang.org/resource/image/de/2c/de6c59af66e8889f9f4770d83f6a512c.png?wh=1272x548 "图片来源：https://www.alibabacloud.com/blog/rocketmq-schema-make-messages-streaming-structured-data_600001")
+![](https://static001.geekbang.org/resource/image/de/2c/de6c59af66e8889f9f4770d83f6a512c.png?wh=1272x548 "图片来源：https://www.alibabacloud.com/blog/rocketmq-schema-make-messages-streaming-structured-data_600001"){: referrerpolicy="no-referrer" }
 
 可以看到，在生产者启动时，配置了SchemaRegister的访问地址，并配置了序列化方式为Avro。然后可以看到发送的数据是结构体Payment，而不是普通的字符串。此时会解析Schema并检查其是否符合Topic Sc​​hema兼容性要求。如果通过，生产者将序列化数据，并为其添加 SchemaID 等信息；如果验证失败，发送请求将被拒绝。
 
@@ -303,7 +303,7 @@ RocketMQ的 Schema 格式如下：
 
 再来看看消费者示例：
 
-![](https://static001.geekbang.org/resource/image/24/83/246b4cce6b0e40dbd0369671ff370f83.png?wh=1058x646 "图片来源：https://www.alibabacloud.com/blog/rocketmq-schema-make-messages-streaming-structured-data_600001")
+![](https://static001.geekbang.org/resource/image/24/83/246b4cce6b0e40dbd0369671ff370f83.png?wh=1058x646 "图片来源：https://www.alibabacloud.com/blog/rocketmq-schema-make-messages-streaming-structured-data_600001"){: referrerpolicy="no-referrer" }
 
 消费端创建时，同样需要指定 Registry URL 和序列化类型，然后通过 getMessage 方法直接获取泛型或实际对象。此时如果消费到的数据类型不是我们需要的类型，就会报错。
 

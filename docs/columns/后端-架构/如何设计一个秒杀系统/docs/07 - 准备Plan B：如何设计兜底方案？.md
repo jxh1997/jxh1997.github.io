@@ -10,7 +10,7 @@
 
 说到系统的高可用建设，它其实是一个系统工程，需要考虑到系统建设的各个阶段，也就是说它其实贯穿了系统建设的整个生命周期，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/42/35/4225335357b6208a67410c36ea8a1535.jpg?wh=1985%2A618)
+![](https://static001.geekbang.org/resource/image/42/35/4225335357b6208a67410c36ea8a1535.jpg?wh=1985%2A618){: referrerpolicy="no-referrer" }
 
 图1 高可用系统建设
 
@@ -35,7 +35,7 @@
 
 这里，我给出开关系统的示意图。它分为两部分，一部分是开关控制台，它保存了开关的具体配置信息，以及具体执行开关所对应的机器列表；另一部分是执行下发开关数据的Agent，主要任务就是保证开关被正确执行，即使系统重启后也会生效。
 
-![](https://static001.geekbang.org/resource/image/13/1a/1310c57927f5b0ef1b3e8f6bef8f2e1a.jpg?wh=1385%2A724)
+![](https://static001.geekbang.org/resource/image/13/1a/1310c57927f5b0ef1b3e8f6bef8f2e1a.jpg?wh=1385%2A724){: referrerpolicy="no-referrer" }
 
 图2 开关系统
 
@@ -52,7 +52,7 @@
 - **客户端限流**，好处可以限制请求的发出，通过减少发出无用请求从而减少对系统的消耗。缺点就是当客户端比较分散时，没法设置合理的限流阈值：如果阈值设的太小，会导致服务端没有达到瓶颈时客户端已经被限制；而如果设的太大，则起不到限制的作用。
 - **服务端限流**，好处是可以根据服务端的性能设置合理的阈值，而缺点就是被限制的请求都是无效的请求，处理这些无效的请求本身也会消耗服务器资源。
 
-![](https://static001.geekbang.org/resource/image/79/5a/796b93a97ae4083412ff352148a8bc5a.jpg?wh=849%2A400)
+![](https://static001.geekbang.org/resource/image/79/5a/796b93a97ae4083412ff352148a8bc5a.jpg?wh=849%2A400){: referrerpolicy="no-referrer" }
 
 图3 限流系统
 

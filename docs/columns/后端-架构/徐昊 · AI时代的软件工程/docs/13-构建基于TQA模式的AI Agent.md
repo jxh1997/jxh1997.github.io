@@ -60,7 +60,7 @@ ReAct也是目前最热门的一个LLM模式。前一阵子（2023年底）大�
 
 如果我们在ChatGPT中直接使用这个提示词，会得到如下结果：
 
-![](https://static001.geekbang.org/resource/image/8d/cf/8d34c09d686ff130f3606152dc3c85cf.jpg?wh=1323x1098)
+![](https://static001.geekbang.org/resource/image/8d/cf/8d34c09d686ff130f3606152dc3c85cf.jpg?wh=1323x1098){: referrerpolicy="no-referrer" }
 
 可以看到，在一开始LLM就给出了解决问题的思路，先搜索淘宝的双十一的营业额，然后计算可以购买多少可乐。而这个思路则是根据我们提供的行动分解的。
 
@@ -170,7 +170,7 @@ react.run("淘宝去年双十一的营业额，可以买多少瓶可乐")
 
 同样，如果我们将这个提示词展开直接放入ChatGPT，并不会得到我们想要的效果：
 
-![](https://static001.geekbang.org/resource/image/a8/0f/a842f47f86126586f91139f2dd585b0f.jpg?wh=1396x7024)
+![](https://static001.geekbang.org/resource/image/a8/0f/a842f47f86126586f91139f2dd585b0f.jpg?wh=1396x7024){: referrerpolicy="no-referrer" }
 
 可以看到ChatGPT进入了自问自答模式，并没有给人机会来提供真正的答案。想要实现人与LLM的互动问答，需要使用**LLM API中的停止序列（Stop Sequence）**。在模型生成内容的过程中，如果碰到指定的**停止序列**，模型就会停在那个位置。例如句子或列表的结尾，或者是问答环节中提问的部分。
 

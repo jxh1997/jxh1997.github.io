@@ -18,7 +18,7 @@
 
 在我看来，基于技术深度、开发工作量、学习复杂度等综合考虑，一个基本的分布式KV系统，至少需要具备这样几块功能，就像下图的样子。
 
-![](https://static001.geekbang.org/resource/image/1e/6d/1e8e7cac5c9159aa1dbf9a72cd90416d.jpg?wh=1142%2A483)
+![](https://static001.geekbang.org/resource/image/1e/6d/1e8e7cac5c9159aa1dbf9a72cd90416d.jpg?wh=1142%2A483){: referrerpolicy="no-referrer" }
 
 - 接入协议：供客户端访问系统的接入层API，以及与客户端交互的通讯协议。
 - KV操作：我们需要支持的KV操作（比如赋值操作）。
@@ -125,11 +125,11 @@ curl -XDELETE http://raft-cluster-host01:8091/key/foo
 
 **方法1：**跟随者接收到客户端的写请求后，拒绝处理这个请求，并将领导者的地址信息返回给客户端，然后客户端直接访问领导者节点，直到该领导者退位，就像下图的样子。
 
-![](https://static001.geekbang.org/resource/image/59/c8/591314be65729ae2ca242e5e016e84c8.jpg?wh=1142%2A515)
+![](https://static001.geekbang.org/resource/image/59/c8/591314be65729ae2ca242e5e016e84c8.jpg?wh=1142%2A515){: referrerpolicy="no-referrer" }
 
 **方法2：**跟随者接收到客户端的写请求后，将写请求转发给领导者，并将领导者处理后的结果返回给客户端，也就是说，这时跟随者在扮演“代理”的角色，就像下图的样子。
 
-![](https://static001.geekbang.org/resource/image/ac/96/ac7f6e9226c0dc3f323abb70b9a3b596.jpg?wh=1142%2A398)
+![](https://static001.geekbang.org/resource/image/ac/96/ac7f6e9226c0dc3f323abb70b9a3b596.jpg?wh=1142%2A398){: referrerpolicy="no-referrer" }
 
 在我看来，虽然第一种方法需要客户端的配合，但实现起来复杂度不高；另外，第二种方法，虽然能降低客户端的复杂度，客户端像访问一个黑盒一样，访问系统，对领导者变更完全无感知。
 

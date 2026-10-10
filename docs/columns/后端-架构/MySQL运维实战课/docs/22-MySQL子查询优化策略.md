@@ -291,7 +291,7 @@ group by t1.item_id;
 
 参数optimizer\_switch中有一些选项用来控制是否开启某个半连接策略，我整理成了下面这个表格。
 
-![图片](https://static001.geekbang.org/resource/image/9d/50/9d5e62743caf6f6724f37dcda5218050.png?wh=1920x879)
+![图片](https://static001.geekbang.org/resource/image/9d/50/9d5e62743caf6f6724f37dcda5218050.png?wh=1920x879){: referrerpolicy="no-referrer" }
 
 优化器会计算这些半连接策略的成本，从中选择成本最低的执行计划。
 

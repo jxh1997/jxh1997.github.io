@@ -14,7 +14,7 @@
 
 下图展示的就是发布者-频道-订阅者的基本模型，你可以看下。
 
-![图片](https://static001.geekbang.org/resource/image/b4/9d/b41f7bc078c210ef35d17bf3dc9be09d.jpg?wh=1920x789)
+![图片](https://static001.geekbang.org/resource/image/b4/9d/b41f7bc078c210ef35d17bf3dc9be09d.jpg?wh=1920x789){: referrerpolicy="no-referrer" }
 
 ### 频道的实现
 
@@ -34,7 +34,7 @@ server.pubsub_channels = dictCreate(&keylistDictType,NULL);
 
 pubsub\_channels哈希表保存频道和订阅者的示意图如下所示：
 
-![图片](https://static001.geekbang.org/resource/image/21/7f/21775d173b9db1650d3285a18d7d7a7f.jpg?wh=1920x874)
+![图片](https://static001.geekbang.org/resource/image/21/7f/21775d173b9db1650d3285a18d7d7a7f.jpg?wh=1920x874){: referrerpolicy="no-referrer" }
 
 了解了频道是如何实现的之后，下面我们再分别看下发布命令和订阅命令的实现。
 
@@ -222,7 +222,7 @@ sentinelEvent(LL_WARNING,"+switch-master",master,"%s %s %d %s %d",
 
 这样一来，你也就了解了，哨兵在工作过程中是通过sentinelEvent函数和pubsubPublishMessage函数，来实现消息的发布的。在哨兵的整个工作过程中，它会在一些关键节点上，**使用sentinelEvent函数往不同的频道上发布消息**。除了刚才给你举例的三个频道+monitor、+sdown、+switch-master以外，我还把哨兵在工作过程中会用到的消息发布频道列在了下表中，你可以了解下。
 
-![图片](https://static001.geekbang.org/resource/image/53/72/53c920eec89a2108351d816a80cbe272.jpg?wh=1920x1080)
+![图片](https://static001.geekbang.org/resource/image/53/72/53c920eec89a2108351d816a80cbe272.jpg?wh=1920x1080){: referrerpolicy="no-referrer" }
 
 其实，在哨兵的工作过程中，如果有客户端想要了解故障切换的整体情况或进度，比如主节点是否被判断为主观下线、主节点是否被判断为客观下线、Leader是否完成选举、新主节点是否切换完成，等等，就可以通过subscribe命令，订阅上面这张表中的相应频道。这样一来，客户端就可以了解故障切换的过程了。
 

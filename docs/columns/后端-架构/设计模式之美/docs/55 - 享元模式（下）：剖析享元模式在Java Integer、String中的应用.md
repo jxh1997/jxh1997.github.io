@@ -24,7 +24,7 @@ System.out.println(i3 == i4);
 
 在[加餐一](https://time.geekbang.org/column/article/166698)中，我们讲到，Java为基本数据类型提供了对应的包装器类型。具体如下所示：
 
-![](https://static001.geekbang.org/resource/image/5f/a0/5f93c0412c9ee8b563383c3583693ba0.jpg?wh=1543%2A1303)
+![](https://static001.geekbang.org/resource/image/5f/a0/5f93c0412c9ee8b563383c3583693ba0.jpg?wh=1543%2A1303){: referrerpolicy="no-referrer" }
 
 所谓的自动装箱，就是自动将基本数据类型转换为包装器类型。所谓的自动拆箱，也就是自动将包装器类型转化为基本数据类型。具体的代码示例如下所示：
 
@@ -53,7 +53,7 @@ User a = new User(123, 23); // id=123, age=23
 
 针对这条语句，我画了一张内存存储结构图，如下所示。a存储的值是User对象的内存地址，在图中就表现为a指向User对象。
 
-![](https://static001.geekbang.org/resource/image/04/dc/04f879d7d72b96965f4e06a21ff13bdc.jpg?wh=2103%2A524)
+![](https://static001.geekbang.org/resource/image/04/dc/04f879d7d72b96965f4e06a21ff13bdc.jpg?wh=2103%2A524){: referrerpolicy="no-referrer" }
 
 当我们通过“==”来判定两个对象是否相等的时候，实际上是在判断两个局部变量存储的地址是否相同，换句话说，是在判断两个局部变量是否指向相同的对象。
 
@@ -191,7 +191,7 @@ System.out.println(s1 == s3);
 
 上面代码的运行结果是：一个true，一个false。跟Integer类的设计思路相似，String类利用享元模式来复用相同的字符串常量（也就是代码中的“小争哥”）。JVM会专门开辟一块存储区来存储字符串常量，这块存储区叫作“字符串常量池”。上面代码对应的内存存储结构如下所示：
 
-![](https://static001.geekbang.org/resource/image/2d/2d/2dfc18575c22efccca191c566b24a22d.jpg?wh=1963%2A1393)
+![](https://static001.geekbang.org/resource/image/2d/2d/2dfc18575c22efccca191c566b24a22d.jpg?wh=1963%2A1393){: referrerpolicy="no-referrer" }
 
 不过，String类的享元模式的设计，跟Integer类稍微有些不同。Integer类中要共享的对象，是在类加载的时候，就集中一次性创建好的。但是，对于字符串来说，我们没法事先知道要共享哪些字符串常量，所以没办法事先创建好，只能在某个字符串常量第一次被用到的时候，存储到常量池中，当之后再用到的时候，直接引用常量池中已经存在的即可，就不需要再重新创建了。
 

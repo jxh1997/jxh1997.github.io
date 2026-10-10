@@ -12,11 +12,11 @@
 
 消费分组和Topic是强相关的，它需要包含Topic才有意义，一个空的消费分组是没有意义的。如下图所示，消费分组内有很多个消费者，一个消费分组也可以订阅和消费多个Topic，一个Topic也可以被多个消费分组订阅和消费。
 
-![](https://static001.geekbang.org/resource/image/77/52/77e59yy3fc26de63c6f6dea701a75252.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/77/52/77e59yy3fc26de63c6f6dea701a75252.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 因为 Topic 不存储真实数据，分区才存储消息数据，所以就需要解决消费者和分区的分配关系，即**哪个分区被哪个消费者消费，这个分配的过程就叫做消费重平衡（Rebalance）**。
 
-![](https://static001.geekbang.org/resource/image/73/73/73768bb217c4da2b44301d8f21475f73.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/73/73/73768bb217c4da2b44301d8f21475f73.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 从流程上来看，当新建一个消费分组的时候，就需要开始分配消费者和分区的消费关系了。分配完成后，就可以正常消费。如果消费者和分区出现变动，比如消费者挂掉、新增消费者、订阅的Topic的分区数发生变化等等，就会重新开始分配消费关系，否则就会存在某些分区不能被订阅和消费的情况。
 
@@ -31,7 +31,7 @@
 
 从技术上来看，这两种形式的优劣区别并不大，取决于代码的实现。**一般在创建消费分组和消费者/ Topic分区发生变化的时候，会触发协调者执行消费重平衡。**
 
-![](https://static001.geekbang.org/resource/image/0d/04/0d8af534dba3e33e9cc31926f607b904.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/0d/04/0d8af534dba3e33e9cc31926f607b904.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 从实现的角度来看，协调者一般是Broker内核的一个模块，就是一段代码或者一个类，专门用来完成上述的工作。当有多台Broker时，协调者的实现有多种方式，比如Kafka 集群每台Broker都有协调者存在。通过消费分组的名称计算出来一个hash值和\_\_consumer\_offset的分区数，取余计算得出一个分区号。最后这个分区号对应的Leader所在的Broker节点就是协调者所在的节点。客户端就和计算出来的这台Broker节点进行交互，来执行消费重平衡的相关操作。
 
@@ -86,11 +86,11 @@
 
 **确认后删除数据**是指集群的每条消息只能被消费一次，只要数据被消费成功，就会回调服务端的ACK接口，服务端就会执行数据删除操作。在实际开发的过程中，一般都会支持单条ACK和批量ACK两种操作。这种方式不利于回溯消费，所以用得比较少。
 
-![](https://static001.geekbang.org/resource/image/12/c2/12b587f119d537efb3a7115979941dc2.jpg?wh=10666x2987)
+![](https://static001.geekbang.org/resource/image/12/c2/12b587f119d537efb3a7115979941dc2.jpg?wh=10666x2987){: referrerpolicy="no-referrer" }
 
 **消费成功保存消费进度**是指当消费数据成功后，调用服务端的消费进度接口来保存消费进度。这种方式一般都是配合消费分组一起用的，服务端从消费分组维度来保存进度数据。
 
-![](https://static001.geekbang.org/resource/image/ff/da/ff28fc25ee6ef5d99596c701b8c5f7da.jpg?wh=10666x2866)
+![](https://static001.geekbang.org/resource/image/ff/da/ff28fc25ee6ef5d99596c701b8c5f7da.jpg?wh=10666x2866){: referrerpolicy="no-referrer" }
 
 为了保证消息的回溯消费和多次消费，消息队列大多数用的是第二种方案。**数据的删除交由数据过期策略去执行。**
 
@@ -104,7 +104,7 @@
 - **手动提交**是指业务根据自己的处理情况，手动提交进度信息，以避免业务处理异常导致的数据丢失。
 
 它们两者的优缺点如下表所示：  
-![](https://static001.geekbang.org/resource/image/14/da/144495cf3102ce8f56cbf729771a6eda.jpg?wh=10666x3267)
+![](https://static001.geekbang.org/resource/image/14/da/144495cf3102ce8f56cbf729771a6eda.jpg?wh=10666x3267){: referrerpolicy="no-referrer" }
 
 一般情况下，我建议你使用手动提交方式，可以避免数据丢失。
 

@@ -23,7 +23,7 @@ WebSocket 是一种基于 TCP 传输协议的应用层协议，它设计的初�
 
 如下图所示，在计算机网络中，HTTP是一种单向通信协议，即浏览器请求服务器上的信息并从服务器接收响应，但服务器不能主动向浏览器发送信息。而TCP/IP协议则是一种双向通信协议，数据可以在客户端和服务器之间相互传输，即客户端可以发数据给服务端，服务端也可以发数据给客户端。
 
-![](https://static001.geekbang.org/resource/image/14/8f/14e013b76f154df04a99c8dc3130298f.jpg?wh=10666x3392)
+![](https://static001.geekbang.org/resource/image/14/8f/14e013b76f154df04a99c8dc3130298f.jpg?wh=10666x3392){: referrerpolicy="no-referrer" }
 
 接下来，我们来了解一下 WebSocket 的协议特点和主要的应用场景。
 
@@ -81,17 +81,17 @@ socket.onerror = function(error) {
 
 从技术上看，消费者其实就是一个Server，而在客户端维护这个Server是有成本的。
 
-![](https://static001.geekbang.org/resource/image/4a/99/4a898532502ff7a2605be9680f920799.jpg?wh=10666x4147)
+![](https://static001.geekbang.org/resource/image/4a/99/4a898532502ff7a2605be9680f920799.jpg?wh=10666x4147){: referrerpolicy="no-referrer" }
 
 如果引入 WebSocket 协议，消费者通过 WebSocket 协议和 Broker 建立连接。因为WebSocket 协议是双向通信的，所以 Broker 就可以直接将数据推送给消费者，而不需要在客户端实现一个Server。因此开发工作量就降低特别多。
 
-![](https://static001.geekbang.org/resource/image/d3/3a/d32b659c52e23b7772eb4f6be5be8d3a.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/d3/3a/d32b659c52e23b7772eb4f6be5be8d3a.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 所以说，**长连接和双向通信是 WebSocket 实现高度实时性和低延迟的技术核心**，也是消息队列需要支持WebSocket协议的重要原因。
 
 接下来，我们用 WebSocket 和 MQTT Broker 结合的一个案例，让你更直观感受一下它们组合起来使用的优势。
 
-![](https://static001.geekbang.org/resource/image/6c/60/6cf2082d6cc3406368a1266dfde49060.jpg?wh=10666x3728)
+![](https://static001.geekbang.org/resource/image/6c/60/6cf2082d6cc3406368a1266dfde49060.jpg?wh=10666x3728){: referrerpolicy="no-referrer" }
 
 参考图示，这里想要展现的的场景是：物联网传感器（例如气体传感器）收集数据后，将数据通过 MQTT 协议发送到 MQTT Broker。收到数据的同时，Broker 可以通过 WebSocket 将数据推送到浏览器或客户端，从而及时更新监控面板或者触发告警。
 
@@ -217,7 +217,7 @@ class MyWebSocketServerHandler extends SimpleChannelInboundHandler<WebSocketFram
 
 先来看一下下面这张图，这是一个消息主动推送的场景。
 
-![](https://static001.geekbang.org/resource/image/c3/9b/c3e433aa7b67f96059f49f6b1724759b.jpg?wh=10666x3621)
+![](https://static001.geekbang.org/resource/image/c3/9b/c3e433aa7b67f96059f49f6b1724759b.jpg?wh=10666x3621){: referrerpolicy="no-referrer" }
 
 参考图示，当数据写入到Broker中的Topic tp1 时，因为WebSocket是双向通信的，所以 Broker 收到消息后，可以直接将消息推送给客户端。这个推送的逻辑一般是在内核中维护异步线程去回写数据到客户端实现的。你可以去回看[第08讲](https://time.geekbang.org/column/article/673672)的内容，回顾一下Push模型的实现，结合起来看，理解会更深入一点。
 
@@ -227,7 +227,7 @@ class MyWebSocketServerHandler extends SimpleChannelInboundHandler<WebSocketFram
 
 如下图所示，Pulsar 内核支持两种 WebSocket 部署形式。一种是在内核中启动，一种是作为单独组件部署。从代码实现来看，两者的区别不大，对于 WebSocket Server 的支持是同一份代码，只是启动的地方不一样而已。
 
-![](https://static001.geekbang.org/resource/image/65/f9/65de0ac91d2f074628efa0044dcbc8f9.jpg?wh=10666x3679)
+![](https://static001.geekbang.org/resource/image/65/f9/65de0ac91d2f074628efa0044dcbc8f9.jpg?wh=10666x3679){: referrerpolicy="no-referrer" }
 
 从代码实现上看，Pulsar 是基于 Jetty 的 WebSocket 包来实现 WebSocket Server的，属于很标准的用法。有兴趣的同学可以参考 [GitHub 的仓库源码](https://github.com/apache/pulsar/tree/master/pulsar-websocket)。
 

@@ -7,20 +7,20 @@
 ## **数据表**
 
 - 车辆基础信息表 vehicle\_base\_info  
-  ![](https://static001.geekbang.org/resource/image/62/4b/622f7184aabb3f68ebb432ba05365e4b.jpg?wh=2100x1396)
+  ![](https://static001.geekbang.org/resource/image/62/4b/622f7184aabb3f68ebb432ba05365e4b.jpg?wh=2100x1396){: referrerpolicy="no-referrer" }
 - 实时位置信息表 vehicle\_location  
-  ![](https://static001.geekbang.org/resource/image/4c/8e/4cb8b6e7dee4a97ede32213e25ef818e.jpg?wh=2106x1278)
+  ![](https://static001.geekbang.org/resource/image/4c/8e/4cb8b6e7dee4a97ede32213e25ef818e.jpg?wh=2106x1278){: referrerpolicy="no-referrer" }
 - 电池状态表 battery\_status  
-  ![](https://static001.geekbang.org/resource/image/88/92/88698f485c5a4d965a8788bea26c5e92.jpg?wh=2106x1510)
+  ![](https://static001.geekbang.org/resource/image/88/92/88698f485c5a4d965a8788bea26c5e92.jpg?wh=2106x1510){: referrerpolicy="no-referrer" }
 - 电机状态表 motor\_status  
-  ![](https://static001.geekbang.org/resource/image/84/9a/849b662cb13a3c796a477fd173f8439a.jpg?wh=2110x1286)
+  ![](https://static001.geekbang.org/resource/image/84/9a/849b662cb13a3c796a477fd173f8439a.jpg?wh=2110x1286){: referrerpolicy="no-referrer" }
 - 故障告警表 vehicle\_alarm  
-  ![](https://static001.geekbang.org/resource/image/60/5c/606b2ffae5fd2429a80d60a0e894865c.jpg?wh=2108x1364)
+  ![](https://static001.geekbang.org/resource/image/60/5c/606b2ffae5fd2429a80d60a0e894865c.jpg?wh=2108x1364){: referrerpolicy="no-referrer" }
 
 <!--THE END-->
 
 - 行驶状态表 driving\_status  
-  ![](https://static001.geekbang.org/resource/image/07/d4/07fd97cdd809198eecb6cab181099dd4.jpg?wh=2114x1620)
+  ![](https://static001.geekbang.org/resource/image/07/d4/07fd97cdd809198eecb6cab181099dd4.jpg?wh=2114x1620){: referrerpolicy="no-referrer" }
 
 ## **问题设定**
 

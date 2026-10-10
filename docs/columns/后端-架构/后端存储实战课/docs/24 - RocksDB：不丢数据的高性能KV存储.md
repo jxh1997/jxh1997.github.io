@@ -36,7 +36,7 @@ RocksDB采用了一个非常复杂的数据存储结构，并且这个存储结�
 
 LSM-Tree的全称是：**The Log-Structured Merge-Tree**，是一种非常复杂的复合数据结构，它包含了WAL（Write Ahead Log）、跳表（SkipList）和一个分层的有序表（SSTable，Sorted String Table）。下面这张图就是LSM-Tree的结构图（图片来自于论文: [An Efficient Design and Implementation of LSM-Tree based Key-Value Store on Open-Channel SSD](http://ranger.uta.edu/~sjiang/pubs/papers/wang14-LSM-SDF.pdf)）
 
-![](https://static001.geekbang.org/resource/image/c0/6e/c0ba7aa330ea79a8a1dfe3a58547526e.jpg?wh=1187%2A841)
+![](https://static001.geekbang.org/resource/image/c0/6e/c0ba7aa330ea79a8a1dfe3a58547526e.jpg?wh=1187%2A841){: referrerpolicy="no-referrer" }
 
 看起来非常复杂是吧？实际上它的结构比这个图更复杂。那我们尽量忽略没那么重要的细节，把它的核心原理讲清楚。首先需要注意的是，这个图上有一个横向的实线，是内存和磁盘的分界线，上面的部分是内存，下面的部分是磁盘。
 

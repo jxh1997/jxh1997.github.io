@@ -28,7 +28,7 @@ eyJzdWIiOiJVU0VSVEVTVCIsImV4cCI6MTU4NDEwNTc5MDcwMywiaWF0IjoxNTg0MTA1OTQ4MzcyfQ.
 
 你可能会说，这个JWT令牌看起来也是毫无意义的、随机的字符串啊。确实，你直接去看这个字符串是没啥意义，但如果你把它拷贝到[https://jwt.io/](https://jwt.io/) 网站的在线校验工具中，就可以看到解码之后的数据：
 
-![](https://static001.geekbang.org/resource/image/aa/80/aa855e4fd4b15f2f5262e7a7f5af3080.png?wh=1606%2A842 "图1 由在线校验工具解码后的JWT令牌")
+![](https://static001.geekbang.org/resource/image/aa/80/aa855e4fd4b15f2f5262e7a7f5af3080.png?wh=1606%2A842 "图1 由在线校验工具解码后的JWT令牌"){: referrerpolicy="no-referrer" }
 
 再看解码后的数据，你是不是发现它跟随机的字符串不一样了呢。很显然，现在呈现出来的就是结构化的内容了。接下来，我就具体和你说说JWT的这三部分。
 
@@ -46,7 +46,7 @@ eyJzdWIiOiJVU0VSVEVTVCIsImV4cCI6MTU4NDEwNTc5MDcwMywiaWF0IjoxNTg0MTA1OTQ4MzcyfQ.
 
 有时候授权服务依赖一个数据库，然后受保护资源服务也依赖这个数据库，也就是我们说的“共享数据库”。不过，在如今已经成熟的分布式以及微服务的环境下，不同的系统之间是依靠**服务**而**不是数据库**来通信了，比如授权服务给受保护资源服务提供一个RPC服务。如下图所示。
 
-![](https://static001.geekbang.org/resource/image/96/bf/963bb5dfc504c700fce24c8aac0dd2bf.png?wh=936%2A612 "图2 授权服务提供接口服务，供受保护资源校验令牌")
+![](https://static001.geekbang.org/resource/image/96/bf/963bb5dfc504c700fce24c8aac0dd2bf.png?wh=936%2A612 "图2 授权服务提供接口服务，供受保护资源校验令牌"){: referrerpolicy="no-referrer" }
 
 那么，在有了JWT令牌之后，我们就多了一种选择，因为JWT令牌本身就包含了之前所要依赖数据库或者依赖RPC服务才能拿到的信息，比如我上面提到的哪个用户为哪个软件进行了授权等信息。
 
@@ -56,7 +56,7 @@ eyJzdWIiOiJVU0VSVEVTVCIsImV4cCI6MTU4NDEwNTc5MDcwMywiaWF0IjoxNTg0MTA1OTQ4MzcyfQ.
 
 有了JWT令牌之后的通信方式，就如下面的图3所展示的那样了，**授权服务“扔出”一个令牌，受保护资源服务“接住”这个令牌，然后自己开始解析令牌本身所包含的信息就可以了，而不需要再去查询数据库或者请求RPC服务**。这样也实现了我们上面说的令牌内检。
 
-![](https://static001.geekbang.org/resource/image/1a/39/1a4cf53349aeb5d588e27c608e06d539.png?wh=998%2A610 "图3 受保护资源服务可直接解析JWT令牌")
+![](https://static001.geekbang.org/resource/image/1a/39/1a4cf53349aeb5d588e27c608e06d539.png?wh=998%2A610 "图3 受保护资源服务可直接解析JWT令牌"){: referrerpolicy="no-referrer" }
 
 在上面这幅图中呢，为了更能突出JWT令牌的位置，我简化了逻辑关系。实际上，授权服务颁发了JWT令牌后给到了小兔软件，小兔软件拿着JWT令牌来请求受保护资源服务，也就是小明在京东店铺的订单。很显然，JWT令牌需要在公网上做传输。所以在传输过程中，JWT令牌需要进行Base64编码以防止乱码，同时还需要进行签名及加密处理来防止数据信息泄露。
 
@@ -132,7 +132,7 @@ JWT格式令牌的最大问题在于 “覆水难收”，也就是说，没办�
 
 我将以上三种情况整理成了一份序列图，以便帮助你理解。同时，为了突出令牌，我将访问令牌和刷新令牌，特意用深颜色标识出来，并单独作为两个角色放进了整个序列图中。
 
-![](https://static001.geekbang.org/resource/image/bc/65/bc5fde2c813d41c60d863e2919b65565.png?wh=1342%2A1220 "图4 令牌生命周期")
+![](https://static001.geekbang.org/resource/image/bc/65/bc5fde2c813d41c60d863e2919b65565.png?wh=1342%2A1220 "图4 令牌生命周期"){: referrerpolicy="no-referrer" }
 
 ## 总结
 

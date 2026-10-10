@@ -6,13 +6,13 @@
 
 通过上一期的学习，我们知道Weibo Mesh中使用的SideCar就是Motan-go Agent，考虑到Motan-go Agent要与PHP进程部署在一起，为了减少对本机资源的占用，这里Motan-go Agent采用了Go语言来实现，它包含的功能模块请看下图。
 
-![](https://static001.geekbang.org/resource/image/79/2b/79b6ebf400d8d6eb4b390ffc3de6bf2b.png?wh=1830%2A917)
+![](https://static001.geekbang.org/resource/image/79/2b/79b6ebf400d8d6eb4b390ffc3de6bf2b.png?wh=1830%2A917){: referrerpolicy="no-referrer" }
 
 我们拆解一下图中Motan-go Agent主要的模块，看看它们的作用是什么。
 
 **Filter Chain模块**是以请求处理链的组合方式，来实现AccessLog（请求日志记录）、Metric（监控统计）、CircuitBreaker（熔断）、Switcher（降级）、Tracing（服务追踪）、Mock（单元测试）、ActiveLimit（限流）等功能。
 
-![](https://static001.geekbang.org/resource/image/84/03/8464472dced2bf74304f08963205cb03.png?wh=627%2A998)
+![](https://static001.geekbang.org/resource/image/84/03/8464472dced2bf74304f08963205cb03.png?wh=627%2A998){: referrerpolicy="no-referrer" }
 
 **High Available模块**是用来保证高可用性，默认集成了Failover、Backup Request等故障处理手段。
 
@@ -34,31 +34,31 @@ Motan-go Agent每个模块都是功能可扩展的，你可以在Filter Chain模
 
 专栏上一期我给你讲过，在Weibo Mesh中是通过统一服务治理平台与Motan-go Agent交互来实现服务治理功能的。对着下面这张Weibo Mesh的架构图，我们一起看一下统一服务治理平台SGCenter具体是如何与Motan-go Agent交互，来实现服务治理的各项功能的。
 
-![](https://static001.geekbang.org/resource/image/e3/c8/e3ea24873a543747c96fe988c18b3ac8.png?wh=637%2A302)
+![](https://static001.geekbang.org/resource/image/e3/c8/e3ea24873a543747c96fe988c18b3ac8.png?wh=637%2A302){: referrerpolicy="no-referrer" }
 
 1.动态服务注册与发现
 
 首先来看下统一服务治理平台是如何实现服务注册与发现的。如下图所示，在Motan-go Agent中实现了具体的服务注册与发现的逻辑，Server端进程启动时，会通过Motan-go Agent向Vintage注册中心发起注册请求，把服务注册到Vintage中。Client端发起服务调用时，会经过Motan-go Agent转发，Motan-go Agent会调用Vintage查询该服务在Vintage中的注册信息，获取到服务节点列表后，按照某一种负载均衡算法选择一个服务节点，向这个服务节点发起调用。可以通过统一服务治理平台SGCenter，调用Vintage的管理接口，执行添加或者删除服务节点等操作，Motan-go Agent会感知到服务节点的变化，获取最新的服务节点。一般在业务开发或者运维人员需要手工扩容或者缩容一批服务节点时，才会执行这个操作。
 
-![](https://static001.geekbang.org/resource/image/51/1f/512d93a6858cbe58c38e2efe34f0c21f.png?wh=563%2A263)
+![](https://static001.geekbang.org/resource/image/51/1f/512d93a6858cbe58c38e2efe34f0c21f.png?wh=563%2A263){: referrerpolicy="no-referrer" }
 
 2.监控上报
 
 再看下面这张图，Client端发起的请求经过Motan-go Agent转发时，Motan-go Agent就会在内存中统计每一次调用的耗时、成功率等信息，并且每隔固定的时间间隔将这段时间内各个服务调用的QPS、平均耗时、成功率以及P999等metric信息发送给Graphite监控系统。这样的话，通过SGCenter调用Graphite的Web API就可以获取到服务调用的信息了。
 
-![](https://static001.geekbang.org/resource/image/5d/6d/5d8369d5db67ca3742e0a923e29ce96d.png?wh=560%2A271)
+![](https://static001.geekbang.org/resource/image/5d/6d/5d8369d5db67ca3742e0a923e29ce96d.png?wh=560%2A271){: referrerpolicy="no-referrer" }
 
 3.动态流量切换与降级
 
 动态流量切换与降级的过程请看下面这张图。Motan-go Agent在查询Vintage中某个服务节点信息的同时也会订阅该服务的变更，这样的话就可以通过SGCenter向Vintage下发服务的切流量或者降级指令，订阅了这个服务的Motan-go Agent就会收到变更通知，如果是切流量指令，比如把调用永丰机房服务的流量都切换到土城机房，那么Motan-go Agent就会把原本发给永丰机房的请求都发给土城机房；如果是降级指令，Motan-go Agent就会停止调用这个服务。
 
-![](https://static001.geekbang.org/resource/image/67/d5/6702ff187f9d7e5741d391962d5493d5.png?wh=558%2A261)
+![](https://static001.geekbang.org/resource/image/67/d5/6702ff187f9d7e5741d391962d5493d5.png?wh=558%2A261){: referrerpolicy="no-referrer" }
 
 4.自动扩缩容
 
 服务调用时Motan-go Agent会把Server端服务调用的监控信息上报给Graphite监控系统，同时Diviner容量评估系统会实时调用Graphite以获取服务在不同区间的QPS信息以计算服务池的水位线，然后SGCenter会每隔一段时间调用Diviner来获取各个服务池的冗余度以决定是否需要扩容。假如此时服务池的冗余度不足的话，SGCenter就会调用DCP容器运维平台给服务池进行扩容，DCP完成扩容后新的服务节点就会注册到Vintage当中，这样的话订阅了该服务的Motan-go Agent就会感知到服务节点的变化，从Vintage中获取最新的服务节点信息，这就是一个服务自动扩缩容的整个流程，你可以参考下面这张图。
 
-![](https://static001.geekbang.org/resource/image/5b/f5/5b4ffd777e4eaeea813df753de8bcaf5.png?wh=568%2A391)
+![](https://static001.geekbang.org/resource/image/5b/f5/5b4ffd777e4eaeea813df753de8bcaf5.png?wh=568%2A391){: referrerpolicy="no-referrer" }
 
 ## Weibo Mesh的收益
 
@@ -72,7 +72,7 @@ Motan-go Agent每个模块都是功能可扩展的，你可以在Filter Chain模
 
 在微博的业务场景下，存在大量服务对缓存、数据库以及消息队列等资源的调用，如果把资源也看作是一种服务，那么Weibo Mesh不仅可以管理服务与服务之间的调用，还可以管理服务与资源之间的调用，这样的话Weibo Mesh强大的服务治理能力也能延伸到对资源的治理上，对业务来说又将解决资源治理这一大难题。另一方面，随着Weibo Mesh治理的服务越来越多，收集的数据也越来越多，利用这些数据可以挖掘一些更深层次的东西，也是Weibo Mesh未来的发展方向之一。比如，引入机器学习算法，对采集的数据进行分析，进行监控报警的优化等。
 
-![](https://static001.geekbang.org/resource/image/d8/4e/d85ff6120d7650fa80cae9acba8f814e.png?wh=858%2A415)
+![](https://static001.geekbang.org/resource/image/d8/4e/d85ff6120d7650fa80cae9acba8f814e.png?wh=858%2A415){: referrerpolicy="no-referrer" }
 
 ## 总结
 

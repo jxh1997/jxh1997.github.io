@@ -24,7 +24,7 @@ DBS的英文是DataBase System，数据库系统。它是更大的概念，包�
 
 了解了DBMS的概念之后，我们来看下当前主流的DBMS都有哪些。下面这张表是2019年5月DB-Engines公布的DBMS的排名（每年的排名会有更新，主要依据这些DBMS在搜索引擎上的热度）：
 
-![](https://static001.geekbang.org/resource/image/a7/91/a7237ddbe4ca69353bd21a6eff35d391.png?wh=702%2A770)
+![](https://static001.geekbang.org/resource/image/a7/91/a7237ddbe4ca69353bd21a6eff35d391.png?wh=702%2A770){: referrerpolicy="no-referrer" }
 
 从排名中我们能看出来，关系型数据库绝对是DBMS的主流，其中使用最多的DBMS分别是Oracle、MySQL和SQL Server。
 

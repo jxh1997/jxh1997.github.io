@@ -142,7 +142,7 @@ while (true) {
 
 好了，我们来总结一下今天的内容。Kafka Consumer的位移提交，是实现Consumer端语义保障的重要手段。位移提交分为自动提交和手动提交，而手动提交又分为同步提交和异步提交。在实际使用过程中，推荐你使用手动提交机制，因为它更加可控，也更加灵活。另外，建议你同时采用同步提交和异步提交两种方式，这样既不影响TPS，又支持自动重试，改善Consumer应用的高可用性。总之，Kafka Consumer API提供了多种灵活的提交方法，方便你根据自己的业务场景定制你的提交策略。
 
-![](https://static001.geekbang.org/resource/image/a6/d1/a6e24c364321aaa44b8fedf3836bccd1.jpg?wh=2069%2A2569)
+![](https://static001.geekbang.org/resource/image/a6/d1/a6e24c364321aaa44b8fedf3836bccd1.jpg?wh=2069%2A2569){: referrerpolicy="no-referrer" }
 
 ## 开放讨论
 

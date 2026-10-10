@@ -48,7 +48,7 @@ Delegation Token是在1.1版本引入的，它是一种轻量级的认证机制�
 
 为了方便你更好地理解和记忆，我把这些认证机制汇总在下面的表格里了。你可以对照着表格，进行一下区分。
 
-![](https://static001.geekbang.org/resource/image/4a/3d/4a52c2eb1ae631697b5ec3d298f7333d.jpg?wh=2113%2A1363)
+![](https://static001.geekbang.org/resource/image/4a/3d/4a52c2eb1ae631697b5ec3d298f7333d.jpg?wh=2113%2A1363){: referrerpolicy="no-referrer" }
 
 ## SASL/SCRAM-SHA-256配置实例
 
@@ -229,7 +229,7 @@ $ bin/kafka-console-producer.sh --broker-list localhost:9092,localhost:9093 --to
 
 好了，我们来小结一下。今天，我们讨论了Kafka目前提供的几种认证机制，我给出了它们各自的优劣势以及推荐使用建议。其实，在真实的使用场景中，认证和授权往往是结合在一起使用的。在专栏下一讲中，我会详细向你介绍Kafka的授权机制，即ACL机制，敬请期待。
 
-![](https://static001.geekbang.org/resource/image/af/5c/af705cb98a2f46acd45b184ec201005c.jpg?wh=2069%2A2535)
+![](https://static001.geekbang.org/resource/image/af/5c/af705cb98a2f46acd45b184ec201005c.jpg?wh=2069%2A2535){: referrerpolicy="no-referrer" }
 
 ## 开放讨论
 

@@ -14,7 +14,7 @@ TCP协议是由操作系统实现的，调整TCP必须通过操作系统提供�
 
 三次握手建立连接的首要目的是同步序列号。只有同步了序列号才有可靠的传输，TCP协议的许多特性都是依赖序列号实现的，比如流量控制、消息丢失后的重发等等，这也是三次握手中的报文被称为SYN的原因，因为SYN的全称就叫做Synchronize Sequence Numbers。
 
-![](https://static001.geekbang.org/resource/image/c5/aa/c51d9f1604690ab1b69e7c4feb2f31aa.jpg?wh=2052%2A620)
+![](https://static001.geekbang.org/resource/image/c5/aa/c51d9f1604690ab1b69e7c4feb2f31aa.jpg?wh=2052%2A620){: referrerpolicy="no-referrer" }
 
 三次握手虽然由操作系统实现，但它通过连接状态把这一过程暴露给了我们，我们来细看下过程中出现的3种状态的意义。客户端发送SYN开启了三次握手，此时在客户端上用netstat命令（后续查看连接状态都使用该命令）可以看到**连接的状态是SYN\_SENT**（顾名思义，就是把刚SYN发送出去）。
 
@@ -32,13 +32,13 @@ net.ipv4.tcp_syn_retries = 6
 
 如果这是一台有明确任务的服务器，你可以根据网络的稳定性和目标服务器的繁忙程度修改重试次数，调整客户端的三次握手时间上限。比如内网中通讯时，就可以适当调低重试次数，尽快把错误暴露给应用程序。
 
-![](https://static001.geekbang.org/resource/image/a3/8f/a3c5e77a228478da2a6e707054043c8f.png?wh=943%2A613)
+![](https://static001.geekbang.org/resource/image/a3/8f/a3c5e77a228478da2a6e707054043c8f.png?wh=943%2A613){: referrerpolicy="no-referrer" }
 
 ## 服务器端的优化
 
 当服务器收到SYN报文后，服务器会立刻回复SYN+ACK报文，既确认了客户端的序列号，也把自己的序列号发给了对方。此时，服务器端出现了新连接，状态是SYN\_RCV（RCV是received的缩写）。这个状态下，服务器必须建立一个SYN半连接队列来维护未完成的握手信息，当这个队列溢出后，服务器将无法再建立新连接。
 
-![](https://static001.geekbang.org/resource/image/c3/82/c361e672526ee5bb87d5f6b7ad169982.png?wh=690%2A304)
+![](https://static001.geekbang.org/resource/image/c3/82/c361e672526ee5bb87d5f6b7ad169982.png?wh=690%2A304){: referrerpolicy="no-referrer" }
 
 新连接建立失败的原因有很多，怎样获得由于队列已满而引发的失败次数呢？netstat -s命令给出的统计结果中可以得到。
 
@@ -55,7 +55,7 @@ net.ipv4.tcp_max_syn_backlog = 1024
 
 如果SYN半连接队列已满，只能丢弃连接吗？并不是这样，**开启syncookies功能就可以在不使用SYN队列的情况下成功建立连接。**syncookies是这么做的：服务器根据当前状态计算出一个值，放在己方发出的SYN+ACK报文中发出，当客户端返回ACK报文时，取出该值验证，如果合法，就认为连接建立成功，如下图所示。
 
-![](https://static001.geekbang.org/resource/image/0d/c0/0d963557347c149a6270d8102d83e0c0.png?wh=690%2A319)
+![](https://static001.geekbang.org/resource/image/0d/c0/0d963557347c149a6270d8102d83e0c0.png?wh=690%2A319){: referrerpolicy="no-referrer" }
 
 Linux下怎样开启syncookies功能呢？修改tcp\_syncookies参数即可，其中值为0时表示关闭该功能，2表示无条件开启功能，而1则表示仅当SYN半连接队列放不下时，再启用它。由于syncookie仅用于应对SYN泛洪攻击（攻击者恶意构造大量的SYN报文发送给服务器，造成SYN半连接队列溢出，导致正常客户端的连接无法建立），这种方式建立的连接，许多TCP特性都无法使用。所以，应当把tcp\_syncookies设置为1，仅在队列满时再启用。
 
@@ -104,7 +104,7 @@ net.core.somaxconn = 128
 
 三次握手建立连接造成的后果就是，HTTP请求必须在一次RTT（Round Trip Time，从客户端到服务器一个往返的时间）后才能发送，Google对此做的统计显示，三次握手消耗的时间，在HTTP请求完成的时间占比在10%到30%之间。
 
-![](https://static001.geekbang.org/resource/image/1b/a8/1b9d8f49d5a716470481657b07ae77a8.png?wh=1090%2A779)
+![](https://static001.geekbang.org/resource/image/1b/a8/1b9d8f49d5a716470481657b07ae77a8.png?wh=1090%2A779){: referrerpolicy="no-referrer" }
 
 因此，Google提出了TCP fast open方案（简称[TFO](https://tools.ietf.org/html/rfc7413)），客户端可以在首个SYN报文中就携带请求，这节省了1个RTT的时间。
 
@@ -118,7 +118,7 @@ TFO到底怎样达成这一目的呢？它把通讯分为两个阶段，第一�
 
 服务器收到后，会用自己的密钥验证Cookie是否合法，验证通过后连接才算建立成功，再把请求交给进程处理，同时给客户端返回SYN+ACK。虽然客户端收到后还会返回ACK，但服务器不等收到ACK就可以发送HTTP响应了，这就减少了握手带来的1个RTT的时间消耗。
 
-![](https://static001.geekbang.org/resource/image/7a/c3/7ac29766ba8515eea5bb331fce6dc2c3.png?wh=961%2A806)
+![](https://static001.geekbang.org/resource/image/7a/c3/7ac29766ba8515eea5bb331fce6dc2c3.png?wh=961%2A806){: referrerpolicy="no-referrer" }
 
 当然，为了防止SYN泛洪攻击，服务器的TFO实现必须能够自动化地定时更新密钥。
 

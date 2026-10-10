@@ -20,17 +20,17 @@ AKF立方体也叫做[scale cube](https://en.wikipedia.org/wiki/Scale_cube)，�
 
 如下图所示：
 
-![](https://static001.geekbang.org/resource/image/61/aa/61633c7e7679fd10b915494b72abb3aa.jpg?wh=1218%2A974)
+![](https://static001.geekbang.org/resource/image/61/aa/61633c7e7679fd10b915494b72abb3aa.jpg?wh=1218%2A974){: referrerpolicy="no-referrer" }
 
 我们日常见到的各种系统扩展方案，都可以归结到AKF立方体的这三个维度上。而且，我们可以同时组合这3个方向上的扩展动作，使得系统可以近乎无限地提升性能。为了避免对AKF的介绍过于抽象，下面我用一个实际的例子，带你看看这3个方向的扩展到底该如何应用。
 
 假定我们开发一个博客平台，用户可以申请自己的博客帐号，并在其上发布文章。最初的系统考虑了MVC架构，将数据状态及关系模型交给数据库实现，应用进程通过SQL语言操作数据模型，经由HTTP协议对浏览器客户端提供服务，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/cd/e0/cda814dcfca8820c81024808fe96b1e0.jpg?wh=876%2A874)
+![](https://static001.geekbang.org/resource/image/cd/e0/cda814dcfca8820c81024808fe96b1e0.jpg?wh=876%2A874){: referrerpolicy="no-referrer" }
 
 在这个架构中，处理业务的应用进程属于无状态服务，用户数据全部放在了关系数据库中。因此，当我们在应用进程前加1个负载均衡服务后，就可以通过部署更多的应用进程，提供更大的吞吐量。而且，初期增加应用进程，RPS可以获得线性增长，很实用。
 
-![](https://static001.geekbang.org/resource/image/d7/62/d7f75f3f5a5e6f8a07b1c47501606962.png?wh=879%2A856)
+![](https://static001.geekbang.org/resource/image/d7/62/d7f75f3f5a5e6f8a07b1c47501606962.png?wh=879%2A856){: referrerpolicy="no-referrer" }
 
 这就叫做沿AKF X轴扩展系统。这种扩展方式最大的优点，就是开发成本近乎为零，而且实施起来速度快！在搭建好负载均衡后，只需要在新的物理机、虚拟机或者微服务上复制程序，就可以让新进程分担请求流量，而且不会影响事务Transaction的处理。
 
@@ -42,7 +42,7 @@ AKF立方体也叫做[scale cube](https://en.wikipedia.org/wiki/Scale_cube)，�
 
 在现代经济中，更细分、更专业的产业化、供应链分工，可以给社会带来更高的效率，而AKF Y轴与之相似，当遇到上述性能瓶颈后，拆分系统功能，使得各组件的职责、分工更细，也可以提升系统的效率。比如，当我们将应用进程对数据库的读写操作拆分后，就可以扩展单机数据库为主备分布式系统，使得主库支持读写两种SQL，而备库只支持读SQL。这样，主库可以轻松地支持事务操作，且它将数据同步到备库中也并不复杂，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/86/74/865885bb7213e62b8e1b715d85c9a974.png?wh=834%2A791)
+![](https://static001.geekbang.org/resource/image/86/74/865885bb7213e62b8e1b715d85c9a974.png?wh=834%2A791){: referrerpolicy="no-referrer" }
 
 当然，上图中如果读性能达到了瓶颈，我们可以继续沿着AKF X轴，用复制的方式扩展多个备库，提升读SQL的性能，可见，AKF多个轴完全可以搭配着协同使用。
 
@@ -50,7 +50,7 @@ AKF立方体也叫做[scale cube](https://en.wikipedia.org/wiki/Scale_cube)，�
 
 当这个博客平台访问量越来越大时，一台主库是无法扛住所有写流量的。因此，基于业务特性拆分功能，就是必须要做的工作。比如，把用户的个人信息、身份验证等功能拆分出一个子系统，再把文章、留言发布等功能拆分到另一个子系统，由无状态的业务层代码分开调用，并通过事务组合在一起，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/3b/af/3bba7bc19965bb9b01c058e67a6471af.png?wh=644%2A833)
+![](https://static001.geekbang.org/resource/image/3b/af/3bba7bc19965bb9b01c058e67a6471af.png?wh=644%2A833){: referrerpolicy="no-referrer" }
 
 这样，每个后端的子应用更加聚焦于细分的功能，它的数据库规模会变小，也更容易优化性能。比如，针对用户登录功能，你可以再次基于Y轴将身份验证功能拆分，用Redis等服务搭建一个基于LRU算法淘汰的缓存系统，快速验证用户身份。
 
@@ -66,7 +66,7 @@ AKF立方体也叫做[scale cube](https://en.wikipedia.org/wiki/Scale_cube)，�
 
 这个时候，关系数据库最常用的分库分表操作就登场了，它正是AKF沿Z轴拆分系统的实践。比如已经含有上亿行数据的User用户信息表，可以分成10个库，每个库再分成10张表，利用固定的哈希函数，就可以把每个用户的数据映射到某个库的某张表中。这样，单张表的数据量就可以降低到1百万行左右，如果每个库部署在不同的服务器上（具体的部署方式视访问吞吐量以及服务器的配置而定），它们处理的数据量减少了很多，却可以独占服务器的硬件资源，性能自然就有了提升。如下图所示：
 
-![](https://static001.geekbang.org/resource/image/dc/83/dc9e29827c26f89ff3459b5c99313583.png?wh=852%2A815)
+![](https://static001.geekbang.org/resource/image/dc/83/dc9e29827c26f89ff3459b5c99313583.png?wh=852%2A815){: referrerpolicy="no-referrer" }
 
 分库分表是关系数据库中解决数据增长压力的最有效办法，但分库分表同时也导致跨表的查询语句复杂许多，而跨库的事务几乎难以实现，因此这种扩展的代价非常高。当然，如果你使用的是类似MySQL这些成熟的关系数据库，整个生态中会有厂商提供相应的中间件层，使用它们可以降低Z轴扩展的代价。
 
@@ -78,7 +78,7 @@ Z轴扩展还有一个好处，就是可以充分利用IDC与用户间的网速�
 
 下图中，我使用了2种Z轴扩展系统的方式。首先是基于客户端的地理位置，选择不同的IDC就近提供服务。其次是将不同的用户分组，比如免费用户组与付费用户组，这样在业务上分离用户群体后，还可以有针对性地提供不同水准的服务。
 
-![](https://static001.geekbang.org/resource/image/35/3b/353d8515d40db25eebee23889a3ecd3b.png?wh=1061%2A766)
+![](https://static001.geekbang.org/resource/image/35/3b/353d8515d40db25eebee23889a3ecd3b.png?wh=1061%2A766){: referrerpolicy="no-referrer" }
 
 沿AKF Z轴扩展系统可以解决数据增长带来的性能瓶颈，也可以基于数据的空间位置提升系统性能，然而它的实施成本比较高，尤其是在系统宕机、扩容时，一旦路由规则发生变化，会带来很大的数据迁移成本，\[第24讲] 我将要介绍的一致性哈希算法，其实就是用来解决这一问题的。
 

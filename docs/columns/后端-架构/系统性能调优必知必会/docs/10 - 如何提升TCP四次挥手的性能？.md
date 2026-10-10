@@ -16,7 +16,7 @@ Linux为四次挥手提供了很多控制参数，有些参数的名称与含义
 
 这是因为TCP不允许连接处于半打开状态时就单向传输数据，所以在三次握手建立连接时，服务器会把ACK和SYN放在一起发给客户端，其中，ACK用来打开客户端的发送通道，SYN用来打开服务器的发送通道。这样，原本的四次握手就降为三次握手了。
 
-![](https://static001.geekbang.org/resource/image/74/51/74ac4e70ef719f19270c08201fb53a51.png?wh=943%2A613)
+![](https://static001.geekbang.org/resource/image/74/51/74ac4e70ef719f19270c08201fb53a51.png?wh=943%2A613){: referrerpolicy="no-referrer" }
 
 但是当连接处于半关闭状态时，TCP是允许单向传输数据的。为便于下文描述，**接下来我们把先关闭连接的一方叫做主动方，后关闭连接的一方叫做被动方。**当主动方关闭连接时，被动方仍然可以在不调用close函数的状态下，长时间发送数据，此时连接处于半关闭状态。这一特性是TCP的双向通道互相独立所致，却也使得关闭连接必须通过四次挥手才能做到。
 
@@ -26,7 +26,7 @@ Linux为四次挥手提供了很多控制参数，有些参数的名称与含义
 
 了解了这一点之后，我们再来看四次挥手的流程。
 
-![](https://static001.geekbang.org/resource/image/e2/b7/e2ef1347b3b4590da431dc236d9239b7.png?wh=1162%2A825)
+![](https://static001.geekbang.org/resource/image/e2/b7/e2ef1347b3b4590da431dc236d9239b7.png?wh=1162%2A825){: referrerpolicy="no-referrer" }
 
 **其实四次挥手只涉及两种报文：FIN和ACK。**FIN就是Finish结束连接的意思，谁发出FIN报文，就表示它将不再发送任何数据，关闭这一方向的传输通道。ACK是Acknowledge确认的意思，它用来通知对方：你方的发送通道已经关闭。
 
@@ -131,7 +131,7 @@ net.ipv4.tcp_tw_recycle = 0
 
 此时，上面介绍过的优化策略仍然适用。两方发送FIN报文时，都认为自己是主动方，所以都进入了FIN\_WAIT1状态，FIN报文的重发次数仍由tcp\_orphan\_retries参数控制。
 
-![](https://static001.geekbang.org/resource/image/04/52/043752a3957d36f4e3c82cd83d472452.png?wh=1165%2A585)
+![](https://static001.geekbang.org/resource/image/04/52/043752a3957d36f4e3c82cd83d472452.png?wh=1165%2A585){: referrerpolicy="no-referrer" }
 
 接下来，双方在等待ACK报文的过程中，都等来了FIN报文。这是一种新情况，所以连接会进入一种叫做CLOSING的新状态，它替代了FIN\_WAIT2状态。此时，内核回复ACK确认对方发送通道的关闭，仅己方的FIN报文对应的ACK还没有收到。所以，CLOSING状态与LAST\_ACK状态下的连接很相似，它会在适时重发FIN报文的情况下最终关闭。
 

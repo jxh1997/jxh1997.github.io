@@ -38,7 +38,7 @@
 
 虽然ACID名义上并列为事务的四大特性，但它们对于数据库的重要程度并不相同。我用一张图来表示它们的关系。
 
-![](https://static001.geekbang.org/resource/image/e7/73/e7571fa45b9337f2541a35d8c82b3873.jpg?wh=2700%2A1338)
+![](https://static001.geekbang.org/resource/image/e7/73/e7571fa45b9337f2541a35d8c82b3873.jpg?wh=2700%2A1338){: referrerpolicy="no-referrer" }
 
 我们依次来看下。
 
@@ -63,7 +63,7 @@
 
 最早、最正式的对隔离级别的定义，是ANSI SQL-92（简称SQL-92），它定义的隔离级别和异常现象如下所示：
 
-![](https://static001.geekbang.org/resource/image/ed/44/ed89859eb0f1108600e0d5f0db343544.jpg?wh=2700%2A1112)
+![](https://static001.geekbang.org/resource/image/ed/44/ed89859eb0f1108600e0d5f0db343544.jpg?wh=2700%2A1112){: referrerpolicy="no-referrer" }
 
 SQL-92定义了四个隔离级别和三种异常现象，这些内容网上很多文章都说得比较清楚，我就不再啰嗦了。如果还不放心，我推荐你去看林晓斌老师的课程《MySQL实战45讲》。
 
@@ -87,13 +87,13 @@ Critique对幻读的描述大致是这样的，事务T1使用特定的查询条�
 
 首先，箱子里有三个白球和三个黑球，两个事务（T1,T2）并发修改，不知道对方的存在。T1要让6个球都变成白色；T2则希望6个球都变成黑色。
 
-![](https://static001.geekbang.org/resource/image/91/fa/91e75e61d921fb21cebfdba8879806fa.jpg?wh=2700%2A803)
+![](https://static001.geekbang.org/resource/image/91/fa/91e75e61d921fb21cebfdba8879806fa.jpg?wh=2700%2A803){: referrerpolicy="no-referrer" }
 
-![](https://static001.geekbang.org/resource/image/dd/be/ddce93423da417ef495b2bbc7c3090be.jpg?wh=2700%2A1740)
+![](https://static001.geekbang.org/resource/image/dd/be/ddce93423da417ef495b2bbc7c3090be.jpg?wh=2700%2A1740){: referrerpolicy="no-referrer" }
 
 你看，最终的执行结果是，盒子里仍然有三个黑球和三个白球。如果你还没有发现问题，可以看看下面我画的串行执行的效果图，比较一下有什么不同。
 
-![](https://static001.geekbang.org/resource/image/85/83/8502cf4cf0f6fe61db1692bd1a945883.jpg?wh=2700%2A1661)
+![](https://static001.geekbang.org/resource/image/85/83/8502cf4cf0f6fe61db1692bd1a945883.jpg?wh=2700%2A1661){: referrerpolicy="no-referrer" }
 
 如果先执行T1再执行T2，6个球都会变成黑色；调换T1与T2的顺序，则6个球都是白色。
 
@@ -101,7 +101,7 @@ Critique对幻读的描述大致是这样的，事务T1使用特定的查询条�
 
 好了，为了让你搞清Critique中六种隔离级别的强弱关系以及相互间的差距，我截取了原论文的一张配图。
 
-![](https://static001.geekbang.org/resource/image/0d/aa/0d81415e08f4507d5f3f3ff6f99a99aa.jpg?wh=2700%2A1643)
+![](https://static001.geekbang.org/resource/image/0d/aa/0d81415e08f4507d5f3f3ff6f99a99aa.jpg?wh=2700%2A1643){: referrerpolicy="no-referrer" }
 
 你可以看到“快照隔离”与“可重复读”在强度上并列，“已提交读”则弱于这两者。事实上，今天大多数数据库支持的隔离级别就在这三者之中。
 
@@ -129,7 +129,7 @@ Critique对幻读的描述大致是这样的，事务T1使用特定的查询条�
 
 到这里，我们用两讲的篇幅分别介绍了数据一致性和事务一致性，它们共同构成了分布式数据库的强一致性这个概念。我借用一张图来体现三者的关系。
 
-![](https://static001.geekbang.org/resource/image/c2/c2/c291e740e57dbedc2e20f18fd62b1ec2.jpg?wh=2700%2A1650)
+![](https://static001.geekbang.org/resource/image/c2/c2/c291e740e57dbedc2e20f18fd62b1ec2.jpg?wh=2700%2A1650){: referrerpolicy="no-referrer" }
 
 图片原始出处是论文“Highly Available Transactions: Virtues and Limitations”，此处引用的是[Jepsen网站的简化版](https://jepsen.io/consistency)。
 
@@ -139,7 +139,7 @@ Critique对幻读的描述大致是这样的，事务T1使用特定的查询条�
 
 下面，我总结了一些分布式数据库产品的“一致性”实现情况供你参考。
 
-![](https://static001.geekbang.org/resource/image/e5/d9/e58acbd91d1f25fa4086eb8yyc9decd9.jpg?wh=2700%2A1659)
+![](https://static001.geekbang.org/resource/image/e5/d9/e58acbd91d1f25fa4086eb8yyc9decd9.jpg?wh=2700%2A1659){: referrerpolicy="no-referrer" }
 
 比较特别的是，OceanBase在2.2版本还增加了对“可串行化”的支持，但这是一个被Oracle重新定义的“可串行化”，在这个级别OceanBase和Oracle一样都会出现写倾斜。所以，这不是我们标准的隔离级别，也就没有体现在表格中。
 
@@ -154,7 +154,7 @@ Critique对幻读的描述大致是这样的，事务T1使用特定的查询条�
 
 好了，到这里，加上前一节“数据一致性”，我们用了两讲阐述了分布式数据“强一致性”的含义。在严格意义上，分布式数据库的“强一致性”意味着严格串行化（Strict Serializable），目前我们熟知的产品中只有Spanner达到了这个标准，其同时也带来了性能上的巨大开销。如果我们稍稍放松标准，那么“数据一致性”达到因果一致性且“事务一致性”达到已提交读，即可认为是相对的“强一致性”。还有一点非常重要，分布式数据一致性并不是越高越好，还要与可用性、性能指标结合，否则就成了形象工程。
 
-![](https://static001.geekbang.org/resource/image/c5/ed/c57e399d116cd88e1062184fb97d3aed.jpg?wh=2700%2A3159)
+![](https://static001.geekbang.org/resource/image/c5/ed/c57e399d116cd88e1062184fb97d3aed.jpg?wh=2700%2A3159){: referrerpolicy="no-referrer" }
 
 ## 思考题
 

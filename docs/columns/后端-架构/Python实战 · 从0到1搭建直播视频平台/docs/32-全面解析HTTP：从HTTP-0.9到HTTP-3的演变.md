@@ -24,7 +24,7 @@ HTTP的发展历程从20世纪80年代开始算起，当时互联网还处于发
 
 我这就来为你梳理一下HTTP整个发展历程，看看它在每个阶段都有什么发展变革。
 
-![](https://static001.geekbang.org/resource/image/a2/23/a29c0af9e3379090e793119a1772f223.jpg?wh=3430x1616)
+![](https://static001.geekbang.org/resource/image/a2/23/a29c0af9e3379090e793119a1772f223.jpg?wh=3430x1616){: referrerpolicy="no-referrer" }
 
 ## HTTP详解
 
@@ -68,11 +68,11 @@ HTTP/1.0与HTTP/0.9相比做了很大的变革。我们这就一起来看一下�
 
 第四，添加了Pipeline。这允许客户端在第一个请求的没完全传输之前，就发送第二个请求，这么做降低了通信的延迟。虽然Pipeline在HTTP/2才投入稳定的应用，但其实它在1.1的阶段就曾投入使用。Pipeline机制主要还是为了优化性能。具体的执行效果图如下所示。
 
-![](https://static001.geekbang.org/resource/image/5a/8a/5a5a8399fca05fbb0ba0c25f1d34fa8a.jpg?wh=1168x389)
+![](https://static001.geekbang.org/resource/image/5a/8a/5a5a8399fca05fbb0ba0c25f1d34fa8a.jpg?wh=1168x389){: referrerpolicy="no-referrer" }
 
 还有其他的一些优化，例如HTTP/1.1通过引入Chunk transfer机制来实现对动态内容的支持。这个阶段还新增了5种新的请求方法，我给你整理在了后面的表格里，你可以看一下。
 
-![](https://static001.geekbang.org/resource/image/91/ac/91e8f87ec3322432da5c7879b0c3d8ac.jpg?wh=3086x1488)
+![](https://static001.geekbang.org/resource/image/91/ac/91e8f87ec3322432da5c7879b0c3d8ac.jpg?wh=3086x1488){: referrerpolicy="no-referrer" }
 
 我们看到了在HTTP/1.1阶段发生的巨大的更新，在提效节能方面进行了多维度优化。但是宽带利用率和队头阻塞问题还是没有得到充分解决。
 
@@ -116,7 +116,7 @@ HTTP是超文本传输协议，是一种用于在客户端和服务器之间传�
 
 针对HTTP的发展，我们从最初的HTTP/0.9到HTTP/3进行了全面解读，了解了在每个阶段HTTP主要解决的问题，在不同版本都做了哪些突破和优化，又存在哪些不足。你可以结合后面的表格回顾复习一下。
 
-![](https://static001.geekbang.org/resource/image/bc/3d/bcfaf66e799b46a7e336903e30bae13d.jpg?wh=3445x1504)
+![](https://static001.geekbang.org/resource/image/bc/3d/bcfaf66e799b46a7e336903e30bae13d.jpg?wh=3445x1504){: referrerpolicy="no-referrer" }
 
 最后再分享一点HTTP相关知识的学习技巧：你需要明确在不同版本间主要做了哪些创新和解决哪些问题。至于网络部分的考核，更看重你是否能深入掌握HTTP的核心原理，希望你在课后参考这个思路再仔细复习一下，这样学习效果会更好。
 

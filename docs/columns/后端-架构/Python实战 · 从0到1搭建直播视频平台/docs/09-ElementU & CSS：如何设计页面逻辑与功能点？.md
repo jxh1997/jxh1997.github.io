@@ -16,12 +16,12 @@
 
 核心功能、推荐和热搜这三块就形成了首页的三个分区。
 
-![](https://static001.geekbang.org/resource/image/77/30/77b0ea3dc9ce48571590aca01yyf8a30.jpg?wh=2874x1546)
+![](https://static001.geekbang.org/resource/image/77/30/77b0ea3dc9ce48571590aca01yyf8a30.jpg?wh=2874x1546){: referrerpolicy="no-referrer" }
 
 我们再来看一下京东的页面。  
-![](https://static001.geekbang.org/resource/image/fb/e5/fbb8956c9402c058c37fc58781yy27e5.jpg?wh=2878x1328)
+![](https://static001.geekbang.org/resource/image/fb/e5/fbb8956c9402c058c37fc58781yy27e5.jpg?wh=2878x1328){: referrerpolicy="no-referrer" }
 
-![](https://static001.geekbang.org/resource/image/3e/f8/3e0df79309819393e6bdee38c9ba25f8.jpg?wh=2870x1488)
+![](https://static001.geekbang.org/resource/image/3e/f8/3e0df79309819393e6bdee38c9ba25f8.jpg?wh=2870x1488){: referrerpolicy="no-referrer" }
 
 可以看到，Header下面是核心商品搜索功能和各项菜单栏，中间是广告轮播区。再往下是相对重要的秒杀商品，接下来是各种频道和商品。
 
@@ -69,7 +69,7 @@ font-weight: bold;
 
 它的CSS属性是cursor，你可以通过后面的表格了解常用的属性值。
 
-![](https://static001.geekbang.org/resource/image/2e/81/2ec99d14ac28b10757e4c96a91e97481.jpg?wh=3733x6169)
+![](https://static001.geekbang.org/resource/image/2e/81/2ec99d14ac28b10757e4c96a91e97481.jpg?wh=3733x6169){: referrerpolicy="no-referrer" }
 
 这里我们重点记住pointer 鼠标悬浮在元素上变成小手，表示当前区域可以点击。
 
@@ -83,7 +83,7 @@ cursor: pointer;
 
 它由3个值组成。前两个值是边框宽度和边框样式。后面的示意图我画出了常见样式。
 
-![](https://static001.geekbang.org/resource/image/2b/61/2bf202653f22190e01560d5f4dbd6161.jpg?wh=2900x852)
+![](https://static001.geekbang.org/resource/image/2b/61/2bf202653f22190e01560d5f4dbd6161.jpg?wh=2900x852){: referrerpolicy="no-referrer" }
 
 第三个值是边框颜色。我们以上图1px大小、黑色的边框为例，对应的4种样式属性值是后面这样。
 
@@ -96,7 +96,7 @@ border: 1px double #000;
 
 前面的边框都是直角边框，那如果想要圆角边框怎么办呢？我们可以再加一个border-radius属性用来给边框加圆角，值是数字，单位仍然是px。border-radius属性的值是边框的圆角半径。
 
-![](https://static001.geekbang.org/resource/image/20/5e/20db611cb15a1yy78c3b16561e1e095e.jpg?wh=2000x1223)
+![](https://static001.geekbang.org/resource/image/20/5e/20db611cb15a1yy78c3b16561e1e095e.jpg?wh=2000x1223){: referrerpolicy="no-referrer" }
 
 ```css
 border: 1px solid #000;
@@ -110,7 +110,7 @@ border-radius：5px;
 
 display在HTML中的作用是控制元素的显示方式，HTML元素分成块级元素和行内元素，后面的表格梳理了常用元素。
 
-![](https://static001.geekbang.org/resource/image/b4/8c/b41b68b5yyd1c242e255670c4763ef8c.jpg?wh=2919x1276)
+![](https://static001.geekbang.org/resource/image/b4/8c/b41b68b5yyd1c242e255670c4763ef8c.jpg?wh=2919x1276){: referrerpolicy="no-referrer" }
 
 接下来我们就通过几个案例来学习一下，如何使用display。
 
@@ -142,7 +142,7 @@ display:none;
 
 ### 7.定位
 
-![](https://static001.geekbang.org/resource/image/4d/1e/4deb5ba71804fd90a56422864e53b51e.jpg?wh=1950x1223)
+![](https://static001.geekbang.org/resource/image/4d/1e/4deb5ba71804fd90a56422864e53b51e.jpg?wh=1950x1223){: referrerpolicy="no-referrer" }
 
 当父元素内的子元素要固定显示在父元素的附近某个距离的位置时，就需要用到定位。
 
@@ -226,7 +226,7 @@ Element 采用了模块化的设计理念，非常灵活，可以轻松地集成
 </style>
 ```
 
-![](https://static001.geekbang.org/resource/image/ba/d2/bab9eaaf2dcef857db89a49cbfafb9d2.jpg?wh=1914x929)
+![](https://static001.geekbang.org/resource/image/ba/d2/bab9eaaf2dcef857db89a49cbfafb9d2.jpg?wh=1914x929){: referrerpolicy="no-referrer" }
 
 效果就是图里显示的这样，在实际应用中，我们也可以用图片替换文字。
 
@@ -234,7 +234,7 @@ Element 采用了模块化的设计理念，非常灵活，可以轻松地集成
 
 [按钮](https://element.eleme.cn/#/zh-CN/component/button)也是网页中非常常见的组件。Element-UI的按钮组件也非常丰富。
 
-![](https://static001.geekbang.org/resource/image/0c/2a/0c19cb6323ae4dab20b96335c2a9262a.jpg?wh=1776x684)
+![](https://static001.geekbang.org/resource/image/0c/2a/0c19cb6323ae4dab20b96335c2a9262a.jpg?wh=1776x684){: referrerpolicy="no-referrer" }
 
 对于按钮的应用，我们重点需要关注type值，通过type值实现不同样式的按钮，具体代码实现是后面这样。
 
@@ -277,7 +277,7 @@ Element 采用了模块化的设计理念，非常灵活，可以轻松地集成
 
 如果我们希望给用户提供一些可选择的提示信息，就要用到[弹窗](https://element.eleme.cn/#/zh-CN/component/message-box)。比如要关闭页面时经常会弹出“确定要离开吗？”的弹窗。
 
-![](https://static001.geekbang.org/resource/image/ca/86/ca12dd51f3d4b84d4b0ce6a461737186.jpg?wh=1704x929)
+![](https://static001.geekbang.org/resource/image/ca/86/ca12dd51f3d4b84d4b0ce6a461737186.jpg?wh=1704x929){: referrerpolicy="no-referrer" }
 
 ```javascript
 <template>
@@ -310,9 +310,9 @@ Element 采用了模块化的设计理念，非常灵活，可以轻松地集成
 
 先来整体看一下在线视频社区平台的首页，看看怎么拆分任务。
 
-![](https://static001.geekbang.org/resource/image/11/98/1165e4b4615417a3bb24939d6f22ac98.jpg?wh=2962x1127)  
-![](https://static001.geekbang.org/resource/image/aa/05/aa30bcd624e56b2b763ed844bf9f5a05.jpg?wh=2900x850)  
-![](https://static001.geekbang.org/resource/image/1b/0b/1b1754b98995fc7018a2c7e776840d0b.jpg?wh=2865x1113)![](https://static001.geekbang.org/resource/image/d5/fc/d5c8d2149ba981d2f624ab09c4e425fc.jpg?wh=2900x1361)
+![](https://static001.geekbang.org/resource/image/11/98/1165e4b4615417a3bb24939d6f22ac98.jpg?wh=2962x1127)  {: referrerpolicy="no-referrer" }
+![](https://static001.geekbang.org/resource/image/aa/05/aa30bcd624e56b2b763ed844bf9f5a05.jpg?wh=2900x850)  {: referrerpolicy="no-referrer" }
+![](https://static001.geekbang.org/resource/image/1b/0b/1b1754b98995fc7018a2c7e776840d0b.jpg?wh=2865x1113)![](https://static001.geekbang.org/resource/image/d5/fc/d5c8d2149ba981d2f624ab09c4e425fc.jpg?wh=2900x1361){: referrerpolicy="no-referrer" }
 
 可以看到，在首页里，除了每个页面都有的Header和Footer外，还有轮播图、特别推荐、热点、排行榜、广告、游戏、热门推荐等模块。
 
@@ -509,7 +509,7 @@ display:inline-block
 
 这里我们希望用户鼠标悬停的时候，鼠标变成小手，并出现播放的图标。
 
-![](https://static001.geekbang.org/resource/image/3d/39/3d7370146095635ce970aed415868639.jpg?wh=2900x795)
+![](https://static001.geekbang.org/resource/image/3d/39/3d7370146095635ce970aed415868639.jpg?wh=2900x795){: referrerpolicy="no-referrer" }
 
 那么播放的图标就需要先设置为display:none，在鼠标悬浮在封面上时改成display:block，代码如下。
 
@@ -554,7 +554,7 @@ display:inline-block
 
 尝试用Element-UI来实现一个tab可以切换的标签页，效果是点击不同的标签能够显示不同的内容。
 
-![](https://static001.geekbang.org/resource/image/ac/f5/acc493183d34f96a7f6742e2aa4738f5.jpg?wh=2900x648)
+![](https://static001.geekbang.org/resource/image/ac/f5/acc493183d34f96a7f6742e2aa4738f5.jpg?wh=2900x648){: referrerpolicy="no-referrer" }
 
 期待你在留言区和我交流互动，也推荐你把这节课分享给身边更多朋友，和他一起学习进步。
 <div><strong>精选留言（11）</strong></div><ul>

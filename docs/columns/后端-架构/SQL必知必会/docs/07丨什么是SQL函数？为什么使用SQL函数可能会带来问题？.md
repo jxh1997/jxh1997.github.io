@@ -32,7 +32,7 @@ SQL提供了一些常用的内置函数，当然你也可以自己定义SQL函�
 
 算术函数，顾名思义就是对数值类型的字段进行算术运算。常用的算术函数及含义如下表所示：
 
-![](https://static001.geekbang.org/resource/image/19/e1/193b171970c90394576d3812a46dd8e1.png?wh=1243%2A256)
+![](https://static001.geekbang.org/resource/image/19/e1/193b171970c90394576d3812a46dd8e1.png?wh=1243%2A256){: referrerpolicy="no-referrer" }
 
 这里我举一些简单的例子，你来体会下：
 
@@ -46,7 +46,7 @@ SQL提供了一些常用的内置函数，当然你也可以自己定义SQL函�
 
 常用的字符串函数操作包括了字符串拼接，大小写转换，求长度以及字符串替换和截取等。具体的函数名称及含义如下表所示：
 
-![](https://static001.geekbang.org/resource/image/c1/4d/c161033ebeeaa8eb2436742f0f818a4d.png?wh=1237%2A568)  
+![](https://static001.geekbang.org/resource/image/c1/4d/c161033ebeeaa8eb2436742f0f818a4d.png?wh=1237%2A568)  {: referrerpolicy="no-referrer" }
 这里同样有一些简单的例子，你可以自己运行下：
 
 `SELECT CONCAT('abc', 123)`，运行结果为abc123。
@@ -67,7 +67,7 @@ SQL提供了一些常用的内置函数，当然你也可以自己定义SQL函�
 
 日期函数是对数据表中的日期进行处理，常用的函数包括：
 
-![](https://static001.geekbang.org/resource/image/3d/45/3dec8d799b1363d38df34ed3fdd29045.png?wh=931%2A615)
+![](https://static001.geekbang.org/resource/image/3d/45/3dec8d799b1363d38df34ed3fdd29045.png?wh=931%2A615){: referrerpolicy="no-referrer" }
 
 下面是一些简单的例子，你可自己运行下：
 
@@ -87,7 +87,7 @@ SQL提供了一些常用的内置函数，当然你也可以自己定义SQL函�
 
 转换函数可以转换数据之间的类型，常用的函数如下表所示：
 
-![](https://static001.geekbang.org/resource/image/5d/59/5d977d747ed1fddca3acaab33d29f459.png?wh=1085%2A209)  
+![](https://static001.geekbang.org/resource/image/5d/59/5d977d747ed1fddca3acaab33d29f459.png?wh=1085%2A209)  {: referrerpolicy="no-referrer" }
 这两个函数不像其他函数，看一眼函数名就知道代表什么、如何使用。下面举了这两个函数的例子，你需要自己运行下：
 
 `SELECT CAST(123.123 AS INT)`，运行结果会报错。
@@ -102,7 +102,7 @@ CAST函数在转换数据类型的时候，不会四舍五入，如果原数值�
 
 我创建了一个王者荣耀英雄数据库，一共有69个英雄，23个属性值。SQL文件见Github地址：[https://github.com/cystanford/sql\_heros\_data](https://github.com/cystanford/sql_heros_data)。
 
-![](https://static001.geekbang.org/resource/image/7b/24/7b14aeedd80fd7e8fb8074f9884d6b24.png?wh=1107%2A344)  
+![](https://static001.geekbang.org/resource/image/7b/24/7b14aeedd80fd7e8fb8074f9884d6b24.png?wh=1107%2A344)  {: referrerpolicy="no-referrer" }
 我们现在把这个文件导入到MySQL中，你可以使用Navicat可视化数据库管理工具将.sql文件导入到数据库中。数据表为heros，然后使用今天学习的SQL函数，对这个英雄数据表进行处理。
 
 首先显示英雄以及他的物攻成长，对应字段为`attack_growth`。我们让这个字段精确到小数点后一位，需要使用的是算术函数里的ROUND函数。
@@ -115,7 +115,7 @@ SQL：SELECT name, ROUND(attack_growth,1) FROM heros
 
 运行结果为：
 
-![](https://static001.geekbang.org/resource/image/fb/ed/fb55a715543e1ed3245ae37210ad75ed.png?wh=640%2A346)  
+![](https://static001.geekbang.org/resource/image/fb/ed/fb55a715543e1ed3245ae37210ad75ed.png?wh=640%2A346)  {: referrerpolicy="no-referrer" }
 假设我们想显示英雄最大生命值的最大值，就需要用到MAX函数。在数据中，“最大生命值”对应的列数为`hp_max`，在代码中的格式为`MAX(hp_max)`。
 
 ```
@@ -132,7 +132,7 @@ SQL：SELECT name, hp_max FROM heros WHERE hp_max = (SELECT MAX(hp_max) FROM her
 
 运行结果：
 
-![](https://static001.geekbang.org/resource/image/93/20/9371fdcee4d1f7bdfdd71bc0a58aac20.png?wh=371%2A125)
+![](https://static001.geekbang.org/resource/image/93/20/9371fdcee4d1f7bdfdd71bc0a58aac20.png?wh=371%2A125){: referrerpolicy="no-referrer" }
 
 假如我们想显示英雄的名字，以及他们的名字字数，需要用到`CHAR_LENGTH`函数。
 
@@ -142,7 +142,7 @@ SQL：SELECT CHAR_LENGTH(name), name FROM heros
 
 运行结果为：
 
-![](https://static001.geekbang.org/resource/image/41/8c/415aa09e2fdc121861e3c96bd8a2af8c.png?wh=614%2A345)
+![](https://static001.geekbang.org/resource/image/41/8c/415aa09e2fdc121861e3c96bd8a2af8c.png?wh=614%2A345){: referrerpolicy="no-referrer" }
 
 假如想要提取英雄上线日期（对应字段birthdate）的年份，只显示有上线日期的英雄即可（有些英雄没有上线日期的数据，不需要显示），这里我们需要使用EXTRACT函数，提取某一个时间元素。所以我们需要筛选上线日期不为空的英雄，即`WHERE birthdate is not null`，然后再显示他们的名字和上线日期的年份，即：
 
@@ -158,7 +158,7 @@ SQL: SELECT name, YEAR(birthdate) AS birthdate FROM heros WHERE birthdate is NOT
 
 运行结果为：
 
-![](https://static001.geekbang.org/resource/image/26/16/26cacf4d619d9f177a1f5b22059f9916.png?wh=615%2A344)
+![](https://static001.geekbang.org/resource/image/26/16/26cacf4d619d9f177a1f5b22059f9916.png?wh=615%2A344){: referrerpolicy="no-referrer" }
 
 假设我们需要找出在2016年10月1日之后上线的所有英雄。这里我们可以采用DATE函数来判断birthdate的日期是否大于2016-10-01，即`WHERE DATE(birthdate)>'2016-10-01'`，然后再显示符合要求的全部字段信息，即：
 
@@ -176,7 +176,7 @@ SELECT * FROM heros WHERE birthdate>'2016-10-01'
 
 运行结果为：
 
-![](https://static001.geekbang.org/resource/image/e5/22/e5696b5ff0aae0fd910463b1f8e6ed22.png?wh=1112%2A350)
+![](https://static001.geekbang.org/resource/image/e5/22/e5696b5ff0aae0fd910463b1f8e6ed22.png?wh=1112%2A350){: referrerpolicy="no-referrer" }
 
 假设我们需要知道在2016年10月1日之后上线英雄的平均最大生命值、平均最大法力和最高物攻最大值。同样我们需要先筛选日期条件，即`WHERE DATE(birthdate)>'2016-10-01'`，然后再选择`AVG(hp_max), AVG(mp_max), MAX(attack_max)`字段进行显示。
 
@@ -186,7 +186,7 @@ SQL： SELECT AVG(hp_max), AVG(mp_max), MAX(attack_max) FROM heros WHERE DATE(bi
 
 运行结果为：
 
-![](https://static001.geekbang.org/resource/image/8f/6b/8f559dc1be7d62e4c58402ebe2e7856b.png?wh=1105%2A128)
+![](https://static001.geekbang.org/resource/image/8f/6b/8f559dc1be7d62e4c58402ebe2e7856b.png?wh=1105%2A128){: referrerpolicy="no-referrer" }
 
 ## 为什么使用SQL函数会带来问题
 
@@ -218,7 +218,7 @@ SQL： SELECT AVG(hp_max), AVG(mp_max), MAX(attack_max) FROM heros WHERE DATE(bi
 
 比如`CONCAT()`是字符串拼接函数，在MySQL和Oracle中都有这个函数，但是在这两个DBMS中作用却不一样，`CONCAT`函数在MySQL中可以连接多个字符串，而在Oracle中`CONCAT`函数只能连接两个字符串，如果要连接多个字符串就需要用（||）连字符来解决。
 
-![](https://static001.geekbang.org/resource/image/8c/c9/8c5e316b466e8fa65789a9c6a220ebc9.jpg?wh=3341%2A1309)  
+![](https://static001.geekbang.org/resource/image/8c/c9/8c5e316b466e8fa65789a9c6a220ebc9.jpg?wh=3341%2A1309)  {: referrerpolicy="no-referrer" }
 讲完了SQL函数的使用，我们来做一道练习题。还是根据王者荣耀英雄数据表，请你使用SQL函数作如下的练习：计算英雄的最大生命平均值；显示出所有在2017年之前上线的英雄，如果英雄没有统计上线日期则不显示。
 
 欢迎你在评论区与我分享你的答案，也欢迎点击”请朋友读“，把这篇文章分享给你的朋友或者同事。

@@ -8,7 +8,7 @@
 
 下面这张数据复制的架构图，你应该在上一讲中就看到过了。
 
-![图片](https://static001.geekbang.org/resource/image/66/6c/66909ff3d10813e114aff69913085d6c.jpg?wh=1790x812)
+![图片](https://static001.geekbang.org/resource/image/66/6c/66909ff3d10813e114aff69913085d6c.jpg?wh=1790x812){: referrerpolicy="no-referrer" }
 
 我们回顾一下。
 
@@ -33,13 +33,13 @@
 
 用户线程执行过程中生成的Binlog事件会先缓存到Binlog Cache。Binlog Cache内部分配了一块内存空间，大小由参数binlog\_cache\_size控制。Binlog事件先写入到内存空间中，如果事务生成的Binlog超过了binlog\_cache\_size，就会将数据写到临时文件中。临时文件的大小由参数max\_binlog\_cache\_size控制。如果事务生成的Binlog超过了参数max\_binlog\_cache\_size的限制，事务会失败。
 
-![图片](https://static001.geekbang.org/resource/image/65/5c/6569a5a4fc1d9023d7970335dd19a45c.jpg?wh=969x539)
+![图片](https://static001.geekbang.org/resource/image/65/5c/6569a5a4fc1d9023d7970335dd19a45c.jpg?wh=969x539){: referrerpolicy="no-referrer" }
 
 ### 二阶段提交
 
 如果使用InnoDB存储引擎，并且开启了Binlog，为了保障InnoDB和Binlog中数据的一致性，MySQL会使用两阶段提交协议来提交事务。
 
-![图片](https://static001.geekbang.org/resource/image/47/bc/47bb7cd3939e6aa818293f81yy846abc.jpg?wh=1728x624)
+![图片](https://static001.geekbang.org/resource/image/47/bc/47bb7cd3939e6aa818293f81yy846abc.jpg?wh=1728x624){: referrerpolicy="no-referrer" }
 
 如上图所示，MySQL事务的提交分为Prepare和Commit两个阶段。在Prepare阶段，依次进行Binlog Prepare和InnoDB Prepare，只有当Binlog和InnoDB都Prepare成功后，事务才能进行后续的提交步骤。
 
@@ -67,7 +67,7 @@ Prepare成功后，进入到Commit阶段。在Commit阶段依次执行下面这�
 
 下面图中，框框里是MySQL源码中的函数名，你可以到源码中查看具体的代码实现。
 
-![图片](https://static001.geekbang.org/resource/image/9a/0e/9a627f3f023659ee42c11f551928490e.jpg?wh=1608x1388)
+![图片](https://static001.geekbang.org/resource/image/9a/0e/9a627f3f023659ee42c11f551928490e.jpg?wh=1608x1388){: referrerpolicy="no-referrer" }
 
 Binlog Flush的执行过程大致如下：
 
@@ -92,7 +92,7 @@ Binlog Flush的执行过程大致如下：
 
 Binlog Flush阶段的Leader线程完成Binlog Flush后，进入到Binlog Sync阶段。
 
-![图片](https://static001.geekbang.org/resource/image/37/f1/37c29cf7f6c0e0c4cda8ecf60694f7f1.jpg?wh=1444x814)  
+![图片](https://static001.geekbang.org/resource/image/37/f1/37c29cf7f6c0e0c4cda8ecf60694f7f1.jpg?wh=1444x814)  {: referrerpolicy="no-referrer" }
 Binlog Sync阶段依次执行下面这些步骤。
 
 1. 线程先加入sync队列。第一个加入队列的成为leader，执行sync操作。其他线程成为follower，等待leader线程完成提交操作后再执行。
@@ -104,7 +104,7 @@ Binlog Sync阶段依次执行下面这些步骤。
 
 Binlog Sync阶段的Leader线程完成相关处理后，进入到Commit阶段。
 
-![图片](https://static001.geekbang.org/resource/image/4d/ab/4df11f6e84b2da0209d8cc9793347aab.jpg?wh=1450x1374)
+![图片](https://static001.geekbang.org/resource/image/4d/ab/4df11f6e84b2da0209d8cc9793347aab.jpg?wh=1450x1374){: referrerpolicy="no-referrer" }
 
 1. 如果参数binlog\_order\_commits设置为ON，则sync阶段的leader线程加入commit队列。第一个加入队列的线程成为leader，进行后续的提交操作。其他线程作为follower，等待leader完成提交后再继续处理。如果binlog\_order\_commits设置为OFF，则线程不需要进入commit队列，在调用after\_sync钩子函数后，然后直接进入到第5步唤醒其它等待提交的事务，由各个事务各自完成提交动作。
 2. 如果启用了semi-sync，并且rpl\_semi\_sync\_master\_wait\_point设置为after\_sync，则在这里等待binlog同步到备库。
@@ -130,7 +130,7 @@ Binlog Sync阶段的Leader线程完成相关处理后，进入到Commit阶段。
 
 最后，我们来看一下Binlog是怎么从主库同步到备库的。同步操作由主库的Dump线程和备库的IO线程一起配合完成。
 
-![图片](https://static001.geekbang.org/resource/image/ba/ae/ba1d0db1cf346aaa9c0b3e93d644c4ae.jpg?wh=1810x1244)
+![图片](https://static001.geekbang.org/resource/image/ba/ae/ba1d0db1cf346aaa9c0b3e93d644c4ae.jpg?wh=1810x1244){: referrerpolicy="no-referrer" }
 
 ### IO 线程
 
@@ -180,7 +180,7 @@ IO线程启动时，会跟主库建立连接，主库上会启动一个Dump线�
 
 一般在正常情况下，备库发送过来的GTID\_SET\_ARG应该是主库GTID\_EXECUTED的子集，而主库的GTID\_PURGED应该是GTID\_SET\_ARG的子集。
 
-![图片](https://static001.geekbang.org/resource/image/96/2b/9632777cc5b51be1d5787a405yy7f72b.png?wh=1674x860)
+![图片](https://static001.geekbang.org/resource/image/96/2b/9632777cc5b51be1d5787a405yy7f72b.png?wh=1674x860){: referrerpolicy="no-referrer" }
 
 如果满足了上面这几个条件，Dump线程开始扫描Binlog，定位从哪个BINLOG开始复制数据。
 
@@ -263,7 +263,7 @@ mysql> show global status like '%semi%status%';
 
 半同步是在事务提交的哪个阶段等待Binlog发送呢？这和参数rpl\_semi\_sync\_master\_wait\_point的设置有关。
 
-![图片](https://static001.geekbang.org/resource/image/c3/24/c371195ea62491c15e050c07d1ebfd24.jpg?wh=1304x305)  
+![图片](https://static001.geekbang.org/resource/image/c3/24/c371195ea62491c15e050c07d1ebfd24.jpg?wh=1304x305)  {: referrerpolicy="no-referrer" }
 rpl\_semi\_sync\_master\_wait\_point可以设置为AFTER\_SYNC或AFTER\_COMMIT。
 
 - AFTER\_SYNC

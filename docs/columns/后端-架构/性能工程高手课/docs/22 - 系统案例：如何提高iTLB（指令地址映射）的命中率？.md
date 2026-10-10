@@ -91,7 +91,7 @@ hugepagesz = 2MB， hugepages = 64
 
 我们在生产中构建了一个流程，来自动化整个过程。这样，该解决方案就成为能被几乎所有服务简单采用的方案，而且几乎是免维护的解决方案。这个解决方案的流程图如下，整个系统包含三大模块：程序剖析（Profiling）、编译链接（Linking）和加载部署（loading）。
 
-![](https://static001.geekbang.org/resource/image/50/f4/50307c9f2a002e2063a632c8dddf13f4.png?wh=2000%2A1684)
+![](https://static001.geekbang.org/resource/image/50/f4/50307c9f2a002e2063a632c8dddf13f4.png?wh=2000%2A1684){: referrerpolicy="no-referrer" }
 
 ### 程序剖析
 
@@ -119,19 +119,19 @@ Dataswarm是我们曾经采用的数据收集框架，这是Facebook自己开发
 
 这张图显示了iTLB不命中率的变化。
 
-![](https://static001.geekbang.org/resource/image/6b/96/6bb6e77b54a6d91b6ace387309fa5e96.png?wh=2111%2A1302)
+![](https://static001.geekbang.org/resource/image/6b/96/6bb6e77b54a6d91b6ace387309fa5e96.png?wh=2111%2A1302){: referrerpolicy="no-referrer" }
 
 在应用该解决方案之前，iTLB不命中率在峰值期间高达每百万条指令800个，如蓝色线表示。采用我们的解决方案优化部署后，iTLB不命中率几乎下降了一半。具体而言，在峰值期间，最高的iTLB不命中率降低为每百万条指令425次，如黄线表示，相对优化以前下降了49％，差不多是一半。
 
 应用程序级别指标，显示在下图中。
 
-![](https://static001.geekbang.org/resource/image/26/ce/26ff2cf5472f3fef27503107ad3161ce.png?wh=2115%2A1313)
+![](https://static001.geekbang.org/resource/image/26/ce/26ff2cf5472f3fef27503107ad3161ce.png?wh=2115%2A1313){: referrerpolicy="no-referrer" }
 
 蓝色曲线为优化前，黄色曲线为优化后。我们可以看到，应用程序请求查询延迟的中位数（P50）下降最多25％，P90百分位数下降最多10％，P99下降最多60％。
 
 应用程序吞吐量（QPS）如下图所示，优化后增长了15％，也就是说，峰值吞吐量从3.6万QPS增加到了4.1万QPS。你可以看到，应用程序级别的吞吐量和访问延迟都得到了改善。
 
-![](https://static001.geekbang.org/resource/image/c0/c3/c09f61e1ee303ac2ff01c30cfc3542c3.png?wh=2089%2A1286)
+![](https://static001.geekbang.org/resource/image/c0/c3/c09f61e1ee303ac2ff01c30cfc3542c3.png?wh=2089%2A1286){: referrerpolicy="no-referrer" }
 
 ## 总结
 
@@ -139,7 +139,7 @@ Dataswarm是我们曾经采用的数据收集框架，这是Facebook自己开发
 
 完整的解决方案包括两部分：**编译优化**和**部署优化**。对编译的优化，是进行指令级别的划分，把经常访问的指令放在一起，形成Hot Text区域。对程序部署的优化，是采用大页面。这两个部分在真正的生产环境中可以一起使用。
 
-![](https://static001.geekbang.org/resource/image/e8/79/e8286137049016140a5433d5cdbf0979.png?wh=2455%2A1111)
+![](https://static001.geekbang.org/resource/image/e8/79/e8286137049016140a5433d5cdbf0979.png?wh=2455%2A1111){: referrerpolicy="no-referrer" }
 
 唐代的诗人张籍曾经鼓励一个出身寒门的朋友说：“越女新妆出镜心，自知明艳更沉吟。齐纨未足时人贵，一曲菱歌敌万金”。最后两句的意思是，大家追求的畅销东西，比如齐国的珍贵丝绸，恰如社会上横流的物欲，虽然贵重，但是见得多了也就不足为奇了。倒是平时不流行的东西，比如一首好听的采菱歌曲，更值得人称道看重。
 

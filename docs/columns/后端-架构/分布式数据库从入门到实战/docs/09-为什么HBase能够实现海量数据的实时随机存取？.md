@@ -77,7 +77,7 @@ HBase的数据存储在HDFS上，HDFS本身提供了数据多副本、服务多�
 
 HBase数据读写流程如下图所示。
 
-![图片](https://static001.geekbang.org/resource/image/c5/e3/c5c4ba066509ef6f73f58c9673yy3de3.png?wh=2960x1908)
+![图片](https://static001.geekbang.org/resource/image/c5/e3/c5c4ba066509ef6f73f58c9673yy3de3.png?wh=2960x1908){: referrerpolicy="no-referrer" }
 
 1. HBase客户端从ZK上面获取到hbase:meta表即元数据表所在的RegionServer是哪一台。
 2. HBase客户端从负责元数据表的RegionServer上，获取到全部元数据表的数据，元数据表记录了数据表有多少个分区、每个分区又由哪个RegionServer提供服务，注意这里HBase客户端会缓存所有元数据表数据。

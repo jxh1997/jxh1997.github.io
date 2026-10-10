@@ -25,11 +25,11 @@
 
 假设一个ZooKeeper集群，由节点A、B、C组成。其中，领导者A已经宕机，C是新选出来的领导者，B是新的跟随者（为了方便演示，假设B、C已提交提案的事务标识符最大值分别是&lt;1, 10&gt;和&lt;1, 11&gt;，其中1是任期编号，10、11是事务标识符中的计数器值，A宕机前的任期编号也是1）。那么B、C如何协商建立领导关系呢？
 
-![](https://static001.geekbang.org/resource/image/9a/34/9a31fd8f5d888abfb014b07408c4be34.jpg?wh=1142%2A596 "图1")
+![](https://static001.geekbang.org/resource/image/9a/34/9a31fd8f5d888abfb014b07408c4be34.jpg?wh=1142%2A596 "图1"){: referrerpolicy="no-referrer" }
 
 首先，B、C会把自己的ZAB状态设置为成员发现（DISCOVERY），这就表明，选举（ELECTION）阶段结束了，进入了下一个阶段：
 
-![](https://static001.geekbang.org/resource/image/5c/8c/5c933b8033238c2f58ea19c39bf12f8c.jpg?wh=1142%2A564 "图2")
+![](https://static001.geekbang.org/resource/image/5c/8c/5c933b8033238c2f58ea19c39bf12f8c.jpg?wh=1142%2A564 "图2"){: referrerpolicy="no-referrer" }
 
 在这里，我想补充一下，ZAB定义了4种状态，来标识节点的运行状态。
 
@@ -42,21 +42,21 @@
 
 接下来，B会主动联系C，发送给它包含自己接收过的领导者任期编号最大值（也就是前领导者A的任期编号，1）的FOLLOWINFO消息。
 
-![](https://static001.geekbang.org/resource/image/f5/56/f5209e12171cffbe1ed4a9b4835eca56.jpg?wh=1142%2A556 "图3")
+![](https://static001.geekbang.org/resource/image/f5/56/f5209e12171cffbe1ed4a9b4835eca56.jpg?wh=1142%2A556 "图3"){: referrerpolicy="no-referrer" }
 
 当C接收来自B的信息时，它会将包含自己事务标识符最大值的LEADINFO消息发给跟随者。
 
 你要注意，领导者进入到成员发现阶段后，会对任期编号加1，创建新的任期编号，然后基于新任期编号，创建新的事务标识符（也就是&lt;2, 0&gt;）。
 
-![](https://static001.geekbang.org/resource/image/f5/15/f54d28ba395fa1fd8bfa1f95e2574815.jpg?wh=1142%2A565 "图4")
+![](https://static001.geekbang.org/resource/image/f5/15/f54d28ba395fa1fd8bfa1f95e2574815.jpg?wh=1142%2A565 "图4"){: referrerpolicy="no-referrer" }
 
 当接收到领导者的响应后，跟随者会判断领导者的任期编号是否最新，如果不是，就发起新的选举；如果是，跟随者返回ACKEPOCH消息给领导者。在这里，C的任期编号（也就是2）大于B接受过的其他领导任期编号（也就是旧领导者A的任期编号，1），所以B返回确认响应给C，并设置ZAB状态为数据同步。
 
-![](https://static001.geekbang.org/resource/image/ef/79/ef46c226ad137738100c9764dff96879.jpg?wh=1142%2A543 "图5")
+![](https://static001.geekbang.org/resource/image/ef/79/ef46c226ad137738100c9764dff96879.jpg?wh=1142%2A543 "图5"){: referrerpolicy="no-referrer" }
 
 最后，当领导者接收到来自大多数节点的ACKEPOCH消息时，就设置ZAB状态为数据同步。在这里，C接收到了B的消息，再加上C自己，就是大多数了，所以，在接收到来自B的消息后，C设置ZAB状态为数据同步。
 
-![](https://static001.geekbang.org/resource/image/0f/41/0f7569a56088a5df3383b64313d55541.jpg?wh=1142%2A544 "图6")
+![](https://static001.geekbang.org/resource/image/0f/41/0f7569a56088a5df3383b64313d55541.jpg?wh=1142%2A544 "图6"){: referrerpolicy="no-referrer" }
 
 **现在，ZAB在成员发现阶段确立了领导者的领导关系，之后领导者就可以行使领导职能了。**而这时它首先要解决的就是数据冲突，实现各节点数据的一致性，那么它是怎么做的呢？
 
@@ -66,21 +66,21 @@
 
 因为C已提交提案的事务标识符最大值（也就是&lt;1, 11&gt;）大于B已提交提案的事务标识符最大值（也就是&lt;1, 10&gt;），所以C会用DIFF的方式修复数据副本的不一致，并返回差异数据（也就是事务标识符为&lt;1, 11&gt;的提案）和NEWLEADER消息给B。
 
-![](https://static001.geekbang.org/resource/image/aa/7a/aa434b6ef27b7e702857d796ae53257a.jpg?wh=1142%2A534 "图7")
+![](https://static001.geekbang.org/resource/image/aa/7a/aa434b6ef27b7e702857d796ae53257a.jpg?wh=1142%2A534 "图7"){: referrerpolicy="no-referrer" }
 
 **在这里，我想强调一点：B已提交提案的最大值，也是它最新提案的最大值。**因为在ZooKeeper实现中，节点退出跟随者状态时（也就是在进入选举前），所有未提交的提案都会被提交。这是ZooKeeper的设计，你知道有这么个事就可以了。
 
 然后，B修复不一致数据，返回NEWLEADER消息的确认响应给领导者。
 
-![](https://static001.geekbang.org/resource/image/87/06/87308ab8b9ba6eabc9217d0eeba03d06.jpg?wh=1142%2A509 "图8")
+![](https://static001.geekbang.org/resource/image/87/06/87308ab8b9ba6eabc9217d0eeba03d06.jpg?wh=1142%2A509 "图8"){: referrerpolicy="no-referrer" }
 
 接着，当领导者接收到来自大多数节点的NEWLEADER消息的确认响应，将设置ZAB状态为广播。在这里，C接收到B的确认响应，加上C自己，就是大多数确认了。所以，在接收到来自B的确认响应后，C设置自己的ZAB状态为广播，并发送UPTODATE消息给所有跟随者，通知它们数据同步已经完成了。
 
-![](https://static001.geekbang.org/resource/image/a5/26/a53e5ea1bbc85f2d80e766bd85382d26.jpg?wh=1142%2A537 "图9")
+![](https://static001.geekbang.org/resource/image/a5/26/a53e5ea1bbc85f2d80e766bd85382d26.jpg?wh=1142%2A537 "图9"){: referrerpolicy="no-referrer" }
 
 最后当B接收到UPTODATE消息时，它就知道数据同步完成了，就设置ZAB状态为广播。
 
-![](https://static001.geekbang.org/resource/image/42/65/42d2162cb833a3b50fd44ba00556ed65.jpg?wh=1142%2A535 "图10")
+![](https://static001.geekbang.org/resource/image/42/65/42d2162cb833a3b50fd44ba00556ed65.jpg?wh=1142%2A535 "图10"){: referrerpolicy="no-referrer" }
 
 这个时候，集群就可以正常处理写请求了。
 
@@ -94,7 +94,7 @@
 
 大概的实现流程，就像下面这样：
 
-![](https://static001.geekbang.org/resource/image/90/c6/900afb50caffdee9d0fa46cc121893c6.jpg?wh=1142%2A865 "图11")
+![](https://static001.geekbang.org/resource/image/90/c6/900afb50caffdee9d0fa46cc121893c6.jpg?wh=1142%2A865 "图11"){: referrerpolicy="no-referrer" }
 
 为帮你更好地理解这个流程，我们来走一遍核心代码的流程，加深下印象。
 
@@ -169,7 +169,7 @@ self.setZabState(QuorumPeer.ZabState.SYNCHRONIZATION);
 
 数据同步也是通过跟随者和领导者交互来完成的，目标是确保跟随者节点上的数据与领导者节点上数据是一致的。大概的实现流程，如图所示：
 
-![](https://static001.geekbang.org/resource/image/6e/44/6ea74f1a56a9fd0f39b82b25d2814c44.jpg?wh=1142%2A866 "图12")
+![](https://static001.geekbang.org/resource/image/6e/44/6ea74f1a56a9fd0f39b82b25d2814c44.jpg?wh=1142%2A866 "图12"){: referrerpolicy="no-referrer" }
 
 为了方便你理解，咱们一起走一遍核心代码的流程，加深下印象。
 

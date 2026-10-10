@@ -22,7 +22,7 @@
 
 下图就展示了LRU算法执行过程的第二种情况，你可以看下。其中，链表长度为5，从链表头部到尾部保存的数据分别是5，33，9，10，8。假设数据9被访问了一次，那么9就会被移动到链表头部，同时，数据5和33都要向链表尾部移动一位。
 
-![](https://static001.geekbang.org/resource/image/4c/a4/4c248a9db073b56b11e05802eedd1ea4.jpg?wh=2000x1125)
+![](https://static001.geekbang.org/resource/image/4c/a4/4c248a9db073b56b11e05802eedd1ea4.jpg?wh=2000x1125){: referrerpolicy="no-referrer" }
 
 所以你其实可以发现，如果要严格按照LRU算法的基本原理来实现的话，你需要在代码中实现如下内容：
 
@@ -198,7 +198,7 @@ robj *lookupKey(redisDb *db, robj *key, int flags) {
 
 freeMemoryIfNeeded函数是被freeMemoryIfNeededAndSafe函数（在evict.c文件中）调用，而freeMemoryIfNeededAndSafe函数又是被processCommand函数所调用的。你可以参考下面的图，展示了这三者的调用关系。
 
-![](https://static001.geekbang.org/resource/image/f1/61/f1fb3998bb859e973e95ab47003da961.jpg?wh=2000x778)
+![](https://static001.geekbang.org/resource/image/f1/61/f1fb3998bb859e973e95ab47003da961.jpg?wh=2000x778){: referrerpolicy="no-referrer" }
 
 所以，我们看到processCommand函数，就应该知道这个函数是Redis处理每个命令时都会被调用的。我在[第14讲](https://time.geekbang.org/column/article/411558)中已经介绍过processCommand函数，你可以再去回顾下。
 
@@ -384,7 +384,7 @@ if (bestkey) {
 
 下图就展示了freeMemoryIfNeeded函数涉及的基本流程，你可以再来整体回顾下。
 
-![](https://static001.geekbang.org/resource/image/2e/d4/2e3e63e1a83a39405825a564637463d4.jpg?wh=2000x1125)
+![](https://static001.geekbang.org/resource/image/2e/d4/2e3e63e1a83a39405825a564637463d4.jpg?wh=2000x1125){: referrerpolicy="no-referrer" }
 
 其实，从刚才介绍的内容中，你就可以看到，近似LRU算法并没有使用耗时耗空间的链表，而是使用了**固定大小的待淘汰数据集合**，每次随机选择一些key加入待淘汰数据集合中。最后，再按照待淘汰集合中key的空闲时间长度，删除空闲时间最长的key。这样一来，Redis就近似实现了LRU算法的效果了。
 

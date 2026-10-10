@@ -20,7 +20,7 @@
 接下来我们就来了解一下iOS端的系统推送服务APNs。
 
 下面借用苹果官网的一张图来简单说明一下，当App在没有打开的情况下，[消息通过APNs下发到设备](https://developer.apple.com/library/archive/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/APNSOverview.html#//apple_ref/doc/uid/TP40008194-CH8-SW1)的过程：  
-![](https://static001.geekbang.org/resource/image/16/d6/16268357f80806572fe74f589b2d18d6.png?wh=1142%2A440)
+![](https://static001.geekbang.org/resource/image/16/d6/16268357f80806572fe74f589b2d18d6.png?wh=1142%2A440){: referrerpolicy="no-referrer" }
 
 - 首先，Provider（也就是IM服务器）把消息通过长连接发送到APNs上；
 - 紧接着，APNs把消息推送到接收方用户的iOS设备端，并在设备的通知栏进行展示；
@@ -37,7 +37,7 @@
 要通过APNs实现系统推送，我们的推送服务（Provider）需要先和APNs建立长连，建连时携带的证书包含“准备接收”系统消息推送的App的Bundle Identifier（Bundle Identifier是一款App的唯一标识）。
 
 每当我们有消息需要推送时，都必须连同消息，再携带待接收系统设备的DeviceToken给到APNs。APNs通过这个DeviceToken，就能找到对应的连接设备，从而就可以把消息通过APNs和设备间的长连接，推送给这台设备上的App了。具体的流程你可以参考下面这张[官网图](https://developer.apple.com/library/archive/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/APNSOverview.html#//apple_ref/doc/uid/TP40008194-CH8-SW1)。  
-![](https://static001.geekbang.org/resource/image/11/98/11f10590d6455e22e2f04d098be42c98.png?wh=1024%2A768)
+![](https://static001.geekbang.org/resource/image/11/98/11f10590d6455e22e2f04d098be42c98.png?wh=1024%2A768){: referrerpolicy="no-referrer" }
 
 **那么，DeviceToken是固定不变的吗？**
 
@@ -132,7 +132,7 @@ APNs的第一个缺陷就是可靠性没有保障。这应该是苹果官方出�
 
 下面是[“推必达”官网提供的技术架构图](http://chinaupa.com/)。你可以看到，“推必达”提供了专门的SDK给到客户端，当各个IM服务端有消息需要通过系统推送触达用户时，会把消息直接或通过第三方推送服务交给各个厂商部署的UPS服务器，UPS服务器再通过和客户端SDK维护的长连接，把消息推送下去。
 
-![](https://static001.geekbang.org/resource/image/8b/34/8b7d9c8b9b59d8b9ff56a38d67292f34.jpeg?wh=1319%2A751)
+![](https://static001.geekbang.org/resource/image/8b/34/8b7d9c8b9b59d8b9ff56a38d67292f34.jpeg?wh=1319%2A751){: referrerpolicy="no-referrer" }
 
 由于其支持多种消息的触达途径，“推必达”的消息到达率据官网反馈：在全国34个省市的测试，消息到达率为99.999%。目前，国内主要的手机厂商如华为、小米、OPPO、vivo等，都已经加入到这个联盟中。另外，工信部要求到2019年12月31日，现有的各推送通道需要兼容统一推送标准。
 

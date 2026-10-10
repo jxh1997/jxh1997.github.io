@@ -28,7 +28,7 @@
 
 需要注意的是，这并不意味着这类系统无法应用分布式架构，只是说“单个用户余额、单个商品库存”无法做分布式，但系统整体还是可以应用分布式架构的。例如，下面的架构图是常见的将用户分区的分布式架构。
 
-![](https://static001.geekbang.org/resource/image/66/43/66476fd7ffd5d6f80f4f9ba0938d0443.png?wh=1126%2A787)
+![](https://static001.geekbang.org/resource/image/66/43/66476fd7ffd5d6f80f4f9ba0938d0443.png?wh=1126%2A787){: referrerpolicy="no-referrer" }
 
 我们可以将用户id为0 ~ 100的数据存储在Node 1，将用户id为101 ~ 200的数据存储在Node 2，Client根据用户id来决定访问哪个Node。对于单个用户来说，读写操作都只能在某个节点上进行；对所有用户来说，有一部分用户的读写操作在Node 1上，有一部分用户的读写操作在Node 2上。
 

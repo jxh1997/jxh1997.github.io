@@ -43,7 +43,7 @@ classDiagram
 
 当我们把这段Mermaid录入LLM，它会为我们提供它的理解：
 
-![](https://static001.geekbang.org/resource/image/1c/27/1ce601ebb1a7d874fe13a6928ed26d27.jpg?wh=1412x1651)
+![](https://static001.geekbang.org/resource/image/1c/27/1ce601ebb1a7d874fe13a6928ed26d27.jpg?wh=1412x1651){: referrerpolicy="no-referrer" }
 
 其中大部分的内容都是正确的，只是不够准确。比如领域概念的名字，在LLM中的解读部分就是错误的。再比如，关联所代表的含义，也不甚准确。图里Department、Program、Offer三个对象间的意思就不对。
 
@@ -86,7 +86,7 @@ classDiagram
   }
 ```
 
-![](https://static001.geekbang.org/resource/image/e2/a1/e27d4c728f5b90f128e39190db74bea1.jpg?wh=1419x1744)
+![](https://static001.geekbang.org/resource/image/e2/a1/e27d4c728f5b90f128e39190db74bea1.jpg?wh=1419x1744){: referrerpolicy="no-referrer" }
 
 这就是半结构化自然语言为什么会被称作半结构化自然语言。我们通过注释，实际上使用了**少样本迁移学习（Few Shots Example）**，在一个小范围的上下文中，给LLM提供了更为具体的迁移指引。
 
@@ -109,7 +109,7 @@ classDiagram
   ...
 ```
 
-![](https://static001.geekbang.org/resource/image/ef/88/ef67a430c500aa994de452f2da1bbc88.jpg?wh=1386x1899)
+![](https://static001.geekbang.org/resource/image/ef/88/ef67a430c500aa994de452f2da1bbc88.jpg?wh=1386x1899){: referrerpolicy="no-referrer" }
 
 至此，我们可以看到LLM已经可以理解我们包含在模型中的业务知识了。
 
@@ -117,7 +117,7 @@ classDiagram
 
 让我们再看一下上节课中模型展开之后的结果：
 
-![](https://static001.geekbang.org/resource/image/20/fd/20b68a1fc9c93eaa62fa2c6e23d5f5fd.jpg?wh=1920x978)
+![](https://static001.geekbang.org/resource/image/20/fd/20b68a1fc9c93eaa62fa2c6e23d5f5fd.jpg?wh=1920x978){: referrerpolicy="no-referrer" }
 
 可以明显看到，我们的模型展开了两次。第一次是根据**Given**描述的场景，寻找样例数据，然后再用模型实例化解释这个数据。第二次是根据**When**的描述，引入了数据改变，然后再用模型实例化解释这个数据。
 
@@ -144,7 +144,7 @@ classDiagram
 首先，请根据领域模型理解用户故事中的场景，并针对验收场景中Given的部分，给出样例数据。
 ````
 
-![](https://static001.geekbang.org/resource/image/bd/9f/bde911aa4795b0c4f0165c4a80440a9f.jpg?wh=1357x2350)
+![](https://static001.geekbang.org/resource/image/bd/9f/bde911aa4795b0c4f0165c4a80440a9f.jpg?wh=1357x2350){: referrerpolicy="no-referrer" }
 
 我们看到此处的模型展开与图中得到的结果是一样的，并且LLM按照模型的指引，在当前的上下文中给出了为什么如此展开的解释。最后LLM按照要求以YAML的格式给出数据，便于我们进行数据处理与准备。我们可以改进任务，让LLM帮助我们生成后续的结果。
 
@@ -156,7 +156,7 @@ classDiagram
 然后，参看验收场景中When的部分，给出样例数据会产生怎样的改变。
 ```
 
-![](https://static001.geekbang.org/resource/image/75/5b/757b842b58007097aaee54531aa9ed5b.jpg?wh=1367x2508)
+![](https://static001.geekbang.org/resource/image/75/5b/757b842b58007097aaee54531aa9ed5b.jpg?wh=1367x2508){: referrerpolicy="no-referrer" }
 
 这个结果基本是正确的，但是在注册的时候，LLM认为应该连同课程一起注册了。这并不是我们希望的结果。
 
@@ -178,7 +178,7 @@ classDiagram
   %% 向ProgramEnrollment中添加CourseEnrollment，表示学生选课。选课与注册是不同的流程。
 ```
 
-![](https://static001.geekbang.org/resource/image/b0/cd/b0540c68068ac41d35e6d46d6b3af5cd.jpg?wh=1425x1676)
+![](https://static001.geekbang.org/resource/image/b0/cd/b0540c68068ac41d35e6d46d6b3af5cd.jpg?wh=1425x1676){: referrerpolicy="no-referrer" }
 
 通过在模型描述的注释中，引入部分**思维链的内容**，我们成功地指导了LLM按照模型与我们的期待，完成了模型展开的部分。
 
@@ -194,7 +194,7 @@ classDiagram
 
 最后，如果你不会写Mermaid或是别的结果描述，可以使用ChatGPT-4的识图功能，让它生成最初始的版本，再在其上修改。
 
-![](https://static001.geekbang.org/resource/image/00/8e/000781a4fb00cccde317d200778b3e8e.jpg?wh=1578x4962)
+![](https://static001.geekbang.org/resource/image/00/8e/000781a4fb00cccde317d200778b3e8e.jpg?wh=1578x4962){: referrerpolicy="no-referrer" }
 
 ## 思考题
 

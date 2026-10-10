@@ -115,7 +115,7 @@ pip install sentence-transformers
 
 代码上面我都添加了注释，容易理解，这里我就不展开说明，代码运行结果如下图所示：
 
-![图片](https://static001.geekbang.org/resource/image/72/a4/72389ceca87c610544ff2be9bc53cca4.png?wh=1193x308)
+![图片](https://static001.geekbang.org/resource/image/72/a4/72389ceca87c610544ff2be9bc53cca4.png?wh=1193x308){: referrerpolicy="no-referrer" }
 
 从运行结果中可以看到，搜索结果匹配的Top5基本上都是跟football相关的句子。
 
@@ -129,7 +129,7 @@ Faiss提供了非常丰富的索引和相似度度量方法。上一讲我们讲
 
 下面这个图就是我在使用IndexFlatL2在100万-500万数据量的情况下统计的耗时。可以看到，结果跟预期一样，索引时间跟搜索时间基本都是一个线性增长。
 
-![图片](https://static001.geekbang.org/resource/image/13/5e/13f162a3a4bae2ac974bfee6f399da5e.png?wh=982x370)
+![图片](https://static001.geekbang.org/resource/image/13/5e/13f162a3a4bae2ac974bfee6f399da5e.png?wh=982x370){: referrerpolicy="no-referrer" }
 
 当然，Faiss也提供了性能高的索引方式，毕竟Faiss强大之处就是提供了各种类型的索引方式以及相似度的度量方法。
 
@@ -146,13 +146,13 @@ index = faiss.IndexHNSWFlat(d, 16) # 这里的 16 是 HNSW 的 M 参数
 
 同样我也基于这段[测试代码](https://github.com/ZHAMoonlight/referencebook/blob/master/python/faiss_numv_search_demo_hnsw.py)，验证了一下HNSW的性能，你可以参考下面的图表来做个对比。
 
-![图片](https://static001.geekbang.org/resource/image/f2/64/f271260938d6e2c959693a51d8a5yy64.jpg?wh=1634x737)
+![图片](https://static001.geekbang.org/resource/image/f2/64/f271260938d6e2c959693a51d8a5yy64.jpg?wh=1634x737){: referrerpolicy="no-referrer" }
 
 到这里你应该已经了解Faiss如何使用不同的索引，其实向量的索引可以由索引的方式与相似度度量的方式组合来决定。
 
 为了方便你理解Faiss支持的各种索引方式，我整理了一下Faiss支持的索引与其适用场景，你可以参考下面这个表。
 
-![图片](https://static001.geekbang.org/resource/image/4d/f0/4d50087d8478c9d326f751387223aff0.png?wh=5956x4354)
+![图片](https://static001.geekbang.org/resource/image/4d/f0/4d50087d8478c9d326f751387223aff0.png?wh=5956x4354){: referrerpolicy="no-referrer" }
 
 看完后，你应该可以根据业务的准确度要求、性能要求、资源占用情况来选择合适的索引。
 

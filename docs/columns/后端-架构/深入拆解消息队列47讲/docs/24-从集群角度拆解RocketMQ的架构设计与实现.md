@@ -8,7 +8,7 @@
 
 在前面的课程中，我们知道RocketMQ的元数据是存储在NameServer中。严格意义上来说，这个说法是不对的。**RocketMQ的元数据实际是存储在Broker上，不是直接存储在 NameServer中。**NameServer本身只是一个缓存服务，没有持久化存储的能力，先来看一张图示。
 
-![](https://static001.geekbang.org/resource/image/f1/87/f1488df73a06ac0735e5b927b233df87.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/f1/87/f1488df73a06ac0735e5b927b233df87.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 如上图所示，元数据信息实际存储在每台Broker上，每台Broker 会在本节点维护持久化文件来存储元数据信息。这些元数据信息主要包括节点信息、节点上的Topic、分区信息等等。在Broker启动时，会先连接NameServer注册节点信息，并将保存的元数据上报到所有NameServer节点中。此时所有NameServer节点就有全量的元数据信息了，从而完成了节点之间的发现。
 
@@ -24,13 +24,13 @@ Broker 和 NameServer之间会有**保活机制**，Broker 会定期和 NameServ
 
 Master/Slave 模式就是典型的主从架构，和MySQL的主从原理一样。
 
-![](https://static001.geekbang.org/resource/image/f9/08/f9dd399c23e5c4296f7799f69ba7d808.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/f9/08/f9dd399c23e5c4296f7799f69ba7d808.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 如上图所示，集群部署时会先配置Broker是Master节点还是Slave节点。Master 负责写入，Slave 负责备份和读取。早期架构是不支持主从切换的，即当Master挂了以后，Slave 无法成为Master。此时会导致一些只能在 Master 上完成的工作无法完成，比如数据写入、Offset操作、结束事务等等。
 
 所以在创建Topic时，**会建议在多个Master节点上同时创建这个Topic及其所有分区**，来看下图：
 
-![](https://static001.geekbang.org/resource/image/e4/ef/e484c501c48718f340039d1d420131ef.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/e4/ef/e484c501c48718f340039d1d420131ef.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 如上图所示，所有的Master节点都可以同时为这个Topic提供服务。当某个Master节点挂了后，其他Master 节点依旧可以提供同样的服务，不影响新数据的写入。这种方式的好处是当负载过高时，可以通过快速横向添加节点来扩容。缺点是这个模型无法保证生产的消息的有序。节点挂了以后，这个节点上的未消费的数据不能被消费，并且Topic和分区数会有放大效应。因为每个节点上都需要创建全量的Topic和分区，此时瓶颈就存在单个节点上了。
 
@@ -40,7 +40,7 @@ Master/Slave 模式就是典型的主从架构，和MySQL的主从原理一样�
 
 DLedger 模式是为了解决分区选主和主从切换问题而引入的。因为如果要实现主从切换，就需要先保证主从之间数据的一致性，所以DLeger 的核心是通过 Raft 算法实现的Raft Commitlog。
 
-![](https://static001.geekbang.org/resource/image/0f/e3/0fc5f08f1c15281b004c0dff47abe2e3.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/0f/e3/0fc5f08f1c15281b004c0dff47abe2e3.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 如上图所示，Dledger 用基于Raft算法实现的Raft Commitlog代替了原来的 Commitlog（Commitlog 请参考[第11讲](https://time.geekbang.org/column/article/674914)），使得 Commitlog 具备了选举和切换的能力。
 
@@ -52,7 +52,7 @@ DLedger 模式是为了解决分区选主和主从切换问题而引入的。因
 
 DLedger Controller 是一个新的部署形态，它的核心是基于Raft算法实现了一个选主组件Controller。Controller 主要用来在副本之间进行Leader选举和切换。它是集群部署的，多个Controller之间是通过Raft算法来完成主 Controller 选举的。
 
-![](https://static001.geekbang.org/resource/image/f9/00/f94ec4a7d51da220434cfde9c9a48a00.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/f9/00/f94ec4a7d51da220434cfde9c9a48a00.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 如上图所示，Controller 模式跟 Dledger模式最大的差别在于，**Controller** **是一个可选的、松耦合的组件，可以选择内嵌在 NameServer 中，也可以独立部署。**而且它和底层存储的 Commitlog 模块是独立的，即存储模块不一定非得是Raft Committlog，也可以是Commitlog。所以Controller 可以用在Master/Slave 模式中，当部署 DLedger Controller 组件后，原本的 Master-Slave 部署模式下的 Broker 组就拥有了容灾切换能力。
 
@@ -69,7 +69,7 @@ Controller 主要由 Active Controller、Alter SyncStateSet、Elect Master、Rep
 
 从设计思路上看，RocketMQ的Controller模式跟我们在[第16讲](https://time.geekbang.org/column/article/680879)中提到的独立的Metada Service架构是一致的。如下图所示，如果把图中 Broker 上的Controller上移，就是RocketMQ Controller的实现。
 
-![](https://static001.geekbang.org/resource/image/de/b1/de265236e7de626c227bccb8e430dfb1.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/de/b1/de265236e7de626c227bccb8e430dfb1.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 了解了 RocketMQ 的三种主要部署模式，接下来我们从副本、选主、数据一致性三个方面来分析一下 RocketMQ 的实现。
 
@@ -79,7 +79,7 @@ RocketMQ 也是通过多副本来提高数据可靠性的。在不同部署模�
 
 在Master/Slave模式中，RocektMQ提供了异步复制和同步双写两种模式。
 
-![](https://static001.geekbang.org/resource/image/cd/d6/cd4ac0fac830c6120ac0ea8dcb1431d6.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/cd/d6/cd4ac0fac830c6120ac0ea8dcb1431d6.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 异步复制和同步双写就是对应我们在[第17讲](https://time.geekbang.org/column/article/681965)讲到的同步和异步的复制方式，**主要的区别是性能和数据可靠性。**
 
@@ -89,7 +89,7 @@ RocketMQ 也是通过多副本来提高数据可靠性的。在不同部署模�
 
 在 Dledger 模式中，因为是基于 Raft 算法实现的 Commitlog。所以在数据一致性上，遵循的是Raft的**多数原则**。即数据最少得三副本，同时得多数副本写入成功才算成功。如下图所示，比如总共3个副本需要写入2个，5个副本需要写入3个。
 
-![](https://static001.geekbang.org/resource/image/4b/b1/4b65431ff9276608a70761c52d5c3fb1.jpg?wh=10666x6000)
+![](https://static001.geekbang.org/resource/image/4b/b1/4b65431ff9276608a70761c52d5c3fb1.jpg?wh=10666x6000){: referrerpolicy="no-referrer" }
 
 Dledger 模式副本间数据同步是采用**同步写入**的方式，即Master收到数据后，同步将数据写入到副本，多数副本写入成功后，就算数据写入成功。这个实现方式和ZooKeeper是一样的。从一致性上来看，这种方式属于最终一致。
 
@@ -151,7 +151,7 @@ RocketMQ 在指标方面分为5.0之前和之后两个版本，两个版本的�
 
 在5.0之前的版本中，指标的定义和记录是依赖一个 Broker 内部自定义实现的指标管理器BrokerStatsManager 来实现的。通过在内存中维护一个Map来记录不同的指标，主要支持Broker、Producer、Consumer Groups、Consumer 四个维度的指标。指标暴露方式是通过RocketMQ Export + RocketMQ Remoting 来实现的。
 
-![](https://static001.geekbang.org/resource/image/42/04/423b492b794ef017fa0425c5fe450004.jpg?wh=10666x5210)
+![](https://static001.geekbang.org/resource/image/42/04/423b492b794ef017fa0425c5fe450004.jpg?wh=10666x5210){: referrerpolicy="no-referrer" }
 
 如上图所示，Export 使用 Admin SDK 通过 Remoting 协议调用 Broker 获取指标数据。Export 会不断地从 Broker Pull 数据，然后在内部进行整合，再通过自身的 HTTP Service 的 /Metrics 接口暴露给Prometheus集成展示。
 
@@ -163,7 +163,7 @@ RocketMQ 在指标方面分为5.0之前和之后两个版本，两个版本的�
 
 **在指标暴露方面，新版的指标模块提供了 Pull、Push、Export 兼容三种方式。**
 
-![](https://static001.geekbang.org/resource/image/14/91/14f89157d0fe9969f25eddb35cd29e91.jpg?wh=10666x5511)
+![](https://static001.geekbang.org/resource/image/14/91/14f89157d0fe9969f25eddb35cd29e91.jpg?wh=10666x5511){: referrerpolicy="no-referrer" }
 
 如上图所示，Pull 模式主要与 Prometheus 兼容，适合于运维 K8s 和 Promethues 集群的用户。通过在 Broker 内核启动一个HTTP Server，暴露 /metrics 接口来给 Prometheus 拉取指标数据。
 
@@ -175,15 +175,15 @@ RocketMQ 的底层的日志，使用的是Java 中标准的 Logback 和 SLF4J �
 
 接下来我们看看消息轨迹。RocketMQ的消息轨迹，在我看来是消息队列里面支持得最好的了。因为完整的消息轨迹需要包含生产者、Broker、消费者三部分的信息，如果需要支持生产端和消费端的轨迹信息，就需要在客户端SDK中集成轨迹信息上报的功能。**RocketMQ** **在生产端和消费端实现了这个功能，而其他大部分消息队列在** **SDK** **是没有这个功能的。**
 
-![](https://static001.geekbang.org/resource/image/56/e9/56c24f7f96e6f32a6a4778134407c5e9.jpg?wh=10666x2714)
+![](https://static001.geekbang.org/resource/image/56/e9/56c24f7f96e6f32a6a4778134407c5e9.jpg?wh=10666x2714){: referrerpolicy="no-referrer" }
 
 如上图所示，RocketMQ 的生产端和消费端的SDK集成了轨迹信息上报模块。当数据发送或消费成功时，如果开启轨迹上报，客户端会将轨迹数据上报到集群中的内置Topic或者自定义Topic中。因此Broker端就保存有全链路的轨迹信息了。
 
-![](https://static001.geekbang.org/resource/image/d9/6d/d9fbab0fd63b7f3e4e14a14bd024336d.jpg?wh=2516x852)
+![](https://static001.geekbang.org/resource/image/d9/6d/d9fbab0fd63b7f3e4e14a14bd024336d.jpg?wh=2516x852){: referrerpolicy="no-referrer" }
 
 同时RocketMQ 会为每条消息赋予一个唯一ID。当消息发送成功后，可以根据消息ID查看轨迹信息。如果需要，还可以把轨迹信息存储到一些第三方系统（比如Elasticsearch），以便后续查询。也可以通过命令行工具mqadmin，根据消息ID来查询轨迹信息，如下所示：
 
-![](https://static001.geekbang.org/resource/image/58/db/58e60d291c2196cc2fc08391cbaca4db.png?wh=1452x146)
+![](https://static001.geekbang.org/resource/image/58/db/58e60d291c2196cc2fc08391cbaca4db.png?wh=1452x146){: referrerpolicy="no-referrer" }
 
 ## 总结
 

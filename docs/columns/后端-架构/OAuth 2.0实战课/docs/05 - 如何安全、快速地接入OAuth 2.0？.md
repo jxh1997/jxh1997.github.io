@@ -16,7 +16,7 @@
 
 我先来和你总结下，这些内容包括4部分，分别是：**注册信息、引导授权、使用访问令牌、使用刷新令牌。**
 
-![](https://static001.geekbang.org/resource/image/ee/78/ee18ea7aab4fbee26cf23d7613801078.png?wh=1606%2A460 "图1 开发第三方软件应用，应该关注的内容")
+![](https://static001.geekbang.org/resource/image/ee/78/ee18ea7aab4fbee26cf23d7613801078.png?wh=1606%2A460 "图1 开发第三方软件应用，应该关注的内容"){: referrerpolicy="no-referrer" }
 
 第一点，注册信息。
 
@@ -110,7 +110,7 @@ String result = HttpURLClient.doPost(protectedURl,HttpURLClient.mapToStr(paramsM
 
 比如，京东的京麦服务市场里有个“我的服务”目录，里面就存放了我购买的打单软件。小明就可以直接点击“立即使用”，继而进入小兔打单软件，如下图所示。
 
-![](https://static001.geekbang.org/resource/image/14/15/140a4efb622e21b21fcc4ff57653a915.png?wh=1598%2A648 "图2 京麦服务市场“我的服务”")
+![](https://static001.geekbang.org/resource/image/14/15/140a4efb622e21b21fcc4ff57653a915.png?wh=1598%2A648 "图2 京麦服务市场“我的服务”"){: referrerpolicy="no-referrer" }
 
 那么，这里需要注意的是，作为第三方开发者来构建第三方软件的时候，在授权码环节除了要接收授权码code值之外，还要接收用户的订购相关信息，比如服务的版本号、服务代码标识等信息。
 
@@ -124,7 +124,7 @@ String result = HttpURLClient.doPost(protectedURl,HttpURLClient.mapToStr(paramsM
 
 在我们处理受保护资源服务中的逻辑的时候，校验权限的处理会占据很大的比重。你想啊，访问令牌递过来，你肯定要多看看令牌到底能操作哪些功能、又能访问哪些数据吧。现在，我们把这些权限的类别总结归纳下来，最常见的大概有以下几类。
 
-![](https://static001.geekbang.org/resource/image/e7/f6/e7b134686b9f2e824ffa8410e20f59f6.jpg?wh=1456%2A630 "图3 3类权限类别")
+![](https://static001.geekbang.org/resource/image/e7/f6/e7b134686b9f2e824ffa8410e20f59f6.jpg?wh=1456%2A630 "图3 3类权限类别"){: referrerpolicy="no-referrer" }
 
 接下来，我和你具体说说这些权限是如何使用的。
 
@@ -180,7 +180,7 @@ queryOrders(user);
 
 在这里，我特别高兴你能想到这一点。为了应对这种情况，我们应该有一个统一的网关层来处理这样的校验，所有的请求都会经过API GATEWAY 跳转到不同的受保护资源服务。这样呢，我们就不需要在每一个受保护资源服务上都做一遍权限校验的工作了，而只需要在API GATEWAY 这一层做权限校验就可以了。系统结构如下图所示。
 
-![](https://static001.geekbang.org/resource/image/a5/b0/a5175438e76411c808dd5e72d3d3dbb0.png?wh=1562%2A594 "图4 由统一的网关层处理权限校验")
+![](https://static001.geekbang.org/resource/image/a5/b0/a5175438e76411c808dd5e72d3d3dbb0.png?wh=1562%2A594 "图4 由统一的网关层处理权限校验"){: referrerpolicy="no-referrer" }
 
 ## 总结
 

@@ -112,9 +112,9 @@ else if (!strcasecmp(c->argv[1]->ptr,"setslot") && c->argc >= 4) {
 
 我也画了两张图，分别展示了clusterCommand函数处理CLUSTER SETSLOT命令的migrating和importing标记的基本逻辑，你可以再看下。
 
-![图片](https://static001.geekbang.org/resource/image/f2/f0/f2e684ceb12727da52786f6479390ff0.jpg?wh=1920x1080 "处理migrating标记")
+![图片](https://static001.geekbang.org/resource/image/f2/f0/f2e684ceb12727da52786f6479390ff0.jpg?wh=1920x1080 "处理migrating标记"){: referrerpolicy="no-referrer" }
 
-![图片](https://static001.geekbang.org/resource/image/6a/cc/6af04dbe699ee54b11fe3640a51cb0cc.jpg?wh=1920x1080 "处理importing标记")
+![图片](https://static001.geekbang.org/resource/image/6a/cc/6af04dbe699ee54b11fe3640a51cb0cc.jpg?wh=1920x1080 "处理importing标记"){: referrerpolicy="no-referrer" }
 
 这样一来，当在Redis Cluster中标记完迁入和迁出的节点后，我们就可以使用CLUSTER GETKEYSINSLOT命令，来获取要迁出的keys了。下面我们来看下这步操作的实现。
 
@@ -270,7 +270,7 @@ for (j = 0; j < num_keys; j++) {
 
 好了，到这里，你就了解了MIGRATE命令的执行基本过程，我把它执行过程的四大步骤也画在了下面的这张图中，你可以再回顾下。
 
-![图片](https://static001.geekbang.org/resource/image/61/ec/61caafdf1f4d5a5f6432b9182e549dec.jpg?wh=1920x1080)
+![图片](https://static001.geekbang.org/resource/image/61/ec/61caafdf1f4d5a5f6432b9182e549dec.jpg?wh=1920x1080){: referrerpolicy="no-referrer" }
 
 其实在迁移数据的过程中，**目的节点对迁移命令的处理也是迁移过程的一个重要环节**。所以，下面我们就来看下，目的节点在收到RESTORE-ASKING命令后的处理过程。
 
@@ -324,7 +324,7 @@ addReply(c,shared.ok);  //返回成功信息
 
 我在这里也画了一张图，展示了目的节点处理迁移数据的基本过程，你可以再整体看下。
 
-![图片](https://static001.geekbang.org/resource/image/19/2a/198d0629f86c440d9afee8678302252a.jpg?wh=1920x1080)
+![图片](https://static001.geekbang.org/resource/image/19/2a/198d0629f86c440d9afee8678302252a.jpg?wh=1920x1080){: referrerpolicy="no-referrer" }
 
 好了，到这里，你就了解了源节点发送迁移数据，以及目的节点接收迁移数据的基本过程实现了。最后，当迁移slot中的key全部完成迁移后，我们还需要执行CLUSTER SETSLOT命令，来标记迁移的最终结果，下面我们来看下。
 

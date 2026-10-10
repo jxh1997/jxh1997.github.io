@@ -20,7 +20,7 @@
 
 换了存储引擎后，系统架构就像下面这张图 一样了。
 
-![图片](https://static001.geekbang.org/resource/image/d1/0d/d119acd4e3yydda5c986fe8735da200d.png?wh=3240x2414)
+![图片](https://static001.geekbang.org/resource/image/d1/0d/d119acd4e3yydda5c986fe8735da200d.png?wh=3240x2414){: referrerpolicy="no-referrer" }
 
 你可以看到整个系统的业务逻辑层基本没有变化，只是换了一个存储层。然后在存储层的不同机房集群之间配置了实时复制。注意，配置复制的时候，并不需要整个集群一起复制，你可以灵活地配置到表的列族级别复制。
 

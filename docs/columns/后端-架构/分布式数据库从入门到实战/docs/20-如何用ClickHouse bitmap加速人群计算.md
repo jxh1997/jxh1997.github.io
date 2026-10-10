@@ -49,7 +49,7 @@ clickhouse-client --port 9002 --query="INSERT INTO cdp.cdp_user_event_all FORMAT
 
 导入完成后，检查一下数据，如下图所示。
 
-![图片](https://static001.geekbang.org/resource/image/de/c5/de534ff07bec604ab13de2191f903fc5.png?wh=771x539)
+![图片](https://static001.geekbang.org/resource/image/de/c5/de534ff07bec604ab13de2191f903fc5.png?wh=771x539){: referrerpolicy="no-referrer" }
 
 ### 标签生成
 
@@ -59,7 +59,7 @@ clickhouse-client --port 9002 --query="INSERT INTO cdp.cdp_user_event_all FORMAT
 
 执行完成之后，同样标签表里，有约1.6亿行标签记录。
 
-![图片](https://static001.geekbang.org/resource/image/23/71/237a9acdd010ec66b49540ef2b767e71.png?wh=791x268)
+![图片](https://static001.geekbang.org/resource/image/23/71/237a9acdd010ec66b49540ef2b767e71.png?wh=791x268){: referrerpolicy="no-referrer" }
 
 ### SQL人群圈选
 
@@ -112,7 +112,7 @@ INNER JOIN
 
 改造完成之后的SQL，执行结果如下。
 
-![图片](https://static001.geekbang.org/resource/image/ef/0b/efa5065990c514b76004646fe317c10b.png?wh=1234x914)
+![图片](https://static001.geekbang.org/resource/image/ef/0b/efa5065990c514b76004646fe317c10b.png?wh=1234x914){: referrerpolicy="no-referrer" }
 
 从结果可以发现，相比之前StarRocks圈人不到1秒就能出结果，这里ClickHouse花费了6秒左右的时间，这里也印证了我们之前所说的，ClickHouse在多表Join的情况下表现相对没那么好。
 
@@ -146,7 +146,7 @@ RoaringBitmap是一种高效的压缩位图实现，以32位的int整数为例�
 
 就像下面这张图。
 
-![图片](https://static001.geekbang.org/resource/image/c4/12/c4d9yy7d65d171b381540f864ae2c712.png?wh=1288x822 "图片源自网络")
+![图片](https://static001.geekbang.org/resource/image/c4/12/c4d9yy7d65d171b381540f864ae2c712.png?wh=1288x822 "图片源自网络"){: referrerpolicy="no-referrer" }
 
 有没有发现这个其实就是一个进制的表示？给你两个空格，之前一个空格只能填充一个数字，那就只能容纳两个数字。现在将一个空格作为十进制位，另外一个作为个数位，这样最多就能容纳100个数字了。
 
@@ -238,7 +238,7 @@ FROM
 
 使用bitmap后的圈人SQL逻辑也很简单，同样按标签分别圈出对应的用户ID列表，最后将所有的用户ID取交集。执行结果如下，可以看到性能有了一个巨大的提升，从原来的6秒左右提升到了300毫秒不到。
 
-![图片](https://static001.geekbang.org/resource/image/a9/c4/a9418d16bf5f2d6c204fd3d2483e7bc4.png?wh=1187x930)
+![图片](https://static001.geekbang.org/resource/image/a9/c4/a9418d16bf5f2d6c204fd3d2483e7bc4.png?wh=1187x930){: referrerpolicy="no-referrer" }
 
 此外，在选择不同的标签构建CDP人群包时，我们也经常需要统计圈选出来人群的数量，使用动态SQL加上bitmap的优化，在ClickHouse中，很容易就可以在亿级数据下实现亚秒级的人群预估与圈人。所以基于ClickHouse，其实已经可以构建一个小型的在线实时CDP平台。
 

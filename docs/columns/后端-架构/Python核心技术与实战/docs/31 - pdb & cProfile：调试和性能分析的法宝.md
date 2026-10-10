@@ -204,7 +204,7 @@ python3 -m cProfile xxx.py
 
 运行完毕后，我们可以看到下面这个输出界面：
 
-![](https://static001.geekbang.org/resource/image/2b/49/2b15939d6da0fd14d07e4c7c15fb3c49.png?wh=1384%2A428)
+![](https://static001.geekbang.org/resource/image/2b/49/2b15939d6da0fd14d07e4c7c15fb3c49.png?wh=1384%2A428){: referrerpolicy="no-referrer" }
 
 这里有一些参数你可能比较陌生，我来简单介绍一下：
 
@@ -249,7 +249,7 @@ fib_seq(30)
 
 这时，我们再对其进行profile，你就会得到新的输出结果，很明显，效率得到了极大的提高。
 
-![](https://static001.geekbang.org/resource/image/2f/e3/2f5d33bf3151eb8099a54e1340bfd9e3.png?wh=1372%2A498)
+![](https://static001.geekbang.org/resource/image/2f/e3/2f5d33bf3151eb8099a54e1340bfd9e3.png?wh=1372%2A498){: referrerpolicy="no-referrer" }
 
 这个简单的例子，便是cProfile的基本用法，也是我今天想讲的重点。当然，cProfile还有很多其他功能，还可以结合stats类来使用，你可以阅读相应的 [官方文档](https://docs.python.org/3.7/library/profile.html) 来了解。
 

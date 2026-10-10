@@ -10,7 +10,7 @@
 
 首先你要辨别一个误区，在Python中，并发并不是指同一时刻有多个操作（thread、task）同时进行。相反，某个特定的时刻，它只允许有一个操作发生，只不过线程/任务之间会互相切换，直到完成。我们来看下面这张图：
 
-![](https://static001.geekbang.org/resource/image/37/3f/37cbce0eb67909990d83f21642fb863f.png?wh=1620%2A524)
+![](https://static001.geekbang.org/resource/image/37/3f/37cbce0eb67909990d83f21642fb863f.png?wh=1620%2A524){: referrerpolicy="no-referrer" }
 
 图中出现了thread和task两种切换顺序的不同方式，分别对应Python中并发的两种形式——threading和asyncio。
 
@@ -20,7 +20,7 @@
 
 至于所谓的并行，指的才是同一时刻、同时发生。Python中的multi-processing便是这个意思，对于multi-processing，你可以简单地这么理解：比如你的电脑是6核处理器，那么在运行程序时，就可以强制Python开6个进程，同时执行，以加快运行速度，它的原理示意图如下：
 
-![](https://static001.geekbang.org/resource/image/f6/3c/f6b4009c8a8589e8ec1a2bb10d4e183c.png?wh=1590%2A566)
+![](https://static001.geekbang.org/resource/image/f6/3c/f6b4009c8a8589e8ec1a2bb10d4e183c.png?wh=1590%2A566){: referrerpolicy="no-referrer" }
 
 对比来看，
 

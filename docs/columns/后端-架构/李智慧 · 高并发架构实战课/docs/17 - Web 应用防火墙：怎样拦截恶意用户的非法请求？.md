@@ -8,11 +8,11 @@ Web安全是所有互联网应用必须具备的功能，没有安全防护的�
 
 HTTP请求发送到Web服务器时，请求首先到达Zhurong防火墙，防火墙判断请求中是否包含恶意攻击信息。如果包含，防火墙根据配置策略，可选择拒绝请求，返回418状态码；也可以将请求中的恶意数据进行消毒处理，也就是对恶意数据进行替换，或者插入某些字符，从而使请求数据不再具有攻击性，然后再调用应用程序处理。如下图：
 
-![图片](https://static001.geekbang.org/resource/image/c6/27/c62b0c3517c9yy2ce9e556a75a44a427.jpg?wh=1920x588)
+![图片](https://static001.geekbang.org/resource/image/c6/27/c62b0c3517c9yy2ce9e556a75a44a427.jpg?wh=1920x588){: referrerpolicy="no-referrer" }
 
 Zhurong需要处理的攻击和安全漏洞列表：
 
-![图片](https://static001.geekbang.org/resource/image/ec/e2/ec061c371c83170cbdb4254332319ee2.jpg?wh=1920x884)
+![图片](https://static001.geekbang.org/resource/image/ec/e2/ec061c371c83170cbdb4254332319ee2.jpg?wh=1920x884){: referrerpolicy="no-referrer" }
 
 ## 概要设计
 
@@ -20,7 +20,7 @@ Zhurong能够发现恶意攻击请求的主要手段，是对HTTP请求内容进
 
 其中，恶意内容正则表达式是通过远程配置来获取的。如果发现了新的攻击漏洞，远程配置的漏洞攻击正则表达式就会进行更新，并在所有运行了Zhurong防火墙的服务器上生效，拦截新的攻击。组件图如下：
 
-![图片](https://static001.geekbang.org/resource/image/42/f5/420c438eda5328c627e1957aabbd20f5.jpg?wh=1920x1227)
+![图片](https://static001.geekbang.org/resource/image/42/f5/420c438eda5328c627e1957aabbd20f5.jpg?wh=1920x1227){: referrerpolicy="no-referrer" }
 
 HTTP请求先到达请求过滤器，请求过滤器提取HTTP请求头和HTTP请求体中的数据，这个过滤器其实就是Java中的Filter。过滤器调用漏洞策略处理器进行处理，而漏洞策略处理器需要调用漏洞定义文件加载模块获得漏洞定义规则，漏洞定义文件加载模块缓存了各种漏洞定义规则文件，如果缓存超时，就从远程配置中心重新加载漏洞定义规则。
 
@@ -95,13 +95,13 @@ XSS 攻击即跨站点脚本攻击(Cross Site Script)，指黑客通过篡改网
 
 常见的 XSS 攻击类型有两种，一种是反射型，攻击者诱使用户点击一个嵌入恶意脚本的链接，达到攻击的目的。如图：
 
-![图片](https://static001.geekbang.org/resource/image/91/e4/918a55f1c407f13b9c548d4c6bfb44e4.jpg?wh=1920x942)
+![图片](https://static001.geekbang.org/resource/image/91/e4/918a55f1c407f13b9c548d4c6bfb44e4.jpg?wh=1920x942){: referrerpolicy="no-referrer" }
 
 攻击者发布的微博中有一个含有恶意脚本的 URL（在实际应用中，该脚本在攻击者自己的服务器 www.2kt.cn上，URL 中包含脚本的链接），用户点击该 URL，会自动关注攻击者的新浪微博 ID，发布含有恶意脚本 URL 的微博，攻击就被扩散了。
 
 另外一种 XSS 攻击是持久型 XSS 攻击，黑客提交含有恶意脚本的请求，保存在被攻击的 Web 站点的数据库中，用户浏览网页时，恶意脚本被包含在正常页面中，达到攻击的目的。如图：
 
-![图片](https://static001.geekbang.org/resource/image/fd/23/fd4f318yyf430c034eb23a0e62afb023.jpg?wh=1920x1428)
+![图片](https://static001.geekbang.org/resource/image/fd/23/fd4f318yyf430c034eb23a0e62afb023.jpg?wh=1920x1428){: referrerpolicy="no-referrer" }
 
 此种攻击经常使用在论坛、博客等 Web 应用中。
 
@@ -113,7 +113,7 @@ Zhurong采用正则表达式匹配含有XSS攻击内容的请求，正则表达�
 
 匹配成功后，根据漏洞定义文件，可以选择forward到错误页面，也可以采用replace方式进行消毒，replace消毒表如下：
 
-![图片](https://static001.geekbang.org/resource/image/2f/5a/2f005ce671e91529fe7aef3ef935f15a.jpg?wh=1920x1475)
+![图片](https://static001.geekbang.org/resource/image/2f/5a/2f005ce671e91529fe7aef3ef935f15a.jpg?wh=1920x1475){: referrerpolicy="no-referrer" }
 
 在XSS攻击字符前后加上“&amp;nbsp;”字符串，使得攻击脚本无法运行，同时在浏览器显示的时候不会影响显示内容。
 
@@ -121,7 +121,7 @@ Zhurong采用正则表达式匹配含有XSS攻击内容的请求，正则表达�
 
 SQL 注入攻击的原理如下：
 
-![图片](https://static001.geekbang.org/resource/image/4a/9b/4acb47242873733023eed6321d3b799b.jpg?wh=1920x1089)
+![图片](https://static001.geekbang.org/resource/image/4a/9b/4acb47242873733023eed6321d3b799b.jpg?wh=1920x1089){: referrerpolicy="no-referrer" }
 
 攻击者在 HTTP 请求中注入恶意 SQL 命令(drop table users;)，服务器用请求参数构造数据库 SQL 命令时，恶意 SQL 被一起构造，并在数据库中执行。
 
@@ -165,13 +165,13 @@ Select id from users where username='Frank';drop table users;--';
 
 从请求中匹配到SQL注入攻击内容后，可以设置跳转错误页面，也可以选择消毒replace，replace表如下：
 
-![图片](https://static001.geekbang.org/resource/image/ec/ee/ece6aaa553e21db9a95c0d07ccd761ee.jpg?wh=1920x1014)
+![图片](https://static001.geekbang.org/resource/image/ec/ee/ece6aaa553e21db9a95c0d07ccd761ee.jpg?wh=1920x1014){: referrerpolicy="no-referrer" }
 
 #### CSRF跨站点请求伪造攻击
 
 CSRF(Cross Site Request Forgery，跨站点请求伪造)，攻击者通过跨站请求，以合法用户的身份进行非法操作，如转账交易、发表评论等，如图：
 
-![图片](https://static001.geekbang.org/resource/image/16/85/1603d26c11ayybb6be13160434df0785.jpg?wh=1920x1089)
+![图片](https://static001.geekbang.org/resource/image/16/85/1603d26c11ayybb6be13160434df0785.jpg?wh=1920x1089){: referrerpolicy="no-referrer" }
 
 CSRF 的主要手法是利用跨站请求，在用户不知情的情况下，以用户的身份伪造请求。其核心是利用了浏览器 Cookie 或服务器 Session 策略，盗取用户身份。
 

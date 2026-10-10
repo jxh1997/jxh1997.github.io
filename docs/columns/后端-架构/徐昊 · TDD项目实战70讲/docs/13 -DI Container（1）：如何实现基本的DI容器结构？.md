@@ -2,7 +2,7 @@
 
 在上节课，我们参照其他依赖注入容器，介绍了依赖注入容器的大致功能。现在请回想一下TDD的流程（参看[第11讲](https://time.geekbang.org/column/article/496703)）：
 
-![](https://static001.geekbang.org/resource/image/a5/9c/a5a74d26cf9581064420d81cff7da89c.jpg?wh=2284x1285)  
+![](https://static001.geekbang.org/resource/image/a5/9c/a5a74d26cf9581064420d81cff7da89c.jpg?wh=2284x1285)  {: referrerpolicy="no-referrer" }
 现在我们需要将需求分解为功能点，并构想架构愿景。
 
 ## 将需求分解为功能点

@@ -72,7 +72,7 @@ Redis的新特性在持续推出，新的存储硬件也在快速地发展，这
 
 最后，我给你准备了一份结课问卷，希望你花1分钟时间填写一下，聊一聊你对这门课的看法和反馈，就有机会获得“Redis 快捷口令超大鼠标垫”和价值99元的极客时间课程阅码。期待你的畅所欲言。
 
-[![](https://static001.geekbang.org/resource/image/7f/de/7f21e7e0fabb48347d59c1e0e1dddcde.jpg?wh=720%2A505)](https://jinshuju.net/f/deBEiK)
+[![](https://static001.geekbang.org/resource/image/7f/de/7f21e7e0fabb48347d59c1e0e1dddcde.jpg?wh=720%2A505)](https://jinshuju.net/f/deBEiK){: referrerpolicy="no-referrer" }
 <div><strong>精选留言（15）</strong></div><ul>
 <li><span>o</span> 👍（43） 💬（1）<p>https:&#47;&#47;github.com&#47;yanlongLv&#47;redisNotes
 我在这里把redis知识做了系统的总结，望大家多提提意见</p>2020-12-09</li><br/><li><span>张申傲</span> 👍（14） 💬（1）<p>整个课程看了两遍，收获颇丰，感谢老师这么高质量的专栏，感谢各位同学无私的交流分享。道阻且长，行则将至。大家江湖再见~</p>2020-12-24</li><br/><li><span>新年快乐啊</span> 👍（8） 💬（1）<p>谢谢蒋老师，谢谢课代表Kaito。虽然没能全程跟上节奏，中间一段时间还断开了，但是真的学到了很多很多。从学习Redis，再到Redis学习，真正最重要的是掌握一门技术的学习方法，从被动到主动，点线面网的循序渐进。我还会反复看这们课程，每次看都感觉能有更深一点的了解与掌握。谢谢老师的这碗鸡汤啦，最后大家一起加油加油加油！</p>2020-12-14</li><br/><li><span>不過勝負</span> 👍（5） 💬（1）<p>首先，感谢老师，也感谢极客时间为我们请到蒋老师。

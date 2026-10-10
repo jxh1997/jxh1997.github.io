@@ -16,7 +16,7 @@ InnoDB将数据存储在表空间中，读取或写入数据时，需要先将�
 
 下面是一个数据块缓存到Buffer Pool中的简单示意图。
 
-![图片](https://static001.geekbang.org/resource/image/ef/a7/ef2e31f2a6a60d9fafa1e42c414343a7.jpg?wh=1202x932)
+![图片](https://static001.geekbang.org/resource/image/ef/a7/ef2e31f2a6a60d9fafa1e42c414343a7.jpg?wh=1202x932){: referrerpolicy="no-referrer" }
 
 - 数据文件中使用（space id，page number）来定位一个数据页。
 - Buffer Pool中的缓存页（page frame）和数据页的大小一致，比如都是16K。（注：业界有时也将page frame称为页框、页帧，这个课程里我称为缓存页）。
@@ -40,7 +40,7 @@ InnoDB Buffer Pool由1个或多个实例组成。Buffer Pool实例数量由参�
 
 下面是一个Buffer Pool 实例的示意图。
 
-![图片](https://static001.geekbang.org/resource/image/11/7a/117e6d8eb5cafaa5c61908d5ec0fd07a.jpg?wh=1580x1142)
+![图片](https://static001.geekbang.org/resource/image/11/7a/117e6d8eb5cafaa5c61908d5ec0fd07a.jpg?wh=1580x1142){: referrerpolicy="no-referrer" }
 
 - 每个buffer pool实例中都有几个链表，包括lru链表、free链表、flush链表、hash表。
 - buffer pool实例中，内存会分割成多个块（Chunk）。
@@ -51,17 +51,17 @@ InnoDB Buffer Pool由1个或多个实例组成。Buffer Pool实例数量由参�
 
 参数innodb\_buffer\_pool\_chunk\_size指定的是缓存页占用的空间，所以实际上Buffer Pool分配的内存要比参数指定的大4%-5%。每一个Chunk中分配的连续的内存中，开始的一部分内存用来存放控制块，剩余的内存给缓存页使用。每个控制块都记录了对应的缓存页的地址。每个缓存页的地址按页面大小对齐。
 
-![图片](https://static001.geekbang.org/resource/image/22/ee/22750e5540e582b029e930fa26d73dee.jpg?wh=1608x562)
+![图片](https://static001.geekbang.org/resource/image/22/ee/22750e5540e582b029e930fa26d73dee.jpg?wh=1608x562){: referrerpolicy="no-referrer" }
 
 控制块在MySQL的源码中是一个结构体，结构体的成员可以参考下面这两个表格。
 
 #### 控制块（结构体buf\_block\_t）
 
-![图片](https://static001.geekbang.org/resource/image/0a/da/0a7e844d3339ed80a6baff104be749da.png?wh=1920x1323)
+![图片](https://static001.geekbang.org/resource/image/0a/da/0a7e844d3339ed80a6baff104be749da.png?wh=1920x1323){: referrerpolicy="no-referrer" }
 
 #### 结构体buf\_page\_t
 
-![图片](https://static001.geekbang.org/resource/image/68/b5/68b3925e501a40fd2a5cf41e99415db5.jpg?wh=1920x2330)
+![图片](https://static001.geekbang.org/resource/image/68/b5/68b3925e501a40fd2a5cf41e99415db5.jpg?wh=1920x2330){: referrerpolicy="no-referrer" }
 
 为了使Buffer Pool的机制能高效地运作，至少需要做到几点：
 
@@ -84,13 +84,13 @@ InnoDB使用了一些数据结构来实现这些需求。
 
 这些链表在结构上都是一样的，由链表基节点和链表节点组成。链表基节点记录了链表的头部和尾部，因此访问链表开始和结尾处的节点很快。每个链表节点通过prev和next指针分别指向前后相邻的节点，通过这些指针可以双向遍历整个链表。当然，访问这些链表时，都需要先获取相关的互斥锁。
 
-![图片](https://static001.geekbang.org/resource/image/0a/39/0aeeffa3b19197146ded4c5802100139.jpg?wh=1252x504)
+![图片](https://static001.geekbang.org/resource/image/0a/39/0aeeffa3b19197146ded4c5802100139.jpg?wh=1252x504){: referrerpolicy="no-referrer" }
 
 ### Buffer Pool中的Hash表
 
 查询数据时，先从数据字典中得到索引的根页面号，然后再根据索引条目，找到下一层页面的编号。InnoDB怎么判断某个页面是否已经缓存呢？这是通过Hash表来实现的。每个页面都会根据hash算法映射到某一个Hash链表中。
 
-![图片](https://static001.geekbang.org/resource/image/b8/f2/b8ae8c033d261c4b54cf20c0cf4b4bf2.jpg?wh=1196x798)
+![图片](https://static001.geekbang.org/resource/image/b8/f2/b8ae8c033d261c4b54cf20c0cf4b4bf2.jpg?wh=1196x798){: referrerpolicy="no-referrer" }
 
 在Hash表中查找缓存页主要有下面这几个步骤。
 
@@ -108,7 +108,7 @@ Hash桶的数量根据Buffer Pool的大小来确定，会取一个比Buffer Pool
 
 InnoDB会从LRU链表的尾部淘汰页面。InnoDB使用了改良的LRU算法，将LRU链表分为new和old这两个区域。OLD区域的占比由参数innodb\_old\_blocks\_pct控制，该参数默认为37，也就是LRU链表中，尾部大约3/8的页面被划入OLD区。
 
-![图片](https://static001.geekbang.org/resource/image/0d/93/0d68725ee58239d79c99713d2a7e9593.jpg?wh=1566x446)
+![图片](https://static001.geekbang.org/resource/image/0d/93/0d68725ee58239d79c99713d2a7e9593.jpg?wh=1566x446){: referrerpolicy="no-referrer" }
 
 改良的LRU算法运行过程大致如下：
 
@@ -123,7 +123,7 @@ InnoDB会从LRU链表的尾部淘汰页面。InnoDB使用了改良的LRU算法�
 
 首次访问数据页时，需要发起IO操作，从文件读取数据，缓存到Buffer Pool中。
 
-![图片](https://static001.geekbang.org/resource/image/c5/c8/c5b80782be7d08820772c56af47671c8.jpg?wh=1728x818)
+![图片](https://static001.geekbang.org/resource/image/c5/c8/c5b80782be7d08820772c56af47671c8.jpg?wh=1728x818){: referrerpolicy="no-referrer" }
 
 InnoDB使用了异步IO读取数据，大致上可以分为几个步骤。
 

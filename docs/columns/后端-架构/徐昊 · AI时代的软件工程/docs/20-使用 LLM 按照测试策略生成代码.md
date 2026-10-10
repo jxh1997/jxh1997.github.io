@@ -8,7 +8,7 @@
 
 我们仍然使用上节课的例子，在上节课的讨论中，我们最后得到的测试策略是这样的：
 
-![](https://static001.geekbang.org/resource/image/bc/9a/bca7e85d866338a5bea5f974b3b1129a.jpg?wh=1920x1054)
+![](https://static001.geekbang.org/resource/image/bc/9a/bca7e85d866338a5bea5f974b3b1129a.jpg?wh=1920x1054){: referrerpolicy="no-referrer" }
 
 也就是说，我们将架构中的三种不同的组件分别进行测试，其中Persistent层中的组件，使用假对象（Fake，内存数据库）作为测试替身。而HTTP interface和Application Logic层则通过存根（Stub）作为测试替身。最后，再通过功能测试，对整个系统进行验证。
 
@@ -37,7 +37,7 @@
 
 注意在这个提示词模板中，我们并没有直接要求LLM帮助我们生成代码，还是与之前一样，先让LLM给出场景和测试数据。ChatGPT的答案如下：
 
-![](https://static001.geekbang.org/resource/image/26/c5/26ca0258d837ab21e0e1d93687dffac5.jpg?wh=1558x1507)  
+![](https://static001.geekbang.org/resource/image/26/c5/26ca0258d837ab21e0e1d93687dffac5.jpg?wh=1558x1507)  {: referrerpolicy="no-referrer" }
 在这个提示词模板中，使用了另一个我发明的小技巧，叫**代词消除，**可以在上下文中去除隐含的歧义。通过目标组件和目标功能的明确指示，我们可以确保LLM在后续交互中保持上下文连贯。
 
 随后，我们就可以要求LLM帮助我们生成测试代码：
@@ -46,7 +46,7 @@
 
 LLM给出的结果是：
 
-![](https://static001.geekbang.org/resource/image/c1/ed/c13f524d4a4a579e0a84431b5e28f1ed.jpg?wh=1900x343)
+![](https://static001.geekbang.org/resource/image/c1/ed/c13f524d4a4a579e0a84431b5e28f1ed.jpg?wh=1900x343){: referrerpolicy="no-referrer" }
 
 ```plain
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -116,13 +116,13 @@ public class ProductDAOTest {
 }
 ```
 
-![](https://static001.geekbang.org/resource/image/5e/10/5eda253f8d2e914134c76d90214d7410.jpg?wh=1568x899)
+![](https://static001.geekbang.org/resource/image/5e/10/5eda253f8d2e914134c76d90214d7410.jpg?wh=1568x899){: referrerpolicy="no-referrer" }
 
 接下来，我们进一步要求LLM给出application-test.properties的具体配置，也可以让LLM帮助我们补全一些其他的细节。现在也可以直接让LLM帮助我们生成代码。
 
 > 请给出ProductDAO的实现
 
-![](https://static001.geekbang.org/resource/image/1c/e4/1c281a71613deaa13b460fd08de346e4.jpg?wh=1920x1977)
+![](https://static001.geekbang.org/resource/image/1c/e4/1c281a71613deaa13b460fd08de346e4.jpg?wh=1920x1977){: referrerpolicy="no-referrer" }
 
 对于现在这个简单的例子，这个代码也就足够了。接下来，我们可以补充提示词模板中关于HTTP Interface部分的架构描述，并更改任务描述：
 
@@ -152,11 +152,11 @@ public class ProductDAOTest {
 
 ChatGPT的答案如下：
 
-![](https://static001.geekbang.org/resource/image/1a/32/1a4b9yydeda811ebb5a2067504ccbb32.jpg?wh=2040x3230)
+![](https://static001.geekbang.org/resource/image/1a/32/1a4b9yydeda811ebb5a2067504ccbb32.jpg?wh=2040x3230){: referrerpolicy="no-referrer" }
 
 > 请按照指定技术栈，为目标功能场景提供测试代码
 
-![](https://static001.geekbang.org/resource/image/14/96/14307a022d4497709246bca613aba596.jpg?wh=2020x340)
+![](https://static001.geekbang.org/resource/image/14/96/14307a022d4497709246bca613aba596.jpg?wh=2020x340){: referrerpolicy="no-referrer" }
 
 ```plain
 import static org.junit.Assert.assertEquals;
@@ -200,7 +200,7 @@ public class OrdersAPITest extends JerseyTest {
 
 ```
 
-![](https://static001.geekbang.org/resource/image/96/89/96ecae0a2c69cff4a7b32df225eae389.jpg?wh=1531x854)
+![](https://static001.geekbang.org/resource/image/96/89/96ecae0a2c69cff4a7b32df225eae389.jpg?wh=1531x854){: referrerpolicy="no-referrer" }
 
 还剩下一个Application Logic层，做法大同小异，我给你留作课后作业自行练习。
 
@@ -231,13 +231,13 @@ public class OrdersAPITest extends JerseyTest {
 > 列出需求描述的场景使用到目标API的功能（目标功能）；  
 > 列出目标功能需要测试的场景。描述场景，并给出相关的测试数据。
 
-![](https://static001.geekbang.org/resource/image/81/96/81c5834f92yy5f86c1dfda4b31108a96.jpg?wh=2020x4841)
+![](https://static001.geekbang.org/resource/image/81/96/81c5834f92yy5f86c1dfda4b31108a96.jpg?wh=2020x4841){: referrerpolicy="no-referrer" }
 
 接着要求GPT提供测试，返回结果如下。
 
 > 请为目标功能测试场景提供测试
 
-![](https://static001.geekbang.org/resource/image/f4/7a/f4987c62ef310af18e4cb6e724e5b77a.jpg?wh=2020x1645)
+![](https://static001.geekbang.org/resource/image/f4/7a/f4987c62ef310af18e4cb6e724e5b77a.jpg?wh=2020x1645){: referrerpolicy="no-referrer" }
 
 ```plain
 import org.junit.jupiter.api.AfterEach;
@@ -302,7 +302,7 @@ public class ProductAPITest {
 }
 ```
 
-![](https://static001.geekbang.org/resource/image/fa/d0/fae21bd4393191ea5e3b8bbfebbe8ed0.jpg?wh=2020x616)
+![](https://static001.geekbang.org/resource/image/fa/d0/fae21bd4393191ea5e3b8bbfebbe8ed0.jpg?wh=2020x616){: referrerpolicy="no-referrer" }
 
 ## 小结
 

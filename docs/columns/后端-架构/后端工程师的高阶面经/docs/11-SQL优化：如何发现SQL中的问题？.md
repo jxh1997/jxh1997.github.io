@@ -13,7 +13,7 @@ SQL 优化可以看作是一个更大的主题“数据库优化”下的一个�
 - 服务器/引擎优化：也就是针对数据库软件本体进行优化，比如说调整事务隔离级别。在 MySQL 里面还可以针对不同的引擎做优化，比如说调整 InnoDB 引擎的日志刷盘时机。
 - SQL 优化：针对的就是 SQL 本身了。
 
-![](https://static001.geekbang.org/resource/image/ea/f7/ea9337b3727f69fb1e494af845882ff7.png?wh=2440x1310)
+![](https://static001.geekbang.org/resource/image/ea/f7/ea9337b3727f69fb1e494af845882ff7.png?wh=2440x1310){: referrerpolicy="no-referrer" }
 
 如果站在数据库的角度，那么 SQL 优化就是为了达到两个目标。
 
@@ -28,7 +28,7 @@ SQL 优化可以看作是一个更大的主题“数据库优化”下的一个�
 
 应该说，每一个后端研发都应该掌握 EXPLAIN 命令。EXPALIN 命令的大概用法是 EXPLAIN your\_sql，然后数据库就会返回一个执行计划。
 
-![图片](https://static001.geekbang.org/resource/image/ab/e9/ab344a50a2a03332fc243b42d30901e9.png?wh=1920x553)
+![图片](https://static001.geekbang.org/resource/image/ab/e9/ab344a50a2a03332fc243b42d30901e9.png?wh=1920x553){: referrerpolicy="no-referrer" }
 
 执行计划有很多字段，我把最关键的地方列出来，你在面试的时候只需要记住这几个就可以了。
 
@@ -53,7 +53,7 @@ SQL 优化可以看作是一个更大的主题“数据库优化”下的一个�
 
 一般优化 SQL 都是在 **EXPLAIN 查看执行计划、尝试优化**两个步骤之间循环往复，直到发现 SQL 性能达标。
 
-![](https://static001.geekbang.org/resource/image/3b/fa/3bc7f7d1f70494957272092cc643d1fa.png?wh=2440x860)
+![](https://static001.geekbang.org/resource/image/3b/fa/3bc7f7d1f70494957272092cc643d1fa.png?wh=2440x860){: referrerpolicy="no-referrer" }
 
 ### 选择索引列
 
@@ -73,7 +73,7 @@ SQL 优化可以看作是一个更大的主题“数据库优化”下的一个�
 
 所以当你发现你的 MySQL 性能不行了，准备新加一个索引的时候，如果这个表的数据很多，那么在你执行加索引的命令的时候，整张表可能都会被锁住几分钟甚至几个小时。
 
-![](https://static001.geekbang.org/resource/image/80/7e/8003705c2240717b018563d97bfa6b7e.png?wh=2440x760)
+![](https://static001.geekbang.org/resource/image/80/7e/8003705c2240717b018563d97bfa6b7e.png?wh=2440x760){: referrerpolicy="no-referrer" }
 
 可见大表表结构变更是一件很麻烦的事情，一般可以考虑的方案有3种。
 
@@ -81,7 +81,7 @@ SQL 优化可以看作是一个更大的主题“数据库优化”下的一个�
 2. 在业务低谷变更，比停机更新好一点，但是业务依旧受到了影响。而且万一你以为在低谷能完成变更，结果并没有，那么你就面临着业务在高峰期也不能用的问题。
 3. 创建新表，这是不停机又不想业务受到影响的方案。具体来说就是创建一张新表，这张新表就是你准备用的新的表定义。然后将旧表的数据迁移过去，我们在后面会专门讨论数据迁移方案。
 
-![](https://static001.geekbang.org/resource/image/fe/71/fe056a99acd3e0f248a5d98a222a4571.png?wh=1954x832)
+![](https://static001.geekbang.org/resource/image/fe/71/fe056a99acd3e0f248a5d98a222a4571.png?wh=1954x832){: referrerpolicy="no-referrer" }
 
 ## 面试准备
 
@@ -157,7 +157,7 @@ SQL 优化可以看作是一个更大的主题“数据库优化”下的一个�
 
 这种优化在现实中非常容易遇到。它的底层原理就是**索引本身就是有序的**。如果用表格来形容 `<uid, update_time>` 这个索引的数据组织形式，那么看起来大概是这样的。
 
-![](https://static001.geekbang.org/resource/image/b3/b6/b372ca5bfff7e5dyyec6b364f7b6c2b6.png?wh=1922x1210)
+![](https://static001.geekbang.org/resource/image/b3/b6/b372ca5bfff7e5dyyec6b364f7b6c2b6.png?wh=1922x1210){: referrerpolicy="no-referrer" }
 
 所以在 uid 确定之后，数据库可以直接按照 update\_time 在索引中的顺序来返回结果。在优化前，数据库就只能自己将对应 uid 的数据都读过来之后再次进行排序。优化后则是省了一次排序过程。
 
@@ -186,7 +186,7 @@ SQL 优化可以看作是一个更大的主题“数据库优化”下的一个�
 1. 如果数据短时间不一致但是业务可以接受的话，那么就可以考虑异步刷新 Redis 上的总数。
 2. 使用 Canal 之类的工具监听 MySQL binlog，然后刷新 Redis 上的总数。
 
-![](https://static001.geekbang.org/resource/image/dd/c3/dd662132438dc94eed3263fc022de2c3.png?wh=2444x766)
+![](https://static001.geekbang.org/resource/image/dd/c3/dd662132438dc94eed3263fc022de2c3.png?wh=2444x766){: referrerpolicy="no-referrer" }
 
 ### 索引提示优化
 
@@ -208,7 +208,7 @@ SQL 优化可以看作是一个更大的主题“数据库优化”下的一个�
 
 > 早期我们有一个历史系统，里面有一个 SQL 是很早以前的员工写的，比较随意。他将原本可以用在 WHERE 里面的普通的相等判断写到了 HAVING 里面。后来我将这个条件挪到了 WHERE 之后查询时间降低了40%。
 
-![](https://static001.geekbang.org/resource/image/a9/4c/a9886f43ac7e8cd8bb3315cba217884c.png?wh=2444x1312)
+![](https://static001.geekbang.org/resource/image/a9/4c/a9886f43ac7e8cd8bb3315cba217884c.png?wh=2444x1312){: referrerpolicy="no-referrer" }
 
 然后你可以总结出一般的规律。
 
@@ -240,7 +240,7 @@ SQL 优化可以看作是一个更大的主题“数据库优化”下的一个�
 
 而如果你不能控制好这种节奏，面试官就会随便问，那么问到你不知道的也毫不意外了。
 
-![](https://static001.geekbang.org/resource/image/2b/ba/2b9249715ba95eb4d8ba9870243512ba.png?wh=1748x1530)
+![](https://static001.geekbang.org/resource/image/2b/ba/2b9249715ba95eb4d8ba9870243512ba.png?wh=1748x1530){: referrerpolicy="no-referrer" }
 
 ## 思考题
 

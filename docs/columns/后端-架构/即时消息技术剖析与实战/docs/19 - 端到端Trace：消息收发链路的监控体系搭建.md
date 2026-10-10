@@ -39,7 +39,7 @@
 比如，某一台机器由于内存不够吃Swap了，或者网络发生抖动导致接口耗时增长了，我们就需要针对这台单机进行监控，来快速发现问题并处置。
 
 应用层的监控数据收集和使用的架构，你可以参考下图：  
-![](https://static001.geekbang.org/resource/image/2a/ab/2a862092ff112cb8a97e0d5c878cccab.png?wh=1142%2A440)
+![](https://static001.geekbang.org/resource/image/2a/ab/2a862092ff112cb8a97e0d5c878cccab.png?wh=1142%2A440){: referrerpolicy="no-referrer" }
 
 应用服务进程通过本地套接字的方式，把服务自身的Metrics数据发送给本机的“数据收集代理器”Agent，或者通过本地日志记录的方式，记录服务的Metrics数据。
 
@@ -66,7 +66,7 @@ Trace一词的出现，起源于Google的一篇官方论文[“Dapper，a Large-
 在这篇论文中，介绍了Google的Dapper系统，并首次定义了什么是分布式跟踪系统，以及介绍了分布式跟踪系统的三大设计要点：低开销、对应用透明、高可扩展性。
 
 为了实现分布式链路追踪，Dapper论文提出了Trace、Span、Annotation的概念，并给出了一个Trace调用的示例，如下图：  
-![](https://static001.geekbang.org/resource/image/46/c4/46ce2e37f7d6cd5309f8a77d3f6d27c4.png?wh=453%2A390)
+![](https://static001.geekbang.org/resource/image/46/c4/46ce2e37f7d6cd5309f8a77d3f6d27c4.png?wh=453%2A390){: referrerpolicy="no-referrer" }
 
 A~E分别表示五个服务，用户发起一次请求到A，然后A分别发送RPC请求到B和C，B处理请求后返回，C还要发起两个RPC请求到D和E，最终服务A将请求结果返回给用户。
 
@@ -91,7 +91,7 @@ A~E分别表示五个服务，用户发起一次请求到A，然后A分别发送
 目前业界比较成熟的分布式Trace系统有：Twitter的Zipkin、Uber的Jaeger、阿里的鹰眼、美团的Mtrace，等等。
 
 在这里，我以使用比较广泛的**Zipkin**为例，其整体的实现架构你可以参考下面的这张[官网图](https://zipkin.io/pages/architecture.html)：  
-![](https://static001.geekbang.org/resource/image/bf/27/bfeb4de4b3b5cd7da3979ea7aa430227.png?wh=644%2A507)
+![](https://static001.geekbang.org/resource/image/bf/27/bfeb4de4b3b5cd7da3979ea7aa430227.png?wh=644%2A507){: referrerpolicy="no-referrer" }
 
 - **Reporter模块**通过AOP探针或者硬编码的方式嵌入到业务代码中，负责Span的生成和上报。
 - **Transport模块**是Trace数据上报通道，支持HTTP、Kafka、Scribe等方式。
@@ -105,7 +105,7 @@ A~E分别表示五个服务，用户发起一次请求到A，然后A分别发送
 在微博的线上业务中，就通过基于Zipkin优化定制的Trace系统，来定位消息收发的故障点，以及用于链路优化的分析支撑。
 
 以下图中出现的故障点为例：  
-![](https://static001.geekbang.org/resource/image/a7/34/a74473c812c9a53afea75f720654c334.png?wh=1920%2A864)
+![](https://static001.geekbang.org/resource/image/a7/34/a74473c812c9a53afea75f720654c334.png?wh=1920%2A864){: referrerpolicy="no-referrer" }
 
 这一次群聊消息查询失败的原因是，调用一个“富文本”解析服务1秒超时失败（红框1，调用一个叫spage接口）；而且还发现群聊服务对“富文本消息”解析是串行调用的（红框2），这里的“串行调用”就是一个待优化点。
 
@@ -130,7 +130,7 @@ A~E分别表示五个服务，用户发起一次请求到A，然后A分别发送
 所以，业界另一种实时监控业务系统可用性的方式就是：“基于回环探测的主动监控”。
 
 对于即时消息场景来说，大部分场景都是基于用户维度的消息收发的业务形态，因此，我们可以通过固定的两个或几个测试用户的UID，进行消息的互相收发，利用消息收发回环，来实时探测消息链路的可用性。大概的思路如下图：  
-![](https://static001.geekbang.org/resource/image/8a/c8/8aa8c00907ec584c8678529ace9581c8.png?wh=980%2A768)
+![](https://static001.geekbang.org/resource/image/8a/c8/8aa8c00907ec584c8678529ace9581c8.png?wh=980%2A768){: referrerpolicy="no-referrer" }
 
 我们分别在机房1和机房2部署探测程序，用来监控两个机房的消息收发接口可用性。机房1的探测程序设置成“自己的ID”为UID1，“对方的ID”为UID2，机房2的探测程序设置刚好相反。
 

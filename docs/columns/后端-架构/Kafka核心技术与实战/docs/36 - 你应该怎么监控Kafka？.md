@@ -23,7 +23,7 @@
 
 首先，我们来看一张图片。我在Kafka集群的某台Broker所在的主机上运行top命令，输出的内容如下图所示：
 
-![](https://static001.geekbang.org/resource/image/00/e0/00f0ead463b17e667d09b6cea4e42de0.png?wh=1950%2A1546)
+![](https://static001.geekbang.org/resource/image/00/e0/00f0ead463b17e667d09b6cea4e42de0.png?wh=1950%2A1546){: referrerpolicy="no-referrer" }
 
 在图片的右上角，我们可以看到load average的3个值：4.85，2.76和1.26，它们分别代表过去1分钟、过去5分钟和过去15分钟的Load平均值。在这个例子中，我的主机总共有4个CPU核，但Load值却达到了4.85，这就说明，一定有进程暂时“抢不到”任何CPU资源。同时，Load值一直在增加，也说明这台主机上的负载越来越大。
 
@@ -107,7 +107,7 @@ Kafka提供了超多的JMX指标供用户实时监测，我来介绍几个比较
 
 好了，我们来小结一下。今天，我介绍了监控Kafka的方方面面。除了监控Kafka集群，我还推荐你从主机和JVM的维度进行监控。对主机的监控，往往是我们定位和发现问题的第一步。JVM监控同样重要。要知道，很多Java进程碰到的性能问题是无法通过调整Kafka参数是解决的。最后，我罗列了一些比较重要的Kafka JMX指标。在下一讲中，我会专门介绍一下如何使用各种工具来查看这些JMX指标。
 
-![](https://static001.geekbang.org/resource/image/28/93/28e6d8c2459b5d123f443173ac122c93.jpg?wh=2069%2A2560)
+![](https://static001.geekbang.org/resource/image/28/93/28e6d8c2459b5d123f443173ac122c93.jpg?wh=2069%2A2560){: referrerpolicy="no-referrer" }
 
 ## 开放讨论
 

@@ -61,7 +61,7 @@ release_lock(){
 
 为了帮助你理解，我画了一张图片，它展示Redis使用键值对保存锁变量，以及两个客户端同时请求加锁的操作过程。
 
-![](https://static001.geekbang.org/resource/image/1d/45/1d18742c1e5fc88835ec27f1becfc145.jpg?wh=2820%2A2250)
+![](https://static001.geekbang.org/resource/image/1d/45/1d18742c1e5fc88835ec27f1becfc145.jpg?wh=2820%2A2250){: referrerpolicy="no-referrer" }
 
 可以看到，Redis可以使用一个键值对lock\_key:0来保存锁变量，其中，键是lock\_key，也是锁变量的名称，锁变量的初始值是0。
 
@@ -75,7 +75,7 @@ release_lock(){
 
 我还是借助一张图片来解释一下。这张图片展示了客户端A请求释放锁的过程。当客户端A持有锁时，锁变量lock\_key的值为1。客户端A执行释放锁操作后，Redis将lock\_key的值置为0，表明已经没有客户端持有锁了。
 
-![](https://static001.geekbang.org/resource/image/c7/82/c7c413b47d42f06f08fce92404f31e82.jpg?wh=3000%2A2250)
+![](https://static001.geekbang.org/resource/image/c7/82/c7c413b47d42f06f08fce92404f31e82.jpg?wh=3000%2A2250){: referrerpolicy="no-referrer" }
 
 因为加锁包含了三个操作（读取锁变量、判断锁变量值以及把锁变量值设置为1），而这三个操作在执行时需要保证原子性。那怎么保证原子性呢？
 

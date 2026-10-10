@@ -65,9 +65,9 @@
 
 ## 一图懂
 
-![图片](https://static001.geekbang.org/resource/image/95/4b/95d66dd42aa434c03fa1970031ef224b.jpg?wh=6971x2918)
+![图片](https://static001.geekbang.org/resource/image/95/4b/95d66dd42aa434c03fa1970031ef224b.jpg?wh=6971x2918){: referrerpolicy="no-referrer" }
 
-![图片](https://static001.geekbang.org/resource/image/5c/2c/5c58317ae49c0d81630c4eda9b50c42c.jpg?wh=4903x3315)
+![图片](https://static001.geekbang.org/resource/image/5c/2c/5c58317ae49c0d81630c4eda9b50c42c.jpg?wh=4903x3315){: referrerpolicy="no-referrer" }
 
 最后，我把这两章的内容汇总成了两张图片，你可以再结合图片好好复习一下这一章的内容。至此，这门课程的正文部分就结束了，希望你可以从这四十余讲的内容里有所收获。
 <div><strong>精选留言（1）</strong></div><ul>

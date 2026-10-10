@@ -16,7 +16,7 @@ Raft算法属于Multi-Paxos算法，它是在兰伯特Multi-Paxos思想的基础
 
 假设我们有一个由节点A、B、C组成的Raft集群（如图所示），因为Raft算法一切以领导者为准，所以如果集群中出现了多个领导者，就会出现不知道谁来做主的问题。在这样一个有多个节点的集群中，在节点故障、分区错误等异常情况下，Raft算法如何保证在同一个时间，集群中只有一个领导者呢？带着这个问题，我们正式进入今天的学习。
 
-![](https://static001.geekbang.org/resource/image/b9/33/b99084301cf7b944af0490aa0297ff33.jpg?wh=1142%2A474)
+![](https://static001.geekbang.org/resource/image/b9/33/b99084301cf7b944af0490aa0297ff33.jpg?wh=1142%2A474){: referrerpolicy="no-referrer" }
 
 既然要选举领导者，那要从哪些成员中选举呢？除了领导者，Raft算法还支持哪些成员身份呢？这部分内容是你需要掌握的，最基础的背景知识。
 
@@ -24,7 +24,7 @@ Raft算法属于Multi-Paxos算法，它是在兰伯特Multi-Paxos思想的基础
 
 成员身份，又叫做服务器节点状态，**Raft算法支持领导者（Leader）、跟随者（Follower）和候选人（Candidate） 3种状态。**为了方便讲解，我们使用不同的图形表示不同的状态。在任何时候，每一个服务器节点都处于这3个状态中的1个。
 
-![](https://static001.geekbang.org/resource/image/28/03/280eff8a48c50fc3566ddbde9a97ee03.jpg?wh=1142%2A320)
+![](https://static001.geekbang.org/resource/image/28/03/280eff8a48c50fc3566ddbde9a97ee03.jpg?wh=1142%2A320){: referrerpolicy="no-referrer" }
 
 - 跟随者：就相当于普通群众，默默地接收和处理来自领导者的消息，当等待领导者心跳信息超时的时候，就主动站出来，推荐自己当候选人。
 - 候选人：候选人将向其他节点发送请求投票（RequestVote）RPC消息，通知其他节点来投票，如果赢得了大多数选票，就晋升当领导者。
@@ -38,25 +38,25 @@ Raft算法属于Multi-Paxos算法，它是在兰伯特Multi-Paxos思想的基础
 
 首先，在初始状态下，集群中所有的节点都是跟随者的状态。
 
-![](https://static001.geekbang.org/resource/image/5b/a2/5b391fd6cb9ed54ba77b0b96efed75a2.jpg?wh=1142%2A905)
+![](https://static001.geekbang.org/resource/image/5b/a2/5b391fd6cb9ed54ba77b0b96efed75a2.jpg?wh=1142%2A905){: referrerpolicy="no-referrer" }
 
 Raft算法实现了随机超时时间的特性。也就是说，每个节点等待领导者节点心跳信息的超时时间间隔是随机的。通过上面的图片你可以看到，集群中没有领导者，而节点A的等待超时时间最小（150ms），它会最先因为没有等到领导者的心跳信息，发生超时。
 
 这个时候，节点A就增加自己的任期编号，并推举自己为候选人，先给自己投上一张选票，然后向其他节点发送请求投票RPC消息，请它们选举自己为领导者。
 
-![](https://static001.geekbang.org/resource/image/aa/9c/aac5704d69f142ead5e92d33f893a69c.jpg?wh=1142%2A962)
+![](https://static001.geekbang.org/resource/image/aa/9c/aac5704d69f142ead5e92d33f893a69c.jpg?wh=1142%2A962){: referrerpolicy="no-referrer" }
 
 如果其他节点接收到候选人A的请求投票RPC消息，在编号为1的这届任期内，也还没有进行过投票，那么它将把选票投给节点A，并增加自己的任期编号。
 
-![](https://static001.geekbang.org/resource/image/a4/95/a4bb6d1fa7c8c48106a4cf040b7b1095.jpg?wh=1142%2A1121)
+![](https://static001.geekbang.org/resource/image/a4/95/a4bb6d1fa7c8c48106a4cf040b7b1095.jpg?wh=1142%2A1121){: referrerpolicy="no-referrer" }
 
 如果候选人在选举超时时间内赢得了大多数的选票，那么它就会成为本届任期内新的领导者。
 
-![](https://static001.geekbang.org/resource/image/ff/2c/ffaa3f6e9e87d6cea2a3bfc29647e22c.jpg?wh=1142%2A1033)
+![](https://static001.geekbang.org/resource/image/ff/2c/ffaa3f6e9e87d6cea2a3bfc29647e22c.jpg?wh=1142%2A1033){: referrerpolicy="no-referrer" }
 
 节点A当选领导者后，他将周期性地发送心跳消息，通知其他服务器我是领导者，阻止跟随者发起新的选举，篡权。
 
-![](https://static001.geekbang.org/resource/image/0a/91/0a626f52c2e2a147c59c862b148be691.jpg?wh=1142%2A1036)
+![](https://static001.geekbang.org/resource/image/0a/91/0a626f52c2e2a147c59c862b148be691.jpg?wh=1142%2A1036){: referrerpolicy="no-referrer" }
 
 讲到这儿，你是不是发现领导者选举很容易理解？与现实中的议会选举也蛮类似？当然，你可能还是对一些细节产生一些疑问：
 
@@ -105,11 +105,11 @@ Raft算法实现了随机超时时间的特性。也就是说，每个节点等�
 
 <!--THE END-->
 
-![](https://static001.geekbang.org/resource/image/33/84/3373232d5c10813c7fc87f2fd4a12d84.jpg?wh=1142%2A855)
+![](https://static001.geekbang.org/resource/image/33/84/3373232d5c10813c7fc87f2fd4a12d84.jpg?wh=1142%2A855){: referrerpolicy="no-referrer" }
 
 6. 日志完整性高的跟随者（也就是最后一条日志项对应的任期编号值更大，索引号更大），拒绝投票给日志完整性低的候选人。比如节点B的任期编号为3，节点C的任期编号是4，节点B的最后一条日志项对应的任期编号为3，而节点C为2，那么当节点C请求节点B投票给自己时，节点B将拒绝投票。
 
-![](https://static001.geekbang.org/resource/image/99/6d/9932935b415e37c2ca758ab99b34f66d.jpg?wh=1142%2A197)
+![](https://static001.geekbang.org/resource/image/99/6d/9932935b415e37c2ca758ab99b34f66d.jpg?wh=1142%2A197){: referrerpolicy="no-referrer" }
 
 我想强调的是，选举是跟随者发起的，推举自己为候选人；大多数选票是指集群成员半数以上的选票；大多数选票规则的目标，是为了保证在一个给定的任期内最多只有一个领导者。
 

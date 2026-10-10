@@ -10,7 +10,7 @@
 
 Inode中，有一个碎片页数组，可以记录32个页面的编号。
 
-![图片](https://static001.geekbang.org/resource/image/b9/18/b9f6d2379fa31f47b3921e2d83ac0618.png?wh=1920x1116)
+![图片](https://static001.geekbang.org/resource/image/b9/18/b9f6d2379fa31f47b3921e2d83ac0618.png?wh=1920x1116){: referrerpolicy="no-referrer" }
 
 在给一个段分配空间时，会先以1个页面为单位分配，只有当32个碎片页都分配后，才会按1个区为单位，分配空间。
 
@@ -30,11 +30,11 @@ MySQL 8.0中，数据字典存储在了InnoDB表中。数据字典表中存储�
 
 首先数据字典表的结构，是在源代码中定义了的，比如下面是tables表的部分定义。
 
-![图片](https://static001.geekbang.org/resource/image/db/36/db7030f7c0b4yy9c4461f12a062eea36.png?wh=1304x1040)
+![图片](https://static001.geekbang.org/resource/image/db/36/db7030f7c0b4yy9c4461f12a062eea36.png?wh=1304x1040){: referrerpolicy="no-referrer" }
 
 数据字典表存储在mysql.ibd文件中，这个文件会在数据库首次初始化（mysqld --initialize）或从5.7版本升级上来时创建。
 
-![图片](https://static001.geekbang.org/resource/image/dc/9e/dc17a06786283a16b901b1e35dba549e.png?wh=1550x570)
+![图片](https://static001.geekbang.org/resource/image/dc/9e/dc17a06786283a16b901b1e35dba549e.png?wh=1550x570){: referrerpolicy="no-referrer" }
 
 这个表空间的ID、表空间名称、IBD文件都是代码中硬编码的。
 
@@ -55,13 +55,13 @@ struct dict_sys_t {  /** The data dictionary tablespace ID. */
 
 数据库初始化时，按一定的顺序，创建数据字典表，第一个创建的是DD\_PROPERTIES表。
 
-![图片](https://static001.geekbang.org/resource/image/b3/5d/b3cf6b6f2627d2b402ffddeac23fb45d.png?wh=980x780)
+![图片](https://static001.geekbang.org/resource/image/b3/5d/b3cf6b6f2627d2b402ffddeac23fb45d.png?wh=980x780){: referrerpolicy="no-referrer" }
 
 创建数据字典表时，按顺序分配这些表的索引的ROOT页面，这个逻辑可以在函数ha\_innobase::get\_se\_private\_data看到。第一个索引的ROOT是页面4，后面的索引ROOT页面依次加1。为什么从Page Number 4开始分配Root页面？参考前面一个思考题的解答。注意到，这里n\_pages是一个static变量。
 
-![图片](https://static001.geekbang.org/resource/image/5c/52/5c75ed68bec45930a62c646a96bdd952.png?wh=1320x738)
+![图片](https://static001.geekbang.org/resource/image/5c/52/5c75ed68bec45930a62c646a96bdd952.png?wh=1320x738){: referrerpolicy="no-referrer" }
 
-![图片](https://static001.geekbang.org/resource/image/27/07/27053b442a0e9cec94531680028c4107.png?wh=1318x1066)
+![图片](https://static001.geekbang.org/resource/image/27/07/27053b442a0e9cec94531680028c4107.png?wh=1318x1066){: referrerpolicy="no-referrer" }
 
 从数据字典表中，也可以确认，数据字典表的索引的Root页面就是这样分配的。
 
@@ -103,7 +103,7 @@ mysql> select t1.name as table_name, t2.name as index_name, t2.se_private_data
 
 数据库初始化之后，会将数据字典表的属性保存到DD\_PROPERTIES表。下次数据库启动时，DD\_PROPERTIES表的Root页面编号固定为4，其他索引的Root页面编号，从DD\_PROPERTIES表里读取。
 
-![图片](https://static001.geekbang.org/resource/image/9d/26/9d61c93d98b09a17605f618cf3206926.png?wh=1326x726)
+![图片](https://static001.geekbang.org/resource/image/9d/26/9d61c93d98b09a17605f618cf3206926.png?wh=1326x726){: referrerpolicy="no-referrer" }
 
 可以看一下DD\_PROPERTIES表里存了什么。这里存了相关的版本信息，启动时根据这里的版本和二进制的版本，来判断是不是需要升级或降级。LCTN是lower\_case\_table\_names的简称，如果LCTN的值和参数lower\_case\_table\_names的设置不一致，启动会报错。SYSTEM\_TABLES中存储了数据字典表的属性，这里就包括了索引的Root页面编号。
 
@@ -112,11 +112,11 @@ SET SESSION debug='+d,skip_dd_table_access_check';
 select replace(cast(properties as char),'\\', '') from dd_properties\G
 ```
 
-![图片](https://static001.geekbang.org/resource/image/4e/f8/4edc789299ebd5bf7ba41472b69211f8.png?wh=1394x624)
+![图片](https://static001.geekbang.org/resource/image/4e/f8/4edc789299ebd5bf7ba41472b69211f8.png?wh=1394x624){: referrerpolicy="no-referrer" }
 
 这里的格式好像有点奇怪，如果想了解这里的数据具体是怎么解析的，可以分析下函数dd::get\_se\_private\_data的代码。
 
-![图片](https://static001.geekbang.org/resource/image/48/7b/489454c33f356c48b72d54c9bc71df7b.png?wh=1312x1130)
+![图片](https://static001.geekbang.org/resource/image/48/7b/489454c33f356c48b72d54c9bc71df7b.png?wh=1312x1130){: referrerpolicy="no-referrer" }
 
 所以总结起来，MySQL数据字典表索引的Root页面编号，存在dd\_properties表里，而dd\_properties表主键的Root页面编号固定为4，这些索引都存在mysql.ibd文件中。
 
@@ -147,23 +147,23 @@ The pages of dropped or truncated tablespaces and associated AHI entries are now
 
 删除表时，有一个关键的步骤，调用函数row\_drop\_table\_from\_cache。
 
-![图片](https://static001.geekbang.org/resource/image/79/7d/79a65f98b0a7a731aafcd42df8c3a87d.png?wh=1312x1102)
+![图片](https://static001.geekbang.org/resource/image/79/7d/79a65f98b0a7a731aafcd42df8c3a87d.png?wh=1312x1102){: referrerpolicy="no-referrer" }
 
 这里有一个步骤是删除表上所有索引的AHI条目。
 
-![图片](https://static001.geekbang.org/resource/image/14/9c/14ea2fbf12c597d1c06e3c6785c1299c.png?wh=1310x1214)
+![图片](https://static001.geekbang.org/resource/image/14/9c/14ea2fbf12c597d1c06e3c6785c1299c.png?wh=1310x1214){: referrerpolicy="no-referrer" }
 
 删除ahi条目时，要搜索LRU链表，这个过程中会持有LRU\_LIST\_mutex。
 
-![图片](https://static001.geekbang.org/resource/image/65/5b/65dff70aafbb1b58a5342457fe12da5b.png?wh=1316x890)
+![图片](https://static001.geekbang.org/resource/image/65/5b/65dff70aafbb1b58a5342457fe12da5b.png?wh=1316x890){: referrerpolicy="no-referrer" }
 
 Drop的另一个操作是要删除ibd文件。函数row\_drop\_tablespace中，调用fil\_delete\_tablespace。
 
-![图片](https://static001.geekbang.org/resource/image/1e/9f/1e8d6c6b3a331d3fcc3cfbd3dbc0e99f.png?wh=1330x1184)
+![图片](https://static001.geekbang.org/resource/image/1e/9f/1e8d6c6b3a331d3fcc3cfbd3dbc0e99f.png?wh=1330x1184){: referrerpolicy="no-referrer" }
 
 fil\_delete\_tablespace最终会调用space\_delete函数，如果buf\_remove参数不是BUF\_REMOVE\_NONE，根据buf\_remove的不同取值，这里会刷新脏页，或者将页面从Flush链表移除，或将页面从LRU链表中移除。
 
-![图片](https://static001.geekbang.org/resource/image/51/7e/51bb1a9ba653ef6f8a3161e8b108237e.png?wh=1302x884)
+![图片](https://static001.geekbang.org/resource/image/51/7e/51bb1a9ba653ef6f8a3161e8b108237e.png?wh=1302x884){: referrerpolicy="no-referrer" }
 
 在8.0.23之前的版本中，参数buf\_remove是BUF\_REMOVE\_FLUSH\_NO\_WRITE。
 
@@ -171,9 +171,9 @@ fil\_delete\_tablespace最终会调用space\_delete函数，如果buf\_remove参
 
 （下面两段代码来自mysql 8.0.16版本。）
 
-![图片](https://static001.geekbang.org/resource/image/61/89/6163974d5dbe81f07e38129744397e89.png?wh=1320x876)
+![图片](https://static001.geekbang.org/resource/image/61/89/6163974d5dbe81f07e38129744397e89.png?wh=1320x876){: referrerpolicy="no-referrer" }
 
-![图片](https://static001.geekbang.org/resource/image/fd/b9/fd24382741ec6e28c728084609cf82b9.png?wh=1314x830)
+![图片](https://static001.geekbang.org/resource/image/fd/b9/fd24382741ec6e28c728084609cf82b9.png?wh=1314x830){: referrerpolicy="no-referrer" }
 
 回到这个问题，如果版本不低于8.0.23，并且不使用自适应Hash索引，那么删表、删索引的影响应该还好。不然，如果InnoDB Buffer比较大（按官方文档的描述是超过32G）、脏页的数量比较多、表上的索引有大量的页面被AHI引用、实例的并发访问量比较高，那么删除表、删除索引操作还是可能会影响业务，所以DDL还是建议放在业务低峰期执行。
 
@@ -199,15 +199,15 @@ MySQL 8.4默认关闭Change Buffer和自适应Hash索引的原因，我猜测也
 
 如果你去查看有哪些Redo日志类型，会发现并没有COMMIT类型的Redo。
 
-![图片](https://static001.geekbang.org/resource/image/be/26/be4daf516c1f65ebc437c1b7cee7b526.png?wh=1302x1072)
+![图片](https://static001.geekbang.org/resource/image/be/26/be4daf516c1f65ebc437c1b7cee7b526.png?wh=1302x1072){: referrerpolicy="no-referrer" }
 
 在[第30讲](https://time.geekbang.org/column/article/819383)和[第31讲](https://time.geekbang.org/column/article/819398)中，我们知道Undo段头中记录了Undo State，代表了事务的状态。事务提交（或回滚）时，会设置Undo State。
 
-![图片](https://static001.geekbang.org/resource/image/87/8e/87b53fbec516329a4251f8731331178e.png?wh=1312x1316)
+![图片](https://static001.geekbang.org/resource/image/87/8e/87b53fbec516329a4251f8731331178e.png?wh=1312x1316){: referrerpolicy="no-referrer" }
 
 函数trx\_undo\_set\_state\_at\_finish中，调用mlog\_write\_ulint，设置Undo State。mlog\_write\_ulint中，除了修改Undo State，还会生成Redo日志，写到mtr buffer中。
 
-![图片](https://static001.geekbang.org/resource/image/83/01/8306b072767f9b9b593946be8902a301.png?wh=1306x1460)
+![图片](https://static001.geekbang.org/resource/image/83/01/8306b072767f9b9b593946be8902a301.png?wh=1306x1460){: referrerpolicy="no-referrer" }
 
 只要Redo日志刷新到磁盘，就算数据库异常重启了，也会把Undo段的状态恢复到正确的值。
 
@@ -264,9 +264,9 @@ alter undo tablespace innodb_undo_001 set active;
 
 [第45讲](https://time.geekbang.org/column/article/829789)中简单提到过，MySQL启动过程中，会创建一个回滚线程（trx\_recovery\_rollback\_thread），用来回滚停库时还是活动状态的事务。
 
-![图片](https://static001.geekbang.org/resource/image/b9/86/b98029ba8984050b16ff79b897d97886.png?wh=1302x962)
+![图片](https://static001.geekbang.org/resource/image/b9/86/b98029ba8984050b16ff79b897d97886.png?wh=1302x962){: referrerpolicy="no-referrer" }
 
-![图片](https://static001.geekbang.org/resource/image/f6/81/f62584f7d633f81eeaa653e59b8fdb81.png?wh=1314x1148)
+![图片](https://static001.geekbang.org/resource/image/f6/81/f62584f7d633f81eeaa653e59b8fdb81.png?wh=1314x1148){: referrerpolicy="no-referrer" }
 
 在这个回滚的过程中，数据库已经启动完成，其他会话可以正常访问数据库。对于正在回滚的这个大事务，修改过的记录上的锁还没有释放，其他会话如果要修改这些记录，就要等待锁。如果回滚的时间很长，那么业务就会有很长一段时间不能修改这些记录。这种情况下，如果要尽快恢复业务，最好的办法是将业务切到备库上。
 
@@ -274,7 +274,7 @@ alter undo tablespace innodb_undo_001 set active;
 
 函数trx\_roll\_pop\_top\_rec\_of\_trx\_low中有一些处理逻辑，当应用完一个Undo页面中所有的Undo记录后，会把这个Undo页面释放掉。释放一个Undo页面时，会记录相应的Redo日志。因此如果在回滚的过程中数据库又发生了重启，已经释放掉的Undo记录就不需要重复应用了。
 
-![图片](https://static001.geekbang.org/resource/image/27/42/27b075181a7eec3bd6445a1bedb83c42.png?wh=1294x1254)
+![图片](https://static001.geekbang.org/resource/image/27/42/27b075181a7eec3bd6445a1bedb83c42.png?wh=1294x1254){: referrerpolicy="no-referrer" }
 
 ## 第32讲
 

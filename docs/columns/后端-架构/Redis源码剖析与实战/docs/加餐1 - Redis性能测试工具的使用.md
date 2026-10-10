@@ -60,7 +60,7 @@ redis-benchmark这个工具是在Redis源码的[redis-benchmark.c](https://githu
 
 这里，我把redis-benchmark常用的配置项列在了下面的表中，你可以看下。
 
-![](https://static001.geekbang.org/resource/image/86/b4/86973efc3c3c8acf49e9f4c71217b0b4.jpg?wh=2000x1125)
+![](https://static001.geekbang.org/resource/image/86/b4/86973efc3c3c8acf49e9f4c71217b0b4.jpg?wh=2000x1125){: referrerpolicy="no-referrer" }
 
 其中，和Redis server性能测试密切相关的选项主要是这几个：
 

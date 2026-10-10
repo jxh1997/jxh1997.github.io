@@ -8,7 +8,7 @@
 
 企业架构方法如Zachman、TOGAF等，最长的已经有20多年的历史了，可以说已经非常成熟了。其中应用最广的应该就属TOGAF了，在市场上占据了至少半壁江山，也最为我们所了解。TOGAF的基本思路，就是从企业最新的愿景战略以及运营模式出发，设计企业的To-Be业务架构，然后依次推导，一步一步推导数据架构、应用架构、技术架构，就是这样一个过程。
 
-![](https://static001.geekbang.org/resource/image/1c/69/1cd2e944f38d6a7f1d0386bdd9b92669.png?wh=2016%2A986)
+![](https://static001.geekbang.org/resource/image/1c/69/1cd2e944f38d6a7f1d0386bdd9b92669.png?wh=2016%2A986){: referrerpolicy="no-referrer" }
 
 我们现在在做以中台为潜在预设目标的企业数字化全景规划时，也参考了TOGAF的这个思路，基于Discovery发散收集来的各个维度的信息，在Define阶段结合自上而下企业战略分解的举措和自下而上现有业务架构梳理和分析的问题及痛点，重新设计新的业务架构，并进一步推导出其它的相关的架构设计。
 
@@ -34,7 +34,7 @@
 
 为了回答这几个问题，先来给你看一个模型：
 
-![](https://static001.geekbang.org/resource/image/3f/20/3f4fefec9e47bcef963a8a9883108820.jpg?wh=1719%2A1080)
+![](https://static001.geekbang.org/resource/image/3f/20/3f4fefec9e47bcef963a8a9883108820.jpg?wh=1719%2A1080){: referrerpolicy="no-referrer" }
 
 这是哈佛大学出版社2006年出版的一本讲企业架构战略的书里提到的一个商业运营模型（Business Operating Model），它提出两个象限：
 
@@ -43,7 +43,7 @@
 
 那为什么要提到这个模型呢，因为这里的“商业运营模型”就很像我们中台里的能力复用方式，即你复用的到底是业务模式；还是复用的是业务数据；还是两者都不是，只是复用了更底层的技术部分。
 
-![](https://static001.geekbang.org/resource/image/94/5a/94f9f732161731923c11da7af8d6bf5a.jpg?wh=1752%2A1080)
+![](https://static001.geekbang.org/resource/image/94/5a/94f9f732161731923c11da7af8d6bf5a.jpg?wh=1752%2A1080){: referrerpolicy="no-referrer" }
 
 我来稍微解释一下。
 
@@ -75,11 +75,11 @@ SaaS抽象层次高，更靠近业务，但对于业务的标准化要求高，�
 
 这里我说了很多词，像问题空间、解空间、问题域、聚合，这些都是DDD的常用术语，很好理解。如果你还不熟悉DDD，建议先自己查一查再回来看。当然了，专栏最后的总结部分我也会给你推荐一些相关的学习资料。
 
-![](https://static001.geekbang.org/resource/image/8c/4c/8c71eb65099105743e22d107f71c544c.jpeg?wh=1920%2A1080)
+![](https://static001.geekbang.org/resource/image/8c/4c/8c71eb65099105743e22d107f71c544c.jpeg?wh=1920%2A1080){: referrerpolicy="no-referrer" }
 
 而整个过程也是采用头脑风暴和工作坊的形式。
 
-![](https://static001.geekbang.org/resource/image/c7/15/c7e982898b84d9637584f44408b9ab15.png?wh=784%2A398)
+![](https://static001.geekbang.org/resource/image/c7/15/c7e982898b84d9637584f44408b9ab15.png?wh=784%2A398){: referrerpolicy="no-referrer" }
 
 回到极客地产的例子，大家在一起充分讨论，展开对物业业务线和长租公寓业务线的事件风暴，结合领域驱动设计战略部分的问题域分析以及聚合分析，我们就能知道这两个不同的业务线，有哪些问题空间是重合的，比如客户域或是运营域的部分。
 
@@ -105,7 +105,7 @@ SaaS抽象层次高，更靠近业务，但对于业务的标准化要求高，�
 
 提到微服务，不得不说目前被业界普遍接受并采用的我司首席科学家Martin Fowler给微服务下的定义：
 
-![](https://static001.geekbang.org/resource/image/d2/6f/d26bada830115ef399d234d332650d6f.png?wh=2038%2A1184)
+![](https://static001.geekbang.org/resource/image/d2/6f/d26bada830115ef399d234d332650d6f.png?wh=2038%2A1184){: referrerpolicy="no-referrer" }
 
 这里边有个关键点，我认为没有引起大家足够的重视，以致于我认为目前市面上绝大多数的号称微服务架构的系统从老马的定义上来看，都是伪微服务架构。这个关键点就是“**能够被独立地部署**”，我认为翻译成“能够被独立地交付”更贴切，而这点也是我认为评判一个微服务架构是否能发挥其价值的关键因素。
 
@@ -115,7 +115,7 @@ SaaS抽象层次高，更靠近业务，但对于业务的标准化要求高，�
 
 那为什么说大多数的微服务架构都是伪的呢？因为有集成测试或其他因素存在，导致实际上并没有做到真正的独立交付（注意不是部署）。为此我还写过一篇文章《你的微服务敢独立交付么？》，讲的就是如何在不需要集成测试的情况下，利用契约测试的策略设计真正实现微服务的独立交付，充分释放微服务架构的价值，有兴趣的话可以看一看。
 
-![](https://static001.geekbang.org/resource/image/dc/a2/dcfed0b2ac6db88625536de50ab85ea2.png?wh=1830%2A1028)
+![](https://static001.geekbang.org/resource/image/dc/a2/dcfed0b2ac6db88625536de50ab85ea2.png?wh=1830%2A1028){: referrerpolicy="no-referrer" }
 
 还有微服务架构要想真正发挥价值，主要一点就是其中的“服务”要做到足够稳定（说来容易做起来具难）。
 
@@ -141,7 +141,7 @@ SaaS抽象层次高，更靠近业务，但对于业务的标准化要求高，�
 
 8.最后再分析当前现状与To-Be的最终规划之间的差距，产出具体的机会点列表，并且基于多维度（常见的例如战略重要性、紧急程度、成本、资源就绪情况、技术就绪情况、风险、痛点Mapping等）做优先级排序，产生最终的路线图。
 
-![](https://static001.geekbang.org/resource/image/9d/95/9d51971d51ea295b33584c0f72b21e95.jpg?wh=2174%2A826)
+![](https://static001.geekbang.org/resource/image/9d/95/9d51971d51ea295b33584c0f72b21e95.jpg?wh=2174%2A826){: referrerpolicy="no-referrer" }
 
 ## 总结思考
 

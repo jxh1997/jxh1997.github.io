@@ -12,7 +12,7 @@ CPU的更新换代很频繁，基本上每两年就会更新一代。比如Intel
 
 下面的表格描述了从十年前（也就是2009年）的SandyBridge，到后来的IvyBridge、Haswell、Broadwell，直到Skylake。注意，对后面的三代，我分别列出了其中的两种变化——单处理器（1P）和双处理器（2P）。
 
-![](https://static001.geekbang.org/resource/image/0c/09/0ccfee296bbd3ab792b41ee0feb26209.png?wh=1290%2A280)
+![](https://static001.geekbang.org/resource/image/0c/09/0ccfee296bbd3ab792b41ee0feb26209.png?wh=1290%2A280){: referrerpolicy="no-referrer" }
 
 大体上我们可以看出，虽然CPU更新换代，但是处理器的时钟主频基本不再提高，甚至变得更低了。这样的目的是降低CPU的功耗。比如SandyBridge的时钟频率是2.6GHz，但是到了Skylake，反而降低到了2GHz。
 
@@ -36,7 +36,7 @@ CPU的性能也取决于它的内部结构设计。很多程序员对CPU的内�
 
 下图展示了两个处理器的NUMA架构。
 
-![](https://static001.geekbang.org/resource/image/88/33/88b6a75956af211654f2fe6c13a0c933.png?wh=1300%2A732)
+![](https://static001.geekbang.org/resource/image/88/33/88b6a75956af211654f2fe6c13a0c933.png?wh=1300%2A732){: referrerpolicy="no-referrer" }
 
 如果处理器A访问内存A，就是本地访问。如果它访问内存B，就是远端访问，内存的访问延迟大大增加。
 
@@ -50,7 +50,7 @@ CPU的性能也取决于它的内部结构设计。很多程序员对CPU的内�
 
 除了多个核以及L3缓存外，处理器上一般还有非核心处理器（Uncore），里面含有和指令运行不直接相关的组件，包括QPI控制器和存储器一致性监测组件，如下图所示。
 
-![](https://static001.geekbang.org/resource/image/35/e7/354764adfca130abdc7ae15a0fafd0e7.png?wh=1300%2A731)
+![](https://static001.geekbang.org/resource/image/35/e7/354764adfca130abdc7ae15a0fafd0e7.png?wh=1300%2A731){: referrerpolicy="no-referrer" }
 
 ### 超线程（Hyperthreading，HT）
 
@@ -110,7 +110,7 @@ Perf是Linux上的性能剖析（profiling）工具，极为有用。它是基�
 
 这一讲我们讨论了计算机的运算核心，CPU的结构，尤其是它内部的和性能相关的部件，并澄清了一些术语。
 
-![](https://static001.geekbang.org/resource/image/b7/7c/b7600ae6757369212e30aec6e829997c.png?wh=2531%2A3355)
+![](https://static001.geekbang.org/resource/image/b7/7c/b7600ae6757369212e30aec6e829997c.png?wh=2531%2A3355){: referrerpolicy="no-referrer" }
 
 CPU是服务器性能的最重要的部分；因为不管程序代码如何优化，最后都要转换成指令，让CPU来执行。不管其他部件如何和CPU交互，最终目的是让CPU尽快地拿到指令，并满载执行。
 

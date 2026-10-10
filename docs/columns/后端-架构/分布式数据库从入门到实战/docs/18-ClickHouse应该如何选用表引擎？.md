@@ -44,7 +44,7 @@ ClickHouse会为主键创建一个稀疏索引来加快数据检索，稀疏索�
 
 那与稀疏索引相对应的是什么呢？就是稠密索引。传统关系型数据库一般使用稠密索引，也就是每一行数据，都会创建一条对应的索引记录。
 
-![图片](https://static001.geekbang.org/resource/image/e2/39/e2b8ac425e245fe512bf4fdb334a4039.png?wh=1478x632)
+![图片](https://static001.geekbang.org/resource/image/e2/39/e2b8ac425e245fe512bf4fdb334a4039.png?wh=1478x632){: referrerpolicy="no-referrer" }
 
 显然，稀疏索引更适合批量数据的处理与查询，而稠密索引更适合单行或者少数行数据的查询。
 
@@ -107,7 +107,7 @@ select * from cdp_user_p_rmt final;
 
 注意，unique\_user\_id=3的两行数据，由于是同一个INSERT语句插入，也就是属于同一个数据片段，所以插入时就已经去重。虽然插入了两条相同记录，但是查询时，不用final关键字就能去重。
 
-![图片](https://static001.geekbang.org/resource/image/a7/a1/a70d66e5fee71fc897e88171ca9600a1.png?wh=1367x834)
+![图片](https://static001.geekbang.org/resource/image/a7/a1/a70d66e5fee71fc897e88171ca9600a1.png?wh=1367x834){: referrerpolicy="no-referrer" }
 
 这里提一下，有很多资料说，ReplacingMergeTree是以数据分区为单位删除重复数据。当分区合并时，同一分区内的重复数据会被删除；不同分区之间的重复数据不会被删除。
 
@@ -165,7 +165,7 @@ select unique_user_id,sum(sum_pay),sum(sum_pay_num),sum(sum_30d_login) from cdp_
 
 你可以看到，不同数据片段的数据其实也没有被合并，需要最后手动 GROUP BY 才被合并。
 
-![图片](https://static001.geekbang.org/resource/image/d4/17/d465f7985feb9bc287912690c03a6d17.png?wh=1598x743)
+![图片](https://static001.geekbang.org/resource/image/d4/17/d465f7985feb9bc287912690c03a6d17.png?wh=1598x743){: referrerpolicy="no-referrer" }
 
 ## AggregatingMergeTree
 
@@ -214,7 +214,7 @@ SELECT unique_user_id,sumMerge(sum_pay_num),quantilesMerge(0.5, 0.9)(sum_30d_log
 
 查询结果如图所示。
 
-![图片](https://static001.geekbang.org/resource/image/10/7b/10d457451f5f23yy9f36e6b0de39d47b.png?wh=947x79)
+![图片](https://static001.geekbang.org/resource/image/10/7b/10d457451f5f23yy9f36e6b0de39d47b.png?wh=947x79){: referrerpolicy="no-referrer" }
 
 看到这里，你是不是会觉得AggregatingMergeTree使用起来太复杂了，数据插入与查询都感觉不正常了？
 
@@ -275,7 +275,7 @@ SELECT unique_user_id,sumMerge(sum_pay),sumMerge(sum_pay_num),quantilesMerge(0.5
 
 下图是最后一个SELECT的结果，注意到查询结果里面5分位与9分位的值都相同，因为同一个unique\_user\_id只有1个30天登录次数的值，所以5分位与9分位都取这个值了。
 
-![图片](https://static001.geekbang.org/resource/image/1b/ac/1b6a8bd78aa0ce5c6e5c2f298a3651ac.png?wh=1189x132)
+![图片](https://static001.geekbang.org/resource/image/1b/ac/1b6a8bd78aa0ce5c6e5c2f298a3651ac.png?wh=1189x132){: referrerpolicy="no-referrer" }
 
 SummingMergeTree的汇总规则基本也同样适合AggregatingMergeTree，这里我也总结一下AggregatingMergeTree的汇总规则与注意点。
 
@@ -363,7 +363,7 @@ MergeTree系列表引擎还包括用来对Graphite数据进行瘦身及汇总的
 
 最后，我们总结一下这节课介绍的MergeTree家族各个表引擎的特点。
 
-![图片](https://static001.geekbang.org/resource/image/48/e6/489033fb95a1e2507215edeb8e224ce6.png?wh=3696x2180)
+![图片](https://static001.geekbang.org/resource/image/48/e6/489033fb95a1e2507215edeb8e224ce6.png?wh=3696x2180){: referrerpolicy="no-referrer" }
 
 ## 思考题
 

@@ -8,7 +8,7 @@ RocketMQ和Kafka是当下最主流的两款消息中间件，我们这节课就�
 
 Kafka 的文件存储设计在宏观上的布局如下图所示：
 
-![图片](https://static001.geekbang.org/resource/image/77/7e/77bd5812f5b3e056d407b38af75d197e.jpg?wh=1920x1026)
+![图片](https://static001.geekbang.org/resource/image/77/7e/77bd5812f5b3e056d407b38af75d197e.jpg?wh=1920x1026){: referrerpolicy="no-referrer" }
 
 我们解析一下它的主要特征。
 
@@ -18,7 +18,7 @@ Kafka 的文件存储设计在宏观上的布局如下图所示：
 
 Kafka 的负载均衡主要取决于分区 Leader 节点的分布情况。分区的 Leader 节点负责读写，而从节点负责数据同步，如果Leader分区所在的Broker节点宕机，会触发主从节点的切换，在剩下的 Follow 节点中选举一个新的 Leader 节点。这时数据的流入流程如下图所示：
 
-![图片](https://static001.geekbang.org/resource/image/09/e7/095318b1977c4a6139b0d82fbeafc8e7.jpg?wh=1592x709)
+![图片](https://static001.geekbang.org/resource/image/09/e7/095318b1977c4a6139b0d82fbeafc8e7.jpg?wh=1592x709){: referrerpolicy="no-referrer" }
 
 分区 Leader 收到客户端的消息发送请求后，可以有两种数据返回策略。一种是将数据写入到 Leader 节点后就返回，还有一种是等到它的从节点全部写入完成后再返回。这个策略选择非常关键，会直接影响消息发送端的时延，所以 Kafka 提供了 ack 这个参数来进行策略选择：
 
@@ -28,11 +28,11 @@ Kafka 的负载均衡主要取决于分区 Leader 节点的分布情况。分区
 
 我们再来看一下RocketMQ 的文件布局：
 
-![图片](https://static001.geekbang.org/resource/image/9c/29/9c265dc5735c6fb6fd0c091c63341529.jpg?wh=1920x1027)
+![图片](https://static001.geekbang.org/resource/image/9c/29/9c265dc5735c6fb6fd0c091c63341529.jpg?wh=1920x1027){: referrerpolicy="no-referrer" }
 
 RocketMQ 所有主题的消息都会写入到 commitlog 文件中，然后基于 commitlog 文件构建消息消费队列文件（Consumequeue），消息消费队列的组织结构按照 /topic/{queue} 来组织。从集群的视角来看如下图所示：
 
-![图片](https://static001.geekbang.org/resource/image/4c/7f/4c9d69883c7fb9af170f74bb8d5d537f.jpg?wh=1811x937)
+![图片](https://static001.geekbang.org/resource/image/4c/7f/4c9d69883c7fb9af170f74bb8d5d537f.jpg?wh=1811x937){: referrerpolicy="no-referrer" }
 
 RocketMQ 默认采取的是主从同步架构，即Master-Slave方式，其中Master节点负责读写，Slave节点负责数据同步与消费。
 
@@ -66,19 +66,19 @@ Kafka中文件的布局是以 Topic/partition为主 ，每一个分区拥有一�
 
 Kafka服务端处理消息写入的代码定义在MemoryRecords的writeTo方法中，具体代码截图如下（具体是调用入口LogSegment的append方法）：
 
-![图片](https://static001.geekbang.org/resource/image/42/3f/4273dc5c95f323c0e5d5db2e594b943f.png?wh=1632x932)
+![图片](https://static001.geekbang.org/resource/image/42/3f/4273dc5c95f323c0e5d5db2e594b943f.png?wh=1632x932){: referrerpolicy="no-referrer" }
 
 Kafka服务端写入消息时，主要是调用FileChannel的transferTo方法，该方法底层使用了操作系统的sendfile系统调用。
 
 而RocketMQ的消息写入支持内存映射与FileChannel两种写入方式，如下图所示：
 
-![图片](https://static001.geekbang.org/resource/image/99/0e/9984b5e551aa6a186213aa3dcb36240e.jpg?wh=1920x952)
+![图片](https://static001.geekbang.org/resource/image/99/0e/9984b5e551aa6a186213aa3dcb36240e.jpg?wh=1920x952){: referrerpolicy="no-referrer" }
 
 也就是说，如果将参数tranisentStorePoolEnable设置为false，那就先将消息写入到页缓存，然后根据刷盘机制持久化到磁盘中。如果将参数设置为true，数据会先写入到堆外内存，然后批量提交到FileChannel，并最终根据刷盘策略将数据持久化到磁盘中。
 
 值得注意的是，RocketMQ与Kafka都支持通过FileChannel方式写入，但RocketMQ基于FileChannel写入时，调用的API并不是transferTo，而是先调用writer，然后定时flush 刷写到磁盘，具体调用入口为MappedFile。代码截图如下：
 
-![图片](https://static001.geekbang.org/resource/image/70/d6/70a6ac8de5ab8dc626e13e6dc837bdd6.png?wh=1452x754)
+![图片](https://static001.geekbang.org/resource/image/70/d6/70a6ac8de5ab8dc626e13e6dc837bdd6.png?wh=1452x754){: referrerpolicy="no-referrer" }
 
 直接调用FileChannel的transferTo方法比write方法性能更优，因为transferTo底层使用了操作系统的sendfile系统调用，能充分发挥块设备的优势。
 
@@ -90,7 +90,7 @@ Kafka服务端写入消息时，主要是调用FileChannel的transferTo方法，
 
 Kafka消息发送客户端采用的是双端队列，还引入了批处理思想，它的消息发送机制如下图所示：
 
-![图片](https://static001.geekbang.org/resource/image/8d/97/8d032bcc7cd9fd4e67383e81bc5d1597.jpg?wh=1647x708)
+![图片](https://static001.geekbang.org/resource/image/8d/97/8d032bcc7cd9fd4e67383e81bc5d1597.jpg?wh=1647x708){: referrerpolicy="no-referrer" }
 
 当客户端想要调用Kafka的消息发送者发送消息时，消息会首先存入到一个双端队列中，双端队列中单个元素为 ProducerBatch，表示一个发送批次，其最大值受参数 batch.size 控制，默认为 16K。
 

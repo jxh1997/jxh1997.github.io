@@ -16,13 +16,13 @@
 
 在最初的项目开发过程中，公司没有明确的岗位划分。这意味着一个工程师既要实现后端代码，同时也要完成前端效果呈现的代码编写，具体关系你可以参考我画的这张示意图。
 
-![](https://static001.geekbang.org/resource/image/c3/51/c35c4dfa24bbea4f0e90d50cb6f7c051.jpg?wh=3656x1456)
+![](https://static001.geekbang.org/resource/image/c3/51/c35c4dfa24bbea4f0e90d50cb6f7c051.jpg?wh=3656x1456){: referrerpolicy="no-referrer" }
 
 随着前端技术栈的迭代，Ajax 技术诞生之后，大大推动了Web2.0的快速发展，前端不再是后端的模板，可以独立得到各种数据。前端的页面也越来越动态化，它追求更多交互，同时也需要处理大量的数据，对前端工程师的技术要求也越来越高，前后端的工作也就越来越明晰化，前后端分离模式也就此盛行起来。
 
 那前后端分离的结构模式是什么样子呢？你可以通过下面这张图来辅助理解。
 
-![](https://static001.geekbang.org/resource/image/a6/46/a66bd9cfc2d614a3aa94a0326372dc46.jpg?wh=1920x1279)
+![](https://static001.geekbang.org/resource/image/a6/46/a66bd9cfc2d614a3aa94a0326372dc46.jpg?wh=1920x1279){: referrerpolicy="no-referrer" }
 
 ## 前后端分离有什么优势？
 
@@ -50,7 +50,7 @@
 
 你可以把整个平台想象成一棵树，每个业务功能都是一个树枝，且树枝之间还能联动起来。比如说，在平台的用户视频管理操作界面中，我们可以发起上传视频的操作，也可以回到首屏，你会发现平台各模块都会有相应的关联。
 
-![](https://static001.geekbang.org/resource/image/a5/bf/a58cea2b563944c5047f2b215bb9cbbf.jpg?wh=2860x1353)
+![](https://static001.geekbang.org/resource/image/a5/bf/a58cea2b563944c5047f2b215bb9cbbf.jpg?wh=2860x1353){: referrerpolicy="no-referrer" }
 
 前端框架有很多，比方说iView admin和vue-cli，它们都是基于 Vue.js实现的。不过前者更适合搭配使用iView UI 组件库，实现后台管理系统，不太匹配我们的项目要求。
 
@@ -64,24 +64,24 @@
 
 那我们已经在[第四节课](https://time.geekbang.org/column/article/653986)Vue概览中详细讲了安装的过程，在这节课我补充一些内容，方便你更好地应用。
 
-![](https://static001.geekbang.org/resource/image/fb/d8/fbfcd39c170c0d4247fb5c2c5a9fa7d8.jpg?wh=2080x1599)
+![](https://static001.geekbang.org/resource/image/fb/d8/fbfcd39c170c0d4247fb5c2c5a9fa7d8.jpg?wh=2080x1599){: referrerpolicy="no-referrer" }
 
 选好版本以后，我们把安装包下载到本地，双击按操作步骤安装即可。这里要注意一下Windows和macOS系统的差异。
 
 对于**Windows系统**，你需要单独进行一个环境的配置，在你的Node目录文件下，创建两个文件夹，分别为node\_cache和node\_global。
 
-![](https://static001.geekbang.org/resource/image/84/5c/845f22a3066640d2f95a9dea4ec1ed5c.jpg?wh=1976x707)
+![](https://static001.geekbang.org/resource/image/84/5c/845f22a3066640d2f95a9dea4ec1ed5c.jpg?wh=1976x707){: referrerpolicy="no-referrer" }
 
 之后在你的系统配置中，配置环境变量，新建系统变量，按下图进行配置。
 
-![](https://static001.geekbang.org/resource/image/18/86/1838c7b3daa870caa5d3bfdb44bda386.jpg?wh=1820x584)
+![](https://static001.geekbang.org/resource/image/18/86/1838c7b3daa870caa5d3bfdb44bda386.jpg?wh=1820x584){: referrerpolicy="no-referrer" }
 
 接下来就是编辑系统变量path。让我们新建两个变量，一个是Node的位置路径，另一个是设置的NODE\_PATH，参考下图进行编辑即可。
 
-![](https://static001.geekbang.org/resource/image/51/1c/51893e8dccf1f605ee849a659c93131c.jpg?wh=1860x1294)
+![](https://static001.geekbang.org/resource/image/51/1c/51893e8dccf1f605ee849a659c93131c.jpg?wh=1860x1294){: referrerpolicy="no-referrer" }
 
 然后，我们还需要设置用户变量path，值就是node\_global的路径，如下图所示。  
-![](https://static001.geekbang.org/resource/image/40/c2/40639bf9643d2b9738e414826b69b3c2.jpg?wh=2900x1620)
+![](https://static001.geekbang.org/resource/image/40/c2/40639bf9643d2b9738e414826b69b3c2.jpg?wh=2900x1620){: referrerpolicy="no-referrer" }
 
 完成上述步骤以后，你可以直接在cmd中执行后面的命令。
 
@@ -112,12 +112,12 @@
 
 在整个构建过程中会有很多的选择操作，为了助力你成功搭建，我给你把这些选项的含义，以及如何选择全部都罗列出来了，方便你按图配置。
 
-![](https://static001.geekbang.org/resource/image/52/77/52fe52c11dbd37f070c386bc9a4f2e77.jpg?wh=2186x786)  
-![](https://static001.geekbang.org/resource/image/14/5c/142304931c6292cb2bfa3895aa084a5c.jpg?wh=3656x2333)
+![](https://static001.geekbang.org/resource/image/52/77/52fe52c11dbd37f070c386bc9a4f2e77.jpg?wh=2186x786)  {: referrerpolicy="no-referrer" }
+![](https://static001.geekbang.org/resource/image/14/5c/142304931c6292cb2bfa3895aa084a5c.jpg?wh=3656x2333){: referrerpolicy="no-referrer" }
 
 恭喜你！功夫不负有心人，此时你已经完成了vue-cli框架的搭建。**这时控制台会给你提供两个操作命令，代表框架的枝干已经生成了。**
 
-![](https://static001.geekbang.org/resource/image/10/da/108e797f916523e9041df04yy674b5da.jpg?wh=1474x679)
+![](https://static001.geekbang.org/resource/image/10/da/108e797f916523e9041df04yy674b5da.jpg?wh=1474x679){: referrerpolicy="no-referrer" }
 
 ### 第三步：运行项目
 
@@ -126,11 +126,11 @@
 在依赖加载完成之后，你可以在项目路径下执行 **npm run dev**，这是项目在本地启动的命令。
 
 此时你的控制台会出现下面这样的内容。  
-![](https://static001.geekbang.org/resource/image/d2/aa/d2c04ca57d072c82897498083f7632aa.jpg?wh=2638x1447)
+![](https://static001.geekbang.org/resource/image/d2/aa/d2c04ca57d072c82897498083f7632aa.jpg?wh=2638x1447){: referrerpolicy="no-referrer" }
 
 你可以直接在浏览器中输入：localhost:8080，然后就可以看到框架的样子了。
 
-![](https://static001.geekbang.org/resource/image/66/f9/667ac049277dc8cd36c0e9e21d561cf9.jpg?wh=2638x1462)
+![](https://static001.geekbang.org/resource/image/66/f9/667ac049277dc8cd36c0e9e21d561cf9.jpg?wh=2638x1462){: referrerpolicy="no-referrer" }
 
 框架搭建的整个过程就是这样，是不是有所收获？我们再接再厉，继续折腾。
 
@@ -139,22 +139,22 @@
 俗话说万物都可 “HelloWorld”。接着我们来实现对页面的编辑，这一次实践跑下来，相信你很快就可以自己写页面了。
 
 首先，你要对文件的目录作用有个清晰的认识。我特意给你准备了下面这张结构图，帮你梳理一下关键的信息。  
-![](https://static001.geekbang.org/resource/image/c0/9a/c0eeed53eaae53b55b8833c105a11b9a.jpg?wh=2082x1404)
+![](https://static001.geekbang.org/resource/image/c0/9a/c0eeed53eaae53b55b8833c105a11b9a.jpg?wh=2082x1404){: referrerpolicy="no-referrer" }
 
 我们来一个模拟过程，分析一下当浏览器访问页面之后，它是如何找到对应的页面，并将内容呈现出来的。顺藤摸瓜，你就能知道如何创建一个新的页面，并且在浏览器中访问特定页面了
 
 当浏览器访问http://localhost:8080/#/时，你要重点关注#号后面的内容，此时#号后面是“/”，那么在路由文件中 “/”对应的是组件HelloWorld，它的路径就是 **/components/HelloWorld**，此时页面呈现的内容就是HelloWord.vue中的内容，我们就可以更改内容，让页面变成自己期望的样子了。
 
 我这里给你放了一个小的案例供你测试，我们来看看效果。需要修改的代码截图如下。  
-![](https://static001.geekbang.org/resource/image/16/e3/16f3042eab6ea637870a341443c03ae3.jpg?wh=2148x1110)
+![](https://static001.geekbang.org/resource/image/16/e3/16f3042eab6ea637870a341443c03ae3.jpg?wh=2148x1110){: referrerpolicy="no-referrer" }
 
 我们定位到图片的红框这里的代码，改变{{msg}}的值为“**你好，Python\_Word**”。
 
-![](https://static001.geekbang.org/resource/image/a1/9b/a118f4984ecea0961c3037b14c915e9b.jpg?wh=2148x1110)
+![](https://static001.geekbang.org/resource/image/a1/9b/a118f4984ecea0961c3037b14c915e9b.jpg?wh=2148x1110){: referrerpolicy="no-referrer" }
 
 完成修改，直接在我们的浏览器内观察页面变化，你能看到页面内容已经更换了，效果如下。
 
-![](https://static001.geekbang.org/resource/image/c0/23/c0dea60b47770eb29a686ef5de62bb23.jpg?wh=2892x1110)
+![](https://static001.geekbang.org/resource/image/c0/23/c0dea60b47770eb29a686ef5de62bb23.jpg?wh=2892x1110){: referrerpolicy="no-referrer" }
 
 如法炮制，你想再单独做几个页面是不是也很容易呢？课程结束之后就赶快操练起来吧！
 

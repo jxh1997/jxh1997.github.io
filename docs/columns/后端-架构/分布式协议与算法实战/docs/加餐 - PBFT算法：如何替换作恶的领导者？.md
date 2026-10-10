@@ -30,11 +30,11 @@
 
 为了帮你更好地理解视图变更的原理，我继续以苏秦为例（这次，咱们把叛将楚当作是“大元帅”，让它扮演主节点的角色）。
 
-![](https://static001.geekbang.org/resource/image/d7/d2/d73b976fc3c0d9bc7c1b82d94f11a9d2.jpg?wh=1142%2A609 "图1")
+![](https://static001.geekbang.org/resource/image/d7/d2/d73b976fc3c0d9bc7c1b82d94f11a9d2.jpg?wh=1142%2A609 "图1"){: referrerpolicy="no-referrer" }
 
 首先，苏秦联系楚，向楚发送包含作战指令“进攻”的请求。
 
-![](https://static001.geekbang.org/resource/image/f2/be/f22058b2d209978d3488f57375e448be.jpg?wh=1142%2A594 "图2")
+![](https://static001.geekbang.org/resource/image/f2/be/f22058b2d209978d3488f57375e448be.jpg?wh=1142%2A594 "图2"){: referrerpolicy="no-referrer" }
 
 当楚接收到苏秦的请求之后，为了达到破坏作战计划的目的，它默不作声，内心想：我就是不执行三阶段协议（Three-phase protocol），不执行你的指令，也不通知其他将军执行你的指令，你能把我怎么办？
 
@@ -42,15 +42,15 @@
 
 这时苏秦会直接给各位将军发送作战指令。
 
-![](https://static001.geekbang.org/resource/image/2e/35/2e55e095c723a54d22bb9830f4029435.jpg?wh=1142%2A627 "图3")
+![](https://static001.geekbang.org/resource/image/2e/35/2e55e095c723a54d22bb9830f4029435.jpg?wh=1142%2A627 "图3"){: referrerpolicy="no-referrer" }
 
 当赵、魏、韩接收到来自的苏秦的作战指令时，它们会将作战指令分别发送给楚，并等待一段时间，如果在这段时间内，仍未接收到来自楚的预准备消息，那么它们就认为楚可能已经叛变了，就发起视图变更（采用“轮流上岗”的方式选出新的大元帅，比如赵），并向集群所有节点发送视图变更消息（view-change message）。
 
-![](https://static001.geekbang.org/resource/image/39/93/398fd2a7b42f79f7bb0f20a2a2d7ba93.jpg?wh=1142%2A599 "图4")
+![](https://static001.geekbang.org/resource/image/39/93/398fd2a7b42f79f7bb0f20a2a2d7ba93.jpg?wh=1142%2A599 "图4"){: referrerpolicy="no-referrer" }
 
 当赵接收到2个视图变更消息后，它就发送新视图消息（new-view message）给其他将军，告诉大家，我是大元帅了。
 
-![](https://static001.geekbang.org/resource/image/8e/3c/8ecde229a9c3715346cadc9ff862ce3c.jpg?wh=1142%2A639 "图5")
+![](https://static001.geekbang.org/resource/image/8e/3c/8ecde229a9c3715346cadc9ff862ce3c.jpg?wh=1142%2A639 "图5"){: referrerpolicy="no-referrer" }
 
 当其他将军接收到新视图消息后，就认为选出了新的大元帅。然后，忠诚的将军们就可以一致地执行来自苏秦的作战指令了。
 

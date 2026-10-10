@@ -12,7 +12,7 @@
 
 我们这就一起来梳理一下，用户在直播中心的操作动线以及中心内整体的功能设计。我用思维框架图的方式整理了整个直播中心的大框架，你可以先看一下。
 
-![](https://static001.geekbang.org/resource/image/16/11/16c853b325fcyy73db0d4c7cd9d4e511.jpg?wh=1990x1158)
+![](https://static001.geekbang.org/resource/image/16/11/16c853b325fcyy73db0d4c7cd9d4e511.jpg?wh=1990x1158){: referrerpolicy="no-referrer" }
 
 ### 中心入口
 
@@ -26,7 +26,7 @@
 
 两个入口的位置如下图。
 
-![](https://static001.geekbang.org/resource/image/a6/cd/a62be2402e0a348317e5eb7efd2f71cd.jpg?wh=1641x545)
+![](https://static001.geekbang.org/resource/image/a6/cd/a62be2402e0a348317e5eb7efd2f71cd.jpg?wh=1641x545){: referrerpolicy="no-referrer" }
 
 ### 直播列表
 
@@ -48,7 +48,7 @@
 
 这里我给准备了一张直播界面的样例图作为参考，接下来我们一起看看怎样实现相应的功能开发吧。
 
-![](https://static001.geekbang.org/resource/image/69/13/69fd9434780bcaa16a32743cb47e0913.jpg?wh=1949x661)
+![](https://static001.geekbang.org/resource/image/69/13/69fd9434780bcaa16a32743cb47e0913.jpg?wh=1949x661){: referrerpolicy="no-referrer" }
 
 ### 直播视频列表页的实现
 
@@ -96,7 +96,7 @@ Layout组件主要用于做页面布局，可以按我们设定好的参数对�
 
 具体的参数说明你可以直接参考 [Layout官网API](https://element.eleme.cn/#/zh-CN/component/layout)，这里我们重点需要关注的就是利用Layout去实现自适应，这部分需要用到后面的参数设置来实现。
 
-![](https://static001.geekbang.org/resource/image/92/e1/9223f5e80a40a2226f679b11e2328ae1.jpg?wh=3377x1614)
+![](https://static001.geekbang.org/resource/image/92/e1/9223f5e80a40a2226f679b11e2328ae1.jpg?wh=3377x1614){: referrerpolicy="no-referrer" }
 
 具体实现代码是后面这样。
 
@@ -193,7 +193,7 @@ Layout组件主要用于做页面布局，可以按我们设定好的参数对�
 
 后面是直播详情页的效果预览图。
 
-![](https://static001.geekbang.org/resource/image/8f/60/8f8c49bb6e8e94348dbdf4cb78c5e260.jpg?wh=1963x948)
+![](https://static001.geekbang.org/resource/image/8f/60/8f8c49bb6e8e94348dbdf4cb78c5e260.jpg?wh=1963x948){: referrerpolicy="no-referrer" }
 
 页面的适配我们依旧使用Layout组件来实现。
 

@@ -43,7 +43,7 @@
 
 从这些分析中可以看出，**使用流计算进行数据处理，一般包括3个步骤**，如下图所示。
 
-![](https://static001.geekbang.org/resource/image/62/20/62eda28c3df9a4ab2fbe393b469bea20.png?wh=909%2A516)
+![](https://static001.geekbang.org/resource/image/62/20/62eda28c3df9a4ab2fbe393b469bea20.png?wh=909%2A516){: referrerpolicy="no-referrer" }
 
 **第一步，提交流式计算作业。**流式计算作业是一种常驻计算服务，比如实时交通监测服务、实时天气预报服务等。对于流式计算作业，首先必须预先定义计算逻辑，并提交到流计算系统中，使得流计算系统知道自己该如何处理数据。
 
@@ -76,7 +76,7 @@
 - Nimbus是整个Storm集群的主守护进程，以唯一实例的方式运行在主节点上。它负责把任务分配和分发给集群的工作节点，并监控这些任务的执行情况。当某个节点故障时，它会重新分配该故障节点上的任务到其它节点。
 - Supervisor是Storm集群里工作守护进程，每个工作节点都存在一个这样的实例。它通过Zookeeper与Nimbus守护进程进行通信。在接受到Nimbus分配的任务后，它会为每个任务启动单独的工作进程。
 
-![](https://static001.geekbang.org/resource/image/dc/e9/dc3647474c58d12510582404087ceee9.png?wh=918%2A490)
+![](https://static001.geekbang.org/resource/image/dc/e9/dc3647474c58d12510582404087ceee9.png?wh=918%2A490){: referrerpolicy="no-referrer" }
 
 前面我介绍了Nimbus是负责分发任务或代码的，Supervisor是负责接收任务，并启动和停止工作进程以执行任务的。那么Nimbus和Supervisors之间，具体是怎么协同的呢？下面我们一起看一下。
 
@@ -88,7 +88,7 @@
 
 Storm为进行数据流转换提供了基本组件Spout和Bolt。 Spout和Bolt有用户自定义的接口，用于运行特定应用程序的逻辑。如下图所示，Storm上运行的计算拓扑其实是由一系列Spout 和 Bolt 组成的有向无环图，这个有向无环图代表了计算逻辑。
 
-![](https://static001.geekbang.org/resource/image/7a/c8/7ae9455e1d125488d9b94283eecb2ac8.png?wh=606%2A391)
+![](https://static001.geekbang.org/resource/image/7a/c8/7ae9455e1d125488d9b94283eecb2ac8.png?wh=606%2A391){: referrerpolicy="no-referrer" }
 
 备注：
 
@@ -110,7 +110,7 @@ MapReduce可以说是一种批量计算，与我们今天介绍的用于实时�
 
 在实际运用中，可以根据计算要求，选择不同的计算模式。我将这两种计算模式的特点，总结为了一张表格，以帮助你理解、记忆，以及选择适合自己业务场景的计算模式。
 
-![](https://static001.geekbang.org/resource/image/53/2c/53f87f8de7f10562db5ce74b748bce2c.jpg?wh=1531%2A802)
+![](https://static001.geekbang.org/resource/image/53/2c/53f87f8de7f10562db5ce74b748bce2c.jpg?wh=1531%2A802){: referrerpolicy="no-referrer" }
 
 ## 总结
 
@@ -122,7 +122,7 @@ MapReduce可以说是一种批量计算，与我们今天介绍的用于实时�
 
 最后，我再通过一张思维导图来归纳一下今天的核心知识点吧。
 
-![](https://static001.geekbang.org/resource/image/fb/5e/fbb7a3acd35fd34bdb7727ce3a0caf5e.png?wh=1074%2A958)
+![](https://static001.geekbang.org/resource/image/fb/5e/fbb7a3acd35fd34bdb7727ce3a0caf5e.png?wh=1074%2A958){: referrerpolicy="no-referrer" }
 
 ## 思考题
 

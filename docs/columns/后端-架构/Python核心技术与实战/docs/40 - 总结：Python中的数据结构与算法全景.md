@@ -6,7 +6,7 @@
 
 对于本章答疑，因为不断有同学留言询问Python中数据结构和算法相关的问题，我在这里也简单说一下。
 
-![](https://static001.geekbang.org/resource/image/4b/80/4b72bbef1367976a203bd29a36b09d80.png?wh=882%2A301)
+![](https://static001.geekbang.org/resource/image/4b/80/4b72bbef1367976a203bd29a36b09d80.png?wh=882%2A301){: referrerpolicy="no-referrer" }
 
 首先，希望你明白，我们Python 专栏的定位是有一定计算机知识基础的进阶课程，重点在 Python 的核心知识点上，默认你对基础的算法和数据结构有一定的了解。因此，在语法和技术知识点的讲解过程中，我会综合性地穿插不少数据结构的基本知识，但并不会进行深入地讲解。涉及到数据结构中的关键名词和难点，自然都会有所提及，但还是希望你有一定的自学能力来掌握。
 

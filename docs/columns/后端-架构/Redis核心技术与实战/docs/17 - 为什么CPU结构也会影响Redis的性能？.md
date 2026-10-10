@@ -14,7 +14,7 @@
 
 这里提到了一个概念，就是物理核的私有缓存。它其实是指缓存空间只能被当前的这个物理核使用，其他的物理核无法对这个核的缓存空间进行数据存取。我们来看一下CPU物理核的架构。
 
-![](https://static001.geekbang.org/resource/image/c2/3a/c2d620c012a82e825570df631a7fbc3a.jpg?wh=2114%2A1167)
+![](https://static001.geekbang.org/resource/image/c2/3a/c2d620c012a82e825570df631a7fbc3a.jpg?wh=2114%2A1167){: referrerpolicy="no-referrer" }
 
 因为L1和L2缓存是每个物理核私有的，所以，当数据或指令保存在L1、L2缓存时，物理核访问它们的延迟不超过10纳秒，速度非常快。那么，如果Redis把要运行的指令或存取的数据保存在L1和L2缓存的话，就能高速地访问这些指令和数据。
 
@@ -26,13 +26,13 @@
 
 为了方便你理解，我用一张图展示一下物理核和逻辑核，以及一级、二级缓存的关系。
 
-![](https://static001.geekbang.org/resource/image/d9/09/d9689a38cbe67c3008d8ba99663c2f09.jpg?wh=3065%2A1633)
+![](https://static001.geekbang.org/resource/image/d9/09/d9689a38cbe67c3008d8ba99663c2f09.jpg?wh=3065%2A1633){: referrerpolicy="no-referrer" }
 
 在主流的服务器上，一个CPU处理器会有10到20多个物理核。同时，为了提升服务器的处理能力，服务器上通常还会有多个CPU处理器（也称为多CPU Socket），每个处理器有自己的物理核（包括L1、L2缓存），L3缓存，以及连接的内存，同时，不同处理器间通过总线连接。
 
 下图显示的就是多CPU Socket的架构，图中有两个Socket，每个Socket有两个物理核。
 
-![](https://static001.geekbang.org/resource/image/5c/3d/5ceb2ab6f61c064284c8f8811431bc3d.jpg?wh=3000%2A1252)
+![](https://static001.geekbang.org/resource/image/5c/3d/5ceb2ab6f61c064284c8f8811431bc3d.jpg?wh=3000%2A1252){: referrerpolicy="no-referrer" }
 
 **在多CPU架构上，应用程序可以在不同的处理器上运行**。在刚才的图中，Redis可以先在Socket 1上运行一段时间，然后再被调度到Socket 2上运行。
 
@@ -83,7 +83,7 @@ taskset -c 0 ./redis-server
 
 我们来看一下绑核前后的Redis的99%尾延迟。
 
-![](https://static001.geekbang.org/resource/image/eb/57/eb72b9f58052d6a6023d3e1dac522157.jpg?wh=2760%2A477)
+![](https://static001.geekbang.org/resource/image/eb/57/eb72b9f58052d6a6023d3e1dac522157.jpg?wh=2760%2A477){: referrerpolicy="no-referrer" }
 
 可以看到，在CPU多核的环境下，通过绑定Redis实例和CPU核，可以有效降低Redis的尾延迟。当然，绑核不仅对降低尾延迟有好处，同样也能降低平均延迟、提升吞吐率，进而提升Redis性能。
 
@@ -97,13 +97,13 @@ taskset -c 0 ./redis-server
 
 我们先来看下Redis实例和网络中断程序的数据交互：网络中断处理程序从网卡硬件中读取数据，并把数据写入到操作系统内核维护的一块内存缓冲区。内核会通过epoll机制触发事件，通知Redis实例，Redis实例再把数据从内核的内存缓冲区拷贝到自己的内存空间，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/87/d2/8753ce6985fd08bb9cf9a3813c8b2cd2.jpg?wh=2108%2A1295)
+![](https://static001.geekbang.org/resource/image/87/d2/8753ce6985fd08bb9cf9a3813c8b2cd2.jpg?wh=2108%2A1295){: referrerpolicy="no-referrer" }
 
 那么，在CPU的NUMA架构下，当网络中断处理程序、Redis实例分别和CPU核绑定后，就会有一个潜在的风险：**如果网络中断处理程序和Redis实例各自所绑的CPU核不在同一个CPU Socket上，那么，Redis实例读取网络数据时，就需要跨CPU Socket访问内存，这个过程会花费较多时间。**
 
 这么说可能有点抽象，我再借助一张图来解释下。
 
-![](https://static001.geekbang.org/resource/image/30/b0/30cd42yy86debc0eb6e7c5b069533ab0.jpg?wh=3000%2A1251)
+![](https://static001.geekbang.org/resource/image/30/b0/30cd42yy86debc0eb6e7c5b069533ab0.jpg?wh=3000%2A1251){: referrerpolicy="no-referrer" }
 
 可以看到，图中的网络中断处理程序被绑在了CPU Socket 1的某个核上，而Redis实例则被绑在了CPU Socket 2上。此时，网络中断处理程序读取到的网络数据，被保存在CPU Socket 1的本地内存中，当Redis实例要访问网络数据时，就需要Socket 2通过总线把内存访问命令发送到 Socket 1上，进行远程访问，时间开销比较大。
 
@@ -111,7 +111,7 @@ taskset -c 0 ./redis-server
 
 所以，为了避免Redis跨CPU Socket访问网络数据，我们最好把网络中断程序和Redis实例绑在同一个CPU Socket上，这样一来，Redis实例就可以直接从本地内存读取网络数据了，如下图所示：
 
-![](https://static001.geekbang.org/resource/image/41/79/41f02b2afb08ec54249680e8cac30179.jpg?wh=2874%2A1479)
+![](https://static001.geekbang.org/resource/image/41/79/41f02b2afb08ec54249680e8cac30179.jpg?wh=2874%2A1479){: referrerpolicy="no-referrer" }
 
 不过，需要注意的是，**在CPU的NUMA架构下，对CPU核的编号规则，并不是先把一个CPU Socket中的所有逻辑核编完，再对下一个CPU Socket中的逻辑核编码，而是先给每个CPU Socket中每个物理核的第一个逻辑核依次编号，再给每个CPU Socket中的物理核的第二个逻辑核依次编号。**
 

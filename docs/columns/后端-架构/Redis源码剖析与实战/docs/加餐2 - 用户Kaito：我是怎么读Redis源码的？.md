@@ -16,7 +16,7 @@
 
 因此，提前花一些时间梳理整个项目的结构和目录，对于后面更好地阅读代码是非常有必要的。就拿Redis来举例，在读Redis源码之前，我们可以先梳理出整个项目的功能模块，以及每个模块对应的代码文件，以下给出的就是src下的代码结构：
 
-![图片](https://static001.geekbang.org/resource/image/8d/fc/8de27eda5312b45e70f80e8d534ecafc.jpg?wh=1920x1561)
+![图片](https://static001.geekbang.org/resource/image/8d/fc/8de27eda5312b45e70f80e8d534ecafc.jpg?wh=1920x1561){: referrerpolicy="no-referrer" }
 
 这样，有了这张地图之后，我们再去看代码的时候，就可以有重点地阅读了。
 
@@ -48,7 +48,7 @@
 
 如果你对Redis的数据类型有所了解，就会看到这些数据类型在实现时，底层都对应了不同的数据结构。比如，String的底层是SDS，List的底层是ziplist + quicklist，Hash底层可能是ziplist，也可能是哈希表，等等。
 
-![图片](https://static001.geekbang.org/resource/image/7c/35/7cf142081a43bba5ee84904c80ec3635.jpg?wh=1920x792)
+![图片](https://static001.geekbang.org/resource/image/7c/35/7cf142081a43bba5ee84904c80ec3635.jpg?wh=1920x792){: referrerpolicy="no-referrer" }
 
 而由此一来，我们会发现，这些数据结构又是更为底层的模块，所以我们在阅读数据类型模块时，就需要重点聚焦在这些模块上，也就是sds.c、ziplist.c、quicklist.c、dict.c、intset.c文件，而且这些文件都是比较独立的，阅读起来就可以更加集中。
 
@@ -71,7 +71,7 @@
 - **处理具体的命令**：找到对应的命令函数、执行命令（server.c、t\_string.c、t\_list.c、t\_hash.c、t\_set.c、t\_zset.c）。
 - **返回响应给客户端**：写客户端缓冲区、注册写事件、写客户端Socket（networking.c）。
 
-![图片](https://static001.geekbang.org/resource/image/87/3e/87e8563785353f4947ef70283842573e.jpg?wh=1920x882)
+![图片](https://static001.geekbang.org/resource/image/87/3e/87e8563785353f4947ef70283842573e.jpg?wh=1920x882){: referrerpolicy="no-referrer" }
 
 沿着这条主线去读代码，我们就可以掌握一条命令的执行全过程。而且，由于这条主线的代码逻辑，已经覆盖了所有命令的执行流程，我们下次再去读其他命令时，比如SADD，就只需要关注处理命令部分的逻辑即可，其他逻辑有80%都是相同的。
 

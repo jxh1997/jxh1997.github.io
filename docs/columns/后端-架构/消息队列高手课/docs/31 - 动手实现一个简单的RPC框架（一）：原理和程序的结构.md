@@ -66,7 +66,7 @@ public class HelloServiceImpl implements HelloService {
 
 客户端RPC框架的桩收到服务端的响应之后，从响应中解析出返回值，返回给客户端的调用方。这样就完成了一次远程调用。我把这个调用过程画成一张图放在下面，你可以对着这张图再消化一下上面的流程。
 
-![](https://static001.geekbang.org/resource/image/94/ea/946841b09cab0b11ce349a5a1eeea0ea.jpg?wh=4266%2A1978)
+![](https://static001.geekbang.org/resource/image/94/ea/946841b09cab0b11ce349a5a1eeea0ea.jpg?wh=4266%2A1978){: referrerpolicy="no-referrer" }
 
 在上面的这个调用流程中，我们忽略了一个问题，那就是客户端是如何找到服务端地址的呢？在RPC框架中，**这部分的实现原理其实和消息队列的实现是完全一样的**，都是通过一个NamingService来解决的。
 
@@ -193,7 +193,7 @@ nameService.registerService(serviceName, uri);
 
 我把这个RPC框架的实现代码以及上面如何使用这个RPC框架的例子，放在了GitHub的[simple-rpc-framework](https://github.com/liyue2008/simple-rpc-framework)项目中。整个项目分为如下5个Module：
 
-![](https://static001.geekbang.org/resource/image/43/55/43172b2271987c93e37492843894a955.jpg?wh=4133%2A1275)
+![](https://static001.geekbang.org/resource/image/43/55/43172b2271987c93e37492843894a955.jpg?wh=4133%2A1275){: referrerpolicy="no-referrer" }
 
 其中，RPC框架提供的服务RpcAccessPoint和注册中心服务NameService，这两个接口的定义在Module rpc-api中。使用框架的例子，HelloService接口定义在Module hello-service-api中，例子中的客户端和服务端分别在client和server这两个Module中。
 

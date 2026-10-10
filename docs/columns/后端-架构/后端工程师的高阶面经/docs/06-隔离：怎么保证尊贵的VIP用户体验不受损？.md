@@ -20,7 +20,7 @@
 
 举例来说，如果核心服务都放在同一台机器上，那么这台机器一宕机，所有的核心服务就都宕机了。反过来说，如果核心服务部署在了不同的机器上，那么其中一台机器宕机了，也就只有这台机器上的服务崩了，而其他机器上的服务还是可以继续运行。
 
-![图片](https://static001.geekbang.org/resource/image/82/20/82796c9aa06aaa384f3d7ff371177320.png?wh=1920x1032)
+![图片](https://static001.geekbang.org/resource/image/82/20/82796c9aa06aaa384f3d7ff371177320.png?wh=1920x1032){: referrerpolicy="no-referrer" }
 
 那么隔离究竟该怎么样做才能达成提升可用性、提升性能和提升安全性的目标呢？其实可以采取的措施也是非常多的，让我们一个个看。
 
@@ -30,13 +30,13 @@
 
 一些公司的金融支付业务，个人隐私类的往往会有独立的机房，或者至少在逻辑上它们会有完全不同的安全策略和保护措施。还有一些公司受制于当地的法律法规，例如数据必须留在本地。那么这些公司也只能说一个国家或一个地区一个机房。
 
-![图片](https://static001.geekbang.org/resource/image/53/0f/5357b14148df20e6443987ec88fd380f.png?wh=1920x897)
+![图片](https://static001.geekbang.org/resource/image/53/0f/5357b14148df20e6443987ec88fd380f.png?wh=1920x897){: referrerpolicy="no-referrer" }
 
 在这种形态下，其中一个机房崩溃了自然不会对另外一个机房有任何影响。
 
 机房隔离和多活看起来有点儿像，但是从概念上来说差异还是挺大的。这里的隔离指的是不同服务分散在不同的机房，而多活强调的是同一个服务在不同的城市、不同的机房里面有副本。
 
-![图片](https://static001.geekbang.org/resource/image/ab/a5/abe9ed8b43af446279b9c1d2c6f249a5.png?wh=1920x787)
+![图片](https://static001.geekbang.org/resource/image/ab/a5/abe9ed8b43af446279b9c1d2c6f249a5.png?wh=1920x787){: referrerpolicy="no-referrer" }
 
 ### 实例隔离
 
@@ -44,13 +44,13 @@
 
 但是这种隔离并没有考虑到这么一种情况，就是虽然你买了很多实例，但是这些实例在云厂商那里都是同一个物理机虚拟出来的。这种情况下，如果物理机有故障，那么这些虚拟机都会出问题。
 
-![图片](https://static001.geekbang.org/resource/image/0e/45/0e83d1ddfe0938766cd78a8672310745.png?wh=1920x738)
+![图片](https://static001.geekbang.org/resource/image/0e/45/0e83d1ddfe0938766cd78a8672310745.png?wh=1920x738){: referrerpolicy="no-referrer" }
 
 在早期还没有云服务的时候，也有机器隔离的说法。它指的就是核心服务独享一整个物理机的资源。
 
 在一些小公司里面，为了节省成本，一些不太重要的服务就可能会共享同一个实例，特别是测试环境，经常在一台机器上部署多个服务，如果一个服务消耗资源过多，比如说把 CPU 打满，所有人的测试服务就都跟着崩了。
 
-![图片](https://static001.geekbang.org/resource/image/2e/80/2e4321221643866yyca302b54c516d80.png?wh=1920x932)
+![图片](https://static001.geekbang.org/resource/image/2e/80/2e4321221643866yyca302b54c516d80.png?wh=1920x932){: referrerpolicy="no-referrer" }
 
 而同一个服务的实例合并在一起就构成了集群，那么这个集群自然也是隔离的。
 
@@ -63,7 +63,7 @@
 - 读接口一个组，写接口一个组。这种也叫做读写隔离。比如说在生产内容的业务里面，没有实行制作库和线上库分离的话，那么就可以简单地把读取内容划分成一个组，编辑内容划分成另外一个组。
 - 快接口一个组，慢接口一个组。这个和前面的读写隔离可能会重叠，因为一般来说读接口就是比较快。
 
-![图片](https://static001.geekbang.org/resource/image/19/11/190893a807ed8f7475fdfa4b49c32a11.png?wh=1920x1010)
+![图片](https://static001.geekbang.org/resource/image/19/11/190893a807ed8f7475fdfa4b49c32a11.png?wh=1920x1010){: referrerpolicy="no-referrer" }
 
 分组隔离非常灵活，你完全可以根据自己的实际业务来设计不同的隔离策略。
 
@@ -73,11 +73,11 @@
 
 这两种措施针对的是同一个进程内的不同服务，一般的做法都是给核心服务单独的连接池和线程池。这么做对于性能的改进也是很有帮助的，尤其是连接池隔离。
 
-![图片](https://static001.geekbang.org/resource/image/52/5f/526557d6b9d1c4a90744b362bb4f095f.png?wh=1920x875)
+![图片](https://static001.geekbang.org/resource/image/52/5f/526557d6b9d1c4a90744b362bb4f095f.png?wh=1920x875){: referrerpolicy="no-referrer" }
 
 线程池隔离在 Java 里面被广泛使用，而在另外一些语言里面则根本没有线程池隔离的概念。比如说 Go 语言，虽然 Go 存在所谓的 GMP 调度，里面有线程的概念，但是开发者是操作不了线程的。
 
-![图片](https://static001.geekbang.org/resource/image/e0/c6/e02664826111c7931ac60cb1b5fbc0c6.png?wh=1920x1028)
+![图片](https://static001.geekbang.org/resource/image/e0/c6/e02664826111c7931ac60cb1b5fbc0c6.png?wh=1920x1028){: referrerpolicy="no-referrer" }
 
 那么在 Go 这种语言里面有没有类似的策略呢？理论上来说，可以做协程隔离，但是就我对大多数框架的了解，它们都没有提供类似的功能。毕竟协程过于廉价了，似乎不太值得做池化。但是在后面慢任务隔离的案例里面，你可以看到协程池隔离在一些场景下还是有必要的。
 
@@ -87,7 +87,7 @@
 
 第三方依赖隔离是指为核心服务或者热点专门提供数据库集群、消息队列集群等第三方依赖集群。
 
-![图片](https://static001.geekbang.org/resource/image/b3/66/b388e6316f6c6a27112fab40c3a02066.png?wh=1920x862)
+![图片](https://static001.geekbang.org/resource/image/b3/66/b388e6316f6c6a27112fab40c3a02066.png?wh=1920x862){: referrerpolicy="no-referrer" }
 
 正常来说，越是关键的业务，业务上越是关键的路径，就越要小心隔离。比如说我们经常听到某家公司因为 Redis 共用，导致某个业务把Redis搞崩了，结果其他更加重要的服务也一起崩溃了的事故报告。
 
@@ -105,7 +105,7 @@
 6. 在具体的系统上，有没有使用连接池隔离、线程池隔离等机制。
 7. 因为缺乏隔离机制引起的事故报告。
 
-![图片](https://static001.geekbang.org/resource/image/e7/f1/e74038c4ba2598a32f495e17068481f1.png?wh=1920x976)
+![图片](https://static001.geekbang.org/resource/image/e7/f1/e74038c4ba2598a32f495e17068481f1.png?wh=1920x976){: referrerpolicy="no-referrer" }
 
 其实现实中还有因为组织关系引起的隔离。比如说你们公司 A 部门和 B 部门各自有独立的 Redis 集群，但这并不是出于隔离的目的有意设计的，而是纯粹因为两个部门的利益冲突才各自维护了一个 Redis 集群。这一点你要注意区分。
 
@@ -133,7 +133,7 @@
 >    
 > 也不仅仅是我们，所有使用那个 Redis 的业务都受到了影响。后来我们再使用 Redis 的时候，就分成了核心与非核心。核心 Redis 有更加严格的接入机制和代码 review 机制，而非核心的就比较随意。不仅如此，我们还为高并发的服务设计了数据库限流，防止再来一次 Redis 失效导致 MySQL 被打崩的事故。
 
-![图片](https://static001.geekbang.org/resource/image/6b/68/6b3450e83a1f6058afd99fe9dc7b5368.png?wh=1920x851)
+![图片](https://static001.geekbang.org/resource/image/6b/68/6b3450e83a1f6058afd99fe9dc7b5368.png?wh=1920x851){: referrerpolicy="no-referrer" }
 
 可以注意到，我在最后还补充了一段使用限流来保护数据库的话，那么这就可以将话题带到限流那边。就像我前面说的，[熔断](https://time.geekbang.org/column/article/669233)、[降级](https://time.geekbang.org/column/article/669254)、[限流](https://time.geekbang.org/column/article/670039)、[隔离](https://time.geekbang.org/column/article/670854)这些保证微服务的高可用措施并不是互相割裂了，任何问题的解法也不是单一的，你需要将这几种手段内化于心，融会贯通，达到收缩自如的效果。
 
@@ -158,7 +158,7 @@
 
 如果说某一个时刻，来了 100 个至少需要一分钟的慢任务，这 100 个慢任务就会占据全部的线程，那么其他普通的任务全都得不到执行。
 
-![图片](https://static001.geekbang.org/resource/image/b2/45/b266066a7e6f8671987ec62474bfb445.png?wh=1920x985)
+![图片](https://static001.geekbang.org/resource/image/b2/45/b266066a7e6f8671987ec62474bfb445.png?wh=1920x985){: referrerpolicy="no-referrer" }
 
 所以要解决这种问题，就是要考虑甄别出慢任务之后，将这些任务丢到一个单独的线程池里。
 
@@ -166,7 +166,7 @@
 >    
 > 我准备了两个线程池，一个线程池专门执行慢任务，一个是执行快任务。而当任务开始执行的时候，先在快任务线程池里执行一些简单的逻辑，确定任务规模，这一步也就是为了识别慢任务。比如说根据要处理的数据量的大小，分出慢任务。如果是快任务，就继续执行。否则，转交给慢任务线程池。
 
-![图片](https://static001.geekbang.org/resource/image/6b/9c/6b5a23bd8da3e577fd9f8087907e3b9c.png?wh=1920x1186)
+![图片](https://static001.geekbang.org/resource/image/6b/9c/6b5a23bd8da3e577fd9f8087907e3b9c.png?wh=1920x1186){: referrerpolicy="no-referrer" }
 
 你可以进一步补充如何识别慢任务，关键词是**时长数据量**。
 
@@ -184,7 +184,7 @@
 
 当创作者正在创作的时候，他们的文章、视频等内容是存放在制作库的。等到他们完成创作之后，点击发布的时候，就会保存到线上库。当然现实中从制作库到线上库的步骤并不是那么简单的。比如说内容生产平台都需要经过审核之后才能真正发布到线上库。
 
-![图片](https://static001.geekbang.org/resource/image/18/2c/1866d9eca66949056d4393944b27a12c.png?wh=1920x1246)
+![图片](https://static001.geekbang.org/resource/image/18/2c/1866d9eca66949056d4393944b27a12c.png?wh=1920x1246){: referrerpolicy="no-referrer" }
 
 并且因为本身线上库的数据是只有在制作库同步的时候才会变更，所以缓存可以做得更加细致。比如说在真正发布的时候，就直接同步写入到缓存。这样阅读请求会直接命中缓存，就不需要回表了。
 
@@ -206,11 +206,11 @@
 
 我在基本面试思路里面强调了你应该在最后补充一下隔离的缺点，这也算是一个面试技巧。即不管你是在讲自己的方案、同事的方案，还是你和面试官在讨论业界的某个方案，都不要只讲好处不讲缺点。最佳的策略是**讲完优点讲缺点，讲完缺点讲改进**。例如你在介绍自己的某个解决方案的时候就可以用这个模板。
 
-![图片](https://static001.geekbang.org/resource/image/42/33/42db9379748bbf90f431ced2a8c5f533.png?wh=1870x1034)
+![图片](https://static001.geekbang.org/resource/image/42/33/42db9379748bbf90f431ced2a8c5f533.png?wh=1870x1034){: referrerpolicy="no-referrer" }
 
 同样地，我也画了这节课的思维导图，你可以参考。
 
-![图片](https://static001.geekbang.org/resource/image/b8/0b/b81ac994cdd7701334c405e678a81e0b.png?wh=1920x1743)
+![图片](https://static001.geekbang.org/resource/image/b8/0b/b81ac994cdd7701334c405e678a81e0b.png?wh=1920x1743){: referrerpolicy="no-referrer" }
 
 ## 思考题
 

@@ -57,7 +57,7 @@
 
 在这里，我总结了OAuth 2.0的知识体系图，你也可以先了解下整个课程的知识结构。
 
-![](https://static001.geekbang.org/resource/image/96/08/969e0e39d327d109ab23e794a4263708.jpg?wh=1920%2A1451)
+![](https://static001.geekbang.org/resource/image/96/08/969e0e39d327d109ab23e794a4263708.jpg?wh=1920%2A1451){: referrerpolicy="no-referrer" }
 
 这样一来，你学完这门课后，便能在互联网的授权领域练就一双“火眼金睛”，可以发现所有使用过OAuth 2.0的痕迹，诸如微信登录的场景。这样，即使你不用抓包分析，也能够洞悉它背后的原理，为今后快速熟知互联网的类似场景打下基础。
 

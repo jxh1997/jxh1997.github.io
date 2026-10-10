@@ -12,7 +12,7 @@ AI 时代的软件工程，将会变为知识工程。也就是说，想要真�
 
 课程主要分成四个部分。
 
-![](https://static001.geekbang.org/resource/image/9a/85/9a1f47bede7510cd12f4aee92018e485.jpg?wh=1920x708)
+![](https://static001.geekbang.org/resource/image/9a/85/9a1f47bede7510cd12f4aee92018e485.jpg?wh=1920x708){: referrerpolicy="no-referrer" }
 
 第一部分，帮你建立知识工程的整体框架。讨论如何识别软件中的不同知识类别，分析这些知识在传递过程中的认知行为模式，以及如何根据行为模式的不同，选择合适的 LLM 交互模式。
 

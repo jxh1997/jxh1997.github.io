@@ -134,13 +134,13 @@ object SocketWindowIpCount {
 
 下面这张图来自于[Flink的官方文档](https://github.com/liyue2008/IpCount)。
 
-![](https://static001.geekbang.org/resource/image/91/78/91fd3d493f1b7e3e18224d9a8ba33678.png?wh=1824%2A1306)
+![](https://static001.geekbang.org/resource/image/91/78/91fd3d493f1b7e3e18224d9a8ba33678.png?wh=1824%2A1306){: referrerpolicy="no-referrer" }
 
 这张图稍微有点儿复杂，我们先忽略细节看整体。Flink的集群和其他分布式系统都是类似的，集群的大部分节点都是TaskManager节点，每个节点就是一个Java进程，负责执行计算任务。另外一种节点是JobManager节点，它负责管理和协调所有的计算节点和计算任务，同时，客户端和Web控制台也是通过JobManager来提交和管理每个计算任务的。
 
 我们编写好计算任务的代码后，打包成JAR文件，然后通过Flink的客户端提交到JobManager上。计算任务被Flink解析后，会生成一个Dataflow Graph，也叫JobGraph，简称DAG，这是一个有向无环图（DAG），比如我们的这个例子，它生成的DAG是这样的：
 
-![](https://static001.geekbang.org/resource/image/4f/f6/4f8358c8f2ca8b2ed57dfa8bc7aa4cf6.png?wh=2276%2A690)
+![](https://static001.geekbang.org/resource/image/4f/f6/4f8358c8f2ca8b2ed57dfa8bc7aa4cf6.png?wh=2276%2A690){: referrerpolicy="no-referrer" }
 
 图中的每个节点是一个Task，每个Task就是一个执行单元，运行在某一个TaskManager的进程内。你可以想象一下，就像电流流过电路图一样，数据从Source Task流入，进入这个DAG，每流过一个Task，就被这个Task做一些计算和变换，然后数据继续流入下一个Task，直到最后一个Sink Task流出DAG，就自然完成了计算。
 
